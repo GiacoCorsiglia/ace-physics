@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+datadir=postgres
+logfile=postgres.log
+
+username=phystuts
+password=phystuts
+dbname=phystuts
+
+case $1 in
+init)
+  echo "CREATING DATA DIRECTORY"
+  echo "-----------------------"
+  initdb "$datadir"
+
+  echo
+  echo "STARTING DATABASE"
+  echo "-----------------"
+  pg_ctl -D "$datadir" -l "$logfile" start
+
+  echo
+  echo "CREATING USER"
+  echo "-----------------"
+  psql postgres -c "CREATE ROLE $username with PASSWORD '$password' LOGIN;"
+
+  echo
+  echo "CREATING DATABASE"
+  echo "-----------------"
+  createdb "$dbname" --owner="$username" --echo
+
+  ;;
+start)
+  pg_ctl -D "$datadir" -l "$logfile" start
+  ;;
+stop)
+  pg_ctl -D "$datadir" stop
+  ;;
+restart)
+  pg_ctl -D "$datadir" restart
+  ;;
+status)
+  pg_ctl -D "$datadir" status
+  ;;
+destroy)
+  pg_ctl -D "$datadir" stop
+  rm "$logfile"
+  rm -r "$datadir"
+  ;;
+*)
+  echo "Usage: db init|start|stop|restart|status|destroy"
+  ;;
+esac
