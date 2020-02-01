@@ -10,5 +10,42 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <!-- MathJax -->
+    <script>
+      (function() {
+        let resolveReady;
+        window.PT__MathJax = {
+          isReady: false,
+          promise: new Promise(resolve => (resolveReady = resolve))
+        };
+
+        window.MathJax = {
+          startup: {
+            typeset: false,
+            ready: () => {
+              MathJax.startup.defaultReady();
+              window.PT__MathJax.isReady = true;
+              resolveReady();
+            }
+          },
+          loader: {
+            load: ["[tex]/braket"]
+          },
+          tex: {
+            packages: { "[+]": ["braket"] }
+          },
+          svg: {
+            fontCache: "global"
+          }
+        };
+      })();
+    </script>
+    <script
+      type="text/javascript"
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+    ></script>
   </body>
 </html>
