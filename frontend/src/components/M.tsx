@@ -91,17 +91,21 @@ export default function M({
         MathJax.startup.document.clear();
         MathJax.startup.document.updateDocument();
 
-        foreignObjectRef.current?.setAttribute("width", node.offsetWidth);
-        foreignObjectRef.current?.setAttribute("height", node.offsetHeight);
-        foreignObjectRef.current?.setAttribute(
-          "transform",
-          transform(relativeTo, offset, node.offsetWidth, node.offsetHeight)
-        );
+        if (inSvg) {
+          // This won't be null at this point either.
+          const foreignObject = foreignObjectRef.current as SVGForeignObjectElement;
+          foreignObject.setAttribute("width", node.offsetWidth);
+          foreignObject.setAttribute("height", node.offsetHeight);
+          foreignObject.setAttribute(
+            "transform",
+            transform(relativeTo, offset, node.offsetWidth, node.offsetHeight)
+          );
+        }
       })
       .catch(function (err: any) {
         console.error(err);
       });
-  }, [tex, isReady, relativeTo, offset, display]);
+  }, [tex, isReady, relativeTo, offset, display, inSvg]);
 
   if (inSvg) {
     return (
