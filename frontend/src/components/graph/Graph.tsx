@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 
 import styles from "./Graph.module.css";
-import M from "../M2";
+import M from "../M";
 import { classes } from "../../shared/util";
 import SVG from "../SVG";
 

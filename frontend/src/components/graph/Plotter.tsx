@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SVG from "../SVG";
-import M, { idealRelativeTo } from "../M2";
+import M, { idealRelativeTo } from "../M";
 
 import styles from "./Plotter.module.css";
 import { Vector } from "./Graph";
