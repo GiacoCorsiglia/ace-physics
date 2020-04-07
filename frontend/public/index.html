@@ -13,7 +13,7 @@
 
     <!-- MathJax -->
     <script>
-      (function() {
+      (function () {
         let resolveReady;
         window.PT__MathJax = {
           isReady: false,
@@ -30,10 +30,10 @@
             }
           },
           loader: {
-            load: ["[tex]/braket"]
+            load: ["[tex]/braket", "[tex]/color"]
           },
           tex: {
-            packages: { "[+]": ["braket"] }
+            packages: { "[+]": ["braket", "color"] }
           },
           svg: {
             fontCache: "global"

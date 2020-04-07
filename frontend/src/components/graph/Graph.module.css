@@ -1,0 +1,44 @@
+.root {
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+}
+
+.graph {
+  border: 1px solid #ddd;
+}
+
+.controls {
+  margin-left: 20px;
+  padding: 20px 0;
+
+  width: 200px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  padding: 10px 15px;
+  border: 1px solid #999;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.buttonActive {
+  border-color: black;
+}
+
+.buttonMoveOn {
+  margin-top: auto;
+  border: 1px solid blue;
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+svg mjx-container {
+  /* https://stackoverflow.com/questions/8185845/svg-foreignobject-behaves-as-though-absolutely-positioned-in-webkit-browsers */
+  position: fixed !important;
+}
