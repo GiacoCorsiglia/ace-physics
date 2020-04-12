@@ -17,7 +17,7 @@
         let resolveReady;
         window.PT__MathJax = {
           isReady: false,
-          promise: new Promise(resolve => (resolveReady = resolve))
+          promise: new Promise((resolve) => (resolveReady = resolve)),
         };
 
         window.MathJax = {
@@ -27,17 +27,17 @@
               MathJax.startup.defaultReady();
               window.PT__MathJax.isReady = true;
               resolveReady();
-            }
+            },
           },
           loader: {
-            load: ["[tex]/braket", "[tex]/color"]
+            load: ["[tex]/braket", "[tex]/color"],
           },
           tex: {
-            packages: { "[+]": ["braket", "color"] }
+            packages: { "[+]": ["braket", "color"] },
           },
           svg: {
-            fontCache: "global"
-          }
+            fontCache: "global",
+          },
         };
       })();
     </script>
