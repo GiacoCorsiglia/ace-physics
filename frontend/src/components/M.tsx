@@ -1,6 +1,14 @@
 import React, { useState, useRef, useLayoutEffect } from "react";
 
-type Corner = "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
+type Corner =
+  | "bottomLeft"
+  | "bottomRight"
+  | "topLeft"
+  | "topRight"
+  | "topCenter"
+  | "bottomCenter"
+  | "leftCenter"
+  | "rightCenter";
 
 type PropTypes = { t: string; display?: boolean } & (
   | { inSvg?: false; x?: never; y?: never; relativeTo?: never; offset?: never }
@@ -53,6 +61,14 @@ function transform(
       return `translate(${offset}, ${-(height + offset)})`;
     case "bottomRight":
       return `translate(${-(width + offset)}, ${-(height + offset)})`;
+    case "topCenter":
+      return `translate(${-(width / 2 + offset)}, ${offset})`;
+    case "bottomCenter":
+      return `translate(${-(width / 2 + offset)}, ${-(height + offset)})`;
+    case "leftCenter":
+      return `translate(${offset}, ${-(height / 2 + offset)})`;
+    case "rightCenter":
+      return `translate(${-(width + offset)}, ${-(height / 2 + offset)})`;
   }
 }
 
@@ -63,7 +79,7 @@ export default function M({
   x = 0,
   y = 0,
   relativeTo = "topLeft",
-  offset = 5
+  offset = 5,
 }: PropTypes) {
   const foreignObjectRef = useRef<SVGForeignObjectElement>(null);
   const mathRef = useRef<HTMLSpanElement>(null);
@@ -83,7 +99,7 @@ export default function M({
     mathEl.innerHTML = "";
 
     MathJax.texReset();
-    var options = MathJax.getMetricsFor(mathEl);
+    const options = MathJax.getMetricsFor(mathEl);
     options.display = display;
     MathJax.tex2svgPromise(tex, options)
       .then(function (node: any) {
