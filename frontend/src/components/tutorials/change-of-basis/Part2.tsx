@@ -71,7 +71,7 @@ export default function Part2() {
       <div className="full-width">
         <ColumnVector
           labelTex="\ket{u}"
-          vector={[<Selector />, <Selector />, <Selector />, <Selector />]}
+          vector={[<Selector />, <Selector />]}
         />
       </div>
 
