@@ -32,7 +32,17 @@ export type Writeable<T> = {
 
 export function classes(...classes: (string | [string, boolean])[]) {
   return classes
-    .filter(c => (Array.isArray(c) ? c[1] && !!c[0] : !!c))
-    .map(c => (Array.isArray(c) ? c[0] : c))
+    .filter((c) => (Array.isArray(c) ? c[1] && !!c[0] : !!c))
+    .map((c) => (Array.isArray(c) ? c[0] : c))
     .join(" ");
+}
+
+///
+
+export interface Children<T = React.ReactNode> {
+  children: T;
+}
+
+export interface OptionalChildren<T = React.ReactNode> {
+  children?: T;
 }
