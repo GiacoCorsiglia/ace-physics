@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import SVG from "../SVG";
-import M from "../M";
-
-import styles from "./Plotter2.module.css";
-import { Vector } from "./Graph";
-import { classes } from "../../shared/util";
-import { Question } from "../structure";
 import { Link } from "react-router-dom";
+import { classes } from "../../shared/util";
+import M from "../M";
+import { Question } from "../structure";
+import SVG from "../SVG";
+import { Vector } from "../tutorials/change-of-basis/Graph";
+import styles from "./Plotter2.module.css";
 
 export default function Plotter() {
   const height = 300;
@@ -49,8 +48,8 @@ export default function Plotter() {
       </Question>
 
       <Question label="i" level="sub">
-        First, is it OK to label the horizontal axis as <M t="\mathbf{v1}" />{" "}
-        and the vertical axis as <M t="\mathbf{v2}" />?
+        First, is it OK to label the horizontal axis as <M t="\vb{v1}" /> and
+        the vertical axis as <M t="\vb{v2}" />?
       </Question>
 
       <p className={styles.axisOK}>
@@ -193,7 +192,7 @@ export default function Plotter() {
 
               {labelOption === "yes" && (
                 <M
-                  t="\mathbf{v1}"
+                  t="\vb{v1}"
                   inSvg
                   x={width / 2}
                   y={0}
@@ -203,7 +202,7 @@ export default function Plotter() {
 
               {labelOption === "yes" && (
                 <M
-                  t="\mathbf{v2}"
+                  t="\vb{v2}"
                   inSvg
                   x={0}
                   y={-height / 2}

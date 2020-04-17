@@ -17,7 +17,7 @@ const SvgContext = React.createContext<Context>({
   position(x: number, y: number) {
     return { x: this.scale(x), y: -this.scale(y) };
   },
-  markers: {}
+  markers: {},
 });
 
 export function useSvgContext() {
@@ -49,7 +49,7 @@ export default function SVG({
         // y goes down not up...
         return { x: this.scale(x), y: -this.scale(y) };
       },
-      markers: {}
+      markers: {},
     }),
     [width, height, scale]
   );

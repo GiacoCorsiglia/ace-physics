@@ -1,17 +1,18 @@
 import React from "react";
 import {
   BrowserRouter as Router,
-  // @ts-ignore
-  useRoutes,
   Link,
   // @ts-ignore
   Outlet,
+  // @ts-ignore
+  useRoutes,
 } from "react-router-dom";
-
-import Graph from "./components/graph/Graph";
 import Plotter from "./components/graph/Plotter";
 import Plotter2 from "./components/graph/Plotter2";
 import Part1 from "./components/tutorials/change-of-basis/Part1";
+import Part2 from "./components/tutorials/change-of-basis/Part2";
+import Part3 from "./components/tutorials/change-of-basis/Part3";
+import Part4 from "./components/tutorials/change-of-basis/Part4";
 
 export default function App() {
   return (
@@ -56,7 +57,6 @@ function ChangeOfBasisTutorial() {
       path: "1",
       element: (
         <div>
-          <h2>Part 1</h2>
           <Part1 />
         </div>
       ),
@@ -65,7 +65,7 @@ function ChangeOfBasisTutorial() {
       path: "2",
       element: (
         <div>
-          <h2>Part 2</h2>
+          <Part2 />
           <Plotter />
         </div>
       ),
@@ -74,25 +74,20 @@ function ChangeOfBasisTutorial() {
       path: "3",
       element: (
         <div>
-          <h2>Part 3</h2>
+          <Part3 />
           <Plotter2 />
         </div>
       ),
     },
     {
       path: "4",
-      element: (
-        <div>
-          <h2>Part 4</h2>
-          <Graph />
-        </div>
-      ),
+      element: <Part4 />,
     },
   ]);
 
   return (
     <div>
-      <h1>Change-of-Basis</h1>
+      <h1>Visualizing a Vector in a Different Basis</h1>
 
       {el}
     </div>

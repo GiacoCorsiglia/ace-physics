@@ -73,6 +73,14 @@ h2 {
   font-size: 1.3em;
 }
 
+textarea.full-text {
+  display: block;
+  @include full-width-center;
+  height: 6rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
 // h3 {
 //   @include full-width-center;
 //   margin-top: 20px;
@@ -101,7 +109,7 @@ h2 {
 
 .full-width {
   width: $width;
-  margin: 0 auto;
+  margin: 1rem auto 0;
 }
 
 nav {

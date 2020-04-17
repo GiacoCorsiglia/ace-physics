@@ -3,7 +3,7 @@ import SVG from "../SVG";
 import M, { idealRelativeTo } from "../M";
 
 import styles from "./Plotter.module.css";
-import { Vector } from "./Graph";
+import { Vector } from "../tutorials/change-of-basis/Graph";
 import { Prose, Question } from "../structure";
 import { Link } from "react-router-dom";
 
@@ -92,20 +92,14 @@ export default function Plotter() {
               ></line>
 
               <M
-                t="\mathbf{i}"
+                t="\vb{i}"
                 inSvg
                 x={width / 2}
                 y={0}
                 relativeTo="bottomRight"
               />
 
-              <M
-                t="\mathbf{j}"
-                inSvg
-                x={0}
-                y={-height / 2}
-                relativeTo="topLeft"
-              />
+              <M t="\vb{j}" inSvg x={0} y={-height / 2} relativeTo="topLeft" />
             </g>
 
             {canPlot && <Vector {...svg.position(x, y)} color="blue" />}

@@ -1,17 +1,24 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  isValidElement,
-} from "react";
-
-import { Children, OptionalChildren, classes } from "../../shared/util";
-
-import styles from "./structure.module.scss";
+import React from "react";
+import { Children, OptionalChildren } from "../../shared/util";
 import buttonStyles from "./Buttons.module.scss";
+import styles from "./structure.module.scss";
+
+function containerFor(children: React.ReactNode) {
+  // This could be accomplished with map but the types got weird and this avoids
+  // looping twice.
+  let hasParagraphs = false;
+  React.Children.forEach(children, (child) => {
+    if (child && (child as any).type === "p") {
+      hasParagraphs = true;
+    }
+  });
+
+  return hasParagraphs ? "div" : "p";
+}
 
 export function Prose({ children }: OptionalChildren) {
-  return <p className={styles.prose}>{children}</p>;
+  const Container = containerFor(children);
+  return <Container className={styles.prose}>{children}</Container>;
 }
 
 export function Vocabulary({ children }: Children) {
@@ -54,8 +61,13 @@ export function MoveOnButton({
 
 ///
 
-function Part({ children }: Children) {
-  // return ;
+export function Part({ number, children }: { number: number } & Children) {
+  return (
+    <h2 className={styles.part}>
+      <span className={styles.label}>Part&nbsp;{number}</span>
+      {children}
+    </h2>
+  );
 }
 
 export function Question({
@@ -67,13 +79,18 @@ export function Question({
   level?: "top" | "sub" | "subsub";
 } & Children) {
   const LabelTag = level === "top" ? "h3" : level === "sub" ? "h4" : "h5";
+  const Container = containerFor(children);
 
   return (
     <div className={styles.question}>
       <LabelTag className={styles.label}>{label}.</LabelTag>
-      <div className={styles.description}>{children}</div>
+      <Container className={styles.description}>{children}</Container>
     </div>
   );
+}
+
+export function Hint({ children }: Children) {
+  return <em>Hint: {children}</em>;
 }
 
 export function Question2({

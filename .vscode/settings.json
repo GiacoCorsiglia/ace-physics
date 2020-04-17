@@ -7,5 +7,9 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ]
+  ],
+  "eslint.workingDirectories": ["./frontend", "./backend"],
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  }
 }

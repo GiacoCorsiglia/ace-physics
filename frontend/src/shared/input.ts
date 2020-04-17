@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { Model } from "./state";
 
 interface Input<ValueType> {
@@ -19,7 +18,7 @@ export function useInput<ValueType>(
       const newRawValue = event.target.value;
       setRawValue(newRawValue);
       model.set(input.toJs(newRawValue));
-    }
+    },
   };
 
   return bind;
@@ -27,21 +26,21 @@ export function useInput<ValueType>(
 
 export function StringInput(): Input<string> {
   return {
-    toJs: raw => raw,
-    toRaw: string => string
+    toJs: (raw) => raw,
+    toRaw: (string) => string,
   };
 }
 
 export function IntegerInput(): Input<number> {
   return {
-    toJs: raw => parseInt(raw),
-    toRaw: int => int.toString()
+    toJs: (raw) => parseInt(raw),
+    toRaw: (int) => int.toString(),
   };
 }
 
 export function FloatInput(): Input<number> {
   return {
-    toJs: raw => parseFloat(raw),
-    toRaw: float => float.toString()
+    toJs: (raw) => parseFloat(raw),
+    toRaw: (float) => float.toString(),
   };
 }

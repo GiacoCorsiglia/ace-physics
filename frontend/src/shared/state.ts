@@ -1,6 +1,5 @@
-import { useReducer, useEffect } from "react";
-
-import { Field, Schema, isValid } from "./schema";
+import { useEffect, useReducer } from "react";
+import { Field, isValid, Schema } from "./schema";
 import { Writeable } from "./util";
 
 // STATE
@@ -74,11 +73,11 @@ export function Model<ValueType>(field: Field<ValueType>): Model<ValueType> {
       } else {
         model.validity = {
           valid: false,
-          invalidMessage: validated.message
+          invalidMessage: validated.message,
         };
       }
 
-      subscribers.forEach(callback => callback(newValue, oldValue));
+      subscribers.forEach((callback) => callback(newValue, oldValue));
     },
 
     subscribe(callback: ModelSubscriber<ValueType>) {
@@ -86,14 +85,14 @@ export function Model<ValueType>(field: Field<ValueType>): Model<ValueType> {
       return () => {
         subscribers.splice(subscribers.indexOf(callback), 1);
       };
-    }
+    },
   };
 
   return model;
 }
 
 export function useModel<ValueType>(model: Model<ValueType>) {
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     const unsubscribe = model.subscribe(forceUpdate);

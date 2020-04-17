@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import Select from "react-select";
-
-import M from "../../M";
-import SVG from "../../SVG";
-import {
-  Prose,
-  Vocabulary,
-  Question,
-  Columns,
-  Column,
-  MoveOnButton,
-} from "../../structure";
-import { classes } from "../../../shared/util";
-
-import styles from "./Part1.module.css";
 import { Link } from "react-router-dom";
+import Select from "react-select";
+import M from "../../M";
+import {
+  Column,
+  Columns,
+  MoveOnButton,
+  Part,
+  Prose,
+  Question,
+  Vocabulary,
+} from "../../structure";
+import SVG from "../../SVG";
+import styles from "./Part1.module.css";
 
 export default function Part1() {
   const [step, setStep] = useState(0);
@@ -36,10 +34,10 @@ export default function Part1() {
       );
     } else if (step === 2) {
       return (
-        probability.minusLabel === "\\Braket{-|\\psi_A}" &&
-        probability.plusLabel === "\\Braket{+|\\psi_A}" &&
-        probabilityAmplitude.minusLabel === "|\\Braket{-|\\psi_A}|^2" &&
-        probabilityAmplitude.plusLabel === "|\\Braket{+|\\psi_A}|^2"
+        probability.minusLabel === "\\braket{-}{\\psi_A}" &&
+        probability.plusLabel === "\\braket{+}{\\psi_A}" &&
+        probabilityAmplitude.minusLabel === "|\\braket{-}{\\psi_A}|^2" &&
+        probabilityAmplitude.plusLabel === "|\\braket{+}{\\psi_A}|^2"
       );
     }
     return false;
@@ -47,6 +45,8 @@ export default function Part1() {
 
   return (
     <div>
+      <Part number={1}>Probability and Inner Products</Part>
+
       <Prose>
         Consider the state:{" "}
         <M
@@ -158,10 +158,10 @@ const plusMinusSelectOptions = [
 const plusMinusLabelOptions = [
   { value: "\\ket{-}", label: "\\ket{-}" },
   { value: "\\ket{+}", label: "\\ket{+}" },
-  { value: "\\Braket{-|\\psi_A}", label: "\\Braket{-|\\psi_A}" },
-  { value: "\\Braket{+|\\psi_A}", label: "\\Braket{+|\\psi_A}" },
-  { value: "|\\Braket{-|\\psi_A}|^2", label: "|\\Braket{-|\\psi_A}|^2" },
-  { value: "|\\Braket{+|\\psi_A}|^2", label: "|\\Braket{+|\\psi_A}|^2" },
+  { value: "\\braket{-}{\\psi_A}", label: "\\braket{-}{\\psi_A}" },
+  { value: "\\braket{+}{\\psi_A}", label: "\\braket{+}{\\psi_A}" },
+  { value: "|\\braket{-}{\\psi_A}|^2", label: "|\\braket{-}{\\psi_A}|^2" },
+  { value: "|\\braket{+}{\\psi_A}|^2", label: "|\\braket{+}{\\psi_A}|^2" },
 ];
 
 function usePlusMinusState() {

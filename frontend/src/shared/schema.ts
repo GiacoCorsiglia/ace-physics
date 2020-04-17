@@ -31,7 +31,7 @@ function bindSchema<S extends UnboundSchema>(
   return mapDict(unboundSchema, (field, schemaKey, _, schema) => ({
     ...field,
     schema,
-    schemaKey
+    schemaKey,
   })) as any;
 }
 
@@ -39,14 +39,14 @@ export function Field<ValueType>(
   {
     validators = [],
     required = false,
-    defaultValue = undefined
+    defaultValue = undefined,
   }: {
     validators: Validator<ValueType>[];
     required: boolean;
     defaultValue?: DefaultValue<ValueType>;
   } = {
     validators: [],
-    required: false
+    required: false,
   }
 ): Field<ValueType> {
   return {
@@ -63,7 +63,7 @@ export function Field<ValueType>(
           isInvalid(validated) ? validated : validator(validated.value),
         Valid(value)
       );
-    }
+    },
   };
 }
 
