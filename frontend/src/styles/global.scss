@@ -1,0 +1,110 @@
+@import "definitions";
+
+// Enable border-box for everything.
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+// Body layout.
+body {
+  margin: 0;
+  padding-bottom: 4rem;
+}
+
+// Basic Typography
+html {
+  // Set up 1rem to be one vertical rhythm unit (12px = .75 * 16px).
+  font-size: 75%;
+}
+
+body {
+  // Set the actual default font size
+  font-size: $text-normal;
+  font-family: $font;
+  line-height: 2rem;
+  font-family: $font;
+  font-weight: 400;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #333;
+}
+
+// MathJax corrections.
+// Let's reset things for MathJax.
+mjx-container[jax="SVG"] {
+  font-family: initial;
+  line-height: initial;
+
+  &,
+  *,
+  *:before,
+  *:after {
+    box-sizing: initial;
+  }
+
+  &[display="true"] {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
+
+h1 {
+  @include full-width-center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+h2 {
+  @include full-width-center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+// h3 {
+//   @include full-width-center;
+//   margin-top: 20px;
+//   margin-bottom: 20px;
+
+//   font-weight: bold;
+//   font-size: 1.1em;
+// }
+
+// h4 {
+//   @include full-width-center;
+//   margin-top: 20px;
+//   margin-bottom: 20px;
+
+//   font-weight: bold;
+//   font-size: 1em;
+// }
+
+// .description {
+//   @include full-width-center;
+//   margin-top: 10px;
+//   margin-bottom: 10px;
+
+//   line-height: 1.5;
+// }
+
+.full-width {
+  width: $width;
+  margin: 0 auto;
+}
+
+nav {
+  margin-top: 4rem;
+  text-align: center;
+}
