@@ -4,6 +4,8 @@ import M, { idealRelativeTo } from "../M";
 
 import styles from "./Plotter.module.css";
 import { Vector } from "./Graph";
+import { Prose, Question } from "../structure";
+import { Link } from "react-router-dom";
 
 export default function Plotter() {
   const height = 300;
@@ -32,14 +34,14 @@ export default function Plotter() {
 
   return (
     <div className={styles.root}>
-      <p className="description">
+      <Question label="b">
         Plot the vector
         <M
           t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}"
           display
         />
         on the graph below by typing in the coordinates as decimals.
-      </p>
+      </Question>
 
       <p className={styles.form}>
         (
@@ -63,12 +65,12 @@ export default function Plotter() {
         )
       </p>
 
-      <p style={{ textAlign: "center", marginBottom: 10 }}>
+      <p style={{ textAlign: "center", marginBottom: "1rem" }}>
         {correct ? "Nicely done!" : "Keep trying! (.44, .88)"}
       </p>
 
       <SVG width={width} height={height} center className={styles.graph}>
-        {svg => (
+        {(svg) => (
           <>
             <g id="axes">
               <line
@@ -122,7 +124,7 @@ export default function Plotter() {
                 x2={svg.scale(x)}
                 y1={-5}
                 y2={5}
-                stroke="green"
+                stroke="orange"
                 strokeWidth={2}
               ></line>
             )}
@@ -133,13 +135,19 @@ export default function Plotter() {
                 x2={5}
                 y1={-svg.scale(y)}
                 y2={-svg.scale(y)}
-                stroke="orange"
+                stroke="green"
                 strokeWidth={2}
               ></line>
             )}
           </>
         )}
       </SVG>
+
+      <nav>
+        <Link to="/tutorials/change-of-basis/1">Go back to Part 1</Link>
+        &nbsp;&nbsp;{" • "}&nbsp;&nbsp;
+        <Link to="/tutorials/change-of-basis/3">Go to Part 3</Link>
+      </nav>
     </div>
   );
 }

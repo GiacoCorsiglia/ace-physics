@@ -1,0 +1,29 @@
+.moveOn {
+  margin-top: 2rem;
+  text-align: center;
+
+  button {
+    display: inline-block;
+
+    border-radius: 3px;
+    background-color: #008cba;
+    border: none;
+
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: bold;
+
+    cursor: pointer;
+    padding: 1rem 2rem;
+
+    &:hover {
+      background-color: darken(#008cba, 5%);
+    }
+
+    &:disabled,
+    &[disabled] {
+      background-color: #999;
+      cursor: initial;
+    }
+  }
+}

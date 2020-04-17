@@ -1,0 +1,63 @@
+@import "../../styles/definitions";
+
+// PROSE
+
+.prose {
+  @include full-width-center;
+}
+
+// COLUMNS
+
+.columns {
+  display: flex;
+
+  width: calc(800px + 2rem);
+  margin: 0 auto;
+}
+
+.column {
+  max-width: 400px;
+  margin-right: 2rem;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+// QUESTION
+
+.question {
+  display: flex;
+  width: 100%;
+  max-width: $width + 16px + 32px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  left: -(48px / 2);
+
+  margin-top: 2rem;
+}
+
+.label {
+  width: 32px;
+  margin-right: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: right;
+  font-weight: bold;
+  font-weight: 700;
+}
+
+h3.label {
+  font-size: 1.4rem;
+}
+h4.label {
+  font-size: 1.1rem;
+}
+h5.label {
+  font-size: 1.1rem;
+}
+
+.description {
+  max-width: $width;
+}

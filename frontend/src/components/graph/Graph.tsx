@@ -4,13 +4,15 @@ import styles from "./Graph.module.css";
 import M from "../M";
 import { classes } from "../../shared/util";
 import SVG from "../SVG";
+import { Question, Prose } from "../structure";
+import { Link } from "react-router-dom";
 
 let markerCount = 0;
 
 export function Vector({
   x,
   y,
-  color = "black"
+  color = "black",
 }: {
   x: number;
   y: number;
@@ -93,37 +95,35 @@ export default function Graph() {
     u: null,
     v1v2: null,
     k: null,
-    complete: null
+    complete: null,
   });
 
   const k: [number, number] = [
     (2 + Math.sqrt(3)) / (2 * Math.sqrt(5)),
-    Math.sqrt(3 / 5) - 1 / (2 * Math.sqrt(5))
+    Math.sqrt(3 / 5) - 1 / (2 * Math.sqrt(5)),
   ];
 
   return (
     <div>
-      <p className="description">
+      <Prose>
         We have represented our vector in a new basis, that is in the form{" "}
         <M t="a\ket{v1} + b \ket{v2}." /> An interesting question is, should we
         rename the vector in this basis to <M t="\ket{k}" />? Let's go ahead and
         do that and investigate whether we needed to.
-      </p>
+      </Prose>
 
-      <h3>(a)</h3>
-
-      <p className="description">
+      <Question label="a">
         Now let's draw a single 2D graph showing both <M t="\ket{u}" /> and{" "}
         <M t="\ket{k}" />. You'll have to add <M t="\ket{u}" />, represent{" "}
         <M t="\ket{v1}" /> and <M t="\ket{v2}" /> on the graph, and then add the
         vector <M t="\ket{k}" />.
         <br />
         Use the buttons on the right to complete these steps.
-      </p>
+      </Question>
 
       <div className={styles.root}>
         <SVG width={width} height={height} center className={styles.graph}>
-          {svg => (
+          {(svg) => (
             <>
               <g id="axes">
                 <line
@@ -324,13 +324,17 @@ export default function Graph() {
           )}
         </div>
       </div>
+
+      <nav>
+        <Link to="/tutorials/change-of-basis/3">Go back to Part 3</Link>
+      </nav>
     </div>
   );
 }
 
 function Controls({
   state,
-  dispatch
+  dispatch,
 }: {
   state: State;
   dispatch: React.Dispatch<Action>;
@@ -410,7 +414,7 @@ function Button({
   active,
   option,
   dispatch,
-  children
+  children,
 }: {
   active: boolean;
   option: uOptions | v1v2Options | kOptions;

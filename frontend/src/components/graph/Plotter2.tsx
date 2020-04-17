@@ -5,6 +5,8 @@ import M from "../M";
 import styles from "./Plotter2.module.css";
 import { Vector } from "./Graph";
 import { classes } from "../../shared/util";
+import { Question } from "../structure";
+import { Link } from "react-router-dom";
 
 export default function Plotter() {
   const height = 300;
@@ -35,27 +37,27 @@ export default function Plotter() {
 
   const k: [number, number] = [
     (2 + Math.sqrt(3)) / (2 * Math.sqrt(5)),
-    Math.sqrt(3 / 5) - 1 / (2 * Math.sqrt(5))
+    Math.sqrt(3 / 5) - 1 / (2 * Math.sqrt(5)),
   ];
 
   const correct = approxEquals(x, k[0]) && approxEquals(y, k[1]);
 
   return (
     <div className={styles.root}>
-      <p className="description">
+      <Question label="b">
         Plot the new vector in the new basis on the graph below.
-      </p>
+      </Question>
 
-      <p className="description">
+      <Question label="i" level="sub">
         First, is it OK to label the horizontal axis as <M t="\mathbf{v1}" />{" "}
         and the vertical axis as <M t="\mathbf{v2}" />?
-      </p>
+      </Question>
 
       <p className={styles.axisOK}>
         <span
           className={classes(styles.option, [
             styles.optionSelected,
-            labelOption === "yes"
+            labelOption === "yes",
           ])}
           onClick={() => setLabelOption("yes")}
         >
@@ -64,7 +66,7 @@ export default function Plotter() {
         <span
           className={classes(styles.option, [
             styles.optionSelected,
-            labelOption === "no"
+            labelOption === "no",
           ])}
           onClick={() => setLabelOption("no")}
         >
@@ -73,7 +75,7 @@ export default function Plotter() {
         <span
           className={classes(styles.option, [
             styles.optionSelected,
-            labelOption === "maybe"
+            labelOption === "maybe",
           ])}
           onClick={() => setLabelOption("maybe")}
         >
@@ -168,7 +170,7 @@ export default function Plotter() {
       </p>
 
       <SVG width={width} height={height} center className={styles.graph}>
-        {svg => (
+        {(svg) => (
           <>
             <g id="axes">
               <line
@@ -218,7 +220,7 @@ export default function Plotter() {
                 x2={svg.scale(x)}
                 y1={-5}
                 y2={5}
-                stroke="green"
+                stroke="orange"
                 strokeWidth={2}
               ></line>
             )}
@@ -229,13 +231,19 @@ export default function Plotter() {
                 x2={5}
                 y1={-svg.scale(y)}
                 y2={-svg.scale(y)}
-                stroke="orange"
+                stroke="green"
                 strokeWidth={2}
               ></line>
             )}
           </>
         )}
       </SVG>
+
+      <nav>
+        <Link to="/tutorials/change-of-basis/2">Go back to Part 2</Link>
+        &nbsp;&nbsp;{" • "}&nbsp;&nbsp;
+        <Link to="/tutorials/change-of-basis/4">Go to Part 4</Link>
+      </nav>
     </div>
   );
 }
