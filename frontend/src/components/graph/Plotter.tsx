@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import SVG from "../SVG";
-import M, { idealRelativeTo } from "../M";
-
-import styles from "./Plotter.module.css";
-import { Vector } from "../tutorials/change-of-basis/Graph";
-import { Prose, Question } from "../structure";
 import { Link } from "react-router-dom";
+import M, { idealRelativeTo } from "../M";
+import { Question } from "../structure";
+import SVG from "../SVG";
+import { Vector } from "../tutorials/change-of-basis/Graph";
+import styles from "./Plotter.module.css";
 
 export default function Plotter() {
   const height = 300;
