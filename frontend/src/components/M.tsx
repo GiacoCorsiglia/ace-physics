@@ -82,7 +82,7 @@ export default function M({
   offset = 5,
 }: PropTypes) {
   const foreignObjectRef = useRef<SVGForeignObjectElement>(null);
-  const mathRef = useRef<HTMLSpanElement>(null);
+  const mathRef = useRef<any>(null);
 
   const [isReady, setIsReady] = useState(PT__MathJax.isReady);
 
@@ -93,7 +93,7 @@ export default function M({
     }
 
     // This element can't be null at this point.
-    const mathEl = mathRef.current as HTMLSpanElement;
+    const mathEl = mathRef.current as HTMLElement;
 
     // Kill children.
     mathEl.innerHTML = "";
@@ -123,15 +123,17 @@ export default function M({
       });
   }, [tex, isReady, relativeTo, offset, display, inSvg]);
 
+  const Container = display ? "div" : "span";
+
   if (inSvg) {
     return (
       <foreignObject x={x} y={y} ref={foreignObjectRef}>
-        <span
+        <Container
           {...{ xmlns: "http://www.w3.org/1999/xhtml" }}
           ref={mathRef}
-        ></span>
+        ></Container>
       </foreignObject>
     );
   }
-  return <span ref={mathRef}></span>;
+  return <Container ref={mathRef}></Container>;
 }
