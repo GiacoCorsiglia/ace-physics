@@ -13,6 +13,7 @@ import Part1 from "./components/tutorials/change-of-basis/Part1";
 import Part2 from "./components/tutorials/change-of-basis/Part2";
 import Part3 from "./components/tutorials/change-of-basis/Part3";
 import Part4 from "./components/tutorials/change-of-basis/Part4";
+import QuantumMouseTutorial from "./components/tutorials/quantum-mouse";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ function RealApp() {
       path: "tutorials",
       element: <Outlet />,
       children: [
+        { path: "quantum-mouse/*", element: <QuantumMouseTutorial /> },
         { path: "change-of-basis/*", element: <ChangeOfBasisTutorial /> },
       ],
     },
@@ -41,7 +43,15 @@ function TutorialIndex() {
       <h1>Tutorials</h1>
 
       <nav>
-        <Link to="tutorials/change-of-basis/1">Change-of-basis</Link>
+        <ul>
+          <li>
+            <Link to="tutorials/quantum-mouse">Quantum Mouse Lab</Link>
+          </li>
+
+          <li>
+            <Link to="tutorials/change-of-basis/1">Change-of-basis</Link>
+          </li>
+        </ul>
       </nav>
     </div>
   );
