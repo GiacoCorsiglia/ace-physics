@@ -1,65 +1,39 @@
-import { mapDict } from "./util";
+export type Data =
+  | null
+  | boolean
+  | string
+  | number
+  | Data[]
+  | { [key: string]: Data };
 
-interface UnboundSchema {
-  [key: string]: Field<any>;
-}
-
-export interface Schema {
-  [key: string]: BoundField<any>;
-}
-
-export interface Field<ValueType> {
+export interface Field<Value extends Data> {
   readonly required: boolean;
-  validate: Validator<ValueType>;
-  default(): ValueType;
+  validate: Validator<Value>;
+  default(): Value;
 }
 
-type ExtractFieldValueType<F> = F extends Field<infer ValueType>
-  ? ValueType
-  : never;
+export type ExtractFieldValue<F> = F extends Field<infer Value> ? Value : never;
 
-interface BoundField<ValueType> extends Field<ValueType> {
-  schema: Schema;
-  schemaKey: keyof Schema;
-}
-
-function bindSchema<S extends UnboundSchema>(
-  unboundSchema: UnboundSchema
-): {
-  [K in keyof S]: BoundField<ExtractFieldValueType<S[K]>>;
-} {
-  return mapDict(unboundSchema, (field, schemaKey, _, schema) => ({
-    ...field,
-    schema,
-    schemaKey,
-  })) as any;
-}
-
-export function Field<ValueType>(
-  {
-    validators = [],
-    required = false,
-    defaultValue = undefined,
-  }: {
-    validators: Validator<ValueType>[];
-    required: boolean;
-    defaultValue?: DefaultValue<ValueType>;
-  } = {
-    validators: [],
-    required: false,
-  }
-): Field<ValueType> {
+export function Field<Value extends Data>({
+  validators = [],
+  required = false,
+  defaultValue = null,
+}: {
+  validators?: Validator<Value>[];
+  required?: boolean;
+  defaultValue?: DefaultValue<Value>;
+} = {}): Field<Value> {
   return {
     required,
     default() {
       if (typeof defaultValue === "function") {
-        return (<any>defaultValue)();
+        return (defaultValue as any)();
       }
       return defaultValue;
     },
     validate(value) {
       return validators.reduce(
-        (validated: Validated<ValueType>, validator) =>
+        (validated: Validated<Value>, validator) =>
           isInvalid(validated) ? validated : validator(validated.value),
         Valid(value)
       );
@@ -71,35 +45,42 @@ export function Field<ValueType>(
 
 type DefaultValue<T> = T | (() => T);
 
-type Validated<T> = Valid<T> | Invalid<T>;
+type Validated<Value extends Data> = Valid<Value> | Invalid<Value>;
 
-type Validator<ValueType> = (value: ValueType) => Validated<ValueType>;
+type Validator<Value extends Data> = (value: Value) => Validated<Value>;
 
 const IsValid = Symbol();
 
-interface Valid<T> {
+interface Valid<Value extends Data> {
   [IsValid]: true;
-  value: T;
+  value: Value;
 }
 
-interface Invalid<T> {
+interface Invalid<Value extends Data> {
   [IsValid]: false;
-  value: T;
+  value: Value;
   message: string;
 }
 
-function Valid<T>(value: T): Valid<T> {
+export function Valid<Value extends Data>(value: Value): Valid<Value> {
   return { [IsValid]: true, value };
 }
 
-function Invalid<T>(value: T, message: string = ""): Invalid<T> {
+export function Invalid<Value extends Data>(
+  value: Value,
+  message: string = ""
+): Invalid<Value> {
   return { [IsValid]: false, value, message };
 }
 
-export function isValid<T>(validated: Validated<T>): validated is Valid<T> {
+export function isValid<Value extends Data>(
+  validated: Validated<Value>
+): validated is Valid<Value> {
   return validated[IsValid];
 }
 
-export function isInvalid<T>(validated: Validated<T>): validated is Invalid<T> {
+export function isInvalid<Value extends Data>(
+  validated: Validated<Value>
+): validated is Invalid<Value> {
   return !validated[IsValid];
 }
