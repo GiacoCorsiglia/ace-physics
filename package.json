@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "workspaces": [
+    "backend",
+    "common",
+    "frontend"
+  ],
+  "dependencies": {
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3"
+  }
+}
