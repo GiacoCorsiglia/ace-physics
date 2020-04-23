@@ -54,7 +54,7 @@ type Validity =
       invalidMessage: string;
     };
 
-interface Model<Value extends Data> {
+export interface Model<Value extends Data> {
   readonly field: Field<Value>;
   readonly value: Value;
   readonly validity: Validity;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Data } from "./schema";
 import { Model } from "./state";
 
 interface Input<ValueType> {
@@ -6,7 +7,7 @@ interface Input<ValueType> {
   toRaw(js: ValueType): string;
 }
 
-export function useInput<ValueType>(
+export function useInput<ValueType extends Data>(
   input: Input<ValueType>,
   model: Model<ValueType>
 ) {
