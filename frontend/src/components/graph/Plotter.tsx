@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { url } from "../../shared/util";
 import M, { idealRelativeTo } from "../M";
 import { Question } from "../structure";
 import SVG from "../SVG";
@@ -137,9 +138,9 @@ export default function Plotter() {
       </SVG>
 
       <nav>
-        <Link to="/tutorials/change-of-basis/1">Go back to Part 1</Link>
+        <Link to={url("/tutorials/change-of-basis/1")}>Go back to Part 1</Link>
         &nbsp;&nbsp;{" • "}&nbsp;&nbsp;
-        <Link to="/tutorials/change-of-basis/3">Go to Part 3</Link>
+        <Link to={url("/tutorials/change-of-basis/3")}>Go to Part 3</Link>
       </nav>
     </div>
   );

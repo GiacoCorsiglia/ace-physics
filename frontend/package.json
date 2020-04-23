@@ -46,6 +46,7 @@
       "last 1 safari version"
     ]
   },
+  "homepage": "https://physicscourses.colorado.edu/EducationIssues/OnlineTutorials/",
   "devDependencies": {
     "prettier": "^2.0.2"
   }

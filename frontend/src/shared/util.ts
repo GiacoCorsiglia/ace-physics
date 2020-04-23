@@ -46,3 +46,15 @@ export interface Children<T = React.ReactNode> {
 export interface OptionalChildren<T = React.ReactNode> {
   children?: T;
 }
+
+///
+
+const SLASH_REGEX = /^\/+/g;
+export function url(path: string): string {
+  const basename =
+    process.env.NODE_ENV === "production"
+      ? "/EducationIssues/OnlineTutorials"
+      : "";
+
+  return `${basename}/${path.replace(SLASH_REGEX, "")}`;
+}

@@ -4,6 +4,7 @@ import {
   // @ts-ignore
   useRoutes,
 } from "react-router-dom";
+import { url } from "../../../shared/util";
 import Part1 from "./Part1";
 import Part2 from "./Part2";
 
@@ -22,10 +23,10 @@ export default function QuantumMouseTutorial() {
 
       <ul className="full-width">
         <li>
-          <Link to="/tutorials/quantum-mouse/1">Part 1</Link>
+          <Link to={url("/tutorials/quantum-mouse/1")}>Part 1</Link>
         </li>
         <li>
-          <Link to="/tutorials/quantum-mouse/2">Part 2</Link>
+          <Link to={url("/tutorials/quantum-mouse/2")}>Part 2</Link>
         </li>
       </ul>
     </div>

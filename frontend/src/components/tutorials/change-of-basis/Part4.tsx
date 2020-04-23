@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { url } from "../../../shared/util";
 import M from "../../M";
 import { Hint, Part, Prose, Question } from "../../structure";
 import Graph from "./Graph";
@@ -95,7 +96,7 @@ export default function Part4() {
       <textarea className="full-text" />
 
       <nav>
-        <Link to="/tutorials/change-of-basis/3">Go back to Part 3</Link>
+        <Link to={url("/tutorials/change-of-basis/3")}>Go back to Part 3</Link>
       </nav>
     </div>
   );

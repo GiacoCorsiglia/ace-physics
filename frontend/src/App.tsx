@@ -14,6 +14,7 @@ import Part2 from "./components/tutorials/change-of-basis/Part2";
 import Part3 from "./components/tutorials/change-of-basis/Part3";
 import Part4 from "./components/tutorials/change-of-basis/Part4";
 import QuantumMouseTutorial from "./components/tutorials/quantum-mouse";
+import { url } from "./shared/util";
 
 export default function App() {
   return (
@@ -24,17 +25,25 @@ export default function App() {
 }
 
 function RealApp() {
-  return useRoutes([
-    { path: "/", element: <TutorialIndex /> },
-    {
-      path: "tutorials",
-      element: <Outlet />,
-      children: [
-        { path: "quantum-mouse/*", element: <QuantumMouseTutorial /> },
-        { path: "change-of-basis/*", element: <ChangeOfBasisTutorial /> },
-      ],
-    },
-  ]);
+  const basename =
+    process.env.NODE_ENV === "production"
+      ? "/EducationIssues/OnlineTutorials"
+      : undefined;
+  return useRoutes(
+    [
+      { path: "/", element: <TutorialIndex /> },
+      {
+        path: "tutorials",
+        element: <Outlet />,
+        children: [
+          { path: "quantum-mouse/*", element: <QuantumMouseTutorial /> },
+          { path: "change-of-basis/*", element: <ChangeOfBasisTutorial /> },
+        ],
+      },
+      { element: <h1>Not found</h1> },
+    ],
+    basename
+  );
 }
 
 function TutorialIndex() {
@@ -45,11 +54,11 @@ function TutorialIndex() {
       <nav>
         <ul>
           <li>
-            <Link to="tutorials/quantum-mouse">Quantum Mouse Lab</Link>
+            <Link to={url("tutorials/quantum-mouse")}>Quantum Mouse Lab</Link>
           </li>
 
           <li>
-            <Link to="tutorials/change-of-basis/1">Change-of-basis</Link>
+            <Link to={url("tutorials/change-of-basis/1")}>Change-of-basis</Link>
           </li>
         </ul>
       </nav>

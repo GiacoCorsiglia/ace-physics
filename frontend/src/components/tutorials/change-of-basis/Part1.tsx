@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Select from "react-select";
+import { url } from "../../../shared/util";
 import M from "../../M";
 import {
   Column,
@@ -139,7 +140,7 @@ export default function Part1() {
       )}
 
       <nav>
-        <Link to="/tutorials/change-of-basis/2">Go to Part 2</Link>
+        <Link to={url("/tutorials/change-of-basis/2")}>Go to Part 2</Link>
       </nav>
     </div>
   );
