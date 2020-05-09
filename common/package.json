@@ -1,11 +1,15 @@
 {
-  "name": "common",
+  "name": "ace-common",
   "version": "0.0.0",
   "private": true,
   "main": "src/index.ts",
+  "scripts": {
+    "test": "yarn run jest"
+  },
   "devDependencies": {
     "@types/jest": "^25.2.1",
-    "jest": "^25.4.0",
-    "ts-jest": "^25.4.0"
-  }
+    "jest": "24.9.0",
+    "ts-jest": "24.3.0"
+  },
+  "dependencies": {}
 }

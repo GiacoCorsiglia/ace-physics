@@ -1,24 +1,24 @@
+import * as s from "ace-common/src/schema";
 import { useState } from "react";
-import { Data } from "./schema";
-import { Model } from "./state";
+import { Field } from "./state";
 
 interface Input<ValueType> {
   toJs(raw: string): ValueType;
-  toRaw(js: ValueType): string;
+  toRaw(js: ValueType | null): string;
 }
 
-export function useInput<ValueType extends Data>(
+export function useInput<ValueType extends s.Data>(
   input: Input<ValueType>,
-  model: Model<ValueType>
+  field: Field<ValueType>
 ) {
-  const [rawValue, setRawValue] = useState(input.toRaw(model.value));
+  const [rawValue, setRawValue] = useState(input.toRaw(field.value));
 
   const bind = {
     value: rawValue,
     onChange(event: React.ChangeEvent<HTMLInputElement>) {
       const newRawValue = event.target.value;
       setRawValue(newRawValue);
-      model.set(input.toJs(newRawValue));
+      field.set(input.toJs(newRawValue));
     },
   };
 
@@ -28,20 +28,20 @@ export function useInput<ValueType extends Data>(
 export function StringInput(): Input<string> {
   return {
     toJs: (raw) => raw,
-    toRaw: (string) => string,
+    toRaw: (string) => string || "",
   };
 }
 
 export function IntegerInput(): Input<number> {
   return {
     toJs: (raw) => parseInt(raw),
-    toRaw: (int) => int.toString(),
+    toRaw: (int) => (int !== null ? int.toString() : ""),
   };
 }
 
 export function FloatInput(): Input<number> {
   return {
     toJs: (raw) => parseFloat(raw),
-    toRaw: (float) => float.toString(),
+    toRaw: (float) => (float !== null ? float.toString() : ""),
   };
 }

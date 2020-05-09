@@ -1,3 +1,4 @@
+import * as s from "ace-common/src/schema";
 import React, {
   createContext,
   useContext,
@@ -5,28 +6,27 @@ import React, {
   useReducer,
   useRef,
 } from "react";
-import { Data, ExtractFieldValue, Field, isValid } from "./schema";
 import { Children, mapDict, Writeable } from "./util";
 
-// STORE
+// STORE.
 
-interface Store<S extends any> {
-  readonly schema: S;
-  readonly models: Readonly<{ [K in keyof S]: ModelForField<S[K]> }>;
+interface Store<P extends s.Properties> {
+  readonly schema: s.RecordSchema<P>;
+  readonly fields: Readonly<{ [K in keyof P]: Field<s.TypeOf<P[K]>> }>;
 }
 
-const StoreContext = createContext<Store<any>>({ schema: {}, models: {} });
+const StoreContext = createContext<Store<any>>({} as any);
 
-export function Provider<S extends any>({
+export function Provider<P extends s.Properties>({
   schema,
   children,
-}: { schema: S } & Children) {
-  const ref = useRef<Store<S> | null>(null);
+}: { schema: s.RecordSchema<P> } & Children) {
+  const ref = useRef<Store<P> | null>(null);
   // Initialize it once.
   if (ref.current === null) {
     ref.current = {
       schema,
-      models: mapDict(schema, Model as any) as any,
+      fields: mapDict(schema.properties, Field) as any,
     };
   }
 
@@ -37,13 +37,16 @@ export function Provider<S extends any>({
   );
 }
 
-export function useStore<S extends any>() {
-  return useContext(StoreContext) as Store<S>;
+/**
+ * @internal Exposed for testing.
+ */
+export function useStore<P extends s.Properties>() {
+  return useContext(StoreContext) as Store<P>;
 }
 
-// MODEL
+// FIELD.
 
-type ModelSubscriber<Value> = (newValue: Value, oldValue: Value) => void;
+type FieldSubscriber<T> = (newValue: T | null, oldValue: T | null) => void;
 
 type Validity =
   | {
@@ -54,47 +57,45 @@ type Validity =
       invalidMessage: string;
     };
 
-export interface Model<Value extends Data> {
-  readonly field: Field<Value>;
-  readonly value: Value;
+export interface Field<T extends s.Data> {
+  readonly schema: s.Schema<T>;
+  readonly value: T | null;
   readonly validity: Validity;
-  set(newValue: Value): void;
-  subscribe(callback: ModelSubscriber<Value>): () => void;
+  set(newValue: T): void;
+  subscribe(callback: FieldSubscriber<T>): () => void;
 }
 
-type ModelForField<F extends Field<any>> = Model<ExtractFieldValue<F>>;
+function Field<T extends s.Data>(schema: s.Schema<T>): Field<T> {
+  const subscribers: Array<FieldSubscriber<T>> = [];
 
-function Model<Value extends Data>(field: Field<Value>): Model<Value> {
-  const subscribers: Array<ModelSubscriber<Value>> = [];
-
-  const model: Writeable<Model<Value>> = {
-    field,
-    value: field.default(),
+  const field: Writeable<Field<T>> = {
+    schema,
+    value: schema.default(),
     validity: { valid: true },
 
-    set(newValue: Value) {
-      const oldValue = model.value;
+    set(newValue: T) {
+      const oldValue = field.value;
       if (oldValue === newValue) {
         return;
       }
 
-      model.value = newValue;
+      field.value = newValue;
 
-      const validated = field.validate(newValue);
+      const validated = schema.validate(newValue);
 
-      if (isValid(validated)) {
-        model.validity = { valid: true };
+      if (s.isOk(validated)) {
+        field.validity = { valid: true };
       } else {
-        model.validity = {
+        field.validity = {
           valid: false,
-          invalidMessage: validated.message,
+          invalidMessage: "TODO",
         };
       }
 
       subscribers.forEach((callback) => callback(newValue, oldValue));
     },
 
-    subscribe(callback: ModelSubscriber<Value>) {
+    subscribe(callback) {
       subscribers.push(callback);
       return () => {
         subscribers.splice(subscribers.indexOf(callback), 1);
@@ -102,32 +103,43 @@ function Model<Value extends Data>(field: Field<Value>): Model<Value> {
     },
   };
 
-  return model;
+  return field;
 }
 
-export function useModel<S extends any>(
-  key: keyof S
-): ModelForField<S[typeof key]> {
+export function useField<P extends s.Properties, K extends keyof P>(
+  schema: s.RecordSchema<P>,
+  key: K
+): Field<s.TypeOf<P[K]>> {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const store = useStore<S>();
-  const model = store.models[key];
+  const store = useStore<any>();
+
+  if (store.schema !== schema) {
+    throw new Error(
+      "The current context is not set up for the Schema you provided." +
+        "\nDid you accidentally pass a Schema for the wrong tutorial?"
+    );
+  }
+
+  const field = store.fields[key];
 
   useEffect(() => {
-    const unsubscribe = model.subscribe(forceUpdate);
+    const unsubscribe = field.subscribe(forceUpdate);
     return unsubscribe;
-  }, [model]);
+  }, [field]);
 
-  return model;
+  return field as any;
 }
 
-export function WithModel<S extends any>({
+export function WithField<P extends s.Properties>({
+  schema,
   name,
   children,
 }: {
-  name: keyof S;
-  children: (model: ModelForField<S[typeof name]>) => React.ReactNode;
+  schema: s.RecordSchema<P>;
+  name: keyof P;
+  children: (field: Field<s.TypeOf<P[typeof name]>>) => React.ReactNode;
 }) {
-  const model = useModel<S>(name);
-  return <>{children(model)}</>;
+  const field = useField(schema, name);
+  return <>{children(field)}</>;
 }

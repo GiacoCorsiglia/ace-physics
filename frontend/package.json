@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "ace-frontend",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
@@ -14,8 +14,8 @@
     "@types/react-router": "^5.1.5",
     "@types/react-router-dom": "^5.1.4",
     "@types/react-select": "^3.0.11",
+    "ace-common": "0.0.0",
     "axios": "^0.19.2",
-    "common": "0.0.0",
     "d3": "^5.15.1",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",

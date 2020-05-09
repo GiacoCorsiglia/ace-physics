@@ -1,13 +1,13 @@
 import { act, render } from "@testing-library/react";
+import * as s from "ace-common/src/schema";
 import React from "react";
-import { Field } from "./schema";
-import { Provider, useModel, useStore, WithModel } from "./state";
+import { Provider, useField, useStore, WithField } from "./state";
 
-type TestSchema = typeof TestSchema;
-const TestSchema = {
-  field1: Field<number>(),
-  field2: Field<string>({ defaultValue: "initial value" }),
-} as const;
+type TestSchema = typeof TestSchema["properties"];
+const TestSchema = s.record({
+  prop1: s.number(),
+  prop2: s.string({ default: "initial value" }),
+} as const);
 
 describe("Provider", () => {
   it("creates Store from schema", () => {
@@ -18,24 +18,24 @@ describe("Provider", () => {
       return <div></div>;
     }
 
-    const { rerender } = render(
+    render(
       <Provider schema={TestSchema}>
         <C />
       </Provider>
     );
 
     expect(store).toMatchObject({ schema: TestSchema });
-    // The Models here are incomplete because we can't check method equality.
+    // The Fields here are incomplete because we can't check method equality.
     expect(store).toMatchObject({
-      models: {
-        field1: {
-          field: TestSchema.field1,
-          value: TestSchema.field1.default(),
+      fields: {
+        prop1: {
+          schema: TestSchema.properties.prop1,
+          value: TestSchema.properties.prop1.default(),
           validity: { valid: true },
         },
-        field2: {
-          field: TestSchema.field2,
-          value: TestSchema.field2.default(),
+        prop2: {
+          schema: TestSchema.properties.prop2,
+          value: TestSchema.properties.prop2.default(),
           validity: { valid: true },
         },
       },
@@ -68,12 +68,12 @@ describe("Provider", () => {
   });
 });
 
-describe("useModel", () => {
-  it("provides model for field", () => {
-    let model;
+describe("useField", () => {
+  it("provides field for property", () => {
+    let field;
 
     function C() {
-      model = useModel<TestSchema>("field1");
+      field = useField(TestSchema, "prop1");
       return <div></div>;
     }
 
@@ -83,11 +83,12 @@ describe("useModel", () => {
       </Provider>
     );
 
-    expect(model).toMatchObject({
-      field: TestSchema.field1,
+    expect(field).toMatchObject({
+      schema: TestSchema.properties.prop1,
     });
 
-    const lastModel = model;
+    // Also doesn't mutate.
+    const lastField = field;
 
     rerender(
       <Provider schema={TestSchema}>
@@ -95,15 +96,15 @@ describe("useModel", () => {
       </Provider>
     );
 
-    expect(model).toBe(lastModel);
+    expect(field).toBe(lastField);
   });
 
   it("updates with value change", () => {
-    let model: any;
+    let field: any;
 
     function C() {
-      model = useModel<TestSchema>("field2");
-      return <div>{model.value}</div>;
+      field = useField(TestSchema, "prop2");
+      return <div>{field.value}</div>;
     }
 
     const { getByText } = render(
@@ -115,21 +116,21 @@ describe("useModel", () => {
     expect(getByText("initial value")).toBeInTheDocument();
 
     act(() => {
-      model.set("updated value");
+      field.set("updated value");
     });
 
     expect(getByText("updated value")).toBeInTheDocument();
   });
 
   it("subscribes only once", () => {
-    let model: any;
+    let field: any;
 
     function C() {
-      model = useModel<TestSchema>("field2");
-      return <div>{model.value}</div>;
+      field = useField(TestSchema, "prop2");
+      return <div>{field.value}</div>;
     }
 
-    expect(model).toBe(undefined);
+    expect(field).toBe(undefined);
 
     const { unmount } = render(
       <Provider schema={TestSchema}>
@@ -137,26 +138,26 @@ describe("useModel", () => {
       </Provider>
     );
 
-    jest.spyOn(model, "subscribe");
+    jest.spyOn(field, "subscribe");
 
     act(() => {
-      model.set("updated value");
+      field.set("updated value");
     });
 
     unmount();
 
-    expect(model.subscribe).toHaveBeenCalledTimes(0);
+    expect(field.subscribe).toHaveBeenCalledTimes(0);
   });
 
   it("doesn't re-render unnecessarily", () => {
-    let model: any;
+    let field: any;
     let renderCount = 0;
     let parentRenderCount = 0;
 
     function C() {
-      model = useModel<TestSchema>("field2");
+      field = useField(TestSchema, "prop2");
       renderCount++;
-      return <div>{model.value}</div>;
+      return <div>{field.value}</div>;
     }
 
     expect(renderCount).toBe(0);
@@ -174,14 +175,14 @@ describe("useModel", () => {
     const updatedValue = "updated value";
 
     act(() => {
-      model.set(updatedValue);
+      field.set(updatedValue);
     });
 
     expect(renderCount).toBe(2);
     expect(parentRenderCount).toBe(1);
 
     act(() => {
-      model.set(updatedValue);
+      field.set(updatedValue);
     });
 
     expect(renderCount).toBe(2);
@@ -189,31 +190,31 @@ describe("useModel", () => {
   });
 });
 
-describe("WithModel", () => {
-  it("provides model for field", () => {
-    let model;
+describe("WithField", () => {
+  it("provides field for property", () => {
+    let field;
 
     function C() {
-      model = useModel<TestSchema>("field1");
+      field = useField(TestSchema, "prop1");
       return <div></div>;
     }
 
     const { rerender } = render(
       <Provider schema={TestSchema}>
-        <WithModel<TestSchema> name="field1">
-          {(m) => {
-            model = m;
+        <WithField schema={TestSchema} name="prop1">
+          {(f) => {
+            field = f;
             return <div></div>;
           }}
-        </WithModel>
+        </WithField>
       </Provider>
     );
 
-    expect(model).toMatchObject({
-      field: TestSchema.field1,
+    expect(field).toMatchObject({
+      schema: TestSchema.properties.prop1,
     });
 
-    const lastModel = model;
+    const lastField = field;
 
     rerender(
       <Provider schema={TestSchema}>
@@ -221,27 +222,27 @@ describe("WithModel", () => {
       </Provider>
     );
 
-    expect(model).toBe(lastModel);
+    expect(field).toBe(lastField);
   });
 
   it("updates with value change", () => {
-    let model: any;
+    let field: any;
 
     const { getByText } = render(
       <Provider schema={TestSchema}>
-        <WithModel<TestSchema> name="field2">
-          {(m) => {
-            model = m;
-            return <div>{m.value}</div>;
+        <WithField<TestSchema> schema={TestSchema} name="prop2">
+          {(f) => {
+            field = f;
+            return <div>{f.value}</div>;
           }}
-        </WithModel>
+        </WithField>
       </Provider>
     );
 
     expect(getByText("initial value")).toBeInTheDocument();
 
     act(() => {
-      model.set("updated value");
+      field.set("updated value");
     });
 
     expect(getByText("updated value")).toBeInTheDocument();
