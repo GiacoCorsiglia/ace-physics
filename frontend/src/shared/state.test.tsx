@@ -6,7 +6,7 @@ import { Provider, useField, useStore, WithField } from "./state";
 type TestSchema = typeof TestSchema["properties"];
 const TestSchema = s.record({
   prop1: s.number(),
-  prop2: s.string({ default: "initial value" }),
+  prop2: s.string().withDefault("initial value"),
 } as const);
 
 describe("Provider", () => {
