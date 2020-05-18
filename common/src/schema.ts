@@ -255,6 +255,110 @@ class ArraySchema<S extends Schema> extends Schema<TypeOf<S>[]> {
 export const array = <T extends Data>(elements: Schema<T>) =>
   new ArraySchema(elements);
 
+type TupleEntry<S extends Schema> = TypeOf<S> | Empty;
+
+/**
+ * Schema instance representing a tuple, which is an array of a fixed length
+ * with each element matching a specific schema (that may differ by element).
+ * Note that all elements are considered nullable!
+ */
+class TupleSchema<S extends Schema[]> extends Schema<
+  S extends { length: 1 }
+    ? [TupleEntry<S[0]>]
+    : S extends { length: 2 }
+    ? [TupleEntry<S[0]>, TupleEntry<S[1]>]
+    : S extends { length: 3 }
+    ? [TupleEntry<S[0]>, TupleEntry<S[1]>, TupleEntry<S[1]>]
+    : S extends { length: 4 }
+    ? [TupleEntry<S[0]>, TupleEntry<S[1]>, TupleEntry<S[2]>, TupleEntry<S[3]>]
+    : S extends { length: 5 }
+    ? [
+        TupleEntry<S[0]>,
+        TupleEntry<S[1]>,
+        TupleEntry<S[2]>,
+        TupleEntry<S[3]>,
+        TupleEntry<S[4]>
+      ]
+    : never
+> {
+  constructor(public readonly elements: S) {
+    super();
+  }
+
+  protected readonly _default = function (this: TupleSchema<Schema[]>) {
+    return this.elements.map((s) => s.default()) as any;
+  };
+
+  protected _decode(v: unknown, context: Context): Decoded<this["T"]> {
+    if (!Array.isArray(v)) {
+      return Failure(Error(v, context, "not a tuple (i.e, not an array)"));
+    }
+
+    if (v.length !== this.elements.length) {
+      return Failure(
+        Error(
+          v,
+          context,
+          `wrong length for tuple: expected (${this.elements.length}), received (${v.length}) `
+        )
+      );
+    }
+
+    const out: this["T"] = [...v] as this["T"];
+    const errors: Error<unknown>[] = [];
+
+    for (let i = 0; i < v.length; i++) {
+      if (isEmpty(v[i])) {
+        // Always accept empty entries.
+        continue;
+      }
+
+      const decoded = this.elements[i].decode(
+        v[i],
+        context.concat([{ index: i, schema: this.elements[i] }])
+      );
+      if (isOk(decoded)) {
+        out[i] = decoded.value;
+      } else {
+        errors.push(...decoded.errors);
+      }
+    }
+
+    return errors.length === 0 ? Ok(out) : Failure(errors);
+  }
+
+  readonly is = isFromDecode(this._decode.bind(this));
+}
+
+/**
+ * Creates a schema representing a tuple, which is an array of a fixed length
+ * with each element matching a specific schema (that may differ by element).
+ * Note that all elements are considered nullable!
+ */
+export function tuple<A extends Schema>(...elements: [A]): TupleSchema<[A]>;
+export function tuple<A extends Schema, B extends Schema>(
+  ...elements: [A, B]
+): TupleSchema<[A, B]>;
+export function tuple<A extends Schema, B extends Schema, C extends Schema>(
+  ...elements: [A, B, C]
+): TupleSchema<[A, B, C]>;
+export function tuple<
+  A extends Schema,
+  B extends Schema,
+  C extends Schema,
+  D extends Schema
+>(...elements: [A, B, C, D]): TupleSchema<[A, B, C, D]>;
+export function tuple<
+  A extends Schema,
+  B extends Schema,
+  C extends Schema,
+  D extends Schema,
+  E extends Schema
+>(...elements: [A, B, C, D, E]): TupleSchema<[A, B, C, D, E]>;
+export function tuple<S extends Schema[]>(...elements: S) {
+  return new TupleSchema(elements);
+}
+
 /**
  * Schema instance representing a "record" (i.e., a JavaScript object) with
  * properties matching the schemas in the `properties` property.  Note that all

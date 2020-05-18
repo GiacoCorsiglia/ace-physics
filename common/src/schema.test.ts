@@ -204,6 +204,85 @@ describe("array schema", () => {
   });
 });
 
+describe("tuple schema", () => {
+  const subSchema = s.tuple(s.string(), s.string().withDefault("default"));
+  const schema = s.tuple(s.number(), subSchema, s.boolean());
+
+  it("has default value with element defaults", () => {
+    expect(schema.default()).toStrictEqual([null, ["", "default"], null]);
+  });
+
+  it("decodes successes properly", () => {
+    // Accepts empty values.
+    let decoded = schema.decode([null, null, undefined]);
+    assertOk(decoded);
+    expect(decoded.value).toStrictEqual([null, null, undefined]);
+
+    decoded = schema.decode([0, ["", "b"], false]);
+    assertOk(decoded);
+    expect(decoded.value).toStrictEqual([0, ["", "b"], false]);
+  });
+
+  it("decodes failures properly", () => {
+    let decoded = schema.decode([5]);
+    assertFailure(decoded);
+    expect(decoded.errors).toHaveLength(1);
+    expect(decoded.errors[0]).toMatchObject({
+      value: [5],
+      context: [{ index: null, schema }],
+    });
+
+    decoded = schema.decode([5, [5, "yo"], true]);
+    assertFailure(decoded);
+    expect(decoded.errors).toHaveLength(1);
+    expect(decoded.errors[0]).toMatchObject({
+      value: 5,
+      context: [
+        { index: null, schema },
+        { index: 1, schema: subSchema },
+        { index: 0, schema: s.string() },
+      ],
+    });
+  });
+
+  it("always returns a clone from decode()", () => {
+    const input = [5, [null, "b"], true];
+    let decoded = schema.decode(input);
+    assertOk(decoded);
+    expect(decoded.value).not.toBe(input);
+  });
+
+  it("accepts and rejects non-trivial cases in is()", () => {
+    expect(schema.is([null, null, undefined])).toBe(true);
+    expect(schema.is([0, ["", "b"], false])).toBe(true);
+
+    expect(schema.is([5])).toBe(false);
+    expect(schema.is([5, [5, "yo"], true])).toBe(false);
+  });
+
+  it("rejects obvious cases in decode() and is()", () => {
+    expect(schema.decode(null)).toSatisfy(s.isFailure);
+    expect(schema.decode(undefined)).toSatisfy(s.isFailure);
+    expect(schema.decode(true)).toSatisfy(s.isFailure);
+    expect(schema.decode(false)).toSatisfy(s.isFailure);
+    expect(schema.decode(0)).toSatisfy(s.isFailure);
+    expect(schema.decode(5)).toSatisfy(s.isFailure);
+    expect(schema.decode("")).toSatisfy(s.isFailure);
+    expect(schema.decode("yo")).toSatisfy(s.isFailure);
+    expect(schema.decode({})).toSatisfy(s.isFailure);
+
+    expect(schema.is(null)).toBe(false);
+    expect(schema.is(undefined)).toBe(false);
+    expect(schema.is(true)).toBe(false);
+    expect(schema.is(false)).toBe(false);
+    expect(schema.is("")).toBe(false);
+    expect(schema.is("yo")).toBe(false);
+    expect(schema.is(0)).toBe(false);
+    expect(schema.is(5)).toBe(false);
+    expect(schema.is({})).toBe(false);
+  });
+});
+
 describe("record schema", () => {
   const schema = s.record({
     numberProp: s.number(),
