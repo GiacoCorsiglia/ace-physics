@@ -39,7 +39,7 @@ export type TypeOf<S extends Schema> = S["T"];
  * Runtime representation of a Data type, plus validation logic that doesn't
  * [necessarily] belong in the type layer.
  */
-export abstract class Schema<T extends Data = Data> {
+export abstract class Schema<T extends Data = any> {
   /**
    * The TypeScript type represented by the schema.
    * This is a "phantom property," meaning it only exists on the type level and
@@ -71,7 +71,7 @@ export abstract class Schema<T extends Data = Data> {
    */
   public decode(v: unknown, context?: Context): Decoded<T> {
     if (!context) {
-      context = [{ key: "", schema: this }];
+      context = [{ index: null, schema: this }];
     }
     return this._decode(v, context);
   }
@@ -151,7 +151,7 @@ const isEmpty = (v: unknown): v is Empty => v === null || v === undefined;
 const decodeFromIs = <T>(is: (v: unknown) => v is T, type: string) => (
   v: unknown,
   context: Context
-): Decoded<T> => (is(v) ? Ok(v) : Failure(v, context, `not a ${type}`));
+): Decoded<T> => (is(v) ? Ok(v) : Failure(Error(v, context, `not a ${type}`)));
 
 const isFromDecode = <T>(
   decode: (v: unknown, context: Context) => Decoded<T>
@@ -215,25 +215,25 @@ export const string = constant(new StringSchema());
  * Schema instance representing an array of arbitrary length with elements
  * matching the schema given in the `elements` property.
  */
-class ArraySchema<T extends Data> extends Schema<T[]> {
+class ArraySchema<S extends Schema> extends Schema<TypeOf<S>[]> {
   protected readonly _default = () => [];
 
-  constructor(public readonly elements: Schema<T>) {
+  constructor(public readonly elements: S) {
     super();
   }
 
   protected _decode(v: unknown, context: Context) {
     if (!Array.isArray(v)) {
-      return Failure(v, context, "not an array");
+      return Failure(Error(v, context, "not an array"));
     }
 
-    const out: T[] = [...v];
+    const out: TypeOf<S>[] = [...v];
     const errors: Error<unknown>[] = [];
 
     for (let i = 0; i < v.length; i++) {
       const decoded = this.elements.decode(
         v[i],
-        context.concat([{ key: String(i), schema: this.elements }])
+        context.concat([{ index: i, schema: this.elements }])
       );
       if (isOk(decoded)) {
         out[i] = decoded.value;
@@ -242,9 +242,7 @@ class ArraySchema<T extends Data> extends Schema<T[]> {
       }
     }
 
-    return errors.length === 0
-      ? Ok(out)
-      : Failure(v, context, "one or more incorrect array elements", errors);
+    return errors.length === 0 ? Ok(out) : Failure(errors);
   }
 
   readonly is = isFromDecode(this._decode.bind(this));
@@ -279,7 +277,7 @@ class RecordSchemaC<P extends Properties> extends Schema<
 
   protected _decode(v: unknown, context: Context): Decoded<this["T"]> {
     if (typeof v !== "object" || v === null) {
-      return Failure(v, context, "not an object");
+      return Failure(Error(v, context, "not an object"));
     }
 
     const out: any = { ...v };
@@ -295,7 +293,7 @@ class RecordSchemaC<P extends Properties> extends Schema<
 
       const decoded = this.properties[key].decode(
         value,
-        context.concat([{ key, schema: this.properties[key] }])
+        context.concat([{ index: key, schema: this.properties[key] }])
       );
 
       if (isOk(decoded)) {
@@ -305,9 +303,7 @@ class RecordSchemaC<P extends Properties> extends Schema<
       }
     }
 
-    return errors.length === 0
-      ? Ok(out)
-      : Failure(v, context, "one or more incorrect record properties", errors);
+    return errors.length === 0 ? Ok(out) : Failure(errors);
   }
 
   readonly is = isFromDecode(this._decode.bind(this));
@@ -316,7 +312,7 @@ class RecordSchemaC<P extends Properties> extends Schema<
 /**
  * A dictionary of schemas.
  */
-export type Properties = { [k: string]: Schema<any> };
+export type Properties = { [k: string]: Schema };
 
 /**
  * A schema representing a "record" (i.e., a JavaScript object) with properties
@@ -337,8 +333,8 @@ export const record = <P extends Properties>(properties: P): RecordSchema<P> =>
 
 type Result<T, E> = Ok<T> | Failure<E>;
 
-type Validated<T> = Result<T, T>;
-type Decoded<T> = Result<T, unknown>;
+export type Validated<T> = Result<T, T>;
+export type Decoded<T> = Result<T, unknown>;
 
 type Validator<T> = (v: T) => Validated<T>;
 
@@ -346,12 +342,12 @@ type Default<T> = (T | null) | (() => T | null);
 
 const IsOk = Symbol("IsOk");
 
-interface Ok<T> {
+export interface Ok<T> {
   readonly [IsOk]: true;
   readonly value: T;
 }
 
-interface Failure<T> {
+export interface Failure<T> {
   readonly [IsOk]: false;
   readonly errors: ReadonlyArray<Error<T>>;
 }
@@ -363,24 +359,23 @@ interface Error<T> {
 }
 
 type Context = ReadonlyArray<{
-  readonly key: string;
-  readonly schema: Schema<any>;
+  readonly index: string | number | null;
+  readonly schema: Schema;
 }>;
 
 function Ok<T>(value: T): Ok<T> {
   return { [IsOk]: true, value };
 }
 
-function Failure<T>(
-  value: T,
-  context: Context,
-  message: string,
-  errors: Error<T>[] = []
-): Failure<T> {
+function Failure<T>(errors: Error<T> | Error<T>[]): Failure<T> {
   return {
     [IsOk]: false,
-    errors: [{ value, context, message }, ...errors],
+    errors: Array.isArray(errors) ? errors : [errors],
   };
+}
+
+function Error<T>(value: T, context: Context, message: string): Error<T> {
+  return { value, context, message };
 }
 
 /**
