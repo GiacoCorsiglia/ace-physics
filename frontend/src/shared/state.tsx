@@ -46,7 +46,10 @@ export function useStore<P extends s.Properties>() {
 
 // FIELD.
 
-type FieldSubscriber<T> = (newValue: T | null, oldValue: T | null) => void;
+type FieldSubscriber<T> = (
+  newValue: T | undefined,
+  oldValue: T | undefined
+) => void;
 
 type Validity =
   | {
@@ -59,7 +62,7 @@ type Validity =
 
 export interface Field<T extends s.Data> {
   readonly schema: s.Schema<T>;
-  readonly value: T | null;
+  readonly value: T | undefined;
   readonly validity: Validity;
   set(newValue: T): void;
   subscribe(callback: FieldSubscriber<T>): () => void;
@@ -73,7 +76,7 @@ function Field<T extends s.Data>(schema: s.Schema<T>): Field<T> {
     value: schema.default(),
     validity: { valid: true },
 
-    set(newValue: T) {
+    set(newValue: T | undefined) {
       const oldValue = field.value;
       if (oldValue === newValue) {
         return;
@@ -81,15 +84,19 @@ function Field<T extends s.Data>(schema: s.Schema<T>): Field<T> {
 
       field.value = newValue;
 
-      const validated = schema.validate(newValue);
-
-      if (s.isOk(validated)) {
+      if (newValue === undefined) {
         field.validity = { valid: true };
       } else {
-        field.validity = {
-          valid: false,
-          invalidMessage: "TODO",
-        };
+        const validated = schema.validate(newValue);
+
+        if (s.isOk(validated)) {
+          field.validity = { valid: true };
+        } else {
+          field.validity = {
+            valid: false,
+            invalidMessage: "TODO",
+          };
+        }
       }
 
       subscribers.forEach((callback) => callback(newValue, oldValue));
@@ -112,7 +119,7 @@ export function useField<P extends s.Properties, K extends keyof P>(
 ): Field<s.TypeOf<P[K]>> {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const store = useStore<any>();
+  const store = useStore<P>();
 
   if (store.schema !== schema) {
     throw new Error(
@@ -128,7 +135,7 @@ export function useField<P extends s.Properties, K extends keyof P>(
     return unsubscribe;
   }, [field]);
 
-  return field as any;
+  return field;
 }
 
 export function WithField<P extends s.Properties>({
