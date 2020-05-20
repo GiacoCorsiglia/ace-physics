@@ -13,8 +13,8 @@ function assertFailure<T>(
 describe("number schema", () => {
   const schema = s.number();
 
-  it("has null default value", () => {
-    expect(schema.default()).toBe(null);
+  it("has undefined default value", () => {
+    expect(schema.default()).toBe(undefined);
   });
 
   it("accepts and rejects correctly in decode() and is()", () => {
@@ -209,14 +209,18 @@ describe("tuple schema", () => {
   const schema = s.tuple(s.number(), subSchema, s.boolean());
 
   it("has default value with element defaults", () => {
-    expect(schema.default()).toStrictEqual([null, ["", "default"], null]);
+    expect(schema.default()).toStrictEqual([
+      undefined,
+      ["", "default"],
+      undefined,
+    ]);
   });
 
   it("decodes successes properly", () => {
     // Accepts empty values.
     let decoded = schema.decode([null, null, undefined]);
     assertOk(decoded);
-    expect(decoded.value).toStrictEqual([null, null, undefined]);
+    expect(decoded.value).toStrictEqual([undefined, undefined, undefined]);
 
     decoded = schema.decode([0, ["", "b"], false]);
     assertOk(decoded);
@@ -292,7 +296,7 @@ describe("record schema", () => {
 
   test("has default value with property defaults", () => {
     expect(schema.default()).toStrictEqual<s.TypeOf<typeof schema>>({
-      numberProp: null,
+      numberProp: undefined,
       stringProp1: "",
       stringProp2: "default",
     });

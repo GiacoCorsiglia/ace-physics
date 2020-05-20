@@ -12,18 +12,24 @@
  * an integer.
  *
  * The schemas exported by this file are nullable by default, meaning `null` or
- * `undefined` are always accepted as valid both in the decoding step and.
+ * `undefined` are always accepted as valid both in the decoding step and the
+ * validation step.  `null` is always converted to `undefined`.
  *
  * Heavily inspired by (io-ts)[https://github.com/gcanti/io-ts], but integrates
  * validation logic and is otherwise tailored to the needs of this project.
  */
 
 /**
- * Serializable data types---essentially JSON.
+ * Serializable data types---essentially JSON.  Note that we only use
+ * `undefined` and never `null`.  Since we want to include the case of missing
+ * object properties, we have to handle `undefined`.  At that point, allowing
+ * `null` as well becomes tedious and unnecessary---we can just always use
+ * `undefined` to represent a missing value.  Also, the record type allows
+ * missing properties by default, and the `undefined` case has a simpler looking
+ * TypeScript type (`{ foo?: string }` instead of `{ foo: string | null }`).
  */
 export type Data =
   | undefined
-  | null
   | boolean
   | number
   | string
@@ -51,7 +57,7 @@ export abstract class Schema<T extends Data = any> {
   /**
    * The default field value for this instance.
    */
-  protected readonly _default: Default<T> = null;
+  protected readonly _default: Default<T> = undefined;
 
   /**
    * Functions containing validation logic to check constraints on the value of
@@ -79,7 +85,7 @@ export abstract class Schema<T extends Data = any> {
   /**
    * The default value for this field.
    */
-  public default(): T | null {
+  public default(): T | undefined {
     return typeof this._default === "function"
       ? this._default()
       : this._default;
@@ -140,13 +146,6 @@ export abstract class Schema<T extends Data = any> {
     return clone;
   }
 }
-
-/**
- * An empty value.
- */
-type Empty = undefined | null;
-
-const isEmpty = (v: unknown): v is Empty => v === null || v === undefined;
 
 const decodeFromIs = <T>(is: (v: unknown) => v is T, type: string) => (
   v: unknown,
@@ -255,7 +254,7 @@ class ArraySchema<S extends Schema> extends Schema<TypeOf<S>[]> {
 export const array = <T extends Data>(elements: Schema<T>) =>
   new ArraySchema(elements);
 
-type TupleEntry<S extends Schema> = TypeOf<S> | Empty;
+type TupleEntry<S extends Schema> = TypeOf<S> | undefined;
 
 /**
  * Schema instance representing a tuple, which is an array of a fixed length
@@ -308,8 +307,9 @@ class TupleSchema<S extends Schema[]> extends Schema<
     const errors: Error<unknown>[] = [];
 
     for (let i = 0; i < v.length; i++) {
-      if (isEmpty(v[i])) {
-        // Always accept empty entries.
+      if (v[i] === undefined || v[i] === null) {
+        // Always accept empty entries, but convert them to `undefined`.
+        out[i] = undefined;
         continue;
       }
 
@@ -365,7 +365,7 @@ export function tuple<S extends Schema[]>(...elements: S) {
  * properties are considered nullable!
  */
 class RecordSchemaC<P extends Properties> extends Schema<
-  { [K in keyof P]: TypeOf<P[K]> | Empty }
+  { [K in keyof P]?: TypeOf<P[K]> }
 > {
   constructor(public readonly properties: P) {
     super();
@@ -390,8 +390,13 @@ class RecordSchemaC<P extends Properties> extends Schema<
     for (const key in this.properties) {
       const value = (v as any)[key];
 
-      if (isEmpty(value)) {
-        // Empty values are always allowed.
+      if (value === undefined) {
+        // Empty values are always allowed
+        continue;
+      }
+      if (value === null) {
+        // Null values are allowed too, but converted to `undefined`.
+        delete out[key];
         continue;
       }
 
@@ -442,7 +447,7 @@ export type Decoded<T> = Result<T, unknown>;
 
 type Validator<T> = (v: T) => Validated<T>;
 
-type Default<T> = (T | null) | (() => T | null);
+type Default<T> = (T | undefined) | (() => T | undefined);
 
 const IsOk = Symbol("IsOk");
 
