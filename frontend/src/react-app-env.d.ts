@@ -1,4 +1,4 @@
 /// <reference types="react-scripts" />
 
 declare const MathJax: any;
-declare const PT__MathJax: any;
+declare const ACE__MathJax: any;

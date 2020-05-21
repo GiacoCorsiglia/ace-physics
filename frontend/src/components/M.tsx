@@ -84,11 +84,11 @@ export default function M({
   const foreignObjectRef = useRef<SVGForeignObjectElement>(null);
   const mathRef = useRef<any>(null);
 
-  const [isReady, setIsReady] = useState(PT__MathJax.isReady);
+  const [isReady, setIsReady] = useState(ACE__MathJax.isReady);
 
   useLayoutEffect(() => {
     if (!isReady) {
-      PT__MathJax.promise.then(() => setIsReady(true));
+      ACE__MathJax.promise.then(() => setIsReady(true));
       return;
     }
 

@@ -35,7 +35,7 @@
     <script>
       (function () {
         let resolveReady;
-        window.PT__MathJax = {
+        window.ACE__MathJax = {
           isReady: false,
           promise: new Promise((resolve) => (resolveReady = resolve)),
         };
@@ -45,7 +45,7 @@
             typeset: false,
             ready: () => {
               MathJax.startup.defaultReady();
-              window.PT__MathJax.isReady = true;
+              window.ACE__MathJax.isReady = true;
               resolveReady();
             },
           },
