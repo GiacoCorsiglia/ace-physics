@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { url } from "../../../shared/util";
-import M from "../../M";
-import { Hint, Part, Prose, Question } from "../../structure";
+import { Hint, Part, Prose, Question } from "../../components";
+import M from "../../components/M";
+import { url } from "../../util";
 import Graph from "./Graph";
 
 export default function Part4() {

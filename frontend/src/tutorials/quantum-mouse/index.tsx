@@ -4,7 +4,7 @@ import {
   // @ts-ignore
   useRoutes,
 } from "react-router-dom";
-import { url } from "../../../shared/util";
+import { url } from "../../util";
 import Part1 from "./Part1";
 import Part2 from "./Part2";
 

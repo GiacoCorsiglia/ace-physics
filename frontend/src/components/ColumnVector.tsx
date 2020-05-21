@@ -1,6 +1,6 @@
 import React from "react";
-import M from "../M";
 import styles from "./ColumnVector.module.scss";
+import M from "./M";
 
 export default function ColumnVector({
   vector,

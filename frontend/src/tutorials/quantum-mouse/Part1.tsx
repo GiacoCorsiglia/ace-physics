@@ -1,8 +1,8 @@
 import React from "react";
 import Select from "react-select";
-import M from "../../M";
-import { Part, Prose, Question } from "../../structure";
-import BooleanChoice from "../../structure/BooleanChoice";
+import { Part, Prose, Question } from "../../components";
+import BooleanChoice from "../../components/BooleanChoice";
+import M from "../../components/M";
 import { ReactComponent as MouseBigEye } from "./svgs/mouse-big-eye.svg";
 import { ReactComponent as MouseSmallEye } from "./svgs/mouse-small-eye.svg";
 

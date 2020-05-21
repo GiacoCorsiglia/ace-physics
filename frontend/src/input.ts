@@ -4,7 +4,7 @@ import { Field } from "./state";
 
 interface Input<ValueType> {
   toJs(raw: string): ValueType;
-  toRaw(js: ValueType | null): string;
+  toRaw(js: ValueType | undefined): string;
 }
 
 export function useInput<ValueType extends s.Data>(
@@ -35,13 +35,13 @@ export function StringInput(): Input<string> {
 export function IntegerInput(): Input<number> {
   return {
     toJs: (raw) => parseInt(raw),
-    toRaw: (int) => (int !== null ? int.toString() : ""),
+    toRaw: (int) => (int !== undefined ? int.toString() : ""),
   };
 }
 
 export function FloatInput(): Input<number> {
   return {
     toJs: (raw) => parseFloat(raw),
-    toRaw: (float) => (float !== null ? float.toString() : ""),
+    toRaw: (float) => (float !== undefined ? float.toString() : ""),
   };
 }

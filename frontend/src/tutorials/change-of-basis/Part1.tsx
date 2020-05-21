@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { url } from "../../../shared/util";
-import M from "../../M";
 import {
   Column,
   Columns,
@@ -11,8 +9,10 @@ import {
   Prose,
   Question,
   Vocabulary,
-} from "../../structure";
-import SVG from "../../SVG";
+} from "../../components";
+import M from "../../components/M";
+import SVG from "../../components/SVG";
+import { url } from "../../util";
 import styles from "./Part1.module.css";
 
 export default function Part1() {
