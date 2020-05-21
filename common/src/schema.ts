@@ -211,6 +211,39 @@ class StringSchema extends Schema<string> {
 export const string = constant(new StringSchema());
 
 /**
+ * Data types that can be sub-typed as literal values.
+ */
+type Literal = string | number | boolean;
+
+/**
+ * Schema instance representing a literal value, which is a value that is
+ * constrained to one of a few options.  The proper way to instantiate this is
+ * to pass it a tuple, which can be asserted safely with `[...] as const`.
+ */
+class LiteralSchema<O extends Readonly<Literal[]>> extends Schema<O[number]> {
+  constructor(public readonly options: O) {
+    super();
+  }
+
+  is(v: unknown): v is O[number] {
+    return this.options.includes(v as any);
+  }
+
+  protected readonly _decode = decodeFromIs(
+    this.is.bind(this),
+    `literal(${this.options.join(" | ")})`
+  );
+}
+
+/**
+ * Creates a schema representing a literal value, which is a value that is
+ * constrained to one of a few options.  The proper way to create this is
+ * to pass it a tuple, which can be asserted safely with `[...] as const`.
+ */
+export const literal = <O extends Readonly<Literal[]>>(options: O) =>
+  new LiteralSchema(options);
+
+/**
  * Schema instance representing an array of arbitrary length with elements
  * matching the schema given in the `elements` property.
  */
