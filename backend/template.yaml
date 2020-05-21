@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  Environment:
+    Type: String
+    AllowedValues:
+      - development
+      - staging
+      - production
+    Default: production
+
+Globals:
+  Function:
+    Runtime: nodejs12.x
+    Environment:
+      Variables:
+        NODE_ENV: !Ref "Environment"
+        ACE_TABLE_NAME: !Ref "DataTable"
+
+  # Switch this to HttpApi when SAM CLI supports it locally.
+  Api:
+    # CORS isn't actually supported locally.
+    Cors:
+      AllowOrigin: "'*'"
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+    BinaryMediaTypes:
+      - "application~1json"
+    MinimumCompressionSize: 0
+
+Resources:
+  BackendFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "ACE_${Environment}_Backend"
+      Handler: index.handler
+      CodeUri: build/
+      Events:
+        # Switch these to HttpApi when SAM CLI supports it locally.
+        ProxyApiRoot:
+          Type: Api
+          Properties:
+            StageName: !Ref Environment
+            Path: /
+            Method: ANY
+        ProxyApiGreedy:
+          Type: Api
+          Properties:
+            StageName: !Ref Environment
+            Path: /{proxy+}
+            Method: ANY
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:BatchGetItem
+                - dynamodb:BatchWriteItem
+                - dynamodb:PutItem
+                - dynamodb:DeleteItem
+                - dynamodb:GetItem
+                - dynamodb:Query
+                - dynamodb:Scan
+                - dynamodb:UpdateItem
+                - dynamodb:GetRecords
+                - dynamodb:GetShardIterator
+                - dynamodb:DescribeStream
+                - dynamodb:ListStreams
+              Resource: !GetAtt "DataTable.Arn"
+
+  DataTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "ACE_${Environment}_DataTable"
+      KeySchema:
+        - AttributeName: learnerId
+          KeyType: HASH
+        - AttributeName: entryId
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: learnerId
+          AttributeType: S
+        - AttributeName: entryId
+          AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: 10
+        WriteCapacityUnits: 10

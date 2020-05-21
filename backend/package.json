@@ -1,0 +1,24 @@
+{
+  "name": "ace-backend",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "ace-common": "0.0.0",
+    "aws-sdk": "2.666.0"
+  },
+  "scripts": {
+    "build": "yarn run webpack",
+    "start": "sam local start-api --skip-pull-image --profile=default"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.51",
+    "@types/node": "^13.13.4",
+    "@types/webpack": "^4.41.12",
+    "jest": "24.9.0",
+    "ts-jest": "24.3.0",
+    "ts-loader": "^7.0.1",
+    "ts-node": "^8.9.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}
