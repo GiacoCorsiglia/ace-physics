@@ -438,6 +438,12 @@ export interface RecordSchema<P extends Properties> extends RecordSchemaC<P> {}
 export const record = <P extends Properties>(properties: P): RecordSchema<P> =>
   new RecordSchemaC(properties);
 
+/**
+ * Determines if the Schema is a RecordSchema.
+ */
+export const isRecordSchema = (s: Schema): s is RecordSchema<any> =>
+  s instanceof RecordSchemaC;
+
 ////////////////////////////////////////////////////////////////////////////////
 
 type Result<T, E> = Ok<T> | Failure<E>;
