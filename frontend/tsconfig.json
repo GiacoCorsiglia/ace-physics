@@ -13,7 +13,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    // Setting `baseUrl` allows us to import modules using absolute paths, like
+    // `import M from src/components/M`.
+    "baseUrl": "./"
   },
   "include": ["src"]
 }

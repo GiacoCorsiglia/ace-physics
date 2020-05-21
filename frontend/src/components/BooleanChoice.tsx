@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { classes } from "../util";
+import { classes } from "src/util";
 import styles from "./BooleanChoice.module.scss";
 
 export default function BooleanChoice({

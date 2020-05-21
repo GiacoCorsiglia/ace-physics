@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
-import M from "../../components/M";
-import SVG from "../../components/SVG";
-import { classes } from "../../util";
+import M from "src/components/M";
+import SVG from "src/components/SVG";
+import { classes } from "src/util";
 import styles from "./Graph.module.css";
 
 let markerCount = 0;

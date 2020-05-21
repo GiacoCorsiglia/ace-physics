@@ -1,5 +1,5 @@
 import React from "react";
-import { Children, OptionalChildren } from "../util";
+import { Children, OptionalChildren } from "src/util";
 import buttonStyles from "./Buttons.module.scss";
 import styles from "./structure.module.scss";
 

@@ -9,10 +9,10 @@ import {
   Prose,
   Question,
   Vocabulary,
-} from "../../components";
-import M from "../../components/M";
-import SVG from "../../components/SVG";
-import { url } from "../../util";
+} from "src/components/index";
+import M from "src/components/M";
+import SVG from "src/components/SVG";
+import { url } from "src/util";
 import styles from "./Part1.module.css";
 
 export default function Part1() {

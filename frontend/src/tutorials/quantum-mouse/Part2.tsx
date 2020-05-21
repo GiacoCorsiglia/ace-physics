@@ -1,6 +1,6 @@
 import React from "react";
-import { Part, Prose, Question } from "../../components";
-import M from "../../components/M";
+import { Part, Prose, Question } from "src/components";
+import M from "src/components/M";
 
 export default function Part2() {
   return (

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Question } from "..";
+import { Question } from "src/components";
+import M from "src/components/M";
+import SVG from "src/components/SVG";
+import { classes, url } from "src/util";
 import { Vector } from "../../tutorials/change-of-basis/Graph";
-import { classes, url } from "../../util";
-import M from "../M";
-import SVG from "../SVG";
 import styles from "./Plotter2.module.css";
 
 export default function Plotter() {
