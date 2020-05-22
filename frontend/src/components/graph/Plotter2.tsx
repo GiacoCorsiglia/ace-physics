@@ -4,7 +4,7 @@ import { Question } from "src/components";
 import M from "src/components/M";
 import SVG from "src/components/SVG";
 import { classes, url } from "src/util";
-import { Vector } from "../../tutorials/change-of-basis/Graph";
+import { Vector } from "../../tutorials/quantum-basis/Graph";
 import styles from "./Plotter2.module.css";
 
 export default function Plotter() {

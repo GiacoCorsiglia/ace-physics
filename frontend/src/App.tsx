@@ -8,10 +8,10 @@ import {
 import { loadIndex } from "./api";
 import Plotter from "./components/graph/Plotter";
 import Plotter2 from "./components/graph/Plotter2";
-import Part1 from "./tutorials/change-of-basis/Part1";
-import Part2 from "./tutorials/change-of-basis/Part2";
-import Part3 from "./tutorials/change-of-basis/Part3";
-import Part4 from "./tutorials/change-of-basis/Part4";
+import Part1 from "./tutorials/quantum-basis/Part1";
+import Part2 from "./tutorials/quantum-basis/Part2";
+import Part3 from "./tutorials/quantum-basis/Part3";
+import Part4 from "./tutorials/quantum-basis/Part4";
 import QuantumMouseTutorial from "./tutorials/quantum-mouse";
 import { url } from "./util";
 
