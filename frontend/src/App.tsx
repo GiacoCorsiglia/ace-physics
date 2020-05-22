@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Link,
-  // @ts-ignore
   Outlet,
-  // @ts-ignore
   useRoutes,
 } from "react-router-dom";
 import { loadIndex } from "./api";

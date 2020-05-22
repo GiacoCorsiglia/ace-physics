@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Link,
-  // @ts-ignore
-  useRoutes,
-} from "react-router-dom";
+import { Link, useRoutes } from "react-router-dom";
 import { url } from "src/util";
 import Part1 from "./Part1";
 import Part2 from "./Part2";
