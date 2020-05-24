@@ -1,6 +1,6 @@
 import { act, render } from "@testing-library/react";
-import * as s from "ace-common/src/schema";
 import React from "react";
+import * as s from "./common/schema";
 import { Provider, useField, useStore, WithField } from "./state";
 
 type TestSchema = typeof TestSchema["properties"];

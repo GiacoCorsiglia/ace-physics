@@ -11,7 +11,6 @@
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.6",
     "@types/react-select": "^3.0.11",
-    "ace-common": "0.0.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

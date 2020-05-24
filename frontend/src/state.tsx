@@ -1,4 +1,3 @@
-import * as s from "ace-common/src/schema";
 import React, {
   createContext,
   useContext,
@@ -6,6 +5,7 @@ import React, {
   useReducer,
   useRef,
 } from "react";
+import * as s from "./common/schema";
 import { Children, mapDict, Writeable } from "./util";
 
 // STORE.

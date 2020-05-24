@@ -1,4 +1,4 @@
-import * as s from "ace-common/src/schema";
+import * as s from "ace-frontend/src/common/schema";
 import * as response from "./response";
 
 const routes: Route<any>[] = [];

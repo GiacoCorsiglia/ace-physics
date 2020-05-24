@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "dependencies": {
-    "ace-common": "0.0.0",
     "aws-sdk": "2.666.0"
   },
   "scripts": {

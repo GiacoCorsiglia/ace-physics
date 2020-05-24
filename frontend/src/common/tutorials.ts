@@ -1,5 +1,30 @@
 import * as s from "./schema";
 
+export const QuantumMouse = s.record({
+  // Part 1.
+  sizeEigenvalues: s.string(), // TODO Restrict to inputs?
+  sizeEigenvectors: s.string(),
+
+  hiddenUnits: s.boolean(),
+  seenHiddenUnis: s.boolean(),
+
+  smallBigInnerProduct: s.number(),
+  smallBigInnerProductExplain: s.string(),
+
+  possibleMoodMeasurements: s.string(),
+  moodEigenvalues: s.string(), // TODO Restrict to inputs?
+  moodEigenvectors: s.string(),
+  moodOperators: s.string(),
+
+  happySadInnerProduct: s.number(),
+  happySadInnerProductExplain: s.string(),
+
+  // Part 2.
+  whyWideStressed: s.string(),
+});
+
+// Quantum Basis.
+
 export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
 
 const Point2D = s.tuple(s.number(), s.number());
