@@ -1,64 +1,13 @@
+// import { QuantumMouse } from "ace-common/src/tutorials";
 import React from "react";
-import Select from "react-select";
+import { QuantumMouse } from "src/common/tutorials";
 import { Part, Prose, Question } from "src/components";
 import BooleanChoice from "src/components/BooleanChoice";
+import { Decimal, Integer, Select, TextArea } from "src/components/inputs";
 import M from "src/components/M";
+import { WithField } from "src/state";
 import { ReactComponent as MouseBigEye } from "./svgs/mouse-big-eye.svg";
 import { ReactComponent as MouseSmallEye } from "./svgs/mouse-small-eye.svg";
-
-const selectOptions2 = [
-  {
-    value: "kets",
-    label: (
-      <span>
-        <M t="\ket{😸}"></M> and <M t="\ket{😿}"></M>
-      </span>
-    ),
-  },
-  {
-    value: "value",
-    label: (
-      <span>
-        <M t="1"></M> and <M t="-1"></M>
-      </span>
-    ),
-  },
-  {
-    value: "operator",
-    label: (
-      <span>
-        <M t="\hat{M}"></M>
-      </span>
-    ),
-  },
-];
-
-const selectOptions = [
-  {
-    value: "kets",
-    label: (
-      <span>
-        <M t="\ket{*}"></M> and <M t="\ket{O}"></M>
-      </span>
-    ),
-  },
-  {
-    value: "value",
-    label: (
-      <span>
-        <M t="1"></M> and <M t="-1"></M>
-      </span>
-    ),
-  },
-  {
-    value: "operator",
-    label: (
-      <span>
-        <M t="\hat{S}"></M>
-      </span>
-    ),
-  },
-];
 
 export default function Part1() {
   return (
@@ -110,32 +59,42 @@ export default function Part1() {
 
       <Question label="a">
         <p>
-          <b>Look at the eigen-equations above</b>, and make sure you group
-          understands the notation. Which symbols are the eigenvalue(s), and
-          which are the eigenvector(s).
+          <b>Look at the eigen-equations above</b>, and make sure you understand
+          the notation. Which symbols are the eigenvalue(s), and which are the
+          eigenvector(s).
         </p>
       </Question>
 
       <div className="full-width">
-        <p style={{ display: "flex" }}>
+        <div style={{ display: "flex" }}>
           <label>Eigenvalues:</label>
           <div style={{ marginLeft: "1rem", flexGrow: 1 }}>
-            <Select
-              placeholder="Select eigenvalues..."
-              options={selectOptions}
-            />
+            <WithField schema={QuantumMouse} name="sizeEigenvalues">
+              {(field) => (
+                <Select
+                  field={field}
+                  choices={sizeSelectChoices}
+                  placeholder="Select eigenvalues..."
+                />
+              )}
+            </WithField>
           </div>
-        </p>
+        </div>
 
-        <p style={{ display: "flex", justifyContent: "" }}>
+        <div style={{ display: "flex", justifyContent: "" }}>
           <label>Eigenvectors:</label>
           <div style={{ marginLeft: "1rem", flexGrow: 1 }}>
-            <Select
-              placeholder="Select eigenvectors..."
-              options={selectOptions}
-            />
+            <WithField schema={QuantumMouse} name="sizeEigenvectors">
+              {(field) => (
+                <Select
+                  field={field}
+                  choices={sizeSelectChoices}
+                  placeholder="Select eigenvectors..."
+                />
+              )}
+            </WithField>
           </div>
-        </p>
+        </div>
       </div>
 
       <Prose>Do any numbers have “hidden” units?</Prose>
@@ -151,12 +110,16 @@ export default function Part1() {
       <div className="full-width">
         <M t="\braket{*}{O} = " />
         &nbsp;
-        <input type="number" />
+        <WithField schema={QuantumMouse} name="smallBigInnerProduct">
+          {(field) => <Decimal field={field} />}
+        </WithField>
       </div>
 
       <Prose>Explain:</Prose>
 
-      <textarea className="full-text" />
+      <WithField schema={QuantumMouse} name="smallBigInnerProductExplain">
+        {(field) => <TextArea field={field} className="full-text" />}
+      </WithField>
 
       <Prose>
         "Quantum mood", <M t="\hat{M}" />, is also Hermitian. The corresponding
@@ -182,7 +145,9 @@ export default function Part1() {
         What are the possible values of a measurement of <M t="\hat{M}" />?
       </Question>
 
-      <textarea className="full-text" />
+      <WithField schema={QuantumMouse} name="possibleMoodMeasurements">
+        {(field) => <TextArea field={field} className="full-text" />}
+      </WithField>
 
       <Prose>
         Which symbols are the eigenvectors here, what are the eigenvalues, what
@@ -190,35 +155,50 @@ export default function Part1() {
       </Prose>
 
       <div className="full-width">
-        <p style={{ display: "flex" }}>
+        <div style={{ display: "flex" }}>
           <label>Eigenvalues:</label>
           <div style={{ marginLeft: "1rem", flexGrow: 1 }}>
-            <Select
-              placeholder="Select eigenvalues..."
-              options={selectOptions2}
-            />
+            <WithField schema={QuantumMouse} name="moodEigenvalues">
+              {(field) => (
+                <Select
+                  field={field}
+                  choices={moodSelectChoices}
+                  placeholder="Select eigenvalues..."
+                />
+              )}
+            </WithField>
           </div>
-        </p>
+        </div>
 
-        <p style={{ display: "flex", justifyContent: "" }}>
+        <div style={{ display: "flex", justifyContent: "" }}>
           <label>Eigenvectors:</label>
           <div style={{ marginLeft: "1rem", flexGrow: 1 }}>
-            <Select
-              placeholder="Select eigenvectors..."
-              options={selectOptions2}
-            />
+            <WithField schema={QuantumMouse} name="moodEigenvectors">
+              {(field) => (
+                <Select
+                  field={field}
+                  choices={moodSelectChoices}
+                  placeholder="Select eigenvectors..."
+                />
+              )}
+            </WithField>
           </div>
-        </p>
+        </div>
 
-        <p style={{ display: "flex", justifyContent: "" }}>
+        <div style={{ display: "flex", justifyContent: "" }}>
           <label>Operators:</label>
           <div style={{ marginLeft: "1rem", flexGrow: 1 }}>
-            <Select
-              placeholder="Select operators..."
-              options={selectOptions2}
-            />
+            <WithField schema={QuantumMouse} name="moodOperators">
+              {(field) => (
+                <Select
+                  field={field}
+                  choices={moodSelectChoices}
+                  placeholder="Select operators..."
+                />
+              )}
+            </WithField>
           </div>
-        </p>
+        </div>
       </div>
 
       <Question label="d">
@@ -228,12 +208,70 @@ export default function Part1() {
       <div className="full-width">
         <M t="\braket{😸}{😿} = " />
         &nbsp;
-        <input type="number" />
+        <WithField schema={QuantumMouse} name="happySadInnerProduct">
+          {(field) => <Integer field={field} />}
+        </WithField>
       </div>
 
       <Prose>Why?</Prose>
 
-      <textarea className="full-text" />
+      <WithField schema={QuantumMouse} name="happySadInnerProductExplain">
+        {(field) => <TextArea field={field} className="full-text" />}
+      </WithField>
     </div>
   );
 }
+
+const moodSelectChoices = [
+  {
+    value: "kets",
+    label: (
+      <span>
+        <M t="\ket{😸}"></M> and <M t="\ket{😿}"></M>
+      </span>
+    ),
+  },
+  {
+    value: "value",
+    label: (
+      <span>
+        <M t="1"></M> and <M t="-1"></M>
+      </span>
+    ),
+  },
+  {
+    value: "operator",
+    label: (
+      <span>
+        <M t="\hat{M}"></M>
+      </span>
+    ),
+  },
+];
+
+const sizeSelectChoices = [
+  {
+    value: "kets",
+    label: (
+      <span>
+        <M t="\ket{*}"></M> and <M t="\ket{O}"></M>
+      </span>
+    ),
+  },
+  {
+    value: "value",
+    label: (
+      <span>
+        <M t="1"></M> and <M t="-1"></M>
+      </span>
+    ),
+  },
+  {
+    value: "operator",
+    label: (
+      <span>
+        <M t="\hat{S}"></M>
+      </span>
+    ),
+  },
+];

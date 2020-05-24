@@ -11,16 +11,18 @@ import { Children, mapDict, Writeable } from "./util";
 // STORE.
 
 interface Store<P extends s.Properties> {
-  readonly schema: s.RecordSchema<P>;
+  readonly schema: ProviderSchema<P>;
   readonly fields: Readonly<{ [K in keyof P]: Field<s.TypeOf<P[K]>> }>;
 }
 
 const StoreContext = createContext<Store<any>>({} as any);
 
+export type ProviderSchema<P extends s.Properties = any> = s.RecordSchema<P>;
+
 export function Provider<P extends s.Properties>({
   schema,
   children,
-}: { schema: s.RecordSchema<P> } & Children) {
+}: { schema: ProviderSchema<P> } & Children) {
   const ref = useRef<Store<P> | null>(null);
   // Initialize it once.
   if (ref.current === null) {
@@ -64,7 +66,8 @@ export interface Field<T extends s.Data> {
   readonly schema: s.Schema<T>;
   readonly value: T | undefined;
   readonly validity: Validity;
-  set(newValue: T): void;
+  clear(): void;
+  set(newValue: T | undefined): void;
   subscribe(callback: FieldSubscriber<T>): () => void;
   properties: T extends { [key: string]: s.Data }
     ? {
@@ -107,6 +110,10 @@ function Field<T extends s.Data>(schema: s.Schema<T>): Field<T> {
       }
 
       subscribers.forEach((callback) => callback(newValue, oldValue));
+    },
+
+    clear() {
+      field.set(undefined);
     },
 
     subscribe(callback) {

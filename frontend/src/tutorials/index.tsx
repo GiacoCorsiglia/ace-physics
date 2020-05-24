@@ -6,13 +6,13 @@ import * as QuantumMouse from "./quantum-mouse";
 
 export const route = (
   <Route path={urls.Tutorials.path} element={<Outlet />}>
-    <Route path="/" element={<TutorialIndex />} />
+    <Route path="/" element={<TutorialsIndex />} />
     {QuantumBasis.route}
     {QuantumMouse.route}
   </Route>
 );
 
-function TutorialIndex() {
+function TutorialsIndex() {
   return (
     <main>
       <h1>Tutorials</h1>
