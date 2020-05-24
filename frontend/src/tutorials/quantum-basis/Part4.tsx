@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Hint, Part, Prose, Question } from "src/components";
 import M from "src/components/M";
-import { url } from "src/util";
+import * as urls from "src/urls";
 import Graph from "./Graph";
 
 export default function Part4() {
@@ -96,7 +96,9 @@ export default function Part4() {
       <textarea className="full-text" />
 
       <nav>
-        <Link to={url("/tutorials/change-of-basis/3")}>Go back to Part 3</Link>
+        <Link to={urls.part(urls.Tutorials.QuantumBasis, "3")}>
+          Go back to Part 3
+        </Link>
       </nav>
     </div>
   );

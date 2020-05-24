@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Question } from "src/components";
 import M, { idealRelativeTo } from "src/components/M";
 import SVG from "src/components/SVG";
-import { url } from "src/util";
+import * as urls from "src/urls";
 import { Vector } from "../../tutorials/quantum-basis/Graph";
 import styles from "./Plotter.module.css";
 
@@ -138,9 +138,13 @@ export default function Plotter() {
       </SVG>
 
       <nav>
-        <Link to={url("/tutorials/change-of-basis/1")}>Go back to Part 1</Link>
+        <Link to={urls.part(urls.Tutorials.QuantumBasis, "1")}>
+          Go back to Part 1
+        </Link>
         &nbsp;&nbsp;{" • "}&nbsp;&nbsp;
-        <Link to={url("/tutorials/change-of-basis/3")}>Go to Part 3</Link>
+        <Link to={urls.part(urls.Tutorials.QuantumBasis, "2")}>
+          Go to Part 3
+        </Link>
       </nav>
     </div>
   );

@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { Question } from "src/components";
 import M from "src/components/M";
 import SVG from "src/components/SVG";
-import { classes, url } from "src/util";
+import * as urls from "src/urls";
+import { classes } from "src/util";
 import { Vector } from "../../tutorials/quantum-basis/Graph";
 import styles from "./Plotter2.module.css";
 
@@ -239,9 +240,13 @@ export default function Plotter() {
       </SVG>
 
       <nav>
-        <Link to={url("/tutorials/change-of-basis/2")}>Go back to Part 2</Link>
+        <Link to={urls.part(urls.Tutorials.QuantumBasis, "2")}>
+          Go back to Part 2
+        </Link>
         &nbsp;&nbsp;{" • "}&nbsp;&nbsp;
-        <Link to={url("/tutorials/change-of-basis/4")}>Go to Part 4</Link>
+        <Link to={urls.part(urls.Tutorials.QuantumBasis, "4")}>
+          Go to Part 4
+        </Link>
       </nav>
     </div>
   );

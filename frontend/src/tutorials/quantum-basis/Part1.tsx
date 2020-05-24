@@ -12,7 +12,7 @@ import {
 } from "src/components/index";
 import M from "src/components/M";
 import SVG from "src/components/SVG";
-import { url } from "src/util";
+import * as urls from "src/urls";
 import styles from "./Part1.module.css";
 
 export default function Part1() {
@@ -140,7 +140,9 @@ export default function Part1() {
       )}
 
       <nav>
-        <Link to={url("/tutorials/change-of-basis/2")}>Go to Part 2</Link>
+        <Link to={urls.part(urls.Tutorials.QuantumBasis, "2")}>
+          Go to Part 2
+        </Link>
       </nav>
     </div>
   );
