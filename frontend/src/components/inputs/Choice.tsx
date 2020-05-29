@@ -24,6 +24,7 @@ export default function Choice<
   const id = idRef.current || (idRef.current = ++choiceId);
 
   const [otherInput, setOtherInput] = useState(field.value?.other || "");
+  const otherInputRef = useRef<HTMLInputElement>(null);
 
   function isSelected(choice: { value: C[number] }) {
     if (isMulti) {
@@ -72,16 +73,21 @@ export default function Choice<
     }
   }
 
-  function selectAndUpdateOther(value: string) {
+  function selectAndUpdateOther(value: string | undefined) {
     if (isMulti) {
       field.set({
         selected: field.value?.selected,
         other: value,
       });
-    } else {
+    } else if (value !== undefined) {
       field.set({
         selected: undefined, // Clear selected.
         other: value,
+      });
+    } else {
+      field.set({
+        selected: field.value?.selected, // Don't clear selected yet.
+        other: undefined,
       });
     }
   }
@@ -109,42 +115,46 @@ export default function Choice<
             id={`choice-${id}-other`}
             checked={isOtherSelected}
             onChange={(e) => {
-              if (!e.target.checked) {
+              if (e.target.checked) {
+                // The ref won't be null!
+                const input = otherInputRef.current as HTMLInputElement;
+                selectAndUpdateOther(input.value);
+                input.focus();
+              } else {
                 field.set({
                   selected: field.value?.selected,
                   other: undefined,
                 });
-              } else {
-                // TODO: This might be a race condition due to closure?
-                selectAndUpdateOther(otherInput);
               }
             }}
           />
           Other:
-          <input
-            type="text"
-            value={field.value?.other || otherInput}
-            onChange={(e) => {
-              const value = e.target.value;
-              setOtherInput(value);
-              if (isOtherSelected) {
-                selectAndUpdateOther(value);
-              }
-            }}
-            onFocus={(e) => selectAndUpdateOther(e.target.value)}
-            onBlur={(e) => {
-              const value = e.target.value.trim();
-              if (value) {
-                return; // Everything should be set already!
-              }
-              // Deselect other since it's empty!
-              field.set({
-                selected: field.value?.selected,
-                other: undefined,
-              });
-            }}
-          />
         </label>
+      )}
+      {allowOther && (
+        <input
+          type="text"
+          ref={otherInputRef}
+          value={field.value?.other || otherInput}
+          onChange={(e) => {
+            const value = e.target.value;
+            setOtherInput(value);
+            selectAndUpdateOther(value || undefined);
+          }}
+          onFocus={(e) => {
+            // Focusing will reselect other (if the field is not empty), but it
+            // will never deselect.
+            if (e.target.value) {
+              selectAndUpdateOther(e.target.value);
+            }
+          }}
+          onBlur={(e) => {
+            // Blurring will clear the other selection if the input is empty.
+            if (!e.target.value.trim()) {
+              selectAndUpdateOther(undefined);
+            }
+          }}
+        />
       )}
     </div>
   );
