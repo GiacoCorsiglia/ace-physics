@@ -12,13 +12,7 @@ export default function Choice<
   choices,
   allowOther = true,
 }: {
-  field: Field<
-    {
-      selected?: M extends true ? C[number][] : C[number];
-      other?: string;
-    },
-    s.ChoiceSchema<C, M, string>
-  >;
+  field: Field<s.ChoiceSchema<C, M, string>>;
   choices: ReadonlyArray<{ value: C[number]; label: React.ReactNode }>;
   allowOther?: boolean;
 }) {

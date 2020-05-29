@@ -21,13 +21,7 @@ export default function Select<
   allowOther = true,
   ...props
 }: {
-  field: Field<
-    {
-      selected?: M extends true ? C[number][] : C[number];
-      other?: string;
-    },
-    s.ChoiceSchema<C, M, string>
-  >;
+  field: Field<s.ChoiceSchema<C, M, string>>;
   choices: Array<{
     value: C[number];
     label: React.ReactNode;

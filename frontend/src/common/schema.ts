@@ -179,9 +179,20 @@ class BooleanSchemaC extends Schema<boolean> {
 }
 
 /**
+ * A schema representing a boolean value.
+ */
+export interface BooleanSchema extends BooleanSchemaC {}
+
+/**
  * Creates a schema representing a boolean value.
  */
-export const boolean = constant(new BooleanSchemaC());
+export const boolean: () => BooleanSchema = constant(new BooleanSchemaC());
+
+/**
+ * Determines if the Schema is a string schema.
+ */
+export const isBooleanSchema = (s: Schema): s is BooleanSchema =>
+  s.kind === "boolean";
 
 /**
  * Schema instance representing a boolean value.
@@ -204,7 +215,7 @@ export interface NumberSchema extends NumberSchemaC {}
 /**
  * Creates a schema representing a number value.
  */
-export const number = constant(new NumberSchemaC());
+export const number: () => NumberSchema = constant(new NumberSchemaC());
 
 /**
  * Determines if the Schema is a string schema.
@@ -235,7 +246,7 @@ export interface StringSchema extends StringSchemaC {}
 /**
  * Creates a schema representing a string value.
  */
-export const string = constant(new StringSchemaC());
+export const string: () => StringSchema = constant(new StringSchemaC());
 
 /**
  * Determines if the Schema is a string schema.
@@ -253,7 +264,9 @@ export type Literal = string | number;
  * constrained to one of a few options.  The proper way to instantiate this is
  * to pass it a tuple, which can be asserted safely with `[...] as const`.
  */
-class LiteralSchema<C extends readonly Literal[]> extends Schema<C[number]> {
+class LiteralSchemaC<C extends readonly Literal[]> extends Schema<C[number]> {
+  readonly kind = "literal";
+
   constructor(public readonly choices: C) {
     super();
   }
@@ -269,12 +282,26 @@ class LiteralSchema<C extends readonly Literal[]> extends Schema<C[number]> {
 }
 
 /**
+ * A schema representing a literal value, which is a value that is constrained
+ * to one of a few options.
+ */
+export interface LiteralSchema<C extends readonly Literal[]>
+  extends LiteralSchemaC<C> {}
+
+/**
  * Creates a schema representing a literal value, which is a value that is
  * constrained to one of a few options.  The proper way to create this is
  * to pass it a tuple, which can be asserted safely with `[...] as const`.
  */
-export const literal = <C extends readonly Literal[]>(choices: C) =>
-  new LiteralSchema(choices);
+export const literal = <C extends readonly Literal[]>(
+  choices: C
+): LiteralSchema<C> => new LiteralSchemaC(choices);
+
+/**
+ * Determines if the Schema is a literal schema.
+ */
+export const isLiteralSchema = (s: Schema): s is LiteralSchema<any> =>
+  s.kind === "literal";
 
 /**
  * Schema instance representing the value of a single/multi select field (or
@@ -290,6 +317,8 @@ class ChoiceSchemaC<
   selected?: M extends true ? C[number][] : C[number];
   other?: O;
 }> {
+  readonly kind = "choice";
+
   protected selected: M extends true
     ? ArraySchema<LiteralSchema<C>>
     : LiteralSchema<C>;
@@ -381,13 +410,21 @@ export const choice = <
   // the `any` casts are necessary for TypeScript to not complain.
   isMulti: M = false as any,
   other: Schema<O> = string() as any
-) => new ChoiceSchemaC(choices, isMulti, other);
+): ChoiceSchema<C, M, O> => new ChoiceSchemaC(choices, isMulti, other);
+
+/**
+ * Determines if the Schema is a choice schema.
+ */
+export const isChoiceSchema = (s: Schema): s is ChoiceSchema<any, any, any> =>
+  s.kind === "choice";
 
 /**
  * Schema instance representing an array of arbitrary length with elements
  * matching the schema given in the `elements` property.
  */
-class ArraySchema<S extends Schema> extends Schema<TypeOf<S>[]> {
+class ArraySchemaC<S extends Schema> extends Schema<TypeOf<S>[]> {
+  readonly kind = "array";
+
   protected readonly _default = () => [];
 
   constructor(public readonly elements: S) {
@@ -421,11 +458,23 @@ class ArraySchema<S extends Schema> extends Schema<TypeOf<S>[]> {
 }
 
 /**
+ * A schema representing an array of arbitrary length with elements matching the
+ * schema given by the `S` type parameter.
+ */
+export interface ArraySchema<S extends Schema> extends ArraySchemaC<S> {}
+
+/**
  * Creates a schema representing an array of arbitrary length with elements
  * matching the schema given in the `elements` argument.
  */
-export const array = <T extends Data>(elements: Schema<T>) =>
-  new ArraySchema(elements);
+export const array = <S extends Schema>(elements: S): ArraySchema<S> =>
+  new ArraySchemaC(elements);
+
+/**
+ * Determines if the Schema is an array schema.
+ */
+export const isArraySchema = (s: Schema): s is ArraySchema<Schema> =>
+  s.kind === "array";
 
 type TupleEntry<S extends Schema> = TypeOf<S> | undefined;
 
@@ -434,7 +483,7 @@ type TupleEntry<S extends Schema> = TypeOf<S> | undefined;
  * with each element matching a specific schema (that may differ by element).
  * Note that all elements are considered nullable!
  */
-class TupleSchema<S extends Schema[]> extends Schema<
+class TupleSchemaC<S extends Schema[]> extends Schema<
   S extends { length: 1 }
     ? [TupleEntry<S[0]>]
     : S extends { length: 2 }
@@ -453,6 +502,8 @@ class TupleSchema<S extends Schema[]> extends Schema<
       ]
     : never
 > {
+  readonly kind = "tuple";
+
   constructor(public readonly elements: S) {
     super();
   }
@@ -504,6 +555,12 @@ class TupleSchema<S extends Schema[]> extends Schema<
 }
 
 /**
+ * A schema representing a tuple, which is an array of a fixed length with each
+ * element matching a specific schema (that may differ by element).
+ */
+export interface TupleSchema<S extends Schema[]> extends TupleSchemaC<S> {}
+
+/**
  * Creates a schema representing a tuple, which is an array of a fixed length
  * with each element matching a specific schema (that may differ by element).
  * Note that all elements are considered nullable!
@@ -528,9 +585,15 @@ export function tuple<
   D extends Schema,
   E extends Schema
 >(...elements: [A, B, C, D, E]): TupleSchema<[A, B, C, D, E]>;
-export function tuple<S extends Schema[]>(...elements: S) {
-  return new TupleSchema(elements);
+export function tuple<S extends Schema[]>(...elements: S): TupleSchema<S> {
+  return new TupleSchemaC(elements);
 }
+
+/**
+ * Determines if the Schema is a tuple schema.
+ */
+export const isTupleSchema = (s: Schema): s is TupleSchema<any> =>
+  s.kind === "tuple";
 
 /**
  * Schema instance representing a "record" (i.e., a JavaScript object) with
@@ -540,6 +603,8 @@ export function tuple<S extends Schema[]>(...elements: S) {
 class RecordSchemaC<P extends Properties> extends Schema<
   { [K in keyof P]?: TypeOf<P[K]> }
 > {
+  readonly kind = "record";
+
   constructor(public readonly properties: P) {
     super();
   }
@@ -615,7 +680,7 @@ export const record = <P extends Properties>(properties: P): RecordSchema<P> =>
  * Determines if the Schema is a RecordSchema.
  */
 export const isRecordSchema = (s: Schema): s is RecordSchema<any> =>
-  s instanceof RecordSchemaC;
+  s.kind === "record";
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -12,7 +12,7 @@ import { Children, mapDict, Writeable } from "./util";
 
 interface Store<P extends s.Properties> {
   readonly schema: ProviderSchema<P>;
-  readonly fields: Readonly<{ [K in keyof P]: Field<s.TypeOf<P[K]>, P[K]> }>;
+  readonly fields: Readonly<{ [K in keyof P]: Field<P[K]> }>;
 }
 
 const StoreContext = createContext<Store<any>>({} as any);
@@ -62,28 +62,28 @@ type Validity =
       invalidMessage: string;
     };
 
-export interface Field<T extends s.Data, S extends s.Schema<T> = s.Schema<T>> {
+type T<S extends s.Schema> = s.TypeOf<S>;
+
+export interface Field<S extends s.Schema> {
   readonly schema: S;
-  readonly value: T | undefined;
+  readonly value: T<S> | undefined;
   readonly validity: Validity;
   clear(): void;
-  set(newValue: T | undefined): void;
-  subscribe(callback: FieldSubscriber<T>): () => void;
-  properties: T extends { [key: string]: s.Data }
+  set(newValue: T<S> | undefined): void;
+  subscribe(callback: FieldSubscriber<T<S>>): () => void;
+  readonly properties: S extends s.RecordSchema<infer P>
     ? {
-        // This transformation gives the sub-fields the correct types, despite
-        // the fact that record fields are nullable.
-        [K in keyof T]-?: Field<NonNullable<T[K]>, s.Schema<NonNullable<T[K]>>>;
+        readonly [K in keyof P]: Field<P[K]>;
       }
     : never;
 }
 
-function Field<T extends s.Data, S extends s.Schema<T>>(
-  schema: S
-): Field<T, S> {
+function Field<S extends s.Schema>(schema: S): Field<S> {
+  type T = s.TypeOf<S>;
+
   const subscribers: Array<FieldSubscriber<T>> = [];
 
-  const field: Writeable<Field<T, S>> = {
+  const field: Writeable<Field<S>> = {
     schema,
     value: schema.default(),
     validity: { valid: true },
@@ -128,7 +128,7 @@ function Field<T extends s.Data, S extends s.Schema<T>>(
   };
 
   if (s.isRecordSchema(schema)) {
-    const properties: { [p: string]: Field<any> } = {};
+    const properties: { [p: string]: Field<s.Schema> } = {};
     field.properties = properties as any;
 
     for (const p in schema.properties) {
@@ -160,7 +160,7 @@ function Field<T extends s.Data, S extends s.Schema<T>>(
 export function useField<P extends s.Properties, K extends keyof P>(
   schema: s.RecordSchema<P>,
   key: K
-): Field<s.TypeOf<P[K]>, P[K]> {
+): Field<P[K]> {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const store = useStore<P>();
@@ -189,7 +189,7 @@ export function WithField<P extends s.Properties, K extends keyof P>({
 }: {
   schema: s.RecordSchema<P>;
   name: K;
-  children: (field: Field<s.TypeOf<P[K]>, P[K]>) => React.ReactNode;
+  children: (field: Field<P[K]>) => React.ReactNode;
 }) {
   const field = useField(schema, name);
   return <>{children(field)}</>;

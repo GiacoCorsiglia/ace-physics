@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as s from "src/common/schema";
 import { Field } from "src/state";
 
 // Choice.
@@ -12,7 +13,7 @@ export type { SelectChoices } from "./Select";
 export function Text({
   field,
   ...props
-}: { field: Field<string> } & JSX.IntrinsicElements["input"]) {
+}: { field: Field<s.StringSchema> } & JSX.IntrinsicElements["input"]) {
   return (
     <input
       {...props}
@@ -26,7 +27,7 @@ export function Text({
 export function TextArea({
   field,
   ...props
-}: { field: Field<string> } & JSX.IntrinsicElements["textarea"]) {
+}: { field: Field<s.StringSchema> } & JSX.IntrinsicElements["textarea"]) {
   return (
     <textarea
       {...props}
@@ -43,7 +44,7 @@ const integerPattern = /^[+-]?\d+$/;
 export function Integer({
   field,
   ...props
-}: { field: Field<number> } & JSX.IntrinsicElements["input"]) {
+}: { field: Field<s.NumberSchema> } & JSX.IntrinsicElements["input"]) {
   const [raw, setRaw] = useState(
     field.value !== undefined ? field.value.toString() : ""
   );
@@ -80,7 +81,7 @@ const decimalPattern = /^[+-]?((\d+(\.\d*)?)|(\.\d+))$/;
 export function Decimal({
   field,
   ...props
-}: { field: Field<number> } & JSX.IntrinsicElements["input"]) {
+}: { field: Field<s.NumberSchema> } & JSX.IntrinsicElements["input"]) {
   const [raw, setRaw] = useState(
     field.value !== undefined ? field.value.toString() : ""
   );
