@@ -12,7 +12,7 @@ import { Children, mapDict, Writeable } from "./util";
 
 interface Store<P extends s.Properties> {
   readonly schema: ProviderSchema<P>;
-  readonly fields: Readonly<{ [K in keyof P]: Field<s.TypeOf<P[K]>> }>;
+  readonly fields: Readonly<{ [K in keyof P]: Field<s.TypeOf<P[K]>, P[K]> }>;
 }
 
 const StoreContext = createContext<Store<any>>({} as any);
@@ -62,8 +62,8 @@ type Validity =
       invalidMessage: string;
     };
 
-export interface Field<T extends s.Data> {
-  readonly schema: s.Schema<T>;
+export interface Field<T extends s.Data, S extends s.Schema<T> = s.Schema<T>> {
+  readonly schema: S;
   readonly value: T | undefined;
   readonly validity: Validity;
   clear(): void;
@@ -73,15 +73,17 @@ export interface Field<T extends s.Data> {
     ? {
         // This transformation gives the sub-fields the correct types, despite
         // the fact that record fields are nullable.
-        [K in keyof T]-?: Field<NonNullable<T[K]>>;
+        [K in keyof T]-?: Field<NonNullable<T[K]>, s.Schema<NonNullable<T[K]>>>;
       }
     : never;
 }
 
-function Field<T extends s.Data>(schema: s.Schema<T>): Field<T> {
+function Field<T extends s.Data, S extends s.Schema<T>>(
+  schema: S
+): Field<T, S> {
   const subscribers: Array<FieldSubscriber<T>> = [];
 
-  const field: Writeable<Field<T>> = {
+  const field: Writeable<Field<T, S>> = {
     schema,
     value: schema.default(),
     validity: { valid: true },
@@ -158,7 +160,7 @@ function Field<T extends s.Data>(schema: s.Schema<T>): Field<T> {
 export function useField<P extends s.Properties, K extends keyof P>(
   schema: s.RecordSchema<P>,
   key: K
-): Field<s.TypeOf<P[K]>> {
+): Field<s.TypeOf<P[K]>, P[K]> {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const store = useStore<P>();
@@ -187,7 +189,7 @@ export function WithField<P extends s.Properties, K extends keyof P>({
 }: {
   schema: s.RecordSchema<P>;
   name: K;
-  children: (field: Field<s.TypeOf<P[K]>>) => React.ReactNode;
+  children: (field: Field<s.TypeOf<P[K]>, P[K]>) => React.ReactNode;
 }) {
   const field = useField(schema, name);
   return <>{children(field)}</>;

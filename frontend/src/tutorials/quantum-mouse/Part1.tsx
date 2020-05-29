@@ -3,7 +3,13 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import { Part, Prose, Question } from "src/components";
 import BooleanChoice from "src/components/BooleanChoice";
-import { Decimal, Integer, Select, TextArea } from "src/components/inputs";
+import {
+  Decimal,
+  Integer,
+  Select,
+  SelectChoices,
+  TextArea,
+} from "src/components/inputs";
 import M from "src/components/M";
 import { WithField } from "src/state";
 import { ReactComponent as MouseBigEye } from "./svgs/mouse-big-eye.svg";
@@ -222,7 +228,7 @@ export default function Part1() {
   );
 }
 
-const moodSelectChoices = [
+const moodSelectChoices: SelectChoices<QuantumMouse["moodEigenvalues"]> = [
   {
     value: "kets",
     label: (
@@ -249,7 +255,7 @@ const moodSelectChoices = [
   },
 ];
 
-const sizeSelectChoices = [
+const sizeSelectChoices: SelectChoices<QuantumMouse["sizeEigenvalues"]> = [
   {
     value: "kets",
     label: (

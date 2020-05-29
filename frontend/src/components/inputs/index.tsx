@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import ReactSelect from "react-select";
 import { Field } from "src/state";
+
+// Choice.
+export { default as Choice } from "./Choice";
+// Select.
+export { default as Select } from "./Select";
+export type { SelectChoices } from "./Select";
 
 // Text.
 
@@ -46,7 +51,7 @@ export function Integer({
   return (
     <input
       {...props}
-      // Number inputs have wonky behavior; see `Decimal`.
+      // Number inputs have wonky behavior; see `Decimal` for details.
       type="text"
       // This should nonetheless trigger the numeric keyboard on mobile.
       inputMode="numeric"
@@ -118,70 +123,4 @@ export function Decimal({
       }}
     />
   );
-}
-
-// Select.
-
-type PropsType<T extends React.Component> = T extends React.Component<infer P>
-  ? P
-  : never;
-
-export function Select({
-  field,
-  choices,
-  allowOther = true,
-  ...props
-}: {
-  field: Field<string>;
-  choices: Array<{
-    value: string;
-    label: React.ReactNode;
-  }>;
-  allowOther?: boolean;
-} & PropsType<ReactSelect<{ value: string; label: React.ReactNode }>>) {
-  // TODO: Support subtypes of `string` (i.e., literal unions).
-
-  // TODO: Support numerical values.
-
-  // TODO: Support multi-select by checking if the schema is an ArraySchema (or
-  // TupleSchema) and setting `props.isMulti = true`, and amending `onChange` to
-  // handle this case as well (`selected` should be an array).
-
-  // TODO: Have a specific record schema for selects that includes an `other`
-  // property.
-
-  // Set essential props, overriding whatever anyone passed in.
-  props.options = choices;
-
-  props.value = choices.find((choice) => choice.value === field.value);
-  props.onChange = (selected, meta) => {
-    if (selected === null || selected === undefined) {
-      field.clear();
-    } else {
-      field.set((selected as any).value);
-    }
-  };
-
-  if (allowOther) {
-    // TODO: Probably should just use CreatableSelect for this?
-    props.inputValue =
-      props.value === undefined ? field.value?.toString() : undefined;
-
-    props.onInputChange = (input, meta) => {
-      if (meta.action === "input-change") {
-        field.set(input);
-      }
-    };
-
-    props.noOptionsMessage = () => `Other: “${field.value}”`;
-
-    // Immediately hide all options when typing.
-    props.filterOption = (_, rawInput) => rawInput !== "";
-  }
-
-  // Also set some defaults.
-  props.isClearable =
-    props.isClearable !== undefined ? props.isClearable : true;
-
-  return <ReactSelect {...props} />;
 }

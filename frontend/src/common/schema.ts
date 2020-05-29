@@ -55,6 +55,11 @@ export abstract class Schema<T extends Data = any> {
   readonly T!: T;
 
   /**
+   * The type of schema this is.
+   */
+  readonly kind: string = "schema";
+
+  /**
    * The default field value for this instance.
    */
   protected readonly _default: Default<T> = undefined;
@@ -163,7 +168,9 @@ function constant<T>(value: T) {
 /**
  * Schema instance representing a boolean value.
  */
-class BooleanSchema extends Schema<boolean> {
+class BooleanSchemaC extends Schema<boolean> {
+  readonly kind = "boolean";
+
   is(v: unknown): v is boolean {
     return typeof v === "boolean";
   }
@@ -174,12 +181,14 @@ class BooleanSchema extends Schema<boolean> {
 /**
  * Creates a schema representing a boolean value.
  */
-export const boolean = constant(new BooleanSchema());
+export const boolean = constant(new BooleanSchemaC());
 
 /**
  * Schema instance representing a boolean value.
  */
-class NumberSchema extends Schema<number> {
+class NumberSchemaC extends Schema<number> {
+  readonly kind = "number";
+
   is(v: unknown): v is number {
     return typeof v === "number";
   }
@@ -188,14 +197,27 @@ class NumberSchema extends Schema<number> {
 }
 
 /**
+ * A schema representing a string value.
+ */
+export interface NumberSchema extends NumberSchemaC {}
+
+/**
  * Creates a schema representing a number value.
  */
-export const number = constant(new NumberSchema());
+export const number = constant(new NumberSchemaC());
+
+/**
+ * Determines if the Schema is a string schema.
+ */
+export const isNumberSchema = (s: Schema): s is NumberSchema =>
+  s.kind === "number";
 
 /**
  * Schema instance representing a string value.
  */
-class StringSchema extends Schema<string> {
+class StringSchemaC extends Schema<string> {
+  readonly kind = "string";
+
   protected readonly _default = "";
 
   is(v: unknown): v is string {
@@ -206,32 +228,43 @@ class StringSchema extends Schema<string> {
 }
 
 /**
+ * A schema representing a string value.
+ */
+export interface StringSchema extends StringSchemaC {}
+
+/**
  * Creates a schema representing a string value.
  */
-export const string = constant(new StringSchema());
+export const string = constant(new StringSchemaC());
+
+/**
+ * Determines if the Schema is a string schema.
+ */
+export const isStringSchema = (s: Schema): s is StringSchema =>
+  s.kind === "string";
 
 /**
  * Data types that can be sub-typed as literal values.
  */
-type Literal = string | number | boolean;
+export type Literal = string | number;
 
 /**
  * Schema instance representing a literal value, which is a value that is
  * constrained to one of a few options.  The proper way to instantiate this is
  * to pass it a tuple, which can be asserted safely with `[...] as const`.
  */
-class LiteralSchema<O extends Readonly<Literal[]>> extends Schema<O[number]> {
-  constructor(public readonly options: O) {
+class LiteralSchema<C extends readonly Literal[]> extends Schema<C[number]> {
+  constructor(public readonly choices: C) {
     super();
   }
 
-  is(v: unknown): v is O[number] {
-    return this.options.includes(v as any);
+  is(v: unknown): v is C[number] {
+    return this.choices.includes(v as any);
   }
 
   protected readonly _decode = decodeFromIs(
     this.is.bind(this),
-    `literal(${this.options.join(" | ")})`
+    `literal(${this.choices.join(" | ")})`
   );
 }
 
@@ -240,8 +273,115 @@ class LiteralSchema<O extends Readonly<Literal[]>> extends Schema<O[number]> {
  * constrained to one of a few options.  The proper way to create this is
  * to pass it a tuple, which can be asserted safely with `[...] as const`.
  */
-export const literal = <O extends Readonly<Literal[]>>(options: O) =>
-  new LiteralSchema(options);
+export const literal = <C extends readonly Literal[]>(choices: C) =>
+  new LiteralSchema(choices);
+
+/**
+ * Schema instance representing the value of a single/multi select field (or
+ * radio button/checkbox field) that may take some literal values (i.e., a
+ * `literal` schema), but also permits an `other` option that can be either any
+ * string or any number.
+ */
+class ChoiceSchemaC<
+  C extends readonly Literal[],
+  M extends boolean,
+  O extends string | number
+> extends Schema<{
+  selected?: M extends true ? C[number][] : C[number];
+  other?: O;
+}> {
+  protected selected: M extends true
+    ? ArraySchema<LiteralSchema<C>>
+    : LiteralSchema<C>;
+
+  constructor(
+    public readonly choices: C,
+    public readonly isMulti: M,
+    public readonly other: Schema<O>
+  ) {
+    super();
+    this.selected =
+      isMulti === true ? array(literal(choices)) : (literal(choices) as any);
+  }
+
+  protected _decode(v: unknown, context: Context): Decoded<this["T"]> {
+    if (typeof v !== "object" || v === null) {
+      return Failure(
+        Error(
+          v,
+          context,
+          `not a choice(${this.choices.join(" | ")}); not an object`
+        )
+      );
+    }
+
+    const selected: unknown = (v as any).selected;
+    const other: unknown = (v as any).other;
+
+    const out: this["T"] = {};
+    const errors: Error<unknown>[] = [];
+
+    if (selected !== undefined && selected !== null) {
+      const decoded = this.selected.decode(
+        selected,
+        context.concat([{ index: "selected", schema: this }])
+      ) as Decoded<any>;
+      if (isOk(decoded)) {
+        out.selected = decoded.value;
+      } else {
+        errors.push(...decoded.errors);
+      }
+    }
+
+    if (other !== undefined && other !== null) {
+      const decoded = this.other.decode(
+        other,
+        context.concat([{ index: "other", schema: this }])
+      );
+      if (isOk(decoded)) {
+        out.other = decoded.value;
+      } else {
+        errors.push(...decoded.errors);
+      }
+    }
+
+    // They're allowed to both be empty.
+
+    return errors.length === 0 ? Ok(out) : Failure(errors);
+  }
+
+  public readonly is = isFromDecode(this._decode.bind(this));
+}
+
+/**
+ * A schema representing the value of a single/multi select field (or radio
+ * button/checkbox field) that may take some literal values (i.e., a `literal`
+ * schema), but also permits an `other` option that can be either any string or
+ * any number.
+ */
+export interface ChoiceSchema<
+  C extends readonly Literal[] = string[],
+  M extends boolean = false,
+  O extends string | number = string
+> extends ChoiceSchemaC<C, M, O> {}
+
+/**
+ * Creates a schema representing the value of a single/multi select field (or
+ * radio button/checkbox field) that may take some literal values (i.e., a
+ * `literal` schema), but also permits an `other` option that can be either any
+ * string or any number.
+ */
+export const choice = <
+  C extends readonly Literal[],
+  M extends boolean = false,
+  O extends string | number = string
+>(
+  choices: C,
+  // Someone could set O = number or M = true explicitly for no good reason, so
+  // the `any` casts are necessary for TypeScript to not complain.
+  isMulti: M = false as any,
+  other: Schema<O> = string() as any
+) => new ChoiceSchemaC(choices, isMulti, other);
 
 /**
  * Schema instance representing an array of arbitrary length with elements

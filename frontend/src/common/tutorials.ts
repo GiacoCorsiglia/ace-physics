@@ -1,9 +1,15 @@
 import * as s from "./schema";
 
+// Quantum Mouse.
+
+export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
+
+const SizeOrMoodChoice = s.choice(["kets", "value", "operator"] as const);
+
 export const QuantumMouse = s.record({
   // Part 1.
-  sizeEigenvalues: s.string(), // TODO Restrict to inputs?
-  sizeEigenvectors: s.string(),
+  sizeEigenvalues: SizeOrMoodChoice,
+  sizeEigenvectors: SizeOrMoodChoice,
 
   hiddenUnits: s.boolean(),
   seenHiddenUnis: s.boolean(),
@@ -12,9 +18,9 @@ export const QuantumMouse = s.record({
   smallBigInnerProductExplain: s.string(),
 
   possibleMoodMeasurements: s.string(),
-  moodEigenvalues: s.string(), // TODO Restrict to inputs?
-  moodEigenvectors: s.string(),
-  moodOperators: s.string(),
+  moodEigenvalues: SizeOrMoodChoice,
+  moodEigenvectors: SizeOrMoodChoice,
+  moodOperators: SizeOrMoodChoice,
 
   happySadInnerProduct: s.number(),
   happySadInnerProductExplain: s.string(),

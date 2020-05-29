@@ -46,3 +46,9 @@ export interface Children<T = React.ReactNode> {
 export interface OptionalChildren<T = React.ReactNode> {
   children?: T;
 }
+
+export type Props<T extends React.Component> = T extends React.Component<
+  infer P
+>
+  ? P
+  : never;
