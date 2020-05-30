@@ -1,7 +1,14 @@
 import React from "react";
 import * as s from "src/common/schema";
 import { Provider, useField } from "src/state";
-import { Choice, Select, SelectChoices, Text, TextArea } from "./inputs";
+import {
+  Choice,
+  Select,
+  SelectChoices,
+  Text,
+  TextArea,
+  Toggle,
+} from "./inputs";
 
 export function ComponentsTest() {
   return (
@@ -14,6 +21,8 @@ export function ComponentsTest() {
         <Selects />
 
         <Choices />
+
+        <Toggles />
       </Provider>
     </main>
   );
@@ -24,9 +33,11 @@ const TestSchema = s.record({
   text1: s.string(),
   text2: s.string(),
 
-  select: s.choice(["opt1", "opt2"] as const),
-  selectNoOther: s.choice(["opt1", "opt2"] as const),
-  selectMulti: s.choice(["opt1", "opt2"] as const, true),
+  select: s.choice(["opt1", "opt2", "opt3"] as const),
+  selectNoOther: s.choice(["opt1", "opt2", "opt3"] as const),
+  selectMulti: s.choice(["opt1", "opt2", "opt3"] as const, true),
+
+  bool: s.boolean(),
 });
 
 function TextInputs() {
@@ -47,6 +58,7 @@ function TextInputs() {
 const selectChoices: SelectChoices<TestSchema["select"]> = [
   { value: "opt1", label: "Option 1" },
   { value: "opt2", label: "Option 2" },
+  { value: "opt3", label: "Option 3" },
 ];
 
 function Selects() {
@@ -85,6 +97,23 @@ function Choices() {
         allowOther={false}
       />
       <Choice field={selectMulti} choices={selectChoices} />
+    </section>
+  );
+}
+
+function Toggles() {
+  const selectNoOther = useField(TestSchema, "selectNoOther");
+  const bool = useField(TestSchema, "bool");
+
+  return (
+    <section>
+      <h2>Toggles</h2>
+
+      <Toggle field={selectNoOther} choices={selectChoices} />
+
+      <Toggle field={bool} />
+
+      <Toggle field={bool} yes="Definitely" no="No way" />
     </section>
   );
 }
