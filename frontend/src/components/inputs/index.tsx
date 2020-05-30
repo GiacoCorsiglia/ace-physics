@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 
-// Choice.
 export { default as Choice } from "./Choice";
-// Select.
 export { default as Select } from "./Select";
 export type { SelectChoices } from "./Select";
+export { default as Toggle } from "./Toggle";
 
 // Text.
 
