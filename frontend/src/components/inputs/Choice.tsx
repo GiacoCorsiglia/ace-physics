@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
-
-let choiceId = 1;
+import { classes, useUniqueId } from "src/util";
+import styles from "./Choice.module.scss";
 
 export default function Choice<
   C extends readonly s.Literal[],
@@ -11,17 +11,16 @@ export default function Choice<
   field,
   choices,
   allowOther = true,
+  label,
 }: {
   field: Field<s.ChoiceSchema<C, M, string>>;
   choices: ReadonlyArray<{ value: C[number]; label: React.ReactNode }>;
   allowOther?: boolean;
+  label?: React.ReactNode;
 }) {
   const isMulti = field.schema.isMulti;
 
-  // We need a unique ID that's self-contained to the lifetime of this component
-  // but otherwise doesn't matter, so this solution is fine.
-  const idRef = useRef<number>();
-  const id = idRef.current || (idRef.current = ++choiceId);
+  const id = useUniqueId();
 
   const [otherInput, setOtherInput] = useState(field.value?.other || "");
   const otherInputRef = useRef<HTMLInputElement>(null);
@@ -93,69 +92,101 @@ export default function Choice<
   }
 
   return (
-    <div>
-      {choices.map((choice) => (
-        <label key={choice.value} htmlFor={`choice-${id}-${choice.value}`}>
-          <input
-            type={isMulti ? "checkbox" : "radio"}
-            value={choice.value}
-            id={`choice-${id}-${choice.value}`}
-            checked={isSelected(choice)}
-            onChange={(e) => select(choice, e.target.checked)}
-          />
-          {choice.label}
-        </label>
-      ))}
+    <div
+      role="group"
+      aria-labelledby={label ? `choice-${id}_legend` : undefined}
+    >
+      {label && <div id={`choice-${id}_legend`}>{label}</div>}
 
-      {allowOther && (
-        <label htmlFor={`choice-${id}-other`}>
-          <input
-            type={isMulti ? "checkbox" : "radio"}
-            value="other"
-            id={`choice-${id}-other`}
-            checked={isOtherSelected}
-            onChange={(e) => {
-              if (e.target.checked) {
-                // The ref won't be null!
-                const input = otherInputRef.current as HTMLInputElement;
-                selectAndUpdateOther(input.value);
-                input.focus();
-              } else {
-                field.set({
-                  selected: field.value?.selected,
-                  other: undefined,
-                });
-              }
-            }}
-          />
-          Other:
-        </label>
-      )}
-      {allowOther && (
-        <input
-          type="text"
-          ref={otherInputRef}
-          value={field.value?.other || otherInput}
-          onChange={(e) => {
-            const value = e.target.value;
-            setOtherInput(value);
-            selectAndUpdateOther(value || undefined);
-          }}
-          onFocus={(e) => {
-            // Focusing will reselect other (if the field is not empty), but it
-            // will never deselect.
-            if (e.target.value) {
-              selectAndUpdateOther(e.target.value);
-            }
-          }}
-          onBlur={(e) => {
-            // Blurring will clear the other selection if the input is empty.
-            if (!e.target.value.trim()) {
-              selectAndUpdateOther(undefined);
-            }
-          }}
-        />
-      )}
+      <div className={styles.root}>
+        {choices.map((choice) => (
+          <label
+            className={classes(styles.choice, [
+              styles.selected,
+              isSelected(choice),
+            ])}
+            key={choice.value}
+            htmlFor={`choice-${id}-${choice.value}`}
+          >
+            <div className={styles.radioBox}>
+              <input
+                className={styles.radio}
+                type={isMulti ? "checkbox" : "radio"}
+                value={choice.value}
+                name={`choice-${id}`}
+                id={`choice-${id}-${choice.value}`}
+                checked={isSelected(choice)}
+                onChange={(e) => select(choice, e.target.checked)}
+              />
+            </div>
+
+            <div className={styles.label}>{choice.label}</div>
+          </label>
+        ))}
+
+        {allowOther && (
+          <div
+            className={classes(styles.choice, [
+              styles.selected,
+              isOtherSelected,
+            ])}
+          >
+            <label className={styles.otherLabel} htmlFor={`choice-${id}-other`}>
+              <div className={styles.radioBox}>
+                <input
+                  className={styles.radio}
+                  type={isMulti ? "checkbox" : "radio"}
+                  value="other"
+                  name={`choice-${id}`}
+                  id={`choice-${id}-other`}
+                  checked={isOtherSelected}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      // The ref won't be null!
+                      const input = otherInputRef.current as HTMLInputElement;
+                      selectAndUpdateOther(input.value);
+                      input.focus();
+                    } else {
+                      field.set({
+                        selected: field.value?.selected,
+                        other: undefined,
+                      });
+                    }
+                  }}
+                />
+              </div>
+
+              <div className={styles.otherLabelText}>Other:</div>
+            </label>
+
+            <input
+              type="text"
+              className={styles.otherInput}
+              placeholder="Click to input another answer"
+              ref={otherInputRef}
+              value={field.value?.other || otherInput}
+              onChange={(e) => {
+                const value = e.target.value;
+                setOtherInput(value);
+                selectAndUpdateOther(value || undefined);
+              }}
+              onFocus={(e) => {
+                // Focusing will reselect other (if the field is not empty), but it
+                // will never deselect.
+                if (e.target.value) {
+                  selectAndUpdateOther(e.target.value);
+                }
+              }}
+              onBlur={(e) => {
+                // Blurring will clear the other selection if the input is empty.
+                if (!e.target.value.trim()) {
+                  selectAndUpdateOther(undefined);
+                }
+              }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

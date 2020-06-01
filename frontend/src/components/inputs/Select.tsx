@@ -19,6 +19,7 @@ export default function Select<
   field,
   choices: originalChoices,
   allowOther = true,
+  label,
   ...props
 }: {
   field: Field<s.ChoiceSchema<C, M, string>>;
@@ -27,7 +28,10 @@ export default function Select<
     label: React.ReactNode;
   }>;
   allowOther?: boolean;
+  label?: React.ReactNode;
 } & Props<ReactSelect<{ value: C[number]; label: React.ReactNode }>>) {
+  const Container = label ? "label" : "div";
+
   // If the schema supports multiple selections then so should the select!
   props.isMulti = field.schema.isMulti;
 
@@ -144,7 +148,13 @@ export default function Select<
   // If we're not allowing the user to input an "other" option, things are easy!
   if (!allowOther) {
     // So nice and simple.
-    return <ReactSelect {...props} />;
+    return (
+      <Container>
+        {label && <div>{label}</div>}
+
+        <ReactSelect {...props} />
+      </Container>
+    );
   }
 
   // The remaining code is only for the `allowOther` case.
@@ -240,7 +250,13 @@ export default function Select<
     props.ACE_menuListMessage = "Type to input another option";
   }
 
-  return <Creatable {...props} />;
+  return (
+    <Container>
+      {label && <div>{label}</div>}
+
+      <Creatable {...props} />
+    </Container>
+  );
 }
 
 function SelectUnhiddenInput(props: any) {

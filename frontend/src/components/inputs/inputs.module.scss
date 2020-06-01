@@ -1,0 +1,44 @@
+@import "styles/definitions";
+
+@mixin input-core {
+  font-size: $text-normal;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+@mixin input-base {
+  display: block;
+  border: 1px solid $grey80;
+  border-radius: $border-radius;
+  padding: 0.5rem 0.75rem;
+  font-size: $text-normal;
+  font-family: inherit;
+  line-height: inherit;
+
+  transition: border-color 100ms, box-shadow 100ms;
+
+  &::placeholder {
+    color: $grey;
+  }
+
+  &:hover {
+    border-color: $grey70;
+  }
+
+  &:focus {
+    border-color: $blue;
+    box-shadow: 0 0 0 1px $blue;
+    outline: none;
+  }
+}
+
+.input {
+  @include input-base;
+  width: 100%;
+  text-overflow: ellipsis;
+}
+
+.textArea {
+  @include input-base;
+  width: 100%;
+}

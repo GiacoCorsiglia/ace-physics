@@ -1,19 +1,20 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
-import { classes } from "src/util";
-
-let toggleId = 1;
+import { classes, useUniqueId } from "src/util";
+import styles from "./Toggle.module.scss";
 
 export default function Toggle<
   S extends s.BooleanSchema | s.ChoiceSchema<any, false, any>
 >({
   field,
-  choices: originalChoices = undefined,
+  choices: originalChoices,
   yes = "Yes",
   no = "No",
+  label,
 }: {
   field: Field<S>;
+  label?: React.ReactNode;
 } & (S extends s.ChoiceSchema<infer C, false, any>
   ? {
       choices: readonly {
@@ -28,10 +29,8 @@ export default function Toggle<
       yes?: React.ReactNode;
       no?: React.ReactNode;
     })) {
-  // We need a unique ID that's self-contained to the lifetime of this component
-  // but otherwise doesn't matter, so this solution is fine.
-  const idRef = useRef<number>();
-  const id = idRef.current || (idRef.current = ++toggleId);
+  const id = useUniqueId();
+  const [focusedChoice, setFocusedChoice] = useState<{}>();
 
   type Value = S extends s.ChoiceSchema<infer C, false, any>
     ? C[number]
@@ -45,6 +44,7 @@ export default function Toggle<
       s.isChoiceSchema(field.schema)
         ? originalChoices
         : [
+            // I think True/False or Yes/No is better than the reversed order.
             { value: true, label: yes },
             { value: false, label: no },
           ],
@@ -81,23 +81,42 @@ export default function Toggle<
   }
 
   return (
-    <div>
-      {choices.map((choice) => (
-        <label
-          htmlFor={`toggle-${id}-${choice.value}`}
-          className={classes(["selected", isSelected(choice.value)])}
-          key={choice.value.toString()}
-        >
-          <input
-            type="radio"
-            value={choice.value.toString()}
-            id={`toggle-${id}-${choice.value}`}
-            checked={isSelected(choice.value)}
-            onChange={(e) => select(choice.value, e.target.checked)}
-          />
-          {choice.label}
-        </label>
-      ))}
+    <div
+      role="group"
+      aria-labelledby={label ? `toggle-${id}_legend` : undefined}
+    >
+      {label && <div id={`toggle-${id}_legend`}>{label}</div>}
+
+      <div className={styles.choices}>
+        {choices.map((choice) => (
+          <label
+            htmlFor={`toggle-${id}-${choice.value}`}
+            className={classes(
+              styles.choice,
+              [styles.selected, isSelected(choice.value)],
+              [styles.focused, choice === focusedChoice]
+            )}
+            key={choice.value.toString()}
+          >
+            <input
+              type="radio"
+              className={styles.radio}
+              value={choice.value.toString()}
+              name={`toggle-${id}`}
+              id={`toggle-${id}-${choice.value}`}
+              checked={isSelected(choice.value)}
+              onChange={(e) => select(choice.value, e.target.checked)}
+              onFocus={() => setFocusedChoice(choice)}
+              onBlur={() =>
+                setFocusedChoice((focused) =>
+                  focused === choice ? undefined : focused
+                )
+              }
+            />
+            {choice.label}
+          </label>
+        ))}
+      </div>
     </div>
   );
 }

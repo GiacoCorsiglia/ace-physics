@@ -1,0 +1,51 @@
+@import "styles/definitions";
+
+.choices {
+  display: flex;
+}
+
+.choice {
+  display: block;
+  border: 1px solid $grey80;
+  padding: 0.5rem 0.75rem;
+
+  margin-left: -1px;
+
+  transition: border-color 100ms, box-shadow 100ms;
+
+  &:first-child {
+    margin-left: 0;
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+
+  &:last-child {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  &:hover,
+  &.focused {
+    border-color: $grey70;
+    background-color: $light-blue;
+  }
+
+  &:active,
+  &.selected {
+    background-color: $blue;
+    color: #fff;
+    border-color: $blue;
+    position: relative;
+    z-index: 2;
+  }
+
+  &.selected.focused {
+    box-shadow: 0 0 0 2px rgba($blue, 0.5);
+  }
+}
+
+.radio {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}

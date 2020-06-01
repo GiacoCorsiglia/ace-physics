@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 export type Dictionary<T> = {
   [key: string]: T;
 };
@@ -52,3 +54,15 @@ export type Props<T extends React.Component> = T extends React.Component<
 >
   ? P
   : never;
+
+///
+
+let uniqueId = 1;
+/**
+ * Creates a unique ID that's self-contained to the lifetime of this component
+ * but otherwise doesn't matter.
+ */
+export function useUniqueId() {
+  const idRef = useRef<number>();
+  return idRef.current || (idRef.current = ++uniqueId);
+}
