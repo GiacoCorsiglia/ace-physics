@@ -1,5 +1,5 @@
 import React from "react";
-import { Children, OptionalChildren } from "src/util";
+import { Children, classes, OptionalChildren } from "src/util";
 import buttonStyles from "./Buttons.module.scss";
 import styles from "./structure.module.scss";
 
@@ -18,7 +18,9 @@ function containerFor(children: React.ReactNode) {
 
 export function Prose({ children }: OptionalChildren) {
   const Container = containerFor(children);
-  return <Container className={styles.prose}>{children}</Container>;
+  return (
+    <Container className={classes("prose", styles.prose)}>{children}</Container>
+  );
 }
 
 export function Vocabulary({ children }: Children) {
