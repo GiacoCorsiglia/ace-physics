@@ -2,13 +2,13 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import { Part, Prose, Question } from "src/components";
-import BooleanChoice from "src/components/BooleanChoice";
 import {
   Decimal,
   Integer,
   Select,
   SelectChoices,
   TextArea,
+  Toggle,
 } from "src/components/inputs";
 import M from "src/components/M";
 import { WithField } from "src/state";
@@ -103,11 +103,25 @@ export default function Part1() {
         </div>
       </div>
 
-      <Prose>Do any numbers have “hidden” units?</Prose>
-      <BooleanChoice center />
+      <WithField schema={QuantumMouse} name="hiddenUnits">
+        {(field) => (
+          <Toggle
+            field={field}
+            label={<Prose>Do any numbers have “hidden” units?</Prose>}
+          />
+        )}
+      </WithField>
 
       <Prose>Is that ok? Have we ever seen that before?</Prose>
-      <BooleanChoice center />
+
+      <WithField schema={QuantumMouse} name="seenHiddenUnis">
+        {(field) => (
+          <Toggle
+            field={field}
+            label={<Prose>Is that ok? Have we ever seen that before?</Prose>}
+          />
+        )}
+      </WithField>
 
       <Question label="b">
         What can you say about the numerical value of <M t="\braket{*}{O}" />?
