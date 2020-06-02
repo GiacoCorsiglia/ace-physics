@@ -114,7 +114,7 @@ export default function Part1() {
 
       <Prose>Is that ok? Have we ever seen that before?</Prose>
 
-      <WithField schema={QuantumMouse} name="seenHiddenUnis">
+      <WithField schema={QuantumMouse} name="seenHiddenUnits">
         {(field) => (
           <Toggle
             field={field}

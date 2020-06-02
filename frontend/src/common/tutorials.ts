@@ -12,7 +12,7 @@ export const QuantumMouse = s.record({
   sizeEigenvectors: SizeOrMoodChoice,
 
   hiddenUnits: s.boolean(),
-  seenHiddenUnis: s.boolean(),
+  seenHiddenUnits: s.boolean(),
 
   smallBigInnerProduct: s.number(),
   smallBigInnerProductExplain: s.string(),
