@@ -19,7 +19,6 @@
   background-color: $green1;
   color: #fff;
   border-color: $green1;
-  // border-color: darken($green1, 5%);
 
   &:hover {
     background-color: #218838;
@@ -37,5 +36,4 @@
     background-color: darken($blue, 7.5%);
     border-color: darken($blue, 10%);
   }
-  // border-color: darken($green2, 5%);
 }
