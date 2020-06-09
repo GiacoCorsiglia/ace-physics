@@ -1,6 +1,12 @@
 {
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "diffEditor.ignoreTrimWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
   "eslint.validate": [
     "javascript",
     "javascriptreact",
