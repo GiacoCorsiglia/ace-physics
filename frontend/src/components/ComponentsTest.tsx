@@ -2,6 +2,7 @@ import React from "react";
 import * as s from "src/common/schema";
 import { Provider, useField } from "src/state";
 import { Prose, Question } from ".";
+import { Button } from "./buttons";
 import {
   Choice,
   Decimal,
@@ -21,6 +22,8 @@ export function ComponentsTest() {
         <h1>Test Page</h1>
 
         <Typography />
+
+        <Buttons />
 
         <TextInputs />
 
@@ -67,6 +70,15 @@ function Typography() {
       />
       <p>{lipsum}</p>
     </Prose>
+  );
+}
+
+function Buttons() {
+  return (
+    <section>
+      <Button>Primary Button</Button>
+      <Button kind="secondary">Secondary Button</Button>
+    </section>
   );
 }
 
