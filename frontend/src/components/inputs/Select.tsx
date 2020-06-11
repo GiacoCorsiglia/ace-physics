@@ -3,7 +3,8 @@ import ReactSelect, { components } from "react-select";
 import Creatable from "react-select/creatable";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
-import { Props } from "src/util";
+import { Props, useUniqueId } from "src/util";
+import styles from "./inputs.module.scss";
 
 export type SelectChoices<
   V extends undefined | { selected?: s.Literal }
@@ -30,7 +31,8 @@ export default function Select<
   allowOther?: boolean;
   label?: React.ReactNode;
 } & Props<ReactSelect<{ value: C[number]; label: React.ReactNode }>>) {
-  const Container = label ? "label" : "div";
+  const id = `select-${useUniqueId()}`;
+  props.ACE_labelId = id;
 
   // If the schema supports multiple selections then so should the select!
   props.isMulti = field.schema.isMulti;
@@ -145,19 +147,34 @@ export default function Select<
   props.isClearable =
     props.isClearable !== undefined ? props.isClearable : true;
 
+  // Sets the custom components we use to modify react-select.
+  props.components = {
+    Input: SelectInput,
+  };
+  props.ACE_unHideInput = false;
+
+  const labelEl = label && (
+    <label className={styles.label} htmlFor={id}>
+      {label}
+    </label>
+  );
+
   // If we're not allowing the user to input an "other" option, things are easy!
   if (!allowOther) {
     // So nice and simple.
     return (
-      <Container>
-        {label && <div>{label}</div>}
+      <>
+        {labelEl}
 
         <ReactSelect {...props} />
-      </Container>
+      </>
     );
   }
 
   // The remaining code is only for the `allowOther` case.
+
+  // Stop hiding the input when it has a value.
+  props.ACE_unHideInput = true;
 
   // The value of the select's text input. This is normally used for searching
   // through the options, but when we `allowOther` it instead becomes the input
@@ -237,11 +254,8 @@ export default function Select<
     return false;
   };
 
-  // Sets the custom components we use to modify react-select.
-  props.components = {
-    Input: SelectUnhiddenInput,
-    MenuList: SelectMenuList,
-  };
+  // Also modify the menu list in this case.
+  props.components.MenuList = SelectMenuList;
 
   // We pass this value down for use in the SelectMenuList component.
   if (inputValue) {
@@ -251,19 +265,26 @@ export default function Select<
   }
 
   return (
-    <Container>
-      {label && <div>{label}</div>}
+    <>
+      {labelEl}
 
       <Creatable {...props} />
-    </Container>
+    </>
   );
 }
 
-function SelectUnhiddenInput(props: any) {
+function SelectInput(props: any) {
   // Force the Input in react-select to show itself if it has a value.  This
   // feels like a total hack, but I appreciate that react-select supports this.
+  const isHidden = props.selectProps.ACE_unHideInput
+    ? props.isHidden && !props.value
+    : props.isHidden;
   return (
-    <components.Input {...props} isHidden={props.isHidden && !props.value} />
+    <components.Input
+      {...props}
+      id={props.selectProps.ACE_labelId}
+      isHidden={isHidden}
+    />
   );
 }
 

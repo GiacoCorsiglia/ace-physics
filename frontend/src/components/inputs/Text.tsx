@@ -12,21 +12,24 @@ export default function Text({
   field: Field<s.StringSchema>;
   label?: React.ReactNode;
 } & JSX.IntrinsicElements["input"]) {
-  const id = useUniqueId();
-  const Container = label ? "label" : "div";
+  const id = `text-${useUniqueId()}`;
 
   return (
-    <Container htmlFor={label ? `text-${id}` : undefined}>
-      {label && <div>{label}</div>}
+    <>
+      {label && (
+        <label className={styles.label} htmlFor={id}>
+          {label}
+        </label>
+      )}
 
       <input
         {...props}
         className={styles.input + " " + props.className}
-        id={`text-${id}`}
+        id={id}
         type="text"
         value={field.value}
         onChange={(e) => field.set(e.target.value)}
       />
-    </Container>
+    </>
   );
 }

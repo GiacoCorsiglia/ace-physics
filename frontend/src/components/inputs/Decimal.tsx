@@ -14,20 +14,24 @@ export default function Decimal({
   field: Field<s.NumberSchema>;
   label?: React.ReactNode;
 } & JSX.IntrinsicElements["input"]) {
-  const id = useUniqueId();
-  const Container = label ? "label" : "div";
+  const id = `decimal-${useUniqueId()}`;
 
   const [raw, setRaw] = useState(
     field.value !== undefined ? field.value.toString() : ""
   );
 
   return (
-    <Container htmlFor={label ? `textarea-${id}` : undefined}>
-      {label && <div>{label}</div>}
+    <>
+      {label && (
+        <label className={styles.label} htmlFor={id}>
+          {label}
+        </label>
+      )}
 
       <input
         {...props}
         className={styles.input + " " + props.className}
+        id={id}
         // NOTE: <input type="number" /> is kinda fucked.
         // SEE: https://github.com/facebook/react/issues/1549
         type="text"
@@ -62,6 +66,6 @@ export default function Decimal({
           // Otherwise ignore/block additional input, but don't delete anything.
         }}
       />
-    </Container>
+    </>
   );
 }

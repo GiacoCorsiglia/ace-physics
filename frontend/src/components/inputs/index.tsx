@@ -1,5 +1,6 @@
 export { default as Choice } from "./Choice";
 export { default as Decimal } from "./Decimal";
+export { default as FieldGroup } from "./FieldGroup";
 export { default as Integer } from "./Integer";
 export { default as Select } from "./Select";
 export type { SelectChoices } from "./Select";

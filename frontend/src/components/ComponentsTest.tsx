@@ -6,6 +6,7 @@ import { Button } from "./buttons";
 import {
   Choice,
   Decimal,
+  FieldGroup,
   Integer,
   Select,
   SelectChoices,
@@ -34,6 +35,8 @@ export function ComponentsTest() {
         <Choices />
 
         <Toggles />
+
+        <GroupedFields />
       </Provider>
     </main>
   );
@@ -223,6 +226,52 @@ function Toggles() {
         yes="Definitely"
         no="No way"
       />
+    </section>
+  );
+}
+
+function GroupedFields() {
+  const select = useField(TestSchema, "select");
+  const bool = useField(TestSchema, "bool");
+  const text1 = useField(TestSchema, "text1");
+  const text2 = useField(TestSchema, "text2");
+  const number1 = useField(TestSchema, "number1");
+  const number2 = useField(TestSchema, "number2");
+
+  return (
+    <section>
+      <h2>Grouped Fields</h2>
+
+      <FieldGroup grid>
+        <Select
+          field={select}
+          choices={selectChoices}
+          label={<div>A question:</div>}
+        />
+
+        <Toggle
+          label="Another question:"
+          field={bool}
+          yes="Definitely"
+          no="No way"
+        />
+
+        <Text field={text1} label="Input question:" />
+
+        <TextArea field={text2} label="Textarea question:" />
+
+        <Decimal
+          field={number1}
+          placeholder="Decimal"
+          label="Decimal input question:"
+        />
+
+        <Integer
+          field={number2}
+          placeholder="Integer"
+          label="Integer input question:"
+        />
+      </FieldGroup>
     </section>
   );
 }

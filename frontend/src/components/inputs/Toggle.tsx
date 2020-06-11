@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, useUniqueId } from "src/util";
+import inputStyles from "./inputs.module.scss";
 import styles from "./Toggle.module.scss";
 
 export default function Toggle<
@@ -29,7 +30,7 @@ export default function Toggle<
       yes?: React.ReactNode;
       no?: React.ReactNode;
     })) {
-  const id = useUniqueId();
+  const id = `toggle-${useUniqueId()}`;
   const [focusedChoice, setFocusedChoice] = useState<{}>();
 
   type Value = S extends s.ChoiceSchema<infer C, false, any>
@@ -81,16 +82,21 @@ export default function Toggle<
   }
 
   return (
-    <div
-      role="group"
-      aria-labelledby={label ? `toggle-${id}_legend` : undefined}
-    >
-      {label && <div id={`toggle-${id}_legend`}>{label}</div>}
+    <>
+      {label && (
+        <div className={inputStyles.label} id={`${id}_legend`}>
+          {label}
+        </div>
+      )}
 
-      <div className={styles.choices}>
+      <div
+        className={styles.choices}
+        role="group"
+        aria-labelledby={label ? `${id}_legend` : undefined}
+      >
         {choices.map((choice) => (
           <label
-            htmlFor={`toggle-${id}-${choice.value}`}
+            htmlFor={`${id}-${choice.value}`}
             className={classes(
               styles.choice,
               [styles.selected, isSelected(choice.value)],
@@ -102,8 +108,8 @@ export default function Toggle<
               type="radio"
               className={styles.radio}
               value={choice.value.toString()}
-              name={`toggle-${id}`}
-              id={`toggle-${id}-${choice.value}`}
+              name={id}
+              id={`${id}-${choice.value}`}
               checked={isSelected(choice.value)}
               onChange={(e) => select(choice.value, e.target.checked)}
               onFocus={() => setFocusedChoice(choice)}
@@ -117,6 +123,6 @@ export default function Toggle<
           </label>
         ))}
       </div>
-    </div>
+    </>
   );
 }

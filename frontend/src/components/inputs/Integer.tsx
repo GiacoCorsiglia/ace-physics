@@ -14,20 +14,24 @@ export default function Integer({
   field: Field<s.NumberSchema>;
   label?: React.ReactNode;
 } & JSX.IntrinsicElements["input"]) {
-  const id = useUniqueId();
-  const Container = label ? "label" : "div";
+  const id = `integer-${useUniqueId()}`;
 
   const [raw, setRaw] = useState(
     field.value !== undefined ? field.value.toString() : ""
   );
 
   return (
-    <Container htmlFor={label ? `textarea-${id}` : undefined}>
-      {label && <div>{label}</div>}
+    <>
+      {label && (
+        <label className={styles.label} htmlFor={id}>
+          {label}
+        </label>
+      )}
 
       <input
         {...props}
         className={styles.input + " " + props.className}
+        id={id}
         // Number inputs have wonky behavior; see `Decimal` for details.
         type="text"
         // This should nonetheless trigger the numeric keyboard on mobile.
@@ -49,6 +53,6 @@ export default function Integer({
           // Otherwise ignore/block additional input, but don't delete anything.
         }}
       />
-    </Container>
+    </>
   );
 }

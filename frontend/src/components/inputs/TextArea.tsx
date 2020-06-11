@@ -20,11 +20,10 @@ export default function TextArea({
     lineHeight: number;
     padding: number;
   }>();
+  const id = `textarea-${useUniqueId()}`;
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const rowsRef = useRef(minRows);
-
-  const id = useUniqueId();
-  const Container = label ? "label" : "div";
 
   useEffect(() => {
     const el = textareaRef.current;
@@ -67,18 +66,22 @@ export default function TextArea({
   }, [field.value, maxRows, minRows]);
 
   return (
-    <Container htmlFor={label ? `textarea-${id}` : undefined}>
-      {label && <div>{label}</div>}
+    <>
+      {label && (
+        <label className={styles.label} htmlFor={id}>
+          {label}
+        </label>
+      )}
 
       <textarea
         {...props}
         className={styles.textArea + " " + props.className}
-        id={`textarea-${id}`}
+        id={id}
         ref={textareaRef}
         rows={rowsRef.current}
         value={field.value}
         onChange={(e) => field.set(e.target.value)}
       />
-    </Container>
+    </>
   );
 }
