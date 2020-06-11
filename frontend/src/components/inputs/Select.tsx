@@ -159,6 +159,10 @@ export default function Select<
     </label>
   );
 
+  // The menu needs to be above other things that have a z-index!
+  props.styles = props.styles || {};
+  props.styles.menu = (styles) => ({ ...styles, zIndex: 1000 });
+
   // If we're not allowing the user to input an "other" option, things are easy!
   if (!allowOther) {
     // So nice and simple.
