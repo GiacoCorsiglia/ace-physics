@@ -30,7 +30,7 @@ export default function Decimal({
 
       <input
         {...props}
-        className={styles.input + " " + props.className}
+        className={styles.numberInput + " " + props.className}
         id={id}
         // NOTE: <input type="number" /> is kinda fucked.
         // SEE: https://github.com/facebook/react/issues/1549

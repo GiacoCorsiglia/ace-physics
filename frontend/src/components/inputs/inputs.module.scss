@@ -38,6 +38,13 @@
   text-overflow: ellipsis;
 }
 
+.numberInput {
+  @include input-base;
+  width: 100%;
+  max-width: 12rem;
+  text-overflow: ellipsis;
+}
+
 .textArea {
   @include input-base;
   width: 100%;
