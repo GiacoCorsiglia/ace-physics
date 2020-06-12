@@ -259,6 +259,12 @@ function GroupedFields() {
           no="No way"
         />
 
+        <Choice
+          field={select}
+          choices={selectChoices}
+          label="Grouped choices:"
+        />
+
         <Text field={text1} label="Input question:" />
 
         <TextArea field={text2} label="Textarea question:" />
@@ -266,6 +272,22 @@ function GroupedFields() {
         <Decimal field={number1} label="Decimal input question:" />
 
         <Integer field={number2} label="Integer input question:" />
+
+        <Select field={select} choices={selectChoices} />
+
+        <Toggle field={bool} yes="Definitely" no="No way" />
+
+        <Choice field={select} choices={selectChoices} />
+
+        <Text field={text1} />
+
+        <TextArea field={text2} />
+
+        <Decimal field={number1} />
+
+        <Integer field={number2} />
+
+        <Button>Click me!</Button>
       </FieldGroup>
     </section>
   );

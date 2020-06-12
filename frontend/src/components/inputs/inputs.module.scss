@@ -19,8 +19,8 @@
   transition: border-color 100ms, background-color 75ms;
 
   &:not(.disabled) {
-  cursor: pointer;
-}
+    cursor: pointer;
+  }
 
   &.disabled {
     // background-color: $grey80;
@@ -259,6 +259,8 @@
 .labelsLeft {
   display: grid;
 
+  align-items: start;
+
   grid-template-areas: "labels fields";
   grid-template-columns: auto 1fr;
 
@@ -268,5 +270,9 @@
   .label {
     text-align: right;
     padding: 0.5rem 0;
+  }
+
+  .noLabel {
+    grid-column: 2;
   }
 }

@@ -3,7 +3,7 @@ import ReactSelect, { components } from "react-select";
 import Creatable from "react-select/creatable";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
-import { Props, useUniqueId } from "src/util";
+import { classes, Props, useUniqueId } from "src/util";
 import styles from "./inputs.module.scss";
 
 export type SelectChoices<
@@ -162,6 +162,8 @@ export default function Select<
   // The menu needs to be above other things that have a z-index!
   props.styles = props.styles || {};
   props.styles.menu = (styles) => ({ ...styles, zIndex: 1000 });
+
+  props.className = classes([styles.noLabel, !label], props.className);
 
   // If we're not allowing the user to input an "other" option, things are easy!
   if (!allowOther) {

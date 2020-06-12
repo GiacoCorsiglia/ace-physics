@@ -101,7 +101,11 @@ export default function Choice<
         </div>
       )}
 
-      <div role="group" aria-labelledby={label ? `${id}_legend` : undefined}>
+      <div
+        className={classes([styles.noLabel, !label])}
+        role="group"
+        aria-labelledby={label ? `${id}_legend` : undefined}
+      >
         {choices.map((choice) => (
           <label
             className={classes(

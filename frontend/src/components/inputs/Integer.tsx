@@ -30,7 +30,11 @@ export default function Integer({
 
       <input
         {...props}
-        className={classes(styles.numberInput, props.className)}
+        className={classes(
+          styles.numberInput,
+          [styles.noLabel, !label],
+          props.className
+        )}
         id={id}
         // Number inputs have wonky behavior; see `Decimal` for details.
         type="text"

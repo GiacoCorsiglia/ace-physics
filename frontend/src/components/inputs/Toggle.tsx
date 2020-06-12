@@ -89,7 +89,7 @@ export default function Toggle<
       )}
 
       <div
-        className={styles.toggleChoices}
+        className={classes(styles.toggleChoices, [styles.noLabel, !label])}
         role="group"
         aria-labelledby={label ? `${id}_legend` : undefined}
       >

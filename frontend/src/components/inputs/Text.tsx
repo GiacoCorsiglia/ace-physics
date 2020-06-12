@@ -24,7 +24,11 @@ export default function Text({
 
       <input
         {...props}
-        className={classes(styles.textInput, props.className)}
+        className={classes(
+          styles.textInput,
+          [styles.noLabel, !label],
+          props.className
+        )}
         id={id}
         type="text"
         value={field.value}

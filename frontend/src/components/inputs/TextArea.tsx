@@ -75,7 +75,11 @@ export default function TextArea({
 
       <textarea
         {...props}
-        className={classes(styles.textArea, props.className)}
+        className={classes(
+          styles.textArea,
+          [styles.noLabel, !label],
+          props.className
+        )}
         id={id}
         ref={textareaRef}
         rows={rowsRef.current}
