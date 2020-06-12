@@ -4,12 +4,12 @@ import Select from "react-select";
 import {
   Column,
   Columns,
-  MoveOnButton,
   Part,
   Prose,
   Question,
   Vocabulary,
 } from "src/components/index";
+import { Button } from "src/components/inputs";
 import M from "src/components/M";
 import SVG from "src/components/SVG";
 import * as urls from "src/urls";
@@ -129,7 +129,9 @@ export default function Part1() {
       )}
 
       {step <= 1 && (
-        <MoveOnButton disabled={!canMoveOn} onClick={() => setStep(step + 1)} />
+        <Button disabled={!canMoveOn} onClick={() => setStep(step + 1)}>
+          Move on
+        </Button>
       )}
 
       {step === 2 && canMoveOn && (
