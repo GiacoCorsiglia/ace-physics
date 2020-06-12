@@ -2,6 +2,7 @@
 
 .buttonBase {
   display: block;
+  width: 100%;
   margin-top: 1rem;
   border-radius: $border-radius;
   padding: 0.5rem 0.75rem;
@@ -10,7 +11,9 @@
   line-height: inherit;
   background: none;
   color: inherit;
-  border: 1px solid $grey80;
+  border-width: 1px;
+  border-style: solid;
+  transition: border-color 100ms, background-color 75ms;
   cursor: pointer;
 }
 
