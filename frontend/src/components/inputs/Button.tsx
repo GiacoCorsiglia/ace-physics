@@ -4,9 +4,6 @@ import styles from "./inputs.module.scss";
 
 export default function Button({
   kind = "primary",
-  className,
-  type,
-  disabled,
   ...props
 }: JSX.IntrinsicElements["button"] & {
   kind?: "primary" | "secondary";
@@ -14,8 +11,13 @@ export default function Button({
   return (
     <button
       {...props}
-      type={type || "button"}
-      className={classes(className, styles[kind], [styles.disabled, disabled])}
+      type={props.type || "button"}
+      className={classes(
+        styles[kind],
+        [styles.disabled, props.disabled],
+        styles.noLabel,
+        props.className
+      )}
     >
       {props.children}
     </button>
