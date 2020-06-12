@@ -10,8 +10,8 @@ $delimiter-width: 0.56rem; // About 9px
   position: relative;
   padding-left: $delimiter-width + 0.25rem;
   padding-right: $delimiter-width + 0.25rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   min-width: 12rem;
 
   &:not(:only-child) {
@@ -20,8 +20,9 @@ $delimiter-width: 0.56rem; // About 9px
 }
 
 .component {
-  margin-top: 0.5rem;
-  &:first-child {
+  margin-top: 1rem;
+
+  &.first {
     margin-top: 0;
   }
 }

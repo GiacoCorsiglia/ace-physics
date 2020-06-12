@@ -3,6 +3,7 @@ import * as s from "src/common/schema";
 import { Provider, useField } from "src/state";
 import { Prose, Question } from ".";
 import { Button } from "./buttons";
+import ColumnVector from "./ColumnVector";
 import {
   Choice,
   Decimal,
@@ -37,6 +38,8 @@ export function ComponentsTest() {
         <Toggles />
 
         <GroupedFields />
+
+        <ColumnVectorTest />
       </Provider>
     </main>
   );
@@ -260,18 +263,31 @@ function GroupedFields() {
 
         <TextArea field={text2} label="Textarea question:" />
 
-        <Decimal
-          field={number1}
-          placeholder="Decimal"
-          label="Decimal input question:"
-        />
+        <Decimal field={number1} label="Decimal input question:" />
 
-        <Integer
-          field={number2}
-          placeholder="Integer"
-          label="Integer input question:"
-        />
+        <Integer field={number2} label="Integer input question:" />
       </FieldGroup>
+    </section>
+  );
+}
+
+function ColumnVectorTest() {
+  const select = useField(TestSchema, "select");
+  const number1 = useField(TestSchema, "number1");
+  const number2 = useField(TestSchema, "number2");
+
+  return (
+    <section>
+      <h2>Column Vector</h2>
+
+      <ColumnVector
+        labelTex="\ket{\psi}"
+        vector={[
+          <Select field={select} choices={selectChoices} />,
+          <Decimal field={number1} />,
+          <Integer field={number2} />,
+        ]}
+      />
     </section>
   );
 }

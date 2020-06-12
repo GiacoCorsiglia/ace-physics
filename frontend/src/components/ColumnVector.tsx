@@ -1,4 +1,5 @@
 import React from "react";
+import { classes } from "src/util";
 import styles from "./ColumnVector.module.scss";
 import M from "./M";
 
@@ -46,7 +47,10 @@ export default function ColumnVector({
         </div>
 
         {vector.map((el, i) => (
-          <div className={styles.component} key={i}>
+          <div
+            key={i}
+            className={classes(styles.component, [styles.first, i === 0])}
+          >
             {el}
           </div>
         ))}
