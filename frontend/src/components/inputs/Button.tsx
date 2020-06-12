@@ -1,8 +1,8 @@
 import React from "react";
 import { classes } from "src/util";
-import styles from "./buttons.module.scss";
+import styles from "./inputs.module.scss";
 
-export function Button({
+export default function Button({
   kind = "primary",
   className,
   type,

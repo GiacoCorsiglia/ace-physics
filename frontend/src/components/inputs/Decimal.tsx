@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
-import { useUniqueId } from "src/util";
+import { classes, useUniqueId } from "src/util";
 import styles from "./inputs.module.scss";
 
 const decimalPattern = /^[+-]?((\d+(\.\d*)?)|(\.\d+))$/;
@@ -30,7 +30,7 @@ export default function Decimal({
 
       <input
         {...props}
-        className={styles.numberInput + " " + props.className}
+        className={classes(styles.numberInput, props.className)}
         id={id}
         // NOTE: <input type="number" /> is kinda fucked.
         // SEE: https://github.com/facebook/react/issues/1549

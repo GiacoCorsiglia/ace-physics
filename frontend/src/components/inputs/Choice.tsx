@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, useUniqueId } from "src/util";
-import styles from "./Choice.module.scss";
+import styles from "./inputs.module.scss";
 
 export default function Choice<
   C extends readonly s.Literal[],
@@ -20,7 +20,9 @@ export default function Choice<
 }) {
   const isMulti = field.schema.isMulti;
 
-  const id = useUniqueId();
+  const id = `choice-${useUniqueId()}`;
+
+  const [focusedChoice, setFocusedChoice] = useState<{}>();
 
   const [otherInput, setOtherInput] = useState(field.value?.other || "");
   const otherInputRef = useRef<HTMLInputElement>(null);
@@ -92,53 +94,62 @@ export default function Choice<
   }
 
   return (
-    <div
-      role="group"
-      aria-labelledby={label ? `choice-${id}_legend` : undefined}
-    >
-      {label && <div id={`choice-${id}_legend`}>{label}</div>}
+    <>
+      {label && (
+        <div className={styles.label} id={`${id}_legend`}>
+          {label}
+        </div>
+      )}
 
-      <div className={styles.root}>
+      <div role="group" aria-labelledby={label ? `${id}_legend` : undefined}>
         {choices.map((choice) => (
           <label
-            className={classes(styles.choice, [
-              styles.selected,
-              isSelected(choice),
-            ])}
+            className={classes(
+              styles.choiceChoice,
+              [styles.selected, isSelected(choice)],
+              [styles.focused, focusedChoice === choice]
+            )}
             key={choice.value}
-            htmlFor={`choice-${id}-${choice.value}`}
+            htmlFor={`${id}-${choice.value}`}
           >
-            <div className={styles.radioBox}>
+            <div className={styles.choiceRadioBox}>
               <input
-                className={styles.radio}
+                className={styles.choiceRadio}
                 type={isMulti ? "checkbox" : "radio"}
                 value={choice.value}
-                name={`choice-${id}`}
-                id={`choice-${id}-${choice.value}`}
+                name={id}
+                id={`${id}-${choice.value}`}
                 checked={isSelected(choice)}
                 onChange={(e) => select(choice, e.target.checked)}
+                onFocus={() => setFocusedChoice(choice)}
+                onBlur={() =>
+                  setFocusedChoice((focused) =>
+                    focused === choice ? undefined : focused
+                  )
+                }
               />
             </div>
 
-            <div className={styles.label}>{choice.label}</div>
+            <div className={styles.choiceLabel}>{choice.label}</div>
           </label>
         ))}
 
         {allowOther && (
           <div
-            className={classes(styles.choice, [
-              styles.selected,
-              isOtherSelected,
-            ])}
+            className={classes(
+              styles.choiceChoice,
+              [styles.selected, isOtherSelected],
+              [styles.focused, focusedChoice === "other"]
+            )}
           >
-            <label className={styles.otherLabel} htmlFor={`choice-${id}-other`}>
-              <div className={styles.radioBox}>
+            <label className={styles.choiceOtherLabel} htmlFor={`${id}-other`}>
+              <div className={styles.choiceRadioBox}>
                 <input
-                  className={styles.radio}
+                  className={styles.choiceRadio}
                   type={isMulti ? "checkbox" : "radio"}
                   value="other"
-                  name={`choice-${id}`}
-                  id={`choice-${id}-other`}
+                  name={id}
+                  id={`${id}-other`}
                   checked={isOtherSelected}
                   onChange={(e) => {
                     if (e.target.checked) {
@@ -153,15 +164,21 @@ export default function Choice<
                       });
                     }
                   }}
+                  onFocus={() => setFocusedChoice("other")}
+                  onBlur={() =>
+                    setFocusedChoice((focused) =>
+                      focused === "other" ? undefined : focused
+                    )
+                  }
                 />
               </div>
 
-              <div className={styles.otherLabelText}>Other:</div>
+              <div className={styles.choiceOtherLabelText}>Other:</div>
             </label>
 
             <input
               type="text"
-              className={styles.otherInput}
+              className={styles.choiceOtherInput}
               placeholder="Click to input another answer"
               ref={otherInputRef}
               value={field.value?.other || otherInput}
@@ -176,17 +193,21 @@ export default function Choice<
                 if (e.target.value) {
                   selectAndUpdateOther(e.target.value);
                 }
+                setFocusedChoice("other");
               }}
               onBlur={(e) => {
                 // Blurring will clear the other selection if the input is empty.
                 if (!e.target.value.trim()) {
                   selectAndUpdateOther(undefined);
                 }
+                setFocusedChoice((focused) =>
+                  focused === "other" ? undefined : focused
+                );
               }}
             />
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }

@@ -2,8 +2,7 @@ import React, { useMemo, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, useUniqueId } from "src/util";
-import inputStyles from "./inputs.module.scss";
-import styles from "./Toggle.module.scss";
+import styles from "./inputs.module.scss";
 
 export default function Toggle<
   S extends s.BooleanSchema | s.ChoiceSchema<any, false, any>
@@ -84,13 +83,13 @@ export default function Toggle<
   return (
     <>
       {label && (
-        <div className={inputStyles.label} id={`${id}_legend`}>
+        <div className={styles.label} id={`${id}_legend`}>
           {label}
         </div>
       )}
 
       <div
-        className={styles.choices}
+        className={styles.toggleChoices}
         role="group"
         aria-labelledby={label ? `${id}_legend` : undefined}
       >
@@ -98,15 +97,15 @@ export default function Toggle<
           <label
             htmlFor={`${id}-${choice.value}`}
             className={classes(
-              styles.choice,
+              styles.toggleChoice,
               [styles.selected, isSelected(choice.value)],
-              [styles.focused, choice === focusedChoice]
+              [styles.focused, focusedChoice === choice]
             )}
             key={choice.value.toString()}
           >
             <input
               type="radio"
-              className={styles.radio}
+              className={styles.toggleRadio}
               value={choice.value.toString()}
               name={id}
               id={`${id}-${choice.value}`}

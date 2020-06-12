@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
-import { useUniqueId } from "src/util";
+import { classes, useUniqueId } from "src/util";
 import styles from "./inputs.module.scss";
 
 export default function TextArea({
@@ -75,7 +75,7 @@ export default function TextArea({
 
       <textarea
         {...props}
-        className={styles.textArea + " " + props.className}
+        className={classes(styles.textArea, props.className)}
         id={id}
         ref={textareaRef}
         rows={rowsRef.current}

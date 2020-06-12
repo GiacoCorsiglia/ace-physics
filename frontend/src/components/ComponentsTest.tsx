@@ -2,9 +2,9 @@ import React from "react";
 import * as s from "src/common/schema";
 import { Provider, useField } from "src/state";
 import { Prose, Question } from ".";
-import { Button } from "./buttons";
 import ColumnVector from "./ColumnVector";
 import {
+  Button,
   Choice,
   Decimal,
   FieldGroup,

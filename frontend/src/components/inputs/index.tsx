@@ -1,3 +1,4 @@
+export { default as Button } from "./Button";
 export { default as Choice } from "./Choice";
 export { default as Decimal } from "./Decimal";
 export { default as FieldGroup } from "./FieldGroup";
