@@ -1,6 +1,5 @@
 import React from "react";
 import { Children, classes, OptionalChildren } from "src/util";
-import buttonStyles from "./Buttons.module.scss";
 import styles from "./structure.module.scss";
 
 function containerFor(children: React.ReactNode) {
@@ -41,24 +40,6 @@ export function Columns({
 
 export function Column({ children }: OptionalChildren) {
   return <div className={styles.column}>{children}</div>;
-}
-
-// Buttons.
-
-export function MoveOnButton({
-  onClick,
-  disabled = false,
-}: {
-  onClick: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <div className={buttonStyles.moveOn}>
-      <button disabled={disabled} onClick={disabled ? undefined : onClick}>
-        Move On
-      </button>
-    </div>
-  );
 }
 
 ///
