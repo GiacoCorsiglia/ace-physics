@@ -2,7 +2,6 @@ import React from "react";
 import * as s from "src/common/schema";
 import { Provider, useField } from "src/state";
 import { Prose, Question } from ".";
-import ColumnVector from "./ColumnVector";
 import {
   Button,
   Choice,
@@ -16,6 +15,7 @@ import {
   Toggle,
 } from "./inputs";
 import M from "./M";
+import Matrix from "./Matrix";
 
 export function ComponentsTest() {
   return (
@@ -39,7 +39,7 @@ export function ComponentsTest() {
 
         <GroupedFields />
 
-        <ColumnVectorTest />
+        <MatrixTest />
       </Provider>
     </main>
   );
@@ -293,21 +293,57 @@ function GroupedFields() {
   );
 }
 
-function ColumnVectorTest() {
+function MatrixTest() {
   const select = useField(TestSchema, "select");
   const number1 = useField(TestSchema, "number1");
   const number2 = useField(TestSchema, "number2");
 
   return (
     <section>
-      <h2>Column Vector</h2>
+      <h2>Matrices</h2>
 
-      <ColumnVector
+      <h3>Column Vector</h3>
+
+      <Matrix
         labelTex="\ket{\psi}"
-        vector={[
+        column={[
           <Select field={select} choices={selectChoices} />,
           <Decimal field={number1} />,
           <Integer field={number2} />,
+        ]}
+      />
+
+      <h3>Row Vector</h3>
+
+      <Matrix
+        labelTex="\bra{\psi}"
+        row={[
+          <Select field={select} choices={selectChoices} />,
+          <Decimal field={number1} />,
+          <Integer field={number2} />,
+        ]}
+      />
+
+      <h3>Matrix</h3>
+
+      <Matrix
+        labelTex="\hat{S}"
+        matrix={[
+          [
+            <Select field={select} choices={selectChoices} />,
+            <Select field={select} choices={selectChoices} />,
+            <Select field={select} choices={selectChoices} />,
+          ],
+          [
+            <Decimal field={number1} />,
+            <Decimal field={number1} />,
+            <Decimal field={number1} />,
+          ],
+          [
+            <Integer field={number2} />,
+            <Integer field={number2} />,
+            <Integer field={number2} />,
+          ],
         ]}
       />
     </section>

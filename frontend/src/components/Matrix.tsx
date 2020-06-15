@@ -1,22 +1,36 @@
 import React from "react";
-import { classes } from "src/util";
-import styles from "./ColumnVector.module.scss";
 import M from "./M";
+import styles from "./Matrix.module.scss";
 
-export default function ColumnVector({
-  vector,
+type Props =
+  | { matrix: React.ReactNode[][]; column?: never; row?: never }
+  | { matrix?: never; column: React.ReactNode[]; row?: never }
+  | { matrix?: never; column?: never; row: React.ReactNode[] };
+
+export default function Matrix({
+  matrix,
+  column,
+  row,
   labelTex,
   subscriptTex,
 }: {
-  vector: React.ReactNode[];
   labelTex?: string;
   subscriptTex?: string;
-}) {
+} & Props) {
+  const cols = column ? 1 : row ? row.length : matrix ? matrix[0].length : 1;
+
+  const columnOrRow = column || row;
+
   return (
     <div className={styles.root}>
       {labelTex && <M t={`${labelTex} \\doteq`} />}
 
-      <div className={styles.vector}>
+      <div
+        className={styles.matrix}
+        style={{
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
+        }}
+      >
         <div className={styles.left}>
           <svg width="552" height="1810" viewBox="0 0 552 1810">
             <path
@@ -46,14 +60,12 @@ export default function ColumnVector({
           </svg>
         </div>
 
-        {vector.map((el, i) => (
-          <div
-            key={i}
-            className={classes(styles.component, [styles.first, i === 0])}
-          >
-            {el}
-          </div>
-        ))}
+        {matrix &&
+          matrix.map((row, i) =>
+            row.map((el, j) => <div key={`${i},${j}`}>{el}</div>)
+          )}
+
+        {columnOrRow && columnOrRow.map((el, i) => <div key={i}>{el}</div>)}
 
         <div className={styles.right}>
           <svg width="552" height="1810" viewBox="0 0 552 1810">

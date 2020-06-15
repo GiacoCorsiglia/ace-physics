@@ -1,8 +1,8 @@
 import React from "react";
 import Select from "react-select";
 import { Part, Prose, Question } from "src/components";
-import ColumnVector from "src/components/ColumnVector";
 import M from "src/components/M";
+import Matrix from "src/components/Matrix";
 
 export default function Part2() {
   return (
@@ -57,9 +57,9 @@ export default function Part2() {
       </Question>
 
       <div className="full-width">
-        <ColumnVector
+        <Matrix
           labelTex="\ket{u}"
-          vector={[<input type="number" />, <input type="number" />]}
+          column={[<input type="number" />, <input type="number" />]}
         />
       </div>
 
@@ -69,10 +69,7 @@ export default function Part2() {
       </Question>
 
       <div className="full-width">
-        <ColumnVector
-          labelTex="\ket{u}"
-          vector={[<Selector />, <Selector />]}
-        />
+        <Matrix labelTex="\ket{u}" column={[<Selector />, <Selector />]} />
       </div>
 
       <Question label="d">

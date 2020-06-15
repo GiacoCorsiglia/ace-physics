@@ -1,8 +1,8 @@
 import React from "react";
 import Select from "react-select";
 import { Hint, Part, Prose, Question } from "src/components";
-import ColumnVector from "src/components/ColumnVector";
 import M from "src/components/M";
+import Matrix from "src/components/Matrix";
 
 export default function Part3() {
   return (
@@ -52,8 +52,8 @@ export default function Part3() {
       </Question>
 
       <div className="full-width">
-        <ColumnVector
-          vector={[<input type="number" />, <input type="number" />]}
+        <Matrix
+          column={[<input type="number" />, <input type="number" />]}
           subscriptTex="v"
         />
       </div>
@@ -64,7 +64,7 @@ export default function Part3() {
       </Question>
 
       <div className="full-width">
-        <ColumnVector vector={[<Selector />, <Selector />]} subscriptTex="v" />
+        <Matrix column={[<Selector />, <Selector />]} subscriptTex="v" />
       </div>
 
       <Question label="d">
