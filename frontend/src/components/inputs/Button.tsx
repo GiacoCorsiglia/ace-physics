@@ -12,14 +12,7 @@ export default function Button({
     <button
       {...props}
       type={props.type || "button"}
-      className={classes(
-        styles[kind],
-        [styles.disabled, props.disabled],
-        styles.noLabel,
-        props.className
-      )}
-    >
-      {props.children}
-    </button>
+      className={classes(styles[kind], styles.noLabel, props.className)}
+    />
   );
 }

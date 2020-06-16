@@ -16,27 +16,42 @@
   color: inherit;
   border-width: 1px;
   border-style: solid;
-  transition: border-color 100ms, background-color 75ms;
+  transition: border-color 100ms, background-color 75ms, box-shadow 75ms;
 
-  &:not(.disabled) {
+  &:disabled {
+    opacity: 0.6;
+  }
+
+  &:not(:disabled) {
     cursor: pointer;
   }
 
-  &.disabled {
-    // background-color: $grey80;
-    opacity: 0.5;
+  &:active,
+  &:focus {
+    outline: none;
   }
 }
 
 .primary {
   composes: buttonBase;
-  background-color: $green1;
+  background-color: $green;
+  border-color: $green;
   color: #fff;
-  border-color: $green1;
 
-  &:not(.disabled):hover {
-    background-color: #218838;
-    border-color: #1e7e34;
+  &:not(:disabled) {
+    &:hover {
+      background-color: darken($green, 7.5%);
+      border-color: darken($green, 10%);
+    }
+
+    &:active,
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(darken($green, 3%), 0.5);
+    }
+
+    &:active {
+      background-color: darken($green, 10%);
+    }
   }
 }
 
@@ -46,9 +61,20 @@
   color: #fff;
   border-color: $blue;
 
-  &:not(.disabled):hover {
-    background-color: darken($blue, 7.5%);
-    border-color: darken($blue, 10%);
+  &:not(:disabled) {
+    &:hover {
+      background-color: darken($blue, 7.5%);
+      border-color: darken($blue, 10%);
+    }
+
+    &:active,
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(darken($blue, 3%), 0.5);
+    }
+
+    &:active {
+      background-color: darken($blue, 10%);
+    }
   }
 }
 
