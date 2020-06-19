@@ -15,6 +15,7 @@
   ],
   "eslint.workingDirectories": ["./frontend", "./backend"],
   "editor.codeActionsOnSave": {
+    "source.addMissingImports": true,
     "source.organizeImports": true
   }
 }
