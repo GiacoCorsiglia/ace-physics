@@ -14,12 +14,13 @@ import {
   TextArea,
   Toggle,
 } from "./inputs";
+import { Column, Content } from "./layout";
 import M from "./M";
 import Matrix from "./Matrix";
 
 export function ComponentsTest() {
   return (
-    <main className="full-width">
+    <main>
       <Provider schema={TestSchema}>
         <h1>Test Page</h1>
 
@@ -50,41 +51,54 @@ const lipsum =
 
 function Typography() {
   return (
-    <Prose>
-      <h1>Heading 1</h1>
-      <p>{lipsum}</p>
+    <Content as="section">
+      <Prose>
+        <h1>Heading 1</h1>
+        <p>{lipsum}</p>
 
-      <h2>Heading 2</h2>
-      <p>{lipsum}</p>
+        <h2>Heading 2</h2>
+        <p>{lipsum}</p>
 
-      <h3>Heading 3</h3>
-      <p>{lipsum}</p>
+        <h3>Heading 3</h3>
+        <p>{lipsum}</p>
 
-      <h4>Heading 4</h4>
-      <p>{lipsum}</p>
+        <h4>Heading 4</h4>
+        <p>{lipsum}</p>
 
-      <h5>Heading 5</h5>
-      <p>{lipsum}</p>
+        <h5>Heading 5</h5>
+        <p>{lipsum}</p>
 
-      <h6>Heading 6</h6>
-      <p>{lipsum}</p>
-      <blockquote>{lipsum}</blockquote>
-      <p>{lipsum}</p>
-      <M
-        t="\iiint \frac{\hat{\mathbf{r}}}{4 \pi \epsilon_0 |\vec{\mathbf{r}} - \vec{\mathbf{x}}|^2} d^3x"
-        display
-      />
-      <p>{lipsum}</p>
-    </Prose>
+        <h6>Heading 6</h6>
+        <p>{lipsum}</p>
+        <blockquote>{lipsum}</blockquote>
+        <p>{lipsum}</p>
+        <M
+          t="\iiint \frac{\hat{\mathbf{r}}}{4 \pi \epsilon_0 |\vec{\mathbf{r}} - \vec{\mathbf{x}}|^2} d^3x"
+          display
+        />
+        <p>{lipsum}</p>
+      </Prose>
+    </Content>
   );
 }
 
 function Buttons() {
   return (
-    <section>
-      <Button>Primary Button</Button>
-      <Button kind="secondary">Secondary Button</Button>
-    </section>
+    <Content as="section" columns>
+      <Column>
+        <Button>Primary Button</Button>
+        <br />
+        <Button kind="secondary">Secondary Button</Button>
+      </Column>
+
+      <Column>
+        <Button disabled>Primary Button</Button>
+        <br />
+        <Button kind="secondary" disabled>
+          Secondary Button
+        </Button>
+      </Column>
+    </Content>
   );
 }
 
@@ -108,7 +122,7 @@ function TextInputs() {
   const text2 = useField(TestSchema, "text2");
 
   return (
-    <section>
+    <Content as="section">
       <h2>Text Inputs</h2>
 
       <Text
@@ -120,7 +134,7 @@ function TextInputs() {
         field={text2}
         label={<Question label="b">Textarea question</Question>}
       />
-    </section>
+    </Content>
   );
 }
 
@@ -129,7 +143,7 @@ function NumberInputs() {
   const number2 = useField(TestSchema, "number2");
 
   return (
-    <section>
+    <Content as="section">
       <h2>Number Inputs</h2>
 
       <Decimal
@@ -143,7 +157,7 @@ function NumberInputs() {
         placeholder="Integer"
         label={<Question label="b">Integer input question</Question>}
       />
-    </section>
+    </Content>
   );
 }
 
@@ -159,7 +173,7 @@ function Selects() {
   const selectMulti = useField(TestSchema, "selectMulti");
 
   return (
-    <section>
+    <Content as="section">
       <h2>Selects</h2>
 
       <Select
@@ -178,7 +192,7 @@ function Selects() {
         choices={selectChoices}
         label={<Question label="c">Yet another question?</Question>}
       />
-    </section>
+    </Content>
   );
 }
 
@@ -188,7 +202,7 @@ function Choices() {
   const selectMulti = useField(TestSchema, "selectMulti");
 
   return (
-    <section>
+    <Content as="section">
       <h2>Choices</h2>
 
       <Choice
@@ -207,7 +221,7 @@ function Choices() {
         choices={selectChoices}
         label={<Question label="c">A third question?</Question>}
       />
-    </section>
+    </Content>
   );
 }
 
@@ -216,7 +230,7 @@ function Toggles() {
   const bool = useField(TestSchema, "bool");
 
   return (
-    <section>
+    <Content as="section">
       <h2>Toggles</h2>
 
       <Toggle field={selectNoOther} choices={selectChoices} />
@@ -229,7 +243,7 @@ function Toggles() {
         yes="Definitely"
         no="No way"
       />
-    </section>
+    </Content>
   );
 }
 
@@ -242,7 +256,7 @@ function GroupedFields() {
   const number2 = useField(TestSchema, "number2");
 
   return (
-    <section>
+    <Content as="section">
       <h2>Grouped Fields</h2>
 
       <FieldGroup grid>
@@ -289,7 +303,7 @@ function GroupedFields() {
 
         <Button>Click me!</Button>
       </FieldGroup>
-    </section>
+    </Content>
   );
 }
 
@@ -299,7 +313,7 @@ function MatrixTest() {
   const number2 = useField(TestSchema, "number2");
 
   return (
-    <section>
+    <Content as="section">
       <h2>Matrices</h2>
 
       <h3>Column Vector</h3>
@@ -346,6 +360,6 @@ function MatrixTest() {
           ],
         ]}
       />
-    </section>
+    </Content>
   );
 }

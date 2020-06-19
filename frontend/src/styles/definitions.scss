@@ -4,8 +4,12 @@ $unit-px: 12;
 $font-size: 16px;
 
 $width: $font-size * 35;
-
 $two-column-width: $font-size * (24 * 2 + 1);
+
+// Widths for main content
+$center-width: $font-size * 35;
+$column-width: $font-size * 24;
+$two-column-container-width: $column-width * 2 + $font-size;
 
 @mixin full-width-center {
   max-width: $width;
