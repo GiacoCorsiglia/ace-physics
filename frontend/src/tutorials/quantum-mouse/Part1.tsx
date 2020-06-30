@@ -26,7 +26,7 @@ export default function Part1() {
           Consider a quantum object (a <em>quantum mouse</em>) and some new
           properties we can measure. For example, suppose "eye size,"{" "}
           <M t="\hat{S}" />, is a Hermitian (observable) operator. The
-          corresponding physical measurement is "measure the opening size of the
+          corresponding physical measurement is "measure the diameter of the
           pupil."
         </p>
 
