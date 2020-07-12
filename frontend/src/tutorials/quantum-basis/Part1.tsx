@@ -62,7 +62,7 @@ export default function Part1() {
         . What do they tell you?
       </Question>
 
-      <div className="full-width">
+      <div>
         <textarea
           style={{ width: "100%", height: "6rem", marginTop: "1rem" }}
           value={text}

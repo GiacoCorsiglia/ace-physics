@@ -51,7 +51,7 @@ export default function Part4() {
         new name, <M t="\ket{k}" />?
       </Question>
 
-      <div className="full-width">
+      <div>
         <p>
           <input name="yesno" id="yes" value="yes" type="radio" />
           &nbsp;
@@ -75,7 +75,7 @@ export default function Part4() {
         ?
       </Question>
 
-      <div className="full-width">
+      <div>
         <p>
           <input name="yesno2" id="yes2" value="yes" type="radio" />
           &nbsp;

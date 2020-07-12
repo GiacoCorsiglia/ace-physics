@@ -24,8 +24,6 @@ export function Content<A extends keyof JSX.IntrinsicElements = "div">({
   );
 }
 
-type Foo = React.ElementType;
-
 export function Column<A extends keyof JSX.IntrinsicElements = "div">({
   as = "div" as any,
   ...props

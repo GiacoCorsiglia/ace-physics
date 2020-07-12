@@ -71,7 +71,7 @@ export default function Part1() {
         </p>
       </Question>
 
-      <div className="full-width">
+      <div>
         <div style={{ display: "flex" }}>
           <label>Eigenvalues:</label>
           <div style={{ marginLeft: "1rem", flexGrow: 1 }}>
@@ -127,7 +127,7 @@ export default function Part1() {
         What can you say about the numerical value of <M t="\braket{*}{O}" />?
       </Question>
 
-      <div className="full-width">
+      <div>
         <M t="\braket{*}{O} = " />
         &nbsp;
         <WithField schema={QuantumMouse} name="smallBigInnerProduct">
@@ -174,7 +174,7 @@ export default function Part1() {
         are the operators?
       </Prose>
 
-      <div className="full-width">
+      <div>
         <div style={{ display: "flex" }}>
           <label>Eigenvalues:</label>
           <div style={{ marginLeft: "1rem", flexGrow: 1 }}>
@@ -225,7 +225,7 @@ export default function Part1() {
         What is <M t="\braket{😸}{😿}" />?
       </Question>
 
-      <div className="full-width">
+      <div>
         <M t="\braket{😸}{😿} = " />
         &nbsp;
         <WithField schema={QuantumMouse} name="happySadInnerProduct">

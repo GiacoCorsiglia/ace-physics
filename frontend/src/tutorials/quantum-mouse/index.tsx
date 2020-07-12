@@ -29,7 +29,7 @@ function QuantumMouseTutorial() {
 
 function Parts() {
   return (
-    <ul className="full-width">
+    <ul>
       <li>
         <Link to={urls.part(urls.Tutorials.QuantumMouse, "1")}>Part 1</Link>
       </li>

@@ -51,7 +51,7 @@ export default function Part3() {
         First express each element in the column vector as a decimal.
       </Question>
 
-      <div className="full-width">
+      <div>
         <Matrix
           column={[<input type="number" />, <input type="number" />]}
           subscriptTex="v"
@@ -63,7 +63,7 @@ export default function Part3() {
         product.
       </Question>
 
-      <div className="full-width">
+      <div>
         <Matrix column={[<Selector />, <Selector />]} subscriptTex="v" />
       </div>
 

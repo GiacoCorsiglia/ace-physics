@@ -27,7 +27,7 @@ export default function Part2() {
         Can we use <M t="\ket{i}" /> and <M t="\ket{j}" /> as a basis?
       </Prose>
 
-      <div className="full-width">
+      <div>
         <p>
           <input name="yesno" id="yes" value="yes" type="radio" />
           &nbsp;
@@ -56,7 +56,7 @@ export default function Part2() {
         First express each element in the column vector as a decimal.
       </Question>
 
-      <div className="full-width">
+      <div>
         <Matrix
           labelTex="\ket{u}"
           column={[<input type="number" />, <input type="number" />]}
@@ -68,7 +68,7 @@ export default function Part2() {
         notation.
       </Question>
 
-      <div className="full-width">
+      <div>
         <Matrix labelTex="\ket{u}" column={[<Selector />, <Selector />]} />
       </div>
 

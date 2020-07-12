@@ -1,11 +1,5 @@
 @import "styles/definitions";
 
-// PROSE
-
-.prose {
-  @include full-width-center;
-}
-
 // COLUMNS
 
 .columns {
@@ -28,7 +22,6 @@
 
 .part,
 .question {
-  @include full-width-center;
   position: relative;
   margin-top: 1rem;
 }
