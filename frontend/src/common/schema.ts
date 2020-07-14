@@ -389,7 +389,7 @@ class ChoiceSchemaC<
  * any number.
  */
 export interface ChoiceSchema<
-  C extends readonly Literal[] = string[],
+  C extends readonly Literal[] = any,
   M extends boolean = false,
   O extends string | number = string
 > extends ChoiceSchemaC<C, M, O> {}
