@@ -1,6 +1,14 @@
 import React from "react";
-import { classes } from "src/util";
+import { Children, classes } from "src/util";
 import styles from "./layout.module.scss";
+
+export function Page({ children }: Children) {
+  return <>{children}</>;
+}
+
+export function Header(props: JSX.IntrinsicElements["header"]) {
+  return <header {...props} />;
+}
 
 export function Content<A extends keyof JSX.IntrinsicElements = "div">({
   as = "div" as any,
