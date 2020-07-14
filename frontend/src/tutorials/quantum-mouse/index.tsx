@@ -4,6 +4,7 @@ import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
 import Part2 from "./Part2";
+import QuantumMood from "./QuantumMood";
 import WhatIsAQuantumMouse from "./WhatIsAQuantumMouse";
 
 export const route = tutorialRoute({
@@ -21,6 +22,11 @@ export const route = tutorialRoute({
       path: "what-is-a-quantum-mouse",
       label: "What is a quantum mouse?",
       element: <WhatIsAQuantumMouse />,
+    },
+    {
+      path: "quantum-mood",
+      label: "Quantum Mood",
+      element: <QuantumMood />,
     },
     {
       path: "superpositions",

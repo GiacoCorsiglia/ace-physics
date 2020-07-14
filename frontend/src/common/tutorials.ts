@@ -32,6 +32,8 @@ export const QuantumMouse = s.record({
   happySadInnerProduct: s.number(),
   happySadInnerProductExplain: s.string(),
 
+  possibleMoodEigenvalues: s.choice(["1", "-1", "0"] as const),
+
   // Part 2.
   whyWideStressed: s.string(),
 });
