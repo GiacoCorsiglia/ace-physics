@@ -1,5 +1,9 @@
-import React from "react";
-import { Children, OptionalChildren } from "src/util";
+import React, { useEffect, useRef } from "react";
+import * as s from "src/common/schema";
+import { Field } from "src/state";
+import { Children, classes, OptionalChildren } from "src/util";
+import { Button } from "./inputs";
+import { Content } from "./layout";
 import styles from "./structure.module.scss";
 
 function containerFor(children: React.ReactNode) {
@@ -27,6 +31,71 @@ export function Vocabulary({ children }: Children) {
     </strong>
   );
 }
+
+export function Hint({ children }: Children) {
+  return <em>Hint: {children}</em>;
+}
+
+type ContinueProps =
+  | { link: string; commit?: never }
+  | { link?: never; commit: Field<s.BooleanSchema> };
+
+export function Continue({
+  label,
+  link,
+  commit,
+  allowed = true,
+}: {
+  label: React.ReactNode;
+  allowed?: boolean;
+} & ContinueProps) {
+  if (commit && commit.value === true) {
+    return null;
+  }
+
+  return (
+    <Content className={styles.continue}>
+      <Button
+        link={link}
+        onClick={commit && (() => commit.set(true))}
+        disabled={!allowed}
+      >
+        {label} →
+      </Button>
+    </Content>
+  );
+}
+
+export function Section({
+  commits,
+  first = false,
+  children,
+}: { commits?: Field<s.BooleanSchema>[]; first?: boolean } & Children) {
+  if (commits && commits.some((commit) => !commit.value)) {
+    return null;
+  }
+
+  return <RevealedSection first={first}>{children}</RevealedSection>;
+}
+
+function RevealedSection({ first, children }: { first: boolean } & Children) {
+  const el = useRef<HTMLElement>(null);
+
+  useEffect(() => el.current?.scrollIntoView({ behavior: "smooth" }), []);
+
+  return (
+    <section
+      ref={el}
+      className={classes(styles.section, [styles.sectionFirst, first])}
+    >
+      {children}
+    </section>
+  );
+}
+
+////////////////////////////////////
+// DEPRECATED:
+//////////////////
 
 // Layout.
 
@@ -66,39 +135,6 @@ export function Question({
     <div className={styles.question}>
       <LabelTag className={styles.label}>{label}.</LabelTag>
       <Container className={styles.description}>{children}</Container>
-    </div>
-  );
-}
-
-export function Hint({ children }: Children) {
-  return <em>Hint: {children}</em>;
-}
-
-export function Question2({
-  index,
-  level,
-  children,
-}: { index: number; level: number } & Children) {
-  let subIndex = 0;
-
-  const mappedChildren = React.Children.map(children, (child) => {
-    if (!React.isValidElement(child)) {
-      return child;
-    }
-    if (child.type !== Question) {
-      return child;
-    }
-    return React.cloneElement(child, {
-      index: subIndex,
-      level: level + 1,
-    });
-  });
-
-  return (
-    <div>
-      <div>{index}</div>
-
-      <div>{mappedChildren}</div>
     </div>
   );
 }

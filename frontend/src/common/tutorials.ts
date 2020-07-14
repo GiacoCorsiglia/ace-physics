@@ -7,16 +7,23 @@ export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
 const SizeOrMoodChoice = s.choice(["kets", "value", "operator"] as const);
 
 export const QuantumMouse = s.record({
-  // Part 1.
+  // What is a quantum mouse?
+  introCommit: s.boolean(),
+
   sizeEigenvalues: SizeOrMoodChoice,
   sizeEigenvectors: SizeOrMoodChoice,
+
+  sizeCommit: s.boolean(),
 
   hiddenUnits: s.boolean(),
   seenHiddenUnits: s.boolean(),
 
-  smallBigInnerProduct: s.number(),
+  unitsCommit: s.boolean(),
+
+  smallBigInnerProduct: s.choice(["0", "1", "complex"] as const),
   smallBigInnerProductExplain: s.string(),
 
+  // What is quantum mood?
   possibleMoodMeasurements: s.string(),
   moodEigenvalues: SizeOrMoodChoice,
   moodEigenvectors: SizeOrMoodChoice,

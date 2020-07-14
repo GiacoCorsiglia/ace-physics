@@ -1,5 +1,22 @@
 @import "styles/definitions";
 
+.continue {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+.section {
+  margin-top: 10rem;
+
+  &.sectionFirst {
+    margin-top: 0;
+  }
+}
+
+/////////////////////////////////////////////
+// DEPRECATED:
+/////////////////////////////////////////////
+
 // COLUMNS
 
 .columns {

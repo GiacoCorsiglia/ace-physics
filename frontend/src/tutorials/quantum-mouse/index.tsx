@@ -1,41 +1,31 @@
 import React from "react";
-import { Link, Route } from "react-router-dom";
 import { QuantumMouse } from "src/common/tutorials";
+import { Prose } from "src/components";
 import * as urls from "src/urls";
-import Tutorial from "../Tutorial";
-import Part1 from "./Part1";
+import { tutorialRoute } from "../shared";
 import Part2 from "./Part2";
+import WhatIsAQuantumMouse from "./WhatIsAQuantumMouse";
 
-export const route = (
-  <Route
-    path={urls.Tutorials.QuantumMouse.path}
-    element={<QuantumMouseTutorial />}
-  >
-    <Route path="/" element={<Parts />} />
-    <Route path="1" element={<Part1 />} />
-    <Route path="2" element={<Part2 />} />
-  </Route>
-);
-
-function QuantumMouseTutorial() {
-  return (
-    <Tutorial
-      name="Quantum Mouse Lab"
-      schema={QuantumMouse}
-      parts={<Parts />}
-    />
-  );
-}
-
-function Parts() {
-  return (
-    <ul>
-      <li>
-        <Link to={urls.part(urls.Tutorials.QuantumMouse, "1")}>Part 1</Link>
-      </li>
-      <li>
-        <Link to={urls.part(urls.Tutorials.QuantumMouse, "2")}>Part 2</Link>
-      </li>
-    </ul>
-  );
-}
+export const route = tutorialRoute({
+  url: urls.Tutorials.QuantumMouse,
+  schema: QuantumMouse,
+  label: "Quantum Mouse Lab",
+  intro: (
+    <Prose>
+      The quantum mouse lab is all about measurement, eigenvalues, and
+      eigenstates. But with a fun twist! Are you ready?
+    </Prose>
+  ),
+  parts: [
+    {
+      path: "what-is-a-quantum-mouse",
+      label: "What is a quantum mouse?",
+      element: <WhatIsAQuantumMouse />,
+    },
+    {
+      path: "superpositions",
+      label: "Superpositions",
+      element: <Part2 />,
+    },
+  ],
+});
