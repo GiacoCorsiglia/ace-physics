@@ -194,3 +194,18 @@ export function WithField<P extends s.Properties, K extends keyof P>({
   const field = useField(schema, name);
   return <>{children(field)}</>;
 }
+
+export function isSet(field: Field<s.Schema>): boolean {
+  const value = field.value;
+
+  if (value === undefined) {
+    return false;
+  }
+
+  switch (field.schema.kind) {
+    case "choice":
+      return value.selected !== undefined || !!field.value.other;
+    default:
+      return true;
+  }
+}
