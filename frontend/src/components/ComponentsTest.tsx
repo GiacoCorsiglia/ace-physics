@@ -22,7 +22,9 @@ export function ComponentsTest() {
   return (
     <main>
       <Provider schema={TestSchema}>
-        <h1>Test Page</h1>
+        <Content>
+          <h1 className="prose">Test Page</h1>
+        </Content>
 
         <Typography />
 
@@ -70,12 +72,42 @@ function Typography() {
 
         <h6>Heading 6</h6>
         <p>{lipsum}</p>
+
         <blockquote>{lipsum}</blockquote>
+
         <p>{lipsum}</p>
+
         <M
           t="\iiint \frac{\hat{\mathbf{r}}}{4 \pi \epsilon_0 |\vec{\mathbf{r}} - \vec{\mathbf{x}}|^2} d^3x"
           display
         />
+
+        <p>{lipsum}</p>
+
+        <h4>Lists</h4>
+
+        <p>{lipsum}</p>
+
+        <ol>
+          <li>Mauris ut justo justo.</li>
+          <li>
+            Integer lacinia nisi nec nisi vehicula tempor. Etiam ac ligula a
+            odio dapibus cursus in at felis.{" "}
+          </li>
+          <li>Aliquam non lobortis lectus.</li>
+        </ol>
+
+        <p>{lipsum}</p>
+
+        <ul>
+          <li>Mauris ut justo justo.</li>
+          <li>
+            Integer lacinia nisi nec nisi vehicula tempor. Etiam ac ligula a
+            odio dapibus cursus in at felis.{" "}
+          </li>
+          <li>Aliquam non lobortis lectus.</li>
+        </ul>
+
         <p>{lipsum}</p>
       </Prose>
     </Content>
@@ -86,13 +118,15 @@ function Buttons() {
   return (
     <Content as="section" columns>
       <Column>
-        <Button>Primary Button</Button>
+        <Button block>Primary Button</Button>
         <br />
         <Button kind="secondary">Secondary Button</Button>
       </Column>
 
       <Column>
-        <Button disabled>Primary Button</Button>
+        <Button block disabled>
+          Primary Button
+        </Button>
         <br />
         <Button kind="secondary" disabled>
           Secondary Button
@@ -123,7 +157,7 @@ function TextInputs() {
 
   return (
     <Content as="section">
-      <h2>Text Inputs</h2>
+      <h2 className="prose">Text Inputs</h2>
 
       <Text
         field={text1}
@@ -144,7 +178,7 @@ function NumberInputs() {
 
   return (
     <Content as="section">
-      <h2>Number Inputs</h2>
+      <h2 className="prose">Number Inputs</h2>
 
       <Decimal
         field={number1}
@@ -174,7 +208,7 @@ function Selects() {
 
   return (
     <Content as="section">
-      <h2>Selects</h2>
+      <h2 className="prose">Selects</h2>
 
       <Select
         field={select}
@@ -203,7 +237,7 @@ function Choices() {
 
   return (
     <Content as="section">
-      <h2>Choices</h2>
+      <h2 className="prose">Choices</h2>
 
       <Choice
         field={select}
@@ -231,7 +265,7 @@ function Toggles() {
 
   return (
     <Content as="section">
-      <h2>Toggles</h2>
+      <h2 className="prose">Toggles</h2>
 
       <Toggle field={selectNoOther} choices={selectChoices} />
 
@@ -257,7 +291,7 @@ function GroupedFields() {
 
   return (
     <Content as="section">
-      <h2>Grouped Fields</h2>
+      <h2 className="prose">Grouped Fields</h2>
 
       <FieldGroup grid>
         <Select
@@ -314,9 +348,9 @@ function MatrixTest() {
 
   return (
     <Content as="section">
-      <h2>Matrices</h2>
+      <h2 className="prose">Matrices</h2>
 
-      <h3>Column Vector</h3>
+      <h3 className="prose">Column Vector</h3>
 
       <Matrix
         labelTex="\ket{\psi}"
@@ -327,7 +361,7 @@ function MatrixTest() {
         ]}
       />
 
-      <h3>Row Vector</h3>
+      <h3 className="prose">Row Vector</h3>
 
       <Matrix
         labelTex="\bra{\psi}"
@@ -338,7 +372,7 @@ function MatrixTest() {
         ]}
       />
 
-      <h3>Matrix</h3>
+      <h3 className="prose">Matrix</h3>
 
       <Matrix
         labelTex="\hat{S}"
