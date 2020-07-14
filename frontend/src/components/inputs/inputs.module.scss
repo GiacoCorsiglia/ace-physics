@@ -5,8 +5,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 .buttonBase {
-  display: block;
-  width: 100%;
+  display: inline-block;
+
+  &.block {
+    display: block;
+    width: 100%;
+  }
+
   border-radius: $border-radius;
   padding: 0.5rem 0.75rem;
   font-size: $text-normal;
