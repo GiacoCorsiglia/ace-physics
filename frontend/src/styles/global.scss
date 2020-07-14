@@ -40,53 +40,108 @@ body {
 }
 
 .prose {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 2rem 0 0 0;
-    font-weight: $bold;
-  }
+  @at-root {
+    & h1,
+    h1#{&},
+    & h2,
+    h2#{&},
+    & h3,
+    h3#{&},
+    & h4,
+    h4#{&},
+    & h5,
+    h5#{&},
+    & h6,
+    h6#{&} {
+      margin: 2rem 0 0 0;
+      font-weight: $bold;
+    }
 
-  h1 {
-    font-size: $text-h1;
-    line-height: 3rem;
-  }
+    & h1,
+    h1#{&} {
+      font-size: $text-h1;
+      line-height: 3rem;
+    }
 
-  h2 {
-    font-size: $text-h2;
-    line-height: 3rem;
-  }
+    & h2,
+    h2#{&} {
+      font-size: $text-h2;
+      line-height: 3rem;
+    }
 
-  h3 {
-    font-size: $text-h3;
-    line-height: 2rem;
-  }
+    & h3,
+    h3#{&} {
+      font-size: $text-h3;
+      line-height: 2rem;
+    }
 
-  h4 {
-    font-size: $text-h4;
-    line-height: 2rem;
-  }
+    & h4,
+    h4#{&} {
+      font-size: $text-h4;
+      line-height: 2rem;
+    }
 
-  h5 {
-    font-size: $text-h5;
-    line-height: 2rem;
-  }
+    & h5,
+    h5#{&} {
+      font-size: $text-h5;
+      line-height: 2rem;
+    }
 
-  h6 {
-    font-size: $text-h6;
-    line-height: 2rem;
-  }
+    & h6,
+    h6#{&} {
+      font-size: $text-h6;
+      line-height: 2rem;
+    }
 
-  p {
-    margin: 1rem 0 0 0;
-  }
+    & p,
+    p#{&} {
+      margin: 1rem 0 0 0;
+    }
 
-  blockquote {
-    margin: 1rem 0 0 2rem;
-    font-style: italic;
+    & blockquote,
+    blockquote#{&} {
+      margin: 1rem 0 0 2rem;
+      font-style: italic;
+    }
+
+    & ul,
+    ul#{&},
+    & ol,
+    ol#{&} {
+      margin: 1rem 0 0 2rem;
+    }
+
+    & ul,
+    ul#{&} {
+      list-style-type: disc;
+    }
+
+    & ol,
+    ol#{&} {
+      list-style-type: decimal;
+    }
+
+    & em,
+    em#{&} {
+      font-style: italic;
+    }
+
+    & strong,
+    strong#{&} {
+      font-weight: $bold;
+    }
+
+    & a,
+    a#{&} {
+      text-decoration: underline;
+      color: $blue;
+
+      transition: color 75ms ease-in-out;
+
+      &:hover {
+        color: lighten($blue, 10%);
+      }
+    }
   }
 }
 
@@ -108,4 +163,14 @@ mjx-container[jax="SVG"] {
     margin-top: 1.5rem !important;
     margin-bottom: 1.5rem !important;
   }
+}
+
+// Utilities
+
+.text-center {
+  text-align: center;
+}
+
+.margin-top {
+  margin-top: 2rem;
 }
