@@ -6,6 +6,11 @@ export function part(tutorial: { link: string }, partName: string) {
   return join(tutorial.link, partName);
 }
 
+export interface URL {
+  path: string;
+  link: string;
+}
+
 const QuantumMouse = {
   path: "quantum-mouse",
   link: "/tutorials/quantum-mouse",
