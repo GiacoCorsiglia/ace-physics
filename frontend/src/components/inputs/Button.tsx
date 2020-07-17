@@ -9,7 +9,7 @@ export default function Button({
   link,
   ...props
 }: JSX.IntrinsicElements["button"] & {
-  kind?: "primary" | "secondary";
+  kind?: "primary" | "secondary" | "tertiary";
   block?: boolean;
   link?: string;
 }) {
