@@ -95,7 +95,9 @@ function Tutorial({
         <Header>
           <nav className={styles.tutorialNav}>
             <p className={styles.tutorialLabel}>
-              <Link to={url.link}>{labelTitle.label}</Link>
+              <Link to={url.link}>
+                <span className="prose">{labelTitle.label}</span>
+              </Link>
             </p>
 
             <ol className={styles.tutorialParts}>
@@ -104,7 +106,9 @@ function Tutorial({
                   key={part.path}
                   className={classes([styles.active, part.path === page])}
                 >
-                  <Link to={urls.part(url, part.path)}>{part.label}</Link>
+                  <Link to={urls.part(url, part.path)}>
+                    <span className="prose">{part.label}</span>
+                  </Link>
                 </li>
               ))}
             </ol>
