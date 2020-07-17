@@ -16,7 +16,7 @@ export const route = (
 
 function TutorialsIndex() {
   return (
-    <Page>
+    <Page title="Tutorials">
       <Header>
         <UserMenu />
       </Header>

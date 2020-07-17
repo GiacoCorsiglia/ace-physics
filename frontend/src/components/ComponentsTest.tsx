@@ -14,37 +14,39 @@ import {
   TextArea,
   Toggle,
 } from "./inputs";
-import { Column, Content } from "./layout";
+import { Column, Content, Page } from "./layout";
 import M from "./M";
 import Matrix from "./Matrix";
 
 export function ComponentsTest() {
   return (
-    <main>
-      <Provider schema={TestSchema}>
-        <Content>
-          <h1 className="prose">Test Page</h1>
-        </Content>
+    <Page title="Test Page">
+      <main>
+        <Provider schema={TestSchema}>
+          <Content>
+            <h1 className="prose">Test Page</h1>
+          </Content>
 
-        <Typography />
+          <Typography />
 
-        <Buttons />
+          <Buttons />
 
-        <TextInputs />
+          <TextInputs />
 
-        <NumberInputs />
+          <NumberInputs />
 
-        <Selects />
+          <Selects />
 
-        <Choices />
+          <Choices />
 
-        <Toggles />
+          <Toggles />
 
-        <GroupedFields />
+          <GroupedFields />
 
-        <MatrixTest />
-      </Provider>
-    </main>
+          <MatrixTest />
+        </Provider>
+      </main>
+    </Page>
   );
 }
 

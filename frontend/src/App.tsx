@@ -24,7 +24,7 @@ export default function App() {
 
 function AppIndex() {
   return (
-    <Page>
+    <Page title="">
       <Header>
         <UserMenu />
       </Header>

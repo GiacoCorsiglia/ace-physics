@@ -9,37 +9,53 @@ import * as urls from "src/urls";
 import { Children, classes } from "src/util";
 import styles from "./shared.module.scss";
 
-type Parts = {
+type LabelTitle =
+  | {
+      label: string;
+      /** The page title in the browser */
+      title?: string;
+    }
+  | {
+      label: React.ReactElement;
+      /** The page title in the browser */
+      title: string;
+    };
+
+type Part = {
   path: string;
-  label: React.ReactNode;
   element: React.ReactElement;
-}[];
+} & LabelTitle;
+
+type Parts = Part[];
+
+function getTitle({ label, title }: LabelTitle): string {
+  return title !== undefined ? title : (label as string);
+}
 
 export function tutorialRoute({
   url,
   schema,
-  label,
   intro,
   parts,
+  ...labelTitle
 }: {
   url: urls.URL;
   schema: ProviderSchema;
-  label: React.ReactNode;
   intro: React.ReactNode;
   parts: Parts;
-}) {
+} & LabelTitle) {
   return (
     <Route
       path={url.path}
       element={
-        <Tutorial url={url} schema={schema} label={label} parts={parts} />
+        <Tutorial url={url} schema={schema} parts={parts} {...labelTitle} />
       }
     >
       <Route
         path="/"
         element={
           <Content>
-            <h1 className="prose">{label}</h1>
+            <h1 className="prose">{labelTitle.label}</h1>
 
             {intro}
 
@@ -59,25 +75,27 @@ export function tutorialRoute({
 
 function Tutorial({
   url,
-  label,
   schema,
   parts,
+  ...labelTitle
 }: {
   url: urls.URL;
-  label: React.ReactNode;
   schema: ProviderSchema;
   parts: Parts;
-}) {
+} & LabelTitle) {
   const location = useLocation();
   const page = location.pathname.replace(/\/$/, "").split("/").pop();
 
+  const currentPart = parts.find((part) => part.path === page);
+  const currentTitle = getTitle(currentPart || labelTitle);
+
   return (
     <Provider schema={schema}>
-      <Page>
+      <Page title={currentTitle}>
         <Header>
           <nav className={styles.tutorialNav}>
             <p className={styles.tutorialLabel}>
-              <Link to={url.link}>{label}</Link>
+              <Link to={url.link}>{labelTitle.label}</Link>
             </p>
 
             <ol className={styles.tutorialParts}>

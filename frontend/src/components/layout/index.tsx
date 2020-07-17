@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Children, classes } from "src/util";
 import styles from "./layout.module.scss";
 
-export function Page({ children }: Children) {
+export function Page({ title, children }: { title: string } & Children) {
+  useEffect(() => {
+    document.title =
+      title !== "" ? `${title} | ACE Physics Online` : "ACE Physics Online";
+  }, [title]);
+
   return <>{children}</>;
 }
 
