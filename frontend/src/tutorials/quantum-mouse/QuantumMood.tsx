@@ -1,7 +1,7 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import { Prose, Section } from "src/components";
-import { FieldGroup, Select, SelectChoices } from "src/components/inputs";
+import { Choice, FieldGroup, SelectChoices } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { useField } from "src/state";
@@ -28,7 +28,7 @@ export default function QuantumMood() {
 
             <p className="text-center">
               <M display t="\hat{M}\ket{😸}=\ket{😸}" />{" "}
-              &nbsp;&nbsp;but&nbsp;&nbsp;{" "}
+              &nbsp;&nbsp;and&nbsp;&nbsp;{" "}
               <M display t="\hat{M}\ket{😿}= -\ket{😿}" />.
             </p>
 
@@ -41,10 +41,10 @@ export default function QuantumMood() {
           </Prose>
 
           <FieldGroup grid className="margin-top">
-            <Select
+            <Choice
               field={possibleMoodEigenvalues}
               choices={possibleMoodEigenvalueChoices}
-              label={"values"}
+              label={""}
             />
           </FieldGroup>
         </Section>

@@ -25,7 +25,7 @@ export const route = tutorialRoute({
     },
     {
       path: "quantum-mood",
-      label: "Quantum Mood",
+      label: "Moody Mice",
       element: <QuantumMood />,
     },
     {

@@ -23,7 +23,7 @@ export const QuantumMouse = s.record({
   smallBigInnerProduct: s.choice(["0", "1", "complex"] as const),
   smallBigInnerProductExplain: s.string(),
 
-  // What is quantum mood?
+  // Moody Mice?
   possibleMoodMeasurements: s.string(),
   moodEigenvalues: SizeOrMoodChoice,
   moodEigenvectors: SizeOrMoodChoice,
