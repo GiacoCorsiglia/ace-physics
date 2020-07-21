@@ -112,7 +112,13 @@ export function Section({
 function RevealedSection({ first, children }: { first: boolean } & Children) {
   const el = useRef<HTMLElement>(null);
 
-  useEffect(() => el.current?.scrollIntoView({ behavior: "smooth" }), []);
+  useEffect(() => {
+    if (first) {
+      // The first section of each part doesn't need to scroll into view.
+      return;
+    }
+    el.current?.scrollIntoView({ behavior: "smooth" });
+  }, [first]);
 
   return (
     <section
