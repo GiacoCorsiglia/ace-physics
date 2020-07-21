@@ -209,3 +209,7 @@ export function isSet(field: Field<s.Schema>): boolean {
       return true;
   }
 }
+
+export function needsHelp(field: Field<s.BooleanSchema>): boolean {
+  return !!field.value;
+}
