@@ -4,20 +4,23 @@ import { ComponentsTest } from "./components/ComponentsTest";
 import { Content, Header, Page } from "./components/layout";
 import { Footer } from "./components/shared/Footer";
 import { UserMenu } from "./components/shared/UserMenu";
+import * as globalParams from "./globalParams";
 import * as Tutorials from "./tutorials";
 import * as urls from "./urls";
 
 export default function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<AppIndex />} />
-        {Tutorials.route}
-        <Route path="/test" element={<ComponentsTest />} />
-        <Route path="*" element={<h1>Not Found</h1>} />
-      </Routes>
+      <globalParams.Provider>
+        <Routes>
+          <Route path="/" element={<AppIndex />} />
+          {Tutorials.route}
+          <Route path="/test" element={<ComponentsTest />} />
+          <Route path="*" element={<h1>Not Found</h1>} />
+        </Routes>
 
-      <Footer />
+        <Footer />
+      </globalParams.Provider>
     </Router>
   );
 }
