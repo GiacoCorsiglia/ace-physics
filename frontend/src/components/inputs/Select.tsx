@@ -6,10 +6,12 @@ import { Field } from "src/state";
 import { classes, Props, useUniqueId } from "src/util";
 import styles from "./inputs.module.scss";
 
+type SelectChoice<T> = T extends Array<infer U> ? U : T;
+
 export type SelectChoices<
-  V extends undefined | { selected?: s.Literal }
+  V extends undefined | { selected?: s.Literal } | { selected?: s.Literal[] }
 > = Array<{
-  value: NonNullable<NonNullable<V>["selected"]>;
+  value: SelectChoice<NonNullable<NonNullable<V>["selected"]>>;
   label: React.ReactNode;
 }>;
 
