@@ -40,6 +40,9 @@ body {
 }
 
 .prose {
+  // hyphens: auto;
+  // text-align: justify;
+
   @at-root {
     & h1,
     h1#{&},
