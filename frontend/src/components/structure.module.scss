@@ -2,7 +2,12 @@
 
 .continue {
   margin-top: 2rem;
-  text-align: right;
+  display: flex;
+  flex-direction: row-reverse;
+
+  .button {
+    margin-left: 1rem;
+  }
 }
 
 .section {

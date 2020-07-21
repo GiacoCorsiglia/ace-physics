@@ -1,6 +1,6 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, Prose, Section } from "src/components";
+import { Continue, HelpButton, Prose, Section } from "src/components";
 import {
   FieldGroup,
   Select,
@@ -10,7 +10,7 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, useField } from "src/state";
+import { isSet, needsHelp, useField } from "src/state";
 import { Part } from "src/tutorials/shared";
 import { ReactComponent as MouseBigEye } from "./svgs/mouse-big-eye.svg";
 import { ReactComponent as MouseSmallEye } from "./svgs/mouse-small-eye.svg";
@@ -20,16 +20,22 @@ export default function WhatIsAQuantumMouse() {
 
   const sizeEigenvalues = useField(QuantumMouse, "sizeEigenvalues");
   const sizeEigenvectors = useField(QuantumMouse, "sizeEigenvectors");
+  const sizeEiegenHelp = useField(QuantumMouse, "sizeEigenHelp");
   const sizeCommit = useField(QuantumMouse, "sizeCommit");
 
   const hiddenUnits = useField(QuantumMouse, "hiddenUnits");
-  const seenHiddenUnits = useField(QuantumMouse, "seenHiddenUnits");
-  const unitsCommit = useField(QuantumMouse, "unitsCommit");
+  const hiddenUnitsHelp = useField(QuantumMouse, "hiddenUnitsHelp");
+  const hiddenUnitsCommit = useField(QuantumMouse, "hiddenUnitsCommit");
 
   const smallBigInnerProduct = useField(QuantumMouse, "smallBigInnerProduct");
   const smallBigInnerProductExplain = useField(
     QuantumMouse,
     "smallBigInnerProductExplain"
+  );
+
+  const smallBigInnerProductHelp = useField(
+    QuantumMouse,
+    "smallBigInnerProductHelp"
   );
 
   return (
@@ -57,19 +63,15 @@ export default function WhatIsAQuantumMouse() {
             </p>
 
             <p className="text-center">
-              <M t="\hat{S}\large|" />
-              <MouseSmallEye />
-              <M t="\large\rangle =" />
-              <M t="\ 1 \large|" />
-              <MouseSmallEye />
-              <M t="\large\rangle" />
+              <M t="\hat{S}" />
+              <SmallEyeMouseKet />
+              <M t="=\ 1" />
+              <SmallEyeMouseKet />
               &nbsp;&nbsp;but&nbsp;&nbsp;
-              <M t="\hat{S}\large|" />
-              <MouseBigEye />
-              <M t="\large\rangle =" />
-              <M t="\ 2 \large|" />
-              <MouseBigEye />
-              <M t="\large\rangle" />
+              <M t="\hat{S}" />
+              <BigEyeMouseKet />
+              <M t="=\ 2" />
+              <BigEyeMouseKet />
             </p>
 
             <p>
@@ -100,45 +102,76 @@ export default function WhatIsAQuantumMouse() {
               field={sizeEigenvalues}
               choices={sizeChoices}
               label="Eigenvalues:"
-              placeholder="Select eigenvalues..."
+              placeholder="Select eigenvalues…"
             />
 
             <Select
               field={sizeEigenvectors}
               choices={sizeChoices}
               label="Eigenvectors:"
-              placeholder="Select eigenvectors..."
+              placeholder="Select eigenvectors…"
             />
           </FieldGroup>
+
+          {needsHelp(sizeEiegenHelp) && (
+            <Prose>
+              Remember, eigen-equations usually look like:
+              <M
+                display
+                t="(\text{operator}) \times (\text{eigenvector}) = (\text{eigenvalue}) \times (\text{eigenvector})"
+              />
+              This is still true even if there are mice involved!
+            </Prose>
+          )}
 
           <Continue
             commit={sizeCommit}
             label="Move on"
             allowed={isSet(sizeEigenvalues) && isSet(sizeEigenvectors)}
-          />
+          >
+            <HelpButton help={sizeEiegenHelp} />
+          </Continue>
         </Section>
 
         <Section commits={[introCommit, sizeCommit]}>
-          <FieldGroup grid>
+          <Prose>Let's think some more about those eigen-equations.</Prose>
+
+          <FieldGroup grid className="margin-top">
             <Toggle
               field={hiddenUnits}
               label="Do any numbers have “hidden” units?"
             />
-
-            <Toggle
-              field={seenHiddenUnits}
-              label="Is that ok? Have we ever seen that before?"
-            />
           </FieldGroup>
 
+          <Prose>
+            If so, is that OK? Can you think of times we might have seen that
+            before?
+          </Prose>
+
+          {needsHelp(hiddenUnitsHelp) && (
+            <Prose>
+              <p>
+                When we say “hidden units,” we mean are there any numbers in the
+                equations that have units that we haven't written down?
+              </p>
+
+              <p>
+                When a number has units, it usually corresponds with something
+                that can be physically measured.
+              </p>
+            </Prose>
+          )}
+
           <Continue
-            commit={unitsCommit}
+            commit={hiddenUnitsCommit}
             label="Move on"
-            allowed={isSet(hiddenUnits) && isSet(seenHiddenUnits)}
-          />
+            allowed={isSet(hiddenUnits)}
+          >
+            <HelpButton help={hiddenUnitsHelp} />
+          </Continue>
         </Section>
 
-        <Section commits={[introCommit, sizeCommit, unitsCommit]}>
+        <Section commits={[introCommit, sizeCommit, hiddenUnitsCommit]}>
           <Prose>
             What can you say about the numerical value of{" "}
             <M t="\braket{\cdot}{*}" />?
@@ -154,13 +187,21 @@ export default function WhatIsAQuantumMouse() {
             <TextArea field={smallBigInnerProductExplain} label="Explain:" />
           </FieldGroup>
 
+          {needsHelp(smallBigInnerProductHelp) && (
+            <Prose>
+              Remember, we said they‘re <em>orthonormal!</em>
+            </Prose>
+          )}
+
           <Continue
             link="#todo"
             label="Move on to part 2"
             allowed={
               isSet(smallBigInnerProduct) && isSet(smallBigInnerProductExplain)
             }
-          />
+          >
+            <HelpButton help={smallBigInnerProductHelp} />
+          </Continue>
         </Section>
       </Content>
     </Part>
@@ -171,26 +212,22 @@ const sizeChoices: SelectChoices<QuantumMouse["sizeEigenvalues"]> = [
   {
     value: "kets",
     label: (
-      <span>
-        <M t="\ket{\cdot}" /> and <M t="\ket{*}" />
-      </span>
+      <>
+        <SmallEyeMouseKet /> and <BigEyeMouseKet />
+      </>
     ),
   },
   {
     value: "value",
     label: (
-      <span>
+      <>
         <M t="1" /> and <M t="2" />
-      </span>
+      </>
     ),
   },
   {
     value: "operator",
-    label: (
-      <span>
-        <M t="\hat{S}" />
-      </span>
-    ),
+    label: <M t="\hat{S}" />,
   },
 ];
 
@@ -201,3 +238,23 @@ const smallBigInnerProductChoices: SelectChoices<
   { value: "1", label: "1" },
   { value: "complex", label: "Some complex number, but not enough info" },
 ];
+
+function SmallEyeMouseKet() {
+  return (
+    <>
+      <M t="\large|" />
+      <MouseSmallEye />
+      <M t="\large\rangle" />
+    </>
+  );
+}
+
+function BigEyeMouseKet() {
+  return (
+    <>
+      <M t="\large|" />
+      <MouseBigEye />
+      <M t="\large\rangle" />
+    </>
+  );
+}

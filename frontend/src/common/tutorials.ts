@@ -12,16 +12,16 @@ export const QuantumMouse = s.record({
 
   sizeEigenvalues: SizeOrMoodChoice,
   sizeEigenvectors: SizeOrMoodChoice,
-
+  sizeEigenHelp: s.boolean(),
   sizeCommit: s.boolean(),
 
   hiddenUnits: s.boolean(),
-  seenHiddenUnits: s.boolean(),
-
-  unitsCommit: s.boolean(),
+  hiddenUnitsHelp: s.boolean(),
+  hiddenUnitsCommit: s.boolean(),
 
   smallBigInnerProduct: s.choice(["0", "1", "complex"] as const),
   smallBigInnerProductExplain: s.string(),
+  smallBigInnerProductHelp: s.boolean(),
 
   // Moody Mice?
   possibleMoodMeasurements: s.string(),

@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import * as s from "src/common/schema";
+import * as globalParams from "src/globalParams";
 import { Field } from "src/state";
 import { Children, classes, OptionalChildren } from "src/util";
 import { Button } from "./inputs";
@@ -45,24 +46,54 @@ export function Continue({
   link,
   commit,
   allowed = true,
+  children,
 }: {
   label: React.ReactNode;
   allowed?: boolean;
-} & ContinueProps) {
+} & ContinueProps &
+  OptionalChildren) {
+  const globals = useContext(globalParams.Context);
+
   if (commit && commit.value === true) {
     return null;
+  }
+
+  if (process.env.NODE_ENV === "development" && globals.unconditionalMoveOn) {
+    allowed = true;
   }
 
   return (
     <Content className={styles.continue}>
       <Button
+        className={styles.button}
         link={link}
         onClick={commit && (() => commit.set(true))}
         disabled={!allowed}
       >
         {label} →
       </Button>
+
+      {children}
     </Content>
+  );
+}
+
+export function HelpButton({
+  help,
+  children,
+}: { help: Field<s.BooleanSchema> } & OptionalChildren) {
+  if (help.value === true) {
+    return null;
+  }
+
+  return (
+    <Button
+      className={styles.button}
+      kind="tertiary"
+      onClick={() => help.set(true)}
+    >
+      {children || "Hmm…"}
+    </Button>
   );
 }
 
