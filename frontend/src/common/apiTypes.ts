@@ -23,6 +23,7 @@ export type CreateLearnersRequest = s.TypeOf<typeof CreateLearnersRequest>;
 export const CreateLearnersRequest = s.completeRecord({
   institutionId: s.string(),
   courseId: s.string(),
+  number: s.number(),
 });
 
 // Tutorials.
