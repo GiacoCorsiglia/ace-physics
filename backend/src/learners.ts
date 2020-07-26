@@ -25,7 +25,7 @@ async function getNextIdAndReserve(blockSize: number) {
       ReturnValues: "UPDATED_NEW",
     })
     .promise();
-  return 100000 + result.Attributes?.nextId - blockSize - 1;
+  return 100000 + result.Attributes!.nextId - blockSize - 1;
 }
 
 export const get: Handler<GetLearnerRequest> = async (request) => {
