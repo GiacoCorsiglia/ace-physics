@@ -11,13 +11,10 @@ const config: webpack.Configuration = {
   },
   target: "node",
   resolve: {
-    extensions: [".tsx", ".ts", ".js", ".json"],
+    extensions: [".ts", ".js", ".json"],
   },
   module: {
-    rules: [
-      // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
-      { test: /\.tsx?$/, use: ["ts-loader"], exclude: /node_modules/ },
-    ],
+    rules: [{ test: /\.ts$/, use: ["ts-loader"], exclude: /node_modules/ }],
   },
   devtool: "inline-source-map",
   optimization: {
