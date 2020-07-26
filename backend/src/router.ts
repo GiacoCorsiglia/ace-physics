@@ -1,98 +1,90 @@
 import * as s from "ace-frontend/src/common/schema";
 import * as response from "./response";
 
-const routes: Route<any>[] = [];
+const actions: Record<string, Action<any>> = {};
 
-export function route(
+export async function route(
   event: AWSLambda.APIGatewayProxyEvent
-): response.Response {
+): Promise<response.Response> {
   const requestMethod = event.httpMethod === "HEAD" ? "GET" : event.httpMethod;
 
-  let methodNotAllowed = false;
+  if (event.path === "/") {
+    return response.success({ ok: true });
+  }
 
-  for (const route of routes) {
-    const match = route.pattern.exec(event.path);
+  const actionName = event.path.replace(/^\/+|\/+$/g, "");
+  const action = actions[actionName];
+  if (!action) {
+    return response.notFound();
+  }
 
-    if (match === null) {
-      // Definitely not a match, continue.
-      continue;
-    }
+  if (requestMethod !== action.method) {
+    return response.methodNotAllowed(event.httpMethod);
+  }
 
-    if (requestMethod !== route.method) {
-      // It's a match on path, but not on method.
-      methodNotAllowed = true;
-      // Continue to look for matches in case another route handles this
-      // method at this path.  Otherwise we'll return Method Not Allowed below.
-      continue;
-    }
-
-    // It's a match on both method and path.  Hooray!
-
-    // Parse the body, which might fail.
-    let body = null;
-    if (event.body) {
-      try {
-        body = JSON.parse(event.body);
-      } catch (e) {
-        return response.error(e);
-      }
-    }
-
-    const decoded = route.schema.decode(body);
-
-    if (s.isFailure(decoded)) {
-      return response.error("Invalid input type");
-    }
-
+  let payload: unknown = null;
+  if (requestMethod === "GET") {
+    payload = event.queryStringParameters || {};
+  } else if (event.body) {
     try {
-      return route.handler(decoded.value);
+      payload = JSON.parse(
+        event.isBase64Encoded
+          ? Buffer.from(event.body, "base64").toString("utf-8")
+          : event.body
+      );
     } catch (e) {
       return response.error(e);
     }
   }
+  const decoded = action.schema.decode(payload);
 
-  if (methodNotAllowed) {
-    return response.methodNotAllowed(event.httpMethod);
+  if (s.isFailure(decoded)) {
+    return response.error("Invalid payload", decoded.errors);
   }
 
-  return response.notFound();
+  try {
+    return action.handler(decoded.value).catch((e) => response.error(e));
+  } catch (e) {
+    return response.error(e);
+  }
 }
 
 type Method = "GET" | "PUT" | "POST";
 
-interface Route<T extends s.Data> {
+interface Action<T extends s.Data> {
   method: Method;
-  pattern: RegExp;
   schema: s.Schema<T>;
   handler: Handler<T>;
 }
 
-type Handler<T extends s.Data> = (request: Request<T>) => response.Response;
+type Handler<T extends s.Data> = (
+  request: Request<T>
+) => Promise<response.Response>;
 
 interface Request<T extends s.Data> {
   body: T;
 }
 
-export function get<T extends s.Data>(
-  pattern: RegExp,
-  schema: s.Schema<T>,
-  handler: Handler<T>
+export function get<S extends s.Schema>(
+  name: string,
+  schema: S,
+  handler: Handler<s.TypeOf<S>>
 ) {
-  routes.push({ method: "GET", pattern, schema, handler });
+  actions[name] = { method: "GET", schema, handler };
 }
 
-export function post<T extends s.Data>(
-  pattern: RegExp,
-  schema: s.Schema<T>,
-  handler: Handler<T>
+export function post<S extends s.Schema>(
+  name: string,
+  schema: S,
+  handler: Handler<s.TypeOf<S>>
 ) {
-  routes.push({ method: "POST", pattern, schema, handler });
+  actions[name] = { method: "POST", schema, handler };
 }
 
-export function put<T extends s.Data>(
-  pattern: RegExp,
-  schema: s.Schema<T>,
-  handler: Handler<T>
+export function put<S extends s.Schema>(
+  name: string,
+  schema: S,
+  handler: Handler<s.TypeOf<S>>
 ) {
-  routes.push({ method: "PUT", pattern, schema, handler });
+  actions[name] = { method: "PUT", schema, handler };
 }
