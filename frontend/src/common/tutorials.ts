@@ -1,12 +1,15 @@
 import * as s from "./schema";
 
-// Quantum Mouse.
+export const names: Record<string, s.RecordSchema<{}>> = {};
 
-export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
+////////////////////////////////////////////////////////////////////////////////
+// Quantum Mouse.
+////////////////////////////////////////////////////////////////////////////////
 
 const SizeOrMoodChoice = s.choice(["kets", "value", "operator"] as const);
 
-export const QuantumMouse = s.record({
+export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
+export const QuantumMouse = (names["QuantumMouse"] = s.record({
   // What is a quantum mouse?
   introCommit: s.boolean(),
 
@@ -36,11 +39,11 @@ export const QuantumMouse = s.record({
 
   // Part 2.
   whyWideStressed: s.string(),
-});
+}));
 
+////////////////////////////////////////////////////////////////////////////////
 // Quantum Basis.
-
-export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
+////////////////////////////////////////////////////////////////////////////////
 
 const Point2D = s.tuple(s.number(), s.number());
 const PointLabel2D = s.tuple(s.string(), s.string());
@@ -52,7 +55,8 @@ const PlusMinus = s.record({
   plusLabel: s.string(),
 });
 
-export const QuantumBasis = s.record({
+export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
+export const QuantumBasis = (names["QuantumBasis"] = s.record({
   // Part 1.
   meaningOfCoefficients: s.string(),
 
@@ -99,4 +103,4 @@ export const QuantumBasis = s.record({
 
   equalityAllowed: s.boolean(),
   whyNoSubscriptNeeded: s.string(),
-});
+}));
