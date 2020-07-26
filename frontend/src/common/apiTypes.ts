@@ -2,6 +2,15 @@ import * as s from "./schema";
 
 // Learners.
 
+export type Learner = s.TypeOf<typeof Learner>;
+export const Learner = s.completeRecord({
+  learnerId: s.string(),
+  entryId: s.string(),
+  institutionId: s.string(),
+  courseId: s.string(),
+  createdAt: s.string(),
+});
+
 export type GetLearnerRequest = s.TypeOf<typeof GetLearnerRequest>;
 export const GetLearnerRequest = s.completeRecord({
   learnerId: s.string(),
