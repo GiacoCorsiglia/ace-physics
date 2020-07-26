@@ -16,7 +16,7 @@ export const TableName = "DataTable";
 
 export const date = () => new Date().toISOString();
 
-export const LEARNER_PROFILE = "profile";
+export const learnerProfile = "profile";
 
 export const learnerId = (id: string) => `learner#${id}`;
 export const tutorialId = (id: string) => `tutorial#${id}`;

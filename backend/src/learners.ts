@@ -28,7 +28,21 @@ async function getNextIdAndReserve(blockSize: number) {
 }
 
 export const get: Handler<GetLearnerRequest> = async (request) => {
-  return response.error("GetLearner: Unimplemented");
+  return db
+    .client()
+    .get({
+      TableName: db.TableName,
+      Key: {
+        learnerId: db.learnerId(request.body.learnerId),
+        entryId: db.learnerProfile,
+      },
+    })
+    .promise()
+    .then(
+      (result) =>
+        result.Item ? response.success(result.Item) : response.notFound(),
+      (e) => response.error("Get failed", e)
+    );
 };
 
 export const create: Handler<CreateLearnerRequest> = async (request) => {
@@ -45,7 +59,7 @@ export const create: Handler<CreateLearnerRequest> = async (request) => {
 
     const learner: Learner = {
       learnerId: db.learnerId(id.toString()),
-      entryId: db.LEARNER_PROFILE,
+      entryId: db.learnerProfile,
       institutionId: "NONE",
       courseId: "NONE",
       createdAt: db.date(),
@@ -97,7 +111,7 @@ export const createMany: Handler<CreateLearnersRequest> = async (request) => {
       PutRequest: {
         Item: {
           learnerId: db.learnerId(id.toString()),
-          entryId: db.LEARNER_PROFILE,
+          entryId: db.learnerProfile,
           institutionId: request.body.institutionId,
           courseId: request.body.courseId,
           createdAt,
