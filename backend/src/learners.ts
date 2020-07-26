@@ -4,6 +4,7 @@ import {
   GetLearnerRequest,
   Learner,
 } from "ace-frontend/src/common/apiTypes";
+import AWS from "aws-sdk";
 import * as db from "./db";
 import * as response from "./response";
 import { Handler } from "./router";
