@@ -43,7 +43,10 @@ export async function route(
   }
 
   try {
-    return action.handler(decoded.value).catch((e) => response.error(e));
+    const request: Request<any> = {
+      body: decoded.value,
+    };
+    return action.handler(request).catch((e) => response.error(e));
   } catch (e) {
     return response.error(e);
   }
@@ -57,7 +60,7 @@ interface Action<T extends s.Data> {
   handler: Handler<T>;
 }
 
-type Handler<T extends s.Data> = (
+export type Handler<T extends s.Data> = (
   request: Request<T>
 ) => Promise<response.Response>;
 
