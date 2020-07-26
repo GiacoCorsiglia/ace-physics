@@ -4,8 +4,10 @@
     "target": "ES2019",
     "module": "commonjs",
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    // This will hopefully speed up compile times
+    "skipLibCheck": true
   },
   "include": ["src"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "../node_modules"]
 }

@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "yarn run webpack && sam build",
-    "watch": "yarn run chokidar \"src/**/*.ts\" \"../frontend/src/common/**/*.ts\" --command \"yarn run build\" --initial",
+    "watch": "NODE_ENV=development yarn run chokidar \"src/**/*.ts\" \"../frontend/src/common/**/*.ts\" --command \"yarn run build\" --initial",
     "dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local",
     "start": "sam local start-api --skip-pull-image --profile=default",
     "start-debug": "sam local start-api -d 9999 --skip-pull-image --profile=default"

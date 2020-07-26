@@ -1,7 +1,7 @@
 import * as webpack from "webpack";
 
 const config: webpack.Configuration = {
-  mode: "production",
+  mode: process.env.NODE_ENV === "development" ? "development" : "production",
   entry: `${__dirname}/src/index.ts`,
   output: {
     path: `${__dirname}/build/`,
@@ -14,9 +14,23 @@ const config: webpack.Configuration = {
     extensions: [".ts", ".js", ".json"],
   },
   module: {
-    rules: [{ test: /\.ts$/, use: ["ts-loader"], exclude: /node_modules/ }],
+    rules: [
+      {
+        test: /\.ts$/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              // This makes the builds significantly faster!
+              transpileOnly: process.env.NODE_ENV === "development",
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
+    ],
   },
-  devtool: "inline-source-map",
+  // devtool: "inline-source-map",
   optimization: {
     nodeEnv: false,
     minimize: false,
