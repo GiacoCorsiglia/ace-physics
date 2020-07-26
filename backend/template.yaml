@@ -38,18 +38,43 @@ Resources:
       CodeUri: build/
       Events:
         # Switch these to HttpApi when SAM CLI supports it locally.
-        ProxyApiRoot:
+        # NOTE: When adding a route here also add it to src/index.ts
+        ApiRoot:
           Type: Api
           Properties:
             StageName: !Ref Environment
             Path: /
-            Method: ANY
-        ProxyApiGreedy:
+            Method: GET
+        GetLearner:
           Type: Api
           Properties:
             StageName: !Ref Environment
-            Path: /{proxy+}
-            Method: ANY
+            Path: /GetLearner
+            Method: GET
+        CreateLearner:
+          Type: Api
+          Properties:
+            StageName: !Ref Environment
+            Path: /CreateLearner
+            Method: POST
+        CreateLearners:
+          Type: Api
+          Properties:
+            StageName: !Ref Environment
+            Path: /CreateLearners
+            Method: POST
+        GetTutorial:
+          Type: Api
+          Properties:
+            StageName: !Ref Environment
+            Path: /GetTutorial
+            Method: GET
+        UpdateTutorial:
+          Type: Api
+          Properties:
+            StageName: !Ref Environment
+            Path: /UpdateTutorial
+            Method: PUT
       Policies:
         - Version: "2012-10-17"
           Statement:
