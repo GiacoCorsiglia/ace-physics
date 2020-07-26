@@ -166,6 +166,34 @@ function constant<T>(value: T) {
 }
 
 /**
+ * Schema instance representing any value.
+ */
+class AnySchemaC extends Schema<any> {
+  readonly kind = "any";
+
+  is(v: unknown): v is any {
+    return true;
+  }
+
+  readonly _decode = decodeFromIs(this.is.bind(this), "any");
+}
+
+/**
+ * A schema representing any value.
+ */
+export interface AnySchema extends AnySchemaC {}
+
+/**
+ * Creates a schema representing any value.
+ */
+export const any: () => AnySchema = constant(new AnySchemaC());
+
+/**
+ * Determines if the Schema is an any schema.
+ */
+export const isAnySchema = (s: Schema): s is AnySchema => s.kind === "any";
+
+/**
  * Schema instance representing a boolean value.
  */
 class BooleanSchemaC extends Schema<boolean> {
@@ -189,7 +217,7 @@ export interface BooleanSchema extends BooleanSchemaC {}
 export const boolean: () => BooleanSchema = constant(new BooleanSchemaC());
 
 /**
- * Determines if the Schema is a string schema.
+ * Determines if the Schema is a boolean schema.
  */
 export const isBooleanSchema = (s: Schema): s is BooleanSchema =>
   s.kind === "boolean";
@@ -681,6 +709,82 @@ export const record = <P extends Properties>(properties: P): RecordSchema<P> =>
  */
 export const isRecordSchema = (s: Schema): s is RecordSchema<any> =>
   s.kind === "record";
+
+/**
+ * Schema instance representing a "record" (i.e., a JavaScript object) with
+ * properties matching the schemas in the `properties` property.  For the
+ * `FullRecordSchema`, all properties are required.
+ */
+class CompleteRecordSchemaC<P extends Properties> extends Schema<
+  { [K in keyof P]: TypeOf<P[K]> }
+> {
+  readonly kind = "complete-record";
+
+  private readonly recordSchema: RecordSchema<P>;
+
+  constructor(public readonly properties: P) {
+    super();
+    this.recordSchema = record(properties);
+  }
+
+  // This is a bit iffy.
+  protected readonly _default = function (
+    this: CompleteRecordSchemaC<any>
+  ): any {
+    return this.recordSchema.default();
+  };
+
+  protected _decode(v: unknown, context: Context): Decoded<this["T"]> {
+    const decoded = this.recordSchema.decode(v);
+
+    if (isFailure(decoded)) {
+      return decoded;
+    }
+
+    const obj: any = decoded.value;
+    const errors: Error<unknown>[] = [];
+
+    for (const key in this.properties) {
+      if (obj[key] === undefined || obj[key] === null) {
+        errors.push(
+          Error(
+            obj,
+            context.concat([{ index: key, schema: this }]),
+            "Missing property"
+          )
+        );
+      }
+    }
+
+    return errors.length === 0 ? (decoded as any) : Failure(errors);
+  }
+
+  readonly is = isFromDecode(this._decode.bind(this));
+}
+
+/**
+ * A schema representing a "record" (i.e., a JavaScript object) with properties
+ * matching the schemas in the `properties` property.  For the
+ * `FullRecordSchema`, all properties are required.
+ */
+export interface CompleteRecordSchema<P extends Properties>
+  extends CompleteRecordSchemaC<P> {}
+
+/**
+ * Creates a schema representing a "record" (i.e., a JavaScript object) with
+ * properties matching the schemas in the `properties` argument.   For the
+ * `FullRecordSchema`, all properties are required.
+ */
+export const completeRecord = <P extends Properties>(
+  properties: P
+): CompleteRecordSchema<P> => new CompleteRecordSchemaC(properties);
+
+/**
+ * Determines if the Schema is a FullRecordSchema.
+ */
+export const isCompleteRecordSchema = (
+  s: Schema
+): s is CompleteRecordSchema<any> => s.kind === "complete-record";
 
 ////////////////////////////////////////////////////////////////////////////////
 
