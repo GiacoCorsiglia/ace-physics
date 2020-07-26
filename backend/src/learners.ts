@@ -34,8 +34,13 @@ export const get: Handler<GetLearnerRequest> = async (request) => {
 export const create: Handler<CreateLearnerRequest> = async (request) => {
   const client = db.client();
 
+  let attempts = 0;
   async function createLearner(): Promise<response.Response> {
-    const digits = 6;
+    if (attempts > 5) {
+      return response.error("Failed to generate a unique Learner ID");
+    }
+    attempts++;
+
     const id = await getNextIdAndReserve(1);
 
     const learner: Learner = {
