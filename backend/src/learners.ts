@@ -138,7 +138,10 @@ export const createMany: Handler<CreateLearnersRequest> = async (request) => {
   }
 
   return Promise.all(promises).then(
-    () => response.success({}),
+    () =>
+      response.success({
+        learners: writeRequests.map((wr) => wr.PutRequest.Item),
+      }),
     (e) => response.error("Learner creation failed", e)
   );
 };
