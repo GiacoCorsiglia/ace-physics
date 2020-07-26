@@ -6,13 +6,17 @@
     "aws-sdk": "2.666.0"
   },
   "scripts": {
-    "build": "yarn run webpack",
-    "start": "sam local start-api --skip-pull-image --profile=default"
+    "build": "yarn run webpack && sam build",
+    "watch": "yarn run chokidar \"src/**/*.ts\" \"../frontend/src/common/**/*.ts\" --command \"yarn run build\" --initial",
+    "dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local",
+    "start": "sam local start-api --skip-pull-image --profile=default",
+    "start-debug": "sam local start-api -d 9999 --skip-pull-image --profile=default"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.51",
     "@types/node": "^13.13.4",
     "@types/webpack": "^4.41.12",
+    "chokidar-cli": "^2.1.0",
     "jest": "24.9.0",
     "ts-jest": "24.3.0",
     "ts-loader": "^7.0.1",
