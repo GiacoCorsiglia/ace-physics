@@ -20,7 +20,7 @@ export function notFound(): Response {
   });
 }
 
-export function error(error: string | Error): Response {
+export function error(error: string | Error, info: any = undefined): Response {
   const message: string =
     typeof error === "string" ? error : `${error.name}: ${error.message}`;
 
@@ -30,6 +30,7 @@ export function error(error: string | Error): Response {
       error: 500,
       type: "Internal Server Error",
       message,
+      info,
     }),
   });
 }
