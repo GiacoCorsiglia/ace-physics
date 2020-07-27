@@ -195,7 +195,9 @@ export function WithField<P extends s.Properties, K extends keyof P>({
   return <>{children(field)}</>;
 }
 
-export function isSet(field: Field<s.Schema>): boolean {
+export function isSet<S extends s.Schema>(
+  field: Field<S>
+): field is Field<S> & { value: NonNullable<Field<S>["value"]> } {
   const value = field.value;
 
   if (value === undefined) {
@@ -204,7 +206,7 @@ export function isSet(field: Field<s.Schema>): boolean {
 
   switch (field.schema.kind) {
     case "choice":
-      return value.selected !== undefined || !!field.value.other;
+      return value.selected !== undefined || !!value.other;
     default:
       return true;
   }
