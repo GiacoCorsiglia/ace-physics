@@ -74,9 +74,7 @@ export const create: Handler<CreateLearnerRequest> = async (request) => {
       })
       .promise()
       .then(
-        () => {
-          return response.success(learner);
-        },
+        () => response.success(learner),
         (e: AWS.AWSError) => {
           if (e.code === "ConditionalCheckFailedException") {
             // This means a learner with this ID already exists, so let's try
