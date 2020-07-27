@@ -38,8 +38,21 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   possibleMoodEigenvalues: s.choice(["1", "-1", "0"] as const),
   moodEigenvaluesCommit: s.boolean(),
 
-  // Part 2.
+  // Superpositions.
+  superpositionsIntroCommit: s.boolean(),
+
   whyWideStressed: s.string(),
+  whyWideStressedHelp: s.boolean(),
+  whyWideStressedCommit: s.boolean(),
+
+  smallEyeA: s.number(),
+  smallEyeB: s.number(),
+  smallEyeBasisChangeHelp: s.boolean(),
+  smallEyeBasisChangeCommit: s.boolean(),
+
+  abUnique: s.choice(["unique", "not unique"] as const),
+  abUniqueHelp: s.boolean(),
+  abUniqueCommit: s.boolean(),
 }));
 
 ////////////////////////////////////////////////////////////////////////////////
