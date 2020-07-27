@@ -1,7 +1,7 @@
 import * as apiTypes from "ace-frontend/src/common/apiTypes";
 import * as learners from "./learners";
-import * as response from "./response";
 import * as router from "./router";
+import * as tutorials from "./tutorials";
 
 // NOTE: When adding a route here also add it to template.yaml
 
@@ -13,17 +13,8 @@ router.post(
   learners.createMany
 );
 
-router.get("GetTutorial", apiTypes.GetTutorialRequest, async (request) => {
-  return response.error("GetTutorial: Unimplemented");
-});
-
-router.put(
-  "UpdateTutorial",
-  apiTypes.UpdateTutorialRequest,
-  async (request) => {
-    return response.error("UpdateTutorial: Unimplemented");
-  }
-);
+router.get("GetTutorial", apiTypes.GetTutorialRequest, tutorials.get);
+router.put("UpdateTutorial", apiTypes.UpdateTutorialRequest, tutorials.update);
 
 // Lambda function entry point.
 
