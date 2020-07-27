@@ -18,6 +18,27 @@
   }
 }
 
+.reminder {
+  border-radius: 3px;
+  padding: 0.5rem 1rem 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background: hsl(0, 0, 95%);
+  opacity: 0.75;
+}
+
+.reminderLabel {
+  display: block;
+  font-size: $text-smallest;
+  text-transform: uppercase;
+  opacity: 0.75;
+  line-height: 1.5rem;
+
+  & + * {
+    margin-top: 0 !important;
+  }
+}
+
 /////////////////////////////////////////////
 // DEPRECATED:
 /////////////////////////////////////////////

@@ -25,6 +25,15 @@ export function Prose({ children }: OptionalChildren) {
   return <Container className="prose">{children}</Container>;
 }
 
+export function Reminder({ children }: Children) {
+  return (
+    <div className={styles.reminder}>
+      <span className={styles.reminderLabel}>Reminder</span>
+      {children}
+    </div>
+  );
+}
+
 export function Vocabulary({ children }: Children) {
   return (
     <strong>
