@@ -10,7 +10,12 @@ type Corner =
   | "leftCenter"
   | "rightCenter";
 
-type PropTypes = { t: string; display?: boolean } & (
+type PropTypes = {
+  t: string;
+  display?: boolean;
+  prespace?: boolean;
+  postspace?: boolean;
+} & (
   | { inSvg?: false; x?: never; y?: never; relativeTo?: never; offset?: never }
   | { inSvg: true; x: number; y: number; relativeTo?: Corner; offset?: number }
 );
@@ -72,6 +77,8 @@ function transform(
   }
 }
 
+const space = document.createTextNode(" ");
+
 export default function M({
   t: tex,
   display = false,
@@ -80,6 +87,8 @@ export default function M({
   y = 0,
   relativeTo = "topLeft",
   offset = 5,
+  prespace = true,
+  postspace = false, // In case it's followed by punctuation.
 }: PropTypes) {
   const foreignObjectRef = useRef<SVGForeignObjectElement>(null);
   const mathRef = useRef<any>(null);
@@ -103,7 +112,13 @@ export default function M({
     options.display = display;
     MathJax.tex2svgPromise(tex, options)
       .then(function (node: any) {
+        if (!display && prespace) {
+          mathEl.appendChild(space.cloneNode(false));
+        }
         mathEl.appendChild(node);
+        if (!display && postspace) {
+          mathEl.appendChild(space.cloneNode(false));
+        }
         MathJax.startup.document.clear();
         MathJax.startup.document.updateDocument();
 
