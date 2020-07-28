@@ -35,7 +35,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   happySadInnerProduct: s.number(),
   happySadInnerProductExplain: s.string(),
 
-  possibleMoodEigenvalues: s.choice(["1", "-1", "0"] as const),
+  possibleMoodEigenvalues: s.choice(["1", "-1", "0"] as const, true),
   moodEigenvaluesCommit: s.boolean(),
 
   // Superpositions.
