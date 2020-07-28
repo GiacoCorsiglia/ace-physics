@@ -86,7 +86,7 @@
 .tertiary {
   composes: buttonBase;
 
-  $color: #afaf20;
+  $color: $help-green;
 
   background-color: $color;
   color: #fff;

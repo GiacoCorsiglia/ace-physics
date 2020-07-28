@@ -1,6 +1,6 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, HelpButton, Prose, Section } from "src/components";
+import { Continue, Help, HelpButton, Prose, Section } from "src/components";
 import {
   FieldGroup,
   Select,
@@ -114,14 +114,16 @@ export default function WhatIsAQuantumMouse() {
           </FieldGroup>
 
           {needsHelp(sizeEiegenHelp) && (
-            <Prose>
-              Remember, eigen-equations usually look like:
-              <M
-                display
-                t="(\text{operator}) (\text{eigenvector}) = (\text{eigenvalue}) \cdot (\text{eigenvector})"
-              />
-              This is still true even if there are mice involved!
-            </Prose>
+            <Help>
+              <Prose>
+                Remember, eigen-equations usually look like:
+                <M
+                  display
+                  t="(\text{operator}) (\text{eigenvector}) = (\text{eigenvalue}) \cdot (\text{eigenvector})"
+                />
+                This is still true even if there are mice involved!
+              </Prose>
+            </Help>
           )}
 
           <Continue
@@ -149,17 +151,19 @@ export default function WhatIsAQuantumMouse() {
           </Prose>
 
           {needsHelp(hiddenUnitsHelp) && (
-            <Prose>
-              <p>
-                When we say “hidden units,” we mean are there any numbers in the
-                equations that have units that we haven't written down?
-              </p>
+            <Help>
+              <Prose>
+                <p>
+                  When we say “hidden units,” we mean are there any numbers in
+                  the equations that have units that we haven't written down?
+                </p>
 
-              <p>
-                When a number has units, it usually corresponds with something
-                that can be physically measured.
-              </p>
-            </Prose>
+                <p>
+                  When a number has units, it usually corresponds with something
+                  that can be physically measured.
+                </p>
+              </Prose>
+            </Help>
           )}
 
           <Continue
@@ -188,9 +192,11 @@ export default function WhatIsAQuantumMouse() {
           </FieldGroup>
 
           {needsHelp(smallBigInnerProductHelp) && (
-            <Prose>
-              Remember, we said they‘re <em>orthonormal!</em>
-            </Prose>
+            <Help>
+              <Prose>
+                Remember, we said they‘re <em>orthonormal!</em>
+              </Prose>
+            </Help>
           )}
 
           <Continue

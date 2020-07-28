@@ -1,6 +1,13 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, HelpButton, Prose, Reminder, Section } from "src/components";
+import {
+  Continue,
+  Help,
+  HelpButton,
+  Prose,
+  Reminder,
+  Section,
+} from "src/components";
 import {
   Choice,
   Decimal,
@@ -115,17 +122,21 @@ export default function MeasuringEyeSize() {
           ></Choice>
 
           {needsHelp(collapsed1mmStateHelp) && (
-            <Prose>
-              Does it matter that you don't know what state the mouse was in{" "}
-              <em>before</em> the measurement?
-            </Prose>
+            <Help>
+              <Prose>
+                Does it matter that you don't know what state the mouse was in{" "}
+                <em>before</em> the measurement?
+              </Prose>
+            </Help>
           )}
 
           {needsHelp(collapsed1mmStateHelp2) && (
-            <Prose>
-              Is there one state that you <em>know</em> describes a mouse with{" "}
-              <M t="1\text{mm}" /> eyes 100% of the time?
-            </Prose>
+            <Help>
+              <Prose>
+                Is there one state that you <em>know</em> describes a mouse with{" "}
+                <M t="1\text{mm}" /> eyes 100% of the time?
+              </Prose>
+            </Help>
           )}
 
           <Continue
@@ -202,12 +213,14 @@ export default function MeasuringEyeSize() {
           </FieldGroup>
 
           {needsHelp(measureUnhappyProbabilityHelp) && (
-            <Prose>
-              Think about what state the mouse is in when you measure measure{" "}
-              <M t="\hat{M}" />. How can you write that state in terms of the
-              eigenvectors of <M t="\hat{M}" />.{" "}
-              <em>(Hint: see the reminder at the top of this page.) </em>
-            </Prose>
+            <Help>
+              <Prose>
+                Think about what state the mouse is in when you measure measure{" "}
+                <M t="\hat{M}" />. How can you write that state in terms of the
+                eigenvectors of <M t="\hat{M}" />.{" "}
+                <em>(Hint: see the reminder at the top of this page.) </em>
+              </Prose>
+            </Help>
           )}
 
           <Continue commit={measureUnhappyProbabilityCommit} label="Move on">

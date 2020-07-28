@@ -19,7 +19,7 @@
 }
 
 .reminder {
-  border-radius: 3px;
+  border-radius: $border-radius;
   padding: 0.5rem 1rem 1rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -45,6 +45,19 @@
     :last-child :last-child {
       margin-bottom: 0 !important;
     }
+  }
+}
+
+.help {
+  border-radius: $border-radius;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background: #f3fbea;
+
+  :first-child,
+  .prose :first-child {
+    margin-top: 0;
   }
 }
 

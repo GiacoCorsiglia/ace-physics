@@ -1,6 +1,13 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, HelpButton, Prose, Reminder, Section } from "src/components";
+import {
+  Continue,
+  Help,
+  HelpButton,
+  Prose,
+  Reminder,
+  Section,
+} from "src/components";
 import {
   Decimal,
   FieldGroup,
@@ -72,11 +79,13 @@ export default function Superpositions() {
           />
 
           {needsHelp(whyWideStressedHelp) && (
-            <Prose>
-              Based on the equation above, would you say that wide-eyed mice
-              (the
-              <M t="\ket{*}" />) are more happy, or more sad?
-            </Prose>
+            <Help>
+              <Prose>
+                Based on the equation above, would you say that wide-eyed mice
+                (the
+                <M t="\ket{*}" />) are more happy, or more sad?
+              </Prose>
+            </Help>
           )}
 
           <Continue
@@ -139,11 +148,13 @@ export default function Superpositions() {
           <Prose>If not, does it matter?</Prose>
 
           {needsHelp(abUniqueHelp) && (
-            <Prose>
-              When we say <strong>unique</strong>, we’re asking whether the{" "}
-              <M t="a" /> and <M t="b" /> you found are the only possible
-              solution.
-            </Prose>
+            <Help>
+              <Prose>
+                When we say <strong>unique</strong>, we’re asking whether the{" "}
+                <M t="a" /> and <M t="b" /> you found are the only possible
+                solution.
+              </Prose>
+            </Help>
           )}
 
           <Continue
