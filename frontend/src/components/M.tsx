@@ -136,7 +136,7 @@ export default function M({
       .catch(function (err: any) {
         console.error(err);
       });
-  }, [tex, isReady, relativeTo, offset, display, inSvg]);
+  }, [tex, isReady, relativeTo, offset, display, inSvg, prespace, postspace]);
 
   const Container = display ? "div" : "span";
 
