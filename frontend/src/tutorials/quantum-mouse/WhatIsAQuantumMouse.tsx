@@ -118,7 +118,7 @@ export default function WhatIsAQuantumMouse() {
               Remember, eigen-equations usually look like:
               <M
                 display
-                t="(\text{operator}) \times (\text{eigenvector}) = (\text{eigenvalue}) \times (\text{eigenvector})"
+                t="(\text{operator}) (\text{eigenvector}) = (\text{eigenvalue}) \cdot (\text{eigenvector})"
               />
               This is still true even if there are mice involved!
             </Prose>
