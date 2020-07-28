@@ -107,7 +107,7 @@ const moodChoices: SelectChoices<QuantumMouse["moodEigenvalues"]> = [
     value: "kets",
     label: (
       <>
-        <M display t="\ket{😸}" /> and <M display t="\ket{😿}" />
+        <M t="\ket{😸}" /> and <M t="\ket{😿}" />
       </>
     ),
   },
