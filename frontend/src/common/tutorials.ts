@@ -53,6 +53,35 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   abUnique: s.choice(["unique", "not unique"] as const),
   abUniqueHelp: s.boolean(),
   abUniqueCommit: s.boolean(),
+
+  // Measuring Eye Size.
+  measuringEyeSizeIntroCommit: s.boolean(),
+
+  collapsed1mmState: s.choice([
+    "1mm",
+    "2mm",
+    "happy",
+    "sad",
+    "ambiguous",
+  ] as const),
+  // collapsed1mmStateAmbiguity: s.string(),
+  collapsed1mmStateCommit: s.boolean(),
+  collapsed1mmStateHelp: s.boolean(),
+  collapsed1mmStateHelp2: s.boolean(),
+
+  remeasure1mmResults: s.string(),
+  remeasure1mmState: s.choice(["1mm", "2mm", "happy", "sad"] as const),
+  remeasure1mmCommit: s.boolean(),
+  remeasure1mmHelp: s.boolean(),
+
+  measureUnhappyProbability: s.number(),
+  measureUnhappyProbabilityExplain: s.string(),
+  measureUnhappyProbabilityHelp: s.boolean(),
+  measureUnhappyProbabilityCommit: s.boolean(),
+
+  smallEyedEmotion: s.string(),
+  smallEyedEmotionHelp: s.boolean(),
+  smallEyedEmotionCommit: s.boolean(),
 }));
 
 ////////////////////////////////////////////////////////////////////////////////

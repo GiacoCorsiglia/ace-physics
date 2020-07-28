@@ -40,13 +40,13 @@ export default function Superpositions() {
       <Content>
         <Section first>
           <Reminder>
-            <p className="prose">
+            <Prose>
               Small-eyed mice: &nbsp;{" "}
               <M t="\hat{S}\ket{\cdot} = 1 \ket{\cdot}" /> <br />
               Wide-eyed mice: &nbsp; <M t="\hat{S}\ket{*} = 2 \ket{*}" /> <br />
               Happy mice: &nbsp; <M t="\hat{M}\ket{😸}=\ket{😸}" /> <br />
               Sad mice: &nbsp; <M t="\hat{M}\ket{😿}= -\ket{😿}" />
-            </p>
+            </Prose>
           </Reminder>
 
           <Prose>

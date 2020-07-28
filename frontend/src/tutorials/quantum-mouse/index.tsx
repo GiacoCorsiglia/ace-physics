@@ -3,6 +3,7 @@ import { QuantumMouse } from "src/common/tutorials";
 import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
+import MeasuringEyeSize from "./MeasuringEyeSize";
 import QuantumMood from "./QuantumMood";
 import Superpositions from "./Superpositions";
 import WhatIsAQuantumMouse from "./WhatIsAQuantumMouse";
@@ -32,6 +33,11 @@ export const route = tutorialRoute({
       path: "superpositions",
       label: "Superpositions",
       element: <Superpositions />,
+    },
+    {
+      path: "measuring-eye-size",
+      label: "Measuring Eye Size",
+      element: <MeasuringEyeSize />,
     },
   ],
 });
