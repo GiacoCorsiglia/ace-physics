@@ -1,7 +1,12 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Prose, Section } from "src/components";
-import { Choice, FieldGroup, SelectChoices } from "src/components/inputs";
+import { Continue, Prose, Section } from "src/components";
+import {
+  Choice,
+  FieldGroup,
+  Select,
+  SelectChoices,
+} from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { useField } from "src/state";
@@ -12,6 +17,10 @@ export default function QuantumMood() {
     QuantumMouse,
     "possibleMoodEigenvalues"
   );
+  const moodEigenvaluesCommit = useField(QuantumMouse, "moodEigenvaluesCommit");
+  const moodEigenvalues = useField(QuantumMouse, "moodEigenvalues");
+  const moodEigenvectors = useField(QuantumMouse, "moodEigenvectors");
+  const moodOperator = useField(QuantumMouse, "moodOperators");
 
   return (
     <Part label={<>Moody mice</>}>
@@ -47,6 +56,38 @@ export default function QuantumMood() {
               label={""}
             />
           </FieldGroup>
+
+          <Continue commit={moodEigenvaluesCommit} label="Move on" />
+        </Section>
+
+        <Section commits={[moodEigenvaluesCommit]}>
+          <Prose>
+            Let's take some time to check in on the understanding of the
+            representations.
+          </Prose>
+
+          <FieldGroup grid className="margin-top">
+            <Select
+              field={moodEigenvalues}
+              choices={moodChoices}
+              label="Eigenvalues:"
+              placeholder="Select eigenvalues…"
+            />
+
+            <Select
+              field={moodEigenvectors}
+              choices={moodChoices}
+              label="Eigenvectors:"
+              placeholder="Select eigenvectors…"
+            />
+
+            <Select
+              field={moodOperator}
+              choices={moodChoices}
+              label="Operator(s):"
+              placeholder="Select operator..."
+            />
+          </FieldGroup>
         </Section>
       </Content>
     </Part>
@@ -59,4 +100,27 @@ const possibleMoodEigenvalueChoices: SelectChoices<
   { value: "1", label: "1" },
   { value: "-1", label: "-1" },
   { value: "0", label: "Zero" },
+];
+
+const moodChoices: SelectChoices<QuantumMouse["moodEigenvalues"]> = [
+  {
+    value: "kets",
+    label: (
+      <>
+        <M display t="\ket{😸}" /> and <M display t="\ket{😿}" />
+      </>
+    ),
+  },
+  {
+    value: "value",
+    label: (
+      <>
+        <M t="1" /> and <M t="-1" />
+      </>
+    ),
+  },
+  {
+    value: "operator",
+    label: <M t="\hat{M}" />,
+  },
 ];
