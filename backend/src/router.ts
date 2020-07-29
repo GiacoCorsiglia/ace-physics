@@ -39,7 +39,14 @@ export async function route(
   const decoded = action.schema.decode(payload);
 
   if (s.isFailure(decoded)) {
-    return response.error("Invalid payload", decoded.errors);
+    return response.error(
+      "Invalid payload",
+      decoded.errors.map((e) => ({
+        path: e.path,
+        error: e.message,
+        received: e.value,
+      }))
+    );
   }
 
   try {
