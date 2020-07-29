@@ -813,6 +813,7 @@ interface Error<T> {
   readonly value: T;
   readonly context: Context;
   readonly message: string;
+  readonly path: string;
 }
 
 type Context = ReadonlyArray<{
@@ -832,7 +833,19 @@ function Failure<T>(errors: Error<T> | Error<T>[]): Failure<T> {
 }
 
 function Error<T>(value: T, context: Context, message: string): Error<T> {
-  return { value, context, message };
+  const path = context.reduce((path, ctx) => {
+    if (ctx.index === null) {
+      return path;
+    }
+    if (typeof ctx.index === "number") {
+      return `${path}[${ctx}]`;
+    }
+    if (path) {
+      path += ".";
+    }
+    return path + ctx.index;
+  }, "");
+  return { value, context, message, path };
 }
 
 /**
