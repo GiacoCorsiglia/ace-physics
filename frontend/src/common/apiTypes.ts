@@ -5,9 +5,10 @@ import * as s from "./schema";
 export type Learner = s.TypeOf<typeof Learner>;
 export const Learner = s.completeRecord({
   learnerId: s.string(),
-  entryId: s.string(),
-  institutionId: s.string(),
-  courseId: s.string(),
+
+  institution: s.string(),
+  course: s.string(),
+
   createdAt: s.string(),
 });
 
@@ -17,16 +18,32 @@ export const GetLearnerRequest = s.completeRecord({
 });
 
 export type CreateLearnerRequest = s.TypeOf<typeof CreateLearnerRequest>;
-export const CreateLearnerRequest = s.completeRecord({});
+export const CreateLearnerRequest = s.any();
 
 export type CreateLearnersRequest = s.TypeOf<typeof CreateLearnersRequest>;
 export const CreateLearnersRequest = s.completeRecord({
-  institutionId: s.string(),
-  courseId: s.string(),
+  institution: s.string(),
+  course: s.string(),
   number: s.number(),
 });
 
 // Tutorials.
+
+export type Tutorial = s.TypeOf<typeof Tutorial>;
+export const Tutorial = s.completeRecord({
+  learnerId: s.string(),
+
+  institution: s.string(),
+  course: s.string(),
+
+  createdAt: s.string(),
+  updatedAt: s.string(),
+
+  version: s.number(),
+
+  tutorial: s.string(),
+  tutorialData: s.any(),
+});
 
 export type GetTutorialRequest = s.TypeOf<typeof GetTutorialRequest>;
 export const GetTutorialRequest = s.completeRecord({
@@ -38,5 +55,6 @@ export type UpdateTutorialRequest = s.TypeOf<typeof UpdateTutorialRequest>;
 export const UpdateTutorialRequest = s.completeRecord({
   learnerId: s.string(),
   tutorial: s.string(),
+  version: s.number(),
   tutorialData: s.any(),
 });

@@ -99,14 +99,14 @@ Resources:
     Properties:
       TableName: !Sub "ACE_${Environment}_DataTable"
       KeySchema:
-        - AttributeName: learnerId
+        - AttributeName: pk
           KeyType: HASH
-        - AttributeName: entryId
+        - AttributeName: sk
           KeyType: RANGE
       AttributeDefinitions:
-        - AttributeName: learnerId
+        - AttributeName: pk
           AttributeType: S
-        - AttributeName: entryId
+        - AttributeName: sk
           AttributeType: S
       ProvisionedThroughput:
         ReadCapacityUnits: 10

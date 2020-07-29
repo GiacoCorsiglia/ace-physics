@@ -4,28 +4,38 @@ import {
   GetLearnerRequest,
   Learner,
 } from "ace-frontend/src/common/apiTypes";
-import AWS from "aws-sdk";
+import { AsyncResult } from "ace-frontend/src/common/util";
+import type AWS from "aws-sdk";
 import * as db from "./db";
 import * as response from "./response";
 import { Handler } from "./router";
 
-async function getNextIdAndReserve(blockSize: number) {
-  const result = await db
-    .client()
-    .update({
+async function getNextIdAndReserve(
+  blockSize: number
+): Promise<AsyncResult<AWS.AWSError, number>> {
+  const result = await db.result(
+    db.client().update({
       TableName: db.TableName,
       Key: {
-        learnerId: "learner#ID_COUNTER",
-        entryId: "ID_COUNTER",
+        pk: db.learnerPk("ID_COUNTER"),
+        sk: "ID_COUNTER",
       },
-      UpdateExpression: "ADD nextId :incr",
+      UpdateExpression: "ADD lastId :incr",
       ExpressionAttributeValues: {
-        ":incr": blockSize + 2,
+        ":incr": blockSize,
       },
       ReturnValues: "UPDATED_NEW",
     })
-    .promise();
-  return 100000 + result.Attributes!.nextId - blockSize - 1;
+  );
+
+  if (result.failed) {
+    return result;
+  }
+
+  return {
+    failed: false,
+    value: 100000 + result.value.Attributes!.lastId - (blockSize - 1),
+  };
 }
 
 export const get: Handler<GetLearnerRequest> = async (request) => {
@@ -34,8 +44,8 @@ export const get: Handler<GetLearnerRequest> = async (request) => {
     .get({
       TableName: db.TableName,
       Key: {
-        learnerId: db.learnerId(request.body.learnerId),
-        entryId: db.learnerProfile,
+        pk: db.learnerPk(request.body.learnerId),
+        sk: db.learnerProfileSk,
       },
     })
     .promise()
@@ -51,40 +61,50 @@ export const create: Handler<CreateLearnerRequest> = async (request) => {
 
   let attempts = 0;
   async function createLearner(): Promise<response.Response> {
-    if (attempts > 5) {
+    if (attempts >= 5) {
       return response.error("Failed to generate a unique Learner ID");
     }
     attempts++;
 
-    const id = await getNextIdAndReserve(1);
+    const idResult = await getNextIdAndReserve(1);
+    if (idResult.failed) {
+      return response.error("Failed to get next Learner ID", idResult.error);
+    }
+    const id = idResult.value.toString();
 
-    const learner: Learner = {
-      learnerId: db.learnerId(id.toString()),
-      entryId: db.learnerProfile,
-      institutionId: "NONE",
-      courseId: "NONE",
-      createdAt: db.date(),
+    const key: db.Key = {
+      pk: db.learnerPk(id),
+      sk: db.learnerProfileSk,
     };
 
-    return client
-      .put({
+    const learner: Omit<Learner, "learnerId"> = {
+      institution: "NONE",
+      course: "NONE",
+      createdAt: db.now(),
+    };
+
+    const result = await db.result(
+      client.put({
         TableName: db.TableName,
-        Item: learner,
-        ConditionExpression: "attribute_not_exists(learnerId)",
+        Item: { ...key, ...learner },
+        ConditionExpression: "attribute_not_exists(pk)",
       })
-      .promise()
-      .then(
-        () => response.success(learner),
-        (e: AWS.AWSError) => {
-          if (e.code === "ConditionalCheckFailedException") {
-            // This means a learner with this ID already exists, so let's try
-            // again and generate another one!
-            return createLearner();
-          }
-          // Otherwise who knows what went wrong!
-          return response.error("Put failed", e);
-        }
-      );
+    );
+
+    if (!result.failed) {
+      return response.success({
+        learnerId: id,
+        ...learner,
+      });
+    }
+
+    if (result.error.code === "ConditionalCheckFailedException") {
+      // This means a learner with this ID already exists, so let's try
+      // again and generate another one!
+      return createLearner();
+    }
+    // Otherwise who knows what went wrong!
+    return response.error("Put failed", result.error);
   }
 
   return createLearner();
@@ -94,25 +114,32 @@ export const createMany: Handler<CreateLearnersRequest> = async (request) => {
   const number = request.body.number;
 
   if (number <= 0) {
-    return response.error('"number" cannot be <= 0');
+    return response.error("Cannot generate fewer than 0 learners");
   } else if (number > 500) {
     return response.error(
       "Generating more than 500 learners at once is not permitted"
     );
   }
 
-  const firstId = await getNextIdAndReserve(number);
+  const firstIdResult = await getNextIdAndReserve(number);
+  if (firstIdResult.failed) {
+    return response.error("Failed to get next Learner ID", firstIdResult.error);
+  }
+  const firstId = firstIdResult.value;
 
-  const createdAt = db.date();
-  const writeRequests: { PutRequest: { Item: Learner } }[] = [];
+  const createdAt = db.now();
+  const writeRequests: {
+    PutRequest: { Item: db.Key & Omit<Learner, "learnerId"> };
+  }[] = [];
   for (let id = firstId; id < firstId + number; id++) {
     writeRequests.push({
       PutRequest: {
         Item: {
-          learnerId: db.learnerId(id.toString()),
-          entryId: db.learnerProfile,
-          institutionId: request.body.institutionId,
-          courseId: request.body.courseId,
+          pk: db.learnerPk(id.toString()),
+          sk: db.learnerProfileSk,
+
+          institution: request.body.institution,
+          course: request.body.course,
           createdAt,
         },
       },
@@ -138,7 +165,9 @@ export const createMany: Handler<CreateLearnersRequest> = async (request) => {
   return Promise.all(promises).then(
     () =>
       response.success({
-        learners: writeRequests.map((wr) => wr.PutRequest.Item),
+        learners: writeRequests.map((wr) =>
+          db.deleteKey(wr.PutRequest.Item, "learnerId")
+        ),
       }),
     (e) => response.error("Learner creation failed", e)
   );
