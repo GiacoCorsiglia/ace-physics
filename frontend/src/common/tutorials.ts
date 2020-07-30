@@ -82,6 +82,36 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   smallEyedEmotion: s.string(),
   smallEyedEmotionHelp: s.boolean(),
   smallEyedEmotionCommit: s.boolean(),
+
+  //More Measurements
+
+  moodStartCommit: s.boolean(),
+
+  smallEyeProbCommit: s.boolean(),
+
+  finalMoodCommit: s.boolean(),
+
+  surpriseResultCommit: s.boolean(),
+
+  thinkingDeeperCommit: s.boolean(),
+
+  //Expectation value
+
+  weightedAverageCommit: s.boolean(),
+
+  expValueMeasurabilityCommit: s.boolean(),
+
+  naiveAvgCommit: s.boolean(),
+
+  //Matrix Representation
+
+  moodVectorsCommit: s.boolean(),
+
+  eyeSizeVectorCommit: s.boolean(),
+
+  moodEigenequationCommit: s.boolean(),
+
+  moodMatrixCommit: s.boolean(),
 }));
 
 ////////////////////////////////////////////////////////////////////////////////

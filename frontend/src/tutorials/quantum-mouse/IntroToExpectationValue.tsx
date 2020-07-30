@@ -1,10 +1,19 @@
 import React from "react";
-import { Prose, Reminder, Section } from "src/components";
+import { QuantumMouse } from "src/common/tutorials";
+import { Continue, Prose, Reminder, Section } from "src/components";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
+import { useField } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function IntroToExpectationValue() {
+  const weightedAverageCommit = useField(QuantumMouse, "weightedAverageCommit");
+  const expValueMeasureabilityCommit = useField(
+    QuantumMouse,
+    "expValueMeasurabilityCommit"
+  );
+  const naiveAvgCommit = useField(QuantumMouse, "naiveAvgCommit");
+
   return (
     <Part label="Introducing the Expectation Value">
       <Content>
@@ -39,9 +48,11 @@ export default function IntroToExpectationValue() {
               </em>
             </p>
           </Prose>
+
+          <Continue commit={weightedAverageCommit} label="Move on" />
         </Section>
 
-        <Section>
+        <Section commits={[weightedAverageCommit]}>
           <Prose>
             <p>
               In QM, the answer above is called the “expectation value of{" "}
@@ -49,20 +60,24 @@ export default function IntroToExpectationValue() {
               measure this particular value, in any individual measurement?
             </p>
           </Prose>
-          //why/whynot with a text box in addtion to the boolean
+          {/*why/whynot with a text box in addtion to the boolean*/}
+          <Continue commit={expValueMeasureabilityCommit} label="Move on" />
         </Section>
 
-        <Section>
+        <Section
+          commits={[weightedAverageCommit, expValueMeasureabilityCommit]}
+        >
           <Prose>
             <p>
-              c) The “expectation value of <M t="\hat{S}" />” here is not simply
+              The “expectation value of <M t="\hat{S}" />” here is not simply
               the naïve average, i.e. (value 1 + value 2)/2, of the two possible
               values you might measure. Why not? Make intuitive sense of the
               result, given your interpretations of the characters of small-eyed
               and large-eyed mice.
             </p>
           </Prose>
-          //textbox. Maybe a hint with some student discussion/comparisons?
+          {/*textbox. Maybe a hint with some student discussion/comparisons?*/}
+          <Continue commit={naiveAvgCommit} label="Move on" />
         </Section>
       </Content>
     </Part>

@@ -1,10 +1,18 @@
 import React from "react";
-import { Prose, Reminder, Section } from "src/components";
+import { QuantumMouse } from "src/common/tutorials";
+import { Continue, Prose, Reminder, Section } from "src/components";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
+import { useField } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function MoreMeasurement() {
+  const moodStartCommit = useField(QuantumMouse, "moodStartCommit");
+  const smallEyeProbCommit = useField(QuantumMouse, "smallEyeProbCommit");
+  const finalMoodCommit = useField(QuantumMouse, "finalMoodCommit");
+  const surpriseResultCommit = useField(QuantumMouse, "surpriseResultCommit");
+  const thinkingDeeperCommit = useField(QuantumMouse, "thinkingDeeperCommit");
+
   return (
     <Part label="More Measurements">
       <Content>
@@ -28,12 +36,14 @@ export default function MoreMeasurement() {
             </p>
             <p>What state describes the mouse after this measurement?</p>
           </Prose>
-          //Multiple choice
+          {/*Multiple choice*/}
           <Prose>Is there any ambiguity about the state at this point?</Prose>
-          //text box and hint that discusses what we mean by ambiguity
+          {/*text box and hint that discusses what we mean by ambiguity*/}
+
+          <Continue commit={moodStartCommit} label="Move on" />
         </Section>
 
-        <Section>
+        <Section commits={[moodStartCommit]}>
           <Prose>
             {" "}
             What is the probability that a subsequent measurement of{" "}
@@ -41,12 +51,13 @@ export default function MoreMeasurement() {
             mm, i.e., "small-eyed"? (
             <em>Work it out from the postulates of quantum mechanics!</em>)
           </Prose>
-          //MC? Possibly add an explain. Hint would suggest that the postulates
+          {/*MC? Possibly add an explain. Hint would suggest that the postulates
           give a formula for probability and possible suggest drawing out the SG
-          system
+          system*/}
+          <Continue commit={smallEyeProbCommit} label="Move on" />
         </Section>
 
-        <Section>
+        <Section commits={[moodStartCommit, smallEyeProbCommit]}>
           <Prose>
             {" "}
             <p>
@@ -66,21 +77,33 @@ export default function MoreMeasurement() {
               probabilities?
             </p>
           </Prose>
-          //I feel like I want this one to be openended/textbox. Or we need to
-          make the optons: only one value vs multiple values
+          {/*I feel like I want this one to be openended/textbox. Or we need to
+          make the optons: only one value vs multiple values*/}
+          <Continue commit={finalMoodCommit} label="Move on" />
         </Section>
 
-        <Section>
+        <Section
+          commits={[moodStartCommit, smallEyeProbCommit, finalMoodCommit]}
+        >
           <Prose>
             <p>
               Think a bit about this chain of events – is there anything at all
               curious or surprising about it (from a classical perspective?)
             </p>
           </Prose>
-          //textbox
+          {/*textbox*/}
+
+          <Continue commit={surpriseResultCommit} label="Move on" />
         </Section>
 
-        <Section>
+        <Section
+          commits={[
+            moodStartCommit,
+            smallEyeProbCommit,
+            finalMoodCommit,
+            surpriseResultCommit,
+          ]}
+        >
           <Prose>
             <p>Thinking deeper:</p>
             <p>
@@ -89,9 +112,11 @@ export default function MoreMeasurement() {
               definitely one or the other, I just don’t know which, yet.”{" "}
             </p>
           </Prose>
-          //textbox. But I think this question should include some detailed
+          {/*textbox. But I think this question should include some detailed
           thought from our end and may include a sentence or so from an expert
-          perspective
+          perspective*/}
+
+          <Continue commit={thinkingDeeperCommit} label="Move on" />
         </Section>
       </Content>
     </Part>
