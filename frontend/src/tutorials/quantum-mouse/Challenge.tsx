@@ -21,6 +21,15 @@ export default function Challenge() {
                 //ADD MATRIX REP
               </p>
             </Prose>
+            <M
+              display
+              t="\ket{\cdot} = \frac{2}{\sqrt{5}} \ket{😸} - \frac{1}{\sqrt{5}} \ket{😿}"
+            />
+
+            <M
+              display
+              t="\ket{*} = \frac{1}{\sqrt{5}} \ket{😸} + \frac{2}{\sqrt{5}} \ket{😿}"
+            />
           </Reminder>
           <Prose>
             <p>

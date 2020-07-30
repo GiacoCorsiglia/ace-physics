@@ -191,9 +191,9 @@ const moodStartStateChoices: SelectChoices<QuantumMouse["moodStartState"]> = [
 ];
 
 const smallEyeProbChoices: SelectChoices<QuantumMouse["smallEyeProb"]> = [
-  { value: "0", label: "0" },
-  { value: "1/root5", label: "1/root5" },
-  { value: "1/5", label: "1/5" },
-  { value: "2/root5", label: "2/root5" },
-  { value: "4/5", label: "4/5" },
+  { value: "0", label: <M t="0" /> },
+  { value: "1/root5", label: <M t="1/\sqrt{5}" /> },
+  { value: "1/5", label: <M t="1/5" /> },
+  { value: "2/root5", label: <M t="2/ \sqrt{5}" /> },
+  { value: "4/5", label: <M t="4/5" /> },
 ];

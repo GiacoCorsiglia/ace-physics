@@ -83,7 +83,7 @@ export default function IntroToExpectationValue() {
             field={expValueMeasurabilityExplain}
             label={<Prose>Why or why not?</Prose>}
           />
-          {/*why/whynot with a text box in addtion to the boolean*/}
+
           <Continue commit={expValueMeasurabilityCommit} label="Move on" />
         </Section>
 

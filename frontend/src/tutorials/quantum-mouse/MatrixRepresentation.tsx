@@ -30,12 +30,21 @@ export default function MatrixRepresentation() {
                 Sad mice: &nbsp; <M t="\hat{M}\ket{😿}= -\ket{😿}" />
               </p>
             </Prose>
+            <M
+              display
+              t="\ket{\cdot} = \frac{2}{\sqrt{5}} \ket{😸} - \frac{1}{\sqrt{5}} \ket{😿}"
+            />
+
+            <M
+              display
+              t="\ket{*} = \frac{1}{\sqrt{5}} \ket{😸} + \frac{2}{\sqrt{5}} \ket{😿}"
+            />
           </Reminder>
           <Prose>
             <p>
-              Let’s choose mood eigenstates to be our “basis”. (We are working
-              in the “mood basis” throughout this page and the rest of the
-              Tutorial.)
+              Let’s choose mood eigenstates to be our “basis”. What will these
+              eigenstates look like as column vectors? (We are working in the
+              “mood basis” throughout this page and the rest of the Tutorial.)
             </p>
           </Prose>
           {/*--These are the labels in the field group: //a happy mouse,{" "}
