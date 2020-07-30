@@ -86,22 +86,40 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   //More Measurements
 
   moodStartCommit: s.boolean(),
+  moodStartAmbiguity: s.string(),
+  moodStartState: s.choice([
+    "small",
+    "large",
+    "happy",
+    "sad",
+    "ambiguous",
+  ] as const),
 
   smallEyeProbCommit: s.boolean(),
+  smallEyeProb: s.choice(["0", "1/root5", "1/5", "2/root5", "4/5", "1"]),
+  smallEyeProbExplain: s.string(),
 
   finalMoodCommit: s.boolean(),
+  finalMood: s.string(),
 
   surpriseResultCommit: s.boolean(),
+  surpriseResults: s.string(),
 
   thinkingDeeperCommit: s.boolean(),
+  thinkingDeeper: s.string(),
 
   //Expectation value
 
   weightedAverageCommit: s.boolean(),
+  weightedAverage: s.string(),
 
   expValueMeasurabilityCommit: s.boolean(),
+  expValueMeasurability: s.choice(["Yes", "No"]),
+  expValueMeasurabilityExplain: s.string(),
+  //I know you don't have to do it this way
 
   naiveAvgCommit: s.boolean(),
+  naiveAvg: s.string(),
 
   //Matrix Representation
 
