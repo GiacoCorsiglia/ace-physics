@@ -194,6 +194,37 @@ export const any: () => AnySchema = constant(new AnySchemaC());
 export const isAnySchema = (s: Schema): s is AnySchema => s.kind === "any";
 
 /**
+ * Schema instance representing an undefined value.
+ */
+class UndefinedSchemaC extends Schema<undefined> {
+  readonly kind = "undefined";
+
+  is(v: unknown): v is undefined {
+    return v === undefined;
+  }
+
+  readonly _decode = decodeFromIs(this.is.bind(this), "undefined");
+}
+
+/**
+ * A schema representing an undefined value.
+ */
+export interface UndefinedSchema extends UndefinedSchemaC {}
+
+/**
+ * Creates a schema representing an undefined value.
+ */
+export const undefined_: () => UndefinedSchema = constant(
+  new UndefinedSchemaC()
+);
+
+/**
+ * Determines if the Schema is an "undefined" schema.
+ */
+export const isUndefinedSchema = (s: Schema): s is UndefinedSchema =>
+  s.kind === "undefined";
+
+/**
  * Schema instance representing a boolean value.
  */
 class BooleanSchemaC extends Schema<boolean> {
@@ -285,7 +316,7 @@ export const isStringSchema = (s: Schema): s is StringSchema =>
 /**
  * Data types that can be sub-typed as literal values.
  */
-export type Literal = string | number;
+export type Literal = string | number | boolean;
 
 /**
  * Schema instance representing a literal value, which is a value that is
@@ -809,7 +840,7 @@ export interface Failure<T> {
   readonly errors: ReadonlyArray<Error<T>>;
 }
 
-interface Error<T> {
+export interface Error<T> {
   readonly value: T;
   readonly context: Context;
   readonly message: string;
