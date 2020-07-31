@@ -9,7 +9,7 @@
     "build": "yarn run webpack && sam build",
     "watch": "NODE_ENV=development yarn run chokidar \"src/**/*.ts\" \"../frontend/src/common/**/*.ts\" --command \"yarn run build\" --initial",
     "dynamodb": "(sleep 3; aws dynamodb create-table --cli-input-json file://template-local-db.json --endpoint-url http://localhost:8000 --output text) & docker run -p 8000:8000 amazon/dynamodb-local",
-    "start": "sam local start-api --port=4000--skip-pull-image --profile=default",
+    "start": "sam local start-api --port=4000 --skip-pull-image --profile=default",
     "start-debug": "sam local start-api --port=4000 -d 9999 --skip-pull-image --profile=default"
   },
   "devDependencies": {
