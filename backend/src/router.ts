@@ -9,7 +9,11 @@ export async function route(
   const requestMethod = event.httpMethod === "HEAD" ? "GET" : event.httpMethod;
 
   if (event.path === "/") {
-    return response.success({ ok: true });
+    if (requestMethod === "GET") {
+      return response.success({ ok: true });
+    }
+
+    return response.methodNotAllowed(requestMethod);
   }
 
   const actionName = event.path.replace(/^\/+|\/+$/g, "");
