@@ -16,3 +16,11 @@ export function asyncResult<E = any, T = any>(
     (error) => ({ failed: true, error })
   );
 }
+
+export function failure<T>(error: T) {
+  return { failed: true as const, error };
+}
+
+export function success<T>(value: T) {
+  return { failed: false as const, value };
+}
