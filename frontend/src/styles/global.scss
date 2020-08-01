@@ -135,7 +135,10 @@ body {
     }
 
     & a,
-    a#{&} {
+    a#{&},
+    & .link,
+    .link#{&} {
+      cursor: pointer;
       text-decoration: underline;
       color: $blue;
 
