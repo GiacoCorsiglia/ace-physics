@@ -1,7 +1,7 @@
 import { act, render } from "@testing-library/react";
 import React from "react";
 import * as s from "./common/schema";
-import { Provider, useField, useStore, WithField } from "./state";
+import { Provider, useField, useFields, useStore, WithField } from "./state";
 
 type TestSchema = typeof TestSchema["properties"];
 const TestSchema = s.record({
@@ -98,6 +98,144 @@ describe("Provider", () => {
     );
 
     expect(lastStore).toBe(store);
+  });
+});
+
+describe("useFields", () => {
+  it("provides fields for properties", () => {
+    let prop1Field, prop2Field;
+
+    function C() {
+      const { prop1, prop2 } = useFields(TestSchema);
+      prop1Field = prop1;
+      prop2Field = prop2;
+      return <div></div>;
+    }
+
+    const { rerender } = render(
+      <Provider schema={TestSchema}>
+        <C />
+      </Provider>
+    );
+
+    expect(prop1Field).toMatchObject({
+      schema: TestSchema.properties.prop1,
+    });
+    expect(prop2Field).toMatchObject({
+      schema: TestSchema.properties.prop2,
+    });
+
+    // Also doesn't mutate.
+    const lastProp1Field = prop1Field;
+    const lastProp2Field = prop2Field;
+
+    rerender(
+      <Provider schema={TestSchema}>
+        <C />
+      </Provider>
+    );
+
+    expect(prop1Field).toBe(lastProp1Field);
+    expect(prop2Field).toBe(lastProp2Field);
+  });
+
+  it("updates with value change", () => {
+    let prop1Field: any, prop2Field: any;
+
+    function C() {
+      const fields = useFields(TestSchema);
+      prop1Field = fields.prop1;
+      prop2Field = fields.prop2;
+      return (
+        <div>
+          <span>{prop1Field.value || "()"}</span>
+          <span>{prop2Field.value}</span>
+        </div>
+      );
+    }
+
+    const { getByText } = render(
+      <Provider schema={TestSchema}>
+        <C />
+      </Provider>
+    );
+
+    expect(getByText("initial value")).toBeInTheDocument();
+    expect(getByText("()")).toBeInTheDocument();
+
+    act(() => {
+      prop1Field.set(5);
+    });
+
+    expect(getByText("initial value")).toBeInTheDocument();
+    expect(getByText("5")).toBeInTheDocument();
+
+    act(() => {
+      prop2Field.set("updated value");
+    });
+
+    expect(getByText("updated value")).toBeInTheDocument();
+    expect(getByText("5")).toBeInTheDocument();
+  });
+
+  it("does not update when unaccessed field is updated", () => {
+    let store: any;
+    let renderCount: number = 0;
+
+    function C() {
+      renderCount++;
+
+      store = useStore();
+
+      const fields = useFields(TestSchema);
+      return (
+        <div>
+          <span>{fields.prop1.value || "()"}</span>
+          <span>
+            {fields.prop1.value === undefined ? "[]" : fields.prop2.value}
+          </span>
+        </div>
+      );
+    }
+
+    expect(renderCount).toBe(0);
+
+    const { getByText } = render(
+      <Provider schema={TestSchema}>
+        <C />
+      </Provider>
+    );
+
+    expect(renderCount).toBe(1);
+    expect(getByText("[]")).toBeInTheDocument();
+    expect(getByText("()")).toBeInTheDocument();
+
+    act(() => {
+      store.fields.prop2.set("updated value");
+    });
+
+    // Nothing should have changed.
+    expect(renderCount).toBe(1);
+    expect(getByText("[]")).toBeInTheDocument();
+    expect(getByText("()")).toBeInTheDocument();
+
+    act(() => {
+      store.fields.prop1.set(5);
+    });
+
+    // Now we should rerender, because it should be subscribed to prop1.
+    expect(renderCount).toBe(2);
+    expect(getByText("5")).toBeInTheDocument();
+    expect(getByText("updated value")).toBeInTheDocument();
+
+    act(() => {
+      store.fields.prop2.set("updated value2");
+    });
+
+    // And now it should be subscribed to prop2 as well.
+    expect(renderCount).toBe(3);
+    expect(getByText("5")).toBeInTheDocument();
+    expect(getByText("updated value2")).toBeInTheDocument();
   });
 });
 

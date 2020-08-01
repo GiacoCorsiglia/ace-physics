@@ -157,6 +157,53 @@ function Field<S extends s.Schema>(schema: S): Field<S> {
   return field;
 }
 
+export function useFields<P extends s.Properties>(
+  schema: s.RecordSchema<P>
+): Readonly<{ [K in keyof P]: Field<P[K]> }> {
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+
+  const proxy = useRef<Store<P>["fields"]>();
+  const unsubscribe = useRef<() => void>();
+
+  const store = useStore<P>();
+
+  if (store.schema !== schema) {
+    throw new Error(
+      "The current context is not set up for the Schema you provided." +
+        "\nDid you accidentally pass a Schema for the wrong tutorial?"
+    );
+  }
+
+  if (!proxy.current) {
+    const unsubscribers = new Map<string, () => void>();
+
+    // The stable reference of `unsubscribers` allows us to just bind this
+    // closure one time. The identify of the Map will be preserved for the
+    // lifetime of this component, since it's only created on the first render.
+    unsubscribe.current = () => unsubscribers.forEach((u) => u());
+
+    proxy.current = new Proxy(store.fields, {
+      get(target, property: string) {
+        const field = target[property];
+        if (!field) {
+          return undefined;
+        }
+
+        if (!unsubscribers.has(property)) {
+          unsubscribers.set(property, field.subscribe(forceUpdate));
+        }
+
+        return field;
+      },
+    });
+  }
+
+  // Make sure we unsubscribe when the component dismounts.
+  useEffect(() => unsubscribe.current, []);
+
+  return proxy.current;
+}
+
 export function useField<P extends s.Properties, K extends keyof P>(
   schema: s.RecordSchema<P>,
   key: K
