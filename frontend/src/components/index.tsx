@@ -10,19 +10,38 @@ import styles from "./structure.module.scss";
 function containerFor(children: React.ReactNode) {
   // This could be accomplished with map but the types got weird and this avoids
   // looping twice.
-  let hasParagraphs = false;
+  let needsP = true;
   React.Children.forEach(children, (child) => {
-    if (child && (child as any).type === "p") {
-      hasParagraphs = true;
+    if (!child) {
+      return;
+    }
+
+    switch ((child as any).type) {
+      case "h1":
+      case "h2":
+      case "h3":
+      case "h4":
+      case "h5":
+      case "h6":
+      case "ul":
+      case "ol":
+      case "blockquote":
+      case "p":
+        needsP = false;
     }
   });
 
-  return hasParagraphs ? "div" : "p";
+  return needsP ? "p" : "div";
 }
 
-export function Prose({ children }: OptionalChildren) {
+export function Prose({
+  children,
+  className,
+}: { className?: string } & OptionalChildren) {
   const Container = containerFor(children);
-  return <Container className="prose">{children}</Container>;
+  return (
+    <Container className={classes("prose", className)}>{children}</Container>
+  );
 }
 
 export function Help({ children }: Children) {
