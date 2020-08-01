@@ -23,8 +23,8 @@ export default function App() {
             {account.createAccountRoute}
             {account.loginRoute}
 
-          <Route path="/test" element={<ComponentsTest />} />
-          <Route path="*" element={<h1>Not Found</h1>} />
+            {Privacy.route}
+
             <Route path="test" element={<ComponentsTest />} />
 
             <Route path="*" element={<NotFound />} />
