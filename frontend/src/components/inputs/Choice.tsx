@@ -113,14 +113,14 @@ export default function Choice<
               [styles.selected, isSelected(choice)],
               [styles.focused, focusedChoice === choice]
             )}
-            key={choice.value}
+            key={choice.value.toString()}
             htmlFor={`${id}-${choice.value}`}
           >
             <div className={styles.choiceRadioBox}>
               <input
                 className={styles.choiceRadio}
                 type={isMulti ? "checkbox" : "radio"}
-                value={choice.value}
+                value={choice.value.toString()}
                 name={id}
                 id={`${id}-${choice.value}`}
                 checked={isSelected(choice)}
