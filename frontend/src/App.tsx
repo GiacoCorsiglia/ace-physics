@@ -5,6 +5,7 @@ import { ComponentsTest } from "./components/ComponentsTest";
 import { Content, Header, Page } from "./components/layout";
 import { Footer } from "./components/shared/Footer";
 import { UserMenu } from "./components/shared/UserMenu";
+import * as Generate from "./Generate";
 import * as globalParams from "./globalParams";
 import * as Privacy from "./Privacy";
 import * as Tutorials from "./tutorials";
@@ -22,6 +23,8 @@ export default function App() {
 
             {account.createAccountRoute}
             {account.loginRoute}
+
+            {Generate.route}
 
             {Privacy.route}
 

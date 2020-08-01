@@ -155,6 +155,7 @@ export function AccountProvider({ children }: Children) {
       if (
         location.pathname !== urls.Login.link &&
         location.pathname !== urls.CreateAccount.link &&
+        location.pathname !== urls.Generate.link &&
         location.pathname !== urls.Privacy.link
       ) {
         const next = buildUrl(
@@ -297,9 +298,7 @@ export function Login() {
         <Prose>
           <h1>Welcome to ACEPhysics.net</h1>
 
-          {wasLoggedOut && (
-            <p className={styles.success}>You’ve been logged out.</p>
-          )}
+          {wasLoggedOut && <p className="success">You’ve been logged out.</p>}
 
           <p>Please sign in using your six-digit account code.</p>
         </Prose>
@@ -359,14 +358,14 @@ export function Login() {
         </form>
 
         {status === "not-found" && (
-          <p className={styles.error}>
+          <p className="error">
             Sorry, there isn’t any account associated with that code. Please try
             again.
           </p>
         )}
 
         {status === "error" && (
-          <p className={styles.error}>Sorry, something went wrong.</p>
+          <p className="error">Sorry, something went wrong.</p>
         )}
 
         <Prose>

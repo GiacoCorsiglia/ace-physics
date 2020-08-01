@@ -26,6 +26,11 @@ export const Privacy = {
   link: "/privacy",
 };
 
+export const Generate = {
+  path: "generate",
+  link: "/generate",
+};
+
 const QuantumMouse = {
   path: "quantum-mouse",
   link: "/tutorials/quantum-mouse",
