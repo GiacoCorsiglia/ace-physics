@@ -200,10 +200,17 @@ class UndefinedSchemaC extends Schema<undefined> {
   readonly kind = "undefined";
 
   is(v: unknown): v is undefined {
-    return v === undefined;
+    // Yes it's a lie!!!
+    return v === undefined || v === null;
   }
 
-  readonly _decode = decodeFromIs(this.is.bind(this), "undefined");
+  protected _decode(v: unknown, context: Context) {
+    if (v === undefined || v === null) {
+      return Ok(undefined);
+    }
+
+    return Failure(Error(v, context, `not undefined`));
+  }
 }
 
 /**
