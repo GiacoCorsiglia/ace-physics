@@ -39,21 +39,27 @@ async function getNextIdAndReserve(
 }
 
 export const get: Handler<GetLearnerRequest> = async (request) => {
-  return db
-    .client()
-    .get({
+  const result = await db.result(
+    db.client().get({
       TableName: db.TableName,
       Key: {
         pk: db.learnerPk(request.body.learnerId),
         sk: db.learnerProfileSk,
       },
     })
-    .promise()
-    .then(
-      (result) =>
-        result.Item ? response.success(result.Item) : response.notFound(),
-      (e) => response.error("Get failed", e)
-    );
+  );
+
+  if (result.failed) {
+    return response.error("Get failed", result.error);
+  }
+
+  const item = result.value.Item;
+  if (!item) {
+    return response.notFound();
+  }
+
+  db.deleteKey(item, "learnerId");
+  return response.success(item);
 };
 
 export const create: Handler<CreateLearnerRequest> = async (request) => {
