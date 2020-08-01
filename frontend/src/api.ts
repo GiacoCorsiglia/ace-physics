@@ -101,9 +101,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
 
     const response = result.value;
 
-    const json = await asyncResult(
-      response.bodyUsed ? response.json() : Promise.resolve(null)
-    );
+    const json = await asyncResult(response.json());
 
     if (json.failed) {
       console.error("api: request with invalid json", json.error);
