@@ -43,6 +43,11 @@ body {
   // hyphens: auto;
   // text-align: justify;
 
+  &.no-margin,
+  &.no-margin :first-child {
+    margin-top: 0;
+  }
+
   @at-root {
     & h1,
     h1#{&},

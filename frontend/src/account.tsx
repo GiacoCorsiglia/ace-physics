@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -31,8 +32,8 @@ export const createAccountRoute = (
 const localStorageKey = "ace-physics-learnerId";
 
 type State = Readonly<
-  | { status: "LOGGED_OUT"; isLoggedIn: false; next?: string }
-  | { status: "LOADING"; isLoggedIn: false; next?: string }
+  | { status: "LOGGED_OUT"; isLoggedIn: false }
+  | { status: "LOADING"; isLoggedIn: false }
   | {
       status: "LOGGED_IN";
       isLoggedIn: true;
@@ -55,6 +56,14 @@ const DispatchContext = React.createContext<React.Dispatch<Action>>(
   () => undefined
 );
 
+export function useAccount() {
+  return useContext(Context);
+}
+export function useLogout() {
+  const dispatch = useContext(DispatchContext);
+  return useCallback(() => dispatch(["SET_LOGGED_OUT"]), [dispatch]);
+}
+
 function reducer(state: State, action: Action): State {
   switch (action[0]) {
     case "SET_LOADING":
@@ -63,6 +72,11 @@ function reducer(state: State, action: Action): State {
         isLoggedIn: false,
       };
     case "SET_LOGGED_OUT":
+      try {
+        localStorage.removeItem(localStorageKey);
+      } catch (e) {
+        console.error("account: couldn't access localStorage", e);
+      }
       return {
         status: "LOGGED_OUT",
         isLoggedIn: false,
@@ -143,14 +157,11 @@ export function AccountProvider({ children }: Children) {
         location.pathname !== urls.CreateAccount.link &&
         location.pathname !== urls.Privacy.link
       ) {
-        const search = location.search;
-        const hash = location.hash;
-        const next =
-          location.pathname +
-          (search ? "?" : "") +
-          search +
-          (hash ? "#" : "") +
-          hash;
+        const next = buildUrl(
+          location.pathname,
+          location.search,
+          location.hash
+        );
 
         navigate(`/login?next=${encodeURIComponent(next)}`);
       }
@@ -188,10 +199,13 @@ function Loading() {
 // Login page.
 ////////////////////////////////////////////////////////////////////////////////
 
+const buildUrl = (pathname: string, search: string, hash: string) =>
+  pathname + (search ? "?" : "") + search + (hash ? "#" : "") + hash;
+
 const inputPattern = /^\d{0,3}( |-|,)?\d{0,3}$/;
 const idPattern = /^\d{3}( |-|,)?\d{3}$/;
 const separatorPattern = / |-|,/;
-const formatId = (id: string) => `${id.slice(0, 3)}-${id.slice(3, 6)}`;
+export const formatId = (id: string) => `${id.slice(0, 3)}-${id.slice(3, 6)}`;
 const unformatId = (id: string) => id.replace(separatorPattern, "");
 
 const withNext = (link: string, next: string) =>
@@ -211,6 +225,12 @@ export function Login() {
   const context = useContext(Context);
   const dispatch = useContext(DispatchContext);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const wasLoggedOut = useMemo(
+    () => new URLSearchParams(location.search).get("logout") === "yes",
+    [location]
+  );
 
   const next = useNext();
 
@@ -259,14 +279,7 @@ export function Login() {
           <div className={styles.loggedInButtons}>
             <Button
               kind="tertiary"
-              onClick={() => {
-                try {
-                  localStorage.removeItem(localStorageKey);
-                } catch (e) {
-                  console.error("account: couldn't access localStorage", e);
-                }
-                dispatch(["SET_LOGGED_OUT"]);
-              }}
+              onClick={() => dispatch(["SET_LOGGED_OUT"])}
             >
               Log out
             </Button>
@@ -283,6 +296,10 @@ export function Login() {
       <Content as="main">
         <Prose>
           <h1>Welcome to ACEPhysics.net</h1>
+
+          {wasLoggedOut && (
+            <p className={styles.success}>You’ve been logged out.</p>
+          )}
 
           <p>Please sign in using your six-digit account code.</p>
         </Prose>
@@ -308,7 +325,6 @@ export function Login() {
                     console.error("account: couldn't access localStorage", e);
                   }
                   navigate(next);
-                  setStatus("initial");
                   return;
                 case "not-found":
                 case "error":

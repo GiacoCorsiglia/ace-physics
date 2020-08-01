@@ -37,10 +37,13 @@ function containerFor(children: React.ReactNode) {
 export function Prose({
   children,
   className,
-}: { className?: string } & OptionalChildren) {
+  noMargin = false,
+}: { className?: string; noMargin?: boolean } & OptionalChildren) {
   const Container = containerFor(children);
   return (
-    <Container className={classes("prose", className)}>{children}</Container>
+    <Container className={classes("prose", className, ["no-margin", noMargin])}>
+      {children}
+    </Container>
   );
 }
 
