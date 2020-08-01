@@ -11,6 +11,21 @@ export interface URL {
   link: string;
 }
 
+export const Login = {
+  path: "login",
+  link: "/login",
+};
+
+export const CreateAccount = {
+  path: "create-account",
+  link: "/create-account",
+};
+
+export const Privacy = {
+  path: "privacy",
+  link: "/privacy",
+};
+
 const QuantumMouse = {
   path: "quantum-mouse",
   link: "/tutorials/quantum-mouse",

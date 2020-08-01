@@ -9,7 +9,7 @@ interface GlobalParams {
   unconditionalMoveOn: boolean;
 }
 
-export function Provider({ children }: Children) {
+export function GlobalParamsProvider({ children }: Children) {
   const ref = React.useRef<GlobalParams>();
 
   if (ref.current === undefined) {
