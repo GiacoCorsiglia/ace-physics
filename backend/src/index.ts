@@ -25,7 +25,7 @@ export const handler: AWSLambda.APIGatewayProxyHandler = async function handler(
   const response = await router.route(event);
 
   // Needed for local CORS
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.AWS_SAM_LOCAL) {
     const headers = response.headers || {};
     response.headers = { ...headers, "Access-Control-Allow-Origin": "*" };
   }
