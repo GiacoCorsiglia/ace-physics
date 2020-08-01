@@ -46,7 +46,7 @@ function Privacy() {
           </p>
 
           <p>
-            <Link to="/">Return to the acephysics.net homepage</Link>
+            <Link to="/">Return to the ACEPhysics.net homepage</Link>
           </p>
         </Prose>
       </Content>
