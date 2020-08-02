@@ -99,6 +99,95 @@ describe("Provider", () => {
 
     expect(lastStore).toBe(store);
   });
+
+  it("respects initial state", () => {
+    let store: any;
+
+    function C() {
+      store = useStore();
+      return <div></div>;
+    }
+
+    const { rerender } = render(
+      <Provider
+        schema={TestSchema}
+        initial={{
+          prop1: 5,
+          prop2: "updated value",
+        }}
+      >
+        <C />
+      </Provider>
+    );
+
+    expect(store.fields.prop1.value).toBe(5);
+    expect(store.fields.prop2.value).toBe("updated value");
+    expect(store.fields.prop3.value).toMatchObject(
+      store.fields.prop3.schema.default()
+    );
+
+    act(() => {
+      store.fields.prop1.set(10);
+    });
+
+    expect(store.fields.prop1.value).toBe(10);
+
+    // Make sure it doesn't reset the state after the first render.
+    rerender(
+      <Provider
+        schema={TestSchema}
+        initial={{
+          prop1: 5,
+          prop2: "updated value",
+        }}
+      >
+        <C />
+      </Provider>
+    );
+
+    expect(store.fields.prop1.value).toBe(10);
+  });
+
+  it("calls onChange correctly", () => {
+    let store: any;
+
+    function C() {
+      store = useStore();
+      return <div></div>;
+    }
+
+    const onChange = jest.fn((updated: any) => undefined);
+
+    render(
+      <Provider schema={TestSchema} onChange={onChange}>
+        <C />
+      </Provider>
+    );
+
+    expect(onChange.mock.calls.length).toBe(0);
+
+    act(() => {
+      store.fields.prop1.set(5);
+    });
+
+    expect(onChange.mock.calls.length).toBe(1);
+    expect(onChange.mock.calls[0][0]).toMatchObject({
+      prop1: 5,
+      prop2: store.fields.prop2.schema.default(),
+      prop3: store.fields.prop3.schema.default(),
+    });
+
+    act(() => {
+      store.fields.prop2.set("updated value");
+    });
+
+    expect(onChange.mock.calls.length).toBe(2);
+    expect(onChange.mock.calls[1][0]).toMatchObject({
+      prop1: 5,
+      prop2: "updated value",
+      prop3: store.fields.prop3.schema.default(),
+    });
+  });
 });
 
 describe("useFields", () => {

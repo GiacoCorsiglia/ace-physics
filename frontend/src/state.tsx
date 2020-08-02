@@ -6,34 +6,73 @@ import React, {
   useRef,
 } from "react";
 import * as s from "./common/schema";
-import { Children, mapDict, Writeable } from "./util";
+import { Children, Writeable } from "./util";
 
 // STORE.
 
 interface Store<P extends s.Properties> {
   readonly schema: ProviderSchema<P>;
-  readonly fields: Readonly<{ [K in keyof P]: Field<P[K]> }>;
+  readonly fields: ProviderFields<P>;
 }
 
 const StoreContext = createContext<Store<any>>({} as any);
 
 export type ProviderSchema<P extends s.Properties = any> = s.RecordSchema<P>;
+type ProviderFields<P extends s.Properties = any> = Readonly<
+  { [K in keyof P]: Field<P[K]> }
+>;
 
 export function Provider<P extends s.Properties>({
   schema,
+  initial,
+  onChange,
   children,
-}: { schema: ProviderSchema<P> } & Children) {
-  const ref = useRef<Store<P> | null>(null);
+}: {
+  schema: ProviderSchema<P>;
+  initial?: s.TypeOf<ProviderSchema<P>>;
+  onChange?: (updated: s.TypeOf<ProviderSchema<P>>) => void;
+} & Children) {
+  const stateRef = useRef<Store<P>>();
+
+  // Doing this allows us to create the callbacks once, but still always respect
+  // the most up-to-date callback.
+  const onChangeRef = useRef<(updated: s.TypeOf<ProviderSchema<P>>) => void>();
+  onChangeRef.current = onChange;
+
   // Initialize it once.
-  if (ref.current === null) {
-    ref.current = {
-      schema,
-      fields: mapDict(schema.properties, Field) as any,
+  if (stateRef.current === undefined) {
+    const changeHandler = () => {
+      if (!onChangeRef.current) {
+        return;
+      }
+      const values: any = {};
+      const fields = stateRef.current!.fields;
+      for (const key in fields) {
+        // No hasOwnProperty check required since it has a `null` prototype.
+        if (fields[key].value !== undefined) {
+          values[key] = fields[key].value;
+        }
+      }
+      onChangeRef.current(values);
     };
+
+    const fields: Writeable<ProviderFields<P>> = Object.create(null);
+    for (const key in schema.properties) {
+      if (schema.properties.hasOwnProperty(key)) {
+        fields[key] = Field(schema.properties[key]);
+        if (initial && initial[key] !== undefined) {
+          fields[key].set(initial[key]);
+        }
+        // Make sure we call `subscribe` after `set`!
+        fields[key].subscribe(changeHandler);
+      }
+    }
+
+    stateRef.current = { schema, fields };
   }
 
   return (
-    <StoreContext.Provider value={ref.current}>
+    <StoreContext.Provider value={stateRef.current}>
       {children}
     </StoreContext.Provider>
   );
@@ -159,7 +198,7 @@ function Field<S extends s.Schema>(schema: S): Field<S> {
 
 export function useFields<P extends s.Properties>(
   schema: s.RecordSchema<P>
-): Readonly<{ [K in keyof P]: Field<P[K]> }> {
+): ProviderFields<P> {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const proxy = useRef<Store<P>["fields"]>();
