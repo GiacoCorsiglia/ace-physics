@@ -18,7 +18,7 @@ export const client = () => _client || (_client = makeClient());
 
 export const TableName = process.env.AWS_SAM_LOCAL
   ? "DataTable"
-  : process.env.ACE_TABLE_NAME;
+  : process.env.ACE_TABLE_NAME!;
 
 export const now = () => new Date().toISOString();
 
