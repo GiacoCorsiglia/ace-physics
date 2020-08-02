@@ -11,7 +11,8 @@ export const getIndex = endpoint(
   "",
   "GET",
   apiTypes.GetIndexRequest,
-  apiTypes.GetIndexResponse
+  apiTypes.GetIndexResponse,
+  () => ({ ok: true as const })
 );
 
 // Learners.
@@ -20,21 +21,26 @@ export const getLearner = endpoint(
   "GetLearner",
   "GET",
   apiTypes.GetLearnerRequest,
-  apiTypes.GetLearnerResponse
+  apiTypes.GetLearnerResponse,
+  ({ learnerId }) => mockLearner({ learnerId })
 );
 
 export const createLearner = endpoint(
   "CreateLearner",
   "POST",
   apiTypes.CreateLearnerRequest,
-  apiTypes.CreateLearnerResponse
+  apiTypes.CreateLearnerResponse,
+  () => mockLearner({})
 );
 
 export const createLearners = endpoint(
   "CreateLearners",
   "POST",
   apiTypes.CreateLearnersRequest,
-  apiTypes.CreateLearnersResponse
+  apiTypes.CreateLearnersResponse,
+  ({ institution, course, number }) => ({
+    learners: Array(number).map(() => mockLearner({ institution, course })),
+  })
 );
 
 // Tutorials.
@@ -43,14 +49,25 @@ export const getTutorial = endpoint(
   "GetTutorial",
   "GET",
   apiTypes.GetTutorialRequest,
-  apiTypes.GetTutorialResponse
+  apiTypes.GetTutorialResponse,
+  ({ learnerId, tutorial }) => ({
+    learnerId,
+    tutorial,
+    institution: "NONE",
+    course: "NONE",
+    createdAt: now,
+    updatedAt: now,
+    version: 0,
+    tutorialData: {},
+  })
 );
 
 export const updateTutorial = endpoint(
   "UpdateTutorial",
-  "GET",
+  "PUT",
   apiTypes.UpdateTutorialRequest,
-  apiTypes.UpdateTutorialResponse
+  apiTypes.UpdateTutorialResponse,
+  () => ({ ok: true as const, updated: true })
 );
 
 // Endpoint.
@@ -59,7 +76,8 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
   path: string,
   method: "GET" | "PUT" | "POST",
   requestSchema: T,
-  responseSchema: U
+  responseSchema: U,
+  mockResponse: (request: s.TypeOf<T>) => s.TypeOf<U>
 ) {
   type RequestType = s.TypeOf<T>;
   type ResponseType = s.TypeOf<U>;
@@ -72,6 +90,25 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
   const href = `${protocol}://${domain}/${path}`;
 
   return async function endpoint(request): Promise<AsyncResponse> {
+    ////////////////////////////////////////////////////////////////////////////
+    // Mock responses: for development without a server.
+    ////////////////////////////////////////////////////////////////////////////
+    if (
+      // TODO: Only allow this on development:
+      // process.env.NODE_ENV === "development" &&
+      process.env.REACT_APP_ACE_API !== "yes"
+    ) {
+      console.log("api: sending MOCK request", href, request);
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const response = mockResponse(request);
+          console.log("api: received MOCK response", href, response);
+          resolve(success(response));
+        }, 100 + 300 * Math.random());
+      });
+    }
+    ////////////////////////////////////////////////////////////////////////////
+
     const url = new URL(href);
 
     if (method === "GET") {
@@ -156,3 +193,22 @@ type ResponseError = Readonly<
       errors: readonly s.Error<any>[];
     }
 >;
+
+function mockLearner({
+  learnerId = (100_000 + 99_999 * Math.random()).toFixed(0),
+  institution = "NONE",
+  course = "NONE",
+}: {
+  learnerId?: string;
+  institution?: string;
+  course?: string;
+}) {
+  return {
+    learnerId,
+    institution,
+    course,
+    createdAt: now,
+  };
+}
+
+const now = new Date().toISOString();

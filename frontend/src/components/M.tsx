@@ -138,17 +138,15 @@ export default function M({
       });
   }, [tex, isReady, relativeTo, offset, display, inSvg, prespace, postspace]);
 
-  const Container = display ? "div" : "span";
-
   if (inSvg) {
     return (
       <foreignObject x={x} y={y} ref={foreignObjectRef}>
-        <Container
+        <span
           {...{ xmlns: "http://www.w3.org/1999/xhtml" }}
           ref={mathRef}
-        ></Container>
+        ></span>
       </foreignObject>
     );
   }
-  return <Container ref={mathRef}></Container>;
+  return <span ref={mathRef}></span>;
 }

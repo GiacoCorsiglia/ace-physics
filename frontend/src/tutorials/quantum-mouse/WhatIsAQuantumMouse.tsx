@@ -10,33 +10,25 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, needsHelp, useField } from "src/state";
+import { isSet, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 import { ReactComponent as MouseBigEye } from "./svgs/mouse-big-eye.svg";
 import { ReactComponent as MouseSmallEye } from "./svgs/mouse-small-eye.svg";
 
 export default function WhatIsAQuantumMouse() {
-  const introCommit = useField(QuantumMouse, "introCommit");
-
-  const sizeEigenvalues = useField(QuantumMouse, "sizeEigenvalues");
-  const sizeEigenvectors = useField(QuantumMouse, "sizeEigenvectors");
-  const sizeEiegenHelp = useField(QuantumMouse, "sizeEigenHelp");
-  const sizeCommit = useField(QuantumMouse, "sizeCommit");
-
-  const hiddenUnits = useField(QuantumMouse, "hiddenUnits");
-  const hiddenUnitsHelp = useField(QuantumMouse, "hiddenUnitsHelp");
-  const hiddenUnitsCommit = useField(QuantumMouse, "hiddenUnitsCommit");
-
-  const smallBigInnerProduct = useField(QuantumMouse, "smallBigInnerProduct");
-  const smallBigInnerProductExplain = useField(
-    QuantumMouse,
-    "smallBigInnerProductExplain"
-  );
-
-  const smallBigInnerProductHelp = useField(
-    QuantumMouse,
-    "smallBigInnerProductHelp"
-  );
+  const {
+    introCommit,
+    sizeEigenvalues,
+    sizeEigenvectors,
+    sizeEigenHelp,
+    sizeCommit,
+    hiddenUnits,
+    hiddenUnitsHelp,
+    hiddenUnitsCommit,
+    smallBigInnerProduct,
+    smallBigInnerProductExplain,
+    smallBigInnerProductHelp,
+  } = useFields(QuantumMouse);
 
   return (
     <Part
@@ -113,7 +105,7 @@ export default function WhatIsAQuantumMouse() {
             />
           </FieldGroup>
 
-          {needsHelp(sizeEiegenHelp) && (
+          {needsHelp(sizeEigenHelp) && (
             <Help>
               <Prose>
                 Remember, eigen-equations usually look like:
@@ -131,7 +123,7 @@ export default function WhatIsAQuantumMouse() {
             label="Move on"
             allowed={isSet(sizeEigenvalues) && isSet(sizeEigenvectors)}
           >
-            <HelpButton help={sizeEiegenHelp} />
+            <HelpButton help={sizeEigenHelp} />
           </Continue>
         </Section>
 

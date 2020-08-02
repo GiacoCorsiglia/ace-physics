@@ -1,0 +1,35 @@
+@import "src/styles/definitions";
+
+.loginForm {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginInput {
+  max-width: 10rem;
+  margin-right: 1rem;
+}
+
+.newAccountCode {
+  text-align: center;
+  font-size: $text-h1;
+
+  background: #f3fbea;
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+.loggedInButtons {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > *:not(:last-child) {
+    margin-right: 1rem;
+  }
+}

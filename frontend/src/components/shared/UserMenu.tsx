@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { formatId, useAccount, useLogout } from "src/account";
+import { Login } from "src/urls";
+import { Prose } from "..";
 import styles from "./UserMenu.module.scss";
 
 export function UserMenu() {
+  const account = useAccount();
+  const logout = useLogout();
+
   const [open, setOpen] = useState(false);
 
   return (
@@ -25,7 +32,32 @@ export function UserMenu() {
         className={styles.userMenu}
         style={{ display: open ? "block" : "none" }}
       >
-        This will hold the menu that lets you log in, etc.
+        {account.isLoggedIn && (
+          <Prose noMargin>
+            <p>
+              You’re currently logged in with the account code:{" "}
+              <strong>{formatId(account.learner.learnerId)}</strong>
+            </p>
+
+            {!account.isForCredit && (
+              <p>
+                Your work will <strong>not</strong> count for any course credit
+              </p>
+            )}
+
+            <p>
+              <Link to={`${Login.link}?logout=yes`} onClick={logout}>
+                Log out
+              </Link>
+            </p>
+          </Prose>
+        )}
+
+        {!account.isLoggedIn && (
+          <Prose noMargin>
+            <Link to={Login.link}>Log in</Link>
+          </Prose>
+        )}
       </div>
     </div>
   );

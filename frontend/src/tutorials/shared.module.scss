@@ -1,4 +1,4 @@
-@import "styles/definitions.scss";
+@import "styles/definitions";
 
 .tutorialNav {
   position: fixed;
@@ -66,4 +66,12 @@
 
 .part {
   padding-bottom: 10rem;
+}
+
+.savedStatus {
+  position: fixed;
+  top: 1rem;
+  left: 2rem;
+  font-size: $text-small;
+  opacity: 0.5;
 }
