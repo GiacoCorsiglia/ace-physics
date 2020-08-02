@@ -2,8 +2,11 @@ import * as apiTypes from "src/common/apiTypes";
 import * as s from "src/common/schema";
 import { AsyncResult, asyncResult, failure, success } from "src/common/util";
 
-const protocol = "http";
-const domain = "127.0.0.1:4000";
+const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+const domain =
+  process.env.NODE_ENV === "development"
+    ? "127.0.0.1:4000"
+    : "cem86sti6c.execute-api.us-east-1.amazonaws.com/Prod/";
 
 // Index.
 
