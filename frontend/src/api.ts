@@ -48,7 +48,7 @@ export const getTutorial = endpoint(
 
 export const updateTutorial = endpoint(
   "UpdateTutorial",
-  "GET",
+  "PUT",
   apiTypes.UpdateTutorialRequest,
   apiTypes.UpdateTutorialResponse
 );
