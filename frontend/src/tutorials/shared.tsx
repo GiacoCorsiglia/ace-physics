@@ -120,6 +120,7 @@ function Tutorial({
       }
 
       setStatus("loading");
+      console.log("tutorial: fetching saved data");
 
       const result = await api.getTutorial({
         learnerId: account.learner.learnerId,
@@ -128,6 +129,7 @@ function Tutorial({
 
       if (result.failed) {
         if (result.error.type === 404) {
+          console.log("tutorial: no saved data found");
           setStatus("loaded");
           return;
         } else {
@@ -143,10 +145,12 @@ function Tutorial({
 
       if (s.isFailure(decoded)) {
         // TODO: Handle this by not throwing everything away!
+        console.log("tutorial: invalid saved data found");
         setStatus("loaded");
         return;
       }
 
+      console.log("tutorial: saved data found");
       setInitial(decoded.value);
       setStatus("loaded");
       return;

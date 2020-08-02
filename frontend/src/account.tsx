@@ -67,11 +67,13 @@ export function useLogout() {
 function reducer(state: State, action: Action): State {
   switch (action[0]) {
     case "SET_LOADING":
+      console.log("account: loading");
       return {
         status: "LOADING",
         isLoggedIn: false,
       };
     case "SET_LOGGED_OUT":
+      console.log("account: logged out");
       try {
         localStorage.removeItem(localStorageKey);
       } catch (e) {
@@ -83,6 +85,7 @@ function reducer(state: State, action: Action): State {
       };
     case "SET_LOGGED_IN":
       const learner = action[1];
+      console.log("account: logged in");
       return {
         status: "LOGGED_IN",
         isLoggedIn: true,
@@ -101,6 +104,7 @@ async function login(
   learnerId: string,
   dispatch: React.Dispatch<Action>
 ): Promise<"success" | "not-found" | "error"> {
+  console.log("account: fetching learner");
   const result = await api.getLearner({ learnerId });
 
   if (!result.failed) {
