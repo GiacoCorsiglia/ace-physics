@@ -97,8 +97,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     // Mock responses: for development without a server.
     ////////////////////////////////////////////////////////////////////////////
     if (
-      // TODO: Only allow this on development:
-      // process.env.NODE_ENV === "development" &&
+      process.env.NODE_ENV === "development" &&
       process.env.REACT_APP_ACE_API !== "yes"
     ) {
       console.log("api: sending MOCK request", href, request);
