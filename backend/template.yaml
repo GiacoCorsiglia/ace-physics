@@ -42,37 +42,37 @@ Resources:
         ApiRoot:
           Type: Api
           Properties:
-            StageName: !Ref Environment
+            # StageName: !Ref Environment
             Path: /
             Method: GET
         GetLearner:
           Type: Api
           Properties:
-            StageName: !Ref Environment
+            # StageName: !Ref Environment
             Path: /GetLearner
             Method: GET
         CreateLearner:
           Type: Api
           Properties:
-            StageName: !Ref Environment
+            # StageName: !Ref Environment
             Path: /CreateLearner
             Method: POST
         CreateLearners:
           Type: Api
           Properties:
-            StageName: !Ref Environment
+            # StageName: !Ref Environment
             Path: /CreateLearners
             Method: POST
         GetTutorial:
           Type: Api
           Properties:
-            StageName: !Ref Environment
+            # StageName: !Ref Environment
             Path: /GetTutorial
             Method: GET
         UpdateTutorial:
           Type: Api
           Properties:
-            StageName: !Ref Environment
+            # StageName: !Ref Environment
             Path: /UpdateTutorial
             Method: PUT
       Policies:
