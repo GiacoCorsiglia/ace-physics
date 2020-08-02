@@ -5,7 +5,9 @@ import styles from "./layout.module.scss";
 export function Page({ title, children }: { title: string } & Children) {
   useEffect(() => {
     document.title =
-      title !== "" ? `${title} | ACE Physics Online` : "ACE Physics Online";
+      title !== ""
+        ? `${title} | ACEPhysics.net`
+        : "ACEPhysics.net - Interactive Online Activities for Physics Learners";
   }, [title]);
 
   return <>{children}</>;
