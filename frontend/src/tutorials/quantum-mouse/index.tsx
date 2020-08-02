@@ -14,6 +14,7 @@ import WhatIsAQuantumMouse from "./WhatIsAQuantumMouse";
 
 export const route = tutorialRoute({
   url: urls.Tutorials.QuantumMouse,
+  name: "QuantumMouse",
   schema: QuantumMouse,
   label: "Quantum Mouse Lab",
   intro: (
