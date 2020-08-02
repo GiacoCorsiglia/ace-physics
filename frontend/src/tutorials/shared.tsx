@@ -1,5 +1,11 @@
 import debounce from "lodash.debounce";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Outlet, Route, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { useAccount } from "src/account";
@@ -113,6 +119,15 @@ function Tutorial({
 
   const [initial, setInitial] = useState<any>();
 
+  const setSavedStatusRef = useRef<(s: SavedStatus) => void>();
+  const savedStatusSubscribe = useCallback(
+    (setter: (s: SavedStatus) => void) => {
+      setSavedStatusRef.current = setter;
+      return () => (setSavedStatusRef.current = undefined);
+    },
+    []
+  );
+
   useEffect(() => {
     const loadTutorial = async () => {
       if (!account.isLoggedIn) {
@@ -153,42 +168,69 @@ function Tutorial({
       console.log("tutorial: saved data found");
       setInitial(decoded.value);
       setStatus("loaded");
+      if (setSavedStatusRef.current) {
+        setSavedStatusRef.current("saved");
+      }
       return;
     };
     loadTutorial();
   }, [account, name, schema]);
 
+  const debouncedSave = useMemo(
+    () =>
+      debounce(
+        async (
+          account: ReturnType<typeof useAccount>,
+          name: string,
+          tutorialData: any
+        ) => {
+          if (!account.isLoggedIn) {
+            return;
+          }
+
+          const setSavedStatus = setSavedStatusRef.current || (() => undefined);
+
+          const newVersion = version.current; // Already incremented in onChange
+          console.log("tutorial: updating version:", newVersion);
+
+          setSavedStatus("saving");
+          const result = await api.updateTutorial({
+            learnerId: account.learner.learnerId,
+            tutorial: name,
+            version: newVersion,
+            tutorialData,
+          });
+
+          if (result.failed) {
+            setSavedStatus("error");
+            console.error("tutorial: failed to save");
+          } else {
+            if (version.current === newVersion) {
+              // Otherwise there are new unsaved changes.
+              setSavedStatus("saved");
+            }
+            console.log("tutorial: updated version", newVersion);
+          }
+        },
+        5 * 1000,
+        {
+          maxWait: 60 * 1000,
+          leading: true,
+          trailing: true,
+        }
+      ),
+    []
+  );
+
   const onChange = useCallback(
-    debounce(
-      async (tutorialData: any) => {
-        if (!account.isLoggedIn) {
-          return;
-        }
-
-        const newVersion = ++version.current;
-        console.log("tutorial: updating version:", newVersion);
-
-        const result = await api.updateTutorial({
-          learnerId: account.learner.learnerId,
-          tutorial: name,
-          version: newVersion,
-          tutorialData,
-        });
-
-        if (result.failed) {
-          console.error("tutorial: failed to save");
-        } else {
-          console.log("tutorial: updated version", newVersion);
-        }
-      },
-      10 * 1000,
-      {
-        maxWait: 60 * 1000,
-        leading: true,
-        trailing: true,
+    (tutorialData: any) => {
+      version.current++;
+      if (setSavedStatusRef.current) {
+        setSavedStatusRef.current("unsaved");
       }
-    ),
-    [account, name]
+      debouncedSave(account, name, tutorialData);
+    },
+    [account, name, debouncedSave]
   );
 
   if (!account.isLoggedIn) {
@@ -232,14 +274,21 @@ function Tutorial({
         </nav>
 
         <UserMenu />
+
+        <SavedStatus subscribe={savedStatusSubscribe} />
       </Header>
 
       <main>
         {status === "loading" && (
-          <Content>
-            <Prose>
-              <h1>Loading…</h1>
-            </Prose>
+          <Content className="prose">
+            <h1>Loading…</h1>
+
+            <p>
+              Hold up just a second, we’re loading this tutorial for you{" "}
+              <span role="img" aria-label="happy cat">
+                😸
+              </span>
+            </p>
           </Content>
         )}
 
@@ -257,6 +306,31 @@ function Tutorial({
       </main>
     </Page>
   );
+}
+
+type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
+
+function SavedStatus({
+  subscribe,
+}: {
+  subscribe: (setter: (s: SavedStatus) => void) => () => void;
+}): JSX.Element {
+  const [status, setStatus] = useState<SavedStatus>("initial");
+
+  useEffect(() => subscribe(setStatus), [subscribe]);
+
+  switch (status) {
+    case "initial":
+      return <div className={styles.savedStatus}></div>;
+    case "saving":
+      return <div className={styles.savedStatus}>Saving changes…</div>;
+    case "saved":
+      return <div className={styles.savedStatus}>Saved changes ✓</div>;
+    case "unsaved":
+      return <div className={styles.savedStatus}>Unsaved changes</div>;
+    case "error":
+      return <div className={styles.savedStatus}>SAVING FAILED!</div>;
+  }
 }
 
 export function Part({

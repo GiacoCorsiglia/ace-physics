@@ -190,7 +190,7 @@ function Loading() {
         <h1>Loading…</h1>
 
         <p>
-          Hey there, ACEPhysics.net is loading. Bear with us for a moment or two
+          Hey there, ACEPhysics.net is loading. Bear with us for a moment or two{" "}
           <span role="img" aria-label="happy cat">
             😸
           </span>
