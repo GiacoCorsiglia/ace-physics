@@ -3,18 +3,22 @@ import type AWS from "aws-sdk";
 import DynamoDB from "aws-sdk/clients/dynamodb";
 
 function makeClient() {
-  return new DynamoDB.DocumentClient({
-    region: process.env.AWS_REGION || "us-west-1",
-    endpoint: process.env.AWS_SAM_LOCAL
-      ? "http://host.docker.internal:8000"
-      : "TODO",
-  });
+  return new DynamoDB.DocumentClient(
+    process.env.AWS_SAM_LOCAL
+      ? {
+          region: process.env.AWS_REGION || "us-west-1",
+          endpoint: "http://host.docker.internal:8000",
+        }
+      : undefined
+  );
 }
 
 let _client: DynamoDB.DocumentClient;
 export const client = () => _client || (_client = makeClient());
 
-export const TableName = "DataTable";
+export const TableName = process.env.AWS_SAM_LOCAL
+  ? "DataTable"
+  : process.env.ACE_TABLE_NAME;
 
 export const now = () => new Date().toISOString();
 
