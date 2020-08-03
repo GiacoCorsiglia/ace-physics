@@ -514,8 +514,12 @@ export function CreateAccount() {
             </Prose>
 
             <div className="text-center margin-top">
-              <Button link={withNext(urls.Login.link, next)}>Login →</Button>
+              <Button link={withNext(urls.Login.link, next)}>Go login →</Button>
             </div>
+
+            <Prose className="text-center">
+              You'll have to click “Login” on the next page.
+            </Prose>
           </>
         )}
       </Content>
