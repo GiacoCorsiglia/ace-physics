@@ -25,7 +25,6 @@ Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
-      # DefinitionUri: swagger.yaml
       DefinitionBody:
         Fn::Transform:
           Name: AWS::Include
