@@ -25,8 +25,13 @@ Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
-      DefinitionUri: swagger.yaml
-      StageName: Prod
+      # DefinitionUri: swagger.yaml
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: swagger.yaml
+      StageName: !Ref Environment
       MinimumCompressionSize: 0
       BinaryMediaTypes:
         - application~1json
