@@ -1,6 +1,6 @@
 ################################################################################
 ################################################################################
-#### THIS FILE IS IDENTICAL TO template-production.yaml EXCEPT FOR THE      ####
+#### THIS FILE IS IDENTICAL TO template.yaml EXCEPT FOR THE                 ####
 #### ApiGatewayApi.DefinitionUri property, which itself points to a         ####
 #### nearly identical swagger-$ENV.yaml file.  This misery is imposed       ####
 #### upon us by the failure of at least one of API Gateway, CloudFormation, ####
@@ -36,7 +36,7 @@ Resources:
     Properties:
       # Can't interpolate a variable here because at least one of
       # API Gateway/AWS SAM/Cloudformation is broken.
-      DefinitionUri: swagger-staging.yaml
+      DefinitionUri: swagger-production.yaml
       # Can't do this because it breaks CORS:
       # DefinitionBody:
       #   Fn::Transform:
