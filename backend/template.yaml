@@ -1,6 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-
 Parameters:
   Environment:
     Type: String
@@ -9,27 +8,34 @@ Parameters:
       - staging
       - production
     Default: staging
-
 Globals:
   Function:
     Runtime: nodejs12.x
     Environment:
       Variables:
-        NODE_ENV: !Ref "Environment"
-        ACE_TABLE_NAME: !Ref "DataTable"
-
-  # Switch this to HttpApi when SAM CLI supports it locally.
-  Api:
-    # CORS isn't actually supported locally.
-    Cors:
-      AllowOrigin: "'*'"
-      AllowMethods: "'*'"
-      AllowHeaders: "'*'"
-    BinaryMediaTypes:
-      - "application~1json"
-    MinimumCompressionSize: 0
+        NODE_ENV:
+          Ref: Environment
+        ACE_TABLE_NAME:
+          Ref: DataTable
 
 Resources:
+  #
+  #API
+  #
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      DefinitionUri: swagger.yaml
+      StageName: Prod
+      MinimumCompressionSize: 0
+      BinaryMediaTypes:
+        - application~1json
+      Variables:
+        BackendFunction: !Ref BackendFunction
+
+  #
+  # Lambda
+  #
   BackendFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -37,42 +43,40 @@ Resources:
       Handler: index.handler
       CodeUri: build/
       Events:
-        # Switch these to HttpApi when SAM CLI supports it locally.
-        # NOTE: When adding a route here also add it to src/index.ts
-        ApiRoot:
+        GetIndex:
           Type: Api
           Properties:
-            # StageName: !Ref Environment
+            RestApiId: !Ref ApiGatewayApi
             Path: /
             Method: GET
         GetLearner:
           Type: Api
           Properties:
-            # StageName: !Ref Environment
+            RestApiId: !Ref ApiGatewayApi
             Path: /GetLearner
             Method: GET
         CreateLearner:
           Type: Api
           Properties:
-            # StageName: !Ref Environment
+            RestApiId: !Ref ApiGatewayApi
             Path: /CreateLearner
             Method: POST
         CreateLearners:
           Type: Api
           Properties:
-            # StageName: !Ref Environment
+            RestApiId: !Ref ApiGatewayApi
             Path: /CreateLearners
             Method: POST
         GetTutorial:
           Type: Api
           Properties:
-            # StageName: !Ref Environment
+            RestApiId: !Ref ApiGatewayApi
             Path: /GetTutorial
             Method: GET
         UpdateTutorial:
           Type: Api
           Properties:
-            # StageName: !Ref Environment
+            RestApiId: !Ref ApiGatewayApi
             Path: /UpdateTutorial
             Method: PUT
       Policies:
@@ -86,6 +90,9 @@ Resources:
                 - dynamodb:UpdateItem
               Resource: !GetAtt "DataTable.Arn"
 
+  #
+  # DynamoDB
+  #
   DataTable:
     Type: AWS::DynamoDB::Table
     Properties:
