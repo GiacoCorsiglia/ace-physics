@@ -2,6 +2,26 @@
   publish = "frontend/build"
   command = "cd frontend && yarn build"
 
+[build.environment]
+  NODE_VERSION = "12"
+  YARN_VERSION = "1.22.4"
+  NODE_ENV = "production"
+  REACT_APP_ACE_STAGING = "no"
+  # This should have no effect, but just in case:
+  REACT_APP_ACE_API = "yes"
+
+[context.production.environment]
+  # This is the "master" branch
+  REACT_APP_ACE_STAGING = "no"
+
+[context.deploy-preview.environment]
+  # Pull request previews
+  REACT_APP_ACE_STAGING = "yes"
+
+[context.branch-deploy.environment]
+  # This is any other branch
+  REACT_APP_ACE_STAGING = "yes"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

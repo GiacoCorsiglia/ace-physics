@@ -6,7 +6,9 @@ const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 const domain =
   process.env.NODE_ENV === "development"
     ? "127.0.0.1:4000"
-    : "d03ejpbci0.execute-api.us-east-1.amazonaws.com/Prod";
+    : process.env.REACT_APP_ACE_STAGING === "yes"
+    ? "9vugrnkufd.execute-api.us-west-1.amazonaws.com/staging"
+    : "hkl4dcafa7.execute-api.us-west-1.amazonaws.com/production";
 
 // Index.
 
