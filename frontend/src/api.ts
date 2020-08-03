@@ -6,7 +6,7 @@ const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 const domain =
   process.env.NODE_ENV === "development"
     ? "127.0.0.1:4000"
-    : "cem86sti6c.execute-api.us-east-1.amazonaws.com/Prod/";
+    : "cem86sti6c.execute-api.us-east-1.amazonaws.com/Prod";
 
 // Index.
 
