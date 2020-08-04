@@ -81,9 +81,10 @@ export default function Superpositions() {
           {needsHelp(whyWideStressedHelp) && (
             <Help>
               <Prose>
-                Based on the equation above, would you say that wide-eyed mice
-                (the
-                <M t="\ket{*}" />) are more happy, or more sad?
+                Look at the equation above. If you asked a wide-eyed mouse (
+                <M t="\ket{*}" prespace={false} />) how they felt, which would
+                you <em>probably</em> expect them to say: <em>happy</em> or{" "}
+                <em>sad</em>?
               </Prose>
             </Help>
           )}
