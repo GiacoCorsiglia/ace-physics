@@ -191,13 +191,13 @@ mjx-container[jax="SVG"] {
 }
 
 .success {
-  background: #f3fbea;
+  background: $green-bg;
   border-radius: $border-radius;
   padding: 1rem;
 }
 
 .error {
-  background: #fbeaea;
+  background: $red-bg;
   border-radius: $border-radius;
   padding: 1rem;
 }
