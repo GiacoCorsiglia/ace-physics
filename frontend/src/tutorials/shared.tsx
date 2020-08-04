@@ -82,6 +82,42 @@ export function tutorialRoute({
 
             {intro}
 
+            <Prose>
+              <p>
+                This activity is intended to be thought-provoking and to help
+                you develop your own understanding.{" "}
+                <strong>
+                  It’s not about about “right” or “wrong” answers!
+                </strong>{" "}
+              </p>
+
+              <p>And it won’t be graded (except for participation credit).</p>
+
+              <p>
+                <strong>
+                  Take your time. If you get stuck, try the hints, and then give
+                  it your best guess.
+                </strong>{" "}
+                There might be some follow-up questions that clear things up for
+                you. Go back and change your answers if you want. Or—feel
+                confident, and don’t!
+              </p>
+
+              <p>
+                <strong>
+                  Learning doesn’t stop once you’ve submitted your answers.
+                </strong>{" "}
+                We hope this activity helps you learn something today. If it
+                does, it’ll be thanks to you, not us.
+              </p>
+
+              <p>Good luck!</p>
+
+              <p>
+                <em>- Giaco, Ben, Steve, Gina, and Homeyra</em>
+              </p>
+            </Prose>
+
             <Link to={parts[0].path}>
               <Continue label="Let's get started" link={parts[0].path} />
             </Link>
