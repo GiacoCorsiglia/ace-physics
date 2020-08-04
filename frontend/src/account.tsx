@@ -399,6 +399,9 @@ export function Login() {
 ////////////////////////////////////////////////////////////////////////////////
 
 export function CreateAccount() {
+  const navigate = useNavigate();
+  const context = useContext(Context);
+
   const [status, setStatus] = useState<
     "initial" | "loading" | "error" | "success" | "saved"
   >("initial");
@@ -406,6 +409,14 @@ export function CreateAccount() {
   const [newId, setNewId] = useState("");
 
   const next = useNext();
+
+  useEffect(() => {
+    // Can't create an account if you're already logged in!
+    if (context.isLoggedIn) {
+      navigate(withNext(urls.Login.link, next));
+    }
+    // We only ever want to run this effect once.
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Page title="Create an Account">
