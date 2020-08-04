@@ -26,7 +26,7 @@ export const route = tutorialRoute({
   parts: [
     {
       path: "what-is-a-quantum-mouse",
-      label: "What is a quantum mouse?",
+      label: "What is a Quantum Mouse?",
       element: <WhatIsAQuantumMouse />,
     },
     {
@@ -41,12 +41,12 @@ export const route = tutorialRoute({
     },
     {
       path: "measuring-eye-size",
-      label: "Measuring Eye Size",
+      label: "Measurements",
       element: <MeasuringEyeSize />,
     },
     {
       path: "more-measurements",
-      label: "More meaurements",
+      label: "More Measurements",
       element: <MoreMeasurements />,
     },
     {
