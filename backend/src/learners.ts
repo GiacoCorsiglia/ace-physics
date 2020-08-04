@@ -7,12 +7,16 @@ import {
 import { AsyncResult } from "ace-frontend/src/common/util";
 import type AWS from "aws-sdk";
 import * as db from "./db";
+import { generatePseudoRandomIds } from "./psuedoRandomId";
 import * as response from "./response";
 import { Handler } from "./router";
 
-async function getNextIdAndReserve(
+// DO NOT CHANGE THIS OR WE MAY SEE OVERLAPPING IDs IN PRODUCTION.
+const randomSeed = 74139;
+
+async function getNextIdsAndReserve(
   blockSize: number
-): Promise<AsyncResult<AWS.AWSError, number>> {
+): Promise<AsyncResult<AWS.AWSError, Generator<number>>> {
   const result = await db.result(
     db.client().update({
       TableName: db.TableName,
@@ -32,9 +36,15 @@ async function getNextIdAndReserve(
     return result;
   }
 
+  const lastId = result.value.Attributes!.lastId;
   return {
     failed: false,
-    value: 100000 + result.value.Attributes!.lastId - (blockSize - 1),
+    value: generatePseudoRandomIds(
+      lastId - blockSize,
+      lastId,
+      randomSeed,
+      100_000
+    ),
   };
 }
 
@@ -72,11 +82,12 @@ export const create: Handler<CreateLearnerRequest> = async (request) => {
     }
     attempts++;
 
-    const idResult = await getNextIdAndReserve(1);
-    if (idResult.failed) {
-      return response.error("Failed to get next Learner ID", idResult.error);
+    const idsResult = await getNextIdsAndReserve(1);
+    if (idsResult.failed) {
+      return response.error("Failed to get next Learner IDs", idsResult.error);
     }
-    const id = idResult.value.toString();
+    // It will only ever yield 1 id.
+    const id = idsResult.value.next().value.toString();
 
     const key: db.Key = {
       pk: db.learnerPk(id),
@@ -127,17 +138,16 @@ export const createMany: Handler<CreateLearnersRequest> = async (request) => {
     );
   }
 
-  const firstIdResult = await getNextIdAndReserve(number);
-  if (firstIdResult.failed) {
-    return response.error("Failed to get next Learner ID", firstIdResult.error);
+  const idsResult = await getNextIdsAndReserve(number);
+  if (idsResult.failed) {
+    return response.error("Failed to get next Learner IDs", idsResult.error);
   }
-  const firstId = firstIdResult.value;
 
   const createdAt = db.now();
   const writeRequests: {
     PutRequest: { Item: db.Key & Omit<Learner, "learnerId"> };
   }[] = [];
-  for (let id = firstId; id < firstId + number; id++) {
+  for (const id of idsResult.value) {
     writeRequests.push({
       PutRequest: {
         Item: {

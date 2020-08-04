@@ -1,7 +1,8 @@
 export function* generatePseudoRandomIds(
   from: number,
   to: number,
-  seed: number
+  seed: number,
+  shift: number = 0
 ) {
   // What a lucky prime!
   const prime = 900_001;
@@ -26,7 +27,7 @@ export function* generatePseudoRandomIds(
     random = (root * random) % prime;
     if (i >= from) {
       // Subtract off 1 here so we get 0 -> 899,999 not 1 -> 900,000
-      yield random - 1;
+      yield random - 1 + shift;
     }
   }
 }
