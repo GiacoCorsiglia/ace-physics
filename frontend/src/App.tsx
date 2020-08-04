@@ -59,7 +59,7 @@ function Index() {
             Today, ACEPhysics.net is home to a handful of interactive
             activities—<em>tutorials</em>—for physics students studying quantum
             mechanics. Perhaps one day this website will hold an extensive suite
-            of such interactive activities for all physics learners.
+            of such activities for all physics learners.
           </p>
         </Prose>
 
