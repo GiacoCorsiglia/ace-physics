@@ -3,13 +3,30 @@ $unit-px: 12;
 
 $font-size: 16px;
 
+// DEPRECATED:
 $width: $font-size * 35;
 $two-column-width: $font-size * (24 * 2 + 1);
 
 // Widths for main content
-$center-width: $font-size * 35;
+$content-padding: $unit-px * 1px; // 1rem, but in pixels.
+$content-width: $font-size * 35;
 $column-width: $font-size * 24;
-$two-column-container-width: $column-width * 2 + $font-size;
+$two-column-content-width: $column-width * 2 + $font-size;
+
+// Breakpoints.
+$breakpoint-small: $content-width + 2 * $content-padding;
+
+@mixin break-above-small {
+  @media (min-width: $breakpoint-small) {
+    @content;
+  }
+}
+
+@mixin break-below-small {
+  @media (max-width: $breakpoint-small - 1px) {
+    @content;
+  }
+}
 
 // Typography.
 

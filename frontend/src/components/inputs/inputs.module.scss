@@ -295,21 +295,31 @@ $box-shadow-border: 0 0 1px rgba(#000, 0.1);
 .labelsLeft {
   display: grid;
 
-  align-items: start;
-
-  grid-template-areas: "labels fields";
-  grid-template-columns: auto 1fr;
-
-  row-gap: 1rem;
-  column-gap: 1rem;
-
   .label {
     margin-bottom: 0;
-    text-align: right;
-    padding: 0.5rem 0;
   }
 
-  .noLabel {
-    grid-column: 2;
+  @include break-above-small {
+    align-items: start;
+
+    grid-template-areas: "labels fields";
+    grid-template-columns: auto 1fr;
+
+    row-gap: 1rem;
+    column-gap: 1rem;
+
+    .label {
+      text-align: right;
+      padding: 0.5rem 0;
+    }
+
+    .noLabel {
+      grid-column: 2;
+    }
+  }
+
+  @include break-below-small {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
   }
 }
