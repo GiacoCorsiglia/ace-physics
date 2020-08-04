@@ -1,7 +1,7 @@
 import React from "react";
 import * as s from "src/common/schema";
 import { Provider, useField } from "src/state";
-import { Prose, Question } from ".";
+import { Prose } from ".";
 import {
   Button,
   Choice,
@@ -161,15 +161,9 @@ function TextInputs() {
     <Content as="section">
       <h2 className="prose">Text Inputs</h2>
 
-      <Text
-        field={text1}
-        label={<Question label="a">Input question</Question>}
-      />
+      <Text field={text1} label={<Prose>Input question</Prose>} />
 
-      <TextArea
-        field={text2}
-        label={<Question label="b">Textarea question</Question>}
-      />
+      <TextArea field={text2} label={<Prose>Textarea question</Prose>} />
     </Content>
   );
 }
@@ -185,13 +179,13 @@ function NumberInputs() {
       <Decimal
         field={number1}
         placeholder="Decimal"
-        label={<Question label="a">Decimal input question</Question>}
+        label={<Prose>Decimal input question</Prose>}
       />
 
       <Integer
         field={number2}
         placeholder="Integer"
-        label={<Question label="b">Integer input question</Question>}
+        label={<Prose>Integer input question</Prose>}
       />
     </Content>
   );
@@ -212,21 +206,17 @@ function Selects() {
     <Content as="section">
       <h2 className="prose">Selects</h2>
 
-      <Select
-        field={select}
-        choices={selectChoices}
-        label={<Question label="a">A question?</Question>}
-      />
+      <Select field={select} choices={selectChoices} label="A question?" />
       <Select
         field={selectNoOther}
         choices={selectChoices}
         allowOther={false}
-        label={<Question label="b">Another question?</Question>}
+        label={<Prose>Another question?</Prose>}
       />
       <Select
         field={selectMulti}
         choices={selectChoices}
-        label={<Question label="c">Yet another question?</Question>}
+        label={<Prose>Yet another question?</Prose>}
       />
     </Content>
   );
@@ -241,21 +231,17 @@ function Choices() {
     <Content as="section">
       <h2 className="prose">Choices</h2>
 
-      <Choice
-        field={select}
-        choices={selectChoices}
-        label={<Question label="a">A question?</Question>}
-      />
+      <Choice field={select} choices={selectChoices} label="A question?" />
       <Choice
         field={selectNoOther}
         choices={selectChoices}
         allowOther={false}
-        label={<Question label="b">Another question?</Question>}
+        label={<Prose>Another question?</Prose>}
       />
       <Choice
         field={selectMulti}
         choices={selectChoices}
-        label={<Question label="c">A third question?</Question>}
+        label={<Prose>A third question?</Prose>}
       />
     </Content>
   );
@@ -274,7 +260,7 @@ function Toggles() {
       <Toggle field={bool} />
 
       <Toggle
-        label={<Question label="a">This is a question</Question>}
+        label={<Prose>This is a question</Prose>}
         field={bool}
         yes="Definitely"
         no="No way"
