@@ -13,6 +13,14 @@ export function Footer() {
 
       <p>
         <Link to={urls.Privacy.link}>Privacy</Link>
+        &nbsp; · &nbsp;
+        <a
+          href="https://www.physport.org/curricula/ACEQM/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ACEQM
+        </a>
       </p>
     </footer>
   );
