@@ -20,7 +20,7 @@ export const route = tutorialRoute({
   intro: (
     <Prose>
       The quantum mouse lab is all about measurement, eigenvalues, and
-      eigenstates. But with a fun twist! Are you ready?
+      eigenstates. But with a fun twist!
     </Prose>
   ),
   parts: [

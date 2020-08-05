@@ -51,7 +51,7 @@ function TutorialsIndex() {
         <nav>
           <ul>
             <TutorialLink
-              label="Quantum Mouse"
+              label="Quantum Mouse Lab"
               url={urls.Tutorials.QuantumMouse}
             >
               It’s all about eigenvalues, eigenstates, and measurement.
