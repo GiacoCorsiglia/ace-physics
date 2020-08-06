@@ -262,7 +262,7 @@ export function Login() {
 
   if (context.isLoggedIn) {
     return (
-      <Page title="Login">
+      <Page title="Log in">
         <Content as="main">
           <Prose>
             <h1>Welcome to ACEPhysics.net</h1>
@@ -297,7 +297,7 @@ export function Login() {
   }
 
   return (
-    <Page title="Login">
+    <Page title="Log in">
       <Content as="main">
         <Prose>
           <h1>Welcome to ACEPhysics.net</h1>
@@ -357,7 +357,7 @@ export function Login() {
           />
 
           <Button type="submit" disabled={!isIdValid || status === "loading"}>
-            {status === "loading" ? "Loading…" : "Login →"}
+            {status === "loading" ? "Loading…" : "Log in →"}
           </Button>
         </form>
 
@@ -436,7 +436,7 @@ export function CreateAccount() {
             <strong>
               If you are a student, your professor has probably already created
               an account for you. You should go{" "}
-              <Link to={withNext(urls.Login.link, next)}>login</Link> with that
+              <Link to={withNext(urls.Login.link, next)}>log in</Link> with that
               account instead.
             </strong>
           </p>
@@ -444,7 +444,7 @@ export function CreateAccount() {
           <p>
             To protect your privacy, we don’t ask for your name, email, or any
             other personal information. Your “account” will be identified by a
-            randomly generated six-digit code. You can login with that code
+            randomly generated six-digit code. You can log in with that code
             anytime to access your saved responses in an in-progress or
             previously-completed tutorial.
           </p>
@@ -520,16 +520,18 @@ export function CreateAccount() {
         {status === "saved" && (
           <>
             <Prose>
-              Great! Now that you've saved your code, you can login. Enjoy the
+              Great! Now that you've saved your code, you can log in. Enjoy the
               tutorials!
             </Prose>
 
             <div className="text-center margin-top">
-              <Button link={withNext(urls.Login.link, next)}>Go login →</Button>
+              <Button link={withNext(urls.Login.link, next)}>
+                Go log in →
+              </Button>
             </div>
 
             <Prose className="text-center">
-              You'll have to click “Login” on the next page.
+              You'll have to click “Log in” on the next page.
             </Prose>
           </>
         )}
