@@ -75,7 +75,8 @@ export function Hint({ children }: Children) {
 
 type ContinueProps =
   | { link: string; commit?: never }
-  | { link?: never; commit: Field<s.BooleanSchema> };
+  | { link?: never; commit: Field<s.BooleanSchema> }
+  | { link: string; commit: Field<s.BooleanSchema> };
 
 export function Continue({
   label = "Move on",
@@ -92,7 +93,7 @@ export function Continue({
   OptionalChildren) {
   const globals = useContext(globalParams.Context);
 
-  if (commit && commit.value === true) {
+  if (!link && commit && commit.value === true) {
     return null;
   }
 
