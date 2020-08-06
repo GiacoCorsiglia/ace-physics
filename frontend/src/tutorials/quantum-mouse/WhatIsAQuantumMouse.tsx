@@ -120,7 +120,6 @@ export default function WhatIsAQuantumMouse() {
 
           <Continue
             commit={sizeCommit}
-            label="Move on"
             allowed={isSet(sizeEigenvalues) && isSet(sizeEigenvectors)}
           >
             <HelpButton help={sizeEigenHelp} />
@@ -158,11 +157,7 @@ export default function WhatIsAQuantumMouse() {
             </Help>
           )}
 
-          <Continue
-            commit={hiddenUnitsCommit}
-            label="Move on"
-            allowed={isSet(hiddenUnits)}
-          >
+          <Continue commit={hiddenUnitsCommit} allowed={isSet(hiddenUnits)}>
             <HelpButton help={hiddenUnitsHelp} />
           </Continue>
         </Section>

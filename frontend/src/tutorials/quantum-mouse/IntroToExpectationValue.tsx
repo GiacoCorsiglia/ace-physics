@@ -92,7 +92,6 @@ export default function IntroToExpectationValue() {
           <Continue
             commit={weightedAverageCommit}
             allowed={isSet(weightedAverage)}
-            label="Move on"
           >
             <HelpButton help={weightedAverageHelp} />
           </Continue>
@@ -119,7 +118,7 @@ export default function IntroToExpectationValue() {
             label={<Prose>Why or why not?</Prose>}
           />
 
-          <Continue commit={expValueMeasurabilityCommit} label="Move on" />
+          <Continue commit={expValueMeasurabilityCommit} />
         </Section>
 
         <Section commits={[weightedAverageCommit, expValueMeasurabilityCommit]}>
@@ -145,7 +144,7 @@ export default function IntroToExpectationValue() {
             }
           />
           {/*Maybe a hint with some student discussion/comparisons?*/}
-          <Continue commit={naiveAvgCommit} label="Move on" />
+          <Continue commit={naiveAvgCommit} />
         </Section>
       </Content>
     </Part>

@@ -85,7 +85,6 @@ export default function Superpositions() {
           <Continue
             commit={whyWideStressedCommit}
             allowed={isSet(whyWideStressed) && whyWideStressed.value.length > 5}
-            label="Move on"
           >
             <HelpButton help={whyWideStressedHelp} />
           </Continue>
@@ -116,7 +115,6 @@ export default function Superpositions() {
           <Continue
             commit={smallEyeBasisChangeCommit}
             allowed={isSet(smallEyeA) && isSet(smallEyeB)}
-            label="Move on"
           >
             <HelpButton help={smallEyeBasisChangeHelp} />
           </Continue>
@@ -151,11 +149,7 @@ export default function Superpositions() {
             </Help>
           )}
 
-          <Continue
-            commit={abUniqueCommit}
-            allowed={isSet(abUnique)}
-            label="Move on"
-          >
+          <Continue commit={abUniqueCommit} allowed={isSet(abUnique)}>
             <HelpButton help={abUniqueHelp} />
           </Continue>
         </Section>

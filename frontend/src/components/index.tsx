@@ -78,7 +78,7 @@ type ContinueProps =
   | { link?: never; commit: Field<s.BooleanSchema> };
 
 export function Continue({
-  label,
+  label = "Move on",
   link,
   commit,
   onClick,
@@ -86,7 +86,7 @@ export function Continue({
   children,
 }: {
   onClick?: () => void;
-  label: React.ReactNode;
+  label?: React.ReactNode;
   allowed?: boolean;
 } & ContinueProps &
   OptionalChildren) {

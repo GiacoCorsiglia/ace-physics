@@ -118,7 +118,6 @@ export default function MeasuringEyeSize() {
 
           <Continue
             commit={collapsed1mmStateCommit}
-            label="Move on"
             allowed={isSet(collapsed1mmState)}
           >
             <HelpButton help={collapsed1mmStateHelp} />
@@ -173,7 +172,6 @@ export default function MeasuringEyeSize() {
 
           <Continue
             commit={remeasure1mmCommit}
-            label="Move on"
             allowed={isSet(remeasure1mmResults) && isSet(remeasure1mmState)}
           >
             {isSet(collapsed1mmState) &&
@@ -227,7 +225,7 @@ export default function MeasuringEyeSize() {
             </Help>
           )}
 
-          <Continue commit={measureUnhappyProbabilityCommit} label="Move on">
+          <Continue commit={measureUnhappyProbabilityCommit}>
             <HelpButton help={measureUnhappyProbabilityHelp} />
           </Continue>
         </Section>
@@ -264,7 +262,7 @@ export default function MeasuringEyeSize() {
             </Help>
           )}
 
-          <Continue commit={smallEyedEmotionCommit} label="Move on">
+          <Continue commit={smallEyedEmotionCommit}>
             <HelpButton help={smallEyedEmotionHelp} />
           </Continue>
         </Section>

@@ -125,7 +125,6 @@ export default function MoreMeasurement() {
           <Continue
             commit={moodStartCommit}
             allowed={isSet(moodStartState) && isSet(moodStartAmbiguity)}
-            label="Move on"
           >
             <HelpButton help={moodStartHelp}>Ambiguity?</HelpButton>
           </Continue>
@@ -177,7 +176,6 @@ export default function MoreMeasurement() {
               }
             }}
             allowed={isSet(smallEyeProb) && isSet(smallEyeProbExplain)}
-            label="Move on"
           >
             <HelpButton help={smallEyePropHelp} />
           </Continue>
@@ -191,10 +189,7 @@ export default function MoreMeasurement() {
             “braket.”)
           </Prose>
 
-          <Continue
-            commit={smallEyeProbChallengeCommit}
-            label="Move on"
-          ></Continue>
+          <Continue commit={smallEyeProbChallengeCommit}></Continue>
         </Section>
 
         <Section
@@ -232,11 +227,7 @@ export default function MoreMeasurement() {
               </Prose>
             }
           />
-          <Continue
-            commit={finalMoodCommit}
-            allowed={isSet(finalMood)}
-            label="Move on"
-          />
+          <Continue commit={finalMoodCommit} allowed={isSet(finalMood)} />
         </Section>
 
         <Section
@@ -258,7 +249,6 @@ export default function MoreMeasurement() {
           <Continue
             commit={surpriseResultCommit}
             allowed={isSet(surpriseResults)}
-            label="Move on"
           />
         </Section>
 
@@ -307,7 +297,6 @@ export default function MoreMeasurement() {
             allowed={
               isSet(thinkingDeeperAgreement) && isSet(thinkingDeeperExplain)
             }
-            label="Move on"
           />
         </Section>
       </Content>

@@ -70,7 +70,6 @@ export default function QuantumMood() {
           <Continue
             commit={possibleMoodEigenvaluesCommit}
             allowed={isSet(possibleMoodEigenvalues)}
-            label="Move on"
           />
         </Section>
 
@@ -114,7 +113,6 @@ export default function QuantumMood() {
               isSet(moodEigenvectors) &&
               isSet(moodOperators)
             }
-            label="Move on"
           />
         </Section>
 
@@ -140,7 +138,6 @@ export default function QuantumMood() {
             allowed={
               isSet(happySadInnerProduct) && isSet(happySadInnerProductExplain)
             }
-            label="Move on"
           />
         </Section>
       </Content>

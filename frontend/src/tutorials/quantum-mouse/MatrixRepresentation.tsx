@@ -103,7 +103,6 @@ export default function MatrixRepresentation() {
               isSet(sadVector0) &&
               isSet(sadVector1)
             }
-            label="Move on"
           />
         </Section>
 
@@ -143,7 +142,6 @@ export default function MatrixRepresentation() {
               isSet(wideVector0) &&
               isSet(wideVector1)
             }
-            label="Move on"
           />
         </Section>
 
@@ -173,7 +171,6 @@ export default function MatrixRepresentation() {
           <Continue
             commit={moodEigenequationCommit}
             allowed={isSet(happyEigenequation) && isSet(sadEigenequation)}
-            label="Move on"
           />
         </Section>
 
@@ -228,7 +225,6 @@ export default function MatrixRepresentation() {
               isSet(moodMatrix1_0) &&
               isSet(moodMatrix1_1)
             }
-            label="Move on"
           />
         </Section>
       </Content>
