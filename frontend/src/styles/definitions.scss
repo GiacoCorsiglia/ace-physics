@@ -1,31 +1,15 @@
-// 1rem in pixels.
-$unit-px: 12;
-
-$font-size: 16px;
-
 // DEPRECATED:
+$font-size: 16px;
 $width: $font-size * 35;
 $two-column-width: $font-size * (24 * 2 + 1);
 
-// Widths for main content
-$content-padding: $unit-px * 1px; // 1rem, but in pixels.
-$content-width: $font-size * 35;
-$column-width: $font-size * 24;
-$two-column-content-width: $column-width * 2 + $font-size;
+// Utilities.
 
-// Breakpoints.
-$breakpoint-small: $content-width + 2 * $content-padding;
+// 1rem in pixels.
+$unit-px: 12;
 
-@mixin break-above-small {
-  @media (min-width: $breakpoint-small) {
-    @content;
-  }
-}
-
-@mixin break-below-small {
-  @media (max-width: $breakpoint-small - 1px) {
-    @content;
-  }
+@function rem-to-px($rem) {
+  @return $rem / 1rem * $unit-px * 1px;
 }
 
 // Typography.
@@ -41,7 +25,7 @@ $bold: 700;
 // Scale we're going with: "Major Second"
 // https://type-scale.com/?size=16&scale=1.125&text=A%20Visual%20Type%20Scale&font=Lato&fontweight=400&bodyfont=Lato&bodyfontweight=400&lineheight=1.5&backgroundcolor=white&fontcolor=%23333&preview=false
 
-// $text-<name>: <pixel-size>rem / $v;
+// $text-<name>: <pixel-size>rem / $unit-px;
 $text-h1: 28.83rem / $unit-px;
 $text-h2: 25.63rem / $unit-px;
 $text-h3: 22.78rem / $unit-px;
@@ -53,7 +37,71 @@ $text-small: 14.22rem / $unit-px;
 $text-smaller: 12.64rem / $unit-px;
 $text-smallest: 11.24rem / $unit-px;
 
+// Widths for main content.
+
+$padding-content: 1rem;
+$width-column: $text-normal * 24;
+$width-column-gutter: 1rem;
+// We use `box-sizing: border-box` so width should include padding.
+$width-content: ($text-normal * 35)+ (2 * $padding-content);
+$width-content-2column: ($width-column * 2) + ($width-column-gutter) +
+  (2 * $padding-content);
+
+$width-header-button: 4rem;
+
+$width-tutorial-sidebar: 20rem;
+
+// Breakpoints.
+
+@mixin above-small {
+  @media (min-width: rem-to-px($width-content) + 1) {
+    @content;
+  }
+}
+
+@mixin below-small {
+  @media (max-width: rem-to-px($width-content)) {
+    @content;
+  }
+}
+
+@mixin above-sidebar-visible {
+  @media (min-width: rem-to-px($width-tutorial-sidebar + $width-content) + 1px) {
+    @content;
+  }
+}
+
+@mixin below-sidebar-visible {
+  @media (max-width: rem-to-px($width-tutorial-sidebar + $width-content)) {
+    @content;
+  }
+}
+
+// Tutorial header & nav.
+
+$height-header: 3rem;
+$opacity-faded: 0.75;
+$bg-overlay: rgba(#fff, 0.97);
+$width-tutorial-nav: 20rem;
+
+// Z-indices.
+
+$z-fixed-overlay: 1000;
+
+$z-headerTitle: $z-fixed-overlay + 10;
+
+$z-userMenuToggle: $z-fixed-overlay + 20;
+$z-userMenu: $z-fixed-overlay + 10;
+
+$z-otherTutorialsLink: $z-fixed-overlay;
+$z-sidebarToggle: $z-fixed-overlay + 20;
+$z-sidebar: $z-fixed-overlay + 10;
+
+$z-savedStatus: $z-fixed-overlay - 10;
+
 // Colors.
+
+$text-color: #333;
 
 $grey: #808080;
 $grey70: #b3b3b3;
@@ -69,6 +117,15 @@ $red-bg: #fbeaea;
 
 // Shadows.
 
+$box-shadow-border: 0 0 1px rgba(#000, 0.1);
+$box-shadow-light: 0 0 3px rgba(#000, 0.03);
 $box-shadow: 0 1px 5px rgba(#000, 0.08);
 $box-shadow-hover: 0 4px 11px rgba(#000, 0.1);
+$box-shadow-overlay: $box-shadow-hover;
 $box-shadow-active: 0 2px 1px rgba(#000, 0.1);
+
+// Transitions
+
+$duration-hover: 75ms;
+$duration-active: 150ms;
+$easing: ease-in-out;

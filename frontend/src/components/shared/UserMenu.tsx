@@ -1,19 +1,23 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { formatId, useAccount, useLogout } from "src/account";
 import { Login } from "src/urls";
+import { classes } from "src/util";
 import { Prose } from "..";
+import { Button } from "../inputs";
 import styles from "./UserMenu.module.scss";
 
 export function UserMenu() {
   const account = useAccount();
   const logout = useLogout();
 
-  const [open, setOpen] = useState(false);
+  const [toggled, setToggled] = useState(false);
 
   return (
-    <div>
-      <div className={styles.userIcon} onClick={() => setOpen((o) => !o)}>
+    <>
+      <div
+        className={classes(styles.toggle, [styles.toggled, toggled])}
+        onClick={() => setToggled((o) => !o)}
+      >
         <svg
           width="1em"
           height="1em"
@@ -28,37 +32,41 @@ export function UserMenu() {
         </svg>
       </div>
 
-      <div
-        className={styles.userMenu}
-        style={{ display: open ? "block" : "none" }}
-      >
+      <div className={classes(styles.popup, [styles.toggled, toggled])}>
         {account.isLoggedIn && (
-          <Prose noMargin>
-            <p>
-              You’re currently logged in with the account code:{" "}
-              <strong>{formatId(account.learner.learnerId)}</strong>
-            </p>
+          <>
+            <Prose noMargin>
+              <p>You’re currently logged in with the account code:</p>
 
-            {!account.isForCredit && (
-              <p>
-                Your work will <strong>not</strong> count for any course credit
+              <p className="success text-center">
+                <strong>{formatId(account.learner.learnerId)}</strong>
               </p>
-            )}
 
-            <p>
-              <Link to={`${Login.link}?logout=yes`} onClick={logout}>
-                Log out
-              </Link>
-            </p>
-          </Prose>
+              {!account.isForCredit && (
+                <p>
+                  This is an anonymous account. Your work will{" "}
+                  <strong>not</strong> count for any course credit.
+                </p>
+              )}
+            </Prose>
+
+            <Button
+              className="margin-top-1"
+              link={`${Login.link}?logout=yes`}
+              onClick={logout}
+              kind="secondary"
+            >
+              Log out
+            </Button>
+          </>
         )}
 
         {!account.isLoggedIn && (
-          <Prose noMargin>
-            <Link to={Login.link}>Log in</Link>
-          </Prose>
+          <Button link={Login.link} kind="secondary">
+            Log out
+          </Button>
         )}
       </div>
-    </div>
+    </>
   );
 }

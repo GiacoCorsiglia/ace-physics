@@ -144,7 +144,6 @@ function Tutorial({
   schema: ProviderSchema;
   parts: Parts;
 } & LabelTitle) {
-  const location = useLocation();
   const account = useAccount();
 
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
@@ -269,79 +268,162 @@ function Tutorial({
     [account, name, debouncedSave]
   );
 
+  const { currentTitle } = useCurrentPageInfo(parts, labelTitle);
+
   if (!account.isLoggedIn) {
     // We really should never get here.
     return (
       <Content>
         <Prose>
-          Please go <Link to={urls.Login.link}>login</Link>.
+          You have to <Link to={urls.Login.link}>log in</Link> to see this page.
         </Prose>
       </Content>
     );
   }
+
+  return (
+    <Page title={currentTitle}>
+      <TutorialHeader
+        url={url}
+        parts={parts}
+        savedStatusSubscribe={savedStatusSubscribe}
+        {...labelTitle}
+      />
+
+      <main className={styles.tutorialMain}>
+        <div className={styles.tutorialContent}>
+          {status === "loading" && (
+            <Content className="prose">
+              <h1>Loading…</h1>
+
+              <p>
+                Hold up just a second, we’re loading this tutorial for you{" "}
+                <span role="img" aria-label="happy cat">
+                  😸
+                </span>
+              </p>
+            </Content>
+          )}
+
+          {status === "error" && (
+            <Content>
+              <Prose className="error">Sorry, something went wrong.</Prose>
+            </Content>
+          )}
+
+          {status === "loaded" && (
+            <Provider schema={schema} initial={initial} onChange={onChange}>
+              <Outlet />
+            </Provider>
+          )}
+        </div>
+      </main>
+    </Page>
+  );
+}
+
+function TutorialHeader({
+  url,
+  parts,
+  savedStatusSubscribe,
+  ...labelTitle
+}: {
+  url: urls.URL;
+  parts: Parts;
+  savedStatusSubscribe: (setter: (s: SavedStatus) => void) => () => void;
+} & LabelTitle) {
+  const [toggled, setToggled] = useState(false);
+
+  const { page, currentPart, currentTitle } = useCurrentPageInfo(
+    parts,
+    labelTitle
+  );
+
+  return (
+    <Header>
+      <div
+        className={classes(styles.sidebarToggle, [styles.toggled, toggled])}
+        onClick={() => setToggled((t) => !t)}
+      >
+        <svg viewBox="0 0 120 100" width="1em" height="1em">
+          <rect className={styles.ht} y="14" x="10" width="100" height="12" />
+          <rect className={styles.hm1} y="44" x="10" width="100" height="12" />
+          <rect className={styles.hm2} y="44" x="10" width="100" height="12" />
+          <rect className={styles.hb} y="74" x="10" width="100" height="12" />
+        </svg>
+      </div>
+
+      <div className={styles.headerTitle}>
+        <span className="prose">{currentTitle}</span>
+      </div>
+
+      <nav className={classes(styles.sidebar, [styles.toggled, toggled])}>
+        <Link to={urls.Tutorials.link} className={styles.otherTutorialsLink}>
+          <svg viewBox="0 0 492 492" width="492" height="492">
+            <path d="M464.344 207.418l.768.168H135.888l103.496-103.724c5.068-5.064 7.848-11.924 7.848-19.124 0-7.2-2.78-14.012-7.848-19.088L223.28 49.538c-5.064-5.064-11.812-7.864-19.008-7.864-7.2 0-13.952 2.78-19.016 7.844L7.844 226.914C2.76 231.998-.02 238.77 0 245.974c-.02 7.244 2.76 14.02 7.844 19.096l177.412 177.412c5.064 5.06 11.812 7.844 19.016 7.844 7.196 0 13.944-2.788 19.008-7.844l16.104-16.112c5.068-5.056 7.848-11.808 7.848-19.008 0-7.196-2.78-13.592-7.848-18.652L134.72 284.406h329.992c14.828 0 27.288-12.78 27.288-27.6v-22.788c0-14.82-12.828-26.6-27.656-26.6z" />
+          </svg>
+          Other tutorials
+        </Link>
+
+        <p className={styles.sidebarTutorialTitle}>
+          <span className="prose">{labelTitle.label}</span>
+        </p>
+
+        <ol className={styles.tutorialParts}>
+          <TutorialPartsItem
+            active={url.path === page}
+            link={url.link}
+            label="Introduction"
+          />
+
+          {parts.map((part) => (
+            <TutorialPartsItem
+              active={part.path === page}
+              link={urls.part(url, part.path)}
+              label={part.label}
+            />
+          ))}
+        </ol>
+      </nav>
+
+      <UserMenu />
+
+      <SavedStatus subscribe={savedStatusSubscribe} />
+    </Header>
+  );
+}
+
+function TutorialPartsItem({
+  active,
+  link,
+  label,
+}: {
+  active: boolean;
+  link: string;
+  label: React.ReactNode;
+}) {
+  return (
+    <li className={classes([styles.active, active])}>
+      {active ? (
+        <span className={classes(styles.part, "prose")}>{label}</span>
+      ) : (
+        <Link className={styles.part} to={link}>
+          <span className="prose">{label}</span>
+        </Link>
+      )}
+    </li>
+  );
+}
+
+function useCurrentPageInfo(parts: Parts, labelTitle: LabelTitle) {
+  const location = useLocation();
 
   const page = location.pathname.replace(/\/$/, "").split("/").pop();
 
   const currentPart = parts.find((part) => part.path === page);
   const currentTitle = getTitle(currentPart || labelTitle);
 
-  return (
-    <Page title={currentTitle}>
-      <Header>
-        <nav className={styles.tutorialNav}>
-          <p className={styles.tutorialLabel}>
-            <Link to={url.link}>
-              <span className="prose">{labelTitle.label}</span>
-            </Link>
-          </p>
-
-          <ol className={styles.tutorialParts}>
-            {parts.map((part) => (
-              <li
-                key={part.path}
-                className={classes([styles.active, part.path === page])}
-              >
-                <Link to={urls.part(url, part.path)}>
-                  <span className="prose">{part.label}</span>
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </nav>
-
-        <UserMenu />
-
-        <SavedStatus subscribe={savedStatusSubscribe} />
-      </Header>
-
-      <main>
-        {status === "loading" && (
-          <Content className="prose">
-            <h1>Loading…</h1>
-
-            <p>
-              Hold up just a second, we’re loading this tutorial for you{" "}
-              <span role="img" aria-label="happy cat">
-                😸
-              </span>
-            </p>
-          </Content>
-        )}
-
-        {status === "error" && (
-          <Content>
-            <Prose className="error">Sorry, something went wrong.</Prose>
-          </Content>
-        )}
-
-        {status === "loaded" && (
-          <Provider schema={schema} initial={initial} onChange={onChange}>
-            <Outlet />
-          </Provider>
-        )}
-      </main>
-    </Page>
-  );
+  return { page, currentPart, currentTitle };
 }
 
 type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";

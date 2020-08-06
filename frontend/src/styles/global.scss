@@ -194,12 +194,14 @@ mjx-container[jax="SVG"] {
   background: $green-bg;
   border-radius: $border-radius;
   padding: 1rem;
+  box-shadow: $box-shadow-border, $box-shadow-light;
 }
 
 .error {
   background: $red-bg;
   border-radius: $border-radius;
   padding: 1rem;
+  box-shadow: $box-shadow-border, $box-shadow-light;
 }
 
 .flex {

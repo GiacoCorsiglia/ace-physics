@@ -1,77 +1,297 @@
 @import "styles/definitions";
 
-.tutorialNav {
-  position: fixed;
+////////////////////////////////////////////////////////////////////////////////
+// Content.
+////////////////////////////////////////////////////////////////////////////////
 
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 20rem;
-  padding: 3rem 1rem 1rem 2rem;
+.tutorialMain {
+  @media (min-width: rem-to-px($width-tutorial-sidebar + $width-content-2column) + 1px) {
+    display: grid;
+    grid-template-columns:
+      $width-tutorial-sidebar minmax($width-content-2column, 1fr)
+      minmax(0, $width-tutorial-sidebar);
+  }
 
-  opacity: 0.85;
+  @media (min-width: rem-to-px($width-tutorial-sidebar + $width-content) + 1px) and (max-width: rem-to-px($width-tutorial-sidebar + $width-content-2column)) {
+    display: grid;
+    grid-template-columns: $width-tutorial-sidebar 1fr;
+  }
 
-  transition: opacity 100ms ease-in-out;
-
-  &:hover {
-    opacity: 1;
+  @include below-sidebar-visible {
+    padding-top: 3rem; // Space for he header
   }
 }
 
-.tutorialLabel {
-  margin: 0;
+.tutorialContent {
+  @include above-sidebar-visible {
+    grid-column: 2;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Sidebar & Nav.
+////////////////////////////////////////////////////////////////////////////////
+
+$padding-left-sidebar: 2.5rem; // For the hanging numbers in the list
+
+.sidebar {
+  position: fixed;
+  z-index: $z-sidebar;
+  left: 0;
+  top: $height-header;
+  bottom: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  width: $width-tutorial-nav;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+  padding-left: $padding-left-sidebar;
+
+  @include below-sidebar-visible {
+    background: $bg-overlay;
+    border-right: 1px solid $grey80;
+    box-shadow: $box-shadow-overlay;
+
+    transition: opacity $duration-active $easing,
+      transform $duration-active $easing;
+    will-change: opacity, transform;
+    transform-origin: -50px -50px;
+    transform: translateX(0);
+
+    &:not(.toggled) {
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transform: rotateY(-20deg) rotateX(-3deg);
+    }
+  }
+}
+
+.headerTitle {
+  @include above-sidebar-visible {
+    display: none;
+  }
+
+  position: fixed;
+  z-index: $z-headerTitle;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $height-header;
+  padding: 0.5rem ($width-header-button + 0.5rem);
+
+  background: $bg-overlay;
+  border-bottom: 1px solid $grey80;
+  box-shadow: $box-shadow;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.otherTutorialsLink {
+  display: flex;
+  align-items: center;
+  font-size: $text-small;
+  opacity: $opacity-faded;
+
+  @include above-sidebar-visible {
+    position: fixed;
+    z-index: $z-otherTutorialsLink;
+    top: 0;
+    left: 0;
+    height: $height-header;
+    padding: 0.5rem 1rem;
+
+    border-style: solid;
+    border-color: $grey80;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-bottom-right-radius: $border-radius;
+    background: $bg-overlay;
+  }
+
+  $arrow-size: 1rem;
+  $arrow-margin: 0.5rem;
+
+  @include below-sidebar-visible {
+    // Now it's in the sidebar!
+    margin-bottom: 1rem;
+    margin-left: -($arrow-size + $arrow-margin);
+  }
+
+  svg {
+    display: block;
+    fill: currentColor;
+    width: $arrow-size;
+    height: $arrow-size;
+    margin-right: $arrow-margin;
+  }
+
+  &:hover {
+    color: $blue;
+    opacity: 1;
+
+    svg {
+      fill: $blue;
+    }
+  }
+}
+
+.sidebarToggle {
+  @include above-sidebar-visible {
+    display: none;
+  }
+
+  position: fixed;
+  z-index: $z-sidebarToggle;
+  top: 0;
+  left: 0;
+  width: $width-header-button;
+  height: $height-header;
+  padding: 0.5rem 1rem;
+
+  border-style: solid;
+  border-color: $grey80;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  background: $bg-overlay;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: border-bottom-color $duration-active $easing;
+
+  svg {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    rect {
+      fill: currentColor;
+      rx: $border-radius;
+    }
+  }
+
+  .ht,
+  .hb {
+    transition: opacity $duration-active $easing,
+      transform $duration-active $easing;
+  }
+
+  .hm1,
+  .hm2 {
+    transition: transform $duration-active $easing;
+    transform: translateX(0);
+    transform-origin: center center;
+  }
+
+  &.toggled {
+    border-bottom-color: #fff;
+
+    .ht {
+      opacity: 0;
+      transform: translateY(33%);
+    }
+
+    .hb {
+      opacity: 0;
+      transform: translateY(-33%);
+    }
+
+    .hm1 {
+      transform: rotateZ(45deg);
+    }
+
+    .hm2 {
+      transform: rotateZ(-45deg);
+    }
+  }
+}
+
+.sidebarTutorialTitle {
   font-weight: $bold;
+  opacity: $opacity-faded;
 }
 
 .tutorialParts {
-  margin: 2rem 0 0;
+  margin: 1rem 0 0;
   padding: 0;
-
   list-style: none;
   counter-reset: tutorial-parts-counter;
+  font-size: $text-small;
+
+  $counter-opacity: 0.5;
 
   li {
-    margin: 0;
     counter-increment: tutorial-parts-counter;
     position: relative;
   }
 
-  li::before {
+  li:not(.active)::before {
     content: counter(tutorial-parts-counter) ". ";
     position: absolute;
     right: 100%;
     padding-right: 0.4rem;
-    opacity: 0.5;
+    opacity: $counter-opacity;
     pointer-events: none;
   }
 
-  a {
+  li.active::before {
+    content: "";
     display: block;
-    color: #333;
-    text-decoration: none;
-    padding-left: 2rem;
-    margin-left: -2rem;
-
-    opacity: 0.6;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    right: calc(100% + 0.6rem);
+    top: 0.6rem;
+    opacity: $counter-opacity;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 492 492'%3e%3cpath fill='%23333' d='M27.656 284.582l-.768-.168h329.224L252.616 388.138c-5.068 5.064-7.848 11.924-7.848 19.124 0 7.2 2.78 14.012 7.848 19.088l16.104 16.112c5.064 5.064 11.812 7.864 19.008 7.864 7.2 0 13.952-2.78 19.016-7.844l177.412-177.396c5.084-5.084 7.864-11.856 7.844-19.06.02-7.244-2.76-14.02-7.844-19.096L306.744 49.518c-5.064-5.06-11.812-7.844-19.016-7.844-7.196 0-13.944 2.788-19.008 7.844L252.616 65.63c-5.068 5.056-7.848 11.808-7.848 19.008 0 7.196 2.78 13.592 7.848 18.652L357.28 207.594H27.288C12.46 207.594 0 220.374 0 235.194v22.788c0 14.82 12.828 26.6 27.656 26.6z'/%3e%3c/svg%3e");
   }
 
-  .active a {
+  li:not(.active):hover {
+    color: $blue;
+  }
+
+  .part {
+    display: block;
+    // Space for the number, but overlap it so you can click on it too.
+    padding-left: 2rem;
+    margin-left: -2rem;
+    opacity: $opacity-faded;
+  }
+
+  .active .part {
     opacity: 1;
   }
 }
 
-.part {
-  padding-bottom: 10rem;
-}
+////////////////////////////////////////////////////////////////////////////////
+// Saved status.
+////////////////////////////////////////////////////////////////////////////////
 
 .savedStatus {
   position: fixed;
-  top: 1rem;
-  left: 2rem;
+  z-index: $z-savedStatus;
+  left: 0;
+  bottom: 0;
+  border-top-right-radius: $border-radius;
+
   font-size: $text-small;
-  opacity: 0.5;
+  background: $bg-overlay;
+  color: rgba($text-color, 0.5);
+
+  @include above-sidebar-visible {
+    padding: 1rem 2.5rem;
+  }
+
+  @include below-sidebar-visible {
+    padding: 0.5rem $padding-content;
+  }
 }

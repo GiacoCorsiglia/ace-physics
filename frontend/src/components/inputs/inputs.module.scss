@@ -4,8 +4,6 @@
 // Button.
 ////////////////////////////////////////////////////////////////////////////////
 
-$box-shadow-border: 0 0 1px rgba(#000, 0.1);
-
 .buttonBase {
   display: inline-block;
 
@@ -299,7 +297,7 @@ $box-shadow-border: 0 0 1px rgba(#000, 0.1);
     margin-bottom: 0;
   }
 
-  @include break-above-small {
+  @include above-small {
     align-items: start;
 
     grid-template-areas: "labels fields";
@@ -318,7 +316,7 @@ $box-shadow-border: 0 0 1px rgba(#000, 0.1);
     }
   }
 
-  @include break-below-small {
+  @include below-small {
     grid-template-columns: 1fr;
     row-gap: 1rem;
   }
