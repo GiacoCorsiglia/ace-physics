@@ -54,6 +54,7 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   background: $green-bg;
+  box-shadow: $box-shadow-border, $box-shadow-light;
 
   :first-child,
   .prose :first-child {
