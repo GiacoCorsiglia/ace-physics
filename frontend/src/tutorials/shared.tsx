@@ -340,10 +340,7 @@ function TutorialHeader({
 } & LabelTitle) {
   const [toggled, setToggled] = useState(false);
 
-  const { page, currentPart, currentTitle } = useCurrentPageInfo(
-    parts,
-    labelTitle
-  );
+  const { page, currentTitle } = useCurrentPageInfo(parts, labelTitle);
 
   return (
     <Header>
@@ -427,7 +424,7 @@ function useCurrentPageInfo(parts: Parts, labelTitle: LabelTitle) {
   const currentPart = parts.find((part) => part.path === page);
   const currentTitle = getTitle(currentPart || labelTitle);
 
-  return { page, currentPart, currentTitle };
+  return { page, currentTitle };
 }
 
 type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
