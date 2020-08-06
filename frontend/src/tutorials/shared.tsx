@@ -379,6 +379,7 @@ function TutorialHeader({
 
           {parts.map((part) => (
             <TutorialPartsItem
+              key={part.path}
               active={part.path === page}
               link={urls.part(url, part.path)}
               label={part.label}
