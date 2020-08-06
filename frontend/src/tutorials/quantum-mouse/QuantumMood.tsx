@@ -6,21 +6,29 @@ import {
   FieldGroup,
   Select,
   SelectChoices,
+  TextArea,
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { useField } from "src/state";
+import { isSet, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function QuantumMood() {
-  const possibleMoodEigenvalues = useField(
-    QuantumMouse,
-    "possibleMoodEigenvalues"
-  );
-  const moodEigenvaluesCommit = useField(QuantumMouse, "moodEigenvaluesCommit");
-  const moodEigenvalues = useField(QuantumMouse, "moodEigenvalues");
-  const moodEigenvectors = useField(QuantumMouse, "moodEigenvectors");
-  const moodOperator = useField(QuantumMouse, "moodOperators");
+  const {
+    moodIntroCommit,
+
+    possibleMoodEigenvalues,
+    possibleMoodEigenvaluesCommit,
+
+    moodEigenvalues,
+    moodEigenvectors,
+    moodOperators,
+    moodEigenCommit,
+
+    happySadInnerProduct,
+    happySadInnerProductExplain,
+    happySadInnerProductCommit,
+  } = useFields(QuantumMouse);
 
   return (
     <Part label={<>Moody mice</>}>
@@ -29,41 +37,51 @@ export default function QuantumMood() {
           <Prose>
             <p>
               Turns out mice have feelings too. The operator we will use for
-              "quantum mood" is <M t="\hat{M}" />. This operator is also
-              Hermitian. The corresponding physical measurement is "look at the
-              mouse's expression," yielding either a smile (mood=+1) or frown
-              (mood=-1). [Yes, we are using cat faces.]
+              “quantum mood” is <M t="\hat{M}" />. This operator is also
+              Hermitian. The corresponding physical measurement is “look at the
+              mouse's expression,” yielding either a smile
+              <M t="(\text{mood} = +1)" /> or frown
+              <M t="(\text{mood} = -1)" />. Yes, we are using cat faces.
             </p>
 
             <p className="text-center">
-              <M display t="\hat{M}\ket{😸}=\ket{😸}" />{" "}
-              &nbsp;&nbsp;and&nbsp;&nbsp;{" "}
-              <M display t="\hat{M}\ket{😿}= -\ket{😿}" />.
+              <M t="\hat{M}\ket{😸}=\ket{😸}" /> &nbsp;&nbsp;and&nbsp;&nbsp;{" "}
+              <M t="\hat{M}\ket{😿}= -\ket{😿}" />.
             </p>
 
             <p>Note: Being happy or sad is again, orthonormal and complete.</p>
-
-            <p>
-              What are the possible values of a measurement of <M t="\hat{M}" />
-              ?
-            </p>
           </Prose>
 
-          <FieldGroup grid className="margin-top">
-            <Choice
-              field={possibleMoodEigenvalues}
-              choices={possibleMoodEigenvalueChoices}
-              label={""}
-            />
-          </FieldGroup>
-
-          <Continue commit={moodEigenvaluesCommit} label="Move on" />
+          <Continue commit={moodIntroCommit} label="Got it" />
         </Section>
 
-        <Section commits={[moodEigenvaluesCommit]}>
+        <Section commits={[moodIntroCommit]}>
+          <Choice
+            field={possibleMoodEigenvalues}
+            choices={possibleMoodEigenvalueChoices}
+            label={
+              <Prose>
+                What are the possible values of a measurement of{" "}
+                <M t="\hat{M}" />? (Check all that apply.)
+              </Prose>
+            }
+          />
+
+          <Continue
+            commit={possibleMoodEigenvaluesCommit}
+            allowed={isSet(possibleMoodEigenvalues)}
+            label="Move on"
+          />
+        </Section>
+
+        <Section commits={[moodIntroCommit, possibleMoodEigenvaluesCommit]}>
           <Prose>
-            Let's take some time to check in on the understanding of the
-            representations.
+            <p>Let's take some time to check in on these representations.</p>
+
+            <p>
+              Which symbols are the eigenvectors here, what are the eigenvalues,
+              what are the operators?
+            </p>
           </Prose>
 
           <FieldGroup grid className="margin-top">
@@ -82,12 +100,48 @@ export default function QuantumMood() {
             />
 
             <Select
-              field={moodOperator}
+              field={moodOperators}
               choices={moodChoices}
-              label="Operator(s):"
-              placeholder="Select operator..."
+              label="Operators:"
+              placeholder="Select operators..."
             />
           </FieldGroup>
+
+          <Continue
+            commit={moodEigenCommit}
+            allowed={
+              isSet(moodEigenvalues) &&
+              isSet(moodEigenvectors) &&
+              isSet(moodOperators)
+            }
+            label="Move on"
+          />
+        </Section>
+
+        <Section
+          commits={[
+            moodIntroCommit,
+            possibleMoodEigenvaluesCommit,
+            moodEigenCommit,
+          ]}
+        >
+          <FieldGroup grid>
+            <Select
+              field={happySadInnerProduct}
+              choices={happySadInnerProductChoices}
+              label={<M t="\braket{😸}{😿} = " />}
+            />
+
+            <TextArea field={happySadInnerProductExplain} label="Explain:" />
+          </FieldGroup>
+
+          <Continue
+            commit={happySadInnerProductCommit}
+            allowed={
+              isSet(happySadInnerProduct) && isSet(happySadInnerProductExplain)
+            }
+            label="Move on"
+          />
         </Section>
       </Content>
     </Part>
@@ -97,9 +151,9 @@ export default function QuantumMood() {
 const possibleMoodEigenvalueChoices: SelectChoices<
   QuantumMouse["possibleMoodEigenvalues"]
 > = [
-  { value: "1", label: "1" },
-  { value: "-1", label: "-1" },
-  { value: "0", label: "Zero" },
+  { value: "1", label: <M t="1" /> },
+  { value: "-1", label: <M t="-1" /> },
+  { value: "0", label: <M t="0" /> },
 ];
 
 const moodChoices: SelectChoices<QuantumMouse["moodEigenvalues"]> = [
@@ -123,4 +177,12 @@ const moodChoices: SelectChoices<QuantumMouse["moodEigenvalues"]> = [
     value: "operator",
     label: <M t="\hat{M}" />,
   },
+];
+
+const happySadInnerProductChoices: SelectChoices<
+  QuantumMouse["smallBigInnerProduct"]
+> = [
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "complex", label: "Some complex number, but not enough info" },
 ];

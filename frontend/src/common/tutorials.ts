@@ -27,16 +27,19 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   smallBigInnerProductHelp: s.boolean(),
 
   // Moody Mice?
-  possibleMoodMeasurements: s.string(),
+  moodIntroCommit: s.boolean(),
+
+  possibleMoodEigenvalues: s.choice(["1", "-1", "0"] as const, true),
+  possibleMoodEigenvaluesCommit: s.boolean(),
+
   moodEigenvalues: SizeOrMoodChoice,
   moodEigenvectors: SizeOrMoodChoice,
   moodOperators: SizeOrMoodChoice,
+  moodEigenCommit: s.boolean(),
 
-  happySadInnerProduct: s.number(),
+  happySadInnerProduct: s.choice(["0", "1", "complex"] as const),
   happySadInnerProductExplain: s.string(),
-
-  possibleMoodEigenvalues: s.choice(["1", "-1", "0"] as const, true),
-  moodEigenvaluesCommit: s.boolean(),
+  happySadInnerProductCommit: s.boolean(),
 
   // Superpositions.
   superpositionsIntroCommit: s.boolean(),
