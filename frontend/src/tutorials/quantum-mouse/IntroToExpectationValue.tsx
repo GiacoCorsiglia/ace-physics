@@ -1,21 +1,39 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, Prose, Reminder, Section } from "src/components";
-import { Select, SelectChoices, TextArea } from "src/components/inputs";
+import {
+  Continue,
+  Help,
+  HelpButton,
+  Prose,
+  Reminder,
+  Section,
+} from "src/components";
+import {
+  Decimal,
+  FieldGroup,
+  SelectChoices,
+  TextArea,
+  Toggle,
+} from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { useFields } from "src/state";
+import { isSet, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function IntroToExpectationValue() {
   const {
-    weightedAverageCommit,
-    expValueMeasurabilityCommit,
-    naiveAvgCommit,
+    expValIntroCommit,
+
     weightedAverage,
+    weightedAverageHelp,
+    weightedAverageCommit,
+
     expValueMeasurability,
     expValueMeasurabilityExplain,
+    expValueMeasurabilityCommit,
+
     naiveAvg,
+    naiveAvgCommit,
   } = useFields(QuantumMouse);
 
   return (
@@ -35,47 +53,67 @@ export default function IntroToExpectationValue() {
             </Prose>
           </Reminder>
 
-          <TextArea
-            field={weightedAverage}
-            label={
-              <Prose>
-                <p>
-                  Suppose you have a bunch of mice (this is technically a
-                  “mischief of mice”!) They have been treated well, we check
-                  their M values and sure enough - they are <em>all</em> happy.
-                </p>
-                <p>
-                  If you were to measure the <em>eye-size</em> of all the mice
-                  and average the results, what would you get?
-                </p>
-                <p>
-                  <em>
-                    Hint: in general, the average of a bunch of measurements
-                    that can have two outcomes is (outcome 1)* Prob(outcome 1) +
-                    (outcome 2) * Prob(outcome 2)
-                  </em>
-                </p>
-              </Prose>
-            }
-          />
+          <Prose>
+            Suppose you have a bunch of mice (this is technically a “mischief of
+            mice”!) They have been treated well, we check their{" "}
+            <M t="\hat{M}" /> values and sure enough—they are <em>all</em>{" "}
+            happy.
+          </Prose>
 
-          <Continue commit={weightedAverageCommit} label="Move on" />
+          <Continue commit={expValIntroCommit} label="Measure the mice" />
+        </Section>
+
+        <Section commits={[expValIntroCommit]}>
+          <Prose>
+            If you were to measure the <em>eye-size</em> of all the mice and
+            average the results, what would you get?
+          </Prose>
+
+          <FieldGroup grid className="margin-top">
+            <Decimal
+              field={weightedAverage}
+              label="Average eye size (in mm):"
+            />
+          </FieldGroup>
+
+          {needsHelp(weightedAverageHelp) && (
+            <Help>
+              <Prose>
+                In general, the average of a bunch of measurements that can have
+                two outcomes is:
+                <M
+                  display
+                  t="(\text{outcome 1}) \cdot \text{Prob}(outcome 1) + (\text{outcome 2}) \cdot \text{Prob}(outcome 2)"
+                />
+              </Prose>
+            </Help>
+          )}
+
+          <Continue
+            commit={weightedAverageCommit}
+            allowed={isSet(weightedAverage)}
+            label="Move on"
+          >
+            <HelpButton help={weightedAverageHelp} />
+          </Continue>
         </Section>
 
         <Section commits={[weightedAverageCommit]}>
-          <Select
+          <Toggle
             field={expValueMeasurability}
             choices={expValueMeasurabilityChoices}
             label={
               <Prose>
                 <p>
-                  In QM, the answer above is called the “expectation value of{" "}
-                  <M t="\hat{S}" />. In the case above, do you expect to ever
-                  measure this particular value, in any individual measurement?
+                  In quantum mechanics, the answer above is called the
+                  “expectation value of <M t="\hat{S}" />
+                  .” In the case above, do you expect to ever measure this
+                  particular value, in any individual measurement?
                 </p>
               </Prose>
             }
           />
+
           <TextArea
             field={expValueMeasurabilityExplain}
             label={<Prose>Why or why not?</Prose>}
@@ -91,10 +129,17 @@ export default function IntroToExpectationValue() {
               <Prose>
                 <p>
                   The “expectation value of <M t="\hat{S}" />” here is not
-                  simply the naïve average, i.e. (value 1 + value 2)/2, of the
-                  two possible values you might measure. Why not? Make intuitive
-                  sense of the result, given your interpretations of the
-                  characters of small-eyed and large-eyed mice.
+                  simply the naïve average of the two possible values you might
+                  measure. That is, it’s not
+                  <M t="(\text{value 1} + \text{value 2})/2" />.
+                </p>
+
+                <p>Why not?</p>
+
+                <p>
+                  Make intuitive sense of the result, given your interpretations
+                  of the characters of small-eyed and large-eyed mice. Summarize
+                  your thoughts below.
                 </p>
               </Prose>
             }

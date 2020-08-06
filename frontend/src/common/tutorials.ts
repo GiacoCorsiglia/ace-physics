@@ -166,8 +166,11 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
 
   // Expectation Value.
 
+  expValIntroCommit: s.boolean(),
+
+  weightedAverage: s.number(),
+  weightedAverageHelp: s.boolean(),
   weightedAverageCommit: s.boolean(),
-  weightedAverage: s.string(),
 
   expValueMeasurabilityCommit: s.boolean(),
   expValueMeasurability: s.choice(["Yes", "No"] as const),
