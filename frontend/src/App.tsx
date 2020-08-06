@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import footerStyles from "src/components/shared/Footer.module.scss";
 import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import * as account from "./account";
 import { Prose } from "./components";
@@ -18,24 +19,26 @@ export default function App() {
   return (
     <Router>
       <globalParams.GlobalParamsProvider>
-        <account.AccountProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
+        <div className={footerStyles.bodyContent}>
+          <account.AccountProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
 
-            {Tutorials.route}
+              {Tutorials.route}
 
-            {account.createAccountRoute}
-            {account.loginRoute}
+              {account.createAccountRoute}
+              {account.loginRoute}
 
-            {Generate.route}
+              {Generate.route}
 
-            {Privacy.route}
+              {Privacy.route}
 
-            <Route path="test" element={<ComponentsTest />} />
+              <Route path="test" element={<ComponentsTest />} />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </account.AccountProvider>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </account.AccountProvider>
+        </div>
 
         <Footer />
       </globalParams.GlobalParamsProvider>

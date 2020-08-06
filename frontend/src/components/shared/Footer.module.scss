@@ -1,8 +1,25 @@
 @import "src/styles/definitions";
 
+html,
+body,
+:global(#root) {
+  height: 100%;
+}
+
+:global(#root) {
+  display: flex;
+  flex-direction: column;
+}
+
+.bodyContent {
+  flex: 1 0 auto;
+}
+
 .footer {
+  flex-shrink: 0;
+
+  padding: 12rem 1rem 4rem;
   text-align: center;
-  padding: 12rem 1rem 2rem;
   font-size: $text-smallest;
   opacity: 0.75;
 }
