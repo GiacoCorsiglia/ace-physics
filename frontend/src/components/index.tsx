@@ -81,9 +81,11 @@ export function Continue({
   label,
   link,
   commit,
+  onClick,
   allowed = true,
   children,
 }: {
+  onClick?: () => void;
   label: React.ReactNode;
   allowed?: boolean;
 } & ContinueProps &
@@ -103,7 +105,17 @@ export function Continue({
       <Button
         className={styles.button}
         link={link}
-        onClick={commit && (() => commit.set(true))}
+        onClick={
+          (commit || onClick) &&
+          (() => {
+            if (commit) {
+              commit.set(true);
+            }
+            if (onClick) {
+              onClick();
+            }
+          })
+        }
         disabled={!allowed}
       >
         {label} <ArrowRight />
@@ -137,8 +149,14 @@ export function Section({
   commits,
   first = false,
   children,
-}: { commits?: Field<s.BooleanSchema>[]; first?: boolean } & Children) {
-  if (commits && commits.some((commit) => !commit.value)) {
+}: {
+  commits?: (Field<s.BooleanSchema> | undefined | boolean)[];
+  first?: boolean;
+} & Children) {
+  if (
+    commits &&
+    commits.some((commit) => commit && commit !== true && !commit.value)
+  ) {
     return null;
   }
 
