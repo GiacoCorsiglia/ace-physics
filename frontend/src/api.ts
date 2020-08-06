@@ -108,7 +108,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
           const response = mockResponse(request);
           console.log("api: received MOCK response", href, response);
           resolve(success(response));
-        }, 100 + 300 * Math.random());
+        }, 1);
       });
     }
     ////////////////////////////////////////////////////////////////////////////
