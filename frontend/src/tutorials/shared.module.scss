@@ -44,7 +44,7 @@ $padding-left-sidebar: 2.5rem; // For the hanging numbers in the list
   position: fixed;
   z-index: $z-sidebar;
   left: 0;
-  top: $height-header;
+  top: 0;
   bottom: 0;
 
   overflow-y: auto;
@@ -52,9 +52,9 @@ $padding-left-sidebar: 2.5rem; // For the hanging numbers in the list
   -webkit-overflow-scrolling: touch;
 
   width: $width-tutorial-nav;
-  padding-top: 1rem;
+  padding-top: $height-header + 1rem;
   padding-right: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 5rem; // Room for the overlapping "Saved status"
   padding-left: $padding-left-sidebar;
 
   @include below-sidebar-visible {

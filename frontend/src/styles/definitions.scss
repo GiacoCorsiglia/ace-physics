@@ -93,11 +93,11 @@ $z-headerTitle: $z-fixed-overlay + 10;
 $z-userMenuToggle: $z-fixed-overlay + 20;
 $z-userMenu: $z-fixed-overlay + 10;
 
-$z-otherTutorialsLink: $z-fixed-overlay;
+$z-otherTutorialsLink: $z-fixed-overlay + 100;
 $z-sidebarToggle: $z-fixed-overlay + 20;
 $z-sidebar: $z-fixed-overlay + 10;
 
-$z-savedStatus: $z-fixed-overlay - 10;
+$z-savedStatus: $z-fixed-overlay + 100;
 
 // Colors.
 
