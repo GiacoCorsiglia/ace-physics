@@ -89,7 +89,7 @@ export function tutorialRoute({
                 you develop your own understanding.{" "}
                 <strong>
                   It’s not about about “right” or “wrong” answers!
-                </strong>{" "}
+                </strong>
               </p>
 
               <p>And it won’t be graded (except for participation credit).</p>
@@ -360,8 +360,25 @@ function TutorialHeader({
         <span className="prose">{currentTitle}</span>
       </div>
 
+      <Link
+        to={urls.Tutorials.link}
+        className={classes(
+          styles.otherTutorialsLink,
+          styles.otherTutorialsLinkFixed
+        )}
+      >
+        <ArrowLeft />
+        Other tutorials
+      </Link>
+
       <nav className={classes(styles.sidebar, [styles.toggled, toggled])}>
-        <Link to={urls.Tutorials.link} className={styles.otherTutorialsLink}>
+        <Link
+          to={urls.Tutorials.link}
+          className={classes(
+            styles.otherTutorialsLink,
+            styles.otherTutorialsLinkInline
+          )}
+        >
           <ArrowLeft />
           Other tutorials
         </Link>

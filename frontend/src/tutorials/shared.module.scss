@@ -106,7 +106,11 @@ $padding-left-sidebar: 2.5rem; // For the hanging numbers in the list
   font-size: $text-small;
   opacity: $opacity-faded;
 
-  @include above-sidebar-visible {
+  &.otherTutorialsLinkFixed {
+    @include below-sidebar-visible {
+      display: none;
+    }
+
     position: fixed;
     z-index: $z-otherTutorialsLink;
     top: 0;
@@ -125,8 +129,11 @@ $padding-left-sidebar: 2.5rem; // For the hanging numbers in the list
   $arrow-size: 1rem;
   $arrow-margin: 0.5rem;
 
-  @include below-sidebar-visible {
-    // Now it's in the sidebar!
+  &.otherTutorialsLinkInline {
+    @include above-sidebar-visible {
+      display: none;
+    }
+
     margin-bottom: 1rem;
     margin-left: -($arrow-size + $arrow-margin);
   }
