@@ -35,6 +35,23 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   smallBigInnerProduct: s.choice(["0", "1", "complex"] as const),
   smallBigInnerProductExplain: s.string(),
   smallBigInnerProductHelp: s.boolean(),
+  smallBigInnerProductCommit: s.boolean(),
+
+  sizeEigenvaluesCheckVisible: s.boolean(),
+  sizeEigenvaluesCheckCommit: s.boolean(),
+
+  bigBigInnerProductVisible: s.boolean(),
+  bigBigInnerProduct: s.choice(["0", "1", "complex"] as const),
+  bigBigInnerProductCommit: s.boolean(),
+
+  orthonormalDefinitionVisible: s.boolean(),
+  orthonormalDefinition: s.choice(
+    ["orthogonal", "90deg", "0 inner product"] as const,
+    true
+  ),
+  orthonormalDefinitionCommit: s.boolean(),
+
+  whatIsAMouseFinalCommit: s.boolean(),
 
   // Moody Mice?
 

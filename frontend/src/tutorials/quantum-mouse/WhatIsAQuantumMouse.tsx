@@ -2,6 +2,7 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import { Continue, Help, HelpButton, Prose, Section } from "src/components";
 import {
+  Choice,
   FieldGroup,
   Select,
   SelectChoices,
@@ -18,16 +19,33 @@ import { ReactComponent as MouseSmallEye } from "./svgs/mouse-small-eye.svg";
 export default function WhatIsAQuantumMouse() {
   const {
     introCommit,
+
     sizeEigenvalues,
     sizeEigenvectors,
     sizeEigenHelp,
     sizeCommit,
+
     hiddenUnits,
     hiddenUnitsHelp,
     hiddenUnitsCommit,
+
     smallBigInnerProduct,
     smallBigInnerProductExplain,
     smallBigInnerProductHelp,
+    smallBigInnerProductCommit,
+
+    sizeEigenvaluesCheckVisible,
+    sizeEigenvaluesCheckCommit,
+
+    bigBigInnerProductVisible,
+    bigBigInnerProduct,
+    bigBigInnerProductCommit,
+
+    orthonormalDefinitionVisible,
+    orthonormalDefinition,
+    orthonormalDefinitionCommit,
+
+    whatIsAMouseFinalCommit,
   } = useFields(QuantumMouse);
 
   return (
@@ -126,7 +144,7 @@ export default function WhatIsAQuantumMouse() {
           </Continue>
         </Section>
 
-        <Section commits={[introCommit, sizeCommit]}>
+        <Section commits={[sizeCommit]}>
           <Prose>Let's think some more about those eigen-equations.</Prose>
 
           <FieldGroup grid className="margin-top">
@@ -162,7 +180,7 @@ export default function WhatIsAQuantumMouse() {
           </Continue>
         </Section>
 
-        <Section commits={[introCommit, sizeCommit, hiddenUnitsCommit]}>
+        <Section commits={[hiddenUnitsCommit]}>
           <Prose>
             What can you say about the numerical value of{" "}
             <M t="\braket{\cdot}{*}" />?
@@ -187,14 +205,122 @@ export default function WhatIsAQuantumMouse() {
           )}
 
           <Continue
-            link="#todo"
-            label="Move on to part 2"
+            commit={smallBigInnerProductCommit}
+            label="Let’s check in"
             allowed={
               isSet(smallBigInnerProduct) && isSet(smallBigInnerProductExplain)
             }
+            onClick={() => {
+              if (
+                sizeEigenvalues.value?.selected !== "value" ||
+                sizeEigenvectors.value?.selected !== "kets"
+              ) {
+                sizeEigenvaluesCheckVisible.set(true);
+              }
+
+              if (smallBigInnerProduct.value?.selected === "0") {
+                bigBigInnerProductVisible.set(true);
+              } else {
+                orthonormalDefinitionVisible.set(true);
+              }
+            }}
           >
             <HelpButton help={smallBigInnerProductHelp} />
           </Continue>
+        </Section>
+
+        <Section
+          commits={[smallBigInnerProductCommit, sizeEigenvaluesCheckVisible]}
+        >
+          <Prose>
+            You might want to take another look a the first two questions on
+            this page. Remember the template:
+            <M
+              display
+              t="(\text{operator}) (\text{eigenvector}) = (\text{eigenvalue}) \cdot (\text{eigenvector})"
+            />
+          </Prose>
+
+          <Continue commit={sizeEigenvaluesCheckCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            smallBigInnerProductCommit,
+            sizeEigenvaluesCheckVisible.value && sizeEigenvaluesCheckCommit,
+            bigBigInnerProductVisible,
+          ]}
+        >
+          <Prose>
+            What about <M t="\braket{*}{*}" />?
+          </Prose>
+
+          <FieldGroup grid className="margin-top">
+            <Select
+              field={bigBigInnerProduct}
+              choices={smallBigInnerProductChoices}
+              label={<M t="\braket{*}{*} = " />}
+            />
+          </FieldGroup>
+
+          <Continue
+            commit={bigBigInnerProductCommit}
+            allowed={isSet(bigBigInnerProduct)}
+          />
+        </Section>
+
+        <Section
+          commits={[
+            smallBigInnerProductCommit,
+            sizeEigenvaluesCheckVisible.value && sizeEigenvaluesCheckCommit,
+            orthonormalDefinitionVisible,
+          ]}
+        >
+          <Prose>
+            We said that the vectors <M t="\ket{\cdot}" /> and <M t="\ket{*}" />{" "}
+            are <em>orthonormal</em>.
+          </Prose>
+
+          <Choice
+            field={orthonormalDefinition}
+            choices={orthonormalDefinitionChoices}
+            label={
+              <Prose>
+                If two vectors are orthonormal, this also means… (Check all that
+                apply)
+              </Prose>
+            }
+          />
+
+          <Continue
+            commit={orthonormalDefinitionCommit}
+            allowed={isSet(orthonormalDefinition)}
+          />
+        </Section>
+
+        <Section
+          commits={[
+            smallBigInnerProductCommit,
+            bigBigInnerProductVisible.value && bigBigInnerProductCommit,
+            orthonormalDefinitionVisible.value && orthonormalDefinitionCommit,
+            sizeEigenvaluesCheckVisible.value && sizeEigenvaluesCheckCommit,
+          ]}
+        >
+          <Prose>
+            Awesome! Remember,{" "}
+            <strong className="text-blue">
+              this isn’t about being “right” or “wrong,” and we haven‘t
+              “checked” all your answers.
+            </strong>{" "}
+            We encourage you to continue to think about these concepts and chat
+            with your professor, TA, or classmates!
+          </Prose>
+
+          <Continue
+            link="../quantum-mood"
+            commit={whatIsAMouseFinalCommit}
+            label="Move on to the next page"
+          />
         </Section>
       </Content>
     </Part>
@@ -230,6 +356,17 @@ const smallBigInnerProductChoices: SelectChoices<
   { value: "0", label: "0" },
   { value: "1", label: "1" },
   { value: "complex", label: "Some complex number, but not enough info" },
+];
+
+const orthonormalDefinitionChoices: SelectChoices<
+  QuantumMouse["orthonormalDefinition"]
+> = [
+  { value: "orthogonal", label: "They’re orthogonal" },
+  { value: "90deg", label: "They’re at a 90 degree angle to one another" },
+  {
+    value: "0 inner product",
+    label: "Their inner product (like their dot product) is equal to 0",
+  },
 ];
 
 function SmallEyeMouseKet() {
