@@ -83,7 +83,7 @@ export function tutorialRoute({
 
             {intro}
 
-            <Prose>
+            <Prose className={styles.genericIntroProse}>
               <p>
                 This activity is intended to be thought-provoking and to help
                 you develop your own understanding.{" "}
@@ -110,6 +110,11 @@ export function tutorialRoute({
                 </strong>{" "}
                 We hope this activity helps you learn something today. If it
                 does, it’ll be thanks to you, not us.
+              </p>
+
+              <p>
+                Oh—<strong>have some scrap paper ready</strong> and draw and
+                work things out for yourself.
               </p>
 
               <p>Good luck!</p>
