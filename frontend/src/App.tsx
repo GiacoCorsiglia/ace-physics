@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import * as account from "./account";
 import { Prose } from "./components";
 import { ComponentsTest } from "./components/ComponentsTest";
@@ -64,7 +65,7 @@ function Index() {
         </Prose>
 
         <Button className="margin-top" link={urls.Tutorials.link}>
-          Take me to the online tutorials →
+          Take me to the online tutorials <ArrowRight />
         </Button>
       </Content>
     </Page>

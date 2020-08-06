@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route } from "react-router";
 import Select from "react-select";
+import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import * as api from "./api";
 import { Prose } from "./components";
 import { Button } from "./components/inputs";
@@ -107,7 +108,13 @@ function Generate() {
           )}
 
           <Button type="submit" disabled={!ready || status !== "initial"}>
-            {status === "loading" ? "Generating…" : "Generate →"}
+            {status === "loading" ? (
+              <>Generating…</>
+            ) : (
+              <>
+                Generate <ArrowRight />
+              </>
+            )}
           </Button>
         </form>
 

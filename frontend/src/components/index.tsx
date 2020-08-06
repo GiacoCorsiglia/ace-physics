@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import * as s from "src/common/schema";
 import * as globalParams from "src/globalParams";
 import { Field } from "src/state";
+import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import { Children, classes, OptionalChildren } from "src/util";
 import { Button } from "./inputs";
 import { Content } from "./layout";
@@ -105,7 +106,7 @@ export function Continue({
         onClick={commit && (() => commit.set(true))}
         disabled={!allowed}
       >
-        {label} →
+        {label} <ArrowRight />
       </Button>
 
       {children}

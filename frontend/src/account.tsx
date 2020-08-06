@@ -14,6 +14,7 @@ import { Prose } from "src/components";
 import { Button } from "src/components/inputs";
 import inputStyles from "src/components/inputs/inputs.module.scss";
 import { Content, Page } from "src/components/layout";
+import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import * as urls from "src/urls";
 import { Children, classes } from "src/util";
 import styles from "./account.module.scss";
@@ -289,7 +290,9 @@ export function Login() {
               Log out
             </Button>
 
-            <Button link={next}>Stay logged in →</Button>
+            <Button link={next}>
+              Stay logged in <ArrowRight />
+            </Button>
           </div>
         </Content>
       </Page>
@@ -357,7 +360,13 @@ export function Login() {
           />
 
           <Button type="submit" disabled={!isIdValid || status === "loading"}>
-            {status === "loading" ? "Loading…" : "Log in →"}
+            {status === "loading" ? (
+              <>Loading…</>
+            ) : (
+              <>
+                Log in <ArrowRight />
+              </>
+            )}
           </Button>
         </form>
 
@@ -512,7 +521,7 @@ export function CreateAccount() {
               onClick={() => setStatus("saved")}
               disabled={status === "saved"}
             >
-              I promise I’ve saved my code →
+              I promise I’ve saved my code <ArrowRight />
             </Button>
           </div>
         )}
@@ -526,7 +535,7 @@ export function CreateAccount() {
 
             <div className="text-center margin-top">
               <Button link={withNext(urls.Login.link, next)}>
-                Go log in →
+                Go log in <ArrowRight />
               </Button>
             </div>
 

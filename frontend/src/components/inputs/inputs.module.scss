@@ -41,6 +41,14 @@
   &:focus {
     outline: none;
   }
+
+  :global(.svg-arrow-right) {
+    position: relative;
+    top: 0.05em;
+    width: 0.8em;
+    height: 0.8em;
+    margin-left: 0.5rem;
+  }
 }
 
 @mixin button($color) {
