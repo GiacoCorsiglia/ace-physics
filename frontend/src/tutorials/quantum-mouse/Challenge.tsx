@@ -32,10 +32,8 @@ export default function Challenge() {
             />
           </Reminder>
           <Prose>
-            <p>
-              If you're done early or interested in some extra practice, check
-              this out!
-            </p>
+            <p>If you're interested in some extra practice, check this out!</p>
+
             <p>
               Express the <M t="\hat{S}" /> operator in matrix notation. (This
               is not trivial, because we are using the basis of{" "}
