@@ -79,7 +79,8 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   remeasure1mmResults: s.string(),
   remeasure1mmState: s.choice(["1mm", "2mm", "happy", "sad"] as const),
   remeasure1mmCommit: s.boolean(),
-  remeasure1mmHelp: s.boolean(),
+  remeasure1mmHelp1: s.boolean(),
+  remeasure1mmHelp2: s.boolean(),
 
   measureUnhappyProbability: s.number(),
   measureUnhappyProbabilityExplain: s.string(),

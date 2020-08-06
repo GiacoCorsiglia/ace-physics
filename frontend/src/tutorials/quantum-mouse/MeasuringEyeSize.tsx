@@ -31,7 +31,8 @@ export default function MeasuringEyeSize() {
     remeasure1mmResults,
     remeasure1mmState,
     remeasure1mmCommit,
-    remeasure1mmHelp,
+    remeasure1mmHelp1,
+    remeasure1mmHelp2,
     measureUnhappyProbability,
     measureUnhappyProbabilityHelp,
     measureUnhappyProbabilityExplain,
@@ -153,12 +154,39 @@ export default function MeasuringEyeSize() {
             }
           />
 
+          {/* For when they don't */}
+          {needsHelp(remeasure1mmHelp1) && (
+            <Help>
+              <Prose>Take another look at the previous question.</Prose>
+            </Help>
+          )}
+
+          {/* For when they have the previous question right(ish) */}
+          {needsHelp(remeasure1mmHelp2) && (
+            <Help>
+              <Prose>
+                Is there a difference between the scenario in this question and
+                the previous one?
+              </Prose>
+            </Help>
+          )}
+
           <Continue
             commit={remeasure1mmCommit}
             label="Move on"
             allowed={isSet(remeasure1mmResults) && isSet(remeasure1mmState)}
           >
-            <HelpButton help={remeasure1mmHelp} />
+            {isSet(collapsed1mmState) &&
+              collapsed1mmState.value.selected !== "1mm" &&
+              collapsed1mmState.value.selected !== "2mm" && (
+                <HelpButton help={remeasure1mmHelp1} />
+              )}
+
+            {isSet(collapsed1mmState) &&
+              (collapsed1mmState.value?.selected === "1mm" ||
+                collapsed1mmState.value?.selected === "2mm") && (
+                <HelpButton help={remeasure1mmHelp2} />
+              )}
           </Continue>
         </Section>
 
@@ -221,6 +249,20 @@ export default function MeasuringEyeSize() {
               </Prose>
             }
           />
+
+          {needsHelp(smallEyedEmotionHelp) && (
+            <Help>
+              <Prose>
+                If you know (from above) that
+                <M
+                  display
+                  t="\ket{\cdot} = \frac{2}{\sqrt{5}} \ket{😸} - \frac{1}{\sqrt{5}} \ket{😿}"
+                />
+                what can you say about the likelihood that a small-eyed mouse
+                will be happy? Or sad?
+              </Prose>
+            </Help>
+          )}
 
           <Continue commit={smallEyedEmotionCommit} label="Move on">
             <HelpButton help={smallEyedEmotionHelp} />
