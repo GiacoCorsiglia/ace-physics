@@ -93,8 +93,8 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
 
   // More Measurements.
 
-  moodStartCommit: s.boolean(),
-  moodStartAmbiguity: s.string(),
+  moreMeasurementsIntroCommit: s.boolean(),
+
   moodStartState: s.choice([
     "small",
     "large",
@@ -102,10 +102,24 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
     "sad",
     "ambiguous",
   ] as const),
+  moodStartAmbiguity: s.string(),
+  moodStartCommit: s.boolean(),
+  moodStartHelp: s.boolean(),
 
   smallEyeProbCommit: s.boolean(),
-  smallEyeProb: s.choice(["0", "1/root5", "1/5", "2/root5", "4/5", "1"]),
+  smallEyeProb: s.choice([
+    "0",
+    "1/root5",
+    "1/5",
+    "2/root5",
+    "4/5",
+    "1",
+  ] as const),
   smallEyeProbExplain: s.string(),
+  smallEyePropHelp: s.boolean(),
+
+  smallEyeProbChallengeVisible: s.boolean(),
+  smallEyeProbChallengeCommit: s.boolean(),
 
   finalMoodCommit: s.boolean(),
   finalMood: s.string(),
@@ -114,7 +128,8 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   surpriseResults: s.string(),
 
   thinkingDeeperCommit: s.boolean(),
-  thinkingDeeper: s.string(),
+  thinkingDeeperAgreement: s.boolean(),
+  thinkingDeeperExplain: s.string(),
 
   // Expectation Value.
 
@@ -122,7 +137,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   weightedAverage: s.string(),
 
   expValueMeasurabilityCommit: s.boolean(),
-  expValueMeasurability: s.choice(["Yes", "No"]),
+  expValueMeasurability: s.choice(["Yes", "No"] as const),
   expValueMeasurabilityExplain: s.string(),
   //I know you don't have to do it this way
 
