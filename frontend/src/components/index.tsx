@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import * as s from "src/common/schema";
 import * as globalParams from "src/globalParams";
 import { Field } from "src/state";
+import { ReactComponent as ArrowDown } from "src/svgs/arrow-down.svg";
 import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import { Children, classes, OptionalChildren } from "src/util";
 import { Button } from "./inputs";
@@ -119,7 +120,7 @@ export function Continue({
         }
         disabled={!allowed}
       >
-        {label} <ArrowRight />
+        {label} {link ? <ArrowRight /> : <ArrowDown />}
       </Button>
 
       {children}

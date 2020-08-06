@@ -46,8 +46,17 @@
     position: relative;
     top: 0.05em;
     width: 0.8em;
-    height: 0.8em;
+    height: auto;
     margin-left: 0.5rem;
+  }
+
+  :global(.svg-arrow-down) {
+    position: relative;
+    top: 0.04em;
+    width: 0.8em;
+    height: auto;
+    margin-left: 0.5rem;
+    margin-right: -0.2rem;
   }
 }
 
