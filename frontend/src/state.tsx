@@ -124,7 +124,7 @@ function Field<S extends s.Schema>(schema: S): Field<S> {
 
   const field: Writeable<Field<S>> = {
     schema,
-    value: schema.default(),
+    value: undefined,
     validity: { valid: true },
 
     set(newValue: T | undefined) {
@@ -293,6 +293,8 @@ export function isSet<S extends s.Schema>(
   switch (field.schema.kind) {
     case "choice":
       return value.selected !== undefined || !!value.other;
+    case "string":
+      return !!value;
     default:
       return true;
   }
