@@ -27,7 +27,7 @@
     opacity: $opacity-faded;
 
     &:hover,
-    &.open {
+    &.toggled {
       opacity: 1;
     }
   }
