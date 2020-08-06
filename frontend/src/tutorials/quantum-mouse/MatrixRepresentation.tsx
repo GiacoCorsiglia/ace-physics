@@ -3,17 +3,16 @@ import { QuantumMouse } from "src/common/tutorials";
 import { Continue, Prose, Reminder, Section } from "src/components";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { useField } from "src/state";
+import { useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function MatrixRepresentation() {
-  const moodVectorsCommit = useField(QuantumMouse, "moodVectorsCommit");
-  const eyeSizeVectorsCommit = useField(QuantumMouse, "eyeSizeVectorCommit");
-  const moodEigenequationCommit = useField(
-    QuantumMouse,
-    "moodEigenequationCommit"
-  );
-  const moodMatrixCommit = useField(QuantumMouse, "moodMatrixCommit");
+  const {
+    moodVectorsCommit,
+    eyeSizeVectorCommit,
+    moodEigenequationCommit,
+    moodMatrixCommit,
+  } = useFields(QuantumMouse);
 
   return (
     <Part label="Connecting to Matrix Representation">
@@ -65,10 +64,10 @@ export default function MatrixRepresentation() {
           {/*same style as above. Here are the labels for the field group //a
           small-eyed mouse, <M t="\ket{\cdot}" />
           //a big-eyed mouse, <M t="\ket{*}" />*/}
-          <Continue commit={eyeSizeVectorsCommit} label="Move on" />
+          <Continue commit={eyeSizeVectorCommit} label="Move on" />
         </Section>
 
-        <Section commits={[moodVectorsCommit, eyeSizeVectorsCommit]}>
+        <Section commits={[moodVectorsCommit, eyeSizeVectorCommit]}>
           <Prose>
             <p>
               Now we want to find the representation for the <M t="\hat{M}" />{" "}
@@ -85,7 +84,7 @@ export default function MatrixRepresentation() {
         <Section
           commits={[
             moodVectorsCommit,
-            eyeSizeVectorsCommit,
+            eyeSizeVectorCommit,
             moodEigenequationCommit,
           ]}
         >

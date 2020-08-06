@@ -4,23 +4,20 @@ import { Continue, Prose, Reminder, Section } from "src/components";
 import { Select, SelectChoices, TextArea } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { useField } from "src/state";
+import { useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function IntroToExpectationValue() {
-  const weightedAverageCommit = useField(QuantumMouse, "weightedAverageCommit");
-  const expValueMeasurabilityCommit = useField(
-    QuantumMouse,
-    "expValueMeasurabilityCommit"
-  );
-  const naiveAvgCommit = useField(QuantumMouse, "naiveAvgCommit");
-  const weightedAverage = useField(QuantumMouse, "weightedAverage");
-  const expValueMeasurability = useField(QuantumMouse, "expValueMeasurability");
-  const expValueMeasurabilityExplain = useField(
-    QuantumMouse,
-    "expValueMeasurabilityExplain"
-  );
-  const naiveAvg = useField(QuantumMouse, "naiveAvg");
+  const {
+    weightedAverageCommit,
+    expValueMeasurabilityCommit,
+    naiveAvgCommit,
+    weightedAverage,
+    expValueMeasurability,
+    expValueMeasurabilityExplain,
+    naiveAvg,
+  } = useFields(QuantumMouse);
+
   return (
     <Part label="Introducing the Expectation Value">
       <Content>

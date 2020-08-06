@@ -18,52 +18,28 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, needsHelp, useField } from "src/state";
+import { isSet, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function MeasuringEyeSize() {
-  const measuringEyeSizeIntroCommit = useField(
-    QuantumMouse,
-    "measuringEyeSizeIntroCommit"
-  );
-  const collapsed1mmState = useField(QuantumMouse, "collapsed1mmState");
-  const collapsed1mmStateCommit = useField(
-    QuantumMouse,
-    "collapsed1mmStateCommit"
-  );
-  const collapsed1mmStateHelp = useField(QuantumMouse, "collapsed1mmStateHelp");
-  const collapsed1mmStateHelp2 = useField(
-    QuantumMouse,
-    "collapsed1mmStateHelp2"
-  );
-  const remeasure1mmResults = useField(QuantumMouse, "remeasure1mmResults");
-  const remeasure1mmState = useField(QuantumMouse, "remeasure1mmState");
-  const remeasure1mmCommit = useField(QuantumMouse, "remeasure1mmCommit");
-  const remeasure1mmHelp = useField(QuantumMouse, "remeasure1mmHelp");
-
-  const measureUnhappyProbability = useField(
-    QuantumMouse,
-    "measureUnhappyProbability"
-  );
-  const measureUnhappyProbabilityHelp = useField(
-    QuantumMouse,
-    "measureUnhappyProbabilityHelp"
-  );
-  const measureUnhappyProbabilityExplain = useField(
-    QuantumMouse,
-    "measureUnhappyProbabilityExplain"
-  );
-  const measureUnhappyProbabilityCommit = useField(
-    QuantumMouse,
-    "measureUnhappyProbabilityCommit"
-  );
-
-  const smallEyedEmotion = useField(QuantumMouse, "smallEyedEmotion");
-  const smallEyedEmotionHelp = useField(QuantumMouse, "smallEyedEmotionHelp");
-  const smallEyedEmotionCommit = useField(
-    QuantumMouse,
-    "smallEyedEmotionCommit"
-  );
+  const {
+    measuringEyeSizeIntroCommit,
+    collapsed1mmState,
+    collapsed1mmStateCommit,
+    collapsed1mmStateHelp,
+    collapsed1mmStateHelp2,
+    remeasure1mmResults,
+    remeasure1mmState,
+    remeasure1mmCommit,
+    remeasure1mmHelp,
+    measureUnhappyProbability,
+    measureUnhappyProbabilityHelp,
+    measureUnhappyProbabilityExplain,
+    measureUnhappyProbabilityCommit,
+    smallEyedEmotion,
+    smallEyedEmotionHelp,
+    smallEyedEmotionCommit,
+  } = useFields(QuantumMouse);
 
   return (
     <Part label="Measuring Eye Size">

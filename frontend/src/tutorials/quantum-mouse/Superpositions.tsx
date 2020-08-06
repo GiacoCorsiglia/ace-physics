@@ -17,30 +17,23 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, needsHelp, useField } from "src/state";
+import { isSet, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function Superpositions() {
-  const superpositionsIntroCommit = useField(
-    QuantumMouse,
-    "superpositionsIntroCommit"
-  );
-  const whyWideStressed = useField(QuantumMouse, "whyWideStressed");
-  const whyWideStressedHelp = useField(QuantumMouse, "whyWideStressedHelp");
-  const whyWideStressedCommit = useField(QuantumMouse, "whyWideStressedCommit");
-  const smallEyeA = useField(QuantumMouse, "smallEyeA");
-  const smallEyeB = useField(QuantumMouse, "smallEyeB");
-  const smallEyeBasisChangeHelp = useField(
-    QuantumMouse,
-    "smallEyeBasisChangeHelp"
-  );
-  const smallEyeBasisChangeCommit = useField(
-    QuantumMouse,
-    "smallEyeBasisChangeCommit"
-  );
-  const abUnique = useField(QuantumMouse, "abUnique");
-  const abUniqueHelp = useField(QuantumMouse, "abUniqueHelp");
-  const abUniqueCommit = useField(QuantumMouse, "abUniqueCommit");
+  const {
+    superpositionsIntroCommit,
+    whyWideStressed,
+    whyWideStressedHelp,
+    whyWideStressedCommit,
+    smallEyeA,
+    smallEyeB,
+    smallEyeBasisChangeHelp,
+    smallEyeBasisChangeCommit,
+    abUnique,
+    abUniqueHelp,
+    abUniqueCommit,
+  } = useFields(QuantumMouse);
 
   return (
     <Part label="Superpositions">

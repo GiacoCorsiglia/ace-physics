@@ -11,6 +11,7 @@ const SizeOrMoodChoice = s.choice(["kets", "value", "operator"] as const);
 export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
 export const QuantumMouse = (names["QuantumMouse"] = s.record({
   // What is a quantum mouse?
+
   introCommit: s.boolean(),
 
   sizeEigenvalues: SizeOrMoodChoice,
@@ -27,6 +28,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   smallBigInnerProductHelp: s.boolean(),
 
   // Moody Mice?
+
   moodIntroCommit: s.boolean(),
 
   possibleMoodEigenvalues: s.choice(["1", "-1", "0"] as const, true),
@@ -42,6 +44,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   happySadInnerProductCommit: s.boolean(),
 
   // Superpositions.
+
   superpositionsIntroCommit: s.boolean(),
 
   whyWideStressed: s.string(),
@@ -58,6 +61,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   abUniqueCommit: s.boolean(),
 
   // Measuring Eye Size.
+
   measuringEyeSizeIntroCommit: s.boolean(),
 
   collapsed1mmState: s.choice([
@@ -86,7 +90,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   smallEyedEmotionHelp: s.boolean(),
   smallEyedEmotionCommit: s.boolean(),
 
-  //More Measurements
+  // More Measurements.
 
   moodStartCommit: s.boolean(),
   moodStartAmbiguity: s.string(),
@@ -111,7 +115,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   thinkingDeeperCommit: s.boolean(),
   thinkingDeeper: s.string(),
 
-  //Expectation value
+  // Expectation Value.
 
   weightedAverageCommit: s.boolean(),
   weightedAverage: s.string(),
@@ -124,7 +128,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   naiveAvgCommit: s.boolean(),
   naiveAvg: s.string(),
 
-  //Matrix Representation
+  // Matrix Representation.
 
   moodVectorsCommit: s.boolean(),
 

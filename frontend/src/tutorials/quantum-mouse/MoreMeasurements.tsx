@@ -4,22 +4,25 @@ import { Continue, Prose, Reminder, Section } from "src/components";
 import { Choice, Select, SelectChoices, TextArea } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { useField } from "src/state";
+import { useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function MoreMeasurement() {
-  const moodStartCommit = useField(QuantumMouse, "moodStartCommit");
-  const smallEyeProbCommit = useField(QuantumMouse, "smallEyeProbCommit");
-  const finalMoodCommit = useField(QuantumMouse, "finalMoodCommit");
-  const surpriseResultCommit = useField(QuantumMouse, "surpriseResultCommit");
-  const thinkingDeeperCommit = useField(QuantumMouse, "thinkingDeeperCommit");
-  const moodStartAmbiguity = useField(QuantumMouse, "moodStartAmbiguity");
-  const moodStartState = useField(QuantumMouse, "moodStartState");
-  const smallEyeProb = useField(QuantumMouse, "smallEyeProb");
-  const smallEyeProbExplain = useField(QuantumMouse, "smallEyeProbExplain");
-  const finalMood = useField(QuantumMouse, "finalMood");
-  const thinkingDeeper = useField(QuantumMouse, "thinkingDeeper");
-  const surpriseResults = useField(QuantumMouse, "surpriseResults");
+  const {
+    moodStartCommit,
+    smallEyeProbCommit,
+    finalMoodCommit,
+    surpriseResultCommit,
+    thinkingDeeperCommit,
+    moodStartAmbiguity,
+    moodStartState,
+    smallEyeProb,
+    smallEyeProbExplain,
+    finalMood,
+    thinkingDeeper,
+    surpriseResults,
+  } = useFields(QuantumMouse);
+
   return (
     <Part label="More Measurements">
       <Content>
