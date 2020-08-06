@@ -1,4 +1,5 @@
 import React from "react";
+import { classes } from "src/util";
 import M from "./M";
 import styles from "./Matrix.module.scss";
 
@@ -13,16 +14,22 @@ export default function Matrix({
   row,
   labelTex,
   subscriptTex,
+  label,
+  className,
 }: {
   labelTex?: string;
   subscriptTex?: string;
+  label?: React.ReactNode;
+  className?: string;
 } & Props) {
   const cols = column ? 1 : row ? row.length : matrix ? matrix[0].length : 1;
 
   const columnOrRow = column || row;
 
   return (
-    <div className={styles.root}>
+    <div className={classes(styles.root, className)}>
+      {label}
+
       {labelTex && <M t={`${labelTex} \\doteq`} />}
 
       <div
