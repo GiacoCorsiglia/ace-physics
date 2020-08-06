@@ -8,6 +8,15 @@ export const names: Record<string, s.RecordSchema<{}>> = {};
 
 const SizeOrMoodChoice = s.choice(["kets", "value", "operator"] as const);
 
+const MoodVectorComponentChoice = s.choice([
+  "0",
+  "1",
+  "1/root5",
+  "-1/root5",
+  "2/root5",
+  "-2/root5",
+] as const);
+
 export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
 export const QuantumMouse = (names["QuantumMouse"] = s.record({
   // What is a quantum mouse?
@@ -131,6 +140,30 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
   thinkingDeeperAgreement: s.boolean(),
   thinkingDeeperExplain: s.string(),
 
+  // Matrix Representation.
+
+  happyVector0: MoodVectorComponentChoice,
+  happyVector1: MoodVectorComponentChoice,
+  sadVector0: MoodVectorComponentChoice,
+  sadVector1: MoodVectorComponentChoice,
+  moodVectorsCommit: s.boolean(),
+
+  smallVector0: MoodVectorComponentChoice,
+  smallVector1: MoodVectorComponentChoice,
+  wideVector0: MoodVectorComponentChoice,
+  wideVector1: MoodVectorComponentChoice,
+  eyeSizeVectorCommit: s.boolean(),
+
+  happyEigenequation: s.string(),
+  sadEigenequation: s.string(),
+  moodEigenequationCommit: s.boolean(),
+
+  moodMatrix0_0: s.number(),
+  moodMatrix0_1: s.number(),
+  moodMatrix1_0: s.number(),
+  moodMatrix1_1: s.number(),
+  moodMatrixCommit: s.boolean(),
+
   // Expectation Value.
 
   weightedAverageCommit: s.boolean(),
@@ -143,16 +176,6 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
 
   naiveAvgCommit: s.boolean(),
   naiveAvg: s.string(),
-
-  // Matrix Representation.
-
-  moodVectorsCommit: s.boolean(),
-
-  eyeSizeVectorCommit: s.boolean(),
-
-  moodEigenequationCommit: s.boolean(),
-
-  moodMatrixCommit: s.boolean(),
 }));
 
 ////////////////////////////////////////////////////////////////////////////////
