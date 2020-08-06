@@ -30,9 +30,8 @@ body {
   // Set the actual default font size
   font-size: $text-normal;
   font-family: $font;
+  font-weight: $regular;
   line-height: 2rem; // 1.5 spacing.
-  font-family: $font;
-  font-weight: 400;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
