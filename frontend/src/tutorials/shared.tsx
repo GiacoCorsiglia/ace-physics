@@ -483,7 +483,7 @@ function SavedStatus({
       return (
         <div className={styles.savedStatus}>
           <EllipsisCircleIcon />
-          Unsaved changes
+          Unsaved changes…
         </div>
       );
     case "error":
