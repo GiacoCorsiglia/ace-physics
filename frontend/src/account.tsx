@@ -1,3 +1,4 @@
+import { ArrowRightIcon } from "@primer/octicons-react";
 import React, {
   useCallback,
   useContext,
@@ -14,7 +15,6 @@ import { Prose } from "src/components";
 import { Button } from "src/components/inputs";
 import inputStyles from "src/components/inputs/inputs.module.scss";
 import { Content, Page } from "src/components/layout";
-import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import * as urls from "src/urls";
 import { Children, classes } from "src/util";
 import styles from "./account.module.scss";
@@ -291,7 +291,7 @@ export function Login() {
             </Button>
 
             <Button link={next}>
-              Stay logged in <ArrowRight />
+              Stay logged in <ArrowRightIcon />
             </Button>
           </div>
         </Content>
@@ -364,7 +364,7 @@ export function Login() {
               <>Loading…</>
             ) : (
               <>
-                Log in <ArrowRight />
+                Log in <ArrowRightIcon />
               </>
             )}
           </Button>
@@ -521,7 +521,7 @@ export function CreateAccount() {
               onClick={() => setStatus("saved")}
               disabled={status === "saved"}
             >
-              I promise I’ve saved my code <ArrowRight />
+              I promise I’ve saved my code <ArrowRightIcon />
             </Button>
           </div>
         )}
@@ -535,7 +535,7 @@ export function CreateAccount() {
 
             <div className="text-center margin-top">
               <Button link={withNext(urls.Login.link, next)}>
-                Go log in <ArrowRight />
+                Go log in <ArrowRightIcon />
               </Button>
             </div>
 

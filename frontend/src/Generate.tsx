@@ -1,7 +1,7 @@
+import { ArrowRightIcon } from "@primer/octicons-react";
 import React, { useState } from "react";
 import { Route } from "react-router";
 import Select from "react-select";
-import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import * as api from "./api";
 import { Prose } from "./components";
 import { Button } from "./components/inputs";
@@ -112,7 +112,7 @@ function Generate() {
               <>Generating…</>
             ) : (
               <>
-                Generate <ArrowRight />
+                Generate <ArrowRightIcon />
               </>
             )}
           </Button>

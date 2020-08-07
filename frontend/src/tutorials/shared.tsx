@@ -1,3 +1,9 @@
+import {
+  AlertIcon,
+  ArrowLeftIcon,
+  CheckCircleIcon,
+  SyncIcon,
+} from "@primer/octicons-react";
 import debounce from "lodash.debounce";
 import React, {
   useCallback,
@@ -16,7 +22,7 @@ import { Continue, Prose } from "src/components";
 import { Content, Header, Page } from "src/components/layout";
 import { UserMenu } from "src/components/shared/UserMenu";
 import { Provider, ProviderSchema } from "src/state";
-import { ReactComponent as ArrowLeft } from "src/svgs/arrow-left.svg";
+import { ReactComponent as EllipsisCircleIcon } from "src/svgs/ellipsis-circle.svg";
 import * as urls from "src/urls";
 import { Children, classes } from "src/util";
 import styles from "./shared.module.scss";
@@ -367,7 +373,7 @@ function TutorialHeader({
           styles.otherTutorialsLinkFixed
         )}
       >
-        <ArrowLeft />
+        <ArrowLeftIcon />
         Other tutorials
       </Link>
 
@@ -379,7 +385,7 @@ function TutorialHeader({
             styles.otherTutorialsLinkInline
           )}
         >
-          <ArrowLeft />
+          <ArrowLeftIcon />
           Other tutorials
         </Link>
 
@@ -460,13 +466,33 @@ function SavedStatus({
     case "initial":
       return <div className={styles.savedStatus}></div>;
     case "saving":
-      return <div className={styles.savedStatus}>Saving changes…</div>;
+      return (
+        <div className={styles.savedStatus}>
+          <SyncIcon />
+          Saving changes…
+        </div>
+      );
     case "saved":
-      return <div className={styles.savedStatus}>Saved changes ✓</div>;
+      return (
+        <div className={styles.savedStatus}>
+          <CheckCircleIcon />
+          Saved changes
+        </div>
+      );
     case "unsaved":
-      return <div className={styles.savedStatus}>Unsaved changes</div>;
+      return (
+        <div className={styles.savedStatus}>
+          <EllipsisCircleIcon />
+          Unsaved changes
+        </div>
+      );
     case "error":
-      return <div className={styles.savedStatus}>SAVING FAILED!</div>;
+      return (
+        <div className={styles.savedStatus}>
+          <AlertIcon />
+          SAVING FAILED!
+        </div>
+      );
   }
 }
 

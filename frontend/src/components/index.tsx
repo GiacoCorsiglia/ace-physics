@@ -1,9 +1,8 @@
+import { ArrowDownIcon, ArrowRightIcon } from "@primer/octicons-react";
 import React, { useContext, useEffect, useRef } from "react";
 import * as s from "src/common/schema";
 import * as globalParams from "src/globalParams";
 import { Field } from "src/state";
-import { ReactComponent as ArrowDown } from "src/svgs/arrow-down.svg";
-import { ReactComponent as ArrowRight } from "src/svgs/arrow-right.svg";
 import { Children, classes, OptionalChildren } from "src/util";
 import { Button } from "./inputs";
 import { Content } from "./layout";
@@ -120,7 +119,7 @@ export function Continue({
         }
         disabled={!allowed}
       >
-        {label} {link ? <ArrowRight /> : <ArrowDown />}
+        {label} {link ? <ArrowRightIcon /> : <ArrowDownIcon />}
       </Button>
 
       {children}

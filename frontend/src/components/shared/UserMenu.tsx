@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { PersonIcon } from "@primer/octicons-react";
+import { default as React, useState } from "react";
 import { formatId, useAccount, useLogout } from "src/account";
 import { Login } from "src/urls";
 import { classes } from "src/util";
@@ -18,18 +19,7 @@ export function UserMenu() {
         className={classes(styles.toggle, [styles.toggled, toggled])}
         onClick={() => setToggled((o) => !o)}
       >
-        <svg
-          width="1em"
-          height="1em"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
-          />
-        </svg>
+        <PersonIcon aria-label="My Account Menu" />
       </div>
 
       <div className={classes(styles.popup, [styles.toggled, toggled])}>
