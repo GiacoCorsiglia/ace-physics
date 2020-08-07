@@ -1,3 +1,4 @@
+import { ChevronRightIcon } from "@primer/octicons-react";
 import React from "react";
 import { Link, Outlet, Route } from "react-router-dom";
 import { Prose } from "src/components";
@@ -82,7 +83,7 @@ function TutorialLink({
         <p className={styles.tutorialLabel}>{label}</p>
 
         <div className={styles.arrow}>
-          <div>&rsaquo;</div>
+          <ChevronRightIcon />
         </div>
 
         <Prose className="no-margin">{children}</Prose>
