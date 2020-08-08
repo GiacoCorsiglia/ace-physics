@@ -9,6 +9,10 @@ function makeClient() {
           region: process.env.AWS_REGION || "us-west-1",
           endpoint: "http://host.docker.internal:8000",
         }
+      : process.env.ACE_SCRIPT === "yes"
+      ? {
+          region: "us-west-1",
+        }
       : undefined
   );
 }
