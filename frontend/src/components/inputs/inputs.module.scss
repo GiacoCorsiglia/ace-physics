@@ -21,8 +21,8 @@
   color: inherit;
   border-width: 1px;
   border-style: solid;
-  transition: border-color 100ms ease-in-out, background-color 75ms ease-in-out,
-    box-shadow 75ms ease-in-out;
+  transition: border-color $duration-hover $easing,
+    background-color $duration-hover $easing, box-shadow $duration-hover $easing;
 
   &:disabled {
     opacity: 0.6;
@@ -40,6 +40,10 @@
   &:active,
   &:focus {
     outline: none;
+  }
+
+  &:active {
+    transition-duration: $duration-active;
   }
 
   :global(.octicon) {
@@ -114,7 +118,8 @@
   border-radius: $border-radius;
   padding: 0.5rem 0.75rem;
 
-  transition: border-color 100ms, box-shadow 100ms;
+  transition: border-color $duration-hover $easing,
+    box-shadow $duration-hover $easing;
 
   &::placeholder {
     color: $grey;
@@ -162,7 +167,7 @@
   border-width: 1px;
   margin-top: -1px;
 
-  transition: border-color 100ms;
+  transition: border-color $duration-hover $easing;
 
   &:first-child {
     margin-top: 0;
@@ -208,7 +213,8 @@
 
 .choiceRadioBox {
   padding: 0 1rem;
-  transition: border-color 100ms, background-color 75ms;
+  transition: border-color $duration-hover $easing,
+    background-color $duration-hover $easing;
   border-right: 1px solid $grey80;
   align-self: stretch;
   display: flex;
@@ -248,7 +254,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 .toggleChoices {
-  display: flex;
+  &.horizontal {
+    display: flex;
+  }
+
+  &.vertical {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .toggleChoice {
@@ -256,19 +270,38 @@
   border: 1px solid $grey80;
   padding: 0.5rem 0.75rem;
 
-  margin-left: -1px;
+  transition: background-color $duration-hover $easing,
+    border-color $duration-hover $easing, box-shadow $duration-hover $easing,
+    color $duration-hover $easing;
 
-  transition: border-color 100ms, box-shadow 100ms;
+  .toggleChoices.horizontal & {
+    margin-left: -1px;
 
-  &:first-child {
-    margin-left: 0;
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
+    &:first-child {
+      margin-left: 0;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+
+    &:last-child {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
   }
 
-  &:last-child {
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
+  .toggleChoices.vertical & {
+    margin-top: -1px;
+
+    &:first-child {
+      margin-top: 0;
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
   }
 
   &:hover,

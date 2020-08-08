@@ -11,9 +11,11 @@ export default function Toggle<
   choices: originalChoices,
   yes = "Yes",
   no = "No",
+  vertical = false,
   label,
 }: {
   field: Field<S>;
+  vertical?: boolean;
   label?: React.ReactNode;
 } & (S extends s.ChoiceSchema<infer C, false, any>
   ? {
@@ -80,6 +82,48 @@ export default function Toggle<
     return fv !== undefined && (fv === value || fv.selected === value);
   }
 
+  const choicesEl = (
+    <div
+      className={classes(
+        styles.toggleChoices,
+        [styles.noLabel, !label],
+        [styles.horizontal, !vertical],
+        [styles.vertical, vertical]
+      )}
+      role="group"
+      aria-labelledby={label ? `${id}_legend` : undefined}
+    >
+      {choices.map((choice) => (
+        <label
+          htmlFor={`${id}-${choice.value}`}
+          className={classes(
+            styles.toggleChoice,
+            [styles.selected, isSelected(choice.value)],
+            [styles.focused, focusedChoice === choice]
+          )}
+          key={choice.value.toString()}
+        >
+          <input
+            type="radio"
+            className={styles.toggleRadio}
+            value={choice.value.toString()}
+            name={id}
+            id={`${id}-${choice.value}`}
+            checked={isSelected(choice.value)}
+            onChange={(e) => select(choice.value, e.target.checked)}
+            onFocus={() => setFocusedChoice(choice)}
+            onBlur={() =>
+              setFocusedChoice((focused) =>
+                focused === choice ? undefined : focused
+              )
+            }
+          />
+          {choice.label}
+        </label>
+      ))}
+    </div>
+  );
+
   return (
     <>
       {label && (
@@ -88,40 +132,7 @@ export default function Toggle<
         </div>
       )}
 
-      <div
-        className={classes(styles.toggleChoices, [styles.noLabel, !label])}
-        role="group"
-        aria-labelledby={label ? `${id}_legend` : undefined}
-      >
-        {choices.map((choice) => (
-          <label
-            htmlFor={`${id}-${choice.value}`}
-            className={classes(
-              styles.toggleChoice,
-              [styles.selected, isSelected(choice.value)],
-              [styles.focused, focusedChoice === choice]
-            )}
-            key={choice.value.toString()}
-          >
-            <input
-              type="radio"
-              className={styles.toggleRadio}
-              value={choice.value.toString()}
-              name={id}
-              id={`${id}-${choice.value}`}
-              checked={isSelected(choice.value)}
-              onChange={(e) => select(choice.value, e.target.checked)}
-              onFocus={() => setFocusedChoice(choice)}
-              onBlur={() =>
-                setFocusedChoice((focused) =>
-                  focused === choice ? undefined : focused
-                )
-              }
-            />
-            {choice.label}
-          </label>
-        ))}
-      </div>
+      {vertical ? <div>{choicesEl}</div> : choicesEl}
     </>
   );
 }

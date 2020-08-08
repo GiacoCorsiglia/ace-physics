@@ -193,7 +193,7 @@ function NumberInputs() {
 
 const selectChoices: SelectChoices<TestSchema["select"]> = [
   { value: "opt1", label: "Option 1" },
-  { value: "opt2", label: "Option 2" },
+  { value: "opt2", label: "Option 2 blah" },
   { value: "opt3", label: "Option 3" },
 ];
 
@@ -255,9 +255,20 @@ function Toggles() {
     <Content as="section">
       <h2 className="prose">Toggles</h2>
 
-      <Toggle field={selectNoOther} choices={selectChoices} />
+      <Toggle
+        field={selectNoOther}
+        choices={selectChoices}
+        label={<Prose></Prose>}
+      />
 
-      <Toggle field={bool} />
+      <Toggle
+        field={selectNoOther}
+        choices={selectChoices}
+        vertical
+        label={<Prose></Prose>}
+      />
+
+      <Toggle field={bool} label={<Prose></Prose>} />
 
       <Toggle
         label={<Prose>This is a question</Prose>}
