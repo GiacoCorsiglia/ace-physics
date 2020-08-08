@@ -302,7 +302,19 @@ function Tutorial({
 
       if (result.failed) {
         setSavedStatus("error");
-        console.error("tutorial: failed to save");
+        console.error("tutorial: failed to save", result.error);
+        if (result.error.type === "CONNECTION") {
+          window.alert(
+            "Sorry, but we couldn’t save your changes.\n" +
+              "This might be due to trouble with your internet connection."
+          );
+        } else {
+          window.alert(
+            "Sorry, but we couldn’t save your changes.\n" +
+              "This seems to be an error on our end.\n" +
+              "Try refreshing, or try again later."
+          );
+        }
       } else {
         if (version.current === newVersion) {
           // Otherwise there are new unsaved changes.
