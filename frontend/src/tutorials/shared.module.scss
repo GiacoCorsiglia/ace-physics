@@ -6,6 +6,15 @@
   }
 }
 
+.notForCreditAlert {
+  font-size: $text-small;
+  background: $light-blue;
+  border-radius: $border-radius;
+  padding: 1rem;
+  box-shadow: $box-shadow-border, $box-shadow-light;
+  opacity: $opacity-faded;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Content.
 ////////////////////////////////////////////////////////////////////////////////

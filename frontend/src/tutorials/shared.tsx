@@ -323,6 +323,15 @@ function Tutorial({
 
           {status === "loaded" && (
             <Provider schema={schema} initial={initial} onChange={onChange}>
+              {!account.isForCredit && (
+                <Content>
+                  <Prose className={styles.notForCreditAlert}>
+                    This is an anonymous account. Your work will{" "}
+                    <strong>not</strong> count for any course credit.
+                  </Prose>
+                </Content>
+              )}
+
               <Outlet />
             </Provider>
           )}
