@@ -126,7 +126,7 @@ export default function WhatIsAQuantumMouse() {
           {needsHelp(sizeEigenHelp) && (
             <Help>
               <Prose>
-                Remember, eigen-equations usually look like:
+                Eigen-equations usually look like:
                 <M
                   display
                   t="(\text{operator}) (\text{eigenvector}) = (\text{eigenvalue}) \cdot (\text{eigenvector})"
@@ -199,7 +199,7 @@ export default function WhatIsAQuantumMouse() {
           {needsHelp(smallBigInnerProductHelp) && (
             <Help>
               <Prose>
-                Remember, we said they‘re <em>orthonormal!</em>
+                We said they‘re <em>orthonormal!</em>
               </Prose>
             </Help>
           )}
@@ -234,7 +234,7 @@ export default function WhatIsAQuantumMouse() {
         >
           <Prose>
             You might want to take another look a the first two questions on
-            this page. Remember the template:
+            this page. Here’s what eigen-equations look like:
             <M
               display
               t="(\text{operator}) (\text{eigenvector}) = (\text{eigenvalue}) \cdot (\text{eigenvector})"
@@ -307,13 +307,12 @@ export default function WhatIsAQuantumMouse() {
           ]}
         >
           <Prose>
-            Awesome! Remember,{" "}
+            Cool! We encourage you to continue to think about these concepts and
+            chat with your professor, TA, or classmates.{" "}
             <strong className="text-blue">
-              this isn’t about being “right” or “wrong,” and we haven‘t
+              This isn’t about being “right” or “wrong,” and we haven‘t
               “checked” all your answers.
-            </strong>{" "}
-            We encourage you to continue to think about these concepts and chat
-            with your professor, TA, or classmates!
+            </strong>
           </Prose>
 
           <Continue
