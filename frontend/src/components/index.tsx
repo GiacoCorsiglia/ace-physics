@@ -149,10 +149,12 @@ export function HelpButton({
 export function Section({
   commits,
   first = false,
+  noScroll = false,
   children,
 }: {
   commits?: (Field<s.BooleanSchema> | undefined | boolean)[];
   first?: boolean;
+  noScroll?: boolean;
 } & Children) {
   if (
     commits &&
@@ -161,19 +163,27 @@ export function Section({
     return null;
   }
 
-  return <RevealedSection first={first}>{children}</RevealedSection>;
+  return (
+    <RevealedSection first={first} noScroll={noScroll}>
+      {children}
+    </RevealedSection>
+  );
 }
 
-function RevealedSection({ first, children }: { first: boolean } & Children) {
+function RevealedSection({
+  first,
+  noScroll,
+  children,
+}: { first: boolean; noScroll: boolean } & Children) {
   const el = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (first) {
+    if (first || noScroll) {
       // The first section of each part doesn't need to scroll into view.
       return;
     }
     el.current?.scrollIntoView({ behavior: "smooth" });
-  }, [first]);
+  }, [first, noScroll]);
 
   return (
     <section
