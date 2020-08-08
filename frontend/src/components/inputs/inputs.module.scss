@@ -98,18 +98,21 @@
   font-size: $text-normal;
   font-family: inherit;
   line-height: inherit;
+
+  &:disabled {
+    color: $grey60;
+    background-color: $grey95;
+  }
 }
 
 .textInput,
 .textArea,
 .numberInput {
+  @include input-core;
   display: block;
   border: 1px solid $grey80;
   border-radius: $border-radius;
   padding: 0.5rem 0.75rem;
-  font-size: $text-normal;
-  font-family: inherit;
-  line-height: inherit;
 
   transition: border-color 100ms, box-shadow 100ms;
 
@@ -117,7 +120,11 @@
     color: $grey;
   }
 
-  &:hover {
+  &:disabled {
+    border-color: $grey90;
+  }
+
+  &:not(:disabled):hover {
     border-color: $grey70;
   }
 

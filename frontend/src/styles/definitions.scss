@@ -104,8 +104,11 @@ $z-savedStatus: $z-fixed-overlay + 100;
 $text-color: #333;
 
 $grey: #808080;
-$grey70: #b3b3b3;
-$grey80: #cccccc;
+$grey60: hsl(0, 0, 60%);
+$grey70: hsl(0, 0, 70%);
+$grey80: hsl(0, 0, 80%);
+$grey90: hsl(0, 0, 90%);
+$grey95: hsl(0, 0, 95%);
 
 $blue: #2684ff; // Stolen from react-select.
 $light-blue: #deebff; // Stolen from react-select.
