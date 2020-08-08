@@ -2,23 +2,25 @@ import { asyncResult } from "ace-frontend/src/common/util";
 import type AWS from "aws-sdk";
 import DynamoDB from "aws-sdk/clients/dynamodb";
 
-function makeClient() {
+function makeClient(scriptConfig: any) {
   return new DynamoDB.DocumentClient(
-    process.env.AWS_SAM_LOCAL
+    scriptConfig
+      ? {
+          region: process.env.ACE_LOCAL === "yes" ? "us-east-1" : "us-west-1",
+          ...scriptConfig,
+        }
+      : process.env.AWS_SAM_LOCAL
       ? {
           region: process.env.AWS_REGION || "us-west-1",
           endpoint: "http://host.docker.internal:8000",
-        }
-      : process.env.ACE_SCRIPT === "yes"
-      ? {
-          region: "us-west-1",
         }
       : undefined
   );
 }
 
 let _client: DynamoDB.DocumentClient;
-export const client = () => _client || (_client = makeClient());
+export const client = (scriptConfig?: any) =>
+  _client || (_client = makeClient(scriptConfig));
 
 export const TableName = process.env.AWS_SAM_LOCAL
   ? "DataTable"

@@ -1,9 +1,14 @@
-process.env.ACE_SCRIPT = "yes";
-
 import type { DocumentClient } from "aws-sdk/clients/dynamodb";
 import * as db from "../src/db";
 
-const TableName = process.env.ACE_TABLE_NAME || "ACE_production_DataTable";
+const TableName =
+  process.env.ACE_TABLE_NAME ||
+  (process.env.ACE_LOCAL === "yes" ? "DataTable" : "ACE_production_DataTable");
+
+const client = db.client({
+  endpoint:
+    process.env.ACE_LOCAL === "yes" ? "http://localhost:8000" : undefined,
+});
 
 run();
 async function run() {
@@ -14,7 +19,7 @@ async function run() {
 
   async function scan(LastEvaluatedKey?: DocumentClient.Key) {
     const res = await db.result(
-      db.client().scan({
+      client.scan({
         TableName,
         ExclusiveStartKey: LastEvaluatedKey,
       })
