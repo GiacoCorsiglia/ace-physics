@@ -1,4 +1,9 @@
-import { ArrowRightIcon } from "@primer/octicons-react";
+import {
+  ArrowRightIcon,
+  CheckCircleIcon,
+  ClippyIcon,
+  DownloadIcon,
+} from "@primer/octicons-react";
 import React, { useState } from "react";
 import { Route } from "react-router";
 import Select from "react-select";
@@ -154,13 +159,19 @@ function Generate() {
                   clipboardStatus === "copying" || clipboardStatus === "error"
                 }
               >
-                {clipboardStatus === "copying"
-                  ? "Copying…"
-                  : clipboardStatus === "error"
-                  ? "Failed"
-                  : clipboardStatus === "success"
-                  ? "Copy codes to clipboard ✓"
-                  : "Copy codes to clipboard ⎘"}
+                {clipboardStatus === "copying" ? (
+                  "Copying…"
+                ) : clipboardStatus === "error" ? (
+                  "Failed"
+                ) : clipboardStatus === "success" ? (
+                  <>
+                    Copy codes to clipboard <CheckCircleIcon />
+                  </>
+                ) : (
+                  <>
+                    Copy codes to clipboard <ClippyIcon />
+                  </>
+                )}
               </Button>
 
               <Button
@@ -185,6 +196,7 @@ function Generate() {
                 }}
               >
                 Download codes as CSV
+                <DownloadIcon />
               </Button>
             </div>
           </div>
