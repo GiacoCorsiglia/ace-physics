@@ -535,7 +535,7 @@ function SavedStatus({
       );
     case "error":
       return (
-        <div className={styles.savedStatus}>
+        <div className={classes(styles.savedStatus, styles.savedStatusError)}>
           <AlertIcon />
           SAVING FAILED!
         </div>
