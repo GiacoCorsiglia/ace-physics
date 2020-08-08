@@ -200,7 +200,9 @@ function Tutorial({
     "loading"
   );
 
-  const version = useRef<number>(0);
+  const version = useRef(0);
+  const lastSavedVersion = useRef(-Infinity);
+  const inFlightVersion = useRef<number>();
 
   const [initial, setInitial] = useState<any>();
 
@@ -240,6 +242,9 @@ function Tutorial({
       }
 
       version.current = result.value.version;
+      if (version.current > lastSavedVersion.current) {
+        lastSavedVersion.current = version.current;
+      }
 
       const decoded = schema.decode(result.value.tutorialData);
 
@@ -261,55 +266,73 @@ function Tutorial({
     loadTutorial();
   }, [account, name, schema]);
 
-  const debouncedSave = useMemo(
-    () =>
-      debounce(
-        async (
-          account: ReturnType<typeof useAccount>,
-          name: string,
-          tutorialData: any
-        ) => {
-          if (!account.isLoggedIn) {
-            return;
-          }
+  const save = useCallback(
+    async (
+      account: ReturnType<typeof useAccount>,
+      name: string,
+      tutorialData: any
+    ) => {
+      if (!account.isLoggedIn) {
+        return;
+      }
 
-          const setSavedStatus = setSavedStatusRef.current || (() => undefined);
+      const setSavedStatus = setSavedStatusRef.current || (() => undefined);
 
-          const newVersion = version.current; // Already incremented in onChange
-          console.log("tutorial: updating version:", newVersion);
+      const newVersion = version.current; // Already incremented in onChange
+      console.log("tutorial: updating version:", newVersion);
 
-          setSavedStatus("saving");
-          const result = await api.updateTutorial({
-            learnerId: account.learner.learnerId,
-            tutorial: name,
-            version: newVersion,
-            tutorialData,
-          });
+      if (
+        inFlightVersion.current === undefined ||
+        inFlightVersion.current < newVersion
+      ) {
+        inFlightVersion.current = newVersion;
+      }
 
-          if (result.failed) {
-            setSavedStatus("error");
-            console.error("tutorial: failed to save");
-          } else {
-            if (version.current === newVersion) {
-              // Otherwise there are new unsaved changes.
-              setSavedStatus("saved");
-            }
-            console.log("tutorial: updated version", newVersion);
-          }
-        },
-        5 * 1000,
-        {
-          maxWait: 60 * 1000,
-          leading: true,
-          trailing: true,
+      setSavedStatus("saving");
+      const result = await api.updateTutorial({
+        learnerId: account.learner.learnerId,
+        tutorial: name,
+        version: newVersion,
+        tutorialData,
+      });
+
+      if (inFlightVersion.current === newVersion) {
+        inFlightVersion.current = undefined;
+      }
+
+      if (result.failed) {
+        setSavedStatus("error");
+        console.error("tutorial: failed to save");
+      } else {
+        if (version.current === newVersion) {
+          // Otherwise there are new unsaved changes.
+          setSavedStatus("saved");
         }
-      ),
+        if (lastSavedVersion.current < newVersion) {
+          lastSavedVersion.current = newVersion;
+        }
+        console.log("tutorial: updated version", newVersion);
+      }
+    },
     []
   );
+
+  const debouncedSave = useMemo(
+    () =>
+      debounce(save, 5 * 1000, {
+        maxWait: 60 * 1000,
+        leading: true,
+        trailing: true,
+      }),
+    [save]
+  );
+
+  const latestTutorialData = useRef<any>();
 
   const onChange = useCallback(
     (tutorialData: any) => {
       version.current++;
+      latestTutorialData.current = tutorialData;
       if (setSavedStatusRef.current) {
         setSavedStatusRef.current("unsaved");
       }
@@ -317,6 +340,35 @@ function Tutorial({
     },
     [account, name, debouncedSave]
   );
+
+  useEffect(() => {
+    const beforeUnload = (e: BeforeUnloadEvent) => {
+      if (!latestTutorialData.current) {
+        // Guess nothing ever changed.
+        return;
+      }
+      if (lastSavedVersion.current >= version.current) {
+        // Nothing new to save.
+        return;
+      }
+      if (
+        inFlightVersion.current === undefined ||
+        inFlightVersion.current < version.current
+      ) {
+        // Nothing is currently being saved, or changes have been made since the
+        // last save, so let's trigger another one!  But first let's prevent the
+        // last debounced ones from firing anymore.
+        debouncedSave.cancel();
+        save(account, name, latestTutorialData.current);
+      }
+      e.preventDefault();
+      e.returnValue = "Your work has not been saved yet.";
+    };
+
+    window.addEventListener("beforeunload", beforeUnload);
+
+    return () => window.removeEventListener("beforeunload", beforeUnload);
+  }, [account, name, save, debouncedSave]);
 
   const { currentTitle } = useCurrentPageInfo(parts, labelTitle);
 
