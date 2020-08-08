@@ -44,7 +44,9 @@ export const createLearners = endpoint(
   apiTypes.CreateLearnersRequest,
   apiTypes.CreateLearnersResponse,
   ({ institution, course, number }) => ({
-    learners: Array(number).map(() => mockLearner({ institution, course })),
+    learners: [...Array(number)].map(() =>
+      mockLearner({ institution, course })
+    ),
   })
 );
 
