@@ -25,6 +25,7 @@ import { Provider, ProviderSchema } from "src/state";
 import { ReactComponent as EllipsisCircleIcon } from "src/svgs/ellipsis-circle.svg";
 import * as urls from "src/urls";
 import { Children, classes } from "src/util";
+import Feedback from "./Feedback";
 import styles from "./shared.module.scss";
 
 type LabelTitle =
@@ -67,6 +68,15 @@ export function tutorialRoute({
   if (names[name] !== schema) {
     throw new Error(`Tutorial name "${name}" doesn't match the given schema.`);
   }
+
+  parts = parts.concat([
+    {
+      path: "feedback",
+      element: <Feedback />,
+      label: "Feedback",
+      title: "Feedback",
+    },
+  ]);
 
   return (
     <Route
@@ -128,6 +138,10 @@ export function tutorialRoute({
               <p>
                 <em>- Giaco, Ben, Steve, Gina, and Homeyra</em>
               </p>
+
+              <p>
+                <em>P.S. Your work will be saved automatically.</em>
+              </p>
             </Prose>
 
             <Continue label="Let's get started" link={parts[0].path} />
@@ -138,6 +152,32 @@ export function tutorialRoute({
       {parts.map((part) => (
         <Route key={part.path} path={part.path} element={part.element} />
       ))}
+
+      <Route
+        path="finished"
+        element={
+          <Content>
+            <Prose>
+              <h1>All finished for today</h1>
+
+              <p>
+                <CheckCircleIcon
+                  size="medium"
+                  verticalAlign="middle"
+                  className="text-green"
+                />
+                &nbsp;&nbsp;
+                <strong>Nice job, and thanks for the feedback!</strong>
+              </p>
+
+              <p>
+                Come back to see or update your work anytime (even if you close
+                his window).
+              </p>
+            </Prose>
+          </Content>
+        }
+      />
     </Route>
   );
 }

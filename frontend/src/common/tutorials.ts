@@ -2,6 +2,27 @@ import * as s from "./schema";
 
 export const names: Record<string, s.RecordSchema<{}>> = {};
 
+const tutorialFeedback = s.record({
+  intention: s.string(),
+  confidence: s.choice(["less", "same", "more"] as const),
+  confidenceExplain: s.string(),
+  easyOrChallenging: s.choice([
+    "easy/useful",
+    "easy/frustrating",
+    "challenging/useful",
+    "challenging/frustrating",
+  ] as const),
+  easyOrChallengingExplain: s.string(),
+  workedAlone: s.choice(["alone", "partner", "group"] as const),
+  usedCourseMaterials: s.choice(["no", "a bit", "repeatedly"] as const),
+  usedOtherMaterials: s.choice(["no", "a bit", "repeatedly"] as const),
+  usedMaterialsOther: s.string(),
+  suggestedImprovements: s.string(),
+  technicalDifficulties: s.string(),
+  challengingParts: s.string(),
+  ratherInPerson: s.string(),
+});
+
 ////////////////////////////////////////////////////////////////////////////////
 // Quantum Mouse.
 ////////////////////////////////////////////////////////////////////////////////
@@ -19,6 +40,8 @@ const MoodVectorComponentChoice = s.choice([
 
 export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
 export const QuantumMouse = (names["QuantumMouse"] = s.record({
+  tutorialFeedback,
+
   // What is a quantum mouse?
 
   introCommit: s.boolean(),
