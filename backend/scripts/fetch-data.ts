@@ -10,6 +10,7 @@ async function run() {
   const items = [];
   await scan();
   console.log(items.filter((item) => item.sk !== db.learnerProfileSk));
+  console.log("items fetched:", items.length);
 
   async function scan(LastEvaluatedKey?: DocumentClient.Key) {
     const res = await db.result(
