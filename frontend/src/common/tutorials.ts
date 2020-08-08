@@ -2,6 +2,29 @@ import * as s from "./schema";
 
 export const names: Record<string, s.RecordSchema<{}>> = {};
 
+function tutorialSchema<P extends s.Properties>(
+  name: string,
+  properties: P
+): s.RecordSchema<P & CommonTutorialProperties> {
+  if (names[name]) {
+    throw new Error(`Tutorial schema wih name "${name}" is already defined.`);
+  }
+
+  return (names[name] = s.record({
+    ...properties,
+    // Add the common properties.
+    tutorialFeedback,
+  }));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Common properties.
+////////////////////////////////////////////////////////////////////////////////
+
+type CommonTutorialProperties = {
+  tutorialFeedback: typeof tutorialFeedback;
+};
+
 const tutorialFeedback = s.record({
   intention: s.string(),
   confidence: s.choice([
@@ -45,9 +68,7 @@ const MoodVectorComponentChoice = s.choice([
 ] as const);
 
 export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
-export const QuantumMouse = (names["QuantumMouse"] = s.record({
-  tutorialFeedback,
-
+export const QuantumMouse = tutorialSchema("QuantumMouse", {
   // What is a quantum mouse?
 
   introCommit: s.boolean(),
@@ -225,7 +246,7 @@ export const QuantumMouse = (names["QuantumMouse"] = s.record({
 
   naiveAvgCommit: s.boolean(),
   naiveAvg: s.string(),
-}));
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 // Quantum Basis.
@@ -242,7 +263,7 @@ const PlusMinus = s.record({
 });
 
 export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
-export const QuantumBasis = (names["QuantumBasis"] = s.record({
+export const QuantumBasis = tutorialSchema("QuantumBasis", {
   // Part 1.
   meaningOfCoefficients: s.string(),
 
@@ -289,4 +310,4 @@ export const QuantumBasis = (names["QuantumBasis"] = s.record({
 
   equalityAllowed: s.boolean(),
   whyNoSubscriptNeeded: s.string(),
-}));
+});
