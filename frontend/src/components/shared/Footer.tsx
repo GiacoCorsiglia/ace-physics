@@ -6,6 +6,8 @@ import styles from "./Footer.module.scss";
 export function Footer() {
   return (
     <footer className={styles.footer}>
+      <hr />
+
       <p>
         &copy; {new Date().getFullYear()} Giaco Corsiglia, Benjamin P.
         Schermerhorn, Steven Pollock, Gina Passante, and Homeyra Sadaghiani
