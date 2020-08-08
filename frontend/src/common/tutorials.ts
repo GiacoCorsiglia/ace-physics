@@ -4,7 +4,13 @@ export const names: Record<string, s.RecordSchema<{}>> = {};
 
 const tutorialFeedback = s.record({
   intention: s.string(),
-  confidence: s.choice(["less", "same", "more"] as const),
+  confidence: s.choice([
+    "much less",
+    "less",
+    "same",
+    "more",
+    "much more",
+  ] as const),
   confidenceExplain: s.string(),
   easyOrChallenging: s.choice([
     "easy/useful",

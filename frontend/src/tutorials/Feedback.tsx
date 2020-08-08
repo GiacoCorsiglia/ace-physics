@@ -165,11 +165,11 @@ export default function Feedback() {
 }
 
 const confidenceChoices = [
-  { value: "less", label: "Much less confident" },
+  { value: "much less", label: "Much less confident" },
   { value: "less", label: "Less" },
   { value: "same", label: "The same" },
   { value: "more", label: "More" },
-  { value: "more", label: "Much more" },
+  { value: "much more", label: "Much more confident" },
 ] as const;
 
 const easyOrChallengingChoices = [
