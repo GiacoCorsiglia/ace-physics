@@ -40,18 +40,6 @@ export default function Feedback() {
         </Section>
 
         <Section noScroll>
-          <TextArea
-            field={intention}
-            label={
-              <Prose>
-                What do you think this tutorial was designed to explore,
-                clarify, or do?
-              </Prose>
-            }
-          />
-        </Section>
-
-        <Section noScroll>
           <Toggle
             field={confidence}
             choices={confidenceChoices}
@@ -106,6 +94,18 @@ export default function Feedback() {
             />
             <TextArea field={usedMaterialsOther} label="Other:" />
           </FieldGroup>
+        </Section>
+
+        <Section noScroll>
+          <TextArea
+            field={intention}
+            label={
+              <Prose>
+                What do you think this tutorial was designed to explore,
+                clarify, or do?
+              </Prose>
+            }
+          />
         </Section>
 
         <Section noScroll>
