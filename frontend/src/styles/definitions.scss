@@ -90,12 +90,12 @@ $z-fixed-overlay: 1000;
 
 $z-headerTitle: $z-fixed-overlay + 10;
 
-$z-userMenuToggle: $z-fixed-overlay + 20;
-$z-userMenu: $z-fixed-overlay + 10;
+$z-userMenuToggle: $z-headerTitle + 2;
+$z-userMenu: $z-headerTitle + 1;
 
 $z-otherTutorialsLink: $z-fixed-overlay + 100;
-$z-sidebarToggle: $z-fixed-overlay + 20;
-$z-sidebar: $z-fixed-overlay + 10;
+$z-sidebarToggle: $z-headerTitle + 2;
+$z-sidebar: $z-headerTitle + 1;
 
 $z-savedStatus: $z-fixed-overlay + 100;
 
