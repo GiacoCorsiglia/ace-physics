@@ -62,6 +62,7 @@ export const getTutorial = endpoint(
     course: "NONE",
     createdAt: now,
     updatedAt: now,
+    updateTimestamps: [now],
     version: 0,
     tutorialData: {},
   })

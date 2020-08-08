@@ -94,6 +94,7 @@ export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
       // Only set createdAt the first time.
       "createdAt = if_not_exists(createdAt, :createdAt)",
       "updatedAt = :updatedAt",
+      "updateTimestamps = list_append(if_not_exists(updateTimestamps, :EmptyList), :updateTimestamps)",
 
       "version = :version",
 
@@ -111,12 +112,14 @@ export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
 
     createdAt: now,
     updatedAt: now,
+    updateTimestamps: [now],
 
     version,
 
     tutorialData: decoded.value,
   };
   const ExpressionAttributeValues = db.expressionAttributes(values);
+  ExpressionAttributeValues[":EmptyList"] = [];
 
   const result = await db.result(
     db.client().update({
