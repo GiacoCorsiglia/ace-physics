@@ -130,9 +130,7 @@ export function tutorialRoute({
               </p>
             </Prose>
 
-            <Link to={parts[0].path}>
-              <Continue label="Let's get started" link={parts[0].path} />
-            </Link>
+            <Continue label="Let's get started" link={parts[0].path} />
           </Content>
         }
       />
