@@ -25,6 +25,7 @@
   margin-bottom: 1rem;
   background: hsl(0, 0, 95%);
   opacity: 0.75;
+  box-shadow: $box-shadow-border, $box-shadow-light;
 }
 
 .reminderLabel {
