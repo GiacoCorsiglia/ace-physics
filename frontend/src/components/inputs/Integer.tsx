@@ -30,6 +30,7 @@ export default function Integer({
 
       <input
         {...props}
+        placeholder={props.placeholder || "Integer"}
         className={classes(
           styles.numberInput,
           [styles.noLabel, !label],
