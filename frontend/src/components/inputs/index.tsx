@@ -1,6 +1,7 @@
 export { default as Button } from "./Button";
 export { default as Choice } from "./Choice";
 export { default as Decimal } from "./Decimal";
+export { default as DisableInputs } from "./DisableInputs";
 export { default as FieldGroup } from "./FieldGroup";
 export { default as Integer } from "./Integer";
 export { default as Select } from "./Select";

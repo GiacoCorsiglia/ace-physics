@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, useUniqueId } from "src/util";
+import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
 export default function Choice<
@@ -11,14 +12,17 @@ export default function Choice<
   field,
   choices,
   allowOther = true,
+  disabled = false,
   label,
 }: {
   field: Field<s.ChoiceSchema<C, M, string>>;
   choices: ReadonlyArray<{ value: C[number]; label: React.ReactNode }>;
   allowOther?: boolean;
+  disabled?: boolean;
   label?: React.ReactNode;
 }) {
   const isMulti = field.schema.isMulti;
+  disabled = useDisabled(disabled);
 
   const id = `choice-${useUniqueId()}`;
 
@@ -111,6 +115,7 @@ export default function Choice<
             className={classes(
               styles.choiceChoice,
               [styles.selected, isSelected(choice)],
+              [styles.disabled, disabled],
               [styles.focused, focusedChoice === choice]
             )}
             key={choice.value.toString()}
@@ -119,6 +124,7 @@ export default function Choice<
             <div className={styles.choiceRadioBox}>
               <input
                 className={styles.choiceRadio}
+                disabled={disabled}
                 type={isMulti ? "checkbox" : "radio"}
                 value={choice.value.toString()}
                 name={id}
@@ -143,6 +149,7 @@ export default function Choice<
             className={classes(
               styles.choiceChoice,
               [styles.selected, isOtherSelected],
+              [styles.disabled, disabled],
               [styles.focused, focusedChoice === "other"]
             )}
           >
@@ -150,6 +157,7 @@ export default function Choice<
               <div className={styles.choiceRadioBox}>
                 <input
                   className={styles.choiceRadio}
+                  disabled={disabled}
                   type={isMulti ? "checkbox" : "radio"}
                   value="other"
                   name={id}
@@ -183,6 +191,7 @@ export default function Choice<
             <input
               type="text"
               className={styles.choiceOtherInput}
+              disabled={disabled}
               placeholder="Click to input another answer"
               ref={otherInputRef}
               value={field.value?.other || otherInput}

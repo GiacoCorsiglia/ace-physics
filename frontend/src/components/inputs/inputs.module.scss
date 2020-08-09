@@ -188,7 +188,7 @@
     }
   }
 
-  &:hover {
+  &:not(.disabled):hover {
     position: relative;
     z-index: 2;
     border-color: $grey70;
@@ -203,6 +203,13 @@
   &.focused {
     .choiceRadioBox {
       background-color: $light-blue;
+    }
+  }
+
+  &:not(.selected):not(.focused).disabled {
+    .choiceRadioBox {
+      background-color: $grey95;
+      border-color: $grey90;
     }
   }
 }
@@ -304,19 +311,25 @@
     }
   }
 
-  &:hover,
+  &:not(.disabled):hover,
   &.focused {
     border-color: $grey70;
     background-color: $light-blue;
   }
 
-  &:active,
+  &:not(.disabled):active,
   &.selected {
     background-color: $blue;
     color: #fff;
     border-color: $blue;
     position: relative;
     z-index: 2;
+  }
+
+  &:not(.selected).disabled {
+    color: $grey60;
+    background-color: $grey95;
+    border-color: $grey90;
   }
 
   &.selected.focused {

@@ -6,6 +6,7 @@ import {
   Button,
   Choice,
   Decimal,
+  DisableInputs,
   FieldGroup,
   Integer,
   Select,
@@ -44,6 +45,28 @@ export function ComponentsTest() {
           <GroupedFields />
 
           <MatrixTest />
+
+          <Content>
+            <h1 className="prose">Disabled inputs</h1>
+          </Content>
+
+          <DisableInputs when={true}>
+            <Buttons />
+
+            <TextInputs />
+
+            <NumberInputs />
+
+            <Selects />
+
+            <Choices />
+
+            <Toggles />
+
+            <GroupedFields />
+
+            <MatrixTest />
+          </DisableInputs>
         </Provider>
       </main>
     </Page>

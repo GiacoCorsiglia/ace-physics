@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, useUniqueId } from "src/util";
+import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
 export default function Toggle<
@@ -13,10 +14,12 @@ export default function Toggle<
   no = "No",
   vertical = false,
   label,
+  disabled = false,
 }: {
   field: Field<S>;
   vertical?: boolean;
   label?: React.ReactNode;
+  disabled?: boolean;
 } & (S extends s.ChoiceSchema<infer C, false, any>
   ? {
       choices: readonly {
@@ -33,6 +36,8 @@ export default function Toggle<
     })) {
   const id = `toggle-${useUniqueId()}`;
   const [focusedChoice, setFocusedChoice] = useState<{}>();
+
+  disabled = useDisabled(disabled);
 
   type Value = S extends s.ChoiceSchema<infer C, false, any>
     ? C[number]
@@ -99,12 +104,14 @@ export default function Toggle<
           className={classes(
             styles.toggleChoice,
             [styles.selected, isSelected(choice.value)],
+            [styles.disabled, disabled],
             [styles.focused, focusedChoice === choice]
           )}
           key={choice.value.toString()}
         >
           <input
             type="radio"
+            disabled={disabled}
             className={styles.toggleRadio}
             value={choice.value.toString()}
             name={id}

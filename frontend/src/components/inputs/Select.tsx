@@ -4,6 +4,7 @@ import Creatable from "react-select/creatable";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, Props, useUniqueId } from "src/util";
+import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
 type SelectChoice<T> = T extends Array<infer U> ? U : T;
@@ -35,6 +36,8 @@ export default function Select<
 } & Props<ReactSelect<{ value: C[number]; label: React.ReactNode }>>) {
   const id = `select-${useUniqueId()}`;
   props.ACE_labelId = id;
+
+  props.isDisabled = useDisabled(!!props.isDisabled);
 
   // If the schema supports multiple selections then so should the select!
   props.isMulti = field.schema.isMulti;

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { classes } from "src/util";
+import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
 export default function Button({
@@ -13,6 +14,7 @@ export default function Button({
   block?: boolean;
   link?: string;
 }) {
+  props.disabled = useDisabled(props);
   const As = !props.disabled && link ? Link : "button";
 
   return (
