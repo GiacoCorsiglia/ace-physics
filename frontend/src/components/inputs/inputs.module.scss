@@ -129,7 +129,7 @@
     border-color: $grey90;
   }
 
-  &:not(:disabled):hover {
+  &:not(:disabled):not(:active):not(:focus):hover {
     border-color: $grey70;
   }
 
@@ -201,6 +201,10 @@
 
   &.selected,
   &.focused {
+    position: relative;
+    z-index: 2;
+    border-color: $grey70;
+
     .choiceRadioBox {
       background-color: $light-blue;
     }
