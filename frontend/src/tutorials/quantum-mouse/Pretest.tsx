@@ -155,25 +155,25 @@ export default function Pretest() {
               }
             />
           </Section>
-
-          <Section noScroll>
-            <Continue
-              link="../what-is-a-quantum-mouse"
-              allowed={
-                isSet(operatorLabel) &&
-                isSet(eigenstateLabel) &&
-                isSet(eigenvalueLabel) &&
-                isSet(A0_0) &&
-                isSet(A0_1) &&
-                isSet(A1_0) &&
-                isSet(A1_1) &&
-                isSet(measureA) &&
-                isSet(afterMeasureA)
-              }
-              label="Submit and move on"
-            />
-          </Section>
         </DisableInputs>
+
+        <Section noScroll>
+          <Continue
+            link="../what-is-a-quantum-mouse"
+            allowed={
+              isSet(operatorLabel) &&
+              isSet(eigenstateLabel) &&
+              isSet(eigenvalueLabel) &&
+              isSet(A0_0) &&
+              isSet(A0_1) &&
+              isSet(A1_0) &&
+              isSet(A1_1) &&
+              isSet(measureA) &&
+              isSet(afterMeasureA)
+            }
+            label="Submit and move on"
+          />
+        </Section>
       </Content>
     </Part>
   );
