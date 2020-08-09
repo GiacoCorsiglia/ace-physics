@@ -31,7 +31,7 @@ export default function Text({
         )}
         id={id}
         type="text"
-        value={field.value}
+        value={field.value || ""}
         onChange={(e) => field.set(e.target.value)}
       />
     </>

@@ -83,7 +83,7 @@ export default function TextArea({
         id={id}
         ref={textareaRef}
         rows={rowsRef.current}
-        value={field.value}
+        value={field.value || ""}
         onChange={(e) => field.set(e.target.value)}
       />
     </>
