@@ -69,6 +69,18 @@ const MoodVectorComponentChoice = s.choice([
 
 export type QuantumMouse = s.TypeOf<typeof QuantumMouse>;
 export const QuantumMouse = tutorialSchema("QuantumMouse", {
+  pretest: s.record({
+    operatorLabel: s.string(),
+    eigenstateLabel: s.string(),
+    eigenvalueLabel: s.string(),
+    A0_0: s.number(),
+    A0_1: s.number(),
+    A1_0: s.number(),
+    A1_1: s.number(),
+    measureA: s.string(),
+    afterMeasureA: s.string(),
+  }),
+
   // What is a quantum mouse?
 
   introCommit: s.boolean(),

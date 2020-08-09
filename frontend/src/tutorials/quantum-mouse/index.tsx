@@ -8,6 +8,7 @@ import IntroToExpectationValue from "./IntroToExpectationValue";
 import MatrixRepresentation from "./MatrixRepresentation";
 import MeasuringEyeSize from "./MeasuringEyeSize";
 import MoreMeasurements from "./MoreMeasurements";
+import Pretest from "./Pretest";
 import QuantumMood from "./QuantumMood";
 import Superpositions from "./Superpositions";
 import WhatIsAQuantumMouse from "./WhatIsAQuantumMouse";
@@ -24,6 +25,11 @@ export const route = tutorialRoute({
     </Prose>
   ),
   parts: [
+    {
+      path: "before-you-start",
+      label: "Before you start",
+      element: <Pretest />,
+    },
     {
       path: "what-is-a-quantum-mouse",
       label: "What is a Quantum Mouse?",
