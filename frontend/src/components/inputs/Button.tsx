@@ -13,7 +13,7 @@ export default function Button({
   block?: boolean;
   link?: string;
 }) {
-  const As = link ? Link : "button";
+  const As = !props.disabled && link ? Link : "button";
 
   return (
     <As
