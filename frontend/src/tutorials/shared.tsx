@@ -101,11 +101,10 @@ export function tutorialRoute({
 
             <Prose className={styles.genericIntroProse}>
               <p>
-                This activity is intended to be thought-provoking and to help
-                you develop your own understanding.{" "}
                 <strong>
-                  It’s not about about “right” or “wrong” answers!
-                </strong>
+                  This activity is not about “right” or “wrong” answers,
+                </strong>{" "}
+                it’s about helping you to think about challenging ideas.
               </p>
 
               <p>And it won’t be graded (except for participation credit).</p>
@@ -144,7 +143,7 @@ export function tutorialRoute({
               </p>
             </Prose>
 
-            <Continue label="Let's get started" link={parts[0].path} />
+            <Continue label="Let’s get going" link={parts[0].path} />
           </Content>
         }
       />
