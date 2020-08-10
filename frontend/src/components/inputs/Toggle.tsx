@@ -5,6 +5,10 @@ import { classes, useUniqueId } from "src/util";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
+type StyleProps =
+  | { vertical?: boolean; grid?: never }
+  | { vertical?: never; grid?: boolean };
+
 export default function Toggle<
   S extends s.BooleanSchema | s.ChoiceSchema<any, false, any>
 >({
@@ -13,27 +17,28 @@ export default function Toggle<
   yes = "Yes",
   no = "No",
   vertical = false,
+  grid = false,
   label,
   disabled = false,
 }: {
   field: Field<S>;
-  vertical?: boolean;
   label?: React.ReactNode;
   disabled?: boolean;
-} & (S extends s.ChoiceSchema<infer C, false, any>
-  ? {
-      choices: readonly {
-        value: C[number];
-        label: React.ReactNode;
-      }[];
-      yes?: never;
-      no?: never;
-    }
-  : {
-      choices?: never;
-      yes?: React.ReactNode;
-      no?: React.ReactNode;
-    })) {
+} & StyleProps &
+  (S extends s.ChoiceSchema<infer C, false, any>
+    ? {
+        choices: readonly {
+          value: C[number];
+          label: React.ReactNode;
+        }[];
+        yes?: never;
+        no?: never;
+      }
+    : {
+        choices?: never;
+        yes?: React.ReactNode;
+        no?: React.ReactNode;
+      })) {
   const id = `toggle-${useUniqueId()}`;
   const [focusedChoice, setFocusedChoice] = useState<{}>();
 
@@ -92,8 +97,9 @@ export default function Toggle<
       className={classes(
         styles.toggleChoices,
         [styles.noLabel, !label],
-        [styles.horizontal, !vertical],
-        [styles.vertical, vertical]
+        [styles.horizontal, !vertical && !grid],
+        [styles.vertical, vertical],
+        [styles.grid, grid]
       )}
       role="group"
       aria-labelledby={label ? `${id}_legend` : undefined}
@@ -139,7 +145,7 @@ export default function Toggle<
         </div>
       )}
 
-      {vertical ? <div>{choicesEl}</div> : choicesEl}
+      {vertical || grid ? <div>{choicesEl}</div> : choicesEl}
     </>
   );
 }

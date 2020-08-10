@@ -1,7 +1,7 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import { Continue, Prose, Section } from "src/components";
-import { Choice, FieldGroup, TextArea, Toggle } from "src/components/inputs";
+import { FieldGroup, TextArea, Toggle } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import { useFields, useStore } from "src/state";
 import { Part } from "src/tutorials/shared";
@@ -58,11 +58,11 @@ export default function Feedback() {
         </Section>
 
         <Section noScroll>
-          <Choice
+          <Toggle
             field={easyOrChallenging}
             choices={easyOrChallengingChoices}
+            grid
             label={<Prose>I thought that this tutorial was mostly…</Prose>}
-            allowOther={false}
           />
 
           <TextArea
