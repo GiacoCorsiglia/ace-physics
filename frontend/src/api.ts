@@ -139,7 +139,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     );
 
     if (result.failed) {
-      console.error("api: request failed", result.error);
+      console.error("api: request failed", href, result.error);
       return failure({ type: "CONNECTION", error: result.error });
     }
 
@@ -148,7 +148,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     const json = await asyncResult(response.json());
 
     if (json.failed) {
-      console.error("api: request with invalid json", json.error);
+      console.error("api: request with invalid json", href, json.error);
       return failure({ type: "JSON", error: json.error });
     }
 
@@ -157,12 +157,12 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     // Specific error codes.
 
     if (response.status === 404) {
-      console.error("api: 404 not found", body);
+      console.error("api: 404 not found", href, body);
       return failure({ type: 404 });
     }
 
     if (response.status === 500) {
-      console.error("api: 500 server error", body);
+      console.error("api: 500 server error", href, body);
       return failure({ type: 500, body });
     }
 
@@ -174,12 +174,12 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
       return failure(error);
     }
 
-    console.log("api: request succeeded");
+    console.log("api: request succeeded", href, body);
 
     const decoded = responseSchema.decode(body);
 
     if (s.isFailure(decoded)) {
-      console.error("api: invalid response type", decoded.errors);
+      console.error("api: invalid response type", href, decoded.errors);
       return failure({ type: "RESPONSE_TYPE", body, errors: decoded.errors });
     }
 
