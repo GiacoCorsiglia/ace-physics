@@ -178,7 +178,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     const decoded = responseSchema.decode(body);
 
     if (s.isFailure(decoded)) {
-      console.log("api: invalid response type");
+      console.error("api: invalid response type", decoded.errors);
       return failure({ type: "RESPONSE_TYPE", body, errors: decoded.errors });
     }
 
