@@ -261,6 +261,12 @@ $padding-left-sidebar: 2.5rem; // For the hanging numbers in the list
 
   $counter-opacity: 0.5;
 
+  @include above-sidebar-visible {
+    // Hide the footer <hr>.  The window has to be pretty short for this to be
+    // an actual problem.
+    background: $bg-overlay;
+  }
+
   li {
     counter-increment: tutorial-parts-counter;
     position: relative;
