@@ -71,7 +71,7 @@ export const Tutorial = s.completeRecord({
 
   createdAt: s.string(),
   updatedAt: s.string(),
-  updateTimestamps: s.array(s.string()),
+  updateTimestamps: s.optional(s.array(s.string())),
 
   version: s.number(),
 
