@@ -115,6 +115,12 @@ export interface Field<S extends s.Schema> {
         readonly [K in keyof P]: Field<P[K]>;
       }
     : never;
+  readonly elements: S extends s.TupleSchema<infer E>
+    ? {
+        readonly [I in keyof E]: Field<E[I] extends s.Schema ? E[I] : s.Schema>;
+        // HACK: The extra type condition above shouldn't be necessary.
+      }
+    : never;
 }
 
 function Field<S extends s.Schema>(schema: S): Field<S> {
@@ -163,7 +169,9 @@ function Field<S extends s.Schema>(schema: S): Field<S> {
         subscribers.splice(subscribers.indexOf(callback), 1);
       };
     },
+
     properties: undefined as any,
+    elements: undefined as any,
   };
 
   if (s.isRecordSchema(schema)) {
@@ -191,6 +199,37 @@ function Field<S extends s.Schema>(schema: S): Field<S> {
         });
       }
     }
+  } else if (s.isTupleSchema(schema)) {
+    const tupleElements = schema.elements as s.Schema[];
+    const tupleLength = tupleElements.length;
+
+    field.elements = tupleElements.map((elementSchema, i) => {
+      const elementField = Field(elementSchema);
+
+      // Make sure that the value of the elementField has its source of truth
+      // in the parent field.
+      Object.defineProperty(elementField, "value", {
+        enumerable: true,
+        get() {
+          return field.value === undefined
+            ? undefined
+            : (field as any).value[i];
+        },
+        // This setter will be by the assignment in `elementField.set()`
+        set(newValue) {
+          const newTuple =
+            field.value === undefined
+              ? // Create an empty tuple.
+                [...Array(tupleLength)]
+              : // Otherwise set it to a clone. (This may be unnecessary.)
+                [...(field.value as any)];
+          newTuple[i] = newValue;
+          field.set(newTuple);
+        },
+      });
+
+      return elementField;
+    }) as any;
   }
 
   return field;

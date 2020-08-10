@@ -15,7 +15,7 @@ const TestSchema = s.record({
       subSubProp: s.string().withDefault("initial sub sub value"),
     }),
   }),
-  // tuple: s.tuple(s.string(), s.tuple(s.number(), s.number())),
+  tuple: s.tuple(s.string(), s.tuple(s.number(), s.number())),
 } as const);
 
 describe("Provider", () => {
@@ -445,7 +445,7 @@ describe("useField", () => {
     expect(parentRenderCount).toBe(1);
   });
 
-  it("handles sub-fields", () => {
+  it("handles sub-fields for record schema", () => {
     let field: any;
     let subProp1: any;
     let subProp2: any;
@@ -565,6 +565,92 @@ describe("useField", () => {
       subSubProp: "sub sub 3",
     });
     expect(subProp2.value).toBe(field.value.subProp2);
+  });
+
+  it("handles sub-fields for tuples", () => {
+    let field: any;
+    let el0: any;
+    let el1: any;
+    let el10: any;
+    let el11: any;
+
+    function C() {
+      const tupleField = useField(TestSchema, "tuple");
+      field = tupleField;
+      el0 = tupleField.elements[0];
+      el1 = tupleField.elements[1];
+      el10 = tupleField.elements[1].elements[0];
+      el11 = tupleField.elements[1].elements[1];
+      return (
+        <div>
+          <div>{el0.value}</div>
+          <div>{el10.value}</div>
+          <div>{el11.value}</div>
+        </div>
+      );
+    }
+
+    const { getByText } = render(
+      <Provider
+        schema={TestSchema}
+        initial={{
+          tuple: ["initial sub value", [5, undefined]],
+        }}
+      >
+        <C />
+      </Provider>
+    );
+
+    expect(getByText("initial sub value")).toBeInTheDocument();
+    expect(getByText("5")).toBeInTheDocument();
+    expect(field.value).toStrictEqual(["initial sub value", [5, undefined]]);
+    expect(el0.value).toBe("initial sub value");
+    expect(el1.value).toStrictEqual([5, undefined]);
+    expect(el1.value).toStrictEqual(field.value[1]);
+    expect(el10.value).toBe(5);
+    expect(el11.value).toBeUndefined();
+
+    act(() => {
+      field.set(["sub 1", [6, 7]]);
+    });
+
+    expect(getByText("sub 1")).toBeInTheDocument();
+    expect(getByText("6")).toBeInTheDocument();
+    expect(getByText("7")).toBeInTheDocument();
+    expect(field.value).toStrictEqual(["sub 1", [6, 7]]);
+    expect(el0.value).toBe("sub 1");
+    expect(el1.value).toStrictEqual([6, 7]);
+    expect(el1.value).toStrictEqual(field.value[1]);
+    expect(el10.value).toBe(6);
+    expect(el11.value).toBe(7);
+
+    act(() => {
+      el0.set("sub 2");
+    });
+
+    expect(getByText("sub 2")).toBeInTheDocument();
+    expect(getByText("6")).toBeInTheDocument();
+    expect(getByText("7")).toBeInTheDocument();
+    expect(field.value).toStrictEqual(["sub 2", [6, 7]]);
+    expect(el0.value).toBe("sub 2");
+    expect(el1.value).toStrictEqual([6, 7]);
+    expect(el1.value).toStrictEqual(field.value[1]);
+    expect(el10.value).toBe(6);
+    expect(el11.value).toBe(7);
+
+    act(() => {
+      el10.set(8);
+    });
+
+    expect(getByText("sub 2")).toBeInTheDocument();
+    expect(getByText("8")).toBeInTheDocument();
+    expect(getByText("7")).toBeInTheDocument();
+    expect(field.value).toStrictEqual(["sub 2", [8, 7]]);
+    expect(el0.value).toBe("sub 2");
+    expect(el1.value).toStrictEqual([8, 7]);
+    expect(el1.value).toStrictEqual(field.value[1]);
+    expect(el10.value).toBe(8);
+    expect(el11.value).toBe(7);
   });
 });
 
