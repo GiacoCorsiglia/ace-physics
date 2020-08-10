@@ -6,6 +6,7 @@ import { Provider, useField, useFields, useStore, WithField } from "./state";
 type TestSchema = typeof TestSchema["properties"];
 const TestSchema = s.record({
   prop1: s.number(),
+  // NOTE: These defaults are ignored!
   prop2: s.string().withDefault("initial value"),
   prop3: s.record({
     subProp1: s.string().withDefault("initial sub value"),
@@ -14,6 +15,7 @@ const TestSchema = s.record({
       subSubProp: s.string().withDefault("initial sub sub value"),
     }),
   }),
+  // tuple: s.tuple(s.string(), s.tuple(s.number(), s.number())),
 } as const);
 
 describe("Provider", () => {
@@ -37,34 +39,34 @@ describe("Provider", () => {
       fields: {
         prop1: {
           schema: TestSchema.properties.prop1,
-          value: TestSchema.properties.prop1.default(),
+          value: undefined,
           validity: { valid: true },
         },
         prop2: {
           schema: TestSchema.properties.prop2,
-          value: TestSchema.properties.prop2.default(),
+          value: undefined,
           validity: { valid: true },
         },
         prop3: {
           schema: TestSchema.properties.prop3,
-          value: TestSchema.properties.prop3.default(),
+          value: undefined,
           validity: { valid: true },
           properties: {
             subProp1: {
               schema: TestSchema.properties.prop3.properties.subProp1,
-              value: TestSchema.properties.prop3.properties.subProp1.default(),
+              value: undefined,
               validity: { valid: true },
             },
             subProp2: {
               schema: TestSchema.properties.prop3.properties.subProp2,
               validity: { valid: true },
-              value: TestSchema.properties.prop3.properties.subProp2.default(),
+              value: undefined,
               properties: {
                 subSubProp: {
                   schema:
                     TestSchema.properties.prop3.properties.subProp2.properties
                       .subSubProp,
-                  value: TestSchema.properties.prop3.properties.subProp2.properties.subSubProp.default(),
+                  value: undefined,
                   validity: { valid: true },
                 },
               },
@@ -122,9 +124,7 @@ describe("Provider", () => {
 
     expect(store.fields.prop1.value).toBe(5);
     expect(store.fields.prop2.value).toBe("updated value");
-    expect(store.fields.prop3.value).toMatchObject(
-      store.fields.prop3.schema.default()
-    );
+    expect(store.fields.prop3.value).toBeUndefined();
 
     act(() => {
       store.fields.prop1.set(10);
@@ -173,8 +173,6 @@ describe("Provider", () => {
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][0]).toMatchObject({
       prop1: 5,
-      prop2: store.fields.prop2.schema.default(),
-      prop3: store.fields.prop3.schema.default(),
     });
 
     act(() => {
@@ -184,8 +182,6 @@ describe("Provider", () => {
     expect(onChange.mock.calls.length).toBe(2);
     expect(onChange.mock.calls[1][0]).toMatchObject({
       prop1: 5,
-      prop2: "updated value",
-      prop3: store.fields.prop3.schema.default(),
     });
   });
 });
@@ -244,7 +240,7 @@ describe("useFields", () => {
     }
 
     const { getByText } = render(
-      <Provider schema={TestSchema}>
+      <Provider schema={TestSchema} initial={{ prop2: "initial value" }}>
         <C />
       </Provider>
     );
@@ -368,7 +364,7 @@ describe("useField", () => {
     }
 
     const { getByText } = render(
-      <Provider schema={TestSchema}>
+      <Provider schema={TestSchema} initial={{ prop2: "initial value" }}>
         <C />
       </Provider>
     );
@@ -469,7 +465,17 @@ describe("useField", () => {
     }
 
     const { getByText } = render(
-      <Provider schema={TestSchema}>
+      <Provider
+        schema={TestSchema}
+        initial={{
+          prop3: {
+            subProp1: "initial sub value",
+            subProp2: {
+              subSubProp: "initial sub sub value",
+            },
+          },
+        }}
+      >
         <C />
       </Provider>
     );
@@ -601,7 +607,7 @@ describe("WithField", () => {
     let field: any;
 
     const { getByText } = render(
-      <Provider schema={TestSchema}>
+      <Provider schema={TestSchema} initial={{ prop2: "initial value" }}>
         <WithField schema={TestSchema} name="prop2">
           {(f) => {
             field = f;
