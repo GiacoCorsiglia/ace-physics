@@ -117,8 +117,7 @@ export interface Field<S extends s.Schema> {
     : never;
   readonly elements: S extends s.TupleSchema<infer E>
     ? {
-        readonly [I in keyof E]: Field<E[I] extends s.Schema ? E[I] : s.Schema>;
-        // HACK: The extra type condition above shouldn't be necessary.
+        readonly [I in keyof E]: E[I] extends s.Schema ? Field<E[I]> : E[I];
       }
     : never;
 }
