@@ -232,6 +232,44 @@ export const isUndefinedSchema = (s: Schema): s is UndefinedSchema =>
   s.kind === "undefined";
 
 /**
+ * Schema instance representing an optional value.
+ */
+class OptionalSchemaC<S extends Schema> extends Schema<TypeOf<S> | undefined> {
+  readonly kind = "optional";
+
+  constructor(public readonly wrappedSchema: S) {
+    super();
+  }
+
+  protected _decode(v: unknown, context: Context) {
+    if (v === undefined || v === null) {
+      return Ok(undefined);
+    }
+
+    return this.wrappedSchema.decode(v);
+  }
+
+  readonly is = isFromDecode(this._decode.bind(this));
+}
+
+/**
+ * A schema representing an optional value.
+ */
+export interface OptionalSchema<S extends Schema> extends OptionalSchemaC<S> {}
+
+/**
+ * Creates a schema representing an optional value.
+ */
+export const optional = <S extends Schema>(schema: S): OptionalSchema<S> =>
+  new OptionalSchemaC(schema);
+
+/**
+ * Determines if the Schema is an optional schema.
+ */
+export const isOptionalSchema = (s: Schema): s is UndefinedSchema =>
+  s.kind === "optional";
+
+/**
  * Schema instance representing a boolean value.
  */
 class BooleanSchemaC extends Schema<boolean> {
