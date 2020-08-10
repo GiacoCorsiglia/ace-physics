@@ -157,20 +157,21 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     // Specific error codes.
 
     if (response.status === 404) {
-      console.log("api: not found");
+      console.error("api: 404 not found", body);
       return failure({ type: 404 });
     }
 
     if (response.status === 500) {
-      console.log("api: server error");
+      console.error("api: 500 server error", body);
       return failure({ type: 500, body });
     }
 
     // General error.
 
     if (!response.ok) {
-      console.log("api: request error");
-      return failure({ type: "OTHER", status: response.status, body });
+      const error = { type: "OTHER", status: response.status, body } as const;
+      console.error("api: request error", error);
+      return failure(error);
     }
 
     console.log("api: request succeeded");
