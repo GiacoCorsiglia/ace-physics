@@ -24,6 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-api": "REACT_APP_ACE_API=yes react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
