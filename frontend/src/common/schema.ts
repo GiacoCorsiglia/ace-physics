@@ -246,7 +246,7 @@ class OptionalSchemaC<S extends Schema> extends Schema<TypeOf<S> | undefined> {
       return Ok(undefined);
     }
 
-    return this.wrappedSchema.decode(v);
+    return this.wrappedSchema.decode(v, context);
   }
 
   readonly is = isFromDecode(this._decode.bind(this));
