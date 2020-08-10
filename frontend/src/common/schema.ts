@@ -821,6 +821,11 @@ class CompleteRecordSchemaC<P extends Properties> extends Schema<
     const errors: Error<unknown>[] = [];
 
     for (const key in this.properties) {
+      const schema = this.properties[key];
+      if (isOptionalSchema(schema) || isUndefinedSchema(schema)) {
+        continue;
+      }
+
       if (obj[key] === undefined || obj[key] === null) {
         errors.push(
           Error(
