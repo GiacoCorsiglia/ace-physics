@@ -45,8 +45,9 @@ export default function QuantumMood() {
             </p>
 
             <p className="text-center">
-              <M t="\hat{M}\ket{😸}=\ket{😸}" /> &nbsp;&nbsp;and&nbsp;&nbsp;{" "}
-              <M t="\hat{M}\ket{😿}= -\ket{😿}" />.
+              <M t="\hat{M}\ket{\smiley} = \ket{\smiley}" />{" "}
+              &nbsp;&nbsp;and&nbsp;&nbsp;{" "}
+              <M t="\hat{M}\ket{\frownie} = -\ket{\frownie}" />.
             </p>
 
             <p>Note: Being happy or sad is again, orthonormal and complete.</p>
@@ -127,7 +128,7 @@ export default function QuantumMood() {
             <Select
               field={happySadInnerProduct}
               choices={happySadInnerProductChoices}
-              label={<M t="\braket{😸}{😿} = " />}
+              label={<M t="\braket{\smiley}{\frownie} = " />}
             />
 
             <TextArea field={happySadInnerProductExplain} label="Explain:" />
@@ -158,7 +159,7 @@ const moodChoices: SelectChoices<QuantumMouse["moodEigenvalues"]> = [
     value: "kets",
     label: (
       <>
-        <M t="\ket{😸}" /> and <M t="\ket{😿}" />
+        <M t="\ket{\smiley}" /> and <M t="\ket{\frownie}" />
       </>
     ),
   },

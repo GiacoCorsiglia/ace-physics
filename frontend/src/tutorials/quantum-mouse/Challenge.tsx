@@ -13,22 +13,24 @@ export default function Challenge() {
             <Prose>
               <p>
                 Small-eyed mice: &nbsp;{" "}
-                <M t="\hat{S}\ket{\cdot} = 1 \ket{\cdot}" /> <br />
-                Wide-eyed mice: &nbsp; <M t="\hat{S}\ket{*} = 2 \ket{*}" />{" "}
+                <M t="\hat{S}\ket{\smalleye} = 1 \ket{\smalleye}" /> <br />
+                Wide-eyed mice: &nbsp;{" "}
+                <M t="\hat{S}\ket{\wideye} = 2 \ket{\wideye}" /> <br />
+                Happy mice: &nbsp; <M t="\hat{M}\ket{\smiley}=\ket{\smiley}" />{" "}
                 <br />
-                Happy mice: &nbsp; <M t="\hat{M}\ket{😸}=\ket{😸}" /> <br />
-                Sad mice: &nbsp; <M t="\hat{M}\ket{😿}= -\ket{😿}" />
+                Sad mice: &nbsp;{" "}
+                <M t="\hat{M}\ket{\frownie}= -\ket{\frownie}" />
                 //ADD MATRIX REP
               </p>
             </Prose>
             <M
               display
-              t="\ket{\cdot} = \frac{2}{\sqrt{5}} \ket{😸} - \frac{1}{\sqrt{5}} \ket{😿}"
+              t="\ket{\smalleye} = \frac{2}{\sqrt{5}} \ket{\smiley} - \frac{1}{\sqrt{5}} \ket{\frownie}"
             />
 
             <M
               display
-              t="\ket{*} = \frac{1}{\sqrt{5}} \ket{😸} + \frac{2}{\sqrt{5}} \ket{😿}"
+              t="\ket{\wideye} = \frac{1}{\sqrt{5}} \ket{\smiley} + \frac{2}{\sqrt{5}} \ket{\frownie}"
             />
           </Reminder>
           <Prose>
@@ -43,9 +45,9 @@ export default function Challenge() {
             <p>Start by writing [MATRIX ABCD FOR S]</p>
             <p>
               <em>
-                Hint: What does <M t="\hat{S}" /> do to <M t="\ket{*}" />? What
-                does <M t="\hat{S}" /> do to <M t="\ket{\cdot}" />? Write these
-                out as matrix equations.
+                Hint: What does <M t="\hat{S}" /> do to <M t="\ket{\wideye}" />?
+                What does <M t="\hat{S}" /> do to <M t="\ket{\smalleye}" />?
+                Write these out as matrix equations.
               </em>
             </p>
           </Prose>

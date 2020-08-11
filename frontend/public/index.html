@@ -52,10 +52,17 @@
             },
           },
           loader: {
-            load: ["[tex]/color", "[tex]/physics"],
+            load: ["[tex]/color", "[tex]/enclose", "[tex]/physics"],
           },
           tex: {
-            packages: { "[+]": ["color", "physics"] },
+            packages: { "[+]": ["color", "enclose", "physics"] },
+            macros: {
+              // Quantum Mouse.
+              smalleye: "\\bigodot",
+              wideye: "\\enclose{circle}{*}",
+              smiley: "\\enclose{circle}{\\mathbf{\\small\\ddot\\smile}}",
+              frownie: "\\enclose{circle}{\\mathbf{\\small\\ddot\\frown}}",
+            },
           },
           svg: {
             fontCache: "global",

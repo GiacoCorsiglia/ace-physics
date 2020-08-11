@@ -40,21 +40,23 @@ export default function MatrixRepresentation() {
             <Prose>
               <p>
                 Small-eyed mice: &nbsp;{" "}
-                <M t="\hat{S}\ket{\cdot} = 1 \ket{\cdot}" /> <br />
-                Wide-eyed mice: &nbsp; <M t="\hat{S}\ket{*} = 2 \ket{*}" />{" "}
+                <M t="\hat{S}\ket{\smalleye} = 1 \ket{\smalleye}" /> <br />
+                Wide-eyed mice: &nbsp;{" "}
+                <M t="\hat{S}\ket{\wideye} = 2 \ket{\wideye}" /> <br />
+                Happy mice: &nbsp; <M t="\hat{M}\ket{\smiley}=\ket{\smiley}" />
                 <br />
-                Happy mice: &nbsp; <M t="\hat{M}\ket{😸}=\ket{😸}" /> <br />
-                Sad mice: &nbsp; <M t="\hat{M}\ket{😿}= -\ket{😿}" />
+                Sad mice: &nbsp;{" "}
+                <M t="\hat{M}\ket{\frownie}= -\ket{\frownie}" />
               </p>
             </Prose>
             <M
               display
-              t="\ket{\cdot} = \frac{2}{\sqrt{5}} \ket{😸} - \frac{1}{\sqrt{5}} \ket{😿}"
+              t="\ket{\smalleye} = \frac{2}{\sqrt{5}} \ket{\smiley} - \frac{1}{\sqrt{5}} \ket{\frownie}"
             />
 
             <M
               display
-              t="\ket{*} = \frac{1}{\sqrt{5}} \ket{😸} + \frac{2}{\sqrt{5}} \ket{😿}"
+              t="\ket{\wideye} = \frac{1}{\sqrt{5}} \ket{\smiley} + \frac{2}{\sqrt{5}} \ket{\frownie}"
             />
           </Reminder>
 
@@ -71,7 +73,7 @@ export default function MatrixRepresentation() {
           <Matrix
             className="margin-top"
             label="A happy mouse,&nbsp;"
-            labelTex="\ket{😸}"
+            labelTex="\ket{\smiley}"
             matrix={fieldToMatrix(
               happyVector,
               <Select
@@ -84,7 +86,7 @@ export default function MatrixRepresentation() {
           <Matrix
             className="margin-top"
             label="A sad mouse,&nbsp;"
-            labelTex="\ket{😿}"
+            labelTex="\ket{\frownie}"
             matrix={fieldToMatrix(
               sadVector,
               <Select
@@ -111,7 +113,7 @@ export default function MatrixRepresentation() {
           <Matrix
             className="margin-top"
             label="A small-eyed mouse,&nbsp;"
-            labelTex="\ket{\cdot}"
+            labelTex="\ket{\smalleye}"
             matrix={fieldToMatrix(
               smallVector,
               <Select
@@ -124,7 +126,7 @@ export default function MatrixRepresentation() {
           <Matrix
             className="margin-top"
             label="A wide-eyed mouse,&nbsp;"
-            labelTex="\ket{*}"
+            labelTex="\ket{\wideye}"
             column={fieldToMatrix(
               wideVector,
               <Select
@@ -154,12 +156,12 @@ export default function MatrixRepresentation() {
           <FieldGroup grid className="margin-top">
             <Text
               field={happyEigenequation}
-              label={<M t="\hat{M}\ket{😸} =" />}
+              label={<M t="\hat{M}\ket{\smiley} =" />}
             />
 
             <Text
               field={sadEigenequation}
-              label={<M t="\hat{M}\ket{😿} =" />}
+              label={<M t="\hat{M}\ket{\frownie} =" />}
             />
           </FieldGroup>
 

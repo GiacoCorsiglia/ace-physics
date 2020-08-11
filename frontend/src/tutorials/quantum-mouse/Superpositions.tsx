@@ -42,10 +42,12 @@ export default function Superpositions() {
           <Reminder>
             <Prose>
               Small-eyed mice: &nbsp;{" "}
-              <M t="\hat{S}\ket{\cdot} = 1 \ket{\cdot}" /> <br />
-              Wide-eyed mice: &nbsp; <M t="\hat{S}\ket{*} = 2 \ket{*}" /> <br />
-              Happy mice: &nbsp; <M t="\hat{M}\ket{😸}=\ket{😸}" /> <br />
-              Sad mice: &nbsp; <M t="\hat{M}\ket{😿}= -\ket{😿}" />
+              <M t="\hat{S}\ket{\smalleye} = 1 \ket{\smalleye}" /> <br />
+              Wide-eyed mice: &nbsp;{" "}
+              <M t="\hat{S}\ket{\wideye} = 2 \ket{\wideye}" /> <br />
+              Happy mice: &nbsp; <M t="\hat{M}\ket{\smiley}=\ket{\smiley}" />
+              <br />
+              Sad mice: &nbsp; <M t="\hat{M}\ket{\frownie}= -\ket{\frownie}" />
             </Prose>
           </Reminder>
 
@@ -53,7 +55,7 @@ export default function Superpositions() {
             Suppose I now tell you:
             <M
               display
-              t="\ket{*} = \frac{1}{\sqrt{5}} \ket{😸} + \frac{2}{\sqrt{5}} \ket{😿}"
+              t="\ket{\wideye} = \frac{1}{\sqrt{5}} \ket{\smiley} + \frac{2}{\sqrt{5}} \ket{\frownie}"
             />
           </Prose>
 
@@ -75,9 +77,9 @@ export default function Superpositions() {
             <Help>
               <Prose>
                 Look at the equation above. If you asked a wide-eyed mouse (
-                <M t="\ket{*}" prespace={false} />) how they felt, which would
-                you <em>probably</em> expect them to say: <em>happy</em> or{" "}
-                <em>sad</em>?
+                <M t="\ket{\wideye}" prespace={false} />) how they felt, which
+                would you <em>probably</em> expect them to say: <em>happy</em>{" "}
+                or <em>sad</em>?
               </Prose>
             </Help>
           )}
@@ -100,7 +102,7 @@ export default function Superpositions() {
             <p>
               That is, we’re asking you to find the numbers <M t="a" /> and{" "}
               <M t="b" /> so that{" "}
-              <M t="\ket{\cdot} = a \ket{😸} + b \ket{😿}" />.
+              <M t="\ket{\smalleye} = a \ket{\smiley} + b \ket{\frownie}" />.
             </p>
           </Prose>
 

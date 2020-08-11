@@ -44,11 +44,13 @@ export default function IntroToExpectationValue() {
             <Prose>
               <p>
                 Small-eyed mice: &nbsp;{" "}
-                <M t="\hat{S}\ket{\cdot} = 1 \ket{\cdot}" /> <br />
-                Wide-eyed mice: &nbsp; <M t="\hat{S}\ket{*} = 2 \ket{*}" />{" "}
+                <M t="\hat{S}\ket{\smalleye} = 1 \ket{\smalleye}" /> <br />
+                Wide-eyed mice: &nbsp;{" "}
+                <M t="\hat{S}\ket{\wideye} = 2 \ket{\wideye}" /> <br />
+                Happy mice: &nbsp; <M t="\hat{M}\ket{\smiley}=\ket{\smiley}" />
                 <br />
-                Happy mice: &nbsp; <M t="\hat{M}\ket{😸}=\ket{😸}" /> <br />
-                Sad mice: &nbsp; <M t="\hat{M}\ket{😿}= -\ket{😿}" />
+                Sad mice: &nbsp;{" "}
+                <M t="\hat{M}\ket{\frownie}= -\ket{\frownie}" />
               </p>
             </Prose>
           </Reminder>

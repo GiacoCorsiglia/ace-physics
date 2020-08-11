@@ -87,7 +87,8 @@ export default function WhatIsAQuantumMouse() {
             <p>
               That notation is a bit wacky, but it's allowed! That said, let's
               simplify the kets for smalled-eyed mice and big-eyed mice to{" "}
-              <M t="\ket{\cdot}" /> and <M t="\ket{*}" />, respectively.
+              <M t="\ket{\smalleye}" /> and <M t="\ket{\wideye}" />,
+              respectively.
             </p>
 
             <p>
@@ -183,14 +184,14 @@ export default function WhatIsAQuantumMouse() {
         <Section commits={[hiddenUnitsCommit]}>
           <Prose>
             What can you say about the numerical value of{" "}
-            <M t="\braket{\cdot}{*}" />?
+            <M t="\braket{\smalleye}{\wideye}" />?
           </Prose>
 
           <FieldGroup grid className="margin-top">
             <Select
               field={smallBigInnerProduct}
               choices={smallBigInnerProductChoices}
-              label={<M t="\braket{\cdot}{*} = " />}
+              label={<M t="\braket{\smalleye}{\wideye} = " />}
             />
 
             <TextArea field={smallBigInnerProductExplain} label="Explain:" />
@@ -252,14 +253,14 @@ export default function WhatIsAQuantumMouse() {
           ]}
         >
           <Prose>
-            What about <M t="\braket{*}{*}" />?
+            What about <M t="\braket{\wideye}{\wideye}" />?
           </Prose>
 
           <FieldGroup grid className="margin-top">
             <Select
               field={bigBigInnerProduct}
               choices={smallBigInnerProductChoices}
-              label={<M t="\braket{*}{*} = " />}
+              label={<M t="\braket{\wideye}{\wideye} = " />}
             />
           </FieldGroup>
 
@@ -277,8 +278,8 @@ export default function WhatIsAQuantumMouse() {
           ]}
         >
           <Prose>
-            We said that the vectors <M t="\ket{\cdot}" /> and <M t="\ket{*}" />{" "}
-            are <em>orthonormal</em>.
+            We said that the vectors <M t="\ket{\smalleye}" /> and{" "}
+            <M t="\ket{\wideye}" /> are <em>orthonormal</em>.
           </Prose>
 
           <Choice
