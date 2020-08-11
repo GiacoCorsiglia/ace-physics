@@ -52,6 +52,15 @@ export default function IntroToExpectationValue() {
                 Sad mice: &nbsp;{" "}
                 <M t="\hat{M}\ket{\frownie}= -\ket{\frownie}" />
               </p>
+              <M
+                display
+                t="\ket{\smalleye} = \frac{2}{\sqrt{5}} \ket{\smiley} - \frac{1}{\sqrt{5}} \ket{\frownie}"
+              />
+
+              <M
+                display
+                t="\ket{\wideye} = \frac{1}{\sqrt{5}} \ket{\smiley} + \frac{2}{\sqrt{5}} \ket{\frownie}"
+              />
             </Prose>
           </Reminder>
 
