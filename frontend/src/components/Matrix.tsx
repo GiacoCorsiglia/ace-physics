@@ -1,4 +1,6 @@
 import React from "react";
+import * as s from "src/common/schema";
+import { Field } from "src/state";
 import { classes } from "src/util";
 import M from "./M";
 import styles from "./Matrix.module.scss";
@@ -112,3 +114,23 @@ export default function Matrix({
     </div>
   );
 }
+
+export function fieldToMatrix(
+  tupleField: Field<s.TupleSchema<any>>,
+  inputEl: React.ReactElement,
+  asRow?: typeof fieldToMatrix["Row"]
+) {
+  return tupleField.elements.map((subField: Field<s.Schema>) => {
+    if (s.isTupleSchema(subField.schema)) {
+      return fieldToMatrix(
+        subField as Field<s.TupleSchema<any>>,
+        inputEl,
+        fieldToMatrix.Row
+      );
+    } else {
+      const input = React.cloneElement(inputEl, { field: subField });
+      return asRow ? input : [input];
+    }
+  });
+}
+fieldToMatrix.Row = Symbol("MatrixRow");

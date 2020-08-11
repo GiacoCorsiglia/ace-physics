@@ -221,26 +221,22 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
 
   // Matrix Representation.
 
-  happyVector0: MoodVectorComponentChoice,
-  happyVector1: MoodVectorComponentChoice,
-  sadVector0: MoodVectorComponentChoice,
-  sadVector1: MoodVectorComponentChoice,
+  happyVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
+  sadVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
   moodVectorsCommit: s.boolean(),
 
-  smallVector0: MoodVectorComponentChoice,
-  smallVector1: MoodVectorComponentChoice,
-  wideVector0: MoodVectorComponentChoice,
-  wideVector1: MoodVectorComponentChoice,
+  smallVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
+  wideVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
   eyeSizeVectorCommit: s.boolean(),
 
   happyEigenequation: s.string(),
   sadEigenequation: s.string(),
   moodEigenequationCommit: s.boolean(),
 
-  moodMatrix0_0: s.number(),
-  moodMatrix0_1: s.number(),
-  moodMatrix1_0: s.number(),
-  moodMatrix1_1: s.number(),
+  moodMatrix: s.tuple(
+    s.tuple(s.number(), s.number()),
+    s.tuple(s.number(), s.number())
+  ),
   moodMatrixCommit: s.boolean(),
 
   // Expectation Value.

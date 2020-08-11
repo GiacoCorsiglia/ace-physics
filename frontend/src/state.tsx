@@ -333,6 +333,8 @@ export function isSet<S extends s.Schema>(
       return value.selected !== undefined || !!value.other;
     case "string":
       return !!value;
+    case "tuple":
+      return field.elements.every(isSet);
     default:
       return true;
   }

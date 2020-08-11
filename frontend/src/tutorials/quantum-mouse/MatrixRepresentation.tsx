@@ -10,32 +10,25 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import Matrix from "src/components/Matrix";
+import Matrix, { fieldToMatrix } from "src/components/Matrix";
 import { isSet, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function MatrixRepresentation() {
   const {
-    happyVector0,
-    happyVector1,
-    sadVector0,
-    sadVector1,
+    happyVector,
+    sadVector,
     moodVectorsCommit,
 
-    smallVector0,
-    smallVector1,
-    wideVector0,
-    wideVector1,
+    smallVector,
+    wideVector,
     eyeSizeVectorCommit,
 
     happyEigenequation,
     sadEigenequation,
     moodEigenequationCommit,
 
-    moodMatrix0_0,
-    moodMatrix0_1,
-    moodMatrix1_0,
-    moodMatrix1_1,
+    moodMatrix,
     moodMatrixCommit,
   } = useFields(QuantumMouse);
 
@@ -79,30 +72,31 @@ export default function MatrixRepresentation() {
             className="margin-top"
             label="A happy mouse,&nbsp;"
             labelTex="\ket{😸}"
-            column={[
-              <Select field={happyVector0} choices={vectorSelectChoices} />,
-              <Select field={happyVector1} choices={vectorSelectChoices} />,
-            ]}
+            matrix={fieldToMatrix(
+              happyVector,
+              <Select
+                field={happyVector.elements[0]}
+                choices={vectorSelectChoices}
+              />
+            )}
           />
 
           <Matrix
             className="margin-top"
             label="A sad mouse,&nbsp;"
             labelTex="\ket{😿}"
-            column={[
-              <Select field={sadVector0} choices={vectorSelectChoices} />,
-              <Select field={sadVector1} choices={vectorSelectChoices} />,
-            ]}
+            matrix={fieldToMatrix(
+              sadVector,
+              <Select
+                field={sadVector.elements[0]}
+                choices={vectorSelectChoices}
+              />
+            )}
           />
 
           <Continue
             commit={moodVectorsCommit}
-            allowed={
-              isSet(happyVector0) &&
-              isSet(happyVector1) &&
-              isSet(sadVector0) &&
-              isSet(sadVector1)
-            }
+            allowed={isSet(happyVector) && isSet(sadVector)}
           />
         </Section>
 
@@ -118,30 +112,31 @@ export default function MatrixRepresentation() {
             className="margin-top"
             label="A small-eyed mouse,&nbsp;"
             labelTex="\ket{\cdot}"
-            column={[
-              <Select field={smallVector0} choices={vectorSelectChoices} />,
-              <Select field={smallVector1} choices={vectorSelectChoices} />,
-            ]}
+            matrix={fieldToMatrix(
+              smallVector,
+              <Select
+                field={smallVector.elements[0]}
+                choices={vectorSelectChoices}
+              />
+            )}
           />
 
           <Matrix
             className="margin-top"
             label="A wide-eyed mouse,&nbsp;"
             labelTex="\ket{*}"
-            column={[
-              <Select field={wideVector0} choices={vectorSelectChoices} />,
-              <Select field={wideVector1} choices={vectorSelectChoices} />,
-            ]}
+            column={fieldToMatrix(
+              wideVector,
+              <Select
+                field={wideVector.elements[0]}
+                choices={vectorSelectChoices}
+              />
+            )}
           />
 
           <Continue
             commit={eyeSizeVectorCommit}
-            allowed={
-              isSet(smallVector0) &&
-              isSet(smallVector1) &&
-              isSet(wideVector0) &&
-              isSet(wideVector1)
-            }
+            allowed={isSet(smallVector) && isSet(wideVector)}
           />
         </Section>
 
@@ -205,34 +200,22 @@ export default function MatrixRepresentation() {
           <Matrix
             className="margin-top"
             labelTex="\hat{M}"
-            matrix={[
-              [
-                <Decimal field={moodMatrix0_0} />,
-                <Decimal field={moodMatrix0_1} />,
-              ],
-              [
-                <Decimal field={moodMatrix1_0} />,
-                <Decimal field={moodMatrix1_1} />,
-              ],
-            ]}
+            matrix={fieldToMatrix(
+              moodMatrix,
+              <Decimal field={moodMatrix.elements[0].elements[0]} />
+            )}
           />
 
-          <Continue
-            commit={moodMatrixCommit}
-            allowed={
-              isSet(moodMatrix0_0) &&
-              isSet(moodMatrix0_1) &&
-              isSet(moodMatrix1_0) &&
-              isSet(moodMatrix1_1)
-            }
-          />
+          <Continue commit={moodMatrixCommit} allowed={isSet(moodMatrix)} />
         </Section>
       </Content>
     </Part>
   );
 }
 
-const vectorSelectChoices: SelectChoices<QuantumMouse["happyVector0"]> = [
+const vectorSelectChoices: SelectChoices<
+  NonNullable<QuantumMouse["happyVector"]>[0]
+> = [
   { value: "0", label: <M t="0" /> },
   { value: "1", label: <M t="1" /> },
   { value: "1/root5", label: <M t="1/\sqrt{5}" /> },
