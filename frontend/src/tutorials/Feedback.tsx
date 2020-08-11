@@ -46,7 +46,8 @@ export default function Feedback() {
             label={
               <Prose>
                 Compared to before you started the tutorial, how confident do
-                you feel about your understanding of the topics it covered?
+                you feel about your understanding of the topics you think it
+                covered?
               </Prose>
             }
           />
@@ -58,6 +59,7 @@ export default function Feedback() {
         </Section>
 
         <Section noScroll>
+          {/* Needs None of the above */}
           <Toggle
             field={easyOrChallenging}
             choices={easyOrChallengingChoices}
@@ -80,6 +82,18 @@ export default function Feedback() {
         </Section>
 
         <Section noScroll>
+          <TextArea
+            field={ratherInPerson}
+            label={
+              <Prose>
+                Would you have rather done this activity on paper [in a group]
+                and why?
+              </Prose>
+            }
+          />
+        </Section>
+
+        <Section noScroll>
           <Prose>While filling out this tutorial, I…</Prose>
           <FieldGroup grid>
             <Toggle
@@ -94,18 +108,6 @@ export default function Feedback() {
             />
             <TextArea field={usedMaterialsOther} label="Other:" />
           </FieldGroup>
-        </Section>
-
-        <Section noScroll>
-          <TextArea
-            field={intention}
-            label={
-              <Prose>
-                What do you think this tutorial was designed to explore,
-                clarify, or do?
-              </Prose>
-            }
-          />
         </Section>
 
         <Section noScroll>
@@ -146,11 +148,11 @@ export default function Feedback() {
 
         <Section noScroll>
           <TextArea
-            field={ratherInPerson}
+            field={intention}
             label={
               <Prose>
-                Would you have rather done this activity on paper [in a group]
-                and why?
+                What do you think this tutorial was designed to explore,
+                clarify, or do?
               </Prose>
             }
           />

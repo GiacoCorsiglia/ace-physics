@@ -42,8 +42,8 @@ export default function Pretest() {
                 display
                 t="
               \begin{align}
-                \hat{A}\ket{a_1} &= 5\text{eV}\ket{a_1} \\
-                \hat{A}\ket{a_2} &= -4\text{eV}\ket{a_2}
+                \hat{A}\ket{a_1} &= 5 \text{eV}\ket{a_1} \\
+                \hat{A}\ket{a_2} &= -4 \text{eV}\ket{a_2}
               \end{align}
               "
               />
@@ -94,9 +94,11 @@ export default function Pretest() {
           <Section noScroll>
             <Prose>
               Express <M t="\hat{A}" /> in matrix notation for the two-state
-              system.
+              system (in the <M t="\ket{a_1}" />-
+              <M t="\ket{a_2}" prespace={false} /> basis).
             </Prose>
 
+            {/* Freeform! */}
             <Matrix
               className="margin-top"
               labelTex="\hat{A}"
@@ -120,8 +122,8 @@ export default function Pretest() {
               \end{align}
               "
                 />
-                where <M t="\hat{B}\ket{b_1} = 2\text{eV}\ket{b_1}" /> and
-                <M t="\hat{B}\ket{b_2} = 7\text{eV}\ket{b_2}" />.
+                where <M t="\hat{B}\ket{b_1} = 2 \text{eV}\ket{b_1}" /> and
+                <M t="\hat{B}\ket{b_2} = 7 \text{eV}\ket{b_2}" />.
               </p>
 
               <p>
@@ -144,6 +146,8 @@ export default function Pretest() {
           </Section>
 
           <Section noScroll>
+            {/* Multiple choice b1/b2/a1/a2/|a1>/... */}
+            {/* Briefly comment on your answer */}
             <TextArea
               field={afterMeasureA}
               label={
