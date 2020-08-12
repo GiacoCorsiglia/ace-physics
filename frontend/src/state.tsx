@@ -330,7 +330,12 @@ export function isSet<S extends s.Schema>(
 
   switch (field.schema.kind) {
     case "choice":
-      return value.selected !== undefined || !!value.other;
+      const selected = value.selected;
+      const hasSelection =
+        selected !== undefined &&
+        // If it's a multi-select, make sure it's not an empty array
+        (!Array.isArray(selected) || !!selected.length);
+      return hasSelection || !!value.other;
     case "string":
       return !!value;
     case "tuple":
