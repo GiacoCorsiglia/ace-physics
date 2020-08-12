@@ -3,8 +3,8 @@ version = 0.1
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "acephysics-staging"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-133fbbcrio24q"
 s3_prefix = "acephysics-staging"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-133fbbcrio24q"
 region = "us-west-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
