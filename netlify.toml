@@ -1,6 +1,7 @@
 [build]
   publish = "frontend/build"
-  command = "sed -i s/API_PLACEHOLDER/${API_LOCATION}/g netlify.toml && cd frontend && yarn build"
+  # Use the "!" delimeter for `sed` because $API_LOCATION has "/" in it.
+  command = "sed -i s!API_PLACEHOLDER!${API_LOCATION}!g netlify.toml && cd frontend && yarn build"
 
 [build.environment]
   NODE_VERSION = "12"
