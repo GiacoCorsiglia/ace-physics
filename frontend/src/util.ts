@@ -68,3 +68,22 @@ export function useUniqueId() {
   const idRef = useRef<number>();
   return idRef.current || (idRef.current = ++uniqueId);
 }
+
+///
+
+export function arraysEqual(a1?: any[], a2?: any[]): boolean {
+  if (!a1 || !a2 || a1.length !== a2.length) {
+    return false;
+  }
+
+  a1 = a1.concat().sort();
+  a2 = a2.concat().sort();
+
+  for (let i = 0; i < a1.length; i++) {
+    if (a1[i] !== a2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
