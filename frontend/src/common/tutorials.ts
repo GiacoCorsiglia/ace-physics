@@ -137,6 +137,17 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   happySadInnerProductHelp: s.boolean(),
   happySadInnerProductCommit: s.boolean(),
 
+  moodDisagreeVisible: s.boolean(),
+  moodDisagreeCommit: s.boolean(),
+
+  happySadVsSmallBigVisible: s.boolean(),
+  happySadVsSmallBigCommit: s.boolean(),
+
+  happySadCorrectionVisible: s.boolean(),
+  happySadCorrectionCommit: s.boolean(),
+
+  moodFinalCommit: s.boolean(),
+
   // Superpositions.
 
   superpositionsIntroCommit: s.boolean(),

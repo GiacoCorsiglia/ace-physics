@@ -1,6 +1,13 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, Help, HelpButton, Prose, Section } from "src/components";
+import {
+  Continue,
+  ContinueToNextPart,
+  Help,
+  HelpButton,
+  Prose,
+  Section,
+} from "src/components";
 import {
   Choice,
   FieldGroup,
@@ -10,10 +17,13 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, needsHelp, useFields } from "src/state";
+import { isSet, isVisible, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
+import { arraysEqual } from "src/util";
 
 export default function QuantumMood() {
+  const f = useFields(QuantumMouse);
+
   const {
     moodIntroCommit,
 
@@ -31,7 +41,7 @@ export default function QuantumMood() {
     happySadInnerProductExplain,
     happySadInnerProductHelp,
     happySadInnerProductCommit,
-  } = useFields(QuantumMouse);
+  } = f;
 
   return (
     <Part label={<>Moody mice</>}>
@@ -181,9 +191,108 @@ export default function QuantumMood() {
             allowed={
               isSet(happySadInnerProduct) && isSet(happySadInnerProductExplain)
             }
+            onClick={() => {
+              const posCorrect = arraysEqual(
+                possibleMoodEigenvalues.value?.selected,
+                ["-1", "1"]
+              );
+              const valuesCorrect = moodEigenvalues.value?.selected === "value";
+              const vectorsCorrect = moodEigenvalues.value?.selected === "kets";
+
+              if (posCorrect !== valuesCorrect) {
+                f.moodDisagreeVisible.set(true);
+              }
+
+              if (f.happySadInnerProduct.value?.selected !== "0") {
+                if (f.smallBigInnerProduct.value?.selected === "0") {
+                  f.happySadVsSmallBigVisible.set(true);
+                } else {
+                  f.happySadCorrectionVisible.set(true);
+                }
+              }
+            }}
           >
             <HelpButton help={happySadInnerProductHelp} />
           </Continue>
+        </Section>
+
+        <Section commits={[happySadInnerProductCommit, f.moodDisagreeVisible]}>
+          <Help>
+            <Prose>
+              <p>
+                Your answers to the first two questions on this page seem to
+                disagree.
+              </p>
+
+              <p>
+                What’s the relationship between the possible values of a
+                measurement of <M t="\hat{M}" /> and the eigenvalues in the
+                eigen-equations at the top of this page?
+              </p>
+            </Prose>
+          </Help>
+
+          <Continue commit={f.moodDisagreeCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            happySadInnerProductCommit,
+            f.happySadVsSmallBigVisible,
+            isVisible(f.moodDisagreeVisible) && f.moodDisagreeCommit,
+          ]}
+        >
+          <Help>
+            <Prose>
+              On the previous page, you said
+              <M t="\braket{\smalleye}{\wideye} = 0" />. <M t="\ket{\smiley}" />{" "}
+              and <M t="\ket{\frownie}" /> are also orthogonal, so consider
+              checking your answer for <M t="\braket{\smiley}{\frownie}" />.
+            </Prose>
+          </Help>
+
+          <Continue commit={f.happySadVsSmallBigCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            happySadInnerProductCommit,
+            f.happySadCorrectionVisible,
+            isVisible(f.moodDisagreeVisible) && f.moodDisagreeCommit,
+          ]}
+        >
+          <Help>
+            <Prose>
+              <p>
+                <M t="\ket{\smiley}" /> and <M t="\ket{\frownie}" /> are
+                orthogonal, so there inner product (
+                <M t="\braket{\smiley}{\frownie}" prespace={false} />) is zero.
+              </p>
+
+              <p>
+                This is also true for <M t="\ket{\smalleye}" /> and{" "}
+                <M t="\ket{\wideye}" /> from the previous page.
+              </p>
+            </Prose>
+          </Help>
+
+          <Continue commit={f.happySadCorrectionCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            happySadInnerProductCommit,
+            isVisible(f.moodDisagreeVisible) && f.moodDisagreeCommit,
+            isVisible(f.happySadVsSmallBigVisible) &&
+              f.happySadVsSmallBigCommit,
+            isVisible(f.happySadCorrectionVisible) &&
+              f.happySadCorrectionCommit,
+          ]}
+        >
+          <ContinueToNextPart
+            link="../superpositions"
+            commit={f.moodFinalCommit}
+          />
         </Section>
       </Content>
     </Part>

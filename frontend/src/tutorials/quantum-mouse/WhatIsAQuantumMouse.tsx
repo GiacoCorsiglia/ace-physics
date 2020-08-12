@@ -1,6 +1,13 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, Help, HelpButton, Prose, Section } from "src/components";
+import {
+  Continue,
+  ContinueToNextPart,
+  Help,
+  HelpButton,
+  Prose,
+  Section,
+} from "src/components";
 import {
   Choice,
   FieldGroup,
@@ -307,19 +314,9 @@ export default function WhatIsAQuantumMouse() {
             sizeEigenvaluesCheckVisible.value && sizeEigenvaluesCheckCommit,
           ]}
         >
-          <Prose>
-            Cool! We encourage you to continue to think about these concepts and
-            chat with your professor, TA, or classmates.{" "}
-            <strong className="text-blue">
-              This isn’t about being “right” or “wrong,” and we haven‘t
-              “checked” all your answers.
-            </strong>
-          </Prose>
-
-          <Continue
+          <ContinueToNextPart
             link="../quantum-mood"
             commit={whatIsAMouseFinalCommit}
-            label="Move on to the next page"
           />
         </Section>
       </Content>
