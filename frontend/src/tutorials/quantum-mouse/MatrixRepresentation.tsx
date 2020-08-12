@@ -16,8 +16,8 @@ import { Part } from "src/tutorials/shared";
 
 export default function MatrixRepresentation() {
   const {
-    happyVector,
-    sadVector,
+    /*happyVector,
+    sadVector,*/
     moodVectorsCommit,
 
     smallVector,
@@ -62,14 +62,26 @@ export default function MatrixRepresentation() {
 
           <Prose>
             <p>
-              Let’s choose mood eigenstates to be our “basis.” (We are working
+              Let’s choose mood eigenstates to be our “basis.”{" "}
+              {/*(We are working
               in the “mood basis” throughout this page and the rest of the
-              Tutorial.)
+              Tutorial.)*/}
             </p>
 
-            <p>What will these eigenstates look like as column vectors?</p>
+            {/*<p>What will these eigenstates look like as column vectors?</p>*/}
+            <p>This means we'll be using the folloing column vectors:</p>
+
+            <M
+              display
+              t="\ket{\smiley} \dot{=}\ \begin{pmatrix} 1 \\ 0 \end{pmatrix}"
+            />
+            <M
+              display
+              t="\ket{\frownie} \dot{=}\ \begin{pmatrix} 0 \\ 1 \end{pmatrix}"
+            />
           </Prose>
 
+          {/*
           <Matrix
             className="margin-top"
             label="A happy mouse,&nbsp;"
@@ -95,10 +107,12 @@ export default function MatrixRepresentation() {
               />
             )}
           />
+            */}
 
           <Continue
             commit={moodVectorsCommit}
-            allowed={isSet(happyVector) && isSet(sadVector)}
+            /*allowed={isSet(happyVector) && isSet(sadVector)}*/
+            label="Let's go!"
           />
         </Section>
 
@@ -136,6 +150,7 @@ export default function MatrixRepresentation() {
             )}
           />
 
+          {/*I think we can forgo hints here. Or you can say something about using our state representations from above*/}
           <Continue
             commit={eyeSizeVectorCommit}
             allowed={isSet(smallVector) && isSet(wideVector)}
@@ -194,10 +209,9 @@ export default function MatrixRepresentation() {
               Do this on scrap paper, but input your results here (as decimals):
             </p>
           </Prose>
-          {/*we can have this be drop down menus with a, b, c, and d as the
-          labels. Unless you can rig up something fancier where they can type
-          numbers in to box in a matrix format on screen. Don't do that if it
-          would take a lot of time*/}
+          {/*I think we already gave the hint in the directions of using the eigenequations. And since there are zeros, this comes out pretty easy
+          Maybe a follow-up: Does the matrix for the mood operator make sense? Why or why not?
+          */}
 
           <Matrix
             className="margin-top"
