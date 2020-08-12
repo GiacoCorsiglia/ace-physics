@@ -119,16 +119,22 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
 
   moodIntroCommit: s.boolean(),
 
-  possibleMoodEigenvalues: s.choice(["1", "-1", "0"] as const, true),
+  possibleMoodEigenvalues: s.choice(
+    ["1", "-1", "0", "happyket", "sadket"] as const,
+    true
+  ),
+  possibleMoodEigenvaluesHelp: s.boolean(),
   possibleMoodEigenvaluesCommit: s.boolean(),
 
   moodEigenvalues: SizeOrMoodChoice,
   moodEigenvectors: SizeOrMoodChoice,
   moodOperators: SizeOrMoodChoice,
+  moodEigenUnitsHelp: s.boolean(),
   moodEigenCommit: s.boolean(),
 
   happySadInnerProduct: s.choice(["0", "1", "complex"] as const),
   happySadInnerProductExplain: s.string(),
+  happySadInnerProductHelp: s.boolean(),
   happySadInnerProductCommit: s.boolean(),
 
   // Superpositions.

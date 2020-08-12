@@ -1,6 +1,6 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, Prose, Section } from "src/components";
+import { Continue, Help, HelpButton, Prose, Section } from "src/components";
 import {
   Choice,
   FieldGroup,
@@ -10,7 +10,7 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, useFields } from "src/state";
+import { isSet, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function QuantumMood() {
@@ -18,15 +18,18 @@ export default function QuantumMood() {
     moodIntroCommit,
 
     possibleMoodEigenvalues,
+    possibleMoodEigenvaluesHelp,
     possibleMoodEigenvaluesCommit,
 
     moodEigenvalues,
     moodEigenvectors,
     moodOperators,
+    moodEigenUnitsHelp,
     moodEigenCommit,
 
     happySadInnerProduct,
     happySadInnerProductExplain,
+    happySadInnerProductHelp,
     happySadInnerProductCommit,
   } = useFields(QuantumMouse);
 
@@ -68,10 +71,28 @@ export default function QuantumMood() {
             }
           />
 
+          {needsHelp(possibleMoodEigenvaluesHelp) && (
+            <Help>
+              <Prose>
+                <p>Of these options, which are values and which are states?</p>
+
+                <p>
+                  The next question might clear this up for you! Consider giving
+                  that a try and then returning to this question.
+                </p>
+              </Prose>
+            </Help>
+          )}
+
           <Continue
             commit={possibleMoodEigenvaluesCommit}
-            allowed={isSet(possibleMoodEigenvalues)}
-          />
+            allowed={
+              isSet(possibleMoodEigenvalues) ||
+              needsHelp(possibleMoodEigenvaluesHelp)
+            }
+          >
+            <HelpButton help={possibleMoodEigenvaluesHelp} />
+          </Continue>
         </Section>
 
         <Section commits={[moodIntroCommit, possibleMoodEigenvaluesCommit]}>
@@ -107,6 +128,14 @@ export default function QuantumMood() {
             />
           </FieldGroup>
 
+          {needsHelp(moodEigenUnitsHelp) && (
+            <Help>
+              <Prose>
+                Have we actually defined any units for “mood” above?
+              </Prose>
+            </Help>
+          )}
+
           <Continue
             commit={moodEigenCommit}
             allowed={
@@ -114,7 +143,9 @@ export default function QuantumMood() {
               isSet(moodEigenvectors) &&
               isSet(moodOperators)
             }
-          />
+          >
+            <HelpButton help={moodEigenUnitsHelp}>What about units?</HelpButton>
+          </Continue>
         </Section>
 
         <Section
@@ -134,12 +165,25 @@ export default function QuantumMood() {
             <TextArea field={happySadInnerProductExplain} label="Explain:" />
           </FieldGroup>
 
+          {needsHelp(happySadInnerProductHelp) && (
+            <Help>
+              <Prose>
+                You answered a similar question on the previous page. Like in
+                that case, we defined these two states to be “<em>ortho</em>
+                normal.”
+              </Prose>
+            </Help>
+          )}
+
           <Continue
             commit={happySadInnerProductCommit}
+            label="Let’s check in"
             allowed={
               isSet(happySadInnerProduct) && isSet(happySadInnerProductExplain)
             }
-          />
+          >
+            <HelpButton help={happySadInnerProductHelp} />
+          </Continue>
         </Section>
       </Content>
     </Part>
@@ -152,6 +196,8 @@ const possibleMoodEigenvalueChoices: SelectChoices<
   { value: "1", label: <M t="1" /> },
   { value: "-1", label: <M t="-1" /> },
   { value: "0", label: <M t="0" /> },
+  { value: "happyket", label: <M t="\ket{\smiley}" /> },
+  { value: "sadket", label: <M t="\ket{\frownie}" /> },
 ];
 
 const moodChoices: SelectChoices<QuantumMouse["moodEigenvalues"]> = [
