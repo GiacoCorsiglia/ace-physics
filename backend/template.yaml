@@ -1,12 +1,3 @@
-################################################################################
-################################################################################
-#### THIS FILE IS IDENTICAL TO template-production.yaml EXCEPT FOR THE      ####
-#### ApiGatewayApi.DefinitionUri property, which itself points to a         ####
-#### nearly identical swagger-$ENV.yaml file.  This misery is imposed       ####
-#### upon us by the failure of at least one of API Gateway, CloudFormation, ####
-#### or AWS SAM.  All this, just to get CORS working.  Why do I even care?  ####
-################################################################################
-################################################################################
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Parameters:
@@ -34,21 +25,10 @@ Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
-      # Can't interpolate a variable here because at least one of
-      # API Gateway/AWS SAM/Cloudformation is broken.
-      DefinitionUri: swagger-staging.yaml
-      # Can't do this because it breaks CORS:
-      # DefinitionBody:
-      #   Fn::Transform:
-      #     Name: AWS::Include
-      #     Parameters:
-      #       Location: swagger.yaml
       StageName: !Ref Environment
       MinimumCompressionSize: 0
       BinaryMediaTypes:
         - application~1json
-      Variables:
-        BackendFunction: !Ref BackendFunction
 
   #
   # Lambda
@@ -56,8 +36,6 @@ Resources:
   BackendFunction:
     Type: AWS::Serverless::Function
     Properties:
-      # Make sure to update this name in the swagger templates too because AWS
-      # SAM doesn't work.
       FunctionName: !Sub "ACE_${Environment}_Backend"
       Handler: index.handler
       CodeUri: build/

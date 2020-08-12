@@ -22,17 +22,5 @@ export const handler: AWSLambda.APIGatewayProxyHandler = async function handler(
   event,
   context
 ) {
-  const response = await router.route(event);
-
-  const headers = response.headers || {};
-  response.headers = {
-    ...headers,
-    // Needed for CORS
-    "Access-Control-Allow-Headers":
-      "Content-Type,X-Amz-Date,Authorization,X-Api-Key",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "*",
-  };
-
-  return response;
+  return await router.route(event);
 };
