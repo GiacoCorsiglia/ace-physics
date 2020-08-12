@@ -87,3 +87,28 @@ export function arraysEqual(a1?: any[], a2?: any[]): boolean {
 
   return true;
 }
+
+///
+
+export function approxEquals(
+  n1: number | undefined,
+  n2: number | undefined,
+  forgiveness: number = 0.02
+): boolean {
+  if (n1 === undefined || n2 === undefined) {
+    return false;
+  }
+  if (Number.isNaN(n1) || Number.isNaN(n2)) {
+    return false;
+  }
+  return Math.abs(n1 - n2) <= forgiveness;
+}
+
+export function norm(...ns: (number | undefined)[]): number | undefined {
+  const squared = ns.reduce(
+    (norm, n) =>
+      norm === undefined || n === undefined ? undefined : norm + n ** 2,
+    0
+  );
+  return squared === undefined ? undefined : Math.sqrt(squared);
+}
