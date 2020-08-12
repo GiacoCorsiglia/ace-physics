@@ -59,7 +59,7 @@ export function Provider<P extends s.Properties>({
     const fields: Writeable<ProviderFields<P>> = Object.create(null);
     for (const key in schema.properties) {
       if (schema.properties.hasOwnProperty(key)) {
-        fields[key] = Field(schema.properties[key]);
+        fields[key] = Field(key, schema.properties[key]);
         if (initial && initial[key] !== undefined) {
           fields[key].set(initial[key]);
         }
@@ -104,6 +104,7 @@ type Validity =
 type T<S extends s.Schema> = s.TypeOf<S>;
 
 export interface Field<S extends s.Schema> {
+  readonly key: string;
   readonly schema: S;
   readonly value: T<S> | undefined;
   readonly validity: Validity;
@@ -122,12 +123,13 @@ export interface Field<S extends s.Schema> {
     : never;
 }
 
-function Field<S extends s.Schema>(schema: S): Field<S> {
+function Field<S extends s.Schema>(key: string, schema: S): Field<S> {
   type T = s.TypeOf<S>;
 
   const subscribers: Array<FieldSubscriber<T>> = [];
 
   const field: Writeable<Field<S>> = {
+    key,
     schema,
     value: undefined,
     validity: { valid: true },
@@ -179,7 +181,7 @@ function Field<S extends s.Schema>(schema: S): Field<S> {
 
     for (const p in schema.properties) {
       if (schema.properties.hasOwnProperty(p)) {
-        properties[p] = Field(schema.properties[p]);
+        properties[p] = Field(`${key}.${p}`, schema.properties[p]);
         // Make sure that the value of the subField has its source of truth
         // in the parent field.
         Object.defineProperty(properties[p], "value", {
@@ -203,7 +205,7 @@ function Field<S extends s.Schema>(schema: S): Field<S> {
     const tupleLength = tupleElements.length;
 
     field.elements = tupleElements.map((elementSchema, i) => {
-      const elementField = Field(elementSchema);
+      const elementField = Field(`${key}[${i}]`, elementSchema);
 
       // Make sure that the value of the elementField has its source of truth
       // in the parent field.
