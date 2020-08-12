@@ -96,6 +96,11 @@ export default function IntroToExpectationValue() {
                   display
                   t="(\text{outcome 1}) \cdot \text{Prob}(outcome 1) + (\text{outcome 2}) \cdot \text{Prob}(outcome 2)"
                 />
+                because for <em>many</em> measurements the probability is like{" "}
+                <M
+                  display
+                  t="(\text{Number of specific measurements})/(\text{total number})"
+                />
               </Prose>
             </Help>
           )}
@@ -123,6 +128,11 @@ export default function IntroToExpectationValue() {
               </Prose>
             }
           />
+
+          {/*Hmm: What are the options for measurement of eye size? Is the result to your calculation above one of them?
+          ---If students don't use the hint and get this wrong, then this should show up at the end As a "Consider the # question again".
+          Possible question i've asked in class: Is there ever a time when the EV will be a measured Value?
+          */}
 
           <TextArea
             field={expValueMeasurabilityExplain}
@@ -154,7 +164,9 @@ export default function IntroToExpectationValue() {
               </Prose>
             }
           />
-          {/*Maybe a hint with some student discussion/comparisons?*/}
+          {/*Maybe a hint with some student discussion/comparisons?
+          Hint: When we do these calculations, we think about many measurements. What does the equation above, suggest about the likelihood of measuring value 1 and value 2? Is this always the case?
+          */}
           <Continue commit={naiveAvgCommit} />
         </Section>
       </Content>
