@@ -120,10 +120,14 @@ export default function MoreMeasurement() {
 
           {needsHelp(moodStartHelp) && (
             <Help>
-              <Prose>By “ambiguity,” we mean … TODO</Prose>
+              <Prose>
+                By “ambiguity,” we mean how certain or uncertain are we about
+                the state. Your answer may be different for different operators
+              </Prose>
             </Help>
           )}
 
+          {/* Ben added for the ambiguity above. Check to see if it makes sense. I also added some language because of the conversation yesterday */}
           <Continue
             commit={moodStartCommit}
             allowed={isSet(moodStartState) && isSet(moodStartAmbiguity)}
@@ -218,8 +222,7 @@ export default function MoreMeasurement() {
               </li>
             </ol>
           </Prose>
-          {/*I feel like I want this one to be openended/textbox. Or we need to
-          make the optons: only one value vs multiple values*/}
+
           <TextArea
             field={finalMood}
             label={
@@ -229,6 +232,8 @@ export default function MoreMeasurement() {
               </Prose>
             }
           />
+
+          {/*Hint: Recall the equation - give probability equation from above - Think about what state you're starting with at this point in the "chain." The answer might surprise you! */}
           <Continue commit={finalMoodCommit} allowed={isSet(finalMood)} />
         </Section>
 
@@ -248,6 +253,7 @@ export default function MoreMeasurement() {
             }
           />
 
+          {/*I don't think this needs a hint. */}
           <Continue
             commit={surpriseResultCommit}
             allowed={isSet(surpriseResults)}
@@ -290,9 +296,13 @@ export default function MoreMeasurement() {
             label={<Prose>Why or why not?</Prose>}
           />
 
-          {/*I think this question should include some detailed
-          thought from our end and may include a sentence or so from an expert
-          perspective*/}
+          {/*Hint for this question...: Consider the difference between a mixture and a superposition (check your text book). Which are we dealing with here?
+
+          We definitely want some follow up at the end
+          Unfortunately, using the textbox means won't be able to tell if they're right or wrong. Right?
+          Perhaps: Before you move on, make sure you understand the chain of events that happened above
+          It's probably too much to come out and say "You started with mice you were certain were happy. Then found probabilities for mood."
+          */}
 
           <Continue
             commit={thinkingDeeperCommit}
