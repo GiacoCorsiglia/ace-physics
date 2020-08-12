@@ -165,6 +165,18 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   abUniqueHelp: s.boolean(),
   abUniqueCommit: s.boolean(),
 
+  abNotNormalizedVisible: s.boolean(),
+  abNotNormalizedCommit: s.boolean(),
+
+  abIncorrectVisible: s.boolean(),
+  abIncorrectCommit: s.boolean(),
+
+  abAlternativeVisible: s.boolean(),
+  abAlternative: s.choice(["negative", "i", "exp", "none"] as const, true),
+  abAlternativeCommit: s.boolean(),
+
+  superpositionsFinalCommit: s.boolean(),
+
   // Measuring Eye Size.
 
   measuringEyeSizeIntroCommit: s.boolean(),
