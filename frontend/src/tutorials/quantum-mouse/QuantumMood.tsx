@@ -197,7 +197,6 @@ export default function QuantumMood() {
                 ["-1", "1"]
               );
               const valuesCorrect = moodEigenvalues.value?.selected === "value";
-              const vectorsCorrect = moodEigenvalues.value?.selected === "kets";
 
               if (posCorrect !== valuesCorrect) {
                 f.moodDisagreeVisible.set(true);

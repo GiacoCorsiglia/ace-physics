@@ -2,6 +2,7 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import {
   Continue,
+  ContinueToNextPart,
   Help,
   HelpButton,
   Prose,
@@ -9,6 +10,7 @@ import {
   Section,
 } from "src/components";
 import {
+  Choice,
   Decimal,
   FieldGroup,
   SelectChoices,
@@ -17,10 +19,13 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, needsHelp, useFields } from "src/state";
+import { isSet, isVisible, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
+import { approxEquals, norm } from "src/util";
 
 export default function Superpositions() {
+  const f = useFields(QuantumMouse);
+
   const {
     superpositionsIntroCommit,
     whyWideStressed,
@@ -33,7 +38,7 @@ export default function Superpositions() {
     abUnique,
     abUniqueHelp,
     abUniqueCommit,
-  } = useFields(QuantumMouse);
+  } = f;
 
   return (
     <Part label="Superpositions">
@@ -114,6 +119,20 @@ export default function Superpositions() {
 
           <Prose>(You can type them in as decimals.)</Prose>
 
+          {needsHelp(smallEyeBasisChangeHelp) && (
+            <Help>
+              <Prose>
+                <p>
+                  <em>Orthonormality</em> and <em>completeness</em> tell you
+                  that:
+                  <M display t="\braket{\smalleye}{\smalleye} = 1" />
+                  and
+                  <M display t="\braket{\wideye}{\smalleye} = 0" />
+                </p>
+              </Prose>
+            </Help>
+          )}
+
           <Continue
             commit={smallEyeBasisChangeCommit}
             allowed={isSet(smallEyeA) && isSet(smallEyeB)}
@@ -151,9 +170,113 @@ export default function Superpositions() {
             </Help>
           )}
 
-          <Continue commit={abUniqueCommit} allowed={isSet(abUnique)}>
+          <Continue
+            commit={abUniqueCommit}
+            allowed={isSet(abUnique)}
+            label="Let’s check in"
+            onClick={() => {
+              const a = 2 / Math.sqrt(5);
+              const b = -1 / Math.sqrt(5);
+
+              const isNormalized = approxEquals(
+                norm(smallEyeA.value, smallEyeB.value),
+                1
+              );
+
+              const rightRatio = approxEquals(
+                a / b,
+                (smallEyeA.value || NaN) / (smallEyeB.value || NaN)
+              );
+
+              if (isNormalized && rightRatio) {
+                // a & b are correct!
+                f.abAlternativeVisible.set(true);
+              } else if (!isNormalized && rightRatio) {
+                // a & b are not normalized.
+                f.abNotNormalizedVisible.set(true);
+              } else {
+                // Something else is wrong.
+                f.abIncorrectVisible.set(true);
+              }
+            }}
+          >
             <HelpButton help={abUniqueHelp} />
           </Continue>
+        </Section>
+
+        <Section commits={[f.abUniqueCommit, f.abAlternativeVisible]}>
+          <Choice
+            field={f.abAlternative}
+            choices={abAlternativeChoices}
+            label={
+              <Prose>
+                Looks like you got:
+                <M
+                  display
+                  t={`a = ${
+                    f.smallEyeA.value! > 0 ? "+" : "-"
+                  } \\frac{2}{\\sqrt{5}} \\text{ and } b = ${
+                    f.smallEyeB.value! > 0 ? "+" : "-"
+                  } \\frac{1}{\\sqrt{5}}`}
+                />
+                Are any of these options valid answers too? Check ALL that
+                apply.
+              </Prose>
+            }
+          />
+
+          <Continue
+            commit={f.abAlternativeCommit}
+            allowed={isSet(f.abAlternative)}
+          />
+        </Section>
+
+        <Section commits={[f.abUniqueCommit, f.abNotNormalizedVisible]}>
+          <Help>
+            <Prose>
+              The state <M t="\ket{\smalleye}" /> is <em>normalized</em>, so
+              your coefficients should satisfy
+              <M display t="|a|^2 + |b|^2 = 1" />
+              You may want to check up on that before moving on.
+            </Prose>
+          </Help>
+
+          <Continue commit={f.abNotNormalizedCommit} />
+        </Section>
+
+        <Section commits={[f.abUniqueCommit, f.abIncorrectVisible]}>
+          <Help>
+            <Prose>
+              You might want to check up on your coefficients <M t="a" /> and{" "}
+              <M t="b" /> before moving on. You can double check the following
+              relations:
+              <M
+                display
+                t="\braket{\smalleye}{\smalleye} = |a|^2 + |b|^2 = 1"
+              />
+              and
+              <M
+                display
+                t="\braket{\wideye}{\smalleye} = \left(\frac{1}{\sqrt{5}} \bra{\smiley} + \frac{2}{\sqrt{5}} \bra{\frownie}\right) \left(a \ket{\smiley} + b \ket{\frownie}\right) = 0"
+              />
+            </Prose>
+          </Help>
+
+          <Continue commit={f.abIncorrectCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            f.abUniqueCommit,
+            isVisible(f.abAlternativeVisible) && f.abAlternativeCommit,
+            isVisible(f.abNotNormalizedVisible) && f.abNotNormalizedCommit,
+            isVisible(f.abIncorrectVisible) && f.abIncorrectCommit,
+          ]}
+        >
+          <ContinueToNextPart
+            commit={f.superpositionsFinalCommit}
+            link="../measuring-eye-size"
+          />
         </Section>
       </Content>
     </Part>
@@ -169,5 +292,33 @@ const abUniqueChoices: SelectChoices<QuantumMouse["abUnique"]> = [
         They’re <strong className="prose">not</strong> unique
       </>
     ),
+  },
+];
+
+const abAlternativeChoices: SelectChoices<QuantumMouse["abAlternative"]> = [
+  {
+    value: "negative",
+    label: (
+      <M display t="\ket{\smalleye} = -a \ket{\smiley} -b \ket{\frownie}" />
+    ),
+  },
+  {
+    value: "i",
+    label: (
+      <M display t="\ket{\smalleye} = ai \ket{\smiley} + bi \ket{\frownie}" />
+    ),
+  },
+  {
+    value: "exp",
+    label: (
+      <M
+        display
+        t="\ket{\smalleye} = a \e^{i\pi/4} \ket{\smiley} + b \e^{i\pi/4} \ket{\frownie}"
+      />
+    ),
+  },
+  {
+    value: "none",
+    label: "NONE of the above",
   },
 ];
