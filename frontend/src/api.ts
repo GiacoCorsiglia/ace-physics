@@ -2,14 +2,6 @@ import * as apiTypes from "src/common/apiTypes";
 import * as s from "src/common/schema";
 import { AsyncResult, asyncResult, failure, success } from "src/common/util";
 
-const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-const domain =
-  process.env.NODE_ENV === "development"
-    ? "127.0.0.1:4000"
-    : process.env.REACT_APP_ACE_STAGING === "yes"
-    ? "9vugrnkufd.execute-api.us-west-1.amazonaws.com/staging"
-    : "hkl4dcafa7.execute-api.us-west-1.amazonaws.com/production";
-
 // Index.
 
 export const getIndex = endpoint(
@@ -95,7 +87,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     ? () => Promise<AsyncResponse>
     : (request: RequestType) => Promise<AsyncResponse>;
 
-  const href = `${protocol}://${domain}/${path}`;
+  path = `/api/${path}`;
 
   return async function endpoint(request): Promise<AsyncResponse> {
     ////////////////////////////////////////////////////////////////////////////
@@ -105,31 +97,36 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
       process.env.NODE_ENV === "development" &&
       process.env.REACT_APP_ACE_API !== "yes"
     ) {
-      console.log("api: sending MOCK request", href, request);
+      console.log("api: sending MOCK request", path, request);
       return new Promise((resolve) => {
         setTimeout(() => {
           const response = mockResponse(request);
-          console.log("api: received MOCK response", href, response);
+          console.log("api: received MOCK response", path, response);
           resolve(success(response));
         }, 1);
       });
     }
     ////////////////////////////////////////////////////////////////////////////
 
-    const url = new URL(href);
+    const searchParams = new URLSearchParams();
 
     if (method === "GET") {
       for (const key in request) {
         if (request.hasOwnProperty(key)) {
-          url.searchParams.append(key, request[key]);
+          searchParams.append(key, request[key]);
         }
       }
     }
 
-    console.log("api: sending request", href, request);
+    const search = searchParams.toString();
+    if (search) {
+      path += `?${search}`;
+    }
+
+    console.log("api: sending request", path, request);
 
     const result = await asyncResult(
-      fetch(url.href, {
+      fetch(path, {
         method,
         body: method === "GET" ? undefined : JSON.stringify(request),
         headers: {
@@ -139,7 +136,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     );
 
     if (result.failed) {
-      console.error("api: request failed", href, result.error);
+      console.error("api: request failed", path, result.error);
       return failure({ type: "CONNECTION", error: result.error });
     }
 
@@ -148,7 +145,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     const json = await asyncResult(response.json());
 
     if (json.failed) {
-      console.error("api: request with invalid json", href, json.error);
+      console.error("api: request with invalid json", path, json.error);
       return failure({ type: "JSON", error: json.error });
     }
 
@@ -157,12 +154,12 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     // Specific error codes.
 
     if (response.status === 404) {
-      console.error("api: 404 not found", href, body);
+      console.error("api: 404 not found", path, body);
       return failure({ type: 404 });
     }
 
     if (response.status === 500) {
-      console.error("api: 500 server error", href, body);
+      console.error("api: 500 server error", path, body);
       return failure({ type: 500, body });
     }
 
@@ -174,12 +171,12 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
       return failure(error);
     }
 
-    console.log("api: request succeeded", href, body);
+    console.log("api: request succeeded", path, body);
 
     const decoded = responseSchema.decode(body);
 
     if (s.isFailure(decoded)) {
-      console.error("api: invalid response type", href, decoded.errors);
+      console.error("api: invalid response type", path, decoded.errors);
       return failure({ type: "RESPONSE_TYPE", body, errors: decoded.errors });
     }
 
