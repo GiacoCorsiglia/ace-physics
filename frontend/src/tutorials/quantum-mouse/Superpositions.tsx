@@ -86,7 +86,7 @@ export default function Superpositions() {
 
           <Continue
             commit={whyWideStressedCommit}
-            allowed={isSet(whyWideStressed) && whyWideStressed.value.length > 5}
+            allowed={isSet(whyWideStressed)}
           >
             <HelpButton help={whyWideStressedHelp} />
           </Continue>
