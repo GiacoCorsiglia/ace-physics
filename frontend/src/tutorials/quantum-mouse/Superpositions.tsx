@@ -109,7 +109,7 @@ export default function Superpositions() {
           <FieldGroup grid className="margin-top">
             <Decimal label={<M t="a =" />} field={smallEyeA} />
 
-            <Decimal label={<M t="b =" />} field={smallEyeA} />
+            <Decimal label={<M t="b =" />} field={smallEyeB} />
           </FieldGroup>
 
           <Prose>(You can type them in as decimals.)</Prose>
