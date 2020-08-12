@@ -2,6 +2,7 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import {
   Continue,
+  ContinueToNextPart,
   Help,
   HelpButton,
   Prose,
@@ -15,13 +16,17 @@ import {
   Select,
   SelectChoices,
   TextArea,
+  Toggle,
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, needsHelp, useFields } from "src/state";
+import { isSet, isVisible, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
+import { approxEquals } from "src/util";
 
 export default function MeasuringEyeSize() {
+  const f = useFields(QuantumMouse);
+
   const {
     measuringEyeSizeIntroCommit,
     collapsed1mmState,
@@ -40,7 +45,7 @@ export default function MeasuringEyeSize() {
     smallEyedEmotion,
     smallEyedEmotionHelp,
     smallEyedEmotionCommit,
-  } = useFields(QuantumMouse);
+  } = f;
 
   return (
     <Part label="Measuring Eye Size">
@@ -59,8 +64,6 @@ export default function MeasuringEyeSize() {
                 <M t="\hat{M}\ket{\frownie}= -\ket{\frownie}" />
               </p>
 
-              <p>(THIS IS THE ANSWER TO THE PREVIOUS PART:)</p>
-
               <M
                 display
                 t="\ket{\smalleye} = \frac{2}{\sqrt{5}} \ket{\smiley} - \frac{1}{\sqrt{5}} \ket{\frownie}"
@@ -70,6 +73,12 @@ export default function MeasuringEyeSize() {
                 display
                 t="\ket{\wideye} = \frac{1}{\sqrt{5}} \ket{\smiley} + \frac{2}{\sqrt{5}} \ket{\frownie}"
               />
+
+              <p>
+                Above is our answer for <M t="\ket{\smalleye}" /> in the “mood”
+                basis. Yours might differ by a “global phase,” like by an
+                overall minus sign.
+              </p>
             </Prose>
           </Reminder>
 
@@ -103,7 +112,7 @@ export default function MeasuringEyeSize() {
           {needsHelp(collapsed1mmStateHelp) && (
             <Help>
               <Prose>
-                Does it matter that you don't know what state the mouse was in{" "}
+                Does it matter that you don’t know what state the mouse was in{" "}
                 <em>before</em> the measurement?
               </Prose>
             </Help>
@@ -200,7 +209,8 @@ export default function MeasuringEyeSize() {
           <Prose>
             After you make the measurements you made above, what is the
             probability that a subsequent measurement of <M t="\hat{M}" /> will
-            yield a result of <M t="-1" />, i.e., “unhappy”?
+            yield a result of <M t="-1" /> (the eigenvalue corresponding with
+            “unhappy”)?
           </Prose>
 
           <FieldGroup grid className="margin-top">
@@ -227,7 +237,10 @@ export default function MeasuringEyeSize() {
             </Help>
           )}
 
-          <Continue commit={measureUnhappyProbabilityCommit}>
+          <Continue
+            commit={measureUnhappyProbabilityCommit}
+            allowed={isSet(measureUnhappyProbability)}
+          >
             <HelpButton help={measureUnhappyProbabilityHelp} />
           </Continue>
         </Section>
@@ -264,9 +277,149 @@ export default function MeasuringEyeSize() {
             </Help>
           )}
 
-          <Continue commit={smallEyedEmotionCommit}>
+          <Continue
+            commit={smallEyedEmotionCommit}
+            allowed={isSet(smallEyedEmotion)}
+            label="Let’s check in"
+            onClick={() => {
+              if (f.collapsed1mmState.value?.selected !== "1mm") {
+                f.collapsed1mmStateIncorrectVisible.set(true);
+              }
+
+              // We perform this check again below!
+              if (
+                f.collapsed1mmState.value?.selected !==
+                f.remeasure1mmState.value?.selected
+              ) {
+                f.collapsedRemeasuredInconsistentVisible.set(true);
+              }
+
+              if (
+                approxEquals(
+                  f.measureUnhappyProbability.value,
+                  1 / Math.sqrt(5)
+                )
+              ) {
+                f.probabilityNotSquaredVisible.set(true);
+              } else if (f.measureUnhappyProbability.value! < 0) {
+                f.probabilityNegativeVisible.set(true);
+              }
+            }}
+          >
             <HelpButton help={smallEyedEmotionHelp} />
           </Continue>
+        </Section>
+
+        <Section
+          commits={[
+            f.smallEyedEmotionCommit,
+            f.collapsed1mmStateIncorrectVisible,
+          ]}
+        >
+          <Help>
+            <Prose>
+              You may want to take another look the first question on this page.
+            </Prose>
+          </Help>
+
+          <Continue
+            commit={f.collapsed1mmStateIncorrectCommit}
+            onClick={() => {
+              // We perform this check above too!
+              f.collapsedRemeasuredInconsistentVisible.set(
+                f.collapsed1mmState.value?.selected !==
+                  f.remeasure1mmState.value?.selected
+              );
+            }}
+          />
+        </Section>
+
+        <Section
+          commits={[
+            f.smallEyedEmotionCommit,
+            isVisible(f.collapsed1mmStateIncorrectVisible) &&
+              f.collapsed1mmStateIncorrectCommit,
+            f.collapsedRemeasuredInconsistentVisible,
+          ]}
+        >
+          <Toggle
+            field={f.collapsedRemeasuredEffect}
+            choices={collapsedRemeasuredEffectChoices}
+            label={
+              <Prose>
+                Do repeated measurements of the same observable affect the
+                state? That is, if you measure <M t="\hat{M}" />, and then
+                measure <M t="\hat{M}" /> again (without doing anything to the
+                state in between), can you get a different result the second
+                time?
+              </Prose>
+            }
+          />
+
+          <Prose>
+            Make sure your answers to the first two questions on this page are
+            consistent with your answer here!
+          </Prose>
+
+          <Continue
+            commit={f.collapsedRemeasuredInconsistentCommit}
+            allowed={isSet(f.collapsedRemeasuredEffect)}
+          />
+        </Section>
+
+        <Section
+          commits={[
+            f.smallEyedEmotionCommit,
+            isVisible(f.collapsed1mmStateIncorrectVisible) &&
+              f.collapsed1mmStateIncorrectCommit,
+            isVisible(f.collapsedRemeasuredInconsistentVisible) &&
+              f.collapsedRemeasuredInconsistentCommit,
+            f.probabilityNotSquaredVisible,
+          ]}
+        >
+          <Help>
+            <Prose>
+              Don’t forget to square your result for the probability!
+            </Prose>
+          </Help>
+
+          <Continue commit={f.probabilityNotSquaredCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            f.smallEyedEmotionCommit,
+            isVisible(f.collapsed1mmStateIncorrectVisible) &&
+              f.collapsed1mmStateIncorrectCommit,
+            isVisible(f.collapsedRemeasuredInconsistentVisible) &&
+              f.collapsedRemeasuredInconsistentCommit,
+            f.probabilityNegativeVisible,
+          ]}
+        >
+          <Help>
+            <Prose>Probability can’t be negative!</Prose>
+          </Help>
+
+          <Continue commit={f.probabilityNegativeCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            f.smallEyedEmotionCommit,
+            isVisible(f.collapsed1mmStateIncorrectVisible) &&
+              f.collapsed1mmStateIncorrectCommit,
+            isVisible(f.collapsedRemeasuredInconsistentVisible) &&
+              f.collapsedRemeasuredInconsistentCommit,
+            isVisible(f.probabilityNotSquaredVisible) &&
+              f.probabilityNotSquaredCommit,
+            isVisible(f.probabilityNegativeVisible) &&
+              f.probabilityNegativeCommit,
+          ]}
+        >
+          <ContinueToNextPart
+            link="../more-measurements"
+            commit={f.measuringEyeSizeFinalCommit}
+          />
         </Section>
       </Content>
     </Part>
@@ -290,4 +443,11 @@ const remeasure1mmStateChoices: SelectChoices<
   { value: "2mm", label: <M t="\ket{\wideye}" /> },
   { value: "happy", label: <M t="\ket{\smiley}" /> },
   { value: "sad", label: <M t="\ket{\frownie}" /> },
+];
+
+const collapsedRemeasuredEffectChoices: SelectChoices<
+  QuantumMouse["collapsedRemeasuredEffect"]
+> = [
+  { value: "has effect", label: "Yes, it has an effect" },
+  { value: "no effect", label: "No, you’ll definitely get the same result" },
 ];

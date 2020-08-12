@@ -208,6 +208,21 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   smallEyedEmotionHelp: s.boolean(),
   smallEyedEmotionCommit: s.boolean(),
 
+  collapsed1mmStateIncorrectVisible: s.boolean(),
+  collapsed1mmStateIncorrectCommit: s.boolean(),
+
+  collapsedRemeasuredInconsistentVisible: s.boolean(),
+  collapsedRemeasuredEffect: s.choice(["has effect", "no effect"] as const),
+  collapsedRemeasuredInconsistentCommit: s.boolean(),
+
+  probabilityNotSquaredVisible: s.boolean(),
+  probabilityNotSquaredCommit: s.boolean(),
+
+  probabilityNegativeVisible: s.boolean(),
+  probabilityNegativeCommit: s.boolean(),
+
+  measuringEyeSizeFinalCommit: s.boolean(),
+
   // More Measurements.
 
   moreMeasurementsIntroCommit: s.boolean(),
