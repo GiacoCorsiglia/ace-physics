@@ -350,3 +350,7 @@ export function isSet<S extends s.Schema>(
 export function needsHelp(field: Field<s.BooleanSchema>): boolean {
   return !!field.value;
 }
+
+export function isVisible(field: Field<s.BooleanSchema>): boolean {
+  return !!field.value;
+}
