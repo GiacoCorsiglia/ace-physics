@@ -119,7 +119,7 @@ export function fieldToMatrix(
   tupleField: Field<s.TupleSchema<any>>,
   inputEl: React.ReactElement,
   asRow?: typeof fieldToMatrix["Row"]
-) {
+): React.ReactElement[][] {
   return tupleField.elements.map((subField: Field<s.Schema>) => {
     if (s.isTupleSchema(subField.schema)) {
       return fieldToMatrix(
