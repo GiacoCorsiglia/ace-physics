@@ -34,7 +34,22 @@ export default function Pretest() {
       <Content>
         <DisableInputs when={introCommit.value === true}>
           <Section first>
-            <Prose>FRIENDLY PRETEST LANGUAGE HERE.</Prose>
+            <Prose>
+              <p>
+                Here are some quick warm-up questions.{" "}
+                <strong className="text-blue">
+                  If you don’t know all the answers, that’s totally OK.
+                </strong>{" "}
+                Actually, we expect you may not. Today's tutorial will talk
+                about a lot of these concepts!
+              </p>
+
+              <p>
+                <strong className="text-blue">Just do your best!</strong> Answer
+                every question with your best guess, and then move on to the
+                tutorial.
+              </p>
+            </Prose>
 
             <Prose>
               Consider the following two equations:
