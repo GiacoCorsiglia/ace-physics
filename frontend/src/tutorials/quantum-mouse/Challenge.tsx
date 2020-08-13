@@ -1,5 +1,5 @@
 import React from "react";
-import { Prose, Reminder, Section } from "src/components";
+import { Continue, Prose, Reminder, Section } from "src/components";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { Part } from "src/tutorials/shared";
@@ -20,9 +20,13 @@ export default function Challenge() {
                 <br />
                 Sad mice: &nbsp;{" "}
                 <M t="\hat{M}\ket{\frownie}= -\ket{\frownie}" />
-                //ADD MATRIX REP
               </p>
             </Prose>
+
+            <M
+              display
+              t="\hat{M}\ \dot{=}\ \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}"
+            />
             <M
               display
               t="\ket{\smalleye} = \frac{2}{\sqrt{5}} \ket{\smiley} - \frac{1}{\sqrt{5}} \ket{\frownie}"
@@ -34,7 +38,11 @@ export default function Challenge() {
             />
           </Reminder>
           <Prose>
-            <p>If you're interested in some extra practice, check this out!</p>
+            <p>
+              <strong>
+                If you're interested in some extra practice, check this out!
+              </strong>
+            </p>
 
             <p>
               Express the <M t="\hat{S}" /> operator in matrix notation. (This
@@ -42,7 +50,13 @@ export default function Challenge() {
               <M t="\hat{M}" />
               !)
             </p>
-            <p>Start by writing [MATRIX ABCD FOR S]</p>
+            <p>
+              Start by writing
+              <M
+                display
+                t="\hat{S}\ \dot{=}\ \begin{pmatrix} a & b \\ c & d \end{pmatrix}"
+              />
+            </p>
             <p>
               <em>
                 Hint: What does <M t="\hat{S}" /> do to <M t="\ket{\wideye}" />?
@@ -50,7 +64,12 @@ export default function Challenge() {
                 Write these out as matrix equations.
               </em>
             </p>
+
+            <p>
+              <strong>You can also move on and come back later.</strong>
+            </p>
           </Prose>
+          <Continue link="../feedback" label="Move on to the next part" />
         </Section>
       </Content>
     </Part>
