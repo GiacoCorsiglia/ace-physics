@@ -1,6 +1,13 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import { Continue, Prose, Reminder, Section } from "src/components";
+import {
+  Continue,
+  ContinueToNextPart,
+  Help,
+  Prose,
+  Reminder,
+  Section,
+} from "src/components";
 import {
   Decimal,
   FieldGroup,
@@ -11,10 +18,11 @@ import {
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import Matrix, { fieldToMatrix } from "src/components/Matrix";
-import { isSet, useFields } from "src/state";
+import { isSet, isVisible, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function MatrixRepresentation() {
+  const f = useFields(QuantumMouse);
   const {
     /*happyVector,
     sadVector,*/
@@ -30,7 +38,7 @@ export default function MatrixRepresentation() {
 
     moodMatrix,
     moodMatrixCommit,
-  } = useFields(QuantumMouse);
+  } = f;
 
   return (
     <Part label="Connecting to Matrix Representation">
@@ -69,7 +77,7 @@ export default function MatrixRepresentation() {
             </p>
 
             {/*<p>What will these eigenstates look like as column vectors?</p>*/}
-            <p>This means we'll be using the folloing column vectors:</p>
+            <p>This means we’ll be using the following column vectors:</p>
 
             <M
               display
@@ -112,7 +120,7 @@ export default function MatrixRepresentation() {
           <Continue
             commit={moodVectorsCommit}
             /*allowed={isSet(happyVector) && isSet(sadVector)}*/
-            label="Let's go!"
+            label="Let’s go!"
           />
         </Section>
 
@@ -141,7 +149,7 @@ export default function MatrixRepresentation() {
             className="margin-top"
             label="A wide-eyed mouse,&nbsp;"
             labelTex="\ket{\wideye}"
-            column={fieldToMatrix(
+            matrix={fieldToMatrix(
               wideVector,
               <Select
                 field={wideVector.elements[0]}
@@ -161,11 +169,10 @@ export default function MatrixRepresentation() {
           <Prose>
             <p>
               Now we want to find the representation for the <M t="\hat{M}" />{" "}
-              operator. Take some time to work the following out on scrap paper
-              using matrix notation.
+              operator.
             </p>
 
-            <p>But first, let's remind ourselves of some things.</p>
+            <p>But first, let’s remind ourselves of some things.</p>
           </Prose>
 
           <FieldGroup grid className="margin-top">
@@ -222,7 +229,43 @@ export default function MatrixRepresentation() {
             )}
           />
 
-          <Continue commit={moodMatrixCommit} allowed={isSet(moodMatrix)} />
+          <Continue
+            commit={moodMatrixCommit}
+            allowed={isSet(moodMatrix)}
+            onClick={() => {
+              const moodMatrix = f.moodMatrix;
+              if (
+                isSet(moodMatrix) &&
+                (moodMatrix.value[0][1] !== 0 || moodMatrix.value[1][0] !== 0)
+              ) {
+                f.moodMatrixDiagonalVisible.set(true);
+              }
+            }}
+          />
+        </Section>
+
+        <Section commits={[f.moodMatrixCommit, f.moodMatrixDiagonalVisible]}>
+          <Help>
+            <Prose>
+              Hint: You should find that <M t="b = c = 0" />. Give it another
+              go!
+            </Prose>
+          </Help>
+
+          <Continue commit={f.moodMatrixDiagonalCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            f.moodMatrixCommit,
+            isVisible(f.moodMatrixDiagonalVisible) &&
+              f.moodMatrixDiagonalCommit,
+          ]}
+        >
+          <ContinueToNextPart
+            commit={f.matrixRepresentationFinalCommit}
+            link="../intro-to-expectation-value"
+          />
         </Section>
       </Content>
     </Part>

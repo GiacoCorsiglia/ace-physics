@@ -298,6 +298,11 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   ),
   moodMatrixCommit: s.boolean(),
 
+  moodMatrixDiagonalVisible: s.boolean(),
+  moodMatrixDiagonalCommit: s.boolean(),
+
+  matrixRepresentationFinalCommit: s.boolean(),
+
   // Expectation Value.
 
   expValIntroCommit: s.boolean(),
