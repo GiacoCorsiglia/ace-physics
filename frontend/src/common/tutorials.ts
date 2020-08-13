@@ -232,7 +232,7 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
     "large",
     "happy",
     "sad",
-    "ambiguous",
+    "uncertain",
   ] as const),
   moodStartAmbiguity: s.string(),
   moodStartCommit: s.boolean(),
@@ -248,20 +248,35 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
     "1",
   ] as const),
   smallEyeProbExplain: s.string(),
-  smallEyePropHelp: s.boolean(),
+  smallEyeProbHelp: s.boolean(),
 
   smallEyeProbChallengeVisible: s.boolean(),
   smallEyeProbChallengeCommit: s.boolean(),
 
-  finalMoodCommit: s.boolean(),
   finalMood: s.string(),
+  finalMoodCanBeHappy: s.choice(["possible", "impossible"] as const),
+  finalMoodHelp: s.boolean(),
+  finalMoodCommit: s.boolean(),
+
+  finalMoodOtherStudentsVisible: s.boolean(),
+  finalMoodOtherStudents: s.choice([
+    "quantum student",
+    "classical student",
+  ] as const),
+  finalMoodOtherStudentsCommit: s.boolean(),
+
+  finalMoodCorrectionVisible: s.boolean(),
+  finalMoodCorrectionCommit: s.boolean(),
 
   surpriseResultCommit: s.boolean(),
   surpriseResults: s.string(),
 
-  thinkingDeeperCommit: s.boolean(),
   thinkingDeeperAgreement: s.boolean(),
   thinkingDeeperExplain: s.string(),
+  thinkingDeeperHelp: s.boolean(),
+  thinkingDeeperCommit: s.boolean(),
+
+  moreMeasurementsFinalCommit: s.boolean(),
 
   // Matrix Representation.
 

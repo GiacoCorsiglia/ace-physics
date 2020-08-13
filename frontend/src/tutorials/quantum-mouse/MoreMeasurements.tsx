@@ -2,6 +2,7 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import {
   Continue,
+  ContinueToNextPart,
   Help,
   HelpButton,
   Prose,
@@ -17,10 +18,11 @@ import {
 } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { isSet, needsHelp, useFields } from "src/state";
+import { isSet, isVisible, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function MoreMeasurement() {
+  const f = useFields(QuantumMouse);
   const {
     moreMeasurementsIntroCommit,
 
@@ -32,7 +34,7 @@ export default function MoreMeasurement() {
     smallEyeProb,
     smallEyeProbExplain,
     smallEyeProbCommit,
-    smallEyePropHelp,
+    smallEyeProbHelp,
 
     smallEyeProbChallengeVisible,
     smallEyeProbChallengeCommit,
@@ -46,7 +48,7 @@ export default function MoreMeasurement() {
     thinkingDeeperAgreement,
     thinkingDeeperExplain,
     thinkingDeeperCommit,
-  } = useFields(QuantumMouse);
+  } = f;
 
   return (
     <Part label="More Measurements">
@@ -122,7 +124,7 @@ export default function MoreMeasurement() {
             <Help>
               <Prose>
                 By “ambiguity,” we mean how certain or uncertain are we about
-                the state. Your answer may be different for different operators
+                the state. Your answer may be different for different operators.
               </Prose>
             </Help>
           )}
@@ -162,7 +164,7 @@ export default function MoreMeasurement() {
           {/*Hint would suggest that the postulates
           give a formula for probability and possible suggest drawing out the SG
           system. DEFINITELY hint at the flipping of the innerproduct as a subtle question and subsequent directly asking about it*/}
-          {needsHelp(smallEyePropHelp) && (
+          {needsHelp(f.smallEyeProbHelp) && (
             <Help>
               <Prose>
                 There’s a formula you can find to calculate this probability.
@@ -183,7 +185,7 @@ export default function MoreMeasurement() {
             }}
             allowed={isSet(smallEyeProb) && isSet(smallEyeProbExplain)}
           >
-            <HelpButton help={smallEyePropHelp} />
+            <HelpButton help={smallEyeProbHelp} />
           </Continue>
         </Section>
 
@@ -201,7 +203,8 @@ export default function MoreMeasurement() {
         <Section
           commits={[
             smallEyeProbCommit,
-            smallEyeProbChallengeVisible.value && smallEyeProbChallengeCommit,
+            isVisible(smallEyeProbChallengeVisible) &&
+              smallEyeProbChallengeCommit,
           ]}
         >
           <Prose>
@@ -233,12 +236,108 @@ export default function MoreMeasurement() {
             }
           />
 
-          {/*Hint: Recall the equation - give probability equation from above - Think about what state you're starting with at this point in the "chain." The answer might surprise you! */}
-          <Continue commit={finalMoodCommit} allowed={isSet(finalMood)} />
+          <Toggle
+            field={f.finalMoodCanBeHappy}
+            choices={finalMoodCanBeHappyChoices}
+            label={
+              <Prose>
+                True or false: at this point, it’s possible to get a result of{" "}
+                <M t="+1" /> for the mouse’s mood.
+              </Prose>
+            }
+          />
+
+          {needsHelp(f.finalMoodHelp) && (
+            <Help>
+              <Prose>
+                Recall the equation for probability looks like:
+                <M
+                  display
+                  t="|\braket{\text{something}}{\text{something else}}|^2"
+                />
+                Think about what state you‘re starting with at this point in the
+                “chain.” The answer might surprise you!
+              </Prose>
+            </Help>
+          )}
+
+          <Continue
+            commit={finalMoodCommit}
+            allowed={isSet(finalMood) && isSet(f.finalMoodCanBeHappy)}
+            label="Let’s check in"
+            onClick={() => {
+              if (f.finalMoodCanBeHappy.value?.selected !== "possible") {
+                f.finalMoodOtherStudentsVisible.set(true);
+              }
+            }}
+          >
+            <HelpButton help={f.finalMoodHelp} />
+          </Continue>
+        </Section>
+
+        <Section commits={[f.finalMoodCommit, f.finalMoodOtherStudentsVisible]}>
+          <Prose>
+            Above, you said that, after measuring <M t="\hat{S}" />, it would
+            still be impossible to obtain a result of <M t="+1" /> for a
+            measurement of “mood.” Let’s think about this some more.
+          </Prose>
+
+          <Choice
+            field={f.finalMoodOtherStudents}
+            choices={finalMoodOtherStudentsChoices}
+            allowOther={false}
+            label={
+              <Prose>
+                Consider two other students’ ideas. With whom do you agree more?
+              </Prose>
+            }
+          />
+
+          <Continue
+            commit={f.finalMoodOtherStudentsCommit}
+            allowed={isSet(f.finalMoodOtherStudents)}
+            onClick={() => {
+              if (
+                f.finalMoodOtherStudents.value?.selected === "classical student"
+              ) {
+                f.finalMoodCorrectionVisible.set(true);
+              }
+            }}
+          />
         </Section>
 
         <Section
-          commits={[moodStartCommit, smallEyeProbCommit, finalMoodCommit]}
+          commits={[
+            f.finalMoodOtherStudentsCommit,
+            f.finalMoodCorrectionVisible,
+          ]}
+        >
+          <Help>
+            <Prose>
+              <p>Actually, Student B is more on the right track.</p>
+
+              <p>
+                Measuring the mouse’s eye size destroys the information about
+                it’s mood. After measuring eye size, we can no longer be certain
+                that the mouse is “unhappy.” Eye size and mood are examples of
+                “incompatible” quantum observables.
+              </p>
+
+              <p>It’s understandable if you find this unexpected!</p>
+            </Prose>
+          </Help>
+
+          <Continue commit={f.finalMoodCorrectionCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            f.finalMoodCommit,
+            isVisible(f.finalMoodOtherStudentsVisible) &&
+              f.finalMoodOtherStudentsCommit,
+            isVisible(f.finalMoodCorrectionVisible) &&
+              f.finalMoodCorrectionCommit,
+          ]}
         >
           <TextArea
             field={surpriseResults}
@@ -253,21 +352,13 @@ export default function MoreMeasurement() {
             }
           />
 
-          {/*I don't think this needs a hint. */}
           <Continue
             commit={surpriseResultCommit}
             allowed={isSet(surpriseResults)}
           />
         </Section>
 
-        <Section
-          commits={[
-            moodStartCommit,
-            smallEyeProbCommit,
-            finalMoodCommit,
-            surpriseResultCommit,
-          ]}
-        >
+        <Section commits={[f.surpriseResultCommit]}>
           <Prose>
             <p>
               <strong>Thinking deeper:</strong>
@@ -296,19 +387,29 @@ export default function MoreMeasurement() {
             label={<Prose>Why or why not?</Prose>}
           />
 
-          {/*Hint for this question...: Consider the difference between a mixture and a superposition (check your text book). Which are we dealing with here?
-
-          We definitely want some follow up at the end
-          Unfortunately, using the textbox means won't be able to tell if they're right or wrong. Right?
-          Perhaps: Before you move on, make sure you understand the chain of events that happened above
-          It's probably too much to come out and say "You started with mice you were certain were happy. Then found probabilities for mood."
-          */}
+          {needsHelp(f.thinkingDeeperHelp) && (
+            <Help>
+              <Prose>
+                Consider the difference between a mixture and a superposition
+                (check your notes or textbook). Which are we dealing with here?
+              </Prose>
+            </Help>
+          )}
 
           <Continue
             commit={thinkingDeeperCommit}
             allowed={
               isSet(thinkingDeeperAgreement) && isSet(thinkingDeeperExplain)
             }
+          >
+            <HelpButton help={f.thinkingDeeperHelp} />
+          </Continue>
+        </Section>
+
+        <Section commits={[f.thinkingDeeperCommit]}>
+          <ContinueToNextPart
+            link="../matrix-representations"
+            commit={f.moreMeasurementsFinalCommit}
           />
         </Section>
       </Content>
@@ -321,7 +422,7 @@ const moodStartStateChoices: SelectChoices<QuantumMouse["moodStartState"]> = [
   { value: "large", label: <M t="\ket{\wideye}" /> },
   { value: "happy", label: <M t="\ket{\smiley}" /> },
   { value: "sad", label: <M t="\ket{\frownie}" /> },
-  { value: "ambiguous", label: "It’s ambiguous! We can’t be certain." },
+  { value: "uncertain", label: "We can’t be certain." },
 ];
 
 const smallEyeProbChoices: SelectChoices<QuantumMouse["smallEyeProb"]> = [
@@ -330,4 +431,46 @@ const smallEyeProbChoices: SelectChoices<QuantumMouse["smallEyeProb"]> = [
   { value: "1/5", label: <M t="1/5" /> },
   { value: "2/root5", label: <M t="2/ \sqrt{5}" /> },
   { value: "4/5", label: <M t="4/5" /> },
+];
+
+const finalMoodCanBeHappyChoices: SelectChoices<
+  QuantumMouse["finalMoodCanBeHappy"]
+> = [
+  { value: "possible", label: "True, it is possible" },
+  { value: "impossible", label: "False, it isn’t possible" },
+];
+
+const finalMoodOtherStudentsChoices: SelectChoices<
+  QuantumMouse["finalMoodOtherStudents"]
+> = [
+  {
+    value: "classical student",
+    label: (
+      <Prose noMargin>
+        <strong>Student A:</strong>
+        <br />
+        <em>
+          Before we measured eye size, we already knew the mouse was unhappy
+          (because we got the <M t="-1" /> eigenvalue). Why would measuring its
+          eye size affect the mouse’s mood? Even after we measure eye size, we
+          know the mouse will still be unhappy!
+        </em>
+      </Prose>
+    ),
+  },
+  {
+    value: "quantum student",
+    label: (
+      <Prose noMargin>
+        <strong>Student B:</strong>
+        <br />
+        <em>
+          At first, we do know that the mouse is unhappy. But then we measure
+          the mouse’s eye size. After we make that measurement, we now know it’s
+          eye size for sure. But we can no longer be certain about the mood! Eye
+          size and mood are incompatible.
+        </em>
+      </Prose>
+    ),
+  },
 ];
