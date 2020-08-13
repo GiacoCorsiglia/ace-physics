@@ -127,6 +127,8 @@ export function Continue({
   );
 }
 
+const exclamations = ["Cool!", "Rad!", "Nifty!", "Sweet!", "Neat!"];
+
 export function ContinueToNextPart({
   link,
   commit,
@@ -134,11 +136,15 @@ export function ContinueToNextPart({
   link: string;
   commit: Field<s.BooleanSchema>;
 }) {
+  const randomExplanation = useRef(
+    exclamations[Math.floor(Math.random() * exclamations.length)]
+  );
+
   return (
     <>
       <Prose>
-        Cool! We encourage you to continue to think about these concepts and
-        chat with your professor, TA, or classmates.{" "}
+        {randomExplanation.current} We encourage you to continue to think about
+        these concepts and chat with your professor, TA, or classmates.{" "}
         <strong className="text-blue">
           This isn’t about being “right” or “wrong,” and we haven‘t “checked”
           all your answers.
