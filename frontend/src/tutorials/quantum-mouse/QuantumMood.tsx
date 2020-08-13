@@ -54,7 +54,7 @@ export default function QuantumMood() {
               Hermitian. The corresponding physical measurement is “look at the
               mouse's expression,” yielding either a smile
               <M t="(\text{mood} = +1)" /> or frown
-              <M t="(\text{mood} = -1)" />. Yes, we are using cat faces.
+              <M t="(\text{mood} = -1)" />.
             </p>
 
             <p className="text-center">
