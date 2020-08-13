@@ -321,9 +321,17 @@ export function WithField<P extends s.Properties, K extends keyof P>({
   return <>{children(field)}</>;
 }
 
+type NonEmpty<T> = T extends null | undefined
+  ? never
+  : T extends Array<any>
+  ? {
+      [K in keyof T]: NonEmpty<T[K]>;
+    }
+  : T;
+
 export function isSet<S extends s.Schema>(
   field: Field<S>
-): field is Field<S> & { value: NonNullable<Field<S>["value"]> } {
+): field is Omit<Field<S>, "value"> & { value: NonEmpty<Field<S>["value"]> } {
   const value = field.value;
 
   if (value === undefined) {
