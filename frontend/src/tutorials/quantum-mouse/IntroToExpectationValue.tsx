@@ -2,6 +2,7 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import {
   Continue,
+  ContinueToNextPart,
   Help,
   HelpButton,
   Prose,
@@ -21,6 +22,7 @@ import { isSet, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
 export default function IntroToExpectationValue() {
+  const f = useFields(QuantumMouse);
   const {
     expValIntroCommit,
 
@@ -33,8 +35,7 @@ export default function IntroToExpectationValue() {
     expValueMeasurabilityCommit,
 
     naiveAvg,
-    naiveAvgCommit,
-  } = useFields(QuantumMouse);
+  } = f;
 
   return (
     <Part label="Introducing the Expectation Value">
@@ -129,8 +130,7 @@ export default function IntroToExpectationValue() {
             }
           />
 
-          {/*Hmm: What are the options for measurement of eye size? Is the result to your calculation above one of them?
-          ---If students don't use the hint and get this wrong, then this should show up at the end As a "Consider the # question again".
+          {/*
           Possible question i've asked in class: Is there ever a time when the EV will be a measured Value?
           */}
 
@@ -139,7 +139,21 @@ export default function IntroToExpectationValue() {
             label={<Prose>Why or why not?</Prose>}
           />
 
-          <Continue commit={expValueMeasurabilityCommit} />
+          {needsHelp(f.expValueMeasurabilityHelp) && (
+            <Help>
+              <Prose>
+                What are the options for measurement of eye size? Is the result
+                to your calculation above one of them?
+              </Prose>
+            </Help>
+          )}
+
+          <Continue
+            commit={expValueMeasurabilityCommit}
+            allowed={isSet(f.expValueMeasurability)}
+          >
+            <HelpButton help={f.expValueMeasurabilityHelp} />
+          </Continue>
         </Section>
 
         <Section commits={[weightedAverageCommit, expValueMeasurabilityCommit]}>
@@ -165,9 +179,55 @@ export default function IntroToExpectationValue() {
             }
           />
           {/*Maybe a hint with some student discussion/comparisons?
-          Hint: When we do these calculations, we think about many measurements. What does the equation above, suggest about the likelihood of measuring value 1 and value 2? Is this always the case?
-          */}
-          <Continue commit={naiveAvgCommit} />
+           */}
+
+          {needsHelp(f.naiveAvgHelp) && (
+            <Help>
+              <Prose>
+                When we do these calculations, we think about many measurements.
+                What does the equation above suggest about the likelihood of
+                measuring value 1 and value 2? Is this always the case?
+              </Prose>
+            </Help>
+          )}
+
+          <Continue
+            commit={f.naiveAvgCommit}
+            allowed={isSet(f.naiveAvg)}
+            onClick={() => {
+              if (f.expValueMeasurability.value?.selected === "Yes") {
+                f.expValMeasurabilityCorrectionVisible.set(true);
+              }
+            }}
+          >
+            <HelpButton help={f.naiveAvgHelp} />
+          </Continue>
+        </Section>
+
+        <Section
+          commits={[f.naiveAvgCommit, f.expValMeasurabilityCorrectionVisible]}
+        >
+          <Help>
+            <Prose>
+              You may want to scroll up and reconsider the second question on
+              this page.
+            </Prose>
+          </Help>
+
+          <Continue commit={f.expValMeasurabilityCorrectionCommit} />
+        </Section>
+
+        <Section
+          commits={[
+            f.naiveAvgCommit,
+            isSet(f.expValMeasurabilityCorrectionVisible) &&
+              f.expValMeasurabilityCorrectionCommit,
+          ]}
+        >
+          <ContinueToNextPart
+            link="../challenge"
+            commit={f.expValFinalCommit}
+          />
         </Section>
       </Content>
     </Part>

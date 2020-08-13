@@ -311,13 +311,19 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   weightedAverageHelp: s.boolean(),
   weightedAverageCommit: s.boolean(),
 
-  expValueMeasurabilityCommit: s.boolean(),
   expValueMeasurability: s.choice(["Yes", "No"] as const),
   expValueMeasurabilityExplain: s.string(),
-  //I know you don't have to do it this way
+  expValueMeasurabilityHelp: s.boolean(),
+  expValueMeasurabilityCommit: s.boolean(),
 
-  naiveAvgCommit: s.boolean(),
   naiveAvg: s.string(),
+  naiveAvgHelp: s.boolean(),
+  naiveAvgCommit: s.boolean(),
+
+  expValMeasurabilityCorrectionVisible: s.boolean(),
+  expValMeasurabilityCorrectionCommit: s.boolean(),
+
+  expValFinalCommit: s.boolean(),
 });
 
 ////////////////////////////////////////////////////////////////////////////////
