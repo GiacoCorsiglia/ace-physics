@@ -27,7 +27,7 @@ export default function Select<
   ...props
 }: {
   field: Field<s.ChoiceSchema<C, M, string>>;
-  choices: Array<{
+  choices: ReadonlyArray<{
     value: C[number];
     label: React.ReactNode;
   }>;
