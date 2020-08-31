@@ -331,6 +331,14 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
 ////////////////////////////////////////////////////////////////////////////////
 
 const Point2D = s.tuple(s.number(), s.number());
+const uColumnDiracChoice = s.choice([
+  "|i>",
+  "|j>",
+  "<i|u>",
+  "<j|u>",
+  "<u|i>",
+  "<u|j>",
+] as const);
 const PointLabel2D = s.tuple(s.string(), s.string());
 
 const PlusMinus = s.record({
@@ -348,16 +356,23 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   probability: PlusMinus,
   probabilityAmplitude: PlusMinus,
 
-  // Part 2.
-  basisRequirements: s.string(),
+  // Defining a Basis.
+  definingBasisIntroCommit: s.boolean(),
+
   iAndJFormBasis: s.boolean(),
   iAndJFormBasisExplain: s.string(),
+  iAndJFormBasisCommit: s.boolean(),
 
   uPlotPoint: Point2D,
+  uPlotPointCommit: s.boolean(),
+
   uPlotLabels: PointLabel2D, // TODO: Restrict to inputs?
 
   uColumn: Point2D,
-  uColumnDirac: PointLabel2D,
+  uColumnCommit: s.boolean(),
+
+  uColumnDirac: s.tuple(uColumnDiracChoice, uColumnDiracChoice),
+  uColumnDiracCommit: s.boolean(),
 
   innerProductMeaning: s.string(),
 

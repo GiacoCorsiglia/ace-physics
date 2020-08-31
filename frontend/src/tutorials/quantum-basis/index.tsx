@@ -1,30 +1,21 @@
 import React from "react";
-import { Outlet, Route } from "react-router";
+import { QuantumBasis } from "src/common/tutorials";
+import { Prose } from "src/components";
 import * as urls from "src/urls";
-import Part1 from "./Part1";
-import Part2 from "./Part2";
-import Part3 from "./Part3";
-import Part4 from "./Part4";
+import { tutorialRoute } from "../shared";
+import DefiningBasis from "./DefiningBasis";
 
-export const route = (
-  <Route
-    path={urls.Tutorials.QuantumBasis.path}
-    element={<QuantumBasisTutorial />}
-  >
-    <Route path="/" element={<div>Index</div>} />
-    <Route path="1" element={<Part1 />} />
-    <Route path="2" element={<Part2 />} />
-    <Route path="3" element={<Part3 />} />
-    <Route path="4" element={<Part4 />} />
-  </Route>
-);
-
-function QuantumBasisTutorial() {
-  return (
-    <div>
-      <h1>Visualizing a Vector in a Different Basis</h1>
-
-      <Outlet />
-    </div>
-  );
-}
+export const route = tutorialRoute({
+  url: urls.Tutorials.QuantumBasis,
+  name: "QuantumBasis",
+  schema: QuantumBasis,
+  label: "Visualizing a Vector in a Different Basis",
+  intro: <Prose>Vectors, components, and bases—oh my!</Prose>,
+  parts: [
+    {
+      label: "Defining a Basis",
+      path: "defining-basis",
+      element: <DefiningBasis />,
+    },
+  ],
+});
