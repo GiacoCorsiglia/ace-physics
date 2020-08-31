@@ -33,7 +33,7 @@ export default function Decimal({
 
       <input
         {...props}
-        placeholder={props.placeholder || "Decimal"}
+        placeholder={props.placeholder || "Number"}
         className={classes(
           styles.numberInput,
           [styles.noLabel, !label],
