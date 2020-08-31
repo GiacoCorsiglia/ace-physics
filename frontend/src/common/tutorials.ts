@@ -405,6 +405,8 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   columnSubscriptExplainCommit: s.boolean(),
 
   // Part 4.
+  relatingBasesIntroCommit: s.boolean(),
+
   uAndKGraph: s.record({
     // TODO: restrict to literals, these aren't direc input.
     phase: s.string(), // Is this necessary?
@@ -412,14 +414,22 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
     v1v2: s.string(),
     k: s.string(),
   }),
+  uAndKGraphCommit: s.boolean(),
 
   uAndKRelationship: s.string(),
+  uAndKRelationshipHelp: s.boolean(),
+  uAndKRelationshipCommit: s.boolean(),
 
   meaningOfCoB: s.string(),
+  meaningOfCoBCommit: s.boolean(),
 
   newNameNecessary: s.boolean(),
   newNameNecessaryExplain: s.string(),
+  newNameNecessaryCommit: s.boolean(),
 
   equalityAllowed: s.boolean(),
+  equalityAllowedCommit: s.boolean(),
+
   whyNoSubscriptNeeded: s.string(),
+  whyNoSubscriptNeededCommit: s.boolean(),
 });

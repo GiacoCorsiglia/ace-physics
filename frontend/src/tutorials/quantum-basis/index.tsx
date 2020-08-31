@@ -5,6 +5,7 @@ import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
 import ChangingBasis from "./ChangingBasis";
 import DefiningBasis from "./DefiningBasis";
+import RelatingDifferentBases from "./RelatingDifferentBases";
 
 export const route = tutorialRoute({
   url: urls.Tutorials.QuantumBasis,
@@ -22,6 +23,11 @@ export const route = tutorialRoute({
       label: "Changing Basis",
       path: "changing-basis",
       element: <ChangingBasis />,
+    },
+    {
+      label: "Relating Different Bases",
+      path: "relating-different-bases",
+      element: <RelatingDifferentBases />,
     },
   ],
 });
