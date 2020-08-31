@@ -109,8 +109,8 @@ export default function Pretest() {
           <Section noScroll>
             <Prose>
               Express <M t="\hat{A}" /> in matrix notation for the two-state
-              system (in the <M t="\ket{a_1}" />-
-              <M t="\ket{a_2}" prespace={false} /> basis).
+              system (in the orthonormal <M t="\ket{a_1}" />,
+              <M t="\ket{a_2}" /> basis).
             </Prose>
 
             {/* Freeform! */}
