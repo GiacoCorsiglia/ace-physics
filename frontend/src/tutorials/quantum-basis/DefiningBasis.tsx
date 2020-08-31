@@ -91,11 +91,8 @@ export default function DefiningBasis() {
             className="margin-top"
             labelTex="\ket{u}"
             matrix={fieldToMatrix(
-              f.uColumnDirac,
-              <Select
-                choices={uColumnDiracChoices}
-                field={f.uColumnDirac.elements[0]}
-              />
+              f.uColumn,
+              <Decimal field={f.uColumn.elements[0]} />
             )}
           />
 
@@ -112,8 +109,11 @@ export default function DefiningBasis() {
             className="margin-top"
             labelTex="\ket{u}"
             matrix={fieldToMatrix(
-              f.uColumn,
-              <Decimal field={f.uColumn.elements[0]} />
+              f.uColumnDirac,
+              <Select
+                choices={uColumnDiracChoices}
+                field={f.uColumnDirac.elements[0]}
+              />
             )}
           />
         </Section>
