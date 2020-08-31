@@ -93,34 +93,34 @@ export function Continue({
   OptionalChildren) {
   const globals = useContext(globalParams.Context);
 
-  if (!link && commit && commit.value === true) {
-    return null;
-  }
+  const done = !link && commit && commit.value === true;
 
   if (process.env.NODE_ENV === "development" && globals.unconditionalMoveOn) {
     allowed = true;
   }
 
   return (
-    <Content className={styles.continue}>
-      <Button
-        className={styles.button}
-        link={link}
-        onClick={
-          (commit || onClick) &&
-          (() => {
-            if (commit) {
-              commit.set(true);
-            }
-            if (onClick) {
-              onClick();
-            }
-          })
-        }
-        disabled={!allowed}
-      >
-        {label} {link ? <ArrowRightIcon /> : <ArrowDownIcon />}
-      </Button>
+    <Content className={classes(styles.continue, [styles.done, done])}>
+      {!done && (
+        <Button
+          className={styles.button}
+          link={link}
+          onClick={
+            (commit || onClick) &&
+            (() => {
+              if (commit) {
+                commit.set(true);
+              }
+              if (onClick) {
+                onClick();
+              }
+            })
+          }
+          disabled={!allowed}
+        >
+          {label} {link ? <ArrowRightIcon /> : <ArrowDownIcon />}
+        </Button>
+      )}
 
       {children}
     </Content>
