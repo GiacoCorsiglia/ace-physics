@@ -339,6 +339,14 @@ const uColumnDiracChoice = s.choice([
   "<u|i>",
   "<u|j>",
 ] as const);
+const kColumnDiracChoice = s.choice([
+  "|v1>",
+  "|v2>",
+  "<v1|u>",
+  "<v2|u>",
+  "<i|u>",
+  "<j|u>",
+] as const);
 const PointLabel2D = s.tuple(s.string(), s.string());
 
 const PlusMinus = s.record({
@@ -376,14 +384,25 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 
   innerProductMeaning: s.string(),
 
-  // Part 3.
+  // Changing Basis.
+  changingBasisIntroCommit: s.boolean(),
+
+  changedBasisHelp: s.boolean(),
+  changedBasisCommit: s.boolean(),
+
   kPlotPoint: Point2D,
+  kPlotCommit: s.boolean(),
+
   kPlotLabels: PointLabel2D, // TODO: Restrict to inputs?
 
   kColumn: Point2D,
-  kColumnDirac: PointLabel2D,
+  kColumnCommit: s.boolean(),
+
+  kColumnDirac: s.tuple(kColumnDiracChoice, kColumnDiracChoice),
+  kColumnDiracCommit: s.boolean(),
 
   columnSubscriptExplain: s.string(),
+  columnSubscriptExplainCommit: s.boolean(),
 
   // Part 4.
   uAndKGraph: s.record({

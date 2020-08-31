@@ -3,6 +3,7 @@ import { QuantumBasis } from "src/common/tutorials";
 import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
+import ChangingBasis from "./ChangingBasis";
 import DefiningBasis from "./DefiningBasis";
 
 export const route = tutorialRoute({
@@ -16,6 +17,11 @@ export const route = tutorialRoute({
       label: "Defining a Basis",
       path: "defining-basis",
       element: <DefiningBasis />,
+    },
+    {
+      label: "Changing Basis",
+      path: "changing-basis",
+      element: <ChangingBasis />,
     },
   ],
 });
