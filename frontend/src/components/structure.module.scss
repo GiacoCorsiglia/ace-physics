@@ -23,6 +23,22 @@
   }
 }
 
+.continueNotAllowedMessage {
+  margin-left: auto;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid $grey90;
+  max-width: 17rem;
+  line-height: 1.5rem; // There are 2 lines; this is fine.
+  font-size: $text-small;
+  border-radius: $border-radius;
+  background: $light-blue;
+  opacity: 0.5;
+  text-align: center;
+  color: #000; // Make the text full black since the opacity is light.
+  user-select: none;
+}
+
 .section {
   margin-top: 10rem;
 

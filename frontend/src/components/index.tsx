@@ -100,29 +100,37 @@ export function Continue({
   }
 
   return (
-    <Content className={classes(styles.continue, [styles.done, done])}>
-      {!done && (
-        <Button
-          className={styles.button}
-          link={link}
-          onClick={
-            (commit || onClick) &&
-            (() => {
-              if (commit) {
-                commit.set(true);
-              }
-              if (onClick) {
-                onClick();
-              }
-            })
-          }
-          disabled={!allowed}
-        >
-          {label} {link ? <ArrowRightIcon /> : <ArrowDownIcon />}
-        </Button>
-      )}
+    <Content>
+      <div className={classes(styles.continue, [styles.done, done])}>
+        {!done && (
+          <Button
+            className={styles.button}
+            link={link}
+            onClick={
+              (commit || onClick) &&
+              (() => {
+                if (commit) {
+                  commit.set(true);
+                }
+                if (onClick) {
+                  onClick();
+                }
+              })
+            }
+            disabled={!allowed}
+          >
+            {label} {link ? <ArrowRightIcon /> : <ArrowDownIcon />}
+          </Button>
+        )}
 
-      {children}
+        {children}
+      </div>
+
+      {!allowed && (
+        <p className={styles.continueNotAllowedMessage}>
+          Please respond to every question before moving on.
+        </p>
+      )}
     </Content>
   );
 }
