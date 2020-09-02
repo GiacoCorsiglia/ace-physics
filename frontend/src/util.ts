@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type Dictionary<T> = {
   [key: string]: T;
@@ -111,4 +111,30 @@ export function norm(...ns: (number | undefined)[]): number | undefined {
     0
   );
   return squared === undefined ? undefined : Math.sqrt(squared);
+}
+
+///
+
+export function useToggle<E extends Element = HTMLElement>(
+  initial: boolean = false
+) {
+  const ref = useRef<E>(null);
+  const [toggled, setToggled] = useState(initial);
+
+  useEffect(() => {
+    if (!toggled) {
+      return;
+    }
+
+    function clickHandler(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setToggled(false);
+      }
+    }
+
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
+  }, [toggled]);
+
+  return [toggled, setToggled, ref] as const;
 }
