@@ -175,20 +175,23 @@ export function HelpButton({
   );
 }
 
+type Commit = Field<s.BooleanSchema> | undefined | boolean;
+
 export function Section({
   commits,
   first = false,
   noScroll = false,
   children,
 }: {
-  commits?: (Field<s.BooleanSchema> | undefined | boolean)[];
+  commits?: Commit | Commit[];
   first?: boolean;
   noScroll?: boolean;
 } & Children) {
-  if (
-    commits &&
-    commits.some((commit) => commit && commit !== true && !commit.value)
-  ) {
+  if (commits && Array.isArray(commits)) {
+    if (commits.some((commit) => commit && commit !== true && !commit.value)) {
+      return null;
+    }
+  } else if (commits && commits !== true && !commits.value) {
     return null;
   }
 
