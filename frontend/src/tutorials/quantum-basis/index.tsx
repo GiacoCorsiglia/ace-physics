@@ -5,6 +5,7 @@ import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
 import ChangingBasis from "./ChangingBasis";
 import DefiningBasis from "./DefiningBasis";
+import Pretest from "./Pretest";
 import ProbabilityProjection from "./ProbabilityProjection";
 import RelatingDifferentBases from "./RelatingDifferentBases";
 
@@ -15,6 +16,11 @@ export const route = tutorialRoute({
   label: "Visualizing a Vector in a Different Basis",
   intro: <Prose>Vectors, components, and bases—oh my!</Prose>,
   parts: [
+    {
+      label: "Before you Start",
+      path: "before-you-start",
+      element: <Pretest />,
+    },
     {
       label: "Probability and Projection",
       path: "probability-and-projection",

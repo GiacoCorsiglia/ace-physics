@@ -365,6 +365,23 @@ const PlusMinus = s.record({
 
 export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
 export const QuantumBasis = tutorialSchema("QuantumBasis", {
+  pretest: s.record({
+    meaningOfCoefficients: s.string(),
+    coBExpression: s.choice(
+      [
+        "x-subscripts",
+        "projection (correct)",
+        "probability coefficients",
+        "x<+|+> coefficients",
+        "just inner products",
+      ] as const,
+      true
+    ),
+    changedProbabilities: s.boolean(),
+    cantKnowBothProbabilities: s.boolean(),
+    createdNewState: s.boolean(),
+  }),
+
   // Part 1.
   probabilityProjectionIntroCommit: Commit,
 
