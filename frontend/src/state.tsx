@@ -329,9 +329,17 @@ type NonEmpty<T> = T extends null | undefined
     }
   : T;
 
+type NonEmptyRecord<T> = {
+  [K in keyof T]-?: NonEmpty<T[K]>;
+};
+
 export function isSet<S extends s.Schema>(
   field: Field<S>
-): field is Omit<Field<S>, "value"> & { value: NonEmpty<Field<S>["value"]> } {
+): field is Omit<Field<S>, "value"> & {
+  value: S extends s.RecordSchema<any>
+    ? NonEmptyRecord<Field<S>["value"]>
+    : NonEmpty<Field<S>["value"]>;
+} {
   const value = field.value;
 
   if (value === undefined) {
@@ -350,6 +358,8 @@ export function isSet<S extends s.Schema>(
       return !!value;
     case "tuple":
       return field.elements.every(isSet);
+    case "record":
+      return Object.values(field.properties).every(isSet);
     default:
       return true;
   }
