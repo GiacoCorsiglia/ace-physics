@@ -148,6 +148,14 @@ body {
   }
 }
 
+i {
+  font-style: italic;
+}
+
+b {
+  font-weight: $bold;
+}
+
 // MathJax corrections.
 
 mjx-container[jax="SVG"] {
