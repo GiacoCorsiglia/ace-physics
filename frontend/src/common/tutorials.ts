@@ -367,7 +367,17 @@ export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
 export const QuantumBasis = tutorialSchema("QuantumBasis", {
   // Part 1.
   probabilityProjectionIntroCommit: Commit,
-  meaningOfCoefficients: s.string(),
+
+  meaningOfCoefficients: s.choice(
+    [
+      "normalized",
+      "measurement-outcomes",
+      "probabilities-direct",
+      "probabilities-squared",
+    ] as const,
+    true
+  ),
+  meaningOfCoefficientsCommit: Commit,
 
   probability: PlusMinus,
   probabilityAmplitude: PlusMinus,
