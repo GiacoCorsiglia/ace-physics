@@ -63,13 +63,27 @@ export default function DefiningBasis() {
 
         <Section commits={[f.iAndJFormBasisCommit]}>
           <Prose>
-            Plot the vector
-            <M
-              t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}"
-              display
-            />
-            on the graph below by typing in the coordinates as decimals.
+            <p>
+              Plot the vector
+              <M t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}" />
+              on the graph below by typing in the coordinates as decimals.
+            </p>
+
+            <p>
+              It may help to know that
+              <M t="\frac{1}{\sqrt{5}} \approx 0.447" /> and
+              <M t="\frac{2}{\sqrt{5}} \approx 0.894" />.
+            </p>
           </Prose>
+
+          <Matrix
+            matrix={fieldToMatrix(
+              f.uPlotPoint,
+              <Decimal field={f.uPlotPoint.elements[0]} />,
+              fieldToMatrix.Row
+            )}
+            commas
+          />
 
           <Continue commit={f.uPlotPointCommit} />
         </Section>
