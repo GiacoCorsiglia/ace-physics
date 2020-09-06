@@ -5,3 +5,6 @@
 /build/**/*
 !/build/package.json
 /.aws-sam
+
+# Downloaded data
+/data
