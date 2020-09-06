@@ -9,10 +9,12 @@ export type Writeable<T> = {
 export function classes(
   ...classes: (string | undefined | [string | undefined, boolean | undefined])[]
 ) {
-  return classes
-    .filter((c) => (Array.isArray(c) ? c[1] && !!c[0] : !!c))
-    .map((c) => (Array.isArray(c) ? c[0] : c))
-    .join(" ");
+  return (
+    classes
+      .filter((c) => (Array.isArray(c) ? c[1] && !!c[0] : !!c))
+      .map((c) => (Array.isArray(c) ? c[0] : c))
+      .join(" ") || undefined
+  );
 }
 
 ///
