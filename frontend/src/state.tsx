@@ -8,7 +8,9 @@ import React, {
 import * as s from "./common/schema";
 import { Children, Writeable } from "./util";
 
-// STORE.
+////////////////////////////////////////////////////////////////////////////////
+// Store.
+////////////////////////////////////////////////////////////////////////////////
 
 interface Store<P extends s.Properties> {
   readonly schema: ProviderSchema<P>;
@@ -82,7 +84,9 @@ export function useStore<P extends s.Properties>() {
   return useContext(StoreContext) as Store<P>;
 }
 
-// FIELD.
+////////////////////////////////////////////////////////////////////////////////
+// Field.
+////////////////////////////////////////////////////////////////////////////////
 
 type FieldSubscriber<T> = (
   newValue: T | undefined,
@@ -238,6 +242,10 @@ function Field<S extends s.Schema>(
   return field;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Hooks + Components.
+////////////////////////////////////////////////////////////////////////////////
+
 export function useFields<P extends s.Properties>(
   schema: s.RecordSchema<P>
 ): ProviderFields<P> {
@@ -279,49 +287,25 @@ export function useFields<P extends s.Properties>(
     });
   }
 
-  // Make sure we unsubscribe when the component dismounts.
+  // Make sure we unsubscribe when the component unmounts.
   useEffect(() => unsubscribe.current, []);
 
   return proxy.current;
 }
 
-export function useField<P extends s.Properties, K extends keyof P>(
-  schema: s.RecordSchema<P>,
-  key: K
-): Field<P[K]> {
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
-
-  const store = useStore<P>();
-
-  if (store.schema !== schema) {
-    throw new Error(
-      "The current context is not set up for the Schema you provided." +
-        "\nDid you accidentally pass a Schema for the wrong tutorial?"
-    );
-  }
-
-  const field = store.fields[key];
-
-  useEffect(() => {
-    const unsubscribe = field.subscribe(forceUpdate);
-    return unsubscribe;
-  }, [field]);
-
-  return field;
-}
-
-export function WithField<P extends s.Properties, K extends keyof P>({
+export function WithFields<P extends s.Properties>({
   schema,
-  name,
   children,
 }: {
   schema: s.RecordSchema<P>;
-  name: K;
-  children: (field: Field<P[K]>) => React.ReactNode;
+  children: (fields: ProviderFields<P>) => React.ReactNode;
 }) {
-  const field = useField(schema, name);
-  return <>{children(field)}</>;
+  return <>{children(useFields(schema))}</>;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers.
+////////////////////////////////////////////////////////////////////////////////
 
 type NonEmpty<T> = T extends null | undefined
   ? never
