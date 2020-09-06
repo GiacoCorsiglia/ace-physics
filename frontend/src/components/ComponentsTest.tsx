@@ -19,7 +19,7 @@ import { Column, Content, Page } from "./layout";
 import M from "./M";
 import Matrix from "./Matrix";
 
-export function ComponentsTest() {
+export default function ComponentsTest() {
   return (
     <Page title="Test Page">
       <main>

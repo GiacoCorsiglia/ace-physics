@@ -7,13 +7,13 @@ import {
 import React, { useState } from "react";
 import { Route } from "react-router";
 import Select from "react-select";
-import * as api from "./api";
-import { Prose } from "./components";
-import { Button } from "./components/inputs";
-import inputStyles from "./components/inputs/inputs.module.scss";
-import { Content, Page } from "./components/layout";
-import * as urls from "./urls";
-import { classes } from "./util";
+import * as api from "src/api";
+import { Prose } from "src/components";
+import { Button } from "src/components/inputs";
+import inputStyles from "src/components/inputs/inputs.module.scss";
+import { Content, Page } from "src/components/layout";
+import * as urls from "src/urls";
+import { classes } from "src/util";
 
 export const route = <Route path={urls.Generate.path} element={<Generate />} />;
 
