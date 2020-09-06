@@ -59,11 +59,8 @@ export function Provider<P extends s.Properties>({
     const fields: Writeable<ProviderFields<P>> = Object.create(null);
     for (const key in schema.properties) {
       if (schema.properties.hasOwnProperty(key)) {
-        fields[key] = Field(key, schema.properties[key]);
-        if (initial && initial[key] !== undefined) {
-          fields[key].set(initial[key]);
-        }
-        // Make sure we call `subscribe` after `set`!
+        const value = initial ? initial[key] : undefined;
+        fields[key] = Field(key, schema.properties[key], value as any);
         fields[key].subscribe(changeHandler);
       }
     }
@@ -123,7 +120,11 @@ export interface Field<S extends s.Schema> {
     : never;
 }
 
-function Field<S extends s.Schema>(key: string, schema: S): Field<S> {
+function Field<S extends s.Schema>(
+  key: string,
+  schema: S,
+  initial: s.TypeOf<S> = undefined
+): Field<S> {
   type T = s.TypeOf<S>;
 
   const subscribers: Array<FieldSubscriber<T>> = [];
@@ -131,7 +132,7 @@ function Field<S extends s.Schema>(key: string, schema: S): Field<S> {
   const field: Writeable<Field<S>> = {
     key,
     schema,
-    value: undefined,
+    value: initial,
     validity: { valid: true },
 
     set(newValue: T | undefined) {
@@ -182,6 +183,7 @@ function Field<S extends s.Schema>(key: string, schema: S): Field<S> {
     for (const p in schema.properties) {
       if (schema.properties.hasOwnProperty(p)) {
         properties[p] = Field(`${key}.${p}`, schema.properties[p]);
+
         // Make sure that the value of the subField has its source of truth
         // in the parent field.
         Object.defineProperty(properties[p], "value", {
