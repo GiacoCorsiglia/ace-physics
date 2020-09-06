@@ -111,12 +111,12 @@ export default function M({
     const options = MathJax.getMetricsFor(mathEl);
     options.display = display;
     MathJax.tex2svgPromise(tex, options)
-      .then(function (node: any) {
-        if (!display && prespace) {
+      .then(function (node: HTMLElement) {
+        if (!display && !inSvg && prespace) {
           mathEl.appendChild(space.cloneNode(false));
         }
         mathEl.appendChild(node);
-        if (!display && postspace) {
+        if (!display && !inSvg && postspace) {
           mathEl.appendChild(space.cloneNode(false));
         }
         MathJax.startup.document.clear();
@@ -125,12 +125,29 @@ export default function M({
         if (inSvg) {
           // This won't be null at this point either.
           const foreignObject = foreignObjectRef.current as SVGForeignObjectElement;
-          foreignObject.setAttribute("width", node.offsetWidth);
-          foreignObject.setAttribute("height", node.offsetHeight);
+
+          const offsetWidth = node.offsetWidth;
+          const offsetHeight = node.offsetHeight;
+          foreignObject.setAttribute("width", offsetWidth + "");
+          foreignObject.setAttribute("height", offsetHeight + "");
           foreignObject.setAttribute(
             "transform",
-            transform(relativeTo, offset, node.offsetWidth, node.offsetHeight)
+            transform(relativeTo, offset, offsetWidth, offsetHeight)
           );
+
+          // HACK: Yes, this exactly duplicates the code above.  Why? Because
+          // it's the only way I could get `node.offsetWidth` to be nonzero in
+          // Firefox.  This also appears to fix a weird alignment bug in Chrome.
+          window.requestAnimationFrame(() => {
+            const offsetWidth = node.offsetWidth;
+            const offsetHeight = node.offsetHeight;
+            foreignObject.setAttribute("width", offsetWidth + "");
+            foreignObject.setAttribute("height", offsetHeight + "");
+            foreignObject.setAttribute(
+              "transform",
+              transform(relativeTo, offset, offsetWidth, offsetHeight)
+            );
+          });
         }
       })
       .catch(function (err: any) {
@@ -141,10 +158,7 @@ export default function M({
   if (inSvg) {
     return (
       <foreignObject x={x} y={y} ref={foreignObjectRef}>
-        <span
-          {...{ xmlns: "http://www.w3.org/1999/xhtml" }}
-          ref={mathRef}
-        ></span>
+        <div {...{ xmlns: "http://www.w3.org/1999/xhtml" }} ref={mathRef}></div>
       </foreignObject>
     );
   }
