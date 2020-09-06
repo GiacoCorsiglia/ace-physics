@@ -195,7 +195,12 @@ export function Section({
   first?: boolean;
   noScroll?: boolean;
 } & Children) {
-  if (commits && Array.isArray(commits)) {
+  const globals = useContext(globalParams.Context);
+  if (process.env.NODE_ENV === "development" && globals.showAllSections) {
+    // Skip the other options
+    // Also don't scroll all over the page.
+    noScroll = true;
+  } else if (commits && Array.isArray(commits)) {
     if (commits.some((commit) => commit && commit !== true && !commit.value)) {
       return null;
     }
