@@ -426,6 +426,15 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   changedBasisHelp: Help,
   changedBasisCommit: Commit,
 
+  v1v2AxesAllowed: s.choice(["yes", "no"] as const),
+  v1v2AxesAllowedExplain: s.string(),
+  v1v2AxesAllowedHelp: Help,
+  v1v2AxesAllowedHelp2: Help,
+  v1v2AxesAllowedCommit: Commit,
+
+  v1v2AxesAllowedCorrectionVisible: Visibility,
+  v1v2AxesAllowedCorrectionCommit: Commit,
+
   kPlotPoint: Point2D,
   kPlotCommit: Commit,
 

@@ -2,9 +2,10 @@ import React from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import { Continue, Prose, Section } from "src/components";
 import { Decimal, Select, TextArea, Toggle } from "src/components/inputs";
-import { Content } from "src/components/layout";
+import { Column, Columns, Content } from "src/components/layout";
 import M from "src/components/M";
 import Matrix, { fieldToMatrix } from "src/components/Matrix";
+import { Axes, Plot, Tick, Vector } from "src/components/plots";
 import { isSet, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
@@ -62,30 +63,39 @@ export default function DefiningBasis() {
         </Section>
 
         <Section commits={[f.iAndJFormBasisCommit]}>
-          <Prose>
-            <p>
-              Plot the vector
-              <M t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}" />
-              on the graph below by typing in the coordinates as decimals.
-            </p>
+          <Columns>
+            <Column>
+              <Prose>
+                <p>
+                  Plot the vector
+                  <M t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}" />{" "}
+                  on the graph by typing in the coordinates as decimals.
+                </p>
 
-            <p>
-              It may help to know that
-              <M t="\frac{1}{\sqrt{5}} \approx 0.447" /> and
-              <M t="\frac{2}{\sqrt{5}} \approx 0.894" />.
-            </p>
-          </Prose>
+                <p>
+                  It may help to know that
+                  <M t="\frac{1}{\sqrt{5}} \approx 0.447" /> and
+                  <M t="\frac{2}{\sqrt{5}} \approx 0.894" />.
+                </p>
+              </Prose>
 
-          <Matrix
-            matrix={fieldToMatrix(
-              f.uPlotPoint,
-              <Decimal field={f.uPlotPoint.elements[0]} />,
-              fieldToMatrix.Row
-            )}
-            commas
-          />
+              <Matrix
+                className="margin-top"
+                matrix={fieldToMatrix(
+                  f.uPlotPoint,
+                  <Decimal field={f.uPlotPoint.elements[0]} />,
+                  fieldToMatrix.Row
+                )}
+                commas
+              />
+            </Column>
 
-          <Continue commit={f.uPlotPointCommit} />
+            <Column>
+              <PlotU />
+            </Column>
+          </Columns>
+
+          <Continue commit={f.uPlotPointCommit} allowed={isSet(f.uPlotPoint)} />
         </Section>
 
         <Section commits={[f.uPlotPointCommit]}>
@@ -94,11 +104,11 @@ export default function DefiningBasis() {
               Let’s represent <M t="\ket{u}" /> as a column vector. We’ll do it
               two ways.
             </p>
-
             <p>
               First, express each element in the column vector as a pure
               (decimal) number
             </p>
+            l
           </Prose>
 
           <Matrix
@@ -110,7 +120,7 @@ export default function DefiningBasis() {
             )}
           />
 
-          <Continue commit={f.uColumnCommit} />
+          <Continue commit={f.uColumnCommit} allowed={isSet(f.uColumn)} />
         </Section>
 
         <Section commits={[f.uColumnCommit]}>
@@ -130,6 +140,11 @@ export default function DefiningBasis() {
               />
             )}
           />
+
+          <Continue
+            commit={f.uColumnDiracCommit}
+            allowed={isSet(f.uColumnDirac)}
+          />
         </Section>
       </Content>
     </Part>
@@ -144,3 +159,23 @@ const uColumnDiracChoices = [
   { value: "<u|i>", label: <M t="\braket{u}{i}" /> },
   { value: "<u|j>", label: <M t="\braket{u}{j}" /> },
 ] as const;
+
+function PlotU() {
+  const f = useFields(QuantumBasis);
+
+  const [x, y] = f.uPlotPoint.value || [];
+
+  return (
+    <Plot>
+      <Axes xLabel="\vb{i}" yLabel="\vb{j}" />
+
+      {x !== undefined && <Tick x={x} label={x} />}
+
+      {y !== undefined && <Tick y={y} label={y} />}
+
+      {x !== undefined && y !== undefined && (
+        <Vector x={x} y={y} label="{\color{blue} \ket{u}}" />
+      )}
+    </Plot>
+  );
+}
