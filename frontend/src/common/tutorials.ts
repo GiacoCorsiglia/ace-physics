@@ -23,6 +23,7 @@ function tutorialSchema<P extends s.Properties>(
 
 const Commit = s.boolean();
 const Help = s.boolean();
+const Visibility = s.boolean();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Common properties.
@@ -106,14 +107,14 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   smallBigInnerProductHelp: Help,
   smallBigInnerProductCommit: Commit,
 
-  sizeEigenvaluesCheckVisible: s.boolean(),
+  sizeEigenvaluesCheckVisible: Visibility,
   sizeEigenvaluesCheckCommit: Commit,
 
-  bigBigInnerProductVisible: s.boolean(),
+  bigBigInnerProductVisible: Visibility,
   bigBigInnerProduct: s.choice(["0", "1", "complex"] as const),
   bigBigInnerProductCommit: Commit,
 
-  orthonormalDefinitionVisible: s.boolean(),
+  orthonormalDefinitionVisible: Visibility,
   orthonormalDefinition: s.choice(
     ["orthogonal", "90deg", "0 inner product"] as const,
     true
@@ -144,13 +145,13 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   happySadInnerProductHelp: Help,
   happySadInnerProductCommit: Commit,
 
-  moodDisagreeVisible: s.boolean(),
+  moodDisagreeVisible: Visibility,
   moodDisagreeCommit: Commit,
 
-  happySadVsSmallBigVisible: s.boolean(),
+  happySadVsSmallBigVisible: Visibility,
   happySadVsSmallBigCommit: Commit,
 
-  happySadCorrectionVisible: s.boolean(),
+  happySadCorrectionVisible: Visibility,
   happySadCorrectionCommit: Commit,
 
   moodFinalCommit: Commit,
@@ -172,13 +173,13 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   abUniqueHelp: Help,
   abUniqueCommit: Commit,
 
-  abNotNormalizedVisible: s.boolean(),
+  abNotNormalizedVisible: Visibility,
   abNotNormalizedCommit: Commit,
 
-  abIncorrectVisible: s.boolean(),
+  abIncorrectVisible: Visibility,
   abIncorrectCommit: Commit,
 
-  abAlternativeVisible: s.boolean(),
+  abAlternativeVisible: Visibility,
   abAlternative: s.choice(["negative", "i", "exp", "none"] as const, true),
   abAlternativeCommit: Commit,
 
@@ -215,17 +216,17 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   smallEyedEmotionHelp: Help,
   smallEyedEmotionCommit: Commit,
 
-  collapsed1mmStateIncorrectVisible: s.boolean(),
+  collapsed1mmStateIncorrectVisible: Visibility,
   collapsed1mmStateIncorrectCommit: Commit,
 
-  collapsedRemeasuredInconsistentVisible: s.boolean(),
+  collapsedRemeasuredInconsistentVisible: Visibility,
   collapsedRemeasuredEffect: s.choice(["has effect", "no effect"] as const),
   collapsedRemeasuredInconsistentCommit: Commit,
 
-  probabilityNotSquaredVisible: s.boolean(),
+  probabilityNotSquaredVisible: Visibility,
   probabilityNotSquaredCommit: Commit,
 
-  probabilityNegativeVisible: s.boolean(),
+  probabilityNegativeVisible: Visibility,
   probabilityNegativeCommit: Commit,
 
   measuringEyeSizeFinalCommit: Commit,
@@ -257,7 +258,7 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   smallEyeProbExplain: s.string(),
   smallEyeProbHelp: Help,
 
-  smallEyeProbChallengeVisible: s.boolean(),
+  smallEyeProbChallengeVisible: Visibility,
   smallEyeProbChallengeCommit: Commit,
 
   finalMood: s.string(),
@@ -265,14 +266,14 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   finalMoodHelp: Help,
   finalMoodCommit: Commit,
 
-  finalMoodOtherStudentsVisible: s.boolean(),
+  finalMoodOtherStudentsVisible: Visibility,
   finalMoodOtherStudents: s.choice([
     "quantum student",
     "classical student",
   ] as const),
   finalMoodOtherStudentsCommit: Commit,
 
-  finalMoodCorrectionVisible: s.boolean(),
+  finalMoodCorrectionVisible: Visibility,
   finalMoodCorrectionCommit: Commit,
 
   surpriseResultCommit: Commit,
@@ -305,7 +306,7 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   ),
   moodMatrixCommit: Commit,
 
-  moodMatrixDiagonalVisible: s.boolean(),
+  moodMatrixDiagonalVisible: Visibility,
   moodMatrixDiagonalCommit: Commit,
 
   matrixRepresentationFinalCommit: Commit,
@@ -327,7 +328,7 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
   naiveAvgHelp: Help,
   naiveAvgCommit: Commit,
 
-  expValMeasurabilityCorrectionVisible: s.boolean(),
+  expValMeasurabilityCorrectionVisible: Visibility,
   expValMeasurabilityCorrectionCommit: Commit,
 
   expValFinalCommit: Commit,
