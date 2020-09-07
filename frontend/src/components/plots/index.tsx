@@ -145,6 +145,7 @@ export function Axes({
   yLabel?: string;
 }) {
   const plot = usePlot();
+  const marker = useMarkerId();
 
   const rightEdge = plot.width / 2;
   const leftEdge = -rightEdge;
@@ -153,6 +154,18 @@ export function Axes({
 
   return (
     <>
+      <marker
+        id={marker}
+        viewBox="0 0 10 10"
+        refX="8" // Put the tip of the arrow just at the edge of the axes.
+        refY="5" // Center the arrow on the line.
+        markerWidth="4"
+        markerHeight="4"
+        orient="auto-start-reverse"
+      >
+        <path d="M 0 0 L 10 5 L 0 10 z" fill={color} />
+      </marker>
+
       <line
         x1={leftEdge}
         y1={0}
@@ -160,6 +173,8 @@ export function Axes({
         y2={0}
         stroke={color}
         strokeWidth={axisWidth}
+        markerStart={`url(#${marker})`}
+        markerEnd={`url(#${marker})`}
       ></line>
 
       <line
@@ -169,6 +184,8 @@ export function Axes({
         y2={bottomEdge}
         stroke={color}
         strokeWidth={axisWidth}
+        markerStart={`url(#${marker})`}
+        markerEnd={`url(#${marker})`}
       ></line>
 
       {xLabel && (
