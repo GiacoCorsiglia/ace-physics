@@ -123,6 +123,7 @@ export function Vector({
           inSvg
           x={plot.x(x)}
           y={plot.y(y)}
+          color={color}
           relativeTo={idealRelativeTo(x, y)}
         />
       )}
