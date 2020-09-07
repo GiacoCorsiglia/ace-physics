@@ -92,6 +92,20 @@
   }
 }
 
+.info {
+  border-radius: $border-radius;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background: $light-blue;
+  box-shadow: $box-shadow-border, $box-shadow-light;
+
+  :first-child,
+  .prose :first-child {
+    margin-top: 0;
+  }
+}
+
 /////////////////////////////////////////////
 // DEPRECATED:
 /////////////////////////////////////////////

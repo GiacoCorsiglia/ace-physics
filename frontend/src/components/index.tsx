@@ -52,6 +52,10 @@ export function Help({ children }: Children) {
   return <div className={styles.help}>{children}</div>;
 }
 
+export function Info({ children }: Children) {
+  return <div className={styles.info}>{children}</div>;
+}
+
 export function Reminder({ children }: Children) {
   return (
     <div className={styles.reminder}>
