@@ -67,13 +67,13 @@ function transform(
     case "bottomRight":
       return `translate(${-(width + offset)}, ${-(height + offset)})`;
     case "topCenter":
-      return `translate(${-(width / 2 + offset)}, ${offset})`;
+      return `translate(${-(width / 2)}, ${offset})`;
     case "bottomCenter":
-      return `translate(${-(width / 2 + offset)}, ${-(height + offset)})`;
+      return `translate(${-(width / 2)}, ${-(height + offset)})`;
     case "leftCenter":
-      return `translate(${offset}, ${-(height / 2 + offset)})`;
+      return `translate(${offset}, ${-(height / 2)})`;
     case "rightCenter":
-      return `translate(${-(width + offset)}, ${-(height / 2 + offset)})`;
+      return `translate(${-(width + offset)}, ${-(height / 2)})`;
   }
 }
 
