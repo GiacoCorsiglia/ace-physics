@@ -48,3 +48,23 @@ export function Column<A extends keyof JSX.IntrinsicElements = "div">({
   const As = as as any;
   return <As {...props} />;
 }
+
+export function Columns<A extends keyof JSX.IntrinsicElements = "div">({
+  as = "div" as any,
+  ...props
+}: JSX.IntrinsicElements[A] & {
+  as?: A;
+}) {
+  const As = as as any;
+  return <As className={classes(styles.columns, props.className)} {...props} />;
+}
+
+export function Flex<A extends keyof JSX.IntrinsicElements = "div">({
+  as = "div" as any,
+  ...props
+}: JSX.IntrinsicElements[A] & {
+  as?: A;
+}) {
+  const As = as as any;
+  return <As className={classes(styles.flex, props.className)} {...props} />;
+}
