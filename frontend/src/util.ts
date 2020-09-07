@@ -20,9 +20,10 @@ export function classes(
 ///
 
 export interface Children<T = React.ReactNode> {
-  children: T;
+  children?: T;
 }
 
+/** @deprecated */
 export interface OptionalChildren<T = React.ReactNode> {
   children?: T;
 }
