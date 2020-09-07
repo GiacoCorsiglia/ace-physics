@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo } from "react";
-import { OptionalChildren, useUniqueId } from "src/util";
+import { Children, useUniqueId } from "src/util";
 import M, { idealRelativeTo } from "../M";
 import styles from "./plots.module.scss";
 
@@ -41,7 +41,7 @@ export function Plot({
    * Whether the origin should be centered.
    */
   center?: boolean;
-} & OptionalChildren) {
+} & Children) {
   const context: PlotContext = useMemo(
     () => ({
       width,
