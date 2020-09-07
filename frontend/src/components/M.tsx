@@ -15,6 +15,7 @@ type PropTypes = {
   display?: boolean;
   prespace?: boolean;
   postspace?: boolean;
+  color?: string;
 } & (
   | { inSvg?: false; x?: never; y?: never; relativeTo?: never; offset?: never }
   | { inSvg: true; x: number; y: number; relativeTo?: Corner; offset?: number }
@@ -89,6 +90,7 @@ export default function M({
   offset = 5,
   prespace = true,
   postspace = false, // In case it's followed by punctuation.
+  color,
 }: PropTypes) {
   const foreignObjectRef = useRef<SVGForeignObjectElement>(null);
   const mathRef = useRef<any>(null);
@@ -155,12 +157,18 @@ export default function M({
       });
   }, [tex, isReady, relativeTo, offset, display, inSvg, prespace, postspace]);
 
+  const style = color ? { color } : undefined;
+
   if (inSvg) {
     return (
       <foreignObject x={x} y={y} ref={foreignObjectRef}>
-        <div {...{ xmlns: "http://www.w3.org/1999/xhtml" }} ref={mathRef}></div>
+        <div
+          style={style}
+          {...{ xmlns: "http://www.w3.org/1999/xhtml" }}
+          ref={mathRef}
+        ></div>
       </foreignObject>
     );
   }
-  return <span ref={mathRef}></span>;
+  return <span style={style} ref={mathRef}></span>;
 }
