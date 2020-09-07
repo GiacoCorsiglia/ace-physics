@@ -308,13 +308,13 @@ function PlotK() {
 
   return (
     <Plot>
-      <Axes xLabel="\vb{v1}" yLabel="\vb{v2}" />
+      <Axes xLabel="\vb{v1}" yLabel="\vb{v2}" color="darkgreen" />
 
-      {x !== undefined && <Tick x={x} label={x} />}
+      {x !== undefined && <Tick x={x} label={x} color="red" />}
 
-      {y !== undefined && <Tick y={y} label={y} />}
+      {y !== undefined && <Tick y={y} label={y} color="red" />}
 
-      {x !== undefined && y !== undefined && <Vector x={x} y={y} />}
+      {x !== undefined && y !== undefined && <Vector x={x} y={y} color="red" />}
     </Plot>
   );
 }

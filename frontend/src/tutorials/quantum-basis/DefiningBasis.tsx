@@ -108,7 +108,6 @@ export default function DefiningBasis() {
               First, express each element in the column vector as a pure
               (decimal) number
             </p>
-            l
           </Prose>
 
           <Matrix
@@ -169,12 +168,12 @@ function PlotU() {
     <Plot>
       <Axes xLabel="\vb{i}" yLabel="\vb{j}" />
 
-      {x !== undefined && <Tick x={x} label={x} />}
+      {x !== undefined && <Tick x={x} label={x} color="blue" />}
 
-      {y !== undefined && <Tick y={y} label={y} />}
+      {y !== undefined && <Tick y={y} label={y} color="blue" />}
 
-      {x !== undefined && y !== undefined && (
-        <Vector x={x} y={y} label="{\color{blue} \ket{u}}" />
+      {(x !== undefined || y !== undefined) && (
+        <Vector x={x || 0} y={y || 0} label="\ket{u}" color="blue" />
       )}
     </Plot>
   );

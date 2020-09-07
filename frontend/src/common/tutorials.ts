@@ -453,11 +453,11 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   relatingBasesIntroCommit: Commit,
 
   uAndKGraph: s.record({
-    // TODO: restrict to literals, these aren't direc input.
-    phase: s.string(), // Is this necessary?
-    u: s.string(),
-    v1v2: s.string(),
-    k: s.string(),
+    ij: s.boolean(),
+    u: s.boolean(),
+    v1v2: s.choice(["labels", "vectors"] as const),
+    v1v2Axes: s.boolean(),
+    k: s.choice(["ij", "v1v2"] as const),
   }),
   uAndKGraphCommit: Commit,
 
