@@ -133,7 +133,7 @@ export function Vector({
 
 const axisColor = "#2d2d2d";
 const axisOpacity = 0.4;
-const axisWidth = 2;
+const axisWidth = 1;
 const tickLength = 5;
 
 export function Axes({
@@ -160,8 +160,8 @@ export function Axes({
         viewBox="0 0 10 10"
         refX="8" // Put the tip of the arrow just at the edge of the axes.
         refY="5" // Center the arrow on the line.
-        markerWidth="4"
-        markerHeight="4"
+        markerWidth="6"
+        markerHeight="6"
         orient="auto-start-reverse"
       >
         <path d="M 0 0 L 10 5 L 0 10 z" fill={color} />
