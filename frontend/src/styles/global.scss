@@ -176,6 +176,12 @@ mjx-container[jax="SVG"] {
   }
 }
 
+// HACK: This is required for positioning MathJax inside another <svg>.
+svg mjx-container {
+  /* https://stackoverflow.com/questions/8185845/svg-foreignobject-behaves-as-though-absolutely-positioned-in-webkit-browsers */
+  position: fixed !important;
+}
+
 // Utilities
 
 .text-center {
