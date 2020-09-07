@@ -131,7 +131,8 @@ export function Vector({
   );
 }
 
-const axisColor = "#979797";
+const axisColor = "#2d2d2d";
+const axisOpacity = 0.4;
 const axisWidth = 2;
 const tickLength = 5;
 
@@ -172,6 +173,7 @@ export function Axes({
         x2={rightEdge}
         y2={0}
         stroke={color}
+        opacity={axisOpacity}
         strokeWidth={axisWidth}
         markerStart={`url(#${marker})`}
         markerEnd={`url(#${marker})`}
@@ -183,6 +185,7 @@ export function Axes({
         x2={0}
         y2={bottomEdge}
         stroke={color}
+        opacity={axisOpacity}
         strokeWidth={axisWidth}
         markerStart={`url(#${marker})`}
         markerEnd={`url(#${marker})`}
@@ -191,7 +194,7 @@ export function Axes({
       {xLabel && (
         <M
           t={xLabel}
-          // color={color}
+          color={color}
           inSvg
           x={rightEdge}
           y={0}
@@ -202,7 +205,7 @@ export function Axes({
       {yLabel && (
         <M
           t={yLabel}
-          // color={color}
+          color={color}
           inSvg
           x={0}
           y={topEdge}
