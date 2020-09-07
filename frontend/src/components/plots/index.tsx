@@ -260,3 +260,7 @@ export function Tick({
     </>
   );
 }
+
+export function Rotate({ degrees, children }: { degrees: number } & Children) {
+  return <g transform={`rotate(-${degrees} 0 0)`}>{children}</g>;
+}
