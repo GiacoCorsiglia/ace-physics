@@ -418,7 +418,10 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   uColumnDirac: s.tuple(uColumnDiracChoice, uColumnDiracChoice),
   uColumnDiracCommit: Commit,
 
+  iInnerProductLabel: s.choice(["A", "B", "C"] as const),
+  jInnerProductLabel: s.choice(["A", "B", "C"] as const),
   innerProductMeaning: s.string(),
+  innerProductLabelingCommit: Commit,
 
   // Changing Basis.
   changingBasisIntroCommit: Commit,

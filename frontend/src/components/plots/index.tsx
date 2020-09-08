@@ -2,6 +2,7 @@ import React, { createContext, useContext, useMemo } from "react";
 import { Children, useUniqueId } from "src/util";
 import M, { idealRelativeTo } from "../M";
 import styles from "./plots.module.scss";
+import { Anchor, shift } from "./positioning";
 
 interface PlotContext {
   width: number;
@@ -263,4 +264,51 @@ export function Tick({
 
 export function Rotate({ degrees, children }: { degrees: number } & Children) {
   return <g transform={`rotate(-${degrees} 0 0)`}>{children}</g>;
+}
+
+export function CircleLabel({
+  x,
+  y,
+  label,
+  color = "#333",
+  anchor,
+  offset = 5,
+}: {
+  x: number;
+  y: number;
+  label: string;
+  color?: string;
+  anchor: Anchor;
+  offset?: number;
+}) {
+  const plot = usePlot();
+
+  const [sx, sy] = shift(anchor, offset, 30, 30, true);
+
+  x = plot.x(x) + sx;
+  y = plot.y(y) + sy;
+
+  return (
+    <>
+      <circle
+        cx={x}
+        cy={y}
+        r={15}
+        fill="white"
+        opacity={0.75}
+        stroke={color}
+        strokeWidth={2}
+      />
+
+      <text
+        x={x}
+        y={y}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontWeight="bold"
+      >
+        {label}
+      </text>
+    </>
+  );
 }

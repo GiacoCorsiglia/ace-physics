@@ -1,11 +1,17 @@
 import React from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import { Continue, Prose, Section } from "src/components";
-import { Decimal, Select, TextArea, Toggle } from "src/components/inputs";
+import {
+  Decimal,
+  FieldGroup,
+  Select,
+  TextArea,
+  Toggle,
+} from "src/components/inputs";
 import { Column, Columns, Content } from "src/components/layout";
 import M from "src/components/M";
 import Matrix, { fieldToMatrix } from "src/components/Matrix";
-import { Axes, Plot, Tick, Vector } from "src/components/plots";
+import { Axes, CircleLabel, Plot, Tick, Vector } from "src/components/plots";
 import { isSet, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
@@ -145,6 +151,59 @@ export default function DefiningBasis() {
             allowed={isSet(f.uColumnDirac)}
           />
         </Section>
+
+        <Section>
+          <Columns>
+            <Column>
+              <Prose>
+                <p>
+                  Here’s the graph you created above. Identify the elements in
+                  the graph that you could label with each of the two inner
+                  products from the previous question.
+                </p>
+              </Prose>
+
+              <FieldGroup grid className="margin-top">
+                <Select
+                  field={f.iInnerProductLabel}
+                  choices={innerProductLabelChoices}
+                  label={<M t="\braket{i}{u}" />}
+                  placeholder="should label…"
+                />
+
+                <Select
+                  field={f.jInnerProductLabel}
+                  choices={innerProductLabelChoices}
+                  label={<M t="\braket{j}{u}" />}
+                  placeholder="should label…"
+                />
+              </FieldGroup>
+            </Column>
+
+            <Column>
+              <PlotU withLabels />
+            </Column>
+          </Columns>
+
+          <TextArea
+            field={f.innerProductMeaning}
+            label={
+              <Prose>
+                Discuss a conceptual meaning for these inner products based on
+                the graph
+              </Prose>
+            }
+          />
+
+          <Continue
+            commit={f.innerProductLabelingCommit}
+            allowed={
+              isSet(f.iInnerProductLabel) &&
+              isSet(f.jInnerProductLabel) &&
+              isSet(f.innerProductMeaning)
+            }
+          />
+        </Section>
       </Content>
     </Part>
   );
@@ -159,7 +218,13 @@ const uColumnDiracChoices = [
   { value: "<u|j>", label: <M t="\braket{u}{j}" /> },
 ] as const;
 
-function PlotU() {
+const innerProductLabelChoices = [
+  { value: "A", label: "A" },
+  { value: "B", label: "B" },
+  { value: "C", label: "C" },
+] as const;
+
+function PlotU({ withLabels = false }: { withLabels?: boolean }) {
   const f = useFields(QuantumBasis);
 
   const [x, y] = f.uPlotPoint.value || [];
@@ -174,6 +239,16 @@ function PlotU() {
 
       {(x !== undefined || y !== undefined) && (
         <Vector x={x || 0} y={y || 0} label="\ket{u}" color="blue" />
+      )}
+
+      {withLabels && x !== undefined && y !== undefined && (
+        <>
+          <CircleLabel x={0} y={y} label="A" anchor="rightCenter" offset={25} />
+
+          <CircleLabel x={x} y={y} label="B" anchor="bottomRight" />
+
+          <CircleLabel x={x} y={0} label="C" anchor="topCenter" offset={45} />
+        </>
       )}
     </Plot>
   );
