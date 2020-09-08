@@ -339,7 +339,8 @@ function applyDefaultStyles(
     const inputStyles = inputs && inputs[property];
     outputs[property] =
       inputStyles && defaultStyles
-        ? (styles, state) => inputStyles(defaultStyles(styles, state), state)
+        ? (styles: any, state: any) =>
+            inputStyles(defaultStyles(styles, state), state)
         : defaultStyles || inputStyles;
   }
 
