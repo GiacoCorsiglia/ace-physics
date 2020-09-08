@@ -59,14 +59,14 @@ export default function ProbabilityProjection() {
 }
 
 const meaningOfCoefficientsChoices = [
-  { value: "normalized", label: "They tell you that the state is normalized" },
+  { value: "normalized", label: "They tell you that the state is normalized." },
   {
     value: "measurement-outcomes",
     label: (
       <>
         They are the possible outcomes for measurements of spin along the{" "}
         <i>z</i>
-        -direction
+        -direction.
       </>
     ),
   },
@@ -74,9 +74,8 @@ const meaningOfCoefficientsChoices = [
     value: "probabilities-direct",
     label: (
       <>
-        They <i>are</i> the probabilities for spin measurements along the{" "}
-        <i>z</i>
-        -direction
+        They are the probabilities for spin measurements along the <i>z</i>
+        -direction.
       </>
     ),
   },
@@ -85,7 +84,7 @@ const meaningOfCoefficientsChoices = [
     label: (
       <>
         They give you the probabilities for spin measurements along the <i>z</i>
-        -direction (once you square them)
+        -direction (once you square them).
       </>
     ),
   },
