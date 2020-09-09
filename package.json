@@ -4,6 +4,9 @@
     "backend",
     "frontend"
   ],
+  "scripts": {
+    "start": "yarn workspace ace-frontend run start"
+  },
   "dependencies": {
     "prettier": "^2.0.5",
     "typescript": "^3.8.3"
