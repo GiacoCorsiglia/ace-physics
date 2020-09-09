@@ -465,8 +465,15 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   uAndKGraphCommit: Commit,
 
   uAndKRelationship: s.string(),
+  uAndKRelationshipC: s.choice([
+    "same",
+    "different-bases",
+    "different-coefficients",
+  ] as const),
   uAndKRelationshipHelp: Help,
   uAndKRelationshipCommit: Commit,
+
+  checkInCommit: Commit,
 
   meaningOfCoB: s.string(),
   meaningOfCoBCommit: Commit,

@@ -1,7 +1,13 @@
 import { default as React } from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import { Continue, Help, HelpButton, Prose, Section } from "src/components";
-import { Button, Select, TextArea, Toggle } from "src/components/inputs";
+import {
+  Button,
+  Choice,
+  Select,
+  TextArea,
+  Toggle,
+} from "src/components/inputs";
 import { Column, Columns, Content } from "src/components/layout";
 import M from "src/components/M";
 import { Axes, Plot, Rotate, Tick, Vector } from "src/components/plots";
@@ -68,16 +74,27 @@ export default function RelatingDifferentBases() {
             </Column>
           </Columns>
 
-          <Continue commit={f.uAndKGraphCommit} allowed={isSet(f.uAndKGraph)} />
+          <Continue
+            commit={f.uAndKGraphCommit}
+            allowed={
+              isSet(f.uAndKGraph) && f.uAndKGraph.value?.k?.selected === "v1v2"
+            }
+          />
         </Section>
 
         <Section commits={[f.uAndKGraphCommit]}>
-          <TextArea
-            field={f.uAndKRelationship}
+          <Help>
+            <Prose>Your graph looks good!</Prose>
+          </Help>
+
+          <Choice
+            field={f.uAndKRelationshipC}
+            choices={uAndKRelationshipC}
             label={
               <Prose>
-                What is the relationship between <M t="\ket{u}" /> and
-                <M t="\ket{k}" />? What is the inner product of the two?
+                Based on the graph, what is the relationship between{" "}
+                <M t="\ket{u}" /> and
+                <M t="\ket{k}" />?
               </Prose>
             }
           />
@@ -85,7 +102,8 @@ export default function RelatingDifferentBases() {
           {needsHelp(f.uAndKRelationshipHelp) && (
             <Help>
               <Prose>
-                You probably don’t need to actually calculate the inner product.
+                Other than the different labels, could you distinguish between
+                the two vectors?
               </Prose>
             </Help>
           )}
@@ -96,25 +114,6 @@ export default function RelatingDifferentBases() {
         </Section>
 
         <Section commits={[f.uAndKRelationshipCommit]}>
-          <TextArea
-            field={f.meaningOfCoB}
-            label={
-              <Prose>
-                Using the analogy we’ve created to 2-D spatial vectors, explain
-                what changing the basis means for a given quantum state (in this
-                case <M t="\ket{u}" />
-                ).
-              </Prose>
-            }
-          />
-
-          <Continue
-            commit={f.meaningOfCoBCommit}
-            allowed={isSet(f.meaningOfCoB)}
-          />
-        </Section>
-
-        <Section commits={[f.meaningOfCoBCommit]}>
           <Toggle
             field={f.newNameNecessary}
             label={
@@ -135,10 +134,93 @@ export default function RelatingDifferentBases() {
             label={<Prose>Explain</Prose>}
           />
 
-          <Continue commit={f.newNameNecessaryCommit} />
+          <Continue label="Let’s check in" commit={f.newNameNecessaryCommit} />
         </Section>
 
-        <Section commits={[f.newNameNecessaryCommit]}>
+        <Section commits={f.newNameNecessaryCommit}>
+          {f.uAndKRelationshipC.value?.selected === "same" &&
+            f.newNameNecessary.value === false && (
+              <Help>
+                <Prose>
+                  We agree! Changing basis just changes your representation of a
+                  vector, but it doesn’t change the underlying vector.
+                  Considering that, there’s no reason to give the vector another
+                  name. (Doing so might even be confusing!)
+                </Prose>
+              </Help>
+            )}
+
+          {f.uAndKRelationshipC.value?.selected === "same" &&
+            f.newNameNecessary.value === true && (
+              <Help>
+                <Prose>
+                  <p>
+                    We agree that <M t="\ket{u}" /> and
+                    <M t="\ket{k}" /> are the same vector,{" "}
+                    <M t="\ket{u} = \ket{k}" />!
+                  </p>
+
+                  <p>
+                    Since they’re the same vector, we don’t think the vector
+                    needed a new name. Although you could use the name of the
+                    vector to indicate the basis you’re working in, the
+                    right-hand-side of your equation already tells you this
+                    information. If you write{" "}
+                    <M t="\ket{u} = a\ket{v_1} + b\ket{v_2}" />, you know you’re
+                    working the in the basis of <M t="\ket{v_1}" /> and{" "}
+                    <M t="\ket{v_2}" />
+                  </p>
+                </Prose>
+              </Help>
+            )}
+
+          {f.uAndKRelationshipC.value?.selected !== "same" &&
+            f.newNameNecessary.value === true && (
+              <Help>
+                <Prose>
+                  <p>
+                    Actually, we think that <M t="\ket{u}" /> and
+                    <M t="\ket{k}" /> are the same vector,
+                    <M t="\ket{u} = \ket{k}" />!
+                  </p>
+
+                  <p>
+                    That said, we do agree that IF <M t="\ket{u}" /> and
+                    <M t="\ket{k}" /> were different vectors, it would
+                    definitely make sense for them to have different names.
+                  </p>
+
+                  <p>
+                    Go ahead and change your answers above and scroll back down
+                    to check in again.
+                  </p>
+                </Prose>
+              </Help>
+            )}
+
+          <Continue commit={f.checkInCommit} />
+        </Section>
+
+        <Section commits={[f.newNameNecessaryCommit, f.checkInCommit]}>
+          <TextArea
+            field={f.meaningOfCoB}
+            label={
+              <Prose>
+                Using the analogy we’ve created to 2-D spatial vectors, explain
+                what changing the basis means for a given quantum state (in this
+                case <M t="\ket{u}" />
+                ).
+              </Prose>
+            }
+          />
+
+          <Continue
+            commit={f.meaningOfCoBCommit}
+            allowed={isSet(f.meaningOfCoB)}
+          />
+        </Section>
+
+        <Section commits={[f.newNameNecessaryCommit, f.checkInCommit]}>
           <Toggle
             field={f.equalityAllowed}
             label={
@@ -155,7 +237,7 @@ export default function RelatingDifferentBases() {
           <Continue commit={f.equalityAllowedCommit} />
         </Section>
 
-        <Section commits={[f.equalityAllowedCommit]}>
+        <Section commits={[f.equalityAllowedCommit, f.checkInCommit]}>
           <TextArea
             field={f.whyNoSubscriptNeeded}
             label={
@@ -321,6 +403,24 @@ function PlotOptions() {
           }
         />
       )}
+
+      {graph.k.value?.selected === "ij" && (
+        <Help>
+          <Prose>
+            <p>
+              Does <M t="a" /> represent the component of <M t="\ket{k}" />{" "}
+              along the <M t="\vb{i}" />
+              -axis or along the <M t="\vb{v_1}" />
+              -axis?
+            </p>
+
+            <p>
+              Recall that <M t="a" /> is one of the coefficients you calculated
+              when changing basis on the previous page.
+            </p>
+          </Prose>
+        </Help>
+      )}
     </>
   );
 }
@@ -363,5 +463,19 @@ const finalGraphKChoices = [
         axes.
       </>
     ),
+  },
+] as const;
+
+const uAndKRelationshipC = [
+  { value: "same", label: "They seem to be the same vector!" },
+  {
+    value: "different-bases",
+    label:
+      "They overlap, but they can’t be the same vector because they’re in different bases.",
+  },
+  {
+    value: "different-coefficients",
+    label:
+      "They overlap, but they aren’t the same vector because they have different coefficients.",
   },
 ] as const;
