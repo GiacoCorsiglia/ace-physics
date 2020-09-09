@@ -46,7 +46,7 @@ export default function WrapUp() {
             down a hill.
           </Prose>
 
-          {/*Making everything a text area for easy right now*/}
+          {/*Making everything a text area for easy right now!*/}
 
           <TextArea
             field={positionCoord}
