@@ -8,6 +8,7 @@ import DefiningBasis from "./DefiningBasis";
 import Pretest from "./Pretest";
 import ProbabilityProjection from "./ProbabilityProjection";
 import RelatingDifferentBases from "./RelatingDifferentBases";
+import WrapUp from "./WrapUp";
 
 export const route = tutorialRoute({
   url: urls.Tutorials.QuantumBasis,
@@ -40,6 +41,11 @@ export const route = tutorialRoute({
       label: "Relating Different Bases",
       path: "relating-different-bases",
       element: <RelatingDifferentBases />,
+    },
+    {
+      label: "Wrapping up",
+      path: "WrapUp",
+      element: <WrapUp />,
     },
   ],
 });

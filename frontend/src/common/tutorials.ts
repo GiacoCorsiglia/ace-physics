@@ -477,4 +477,28 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 
   whyNoSubscriptNeeded: s.string(),
   whyNoSubscriptNeededCommit: Commit,
+
+  //Part 5: WrapUp
+  positionCoord: s.string(),
+  positionCoordExplain: s.string(),
+  positionCoordCommit: Commit,
+
+  potentialEnergyCoord: s.string(),
+  potentialEnergyCoordExplain: s.string(),
+  potentialEnergyCoordCommit: Commit,
+  coordChoiceEffect: s.string(),
+  coordChoiceCommit: Commit,
+
+  xBaseRewrite: s.string(),
+  xBasisRewriteNewInfo: s.string(),
+  xBaseRewriteCommit: Commit,
+
+  repX: s.string(),
+  repZ: s.string(),
+  repExplain: s.string(),
+  repCommit: Commit,
+
+  CoBEfect: s.string(),
+  whyCoB: s.string(),
+  whyCoBCommit: Commit,
 });
