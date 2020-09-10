@@ -342,6 +342,7 @@ const Point2D = s.tuple(s.number(), s.number());
 const uColumnDiracChoice = s.choice([
   "|i>",
   "|j>",
+  "|u>",
   "<i|u>",
   "<j|u>",
   "<u|i>",
@@ -407,21 +408,14 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   iAndJFormBasisExplain: s.string(),
   iAndJFormBasisCommit: Commit,
 
-  uPlotPoint: Point2D,
-  uPlotPointCommit: Commit,
-
-  uPlotLabels: PointLabel2D, // TODO: Restrict to inputs?
-
   uColumn: Point2D,
   uColumnCommit: Commit,
 
   uColumnDirac: s.tuple(uColumnDiracChoice, uColumnDiracChoice),
   uColumnDiracCommit: Commit,
 
-  iInnerProductLabel: s.choice(["A", "B", "C"] as const),
-  jInnerProductLabel: s.choice(["A", "B", "C"] as const),
   innerProductMeaning: s.string(),
-  innerProductLabelingCommit: Commit,
+  innerProductMeaningCommit: Commit,
 
   // Changing Basis.
   changingBasisIntroCommit: Commit,

@@ -1,17 +1,11 @@
 import React from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import { Continue, Prose, Section } from "src/components";
-import {
-  Decimal,
-  FieldGroup,
-  Select,
-  TextArea,
-  Toggle,
-} from "src/components/inputs";
+import { Decimal, Select, TextArea, Toggle } from "src/components/inputs";
 import { Column, Columns, Content } from "src/components/layout";
 import M from "src/components/M";
 import Matrix, { fieldToMatrix } from "src/components/Matrix";
-import { Axes, CircleLabel, Plot, Tick, Vector } from "src/components/plots";
+import { Axes, Plot, Tick, Vector } from "src/components/plots";
 import { isSet, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 
@@ -69,82 +63,76 @@ export default function DefiningBasis() {
         </Section>
 
         <Section commits={[f.iAndJFormBasisCommit]}>
-          <Columns>
-            <Column>
-              <Prose>
-                <p>
-                  Plot the vector
-                  <M t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}" />{" "}
-                  on the graph by typing in the coordinates as decimals.
-                </p>
+          <Prose>
+            Consider the vector
+            <M
+              display
+              t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}"
+            />
+            It may help to know that
+            <M t="\frac{1}{\sqrt{5}} \approx 0.447" /> and
+            <M t="\frac{2}{\sqrt{5}} \approx 0.894" />.
+          </Prose>
 
-                <p>
-                  It may help to know that
-                  <M t="\frac{1}{\sqrt{5}} \approx 0.447" /> and
-                  <M t="\frac{2}{\sqrt{5}} \approx 0.894" />.
-                </p>
-              </Prose>
+          <Columns className="margin-top">
+            <Column>
+              <p>
+                Represent <M t="\ket{u}" /> as a column vector, and plot the
+                vector on the graph. You can do both by expressing each element
+                in the column as a decimal number.
+              </p>
 
               <Matrix
                 className="margin-top"
-                matrix={fieldToMatrix(
-                  f.uPlotPoint,
-                  <Decimal field={f.uPlotPoint.elements[0]} />,
-                  fieldToMatrix.Row
-                )}
-                commas
+                labelTex="\ket{u}"
+                column={[
+                  <Decimal
+                    field={f.uColumn.elements[0]}
+                    placeholder="Horizontal"
+                  />,
+                  <Decimal
+                    field={f.uColumn.elements[1]}
+                    placeholder="Vertical"
+                  />,
+                ]}
               />
             </Column>
 
             <Column>
-              <PlotU />
+              <PlotU labels="numbers" />
             </Column>
           </Columns>
-
-          <Continue commit={f.uPlotPointCommit} allowed={isSet(f.uPlotPoint)} />
-        </Section>
-
-        <Section commits={[f.uPlotPointCommit]}>
-          <Prose>
-            <p>
-              Let’s represent <M t="\ket{u}" /> as a column vector. We’ll do it
-              two ways.
-            </p>
-            <p>
-              First, express each element in the column vector as a pure
-              (decimal) number
-            </p>
-          </Prose>
-
-          <Matrix
-            className="margin-top"
-            labelTex="\ket{u}"
-            matrix={fieldToMatrix(
-              f.uColumn,
-              <Decimal field={f.uColumn.elements[0]} />
-            )}
-          />
 
           <Continue commit={f.uColumnCommit} allowed={isSet(f.uColumn)} />
         </Section>
 
         <Section commits={[f.uColumnCommit]}>
-          <Prose>
-            Now express each element in the column vector symbolically as an
-            appropriate expression in Dirac notation.
-          </Prose>
+          <Columns>
+            <Column>
+              <Prose>
+                Now express each element in the column vector symbolically as an
+                appropriate expression in Dirac notation. Make sure you agree
+                with the use of these expressions as labels in the graph as
+                well.
+              </Prose>
 
-          <Matrix
-            className="margin-top"
-            labelTex="\ket{u}"
-            matrix={fieldToMatrix(
-              f.uColumnDirac,
-              <Select
-                choices={uColumnDiracChoices}
-                field={f.uColumnDirac.elements[0]}
+              <Matrix
+                className="margin-top"
+                labelTex="\ket{u}"
+                matrix={fieldToMatrix(
+                  f.uColumnDirac,
+                  <Select
+                    choices={uColumnDiracChoices}
+                    field={f.uColumnDirac.elements[0]}
+                  />
+                )}
               />
-            )}
-          />
+            </Column>
+
+            <Column>
+              <PlotU labels="dirac" />
+            </Column>
+          </Columns>
 
           <Continue
             commit={f.uColumnDiracCommit}
@@ -152,56 +140,20 @@ export default function DefiningBasis() {
           />
         </Section>
 
-        <Section>
-          <Columns>
-            <Column>
-              <Prose>
-                <p>
-                  Here’s the graph you created above. Identify the elements in
-                  the graph that you could label with each of the two inner
-                  products from the previous question.
-                </p>
-              </Prose>
-
-              <FieldGroup grid className="margin-top">
-                <Select
-                  field={f.iInnerProductLabel}
-                  choices={innerProductLabelChoices}
-                  label={<M t="\braket{i}{u}" />}
-                  placeholder="should label…"
-                />
-
-                <Select
-                  field={f.jInnerProductLabel}
-                  choices={innerProductLabelChoices}
-                  label={<M t="\braket{j}{u}" />}
-                  placeholder="should label…"
-                />
-              </FieldGroup>
-            </Column>
-
-            <Column>
-              <PlotU withLabels />
-            </Column>
-          </Columns>
-
+        <Section commits={[f.uColumnDiracCommit]}>
           <TextArea
             field={f.innerProductMeaning}
             label={
               <Prose>
                 Discuss a conceptual meaning for these inner products based on
-                the graph
+                the graph.
               </Prose>
             }
           />
 
           <Continue
-            commit={f.innerProductLabelingCommit}
-            allowed={
-              isSet(f.iInnerProductLabel) &&
-              isSet(f.jInnerProductLabel) &&
-              isSet(f.innerProductMeaning)
-            }
+            commit={f.innerProductMeaningCommit}
+            allowed={isSet(f.innerProductMeaning)}
           />
         </Section>
       </Content>
@@ -212,43 +164,53 @@ export default function DefiningBasis() {
 const uColumnDiracChoices = [
   { value: "|i>", label: <M t="\ket{i}" /> },
   { value: "|j>", label: <M t="\ket{j}" /> },
+  { value: "|u>", label: <M t="\ket{u}" /> },
   { value: "<i|u>", label: <M t="\braket{i}{u}" /> },
   { value: "<j|u>", label: <M t="\braket{j}{u}" /> },
   { value: "<u|i>", label: <M t="\braket{u}{i}" /> },
   { value: "<u|j>", label: <M t="\braket{u}{j}" /> },
 ] as const;
 
-const innerProductLabelChoices = [
-  { value: "A", label: "A" },
-  { value: "B", label: "B" },
-  { value: "C", label: "C" },
-] as const;
+const valueToDirac = uColumnDiracChoices.reduce((o, c) => {
+  o[c.value] = c.label.props.t;
+  return o;
+}, {} as Record<string, string>);
 
-function PlotU({ withLabels = false }: { withLabels?: boolean }) {
+function PlotU({ labels }: { labels: "numbers" | "dirac" }) {
   const f = useFields(QuantumBasis);
 
-  const [x, y] = f.uPlotPoint.value || [];
+  const [x, y] = f.uColumn.value || [];
+
+  const [xD, yD] = (() => {
+    if (labels === "dirac" && f.uColumnDirac.value) {
+      const [x, y] = f.uColumnDirac.value;
+      const xD = x ? x.selected : "";
+      const yD = y ? y.selected : "";
+
+      return [xD ? valueToDirac[xD] : "", yD ? valueToDirac[yD] : ""];
+    }
+    return ["", ""];
+  })();
 
   return (
-    <Plot>
+    <Plot width={266} height={266} scale={90}>
       <Axes xLabel="\vb{i}" yLabel="\vb{j}" />
 
-      {x !== undefined && <Tick x={x} label={x} color="blue" />}
-
-      {y !== undefined && <Tick y={y} label={y} color="blue" />}
-
-      {(x !== undefined || y !== undefined) && (
-        <Vector x={x || 0} y={y || 0} label="\ket{u}" color="blue" />
+      {x !== undefined && (
+        <Tick x={x} label={labels === "dirac" ? xD : x} color="blue" />
       )}
 
-      {withLabels && x !== undefined && y !== undefined && (
-        <>
-          <CircleLabel x={0} y={y} label="A" anchor="rightCenter" offset={25} />
+      {y !== undefined && (
+        <Tick y={y} label={labels === "dirac" ? yD : y} color="blue" />
+      )}
 
-          <CircleLabel x={x} y={y} label="B" anchor="bottomRight" />
-
-          <CircleLabel x={x} y={0} label="C" anchor="topCenter" offset={45} />
-        </>
+      {(x !== undefined || y !== undefined) && (
+        <Vector
+          x={x || 0}
+          y={y || 0}
+          label={labels === "dirac" ? "" : "\\ket{u}"}
+          color="blue"
+        />
       )}
     </Plot>
   );
