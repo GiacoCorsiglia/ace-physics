@@ -1,6 +1,13 @@
 import { default as React } from "react";
 import { QuantumBasis } from "src/common/tutorials";
-import { Continue, Help, HelpButton, Prose, Section } from "src/components";
+import {
+  Continue,
+  Help,
+  HelpButton,
+  Prose,
+  Reminder,
+  Section,
+} from "src/components";
 import {
   Button,
   Choice,
@@ -21,12 +28,30 @@ export default function RelatingDifferentBases() {
     <Part label="Relating Different Bases">
       <Content>
         <Section first>
+          <Reminder>
+            <M
+              display
+              t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}"
+            />
+            <M
+              display
+              t="\ket{i} \doteq \mqty(1 \\ 0) \text{ and } \ket{j} \doteq \mqty(0 \\ 1)"
+            />
+            <M
+              display
+              t="
+                  \ket{v_1} \doteq \mqty( \sqrt{3}/2 \\ 1/2 )
+                  \text{ and }
+                  \ket{v_2} \doteq \mqty( -1/2 \\ \sqrt{3}/2 )
+                "
+            />
+          </Reminder>
           <Prose>
             <p>
               We have represented our vector in a new basis, that is in the form{" "}
               <M t="a\ket{v_1} + b \ket{v_2}." />
-              Should we rename the vector in this basis? Let’s go ahead and do
-              that and investigate whether we needed to.
+              <em>Should we rename the vector in this basis?</em> Let’s go ahead
+              and do that and investigate whether we needed to.
             </p>
 
             <p>
