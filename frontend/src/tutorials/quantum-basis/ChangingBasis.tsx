@@ -6,6 +6,7 @@ import {
   HelpButton,
   Info,
   Prose,
+  Reminder,
   Section,
 } from "src/components";
 import { Decimal, Select, TextArea, Toggle } from "src/components/inputs";
@@ -23,6 +24,13 @@ export default function ChangingBasis() {
     <Part label="Changing Basis">
       <Content>
         <Section first>
+          <Reminder>
+            <M
+              display
+              t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}"
+            />
+          </Reminder>
+
           <Prose>
             <p>We can represent vectors in any basis we want!</p>
 
