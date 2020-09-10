@@ -5,6 +5,7 @@
 }
 
 $delimiter-width: 0.56rem; // About 9px
+$comma-width: 0.65rem;
 
 .matrix {
   position: relative;
@@ -12,16 +13,31 @@ $delimiter-width: 0.56rem; // About 9px
   padding-right: $delimiter-width + 0.25rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  min-width: 12rem;
 
   display: grid;
 
   row-gap: 1rem;
   column-gap: 1rem;
 
+  &.withCommas {
+    column-gap: 1rem + $comma-width;
+  }
+
   &:not(:only-child) {
     margin-left: 1rem;
   }
+}
+
+.component {
+  position: relative;
+}
+
+.comma {
+  position: absolute;
+  bottom: -0.25rem;
+  right: -$comma-width - 0.1rem;
+  width: $comma-width;
+  height: auto;
 }
 
 .left,

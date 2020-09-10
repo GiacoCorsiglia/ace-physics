@@ -12,6 +12,7 @@ import { Content } from "src/components/layout";
 import M from "src/components/M";
 import Matrix from "src/components/Matrix";
 import { isSet, useFields } from "src/state";
+import { PretestReminderSection, PretestSpiel } from "src/tutorials/pretests";
 import { Part } from "src/tutorials/shared";
 
 export default function Pretest() {
@@ -34,22 +35,7 @@ export default function Pretest() {
       <Content>
         <DisableInputs when={introCommit.value === true}>
           <Section first>
-            <Prose>
-              <p>
-                Here are some quick warm-up questions.{" "}
-                <strong className="text-blue">
-                  If you don’t know all the answers, that’s totally OK.
-                </strong>{" "}
-                Actually, we expect you may not. Today's tutorial will talk
-                about a lot of these concepts!
-              </p>
-
-              <p>
-                <strong className="text-blue">Just do your best!</strong> Answer
-                every question with your best guess, and then move on to the
-                tutorial.
-              </p>
-            </Prose>
+            <PretestSpiel />
 
             <Prose>
               Consider the following two equations:
@@ -105,6 +91,8 @@ export default function Pretest() {
               />
             </FieldGroup>
           </Section>
+
+          <PretestReminderSection />
 
           <Section noScroll>
             <Prose>
@@ -179,17 +167,7 @@ export default function Pretest() {
         <Section noScroll>
           <Continue
             link="../what-is-a-quantum-mouse"
-            allowed={
-              isSet(operatorLabel) &&
-              isSet(eigenstateLabel) &&
-              isSet(eigenvalueLabel) &&
-              isSet(A0_0) &&
-              isSet(A0_1) &&
-              isSet(A1_0) &&
-              isSet(A1_1) &&
-              isSet(measureA) &&
-              isSet(afterMeasureA)
-            }
+            allowed={isSet(pretest)}
             label="Submit and move on"
           />
         </Section>

@@ -8,7 +8,9 @@ import React, {
 import * as s from "./common/schema";
 import { Children, Writeable } from "./util";
 
-// STORE.
+////////////////////////////////////////////////////////////////////////////////
+// Store.
+////////////////////////////////////////////////////////////////////////////////
 
 interface Store<P extends s.Properties> {
   readonly schema: ProviderSchema<P>;
@@ -59,11 +61,8 @@ export function Provider<P extends s.Properties>({
     const fields: Writeable<ProviderFields<P>> = Object.create(null);
     for (const key in schema.properties) {
       if (schema.properties.hasOwnProperty(key)) {
-        fields[key] = Field(key, schema.properties[key]);
-        if (initial && initial[key] !== undefined) {
-          fields[key].set(initial[key]);
-        }
-        // Make sure we call `subscribe` after `set`!
+        const value = initial ? initial[key] : undefined;
+        fields[key] = Field(key, schema.properties[key], value as any);
         fields[key].subscribe(changeHandler);
       }
     }
@@ -85,7 +84,9 @@ export function useStore<P extends s.Properties>() {
   return useContext(StoreContext) as Store<P>;
 }
 
-// FIELD.
+////////////////////////////////////////////////////////////////////////////////
+// Field.
+////////////////////////////////////////////////////////////////////////////////
 
 type FieldSubscriber<T> = (
   newValue: T | undefined,
@@ -123,7 +124,11 @@ export interface Field<S extends s.Schema> {
     : never;
 }
 
-function Field<S extends s.Schema>(key: string, schema: S): Field<S> {
+function Field<S extends s.Schema>(
+  key: string,
+  schema: S,
+  initial: s.TypeOf<S> = undefined
+): Field<S> {
   type T = s.TypeOf<S>;
 
   const subscribers: Array<FieldSubscriber<T>> = [];
@@ -131,7 +136,7 @@ function Field<S extends s.Schema>(key: string, schema: S): Field<S> {
   const field: Writeable<Field<S>> = {
     key,
     schema,
-    value: undefined,
+    value: initial,
     validity: { valid: true },
 
     set(newValue: T | undefined) {
@@ -182,6 +187,7 @@ function Field<S extends s.Schema>(key: string, schema: S): Field<S> {
     for (const p in schema.properties) {
       if (schema.properties.hasOwnProperty(p)) {
         properties[p] = Field(`${key}.${p}`, schema.properties[p]);
+
         // Make sure that the value of the subField has its source of truth
         // in the parent field.
         Object.defineProperty(properties[p], "value", {
@@ -236,6 +242,10 @@ function Field<S extends s.Schema>(key: string, schema: S): Field<S> {
   return field;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Hooks + Components.
+////////////////////////////////////////////////////////////////////////////////
+
 export function useFields<P extends s.Properties>(
   schema: s.RecordSchema<P>
 ): ProviderFields<P> {
@@ -277,49 +287,25 @@ export function useFields<P extends s.Properties>(
     });
   }
 
-  // Make sure we unsubscribe when the component dismounts.
+  // Make sure we unsubscribe when the component unmounts.
   useEffect(() => unsubscribe.current, []);
 
   return proxy.current;
 }
 
-export function useField<P extends s.Properties, K extends keyof P>(
-  schema: s.RecordSchema<P>,
-  key: K
-): Field<P[K]> {
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
-
-  const store = useStore<P>();
-
-  if (store.schema !== schema) {
-    throw new Error(
-      "The current context is not set up for the Schema you provided." +
-        "\nDid you accidentally pass a Schema for the wrong tutorial?"
-    );
-  }
-
-  const field = store.fields[key];
-
-  useEffect(() => {
-    const unsubscribe = field.subscribe(forceUpdate);
-    return unsubscribe;
-  }, [field]);
-
-  return field;
-}
-
-export function WithField<P extends s.Properties, K extends keyof P>({
+export function WithFields<P extends s.Properties>({
   schema,
-  name,
   children,
 }: {
   schema: s.RecordSchema<P>;
-  name: K;
-  children: (field: Field<P[K]>) => React.ReactNode;
+  children: (fields: ProviderFields<P>) => React.ReactNode;
 }) {
-  const field = useField(schema, name);
-  return <>{children(field)}</>;
+  return <>{children(useFields(schema))}</>;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers.
+////////////////////////////////////////////////////////////////////////////////
 
 type NonEmpty<T> = T extends null | undefined
   ? never
@@ -329,9 +315,17 @@ type NonEmpty<T> = T extends null | undefined
     }
   : T;
 
+type NonEmptyRecord<T> = {
+  [K in keyof T]-?: NonEmpty<T[K]>;
+};
+
 export function isSet<S extends s.Schema>(
   field: Field<S>
-): field is Omit<Field<S>, "value"> & { value: NonEmpty<Field<S>["value"]> } {
+): field is Omit<Field<S>, "value"> & {
+  value: S extends s.RecordSchema<any>
+    ? NonEmptyRecord<Field<S>["value"]>
+    : NonEmpty<Field<S>["value"]>;
+} {
   const value = field.value;
 
   if (value === undefined) {
@@ -350,6 +344,8 @@ export function isSet<S extends s.Schema>(
       return !!value;
     case "tuple":
       return field.elements.every(isSet);
+    case "record":
+      return Object.values(field.properties).every(isSet);
     default:
       return true;
   }

@@ -17,25 +17,31 @@ export default function Matrix({
   labelTex,
   subscriptTex,
   label,
+  commas,
   className,
 }: {
   labelTex?: string;
   subscriptTex?: string;
   label?: React.ReactNode;
+  commas?: boolean;
   className?: string;
 } & Props) {
   const cols = column ? 1 : row ? row.length : matrix ? matrix[0].length : 1;
-
-  const columnOrRow = column || row;
 
   return (
     <div className={classes(styles.root, className)}>
       {label}
 
-      {labelTex && <M t={`${labelTex} \\doteq`} />}
+      {labelTex && (
+        <M
+          t={`${labelTex} ${
+            labelTex.charAt(labelTex.length - 1) !== "=" ? "\\doteq" : ""
+          }`}
+        />
+      )}
 
       <div
-        className={styles.matrix}
+        className={classes(styles.matrix, [styles.withCommas, commas])}
         style={{
           gridTemplateColumns: `repeat(${cols}, 1fr)`,
         }}
@@ -71,10 +77,28 @@ export default function Matrix({
 
         {matrix &&
           matrix.map((row, i) =>
-            row.map((el, j) => <div key={`${i},${j}`}>{el}</div>)
+            row.map((el, j) => (
+              <div className={styles.component} key={`${i},${j}`}>
+                {el}
+                {commas && j < row.length - 1 && <Comma />}
+              </div>
+            ))
           )}
 
-        {columnOrRow && columnOrRow.map((el, i) => <div key={i}>{el}</div>)}
+        {row &&
+          row.map((el, i) => (
+            <div className={styles.component} key={i}>
+              {el}
+              {commas && i < row.length - 1 && <Comma />}
+            </div>
+          ))}
+
+        {column &&
+          column.map((el, i) => (
+            <div className={styles.component} key={i}>
+              {el}
+            </div>
+          ))}
 
         <div className={styles.right}>
           <svg width="552" height="1810" viewBox="0 0 552 1810">
@@ -120,7 +144,7 @@ export function fieldToMatrix(
   inputEl: React.ReactElement,
   asRow?: typeof fieldToMatrix["Row"]
 ): React.ReactElement[][] {
-  return tupleField.elements.map((subField: Field<s.Schema>) => {
+  const matrix = tupleField.elements.map((subField: Field<s.Schema>) => {
     if (s.isTupleSchema(subField.schema)) {
       return fieldToMatrix(
         subField as Field<s.TupleSchema<any>>,
@@ -132,5 +156,26 @@ export function fieldToMatrix(
       return asRow ? input : [input];
     }
   });
+  if (asRow && !Array.isArray(matrix[0])) {
+    return [matrix];
+  }
+  return matrix;
 }
 fieldToMatrix.Row = Symbol("MatrixRow");
+
+function Comma() {
+  return (
+    <svg
+      className={styles.comma}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 -121 278 315"
+    >
+      <title>,</title>
+      <path
+        fill="currentColor"
+        transform="matrix(1 0 0 -1 0 0)"
+        d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"
+      ></path>
+    </svg>
+  );
+}

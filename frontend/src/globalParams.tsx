@@ -3,10 +3,12 @@ import { Children } from "./util";
 
 export const Context = React.createContext<GlobalParams>({
   unconditionalMoveOn: false,
+  showAllSections: false,
 });
 
 interface GlobalParams {
   unconditionalMoveOn: boolean;
+  showAllSections: boolean;
 }
 
 export function GlobalParamsProvider({ children }: Children) {
@@ -18,6 +20,8 @@ export function GlobalParamsProvider({ children }: Children) {
     ref.current = {
       unconditionalMoveOn:
         process.env.NODE_ENV === "development" && params.get("amo") !== null,
+      showAllSections:
+        process.env.NODE_ENV === "development" && params.get("show") !== null,
     };
   }
 

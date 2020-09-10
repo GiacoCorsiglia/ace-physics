@@ -6,9 +6,15 @@ export default function FieldGroup({
   grid = false,
   className,
   children,
-}: { grid?: boolean; className?: string } & Children) {
+}: { grid?: boolean | "labelsRight"; className?: string } & Children) {
   return (
-    <div className={classes(className, [styles.labelsLeft, grid])}>
+    <div
+      className={classes(
+        className,
+        [styles.labelsLeft, grid === true],
+        [styles.labelsRight, grid === "labelsRight"]
+      )}
+    >
       {children}
     </div>
   );

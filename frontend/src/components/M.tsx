@@ -15,6 +15,7 @@ type PropTypes = {
   display?: boolean;
   prespace?: boolean;
   postspace?: boolean;
+  color?: string;
 } & (
   | { inSvg?: false; x?: never; y?: never; relativeTo?: never; offset?: never }
   | { inSvg: true; x: number; y: number; relativeTo?: Corner; offset?: number }
@@ -67,13 +68,13 @@ function transform(
     case "bottomRight":
       return `translate(${-(width + offset)}, ${-(height + offset)})`;
     case "topCenter":
-      return `translate(${-(width / 2 + offset)}, ${offset})`;
+      return `translate(${-(width / 2)}, ${offset})`;
     case "bottomCenter":
-      return `translate(${-(width / 2 + offset)}, ${-(height + offset)})`;
+      return `translate(${-(width / 2)}, ${-(height + offset)})`;
     case "leftCenter":
-      return `translate(${offset}, ${-(height / 2 + offset)})`;
+      return `translate(${offset}, ${-(height / 2)})`;
     case "rightCenter":
-      return `translate(${-(width + offset)}, ${-(height / 2 + offset)})`;
+      return `translate(${-(width + offset)}, ${-(height / 2)})`;
   }
 }
 
@@ -89,9 +90,12 @@ export default function M({
   offset = 5,
   prespace = true,
   postspace = false, // In case it's followed by punctuation.
+  color,
 }: PropTypes) {
   const foreignObjectRef = useRef<SVGForeignObjectElement>(null);
   const mathRef = useRef<any>(null);
+
+  const renderCount = useRef(0);
 
   const [isReady, setIsReady] = useState(ACE__MathJax.isReady);
 
@@ -108,15 +112,21 @@ export default function M({
     mathEl.innerHTML = "";
 
     MathJax.texReset();
+
+    if (!tex) {
+      return;
+    }
+    renderCount.current++;
+
     const options = MathJax.getMetricsFor(mathEl);
     options.display = display;
     MathJax.tex2svgPromise(tex, options)
-      .then(function (node: any) {
-        if (!display && prespace) {
+      .then(function (node: HTMLElement) {
+        if (!display && !inSvg && prespace) {
           mathEl.appendChild(space.cloneNode(false));
         }
         mathEl.appendChild(node);
-        if (!display && postspace) {
+        if (!display && !inSvg && postspace) {
           mathEl.appendChild(space.cloneNode(false));
         }
         MathJax.startup.document.clear();
@@ -125,12 +135,38 @@ export default function M({
         if (inSvg) {
           // This won't be null at this point either.
           const foreignObject = foreignObjectRef.current as SVGForeignObjectElement;
-          foreignObject.setAttribute("width", node.offsetWidth);
-          foreignObject.setAttribute("height", node.offsetHeight);
+
+          const offsetWidth = node.offsetWidth;
+          const offsetHeight = node.offsetHeight;
+          foreignObject.setAttribute("width", offsetWidth + "");
+          foreignObject.setAttribute("height", offsetHeight + "");
           foreignObject.setAttribute(
             "transform",
-            transform(relativeTo, offset, node.offsetWidth, node.offsetHeight)
+            transform(relativeTo, offset, offsetWidth, offsetHeight)
           );
+
+          // HACK: Firefox ignored changes (e.g. if the tex changed) unless I
+          // did this...at least sometimes anyway...
+          let parent: Node | null = null;
+          if (renderCount.current > 1) {
+            parent = foreignObject.parentNode;
+            parent?.removeChild(foreignObject);
+            parent?.appendChild(foreignObject);
+          }
+
+          // HACK: Yes, this exactly duplicates the code above.  Why? Because
+          // it's the only way I could get `node.offsetWidth` to be nonzero in
+          // Firefox.  This also appears to fix a weird alignment bug in Chrome.
+          window.requestAnimationFrame(() => {
+            const offsetWidth = node.offsetWidth;
+            const offsetHeight = node.offsetHeight;
+            foreignObject.setAttribute("width", offsetWidth + "");
+            foreignObject.setAttribute("height", offsetHeight + "");
+            foreignObject.setAttribute(
+              "transform",
+              transform(relativeTo, offset, offsetWidth, offsetHeight)
+            );
+          });
         }
       })
       .catch(function (err: any) {
@@ -138,15 +174,18 @@ export default function M({
       });
   }, [tex, isReady, relativeTo, offset, display, inSvg, prespace, postspace]);
 
+  const style = color ? { color } : undefined;
+
   if (inSvg) {
     return (
       <foreignObject x={x} y={y} ref={foreignObjectRef}>
-        <span
+        <div
+          style={style}
           {...{ xmlns: "http://www.w3.org/1999/xhtml" }}
           ref={mathRef}
-        ></span>
+        ></div>
       </foreignObject>
     );
   }
-  return <span ref={mathRef}></span>;
+  return <span style={style} ref={mathRef}></span>;
 }

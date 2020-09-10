@@ -20,6 +20,9 @@
   },
   "cSpell.words": [
     "Eiegen",
+    "braket",
+    "doteq",
     "eigenstates"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -5,9 +5,38 @@
   display: flex;
   flex-direction: row-reverse;
 
+  &.done {
+    opacity: $opacity-faded;
+    transition: opacity $duration-hover $easing;
+
+    .section:hover & {
+      opacity: 1;
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
+
   .button {
     margin-left: 1rem;
   }
+}
+
+.continueNotAllowedMessage {
+  margin-left: auto;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid $grey90;
+  max-width: 17rem;
+  line-height: 1.5rem; // There are 2 lines; this is fine.
+  font-size: $text-small;
+  border-radius: $border-radius;
+  background: $light-blue;
+  opacity: 0.5;
+  text-align: center;
+  color: #000; // Make the text full black since the opacity is light.
+  user-select: none;
 }
 
 .section {
@@ -55,6 +84,20 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   background: $green-bg;
+  box-shadow: $box-shadow-border, $box-shadow-light;
+
+  :first-child,
+  .prose :first-child {
+    margin-top: 0;
+  }
+}
+
+.info {
+  border-radius: $border-radius;
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background: $light-blue;
   box-shadow: $box-shadow-border, $box-shadow-light;
 
   :first-child,

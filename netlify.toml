@@ -17,13 +17,11 @@
   REACT_APP_ACE_STAGING = "no"
   API_LOCATION = "hkl4dcafa7.execute-api.us-west-1.amazonaws.com/production"
 
-[context.deploy-preview.environment]
-  # Pull request previews
+[context.deploy-preview.environment] # Pull request previews
   REACT_APP_ACE_STAGING = "yes"
   API_LOCATION = "9vugrnkufd.execute-api.us-west-1.amazonaws.com/staging"
 
-[context.branch-deploy.environment]
-  # This is any other branch
+[context.branch-deploy.environment] # This is any other branch
   REACT_APP_ACE_STAGING = "yes"
   API_LOCATION = "9vugrnkufd.execute-api.us-west-1.amazonaws.com/staging"
 

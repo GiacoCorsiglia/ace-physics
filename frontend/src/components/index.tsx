@@ -52,6 +52,10 @@ export function Help({ children }: Children) {
   return <div className={styles.help}>{children}</div>;
 }
 
+export function Info({ children }: Children) {
+  return <div className={styles.info}>{children}</div>;
+}
+
 export function Reminder({ children }: Children) {
   return (
     <div className={styles.reminder}>
@@ -93,36 +97,44 @@ export function Continue({
   OptionalChildren) {
   const globals = useContext(globalParams.Context);
 
-  if (!link && commit && commit.value === true) {
-    return null;
-  }
+  const done = !link && commit && commit.value === true;
 
   if (process.env.NODE_ENV === "development" && globals.unconditionalMoveOn) {
     allowed = true;
   }
 
   return (
-    <Content className={styles.continue}>
-      <Button
-        className={styles.button}
-        link={link}
-        onClick={
-          (commit || onClick) &&
-          (() => {
-            if (commit) {
-              commit.set(true);
+    <Content>
+      <div className={classes(styles.continue, [styles.done, done])}>
+        {!done && (
+          <Button
+            className={styles.button}
+            link={link}
+            onClick={
+              (commit || onClick) &&
+              (() => {
+                if (commit) {
+                  commit.set(true);
+                }
+                if (onClick) {
+                  onClick();
+                }
+              })
             }
-            if (onClick) {
-              onClick();
-            }
-          })
-        }
-        disabled={!allowed}
-      >
-        {label} {link ? <ArrowRightIcon /> : <ArrowDownIcon />}
-      </Button>
+            disabled={!allowed}
+          >
+            {label} {link ? <ArrowRightIcon /> : <ArrowDownIcon />}
+          </Button>
+        )}
 
-      {children}
+        {children}
+      </div>
+
+      {!allowed && (
+        <p className={styles.continueNotAllowedMessage}>
+          Please respond to every question before moving on.
+        </p>
+      )}
     </Content>
   );
 }
@@ -175,20 +187,28 @@ export function HelpButton({
   );
 }
 
+type Commit = Field<s.BooleanSchema> | undefined | boolean;
+
 export function Section({
   commits,
   first = false,
   noScroll = false,
   children,
 }: {
-  commits?: (Field<s.BooleanSchema> | undefined | boolean)[];
+  commits?: Commit | Commit[];
   first?: boolean;
   noScroll?: boolean;
 } & Children) {
-  if (
-    commits &&
-    commits.some((commit) => commit && commit !== true && !commit.value)
-  ) {
+  const globals = useContext(globalParams.Context);
+  if (process.env.NODE_ENV === "development" && globals.showAllSections) {
+    // Skip the other options
+    // Also don't scroll all over the page.
+    noScroll = true;
+  } else if (commits && Array.isArray(commits)) {
+    if (commits.some((commit) => commit && commit !== true && !commit.value)) {
+      return null;
+    }
+  } else if (commits && commits !== true && !commits.value) {
     return null;
   }
 

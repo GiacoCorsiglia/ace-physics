@@ -24,7 +24,7 @@ import { UserMenu } from "src/components/shared/UserMenu";
 import { Provider, ProviderSchema } from "src/state";
 import { ReactComponent as EllipsisCircleIcon } from "src/svgs/ellipsis-circle.svg";
 import * as urls from "src/urls";
-import { Children, classes } from "src/util";
+import { Children, classes, useToggle } from "src/util";
 import Feedback from "./Feedback";
 import styles from "./shared.module.scss";
 
@@ -454,7 +454,7 @@ function TutorialHeader({
   parts: Parts;
   savedStatusSubscribe: (setter: (s: SavedStatus) => void) => () => void;
 } & LabelTitle) {
-  const [toggled, setToggled] = useState(false);
+  const [toggled, setToggled, sidebarElRef] = useToggle();
 
   const { page, currentTitle } = useCurrentPageInfo(parts, labelTitle);
 
@@ -487,7 +487,10 @@ function TutorialHeader({
         Other tutorials
       </Link>
 
-      <nav className={classes(styles.sidebar, [styles.toggled, toggled])}>
+      <nav
+        className={classes(styles.sidebar, [styles.toggled, toggled])}
+        ref={sidebarElRef}
+      >
         <Link
           to={urls.Tutorials.link}
           className={classes(

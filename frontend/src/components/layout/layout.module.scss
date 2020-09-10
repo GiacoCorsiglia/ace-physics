@@ -22,11 +22,30 @@
 
   @include above-small {
     grid-template-columns: 1fr 1fr;
-    column-gap: 1rem;
+    column-gap: 2rem;
   }
 
   @include below-small {
     grid-template-columns: 1fr;
-    row-gap: 1rem;
+    row-gap: 2rem;
   }
+}
+
+.columns {
+  display: grid;
+
+  @include above-small {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
+  }
+
+  @include below-small {
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+  }
+}
+
+.flex {
+  display: flex;
+  align-items: center;
 }

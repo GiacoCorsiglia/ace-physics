@@ -58,13 +58,13 @@ function TutorialsIndex() {
               It’s all about eigenvalues, eigenstates, and measurement.
             </TutorialLink>
 
-            {/* <TutorialLink
-              label="Quantum Basis"
+            <TutorialLink
+              label="Visualizing a Vector in a Different Basis"
               url={urls.Tutorials.QuantumBasis}
             >
               Connecting quantum state vectors with the 2D vectors you’re used
               to.
-            </TutorialLink> */}
+            </TutorialLink>
           </ul>
         </nav>
       </Content>

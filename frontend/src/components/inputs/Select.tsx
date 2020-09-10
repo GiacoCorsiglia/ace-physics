@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import ReactSelect, { components } from "react-select";
+import ReactSelect, { components, StylesConfig } from "react-select";
 import Creatable from "react-select/creatable";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
@@ -27,7 +27,7 @@ export default function Select<
   ...props
 }: {
   field: Field<s.ChoiceSchema<C, M, string>>;
-  choices: Array<{
+  choices: ReadonlyArray<{
     value: C[number];
     label: React.ReactNode;
   }>;
@@ -164,9 +164,11 @@ export default function Select<
     </label>
   );
 
-  // The menu needs to be above other things that have a z-index!
-  props.styles = props.styles || {};
-  props.styles.menu = (styles) => ({ ...styles, zIndex: 1000 });
+  props.styles = applyDefaultStyles(props.styles, {
+    container: (styles) => ({ ...styles, minWidth: "12rem" }),
+    // The menu needs to be above other things that have a z-index!
+    menu: (styles) => ({ ...styles, zIndex: 10_000 }),
+  });
 
   props.className = classes([styles.noLabel, !label], props.className);
 
@@ -323,4 +325,24 @@ function SelectMenuList(props: any) {
       )}
     </components.MenuList>
   );
+}
+
+function applyDefaultStyles(
+  inputs: StylesConfig | undefined,
+  defaults: StylesConfig
+) {
+  const outputs: StylesConfig = { ...inputs };
+
+  for (const [k, defaultStyles] of Object.entries(defaults)) {
+    const property = k as keyof StylesConfig;
+
+    const inputStyles = inputs && inputs[property];
+    outputs[property] =
+      inputStyles && defaultStyles
+        ? (styles: any, state: any) =>
+            inputStyles(defaultStyles(styles, state), state)
+        : defaultStyles || inputStyles;
+  }
+
+  return outputs;
 }

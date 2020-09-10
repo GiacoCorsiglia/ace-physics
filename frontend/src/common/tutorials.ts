@@ -18,6 +18,14 @@ function tutorialSchema<P extends s.Properties>(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Common types.
+////////////////////////////////////////////////////////////////////////////////
+
+const Commit = s.boolean();
+const Help = s.boolean();
+const Visibility = s.boolean();
+
+////////////////////////////////////////////////////////////////////////////////
 // Common properties.
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -83,103 +91,103 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
 
   // What is a quantum mouse?
 
-  introCommit: s.boolean(),
+  introCommit: Commit,
 
   sizeEigenvalues: SizeOrMoodChoice,
   sizeEigenvectors: SizeOrMoodChoice,
-  sizeEigenHelp: s.boolean(),
-  sizeCommit: s.boolean(),
+  sizeEigenHelp: Help,
+  sizeCommit: Commit,
 
   hiddenUnits: s.boolean(),
-  hiddenUnitsHelp: s.boolean(),
-  hiddenUnitsCommit: s.boolean(),
+  hiddenUnitsHelp: Help,
+  hiddenUnitsCommit: Commit,
 
   smallBigInnerProduct: s.choice(["0", "1", "complex"] as const),
   smallBigInnerProductExplain: s.string(),
-  smallBigInnerProductHelp: s.boolean(),
-  smallBigInnerProductCommit: s.boolean(),
+  smallBigInnerProductHelp: Help,
+  smallBigInnerProductCommit: Commit,
 
-  sizeEigenvaluesCheckVisible: s.boolean(),
-  sizeEigenvaluesCheckCommit: s.boolean(),
+  sizeEigenvaluesCheckVisible: Visibility,
+  sizeEigenvaluesCheckCommit: Commit,
 
-  bigBigInnerProductVisible: s.boolean(),
+  bigBigInnerProductVisible: Visibility,
   bigBigInnerProduct: s.choice(["0", "1", "complex"] as const),
-  bigBigInnerProductCommit: s.boolean(),
+  bigBigInnerProductCommit: Commit,
 
-  orthonormalDefinitionVisible: s.boolean(),
+  orthonormalDefinitionVisible: Visibility,
   orthonormalDefinition: s.choice(
     ["orthogonal", "90deg", "0 inner product"] as const,
     true
   ),
-  orthonormalDefinitionCommit: s.boolean(),
+  orthonormalDefinitionCommit: Commit,
 
-  whatIsAMouseFinalCommit: s.boolean(),
+  whatIsAMouseFinalCommit: Commit,
 
   // Moody Mice?
 
-  moodIntroCommit: s.boolean(),
+  moodIntroCommit: Commit,
 
   possibleMoodEigenvalues: s.choice(
     ["1", "-1", "0", "happyket", "sadket"] as const,
     true
   ),
-  possibleMoodEigenvaluesHelp: s.boolean(),
-  possibleMoodEigenvaluesCommit: s.boolean(),
+  possibleMoodEigenvaluesHelp: Help,
+  possibleMoodEigenvaluesCommit: Commit,
 
   moodEigenvalues: SizeOrMoodChoice,
   moodEigenvectors: SizeOrMoodChoice,
   moodOperators: SizeOrMoodChoice,
-  moodEigenUnitsHelp: s.boolean(),
-  moodEigenCommit: s.boolean(),
+  moodEigenUnitsHelp: Help,
+  moodEigenCommit: Commit,
 
   happySadInnerProduct: s.choice(["0", "1", "complex"] as const),
   happySadInnerProductExplain: s.string(),
-  happySadInnerProductHelp: s.boolean(),
-  happySadInnerProductCommit: s.boolean(),
+  happySadInnerProductHelp: Help,
+  happySadInnerProductCommit: Commit,
 
-  moodDisagreeVisible: s.boolean(),
-  moodDisagreeCommit: s.boolean(),
+  moodDisagreeVisible: Visibility,
+  moodDisagreeCommit: Commit,
 
-  happySadVsSmallBigVisible: s.boolean(),
-  happySadVsSmallBigCommit: s.boolean(),
+  happySadVsSmallBigVisible: Visibility,
+  happySadVsSmallBigCommit: Commit,
 
-  happySadCorrectionVisible: s.boolean(),
-  happySadCorrectionCommit: s.boolean(),
+  happySadCorrectionVisible: Visibility,
+  happySadCorrectionCommit: Commit,
 
-  moodFinalCommit: s.boolean(),
+  moodFinalCommit: Commit,
 
   // Superpositions.
 
-  superpositionsIntroCommit: s.boolean(),
+  superpositionsIntroCommit: Commit,
 
   whyWideStressed: s.string(),
-  whyWideStressedHelp: s.boolean(),
-  whyWideStressedCommit: s.boolean(),
+  whyWideStressedHelp: Help,
+  whyWideStressedCommit: Commit,
 
   smallEyeA: s.number(),
   smallEyeB: s.number(),
-  smallEyeBasisChangeHelp: s.boolean(),
-  smallEyeBasisChangeCommit: s.boolean(),
+  smallEyeBasisChangeHelp: Help,
+  smallEyeBasisChangeCommit: Commit,
 
   abUnique: s.choice(["unique", "not unique"] as const),
-  abUniqueHelp: s.boolean(),
-  abUniqueCommit: s.boolean(),
+  abUniqueHelp: Help,
+  abUniqueCommit: Commit,
 
-  abNotNormalizedVisible: s.boolean(),
-  abNotNormalizedCommit: s.boolean(),
+  abNotNormalizedVisible: Visibility,
+  abNotNormalizedCommit: Commit,
 
-  abIncorrectVisible: s.boolean(),
-  abIncorrectCommit: s.boolean(),
+  abIncorrectVisible: Visibility,
+  abIncorrectCommit: Commit,
 
-  abAlternativeVisible: s.boolean(),
+  abAlternativeVisible: Visibility,
   abAlternative: s.choice(["negative", "i", "exp", "none"] as const, true),
-  abAlternativeCommit: s.boolean(),
+  abAlternativeCommit: Commit,
 
-  superpositionsFinalCommit: s.boolean(),
+  superpositionsFinalCommit: Commit,
 
   // Measuring Eye Size.
 
-  measuringEyeSizeIntroCommit: s.boolean(),
+  measuringEyeSizeIntroCommit: Commit,
 
   collapsed1mmState: s.choice([
     "1mm",
@@ -189,43 +197,43 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
     "ambiguous",
   ] as const),
   // collapsed1mmStateAmbiguity: s.string(),
-  collapsed1mmStateCommit: s.boolean(),
-  collapsed1mmStateHelp: s.boolean(),
-  collapsed1mmStateHelp2: s.boolean(),
+  collapsed1mmStateCommit: Commit,
+  collapsed1mmStateHelp: Help,
+  collapsed1mmStateHelp2: Help,
 
   remeasure1mmResults: s.string(),
   remeasure1mmState: s.choice(["1mm", "2mm", "happy", "sad"] as const),
-  remeasure1mmCommit: s.boolean(),
-  remeasure1mmHelp1: s.boolean(),
-  remeasure1mmHelp2: s.boolean(),
+  remeasure1mmCommit: Commit,
+  remeasure1mmHelp1: Help,
+  remeasure1mmHelp2: Help,
 
   measureUnhappyProbability: s.number(),
   measureUnhappyProbabilityExplain: s.string(),
-  measureUnhappyProbabilityHelp: s.boolean(),
-  measureUnhappyProbabilityCommit: s.boolean(),
+  measureUnhappyProbabilityHelp: Help,
+  measureUnhappyProbabilityCommit: Commit,
 
   smallEyedEmotion: s.string(),
-  smallEyedEmotionHelp: s.boolean(),
-  smallEyedEmotionCommit: s.boolean(),
+  smallEyedEmotionHelp: Help,
+  smallEyedEmotionCommit: Commit,
 
-  collapsed1mmStateIncorrectVisible: s.boolean(),
-  collapsed1mmStateIncorrectCommit: s.boolean(),
+  collapsed1mmStateIncorrectVisible: Visibility,
+  collapsed1mmStateIncorrectCommit: Commit,
 
-  collapsedRemeasuredInconsistentVisible: s.boolean(),
+  collapsedRemeasuredInconsistentVisible: Visibility,
   collapsedRemeasuredEffect: s.choice(["has effect", "no effect"] as const),
-  collapsedRemeasuredInconsistentCommit: s.boolean(),
+  collapsedRemeasuredInconsistentCommit: Commit,
 
-  probabilityNotSquaredVisible: s.boolean(),
-  probabilityNotSquaredCommit: s.boolean(),
+  probabilityNotSquaredVisible: Visibility,
+  probabilityNotSquaredCommit: Commit,
 
-  probabilityNegativeVisible: s.boolean(),
-  probabilityNegativeCommit: s.boolean(),
+  probabilityNegativeVisible: Visibility,
+  probabilityNegativeCommit: Commit,
 
-  measuringEyeSizeFinalCommit: s.boolean(),
+  measuringEyeSizeFinalCommit: Commit,
 
   // More Measurements.
 
-  moreMeasurementsIntroCommit: s.boolean(),
+  moreMeasurementsIntroCommit: Commit,
 
   moodStartState: s.choice([
     "small",
@@ -235,10 +243,10 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
     "uncertain",
   ] as const),
   moodStartAmbiguity: s.string(),
-  moodStartCommit: s.boolean(),
-  moodStartHelp: s.boolean(),
+  moodStartCommit: Commit,
+  moodStartHelp: Help,
 
-  smallEyeProbCommit: s.boolean(),
+  smallEyeProbCommit: Commit,
   smallEyeProb: s.choice([
     "0",
     "1/root5",
@@ -248,82 +256,82 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
     "1",
   ] as const),
   smallEyeProbExplain: s.string(),
-  smallEyeProbHelp: s.boolean(),
+  smallEyeProbHelp: Help,
 
-  smallEyeProbChallengeVisible: s.boolean(),
-  smallEyeProbChallengeCommit: s.boolean(),
+  smallEyeProbChallengeVisible: Visibility,
+  smallEyeProbChallengeCommit: Commit,
 
   finalMood: s.string(),
   finalMoodCanBeHappy: s.choice(["possible", "impossible"] as const),
-  finalMoodHelp: s.boolean(),
-  finalMoodCommit: s.boolean(),
+  finalMoodHelp: Help,
+  finalMoodCommit: Commit,
 
-  finalMoodOtherStudentsVisible: s.boolean(),
+  finalMoodOtherStudentsVisible: Visibility,
   finalMoodOtherStudents: s.choice([
     "quantum student",
     "classical student",
   ] as const),
-  finalMoodOtherStudentsCommit: s.boolean(),
+  finalMoodOtherStudentsCommit: Commit,
 
-  finalMoodCorrectionVisible: s.boolean(),
-  finalMoodCorrectionCommit: s.boolean(),
+  finalMoodCorrectionVisible: Visibility,
+  finalMoodCorrectionCommit: Commit,
 
-  surpriseResultCommit: s.boolean(),
+  surpriseResultCommit: Commit,
   surpriseResults: s.string(),
 
   thinkingDeeperAgreement: s.boolean(),
   thinkingDeeperExplain: s.string(),
-  thinkingDeeperHelp: s.boolean(),
-  thinkingDeeperCommit: s.boolean(),
+  thinkingDeeperHelp: Help,
+  thinkingDeeperCommit: Commit,
 
-  moreMeasurementsFinalCommit: s.boolean(),
+  moreMeasurementsFinalCommit: Commit,
 
   // Matrix Representation.
 
   happyVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
   sadVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
-  moodVectorsCommit: s.boolean(),
+  moodVectorsCommit: Commit,
 
   smallVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
   wideVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
-  eyeSizeVectorCommit: s.boolean(),
+  eyeSizeVectorCommit: Commit,
 
   happyEigenequation: s.string(),
   sadEigenequation: s.string(),
-  moodEigenequationCommit: s.boolean(),
+  moodEigenequationCommit: Commit,
 
   moodMatrix: s.tuple(
     s.tuple(s.number(), s.number()),
     s.tuple(s.number(), s.number())
   ),
-  moodMatrixCommit: s.boolean(),
+  moodMatrixCommit: Commit,
 
-  moodMatrixDiagonalVisible: s.boolean(),
-  moodMatrixDiagonalCommit: s.boolean(),
+  moodMatrixDiagonalVisible: Visibility,
+  moodMatrixDiagonalCommit: Commit,
 
-  matrixRepresentationFinalCommit: s.boolean(),
+  matrixRepresentationFinalCommit: Commit,
 
   // Expectation Value.
 
-  expValIntroCommit: s.boolean(),
+  expValIntroCommit: Commit,
 
   weightedAverage: s.number(),
-  weightedAverageHelp: s.boolean(),
-  weightedAverageCommit: s.boolean(),
+  weightedAverageHelp: Help,
+  weightedAverageCommit: Commit,
 
   expValueMeasurability: s.choice(["Yes", "No"] as const),
   expValueMeasurabilityExplain: s.string(),
-  expValueMeasurabilityHelp: s.boolean(),
-  expValueMeasurabilityCommit: s.boolean(),
+  expValueMeasurabilityHelp: Help,
+  expValueMeasurabilityCommit: Commit,
 
   naiveAvg: s.string(),
-  naiveAvgHelp: s.boolean(),
-  naiveAvgCommit: s.boolean(),
+  naiveAvgHelp: Help,
+  naiveAvgCommit: Commit,
 
-  expValMeasurabilityCorrectionVisible: s.boolean(),
-  expValMeasurabilityCorrectionCommit: s.boolean(),
+  expValMeasurabilityCorrectionVisible: Visibility,
+  expValMeasurabilityCorrectionCommit: Commit,
 
-  expValFinalCommit: s.boolean(),
+  expValFinalCommit: Commit,
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -331,7 +339,23 @@ export const QuantumMouse = tutorialSchema("QuantumMouse", {
 ////////////////////////////////////////////////////////////////////////////////
 
 const Point2D = s.tuple(s.number(), s.number());
-const PointLabel2D = s.tuple(s.string(), s.string());
+const uColumnDiracChoice = s.choice([
+  "|i>",
+  "|j>",
+  "|u>",
+  "<i|u>",
+  "<j|u>",
+  "<u|i>",
+  "<u|j>",
+] as const);
+const kColumnDiracChoice = s.choice([
+  "|v1>",
+  "|v2>",
+  "<v1|u>",
+  "<v2|u>",
+  "<i|u>",
+  "<j|u>",
+] as const);
 
 const PlusMinus = s.record({
   minusHeight: s.number(),
@@ -342,50 +366,137 @@ const PlusMinus = s.record({
 
 export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
 export const QuantumBasis = tutorialSchema("QuantumBasis", {
+  pretest: s.record({
+    meaningOfCoefficients: s.string(),
+    coBExpression: s.choice(
+      [
+        "x-subscripts",
+        "projection (correct)",
+        "probability coefficients",
+        "x<+|+> coefficients",
+        "just inner products",
+      ] as const,
+      true
+    ),
+    changedProbabilities: s.boolean(),
+    cantKnowBothProbabilities: s.boolean(),
+    createdNewState: s.boolean(),
+  }),
+
   // Part 1.
-  meaningOfCoefficients: s.string(),
+  probabilityProjectionIntroCommit: Commit,
+
+  meaningOfCoefficients: s.choice(
+    [
+      "normalized",
+      "measurement-outcomes",
+      "probabilities-direct",
+      "probabilities-squared",
+    ] as const,
+    true
+  ),
+  meaningOfCoefficientsCommit: Commit,
 
   probability: PlusMinus,
   probabilityAmplitude: PlusMinus,
 
-  // Part 2.
-  basisRequirements: s.string(),
+  // Defining a Basis.
+  definingBasisIntroCommit: Commit,
+
   iAndJFormBasis: s.boolean(),
   iAndJFormBasisExplain: s.string(),
-
-  uPlotPoint: Point2D,
-  uPlotLabels: PointLabel2D, // TODO: Restrict to inputs?
+  iAndJFormBasisCommit: Commit,
 
   uColumn: Point2D,
-  uColumnDirac: PointLabel2D,
+  uColumnCommit: Commit,
+
+  uColumnDirac: s.tuple(uColumnDiracChoice, uColumnDiracChoice),
+  uColumnDiracCommit: Commit,
 
   innerProductMeaning: s.string(),
+  innerProductMeaningCommit: Commit,
 
-  // Part 3.
-  kPlotPoint: Point2D,
-  kPlotLabels: PointLabel2D, // TODO: Restrict to inputs?
+  // Changing Basis.
+  changingBasisIntroCommit: Commit,
 
-  kColumn: Point2D,
-  kColumnDirac: PointLabel2D,
+  kColumnDirac: s.tuple(kColumnDiracChoice, kColumnDiracChoice),
+  kColumnDiracCommit: Commit,
 
   columnSubscriptExplain: s.string(),
+  columnSubscriptExplainCommit: Commit,
 
-  // Part 4.
+  basisChangeHelp: Help,
+  basisChangeCommit: Commit,
+
+  v1v2AxesAllowed: s.choice(["yes", "no"] as const),
+  v1v2AxesAllowedExplain: s.string(),
+  v1v2AxesAllowedHelp: Help,
+  v1v2AxesAllowedHelp2: Help,
+  v1v2AxesAllowedCommit: Commit,
+
+  v1v2AxesAllowedCorrectionVisible: Visibility,
+  v1v2AxesAllowedCorrectionCommit: Commit,
+
+  kColumn: Point2D,
+  kColumnCommit: Commit,
+
+  // Relating Different Bases.
+  relatingBasesIntroCommit: Commit,
+
   uAndKGraph: s.record({
-    // TODO: restrict to literals, these aren't direc input.
-    phase: s.string(), // Is this necessary?
-    u: s.string(),
-    v1v2: s.string(),
-    k: s.string(),
+    ij: s.boolean(),
+    u: s.boolean(),
+    v1v2: s.choice(["labels", "vectors"] as const),
+    v1v2Axes: s.boolean(),
+    k: s.choice(["ij", "v1v2"] as const),
   }),
+  uAndKGraphCommit: Commit,
 
   uAndKRelationship: s.string(),
+  uAndKRelationshipC: s.choice([
+    "same",
+    "different-bases",
+    "different-coefficients",
+  ] as const),
+  uAndKRelationshipHelp: Help,
+  uAndKRelationshipCommit: Commit,
+
+  checkInCommit: Commit,
 
   meaningOfCoB: s.string(),
+  meaningOfCoBCommit: Commit,
 
   newNameNecessary: s.boolean(),
   newNameNecessaryExplain: s.string(),
+  newNameNecessaryCommit: Commit,
 
   equalityAllowed: s.boolean(),
+  equalityAllowedCommit: Commit,
+
   whyNoSubscriptNeeded: s.string(),
+  whyNoSubscriptNeededCommit: Commit,
+
+  //Part 5: WrapUp
+  positionCoord: s.string(),
+  positionCoordExplain: s.string(),
+  positionCoordCommit: Commit,
+
+  potentialEnergyCoord: s.string(),
+  potentialEnergyCoordExplain: s.string(),
+  potentialEnergyCoordCommit: Commit,
+  coordChoiceEffect: s.string(),
+  coordChoiceCommit: Commit,
+
+  xBaseRewrite: s.string(),
+  xBasisRewriteNewInfo: s.string(),
+  xBaseRewriteCommit: Commit,
+
+  repX: s.string(),
+  repZ: s.string(),
+  repExplain: s.string(),
+  repCommit: Commit,
+
+  CoBEfect: s.string(),
+  whyCoB: s.string(),
+  whyCoBCommit: Commit,
 });

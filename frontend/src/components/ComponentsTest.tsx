@@ -1,6 +1,6 @@
 import React from "react";
 import * as s from "src/common/schema";
-import { Provider, useField } from "src/state";
+import { Provider, useFields } from "src/state";
 import { Prose } from ".";
 import {
   Button,
@@ -19,7 +19,7 @@ import { Column, Content, Page } from "./layout";
 import M from "./M";
 import Matrix from "./Matrix";
 
-export function ComponentsTest() {
+export default function ComponentsTest() {
   return (
     <Page title="Test Page">
       <main>
@@ -177,36 +177,34 @@ const TestSchema = s.record({
 });
 
 function TextInputs() {
-  const text1 = useField(TestSchema, "text1");
-  const text2 = useField(TestSchema, "text2");
+  const f = useFields(TestSchema);
 
   return (
     <Content as="section">
       <h2 className="prose">Text Inputs</h2>
 
-      <Text field={text1} label={<Prose>Input question</Prose>} />
+      <Text field={f.text1} label={<Prose>Input question</Prose>} />
 
-      <TextArea field={text2} label={<Prose>Textarea question</Prose>} />
+      <TextArea field={f.text2} label={<Prose>Textarea question</Prose>} />
     </Content>
   );
 }
 
 function NumberInputs() {
-  const number1 = useField(TestSchema, "number1");
-  const number2 = useField(TestSchema, "number2");
+  const f = useFields(TestSchema);
 
   return (
     <Content as="section">
       <h2 className="prose">Number Inputs</h2>
 
       <Decimal
-        field={number1}
+        field={f.number1}
         placeholder="Decimal"
         label={<Prose>Decimal input question</Prose>}
       />
 
       <Integer
-        field={number2}
+        field={f.number2}
         placeholder="Integer"
         label={<Prose>Integer input question</Prose>}
       />
@@ -221,23 +219,21 @@ const selectChoices: SelectChoices<TestSchema["select"]> = [
 ];
 
 function Selects() {
-  const select = useField(TestSchema, "select");
-  const selectNoOther = useField(TestSchema, "selectNoOther");
-  const selectMulti = useField(TestSchema, "selectMulti");
+  const f = useFields(TestSchema);
 
   return (
     <Content as="section">
       <h2 className="prose">Selects</h2>
 
-      <Select field={select} choices={selectChoices} label="A question?" />
+      <Select field={f.select} choices={selectChoices} label="A question?" />
       <Select
-        field={selectNoOther}
+        field={f.selectNoOther}
         choices={selectChoices}
         allowOther={false}
         label={<Prose>Another question?</Prose>}
       />
       <Select
-        field={selectMulti}
+        field={f.selectMulti}
         choices={selectChoices}
         label={<Prose>Yet another question?</Prose>}
       />
@@ -246,23 +242,21 @@ function Selects() {
 }
 
 function Choices() {
-  const select = useField(TestSchema, "select");
-  const selectNoOther = useField(TestSchema, "selectNoOther");
-  const selectMulti = useField(TestSchema, "selectMulti");
+  const f = useFields(TestSchema);
 
   return (
     <Content as="section">
       <h2 className="prose">Choices</h2>
 
-      <Choice field={select} choices={selectChoices} label="A question?" />
+      <Choice field={f.select} choices={selectChoices} label="A question?" />
       <Choice
-        field={selectNoOther}
+        field={f.selectNoOther}
         choices={selectChoices}
         allowOther={false}
         label={<Prose>Another question?</Prose>}
       />
       <Choice
-        field={selectMulti}
+        field={f.selectMulti}
         choices={selectChoices}
         label={<Prose>A third question?</Prose>}
       />
@@ -271,31 +265,30 @@ function Choices() {
 }
 
 function Toggles() {
-  const selectNoOther = useField(TestSchema, "selectNoOther");
-  const bool = useField(TestSchema, "bool");
+  const f = useFields(TestSchema);
 
   return (
     <Content as="section">
       <h2 className="prose">Toggles</h2>
 
       <Toggle
-        field={selectNoOther}
+        field={f.selectNoOther}
         choices={selectChoices}
         label={<Prose></Prose>}
       />
 
       <Toggle
-        field={selectNoOther}
+        field={f.selectNoOther}
         choices={selectChoices}
         vertical
         label={<Prose></Prose>}
       />
 
-      <Toggle field={bool} label={<Prose></Prose>} />
+      <Toggle field={f.bool} label={<Prose></Prose>} />
 
       <Toggle
         label={<Prose>This is a question</Prose>}
-        field={bool}
+        field={f.bool}
         yes="Definitely"
         no="No way"
       />
@@ -304,12 +297,7 @@ function Toggles() {
 }
 
 function GroupedFields() {
-  const select = useField(TestSchema, "select");
-  const bool = useField(TestSchema, "bool");
-  const text1 = useField(TestSchema, "text1");
-  const text2 = useField(TestSchema, "text2");
-  const number1 = useField(TestSchema, "number1");
-  const number2 = useField(TestSchema, "number2");
+  const f = useFields(TestSchema);
 
   return (
     <Content as="section">
@@ -317,45 +305,45 @@ function GroupedFields() {
 
       <FieldGroup grid>
         <Select
-          field={select}
+          field={f.select}
           choices={selectChoices}
           label={<div>A question:</div>}
         />
 
         <Toggle
           label="Another question:"
-          field={bool}
+          field={f.bool}
           yes="Definitely"
           no="No way"
         />
 
         <Choice
-          field={select}
+          field={f.select}
           choices={selectChoices}
           label="Grouped choices:"
         />
 
-        <Text field={text1} label="Input question:" />
+        <Text field={f.text1} label="Input question:" />
 
-        <TextArea field={text2} label="Textarea question:" />
+        <TextArea field={f.text2} label="Textarea question:" />
 
-        <Decimal field={number1} label="Decimal input question:" />
+        <Decimal field={f.number1} label="Decimal input question:" />
 
-        <Integer field={number2} label="Integer input question:" />
+        <Integer field={f.number2} label="Integer input question:" />
 
-        <Select field={select} choices={selectChoices} />
+        <Select field={f.select} choices={selectChoices} />
 
-        <Toggle field={bool} yes="Definitely" no="No way" />
+        <Toggle field={f.bool} yes="Definitely" no="No way" />
 
-        <Choice field={select} choices={selectChoices} />
+        <Choice field={f.select} choices={selectChoices} />
 
-        <Text field={text1} />
+        <Text field={f.text1} />
 
-        <TextArea field={text2} />
+        <TextArea field={f.text2} />
 
-        <Decimal field={number1} />
+        <Decimal field={f.number1} />
 
-        <Integer field={number2} />
+        <Integer field={f.number2} />
 
         <Button>Click me!</Button>
       </FieldGroup>
@@ -364,9 +352,7 @@ function GroupedFields() {
 }
 
 function MatrixTest() {
-  const select = useField(TestSchema, "select");
-  const number1 = useField(TestSchema, "number1");
-  const number2 = useField(TestSchema, "number2");
+  const f = useFields(TestSchema);
 
   return (
     <Content as="section">
@@ -377,9 +363,9 @@ function MatrixTest() {
       <Matrix
         labelTex="\ket{\psi}"
         column={[
-          <Select field={select} choices={selectChoices} />,
-          <Decimal field={number1} />,
-          <Integer field={number2} />,
+          <Select field={f.select} choices={selectChoices} />,
+          <Decimal field={f.number1} />,
+          <Integer field={f.number2} />,
         ]}
       />
 
@@ -388,9 +374,9 @@ function MatrixTest() {
       <Matrix
         labelTex="\bra{\psi}"
         row={[
-          <Select field={select} choices={selectChoices} />,
-          <Decimal field={number1} />,
-          <Integer field={number2} />,
+          <Select field={f.select} choices={selectChoices} />,
+          <Decimal field={f.number1} />,
+          <Integer field={f.number2} />,
         ]}
       />
 
@@ -400,19 +386,19 @@ function MatrixTest() {
         labelTex="\hat{S}"
         matrix={[
           [
-            <Select field={select} choices={selectChoices} />,
-            <Select field={select} choices={selectChoices} />,
-            <Select field={select} choices={selectChoices} />,
+            <Select field={f.select} choices={selectChoices} />,
+            <Select field={f.select} choices={selectChoices} />,
+            <Select field={f.select} choices={selectChoices} />,
           ],
           [
-            <Decimal field={number1} />,
-            <Decimal field={number1} />,
-            <Decimal field={number1} />,
+            <Decimal field={f.number1} />,
+            <Decimal field={f.number1} />,
+            <Decimal field={f.number1} />,
           ],
           [
-            <Integer field={number2} />,
-            <Integer field={number2} />,
-            <Integer field={number2} />,
+            <Integer field={f.number2} />,
+            <Integer field={f.number2} />,
+            <Integer field={f.number2} />,
           ],
         ]}
       />

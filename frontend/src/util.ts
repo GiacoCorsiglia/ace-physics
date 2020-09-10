@@ -1,30 +1,4 @@
-import { useRef } from "react";
-
-export type Dictionary<T> = {
-  [key: string]: T;
-};
-
-type ExtractDictType<D> = D extends Dictionary<infer T> ? T : never;
-
-export function mapDict<D extends Dictionary<any>, T>(
-  dict: D,
-  iteratee: (
-    value: ExtractDictType<D>,
-    key: keyof D,
-    originalDict: D,
-    newDict: Dictionary<T>
-  ) => T
-): Dictionary<T> {
-  const o: Dictionary<T> = {};
-  for (const key in dict) {
-    if (dict.hasOwnProperty(key)) {
-      o[key] = iteratee(dict[key], key, dict, o);
-    }
-  }
-  return o;
-}
-
-///
+import { useEffect, useRef, useState } from "react";
 
 export type Writeable<T> = {
   -readonly [K in keyof T]: T[K];
@@ -35,18 +9,21 @@ export type Writeable<T> = {
 export function classes(
   ...classes: (string | undefined | [string | undefined, boolean | undefined])[]
 ) {
-  return classes
-    .filter((c) => (Array.isArray(c) ? c[1] && !!c[0] : !!c))
-    .map((c) => (Array.isArray(c) ? c[0] : c))
-    .join(" ");
+  return (
+    classes
+      .filter((c) => (Array.isArray(c) ? c[1] && !!c[0] : !!c))
+      .map((c) => (Array.isArray(c) ? c[0] : c))
+      .join(" ") || undefined
+  );
 }
 
 ///
 
 export interface Children<T = React.ReactNode> {
-  children: T;
+  children?: T;
 }
 
+/** @deprecated */
 export interface OptionalChildren<T = React.ReactNode> {
   children?: T;
 }
@@ -111,4 +88,30 @@ export function norm(...ns: (number | undefined)[]): number | undefined {
     0
   );
   return squared === undefined ? undefined : Math.sqrt(squared);
+}
+
+///
+
+export function useToggle<E extends Element = HTMLElement>(
+  initial: boolean = false
+) {
+  const ref = useRef<E>(null);
+  const [toggled, setToggled] = useState(initial);
+
+  useEffect(() => {
+    if (!toggled) {
+      return;
+    }
+
+    function clickHandler(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setToggled(false);
+      }
+    }
+
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
+  }, [toggled]);
+
+  return [toggled, setToggled, ref] as const;
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import { Route } from "react-router";
 import { Link } from "react-router-dom";
-import { Prose } from "./components";
-import { Content, Page } from "./components/layout";
-import * as urls from "./urls";
+import { Prose } from "src/components";
+import { Content, Page } from "src/components/layout";
+import * as urls from "src/urls";
 
 export const route = <Route path={urls.Privacy.path} element={<Privacy />} />;
 

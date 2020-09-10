@@ -1,8 +1,8 @@
 import { PersonIcon } from "@primer/octicons-react";
-import { default as React, useState } from "react";
+import React from "react";
 import { formatId, useAccount, useLogout } from "src/account";
 import { Login } from "src/urls";
-import { classes } from "src/util";
+import { classes, useToggle } from "src/util";
 import { Prose } from "..";
 import { Button } from "../inputs";
 import styles from "./UserMenu.module.scss";
@@ -11,7 +11,7 @@ export function UserMenu() {
   const account = useAccount();
   const logout = useLogout();
 
-  const [toggled, setToggled] = useState(false);
+  const [toggled, setToggled, menuElRef] = useToggle<HTMLDivElement>();
 
   return (
     <>
@@ -22,7 +22,10 @@ export function UserMenu() {
         <PersonIcon aria-label="My Account Menu" />
       </div>
 
-      <div className={classes(styles.popup, [styles.toggled, toggled])}>
+      <div
+        className={classes(styles.popup, [styles.toggled, toggled])}
+        ref={menuElRef}
+      >
         {account.isLoggedIn && (
           <>
             <Prose noMargin>
