@@ -95,6 +95,8 @@ export default function M({
   const foreignObjectRef = useRef<SVGForeignObjectElement>(null);
   const mathRef = useRef<any>(null);
 
+  const renderCount = useRef(0);
+
   const [isReady, setIsReady] = useState(ACE__MathJax.isReady);
 
   useLayoutEffect(() => {
@@ -110,6 +112,12 @@ export default function M({
     mathEl.innerHTML = "";
 
     MathJax.texReset();
+
+    if (!tex) {
+      return;
+    }
+    renderCount.current++;
+
     const options = MathJax.getMetricsFor(mathEl);
     options.display = display;
     MathJax.tex2svgPromise(tex, options)
@@ -136,6 +144,15 @@ export default function M({
             "transform",
             transform(relativeTo, offset, offsetWidth, offsetHeight)
           );
+
+          // HACK: Firefox ignored changes (e.g. if the tex changed) unless I
+          // did this...at least sometimes anyway...
+          let parent: Node | null = null;
+          if (renderCount.current > 1) {
+            parent = foreignObject.parentNode;
+            parent?.removeChild(foreignObject);
+            parent?.appendChild(foreignObject);
+          }
 
           // HACK: Yes, this exactly duplicates the code above.  Why? Because
           // it's the only way I could get `node.offsetWidth` to be nonzero in
