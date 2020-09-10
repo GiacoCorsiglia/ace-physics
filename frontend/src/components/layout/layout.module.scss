@@ -46,10 +46,6 @@
 }
 
 .flex {
-  @include above-small {
-    display: flex;
-  }
-
-  @include below-small {
-  }
+  display: flex;
+  align-items: center;
 }
