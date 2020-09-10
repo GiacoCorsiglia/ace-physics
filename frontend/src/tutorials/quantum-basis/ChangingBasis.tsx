@@ -169,8 +169,8 @@ export default function ChangingBasis() {
             choices={v1v2AxesAllowedChoices}
             label={
               <Prose>
-                Is it OK to label the horizontal axis as <M t="\vb{v1}" /> and
-                the vertical axis as <M t="\vb{v2}" />?
+                Is it OK to label the horizontal axis as <M t="\vb{v_1}" /> and
+                the vertical axis as <M t="\vb{v_2}" />?
               </Prose>
             }
           />
@@ -185,7 +185,7 @@ export default function ChangingBasis() {
           {needsHelp(f.v1v2AxesAllowedHelp) && (
             <Help>
               <Prose>
-                <M t="\ket{v1}" /> and <M t="\ket{v2}" /> form an{" "}
+                <M t="\ket{v_1}" /> and <M t="\ket{v_2}" /> form an{" "}
                 <em>orthonormal basis</em> just like <M t="\ket{i}" /> and{" "}
                 <M t="\ket{j}" />. This means that they can be represented by
                 any pair of perpendicular axes.
@@ -233,7 +233,7 @@ export default function ChangingBasis() {
         >
           <Prose>
             <p>
-              Because <M t="\ket{v1}" /> and <M t="\ket{v2}" /> form an{" "}
+              Because <M t="\ket{v_1}" /> and <M t="\ket{v_2}" /> form an{" "}
               <em>orthonormal basis</em>, they can be represented by any pair of
               perpendicular axes. So we think it’s just fine for us to use the
               horizontal and vertical axes for this purpose.
@@ -319,7 +319,7 @@ function PlotK() {
 
   return (
     <Plot width={266} height={266} scale={90}>
-      <Axes xLabel="\vb{v1}" yLabel="\vb{v2}" color="darkgreen" />
+      <Axes xLabel="\vb{v_1}" yLabel="\vb{v_2}" color="darkgreen" />
 
       {x !== undefined && (
         <Tick x={x} label={`\\braket{v_1}{u} = ${x}`} color="red" />
