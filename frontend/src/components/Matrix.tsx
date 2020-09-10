@@ -32,7 +32,13 @@ export default function Matrix({
     <div className={classes(styles.root, className)}>
       {label}
 
-      {labelTex && <M t={`${labelTex} \\doteq`} />}
+      {labelTex && (
+        <M
+          t={`${labelTex} ${
+            labelTex.charAt(labelTex.length - 1) !== "=" ? "\\doteq" : ""
+          }`}
+        />
+      )}
 
       <div
         className={classes(styles.matrix, [styles.withCommas, commas])}
