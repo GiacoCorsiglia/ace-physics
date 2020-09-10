@@ -356,7 +356,6 @@ const kColumnDiracChoice = s.choice([
   "<i|u>",
   "<j|u>",
 ] as const);
-const PointLabel2D = s.tuple(s.string(), s.string());
 
 const PlusMinus = s.record({
   minusHeight: s.number(),
