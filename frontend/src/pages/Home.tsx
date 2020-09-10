@@ -27,14 +27,6 @@ export default function Home() {
           </p>
         </Prose>
 
-        <Button
-          onClick={() => {
-            throw new Error("Hello Sentry");
-          }}
-        >
-          Break things
-        </Button>
-
         <Button className="margin-top" link={urls.Tutorials.link}>
           Take me to the online tutorials <ArrowRightIcon />
         </Button>
