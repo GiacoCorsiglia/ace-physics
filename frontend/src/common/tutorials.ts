@@ -420,8 +420,14 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   // Changing Basis.
   changingBasisIntroCommit: Commit,
 
-  changedBasisHelp: Help,
-  changedBasisCommit: Commit,
+  kColumnDirac: s.tuple(kColumnDiracChoice, kColumnDiracChoice),
+  kColumnDiracCommit: Commit,
+
+  columnSubscriptExplain: s.string(),
+  columnSubscriptExplainCommit: Commit,
+
+  basisChangeHelp: Help,
+  basisChangeCommit: Commit,
 
   v1v2AxesAllowed: s.choice(["yes", "no"] as const),
   v1v2AxesAllowedExplain: s.string(),
@@ -432,21 +438,10 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   v1v2AxesAllowedCorrectionVisible: Visibility,
   v1v2AxesAllowedCorrectionCommit: Commit,
 
-  kPlotPoint: Point2D,
-  kPlotCommit: Commit,
-
-  kPlotLabels: PointLabel2D, // TODO: Restrict to inputs?
-
   kColumn: Point2D,
   kColumnCommit: Commit,
 
-  kColumnDirac: s.tuple(kColumnDiracChoice, kColumnDiracChoice),
-  kColumnDiracCommit: Commit,
-
-  columnSubscriptExplain: s.string(),
-  columnSubscriptExplainCommit: Commit,
-
-  // Part 4.
+  // Relating Different Bases.
   relatingBasesIntroCommit: Commit,
 
   uAndKGraph: s.record({

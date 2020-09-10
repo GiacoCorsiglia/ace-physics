@@ -4,7 +4,6 @@ import {
   Continue,
   Help,
   HelpButton,
-  Info,
   Prose,
   Reminder,
   Section,
@@ -24,13 +23,6 @@ export default function ChangingBasis() {
     <Part label="Changing Basis">
       <Content>
         <Section first>
-          <Reminder>
-            <M
-              display
-              t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}"
-            />
-          </Reminder>
-
           <Prose>
             <p>We can represent vectors in any basis we want!</p>
 
@@ -52,48 +44,124 @@ export default function ChangingBasis() {
           <Continue commit={f.changingBasisIntroCommit} />
         </Section>
 
-        <Section commits={[f.changingBasisIntroCommit]}>
+        <Section commits={f.changingBasisIntroCommit}>
           <Prose>
             <p>
-              Represent our vector{" "}
+              Let’s represent our vector{" "}
               <M t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}" />{" "}
               in this new basis.
             </p>
+
             <p>
               This means we wish to write our vector in the form{" "}
               <M t="a\ket{v_1} + b\ket{v_2}" />
-              . Your task is to find <M t="a" /> and <M t="b" />.
+              . Your task on this page is to find <M t="a" /> and <M t="b" />.
             </p>
 
-            <p>Do this on scrap paper and click to move on once you’re done!</p>
-
             <p>
-              (You’ll need the values of <M t="a" /> and <M t="b" /> as decimals
-              when you move on.)
+              First, represent <M t="\ket{u}" /> as a column vector{" "}
+              <em>in the new basis</em>. Like before, express each element in
+              Dirac notation.
             </p>
           </Prose>
 
-          {needsHelp(f.changedBasisHelp) && (
+          <Matrix
+            className="margin-top"
+            labelTex="\begin{pmatrix} a \\ b \end{pmatrix}_v ="
+            subscriptTex="v"
+            matrix={fieldToMatrix(
+              f.kColumnDirac,
+              <Select
+                choices={kColumnDiracChoices}
+                field={f.kColumnDirac.elements[0]}
+              />
+            )}
+          />
+
+          <Continue
+            commit={f.kColumnDiracCommit}
+            allowed={isSet(f.kColumnDirac)}
+          />
+        </Section>
+
+        <Section commits={f.kColumnDiracCommit}>
+          <TextArea
+            field={f.columnSubscriptExplain}
+            label={
+              <Prose>Why is there a subscript on the column vectors?</Prose>
+            }
+          />
+
+          <Continue
+            commit={f.columnSubscriptExplainCommit}
+            allowed={isSet(f.columnSubscriptExplain)}
+          />
+        </Section>
+
+        <Section commits={f.columnSubscriptExplainCommit}>
+          <Prose>
+            <p>
+              Change the basis for <M t="\ket{u}" /> to the <M t="\ket{v_1}" />
+              -and-
+              <M prespace={false} t="\ket{v_2}" /> basis. In other words,
+              calculate numerical values for <M t="a" /> and <M t="b" />.
+            </p>
+
+            <p>
+              <strong>Do this on scrap paper</strong> and click to move on once
+              you’re done!
+            </p>
+
+            <p>
+              You’ll need the values of <M t="a" /> and <M t="b" /> as decimals
+              when you move on, and you'll be able to check your answers in a
+              moment.
+            </p>
+          </Prose>
+
+          <Reminder>
+            <M
+              display
+              t="\ket{u} = \frac{1}{\sqrt{5}} \ket{i} + \frac{2}{\sqrt{5}} \ket{j}"
+            />
+            <M
+              display
+              t="
+                  \ket{v_1} \doteq \mqty( \sqrt{3}/2 \\ 1/2 )
+                  \text{ and }
+                  \ket{v_2} \doteq \mqty( -1/2 \\ \sqrt{3}/2 )
+                "
+            />
+          </Reminder>
+
+          {needsHelp(f.basisChangeHelp) && (
             <Help>
               <Prose>
-                <M t="a" /> and <M t="b" /> are coefficients. How do you
-                represent those in Dirac notation?
+                Our goal is to represent our vector in the form
+                <M display t="a\ket{v_1} + b\ket{v_2}" />
+                How do you represent the coefficients <M t="a" /> and
+                <M t="b" /> in Dirac notation? Can you compute those inner
+                products?
               </Prose>
             </Help>
           )}
 
           <Continue
-            commit={f.changedBasisCommit}
+            commit={f.basisChangeCommit}
             label="I’m done changing basis"
           >
-            <HelpButton help={f.changedBasisHelp} />
+            <HelpButton help={f.basisChangeHelp} />
           </Continue>
         </Section>
 
-        <Section commits={f.changedBasisCommit}>
+        <Section commits={f.basisChangeCommit}>
           <Prose>
-            Let’s go ahead and plot the vector in the new basis. Before we do
-            that, let’s think about our axes.
+            <p>
+              Sweet. Let’s go ahead and plot the vector in the new basis. You’ll
+              need your answers for <M t="a" /> and <M t="b" /> to do this.
+            </p>
+
+            <p>But before we get to that, let’s think about our axes.</p>
           </Prose>
 
           <Toggle
@@ -199,18 +267,18 @@ export default function ChangingBasis() {
               <Prose>
                 <p>
                   Alright, let’s plot the vector. Like before, type in the new
-                  coordinates as decimals below.
+                  coordinates as decimals in the column vector below.
                 </p>
               </Prose>
 
               <Matrix
                 className="margin-top"
+                labelTex="\begin{pmatrix} a \\ b \end{pmatrix}_v ="
+                subscriptTex="v"
                 matrix={fieldToMatrix(
-                  f.kPlotPoint,
-                  <Decimal field={f.kPlotPoint.elements[0]} />,
-                  fieldToMatrix.Row
+                  f.kColumn,
+                  <Decimal field={f.kColumn.elements[0]} />
                 )}
-                commas
               />
             </Column>
 
@@ -219,75 +287,10 @@ export default function ChangingBasis() {
             </Column>
           </Columns>
 
-          <Continue commit={f.kPlotCommit} allowed={isSet(f.kPlotPoint)} />
-        </Section>
-
-        <Section commits={f.kPlotCommit}>
-          <Prose>
-            Let’s represent our vector as a column vector in this new basis.
-            That is, in the form:
-            <M display t="\mqty(a \\ b)_{\large{v}}" />
-            We’ll do it two ways again.
-          </Prose>
-
-          <Prose>
-            First express each element in the column vector as a decimal.
-          </Prose>
-
-          <Matrix
-            className="margin-top"
-            subscriptTex="v"
-            matrix={fieldToMatrix(
-              f.kColumn,
-              <Decimal field={f.kColumn.elements[0]} />
-            )}
-          />
-
-          <Continue commit={f.kColumnCommit} allowed={isSet(f.kColumn)} />
-        </Section>
-
-        <Section commits={[f.kColumnCommit]}>
-          <Prose>
-            Now express each element in the column vector as an inner product.
-          </Prose>
-
-          <Matrix
-            className="margin-top"
-            subscriptTex="v"
-            matrix={fieldToMatrix(
-              f.kColumnDirac,
-              <Select
-                choices={kColumnDiracChoices}
-                field={f.kColumnDirac.elements[0]}
-              />
-            )}
-          />
-
-          <Info>
-            <Prose>
-              If you changed basis another way, you could have done so by
-              computing these inner products too! It’s often the most efficient
-              way.
-            </Prose>
-          </Info>
-
           <Continue
-            commit={f.kColumnDiracCommit}
-            allowed={isSet(f.kColumnDirac)}
-          />
-        </Section>
-
-        <Section commits={[f.kColumnDiracCommit]}>
-          <TextArea
-            field={f.columnSubscriptExplain}
-            label={
-              <Prose>Why is there a subscript on the column vectors?</Prose>
-            }
-          />
-
-          <Continue
-            commit={f.columnSubscriptExplainCommit}
-            allowed={isSet(f.columnSubscriptExplain)}
+            commit={f.kColumnCommit}
+            allowed={isSet(f.kColumn)}
+            label="Let‘s check in"
           />
         </Section>
       </Content>
@@ -312,17 +315,23 @@ const kColumnDiracChoices = [
 function PlotK() {
   const f = useFields(QuantumBasis);
 
-  const [x, y] = f.kPlotPoint.value || [];
+  const [x, y] = f.kColumn.value || [];
 
   return (
-    <Plot>
+    <Plot width={266} height={266} scale={90}>
       <Axes xLabel="\vb{v1}" yLabel="\vb{v2}" color="darkgreen" />
 
-      {x !== undefined && <Tick x={x} label={x} color="red" />}
+      {x !== undefined && (
+        <Tick x={x} label={`\\braket{v_1}{u} = ${x}`} color="red" />
+      )}
 
-      {y !== undefined && <Tick y={y} label={y} color="red" />}
+      {y !== undefined && (
+        <Tick y={y} label={`\\braket{v_2}{u} = ${y}`} color="red" />
+      )}
 
-      {x !== undefined && y !== undefined && <Vector x={x} y={y} color="red" />}
+      {(x !== undefined || y !== undefined) && (
+        <Vector x={x || 0} y={y || 0} color="red" />
+      )}
     </Plot>
   );
 }
