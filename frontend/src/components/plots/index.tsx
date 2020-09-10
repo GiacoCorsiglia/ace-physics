@@ -248,7 +248,7 @@ export function Tick({
     <>
       <line {...position} stroke={color} strokeWidth={axisWidth}></line>
 
-      {label !== undefined && (
+      {(label !== undefined || label !== "") && (
         <M
           t={label + ""}
           color={color}
