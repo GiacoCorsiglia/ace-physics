@@ -419,6 +419,9 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   // Changing Basis.
   changingBasisIntroCommit: Commit,
 
+  basisChangeApproach: s.string(),
+  basisChangeApproachCommit: Commit,
+
   kColumnDirac: s.tuple(kColumnDiracChoice, kColumnDiracChoice),
   kColumnDiracCommit: Commit,
 

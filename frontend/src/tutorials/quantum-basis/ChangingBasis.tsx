@@ -53,15 +53,46 @@ export default function ChangingBasis() {
             </p>
 
             <p>
-              This means we wish to write our vector in the form{" "}
-              <M t="a\ket{v_1} + b\ket{v_2}" />
-              . Your task on this page is to find <M t="a" /> and <M t="b" />.
+              We want to write our vector in the form
+              <M t="a\ket{v_1} + b\ket{v_2}" />.
             </p>
 
             <p>
-              First, represent <M t="\ket{u}" /> as a column vector{" "}
-              <em>in the new basis</em>. Like before, express each element in
-              Dirac notation.
+              In the box below, explain how you might find <M t="a" /> and{" "}
+              <M t="b" />. Don't calculate yet, just explain how you would. List
+              all the methods you can think of!
+            </p>
+          </Prose>
+
+          <TextArea field={f.basisChangeApproach} label={<Prose></Prose>} />
+
+          <Continue
+            commit={f.basisChangeApproachCommit}
+            allowed={isSet(f.basisChangeApproach)}
+          />
+        </Section>
+
+        <Section commits={f.basisChangeApproachCommit}>
+          <Prose>
+            <p>
+              Awesome, thanks for taking the time to think about that. Here’s
+              one way you can do it. It’s usually the most efficient way, but
+              there are other valid approaches too!
+            </p>
+
+            <p>
+              Thinking back to the previous page, if we represent our ket as a
+              column vector in the new basis, it will look like
+              <M
+                display
+                t="a \ket{v_1} + b \ket{v_2} \doteq \begin{pmatrix} a \\ b \end{pmatrix}_v"
+              />
+            </p>
+
+            <p>
+              Now, express each element in Dirac notation. This is similar to
+              what we did on the previous page, but remember we’re working in
+              the new basis now.
             </p>
           </Prose>
 
