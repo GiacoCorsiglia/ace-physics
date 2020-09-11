@@ -67,18 +67,32 @@ export function arraysEqual(a1?: any[], a2?: any[]): boolean {
 
 ///
 
-export function approxEquals(
-  n1: number | undefined,
-  n2: number | undefined,
-  forgiveness: number = 0.02
-): boolean {
+export function approxEquals<
+  T extends
+    | number
+    | (number | undefined)[]
+    | ((number | undefined)[] | undefined)[]
+>(n1: T | undefined, n2: T | undefined, forgiveness: number = 0.02): boolean {
   if (n1 === undefined || n2 === undefined) {
     return false;
   }
+
+  if (Array.isArray(n1) && Array.isArray(n2)) {
+    if (n1.length !== n2.length) {
+      return false;
+    }
+    for (let i = 0; i < n1.length; i++) {
+      if (!approxEquals(n1[i], n2[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   if (Number.isNaN(n1) || Number.isNaN(n2)) {
     return false;
   }
-  return Math.abs(n1 - n2) <= forgiveness;
+  return Math.abs((n1 as number) - (n2 as number)) <= forgiveness;
 }
 
 export function norm(...ns: (number | undefined)[]): number | undefined {
