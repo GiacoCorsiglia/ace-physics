@@ -455,8 +455,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   }),
   uAndKGraphCommit: Commit,
 
-  uAndKRelationship: s.string(),
-  uAndKRelationshipC: s.choice([
+  uAndKRelationship: s.choice([
     "same",
     "different-bases",
     "different-coefficients",
@@ -464,20 +463,24 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   uAndKRelationshipHelp: Help,
   uAndKRelationshipCommit: Commit,
 
-  checkInCommit: Commit,
+  newNameNecessary: s.choice(["yes", "no", "no but useful"] as const),
+  newNameNecessaryExplain: s.string(),
+  newNameNecessaryCommit: Commit,
+
+  uVsKFeedbackCommit: Commit,
 
   meaningOfCoB: s.string(),
   meaningOfCoBCommit: Commit,
 
-  newNameNecessary: s.boolean(),
-  newNameNecessaryExplain: s.string(),
-  newNameNecessaryCommit: Commit,
-
-  equalityAllowed: s.boolean(),
+  equalityAllowed: s.choice(["allowed", "not allowed"] as const),
   equalityAllowedCommit: Commit,
 
   whyNoSubscriptNeeded: s.string(),
   whyNoSubscriptNeededCommit: Commit,
+
+  equalityAllowedFeedbackCommit: Commit,
+
+  relatingBasesFinalCommit: s.boolean(),
 
   //Part 5: WrapUp
   positionCoord: s.string(),
