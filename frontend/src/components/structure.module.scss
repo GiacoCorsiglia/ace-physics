@@ -40,11 +40,27 @@
 }
 
 .section {
+  position: relative;
   margin-top: 6rem;
 
   &.sectionFirst {
     margin-top: 0;
   }
+}
+
+.sectionDevNoticeVisible,
+.sectionDevNoticeHidden {
+  position: absolute;
+  top: 0.3rem;
+  right: calc(100% + 1rem);
+}
+
+.sectionDevNoticeVisible {
+  color: $green;
+}
+
+.sectionDevNoticeHidden {
+  color: $red;
 }
 
 .reminder {
