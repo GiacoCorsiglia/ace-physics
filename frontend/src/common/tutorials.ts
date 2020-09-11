@@ -500,3 +500,6 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   whyCoB: s.string(),
   whyCoBCommit: Commit,
 });
+// HACK: This is strictly a duplicate, but it allows the Lite version to have
+// a different name!  It must be reference equals with QuantumBasis.
+export const QuantumBasisLite = (names["QuantumBasisLite"] = QuantumBasis);
