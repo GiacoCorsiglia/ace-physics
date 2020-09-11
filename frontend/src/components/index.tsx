@@ -130,11 +130,13 @@ export function Continue({
         {children}
       </div>
 
-      {!allowed && (
-        <p className={styles.continueNotAllowedMessage}>
-          Please respond to every question before moving on.
-        </p>
-      )}
+      <p
+        className={styles.continueNotAllowedMessage}
+        // Use visibility so the layout doesn't jump around.
+        style={{ visibility: allowed ? "hidden" : "visible" }}
+      >
+        Please respond to every question before moving on.
+      </p>
     </Content>
   );
 }
