@@ -2,8 +2,10 @@ import { default as React } from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import {
   Continue,
+  ContinueToNextPart,
   Help,
   HelpButton,
+  Info,
   Prose,
   Reminder,
   Section,
@@ -15,6 +17,7 @@ import Matrix, { fieldToMatrix } from "src/components/Matrix";
 import { Axes, Plot, Tick, Vector } from "src/components/plots";
 import { isSet, isVisible, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
+import { approxEquals } from "src/util";
 
 export default function ChangingBasis() {
   const f = useFields(QuantumBasis);
@@ -123,10 +126,21 @@ export default function ChangingBasis() {
             }
           />
 
+          {needsHelp(f.columnSubscriptExplainHelp) && (
+            <Help>
+              <Prose>
+                We didn’t have subscripts on our column vectors on the previous
+                page. What’s the big change we made on this page?
+              </Prose>
+            </Help>
+          )}
+
           <Continue
             commit={f.columnSubscriptExplainCommit}
             allowed={isSet(f.columnSubscriptExplain)}
-          />
+          >
+            <HelpButton help={f.columnSubscriptExplainHelp} />
+          </Continue>
         </Section>
 
         <Section commits={f.columnSubscriptExplainCommit}>
@@ -295,7 +309,7 @@ export default function ChangingBasis() {
         >
           <Columns>
             <Column>
-              <Prose>
+              <Prose noMargin>
                 <p>
                   Alright, let’s plot the vector. Like before, type in the new
                   coordinates as decimals in the column vector below.
@@ -322,6 +336,106 @@ export default function ChangingBasis() {
             commit={f.kColumnCommit}
             allowed={isSet(f.kColumn)}
             label="Let‘s check in"
+            onClick={() => {
+              if (approxEquals(f.kColumn.value, [0.835, 0.551])) {
+                f.kColumnCorrectVisible.set(true);
+              } else if (approxEquals(f.kColumn.value, [0.551, 0.835])) {
+                f.kColumnReversedVisible.set(true);
+              } else {
+                f.kColumnIncorrectVisible.set(true);
+              }
+            }}
+          />
+        </Section>
+
+        <Section commits={[f.kColumnCommit, f.kColumnIncorrectVisible]}>
+          <Info>
+            <Prose>
+              {approxEquals(f.kColumn.value, [0.835, 0.551]) ? (
+                <p>
+                  Hey! Looks like you changed your answers to the correct ones.
+                  Nice job! Feel free to move on.
+                </p>
+              ) : (
+                <>
+                  <p>
+                    {approxEquals(f.kColumn.elements[0].value, 0.835) ? (
+                      <>
+                        Looks like your <M t="b" /> is somewhat off.
+                      </>
+                    ) : approxEquals(f.kColumn.elements[1].value, 0.551) ? (
+                      <>
+                        Looks like your <M t="a" /> is somewhat off.
+                      </>
+                    ) : (
+                      <>Looks like your calculation is somewhat off.</>
+                    )}{" "}
+                    If you’re using inner products to calculate, make sure
+                    you’re using these equations:
+                    <M
+                      display
+                      t="a = \braket{v_1}{u} \text{ and } b = \braket{v_2}{u}"
+                    />
+                  </p>
+
+                  <p>
+                    The answers are revealed on the top of the next page. Keep
+                    trying (if you want), and you can double check yourself
+                    there. Move on when you decide you’re ready.
+                  </p>
+                </>
+              )}
+            </Prose>
+          </Info>
+
+          <Continue commit={f.kColumnIncorrectCommit} />
+        </Section>
+
+        <Section commits={[f.kColumnCommit, f.kColumnReversedVisible]}>
+          <Help>
+            <Prose>
+              <p>
+                You’re really close! Looks like you reversed <M t="a" /> and{" "}
+                <M t="b" /> though. If you’re using inner products to calculate,
+                make sure you’re using these equations:
+                <M
+                  display
+                  t="a = \braket{v_1}{u} \text{ and } b = \braket{v_2}{u}"
+                />
+              </p>
+
+              <p>
+                You can fix this above if you’d like (it will help you visualize
+                the vector). Otherwise, you’re ready to move on.
+              </p>
+            </Prose>
+          </Help>
+
+          <Continue commit={f.kColumnReversedCommit} />
+        </Section>
+
+        <Section commits={[f.kColumnCommit, f.kColumnCorrectVisible]}>
+          <Help>
+            <Prose>Looks good to us! Wonderful job.</Prose>
+          </Help>
+
+          <Continue
+            commit={f.kColumnCorrectCommit}
+            label="Awesome, let’s keep going"
+          />
+        </Section>
+
+        <Section
+          commits={[
+            f.kColumnCommit,
+            isVisible(f.kColumnIncorrectVisible) && f.kColumnIncorrectCommit,
+            isVisible(f.kColumnReversedVisible) && f.kColumnReversedCommit,
+            isVisible(f.kColumnCorrectVisible) && f.kColumnCorrectCommit,
+          ]}
+        >
+          <ContinueToNextPart
+            link="../relating-different-bases"
+            commit={f.changingBasisFinalCommit}
           />
         </Section>
       </Content>

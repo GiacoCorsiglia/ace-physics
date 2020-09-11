@@ -449,6 +449,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   kColumnDiracCommit: Commit,
 
   columnSubscriptExplain: s.string(),
+  columnSubscriptExplainHelp: Help,
   columnSubscriptExplainCommit: Commit,
 
   basisChangeHelp: Help,
@@ -465,6 +466,17 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 
   kColumn: Point2D,
   kColumnCommit: Commit,
+
+  kColumnIncorrectVisible: Visibility,
+  kColumnIncorrectCommit: Commit,
+
+  kColumnReversedVisible: Visibility,
+  kColumnReversedCommit: Commit,
+
+  kColumnCorrectVisible: Visibility,
+  kColumnCorrectCommit: Commit,
+
+  changingBasisFinalCommit: Commit,
 
   // Relating Different Bases.
   relatingBasesIntroCommit: Commit,
