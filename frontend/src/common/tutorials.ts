@@ -403,26 +403,53 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   // Defining a Basis.
   definingBasisIntroCommit: Commit,
 
-  iAndJFormBasis: s.boolean(),
+  iAndJFormBasis: s.choice(["yes", "no"] as const),
   iAndJFormBasisExplain: s.string(),
   iAndJFormBasisCommit: Commit,
 
+  iAndJSpanVisible: Visibility,
+  iAndJSpan: s.choice(["yes", "no"] as const),
+  iAndJSpanCommit: Commit,
+
+  iAndJFeedbackCommit: Commit,
+
   uColumn: Point2D,
+  uColumnHelp: Help,
   uColumnCommit: Commit,
 
   uColumnDirac: s.tuple(uColumnDiracChoice, uColumnDiracChoice),
+  uColumnDiracHelp: Help,
   uColumnDiracCommit: Commit,
+
+  uColumnDiracKetVisible: Visibility,
+  uColumnDiracKetCommit: Commit,
+  uColumnDiracCorrectVisible: Visibility,
+  uColumnDiracCorrectCommit: Commit,
+  uColumnDiracConjugateVisible: Visibility,
+  uColumnDiracConjugateCommit: Commit,
+  uColumnDiracReversedVisible: Visibility,
+  uColumnDiracReversedCommit: Commit,
+  uColumnDiracRepeatedVisible: Visibility,
+  uColumnDiracRepeatedCommit: Commit,
+  uColumnDiracGeneralIncorrectVisible: Visibility,
+  uColumnDiracGeneralIncorrectCommit: Commit,
 
   innerProductMeaning: s.string(),
   innerProductMeaningCommit: Commit,
 
+  definingBasisFinalCommit: Commit,
+
   // Changing Basis.
   changingBasisIntroCommit: Commit,
+
+  basisChangeApproach: s.string(),
+  basisChangeApproachCommit: Commit,
 
   kColumnDirac: s.tuple(kColumnDiracChoice, kColumnDiracChoice),
   kColumnDiracCommit: Commit,
 
   columnSubscriptExplain: s.string(),
+  columnSubscriptExplainHelp: Help,
   columnSubscriptExplainCommit: Commit,
 
   basisChangeHelp: Help,
@@ -440,6 +467,17 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   kColumn: Point2D,
   kColumnCommit: Commit,
 
+  kColumnIncorrectVisible: Visibility,
+  kColumnIncorrectCommit: Commit,
+
+  kColumnReversedVisible: Visibility,
+  kColumnReversedCommit: Commit,
+
+  kColumnCorrectVisible: Visibility,
+  kColumnCorrectCommit: Commit,
+
+  changingBasisFinalCommit: Commit,
+
   // Relating Different Bases.
   relatingBasesIntroCommit: Commit,
 
@@ -452,8 +490,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   }),
   uAndKGraphCommit: Commit,
 
-  uAndKRelationship: s.string(),
-  uAndKRelationshipC: s.choice([
+  uAndKRelationship: s.choice([
     "same",
     "different-bases",
     "different-coefficients",
@@ -461,20 +498,24 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   uAndKRelationshipHelp: Help,
   uAndKRelationshipCommit: Commit,
 
-  checkInCommit: Commit,
+  newNameNecessary: s.choice(["yes", "no", "no but useful"] as const),
+  newNameNecessaryExplain: s.string(),
+  newNameNecessaryCommit: Commit,
+
+  uVsKFeedbackCommit: Commit,
 
   meaningOfCoB: s.string(),
   meaningOfCoBCommit: Commit,
 
-  newNameNecessary: s.boolean(),
-  newNameNecessaryExplain: s.string(),
-  newNameNecessaryCommit: Commit,
-
-  equalityAllowed: s.boolean(),
+  equalityAllowed: s.choice(["allowed", "not allowed"] as const),
   equalityAllowedCommit: Commit,
 
   whyNoSubscriptNeeded: s.string(),
   whyNoSubscriptNeededCommit: Commit,
+
+  equalityAllowedFeedbackCommit: Commit,
+
+  relatingBasesFinalCommit: Commit,
 
   //Part 5: WrapUp
   positionCoord: s.string(),
@@ -503,3 +544,6 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   whyCoB: s.string(),
   whyCoBCommit: Commit,
 });
+// HACK: This is strictly a duplicate, but it allows the Lite version to have
+// a different name!  It must be reference equals with QuantumBasis.
+export const QuantumBasisLite = (names["QuantumBasisLite"] = QuantumBasis);

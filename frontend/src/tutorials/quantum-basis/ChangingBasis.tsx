@@ -2,8 +2,10 @@ import { default as React } from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import {
   Continue,
+  ContinueToNextPart,
   Help,
   HelpButton,
+  Info,
   Prose,
   Reminder,
   Section,
@@ -15,6 +17,7 @@ import Matrix, { fieldToMatrix } from "src/components/Matrix";
 import { Axes, Plot, Tick, Vector } from "src/components/plots";
 import { isSet, isVisible, needsHelp, useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
+import { approxEquals } from "src/util";
 
 export default function ChangingBasis() {
   const f = useFields(QuantumBasis);
@@ -53,15 +56,46 @@ export default function ChangingBasis() {
             </p>
 
             <p>
-              This means we wish to write our vector in the form{" "}
-              <M t="a\ket{v_1} + b\ket{v_2}" />
-              . Your task on this page is to find <M t="a" /> and <M t="b" />.
+              We want to write our vector in the form
+              <M t="a\ket{v_1} + b\ket{v_2}" />.
             </p>
 
             <p>
-              First, represent <M t="\ket{u}" /> as a column vector{" "}
-              <em>in the new basis</em>. Like before, express each element in
-              Dirac notation.
+              In the box below, explain how you might find <M t="a" /> and{" "}
+              <M t="b" />. Don't calculate yet, just explain how you would. List
+              all the methods you can think of!
+            </p>
+          </Prose>
+
+          <TextArea field={f.basisChangeApproach} label={<Prose></Prose>} />
+
+          <Continue
+            commit={f.basisChangeApproachCommit}
+            allowed={isSet(f.basisChangeApproach)}
+          />
+        </Section>
+
+        <Section commits={f.basisChangeApproachCommit}>
+          <Prose>
+            <p>
+              Awesome, thanks for taking the time to think about that. Here’s
+              one way you can do it. It’s usually the most efficient way, but
+              there are other valid approaches too!
+            </p>
+
+            <p>
+              Thinking back to the previous page, if we represent our ket as a
+              column vector in the new basis, it will look like
+              <M
+                display
+                t="a \ket{v_1} + b \ket{v_2} \doteq \begin{pmatrix} a \\ b \end{pmatrix}_v"
+              />
+            </p>
+
+            <p>
+              Now, express each element in Dirac notation. This is similar to
+              what we did on the previous page, but remember we’re working in
+              the new basis now.
             </p>
           </Prose>
 
@@ -92,10 +126,21 @@ export default function ChangingBasis() {
             }
           />
 
+          {needsHelp(f.columnSubscriptExplainHelp) && (
+            <Help>
+              <Prose>
+                We didn’t have subscripts on our column vectors on the previous
+                page. What’s the big change we made on this page?
+              </Prose>
+            </Help>
+          )}
+
           <Continue
             commit={f.columnSubscriptExplainCommit}
             allowed={isSet(f.columnSubscriptExplain)}
-          />
+          >
+            <HelpButton help={f.columnSubscriptExplainHelp} />
+          </Continue>
         </Section>
 
         <Section commits={f.columnSubscriptExplainCommit}>
@@ -169,8 +214,8 @@ export default function ChangingBasis() {
             choices={v1v2AxesAllowedChoices}
             label={
               <Prose>
-                Is it OK to label the horizontal axis as <M t="\vb{v1}" /> and
-                the vertical axis as <M t="\vb{v2}" />?
+                Is it OK to label the horizontal axis as <M t="\vb{v_1}" /> and
+                the vertical axis as <M t="\vb{v_2}" />?
               </Prose>
             }
           />
@@ -185,7 +230,7 @@ export default function ChangingBasis() {
           {needsHelp(f.v1v2AxesAllowedHelp) && (
             <Help>
               <Prose>
-                <M t="\ket{v1}" /> and <M t="\ket{v2}" /> form an{" "}
+                <M t="\ket{v_1}" /> and <M t="\ket{v_2}" /> form an{" "}
                 <em>orthonormal basis</em> just like <M t="\ket{i}" /> and{" "}
                 <M t="\ket{j}" />. This means that they can be represented by
                 any pair of perpendicular axes.
@@ -233,7 +278,7 @@ export default function ChangingBasis() {
         >
           <Prose>
             <p>
-              Because <M t="\ket{v1}" /> and <M t="\ket{v2}" /> form an{" "}
+              Because <M t="\ket{v_1}" /> and <M t="\ket{v_2}" /> form an{" "}
               <em>orthonormal basis</em>, they can be represented by any pair of
               perpendicular axes. So we think it’s just fine for us to use the
               horizontal and vertical axes for this purpose.
@@ -264,7 +309,7 @@ export default function ChangingBasis() {
         >
           <Columns>
             <Column>
-              <Prose>
+              <Prose noMargin>
                 <p>
                   Alright, let’s plot the vector. Like before, type in the new
                   coordinates as decimals in the column vector below.
@@ -291,6 +336,106 @@ export default function ChangingBasis() {
             commit={f.kColumnCommit}
             allowed={isSet(f.kColumn)}
             label="Let‘s check in"
+            onClick={() => {
+              if (approxEquals(f.kColumn.value, [0.835, 0.551])) {
+                f.kColumnCorrectVisible.set(true);
+              } else if (approxEquals(f.kColumn.value, [0.551, 0.835])) {
+                f.kColumnReversedVisible.set(true);
+              } else {
+                f.kColumnIncorrectVisible.set(true);
+              }
+            }}
+          />
+        </Section>
+
+        <Section commits={[f.kColumnCommit, f.kColumnIncorrectVisible]}>
+          <Info>
+            <Prose>
+              {approxEquals(f.kColumn.value, [0.835, 0.551]) ? (
+                <p>
+                  Hey! Looks like you changed your answers to the correct ones.
+                  Nice job! Feel free to move on.
+                </p>
+              ) : (
+                <>
+                  <p>
+                    {approxEquals(f.kColumn.elements[0].value, 0.835) ? (
+                      <>
+                        Looks like your <M t="b" /> is somewhat off.
+                      </>
+                    ) : approxEquals(f.kColumn.elements[1].value, 0.551) ? (
+                      <>
+                        Looks like your <M t="a" /> is somewhat off.
+                      </>
+                    ) : (
+                      <>Looks like your calculation is somewhat off.</>
+                    )}{" "}
+                    If you’re using inner products to calculate, make sure
+                    you’re using these equations:
+                    <M
+                      display
+                      t="a = \braket{v_1}{u} \text{ and } b = \braket{v_2}{u}"
+                    />
+                  </p>
+
+                  <p>
+                    The answers are revealed on the top of the next page. Keep
+                    trying (if you want), and you can double check yourself
+                    there. Move on when you decide you’re ready.
+                  </p>
+                </>
+              )}
+            </Prose>
+          </Info>
+
+          <Continue commit={f.kColumnIncorrectCommit} />
+        </Section>
+
+        <Section commits={[f.kColumnCommit, f.kColumnReversedVisible]}>
+          <Help>
+            <Prose>
+              <p>
+                You’re really close! Looks like you reversed <M t="a" /> and{" "}
+                <M t="b" /> though. If you’re using inner products to calculate,
+                make sure you’re using these equations:
+                <M
+                  display
+                  t="a = \braket{v_1}{u} \text{ and } b = \braket{v_2}{u}"
+                />
+              </p>
+
+              <p>
+                You can fix this above if you’d like (it will help you visualize
+                the vector). Otherwise, you’re ready to move on.
+              </p>
+            </Prose>
+          </Help>
+
+          <Continue commit={f.kColumnReversedCommit} />
+        </Section>
+
+        <Section commits={[f.kColumnCommit, f.kColumnCorrectVisible]}>
+          <Help>
+            <Prose>Looks good to us! Wonderful job.</Prose>
+          </Help>
+
+          <Continue
+            commit={f.kColumnCorrectCommit}
+            label="Awesome, let’s keep going"
+          />
+        </Section>
+
+        <Section
+          commits={[
+            f.kColumnCommit,
+            isVisible(f.kColumnIncorrectVisible) && f.kColumnIncorrectCommit,
+            isVisible(f.kColumnReversedVisible) && f.kColumnReversedCommit,
+            isVisible(f.kColumnCorrectVisible) && f.kColumnCorrectCommit,
+          ]}
+        >
+          <ContinueToNextPart
+            link="../relating-different-bases"
+            commit={f.changingBasisFinalCommit}
           />
         </Section>
       </Content>
@@ -319,7 +464,7 @@ function PlotK() {
 
   return (
     <Plot width={266} height={266} scale={90}>
-      <Axes xLabel="\vb{v1}" yLabel="\vb{v2}" color="darkgreen" />
+      <Axes xLabel="\vb{v_1}" yLabel="\vb{v_2}" color="darkgreen" />
 
       {x !== undefined && (
         <Tick x={x} label={`\\braket{v_1}{u} = ${x}`} color="red" />

@@ -2,8 +2,10 @@ import { default as React } from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import {
   Continue,
+  ContinueToNextPart,
   Help,
   HelpButton,
+  Info,
   Prose,
   Reminder,
   Section,
@@ -107,14 +109,14 @@ export default function RelatingDifferentBases() {
           />
         </Section>
 
-        <Section commits={[f.uAndKGraphCommit]}>
+        <Section commits={f.uAndKGraphCommit}>
           <Help>
             <Prose>Your graph looks good!</Prose>
           </Help>
 
           <Choice
-            field={f.uAndKRelationshipC}
-            choices={uAndKRelationshipC}
+            field={f.uAndKRelationship}
+            choices={uAndKRelationship}
             label={
               <Prose>
                 Based on the graph, what is the relationship between{" "}
@@ -133,25 +135,26 @@ export default function RelatingDifferentBases() {
             </Help>
           )}
 
-          <Continue commit={f.uAndKRelationshipCommit}>
+          <Continue
+            commit={f.uAndKRelationshipCommit}
+            allowed={isSet(f.uAndKRelationship)}
+          >
             <HelpButton help={f.uAndKRelationshipHelp} />
           </Continue>
         </Section>
 
         <Section commits={[f.uAndKRelationshipCommit]}>
-          <Toggle
+          <Choice
             field={f.newNameNecessary}
+            choices={newNameNecessaryChoices}
             label={
               <Prose>
                 Earlier we had a state <M t="\ket{u}" /> initially written in
                 the basis of <M t="\ket{i}" /> and <M t="\ket{j}" />. We then
-                converted this to a new basis. Was it (in retrospect)
-                appropriate or necessary to give it a new name,{" "}
-                <M t="\ket{k}" />?
+                converted this to a new basis. Was it (in retrospect) necessary
+                to give it a new name, <M t="\ket{k}" />?
               </Prose>
             }
-            yes="Yes, it was appropriate/necessary"
-            no="No, it was not"
           />
 
           <TextArea
@@ -159,74 +162,91 @@ export default function RelatingDifferentBases() {
             label={<Prose>Explain</Prose>}
           />
 
-          <Continue label="Let’s check in" commit={f.newNameNecessaryCommit} />
+          <Continue
+            label="Let’s check in"
+            commit={f.newNameNecessaryCommit}
+            allowed={
+              isSet(f.newNameNecessary) && isSet(f.newNameNecessaryExplain)
+            }
+          />
         </Section>
 
         <Section commits={f.newNameNecessaryCommit}>
-          {f.uAndKRelationshipC.value?.selected === "same" &&
-            f.newNameNecessary.value === false && (
-              <Help>
-                <Prose>
-                  We agree! Changing basis just changes your representation of a
-                  vector, but it doesn’t change the underlying vector.
-                  Considering that, there’s no reason to give the vector another
-                  name. (Doing so might even be confusing!)
-                </Prose>
-              </Help>
-            )}
+          {f.uAndKRelationship.value?.selected === "same" && (
+            <>
+              {f.newNameNecessary.value?.selected === "no" && (
+                <Help>
+                  <Prose>
+                    <p>We agree with your answers!</p>
 
-          {f.uAndKRelationshipC.value?.selected === "same" &&
-            f.newNameNecessary.value === true && (
-              <Help>
-                <Prose>
-                  <p>
-                    We agree that <M t="\ket{u}" /> and
-                    <M t="\ket{k}" /> are the same vector,{" "}
-                    <M t="\ket{u} = \ket{k}" />!
-                  </p>
+                    <p>
+                      <M t="\ket{u} = \ket{k}" />, and changing basis just
+                      changes your representation of a vector, but it doesn’t
+                      change the underlying vector. Considering that, there’s no
+                      reason to give the vector another name. (Doing so might
+                      even be confusing!)
+                    </p>
+                  </Prose>
+                </Help>
+              )}
 
-                  <p>
-                    Since they’re the same vector, we don’t think the vector
-                    needed a new name. Although you could use the name of the
-                    vector to indicate the basis you’re working in, the
-                    right-hand-side of your equation already tells you this
-                    information. If you write{" "}
-                    <M t="\ket{u} = a\ket{v_1} + b\ket{v_2}" />, you know you’re
-                    working the in the basis of <M t="\ket{v_1}" /> and{" "}
-                    <M t="\ket{v_2}" />
-                  </p>
-                </Prose>
-              </Help>
-            )}
+              {(f.newNameNecessary.value?.selected === "yes" ||
+                f.newNameNecessary.value?.selected === "no but useful") && (
+                <Info>
+                  <Prose>
+                    <p>
+                      We agree that <M t="\ket{u}" /> and
+                      <M t="\ket{k}" /> are the same vector,{" "}
+                      <M t="\ket{u} = \ket{k}" />!
+                    </p>
 
-          {f.uAndKRelationshipC.value?.selected !== "same" &&
-            f.newNameNecessary.value === true && (
-              <Help>
-                <Prose>
-                  <p>
-                    Actually, we think that <M t="\ket{u}" /> and
-                    <M t="\ket{k}" /> are the same vector,
-                    <M t="\ket{u} = \ket{k}" />!
-                  </p>
+                    <p>
+                      But since they’re the same vector, it doesn’t need a new
+                      name.
+                    </p>
 
-                  <p>
-                    That said, we do agree that IF <M t="\ket{u}" /> and
-                    <M t="\ket{k}" /> were different vectors, it would
-                    definitely make sense for them to have different names.
-                  </p>
+                    <p>
+                      Although you could use the name of the vector to indicate
+                      the basis you’re working in, the right-hand-side of your
+                      equation already tells you this information. If you write{" "}
+                      <M t="\ket{u} = a\ket{v_1} + b\ket{v_2}" />, you know
+                      you’re working the in the basis of <M t="\ket{v_1}" /> and{" "}
+                      <M t="\ket{v_2}" />. It could actually be confusing to{" "}
+                      <em>also</em> change the name.
+                    </p>
+                  </Prose>
+                </Info>
+              )}
+            </>
+          )}
 
-                  <p>
-                    Go ahead and change your answers above and scroll back down
-                    to check in again.
-                  </p>
-                </Prose>
-              </Help>
-            )}
+          {f.uAndKRelationship.value?.selected !== "same" && (
+            <Info>
+              <Prose>
+                <p>
+                  <M t="\ket{u}" /> and
+                  <M t="\ket{k}" /> are the same vector,
+                  <M t="\ket{u} = \ket{k}" />.
+                </p>
 
-          <Continue commit={f.checkInCommit} />
+                <p>
+                  It’s no accident that they overlap on the graph. You can
+                  represent a vector in different bases and it’s still the same
+                  vector!
+                </p>
+
+                <p>
+                  Go ahead and change your answers above and scroll back down to
+                  check in again.
+                </p>
+              </Prose>
+            </Info>
+          )}
+
+          <Continue commit={f.uVsKFeedbackCommit} />
         </Section>
 
-        <Section commits={[f.newNameNecessaryCommit, f.checkInCommit]}>
+        <Section commits={f.uVsKFeedbackCommit}>
           <TextArea
             field={f.meaningOfCoB}
             label={
@@ -245,9 +265,10 @@ export default function RelatingDifferentBases() {
           />
         </Section>
 
-        <Section commits={[f.newNameNecessaryCommit, f.checkInCommit]}>
+        <Section commits={f.meaningOfCoBCommit}>
           <Toggle
             field={f.equalityAllowed}
+            choices={equalityAllowedChoices}
             label={
               <Prose>
                 Let’s bring this back to the physics context. Can we write{" "}
@@ -255,14 +276,15 @@ export default function RelatingDifferentBases() {
                 ?
               </Prose>
             }
-            yes="Yes, that’s allowed"
-            no="No, they’re in different bases"
           />
 
-          <Continue commit={f.equalityAllowedCommit} />
+          <Continue
+            commit={f.equalityAllowedCommit}
+            allowed={isSet(f.equalityAllowed)}
+          />
         </Section>
 
-        <Section commits={[f.equalityAllowedCommit, f.checkInCommit]}>
+        <Section commits={f.equalityAllowedCommit}>
           <TextArea
             field={f.whyNoSubscriptNeeded}
             label={
@@ -273,7 +295,63 @@ export default function RelatingDifferentBases() {
             }
           />
 
-          <Continue commit={f.whyNoSubscriptNeededCommit} />
+          <Prose>
+            Make sure your answer here agrees with your response to the previous
+            question.
+          </Prose>
+
+          <Continue
+            commit={f.whyNoSubscriptNeededCommit}
+            allowed={isSet(f.whyNoSubscriptNeeded)}
+            label="Let’s check in"
+          />
+        </Section>
+
+        <Section commits={f.whyNoSubscriptNeededCommit}>
+          {f.equalityAllowed.value?.selected === "allowed" && (
+            <Help>
+              <Prose>
+                <p>
+                  Yep, that equation is totally allowed. <M t="\ket{\psi}" /> is
+                  the same vector regardless of the basis we express it in.
+                </p>
+
+                <p>
+                  For that reason, we don’t need any subscript on
+                  <M t="\ket{\psi}" />.
+                </p>
+              </Prose>
+            </Help>
+          )}
+
+          {f.equalityAllowed.value?.selected === "not allowed" && (
+            <Info>
+              <Prose>
+                <p>That equation is allowed.</p>
+
+                <p>
+                  <M t="\ket{\psi}" /> is the same vector regardless of the
+                  basis we express it in. You can check that the equality holds
+                  by expanding <M t="\ket{+}_x" /> and <M t="\ket{-}_x" /> in
+                  the z-basis.
+                </p>
+
+                <p>
+                  For the same reason, we don’t need any subscript on
+                  <M t="\ket{\psi}" />.
+                </p>
+              </Prose>
+            </Info>
+          )}
+
+          <Continue commit={f.equalityAllowedFeedbackCommit} />
+        </Section>
+
+        <Section commits={f.whyNoSubscriptNeededCommit}>
+          <ContinueToNextPart
+            commit={f.relatingBasesFinalCommit}
+            link="../feedback"
+          />
         </Section>
       </Content>
     </Part>
@@ -491,16 +569,30 @@ const finalGraphKChoices = [
   },
 ] as const;
 
-const uAndKRelationshipC = [
-  { value: "same", label: "They seem to be the same vector!" },
+const uAndKRelationship = [
+  { value: "same", label: "They’re the same vector." },
   {
     value: "different-bases",
     label:
-      "They overlap, but they can’t be the same vector because they’re in different bases.",
+      "They can’t be the same vector because they’re in different bases, even though they overlap on the graph.",
   },
   {
     value: "different-coefficients",
     label:
-      "They overlap, but they aren’t the same vector because they have different coefficients.",
+      "They aren’t the same vector because they have different coefficients, even though they overlap on the graph.",
   },
+] as const;
+
+const newNameNecessaryChoices = [
+  { value: "yes", label: "Yes, it was necessary." },
+  { value: "no", label: "No, it wasn’t necessary." },
+  {
+    value: "no but useful",
+    label: "It wasn’t necessary, but it was still useful to do this.",
+  },
+] as const;
+
+const equalityAllowedChoices = [
+  { value: "allowed", label: "Yes, that’s allowed" },
+  { value: "not allowed", label: "No, they’re in different bases" },
 ] as const;

@@ -8,21 +8,21 @@
   YARN_VERSION = "1.22.4"
   NODE_ENV = "production"
   # Production defaults:
-  REACT_APP_ACE_STAGING = "no"
+  REACT_APP_ACE_ENV = "production"
   API_LOCATION = "hkl4dcafa7.execute-api.us-west-1.amazonaws.com/production"
   # This should have no effect, but just in case:
   REACT_APP_ACE_API = "yes"
 
 [context.production.environment] # This is the "master" branch
-  REACT_APP_ACE_STAGING = "no"
+  REACT_APP_ACE_ENV = "production"
   API_LOCATION = "hkl4dcafa7.execute-api.us-west-1.amazonaws.com/production"
 
 [context.deploy-preview.environment] # Pull request previews
-  REACT_APP_ACE_STAGING = "yes"
+  REACT_APP_ACE_ENV = "staging"
   API_LOCATION = "9vugrnkufd.execute-api.us-west-1.amazonaws.com/staging"
 
 [context.branch-deploy.environment] # This is any other branch
-  REACT_APP_ACE_STAGING = "yes"
+  REACT_APP_ACE_ENV = "staging"
   API_LOCATION = "9vugrnkufd.execute-api.us-west-1.amazonaws.com/staging"
 
 [[redirects]]
