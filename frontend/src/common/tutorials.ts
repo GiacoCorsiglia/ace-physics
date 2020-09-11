@@ -484,19 +484,22 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   potentialEnergyCoord: s.string(),
   potentialEnergyCoordExplain: s.string(),
   potentialEnergyCoordCommit: Commit,
-  coordChoiceEffect: s.string(),
+
+  coordChoiceEffect: s.boolean(),
+  coordChoiceEffectExplain: s.string(),
   coordChoiceCommit: Commit,
 
   xBaseRewrite: s.string(),
   xBasisRewriteNewInfo: s.string(),
   xBaseRewriteCommit: Commit,
 
-  repX: s.string(),
-  repZ: s.string(),
+  repX: s.boolean(),
+  repZ: s.boolean(),
   repExplain: s.string(),
   repCommit: Commit,
 
-  CoBEfect: s.string(),
+  CoBEfect: s.boolean(),
+  CoBEffectExplain: s.string(),
   whyCoB: s.string(),
   whyCoBCommit: Commit,
 });
