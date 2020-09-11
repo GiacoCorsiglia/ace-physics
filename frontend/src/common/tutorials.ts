@@ -518,11 +518,11 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   relatingBasesFinalCommit: Commit,
 
   //Part 5: WrapUp
-  positionCoord: s.string(),
+  positionCoord: s.boolean(),
   positionCoordExplain: s.string(),
   positionCoordCommit: Commit,
 
-  potentialEnergyCoord: s.string(),
+  potentialEnergyCoord: s.boolean(),
   potentialEnergyCoordExplain: s.string(),
   potentialEnergyCoordCommit: Commit,
 

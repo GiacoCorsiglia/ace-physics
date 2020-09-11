@@ -51,7 +51,7 @@ export default function WrapUp() {
 
           {/*Making everything a text area for easy right now!*/}
 
-          <TextArea
+          <Toggle
             field={positionCoord}
             label={
               <Prose>
@@ -59,6 +59,8 @@ export default function WrapUp() {
                 the hill?
               </Prose>
             }
+            yes="Horizontal and Vertical axes"
+            no="A set of rotated axes"
           />
 
           <TextArea
@@ -70,7 +72,7 @@ export default function WrapUp() {
         </Section>
 
         <Section commits={[positionCoordCommit]}>
-          <TextArea
+          <Toggle
             field={potentialEnergyCoord}
             label={
               <Prose>
@@ -78,6 +80,8 @@ export default function WrapUp() {
                 easily measure the gravitational potential energy of the car?
               </Prose>
             }
+            yes="Horizontal and Vertical axes"
+            no="A set of rotated axes"
           />
           <TextArea
             field={potentialEnergyCoordExplain}
