@@ -615,6 +615,11 @@ export function Part({
 }: {
   label: React.ReactNode;
 } & Children) {
+  useEffect(() => {
+    // Make sure we've scrolled back to the top
+    window.scroll(window.scrollX, 0);
+  }, []);
+
   return (
     <>
       <Content className="prose">
