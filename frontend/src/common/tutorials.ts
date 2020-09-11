@@ -403,18 +403,41 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   // Defining a Basis.
   definingBasisIntroCommit: Commit,
 
-  iAndJFormBasis: s.boolean(),
+  iAndJFormBasis: s.choice(["yes", "no"] as const),
   iAndJFormBasisExplain: s.string(),
   iAndJFormBasisCommit: Commit,
 
+  iAndJSpanVisible: Visibility,
+  iAndJSpan: s.choice(["yes", "no"] as const),
+  iAndJSpanCommit: Commit,
+
+  iAndJFeedbackCommit: Commit,
+
   uColumn: Point2D,
+  uColumnHelp: Help,
   uColumnCommit: Commit,
 
   uColumnDirac: s.tuple(uColumnDiracChoice, uColumnDiracChoice),
+  uColumnDiracHelp: Help,
   uColumnDiracCommit: Commit,
+
+  uColumnDiracKetVisible: Visibility,
+  uColumnDiracKetCommit: Commit,
+  uColumnDiracCorrectVisible: Visibility,
+  uColumnDiracCorrectCommit: Commit,
+  uColumnDiracConjugateVisible: Visibility,
+  uColumnDiracConjugateCommit: Commit,
+  uColumnDiracReversedVisible: Visibility,
+  uColumnDiracReversedCommit: Commit,
+  uColumnDiracRepeatedVisible: Visibility,
+  uColumnDiracRepeatedCommit: Commit,
+  uColumnDiracGeneralIncorrectVisible: Visibility,
+  uColumnDiracGeneralIncorrectCommit: Commit,
 
   innerProductMeaning: s.string(),
   innerProductMeaningCommit: Commit,
+
+  definingBasisFinalCommit: Commit,
 
   // Changing Basis.
   changingBasisIntroCommit: Commit,
