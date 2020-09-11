@@ -1,4 +1,9 @@
-import { ArrowDownIcon, ArrowRightIcon } from "@primer/octicons-react";
+import {
+  ArrowDownIcon,
+  ArrowRightIcon,
+  EyeClosedIcon,
+  EyeIcon,
+} from "@primer/octicons-react";
 import React, { useContext, useEffect, useRef } from "react";
 import * as s from "src/common/schema";
 import * as globalParams from "src/globalParams";
@@ -130,11 +135,13 @@ export function Continue({
         {children}
       </div>
 
-      {!allowed && (
-        <p className={styles.continueNotAllowedMessage}>
-          Please respond to every question before moving on.
-        </p>
-      )}
+      <p
+        className={styles.continueNotAllowedMessage}
+        // Use visibility so the layout doesn't jump around.
+        style={{ visibility: allowed ? "hidden" : "visible" }}
+      >
+        Please respond to every question before moving on.
+      </p>
     </Content>
   );
 }
@@ -187,7 +194,26 @@ export function HelpButton({
   );
 }
 
-type Commit = Field<s.BooleanSchema> | undefined | boolean;
+type Commit = Field<s.BooleanSchema> | undefined | false;
+
+function isSectionVisible(commits: Commit | Commit[]): boolean {
+  if (!commits) {
+    // This includes undefined or false.  If the commit has that value it's
+    // a falsy value in the list, which we should ignore just show the section.
+    // This allows us to write (bool && commit) in the list.
+    return true;
+  }
+  if (Array.isArray(commits)) {
+    // If it's an array of commits, just check every one individually.  Defaults
+    // to `true`.
+    return commits.every(isSectionVisible);
+  }
+  // The important case here is `commits.value`.  If that is `true`, then the
+  // commit is `true` which probably means the previous "move on" button was
+  // clicked, so we should show this section now.  If it's `false` (or, more
+  // likely, `undefined`) then we aren't ready to show this section yet.
+  return commits.value === true;
+}
 
 export function Section({
   commits,
@@ -204,16 +230,19 @@ export function Section({
     // Skip the other options
     // Also don't scroll all over the page.
     noScroll = true;
-  } else if (commits && Array.isArray(commits)) {
-    if (commits.some((commit) => commit && commit !== true && !commit.value)) {
-      return null;
-    }
-  } else if (commits && commits !== true && !commits.value) {
+  } else if (!isSectionVisible(commits)) {
     return null;
   }
 
   return (
     <RevealedSection first={first} noScroll={noScroll}>
+      {process.env.NODE_ENV === "development" &&
+        globals.showAllSections &&
+        (isSectionVisible(commits) ? (
+          <EyeIcon className={styles.sectionDevNoticeVisible} />
+        ) : (
+          <EyeClosedIcon className={styles.sectionDevNoticeHidden} />
+        ))}
       {children}
     </RevealedSection>
   );

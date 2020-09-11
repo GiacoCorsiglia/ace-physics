@@ -58,12 +58,27 @@ function TutorialsIndex() {
               It’s all about eigenvalues, eigenstates, and measurement.
             </TutorialLink>
 
-            <TutorialLink
-              label="Visualizing a Vector in a Different Basis"
+            {/* <TutorialLink
+              label="Visualizing a Vector in a Different Basis — Full"
               url={urls.Tutorials.QuantumBasis}
             >
               Connecting quantum state vectors with the 2D vectors you’re used
               to.
+              <br />
+              This “Full” version connects these concepts with quantum
+              probabilities, and investigates the reasons one might change
+              basis.
+            </TutorialLink> */}
+
+            <TutorialLink
+              label="Visualizing a Vector in a Different Basis — Lite"
+              url={urls.Tutorials.QuantumBasisLite}
+            >
+              Connecting quantum state vectors with the 2D vectors you’re used
+              to.
+              <br />
+              The “Lite” version doesn’t discuss the connection with quantum
+              probabilities or reasons for changing basis, but takes less time.
             </TutorialLink>
           </ul>
         </nav>

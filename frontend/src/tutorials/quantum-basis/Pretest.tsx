@@ -139,31 +139,31 @@ const coBExpressionChoices = [
   {
     value: "x-subscripts",
     label: (
-      <M t="\frac{1}{\sqrt{3}} \ket{+}_x + \frac{\sqrt{2}}{\sqrt{3}}\ket{-}_x" />
+      <M t="\frac{1}{\sqrt{3}} \ \ket{+}_x + \frac{\sqrt{2}}{\sqrt{3}} \ \ket{-}_x" />
     ),
   },
   {
     value: "projection (correct)",
     label: (
-      <M t="{}_x \braket{+}{\psi} \ket{+}_x + {}_x \braket{-}{\psi} \ket{-}_x" />
+      <M t="{}_x \braket{+}{\psi} \ \ket{+}_x + {}_x \braket{-}{\psi} \ \ket{-}_x" />
     ),
   },
   {
     value: "probability coefficients",
     label: (
-      <M t="|{}_x \braket{+}{\psi}|^2 \ket{+}_x + |{}_x \braket{-}{\psi}|^2 \ket{-}_x" />
+      <M t="\Big| {}_x \braket{+}{\psi} \Big|^2 \ket{+}_x + \Big| {}_x \braket{-}{\psi} \Big|^2 \ket{-}_x" />
     ),
   },
   {
     value: "x<+|+> coefficients",
     label: (
-      <M t="{}_x \braket{+}{+} \ket{+}_x + {}_x \braket{-}{-} \ket{-}_x" />
+      <M t="{}_x \braket{+}{+} \ \ket{+}_x + {}_x \braket{-}{-} \ \ket{-}_x" />
     ),
   },
   {
     value: "just inner products",
     label: (
-      <M t="\frac{1}{\sqrt{3}} {}_x \braket{+}{+} + \frac{\sqrt{2}}{\sqrt{3}} {}_x \braket{-}{-}" />
+      <M t="\frac{1}{\sqrt{3}} \ {}_x \braket{+}{+} + \frac{\sqrt{2}}{\sqrt{3}} \ {}_x \braket{-}{-}" />
     ),
   },
 ] as const;
