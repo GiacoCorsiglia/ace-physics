@@ -1,8 +1,9 @@
 import React from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import { Continue, Prose, Section } from "src/components";
-import { TextArea } from "src/components/inputs";
+import { TextArea, Toggle } from "src/components/inputs";
 import { Content } from "src/components/layout";
+import M from "src/components/M";
 import { useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 export default function WrapUp() {
@@ -17,6 +18,7 @@ export default function WrapUp() {
     potentialEnergyCoordCommit,
 
     coordChoiceEffect,
+    coordChoiceEffectExplain,
     coordChoiceCommit,
 
     xBaseRewrite,
@@ -29,6 +31,7 @@ export default function WrapUp() {
     repCommit,
 
     CoBEfect,
+    CoBEffectExplain,
     whyCoB,
     whyCoBCommit,
   } = f;
@@ -48,7 +51,7 @@ export default function WrapUp() {
 
           {/*Making everything a text area for easy right now!*/}
 
-          <TextArea
+          <Toggle
             field={positionCoord}
             label={
               <Prose>
@@ -56,6 +59,8 @@ export default function WrapUp() {
                 the hill?
               </Prose>
             }
+            yes="Horizontal and Vertical axes"
+            no="A set of rotated axes"
           />
 
           <TextArea
@@ -67,7 +72,7 @@ export default function WrapUp() {
         </Section>
 
         <Section commits={[positionCoordCommit]}>
-          <TextArea
+          <Toggle
             field={potentialEnergyCoord}
             label={
               <Prose>
@@ -75,6 +80,8 @@ export default function WrapUp() {
                 easily measure the gravitational potential energy of the car?
               </Prose>
             }
+            yes="Horizontal and Vertical axes"
+            no="A set of rotated axes"
           />
           <TextArea
             field={potentialEnergyCoordExplain}
@@ -83,7 +90,7 @@ export default function WrapUp() {
           <Continue commit={potentialEnergyCoordCommit} />
         </Section>
         <Section commits={[positionCoordCommit, potentialEnergyCoordCommit]}>
-          <TextArea
+          <Toggle
             field={coordChoiceEffect}
             label={
               <Prose>
@@ -91,6 +98,13 @@ export default function WrapUp() {
                 system affect the physical scenario of the car?
               </Prose>
             }
+            yes="Yes, it changed the physics."
+            no="No, the physics was the same."
+          />
+
+          <TextArea
+            field={coordChoiceEffectExplain}
+            label={<Prose>Tell us what your thinking.</Prose>}
           />
           <Continue commit={coordChoiceCommit} />
         </Section>
@@ -108,8 +122,8 @@ export default function WrapUp() {
             field={xBaseRewrite}
             label={
               <Prose>
-                . For example, given a spin-1/2 particle (e.g., electron) in a
-                state STATE REPRESENTATION initially written in the z-basis, why
+                For example, given a spin-1/2 particle (e.g., electron) in a
+                state <M t="\ket{\psi}" /> initially written in the z-basis, why
                 might you choose to rewrite it in the x-basis?
               </Prose>
             }
@@ -133,8 +147,12 @@ export default function WrapUp() {
             xBaseRewriteCommit,
           ]}
         >
-          <Prose>Consider MATHHHHHHHH.</Prose>
-          <TextArea
+          <Prose>
+            Consider{" "}
+            <M t="\ket{\psi}=\frac{1}{5\sqrt{2}}\ket{+}_x +\frac{7}{5\sqrt{2}}\ket{-}_x =\frac{3}{5}\ket{+}-\frac{4}{5}\ket{-}" />
+            .
+          </Prose>
+          <Toggle
             field={repZ}
             label={
               <Prose>
@@ -143,14 +161,18 @@ export default function WrapUp() {
                 basis) would be preferred
               </Prose>
             }
+            yes="The middle part"
+            no="The right part"
           />
-          <TextArea
+          <Toggle
             field={repX}
             label={
               <Prose>
                 What about an outcome of a measurement along the x-direction?
               </Prose>
             }
+            yes="The middle part"
+            no="The right part"
           />
           <TextArea field={repExplain} label={<Prose>Explain.</Prose>} />
           <Continue commit={repCommit} />
@@ -165,12 +187,19 @@ export default function WrapUp() {
             repCommit,
           ]}
         >
-          <TextArea
+          <Toggle
             field={CoBEfect}
             label={
-              <Prose>Does the change of basis affect the quantum state?</Prose>
+              <Prose>
+                Does changing the basis representation change the physical state
+                of the particle?
+              </Prose>
             }
+            yes="Yup!"
+            no="Nope!"
           />
+
+          <TextArea field={CoBEffectExplain} label={<Prose>How so?</Prose>} />
           <TextArea
             field={whyCoB}
             label={

@@ -382,6 +382,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
     cantKnowBothProbabilities: s.boolean(),
     createdNewState: s.boolean(),
   }),
+  pretestCommit: Commit,
 
   // Part 1.
   probabilityProjectionIntroCommit: Commit,
@@ -518,26 +519,29 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   relatingBasesFinalCommit: Commit,
 
   //Part 5: WrapUp
-  positionCoord: s.string(),
+  positionCoord: s.boolean(),
   positionCoordExplain: s.string(),
   positionCoordCommit: Commit,
 
-  potentialEnergyCoord: s.string(),
+  potentialEnergyCoord: s.boolean(),
   potentialEnergyCoordExplain: s.string(),
   potentialEnergyCoordCommit: Commit,
-  coordChoiceEffect: s.string(),
+
+  coordChoiceEffect: s.boolean(),
+  coordChoiceEffectExplain: s.string(),
   coordChoiceCommit: Commit,
 
   xBaseRewrite: s.string(),
   xBasisRewriteNewInfo: s.string(),
   xBaseRewriteCommit: Commit,
 
-  repX: s.string(),
-  repZ: s.string(),
+  repX: s.boolean(),
+  repZ: s.boolean(),
   repExplain: s.string(),
   repCommit: Commit,
 
-  CoBEfect: s.string(),
+  CoBEfect: s.boolean(),
+  CoBEffectExplain: s.string(),
   whyCoB: s.string(),
   whyCoBCommit: Commit,
 });

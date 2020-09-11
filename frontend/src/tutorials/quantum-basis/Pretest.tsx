@@ -15,13 +15,28 @@ import { PretestReminderSection, PretestSpiel } from "src/tutorials/pretests";
 import { Part } from "src/tutorials/shared";
 
 export default function Pretest() {
-  const { pretest, probabilityProjectionIntroCommit } = useFields(QuantumBasis);
+  const {
+    pretest,
+    pretestCommit,
+    probabilityProjectionIntroCommit,
+    definingBasisIntroCommit,
+    changingBasisIntroCommit,
+    relatingBasesIntroCommit,
+  } = useFields(QuantumBasis);
   const f = pretest.properties;
 
   return (
     <Part label="Before You Start">
       <Content>
-        <DisableInputs when={probabilityProjectionIntroCommit.value === true}>
+        <DisableInputs
+          when={
+            pretestCommit.value === true ||
+            definingBasisIntroCommit.value === true ||
+            probabilityProjectionIntroCommit.value === true ||
+            changingBasisIntroCommit.value === true ||
+            relatingBasesIntroCommit.value === true
+          }
+        >
           <Section first>
             <PretestSpiel />
 
@@ -125,7 +140,8 @@ export default function Pretest() {
 
         <Section noScroll>
           <Continue
-            link="../probability-and-projection"
+            commit={pretestCommit}
+            link="../defining-basis"
             allowed={isSet(pretest)}
             label="Submit and move on"
           />
