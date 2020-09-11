@@ -58,7 +58,7 @@ function TutorialsIndex() {
               It’s all about eigenvalues, eigenstates, and measurement.
             </TutorialLink>
 
-            <TutorialLink
+            {/* <TutorialLink
               label="Visualizing a Vector in a Different Basis — Full"
               url={urls.Tutorials.QuantumBasis}
             >
@@ -68,7 +68,7 @@ function TutorialsIndex() {
               This “Full” version connects these concepts with quantum
               probabilities, and investigates the reasons one might change
               basis.
-            </TutorialLink>
+            </TutorialLink> */}
 
             <TutorialLink
               label="Visualizing a Vector in a Different Basis — Lite"

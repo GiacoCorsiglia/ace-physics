@@ -82,7 +82,7 @@ const routeLite = tutorialRoute({
 
 export const route = (
   <>
-    {routeFull}
+    {/* {routeFull} */}
     {routeLite}
   </>
 );
