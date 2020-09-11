@@ -382,6 +382,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
     cantKnowBothProbabilities: s.boolean(),
     createdNewState: s.boolean(),
   }),
+  pretestCommit: Commit,
 
   // Part 1.
   probabilityProjectionIntroCommit: Commit,
