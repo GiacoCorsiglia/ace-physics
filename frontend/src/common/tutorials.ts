@@ -515,7 +515,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 
   equalityAllowedFeedbackCommit: Commit,
 
-  relatingBasesFinalCommit: s.boolean(),
+  relatingBasesFinalCommit: Commit,
 
   //Part 5: WrapUp
   positionCoord: s.string(),
