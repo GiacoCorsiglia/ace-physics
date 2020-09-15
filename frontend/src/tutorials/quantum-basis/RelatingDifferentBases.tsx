@@ -2,7 +2,6 @@ import { default as React } from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import {
   Continue,
-  ContinueToNextPart,
   Help,
   HelpButton,
   Info,
@@ -21,7 +20,7 @@ import { Column, Columns, Content } from "src/components/layout";
 import M from "src/components/M";
 import { Axes, Plot, Rotate, Tick, Vector } from "src/components/plots";
 import { isSet, needsHelp, useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
 
 export default function RelatingDifferentBases() {
   const f = useFields(QuantumBasis);
@@ -348,10 +347,7 @@ export default function RelatingDifferentBases() {
         </Section>
 
         <Section commits={f.whyNoSubscriptNeededCommit}>
-          <ContinueToNextPart
-            commit={f.relatingBasesFinalCommit}
-            link="../feedback"
-          />
+          <ContinueToNextPart commit={f.relatingBasesFinalCommit} />
         </Section>
       </Content>
     </Part>

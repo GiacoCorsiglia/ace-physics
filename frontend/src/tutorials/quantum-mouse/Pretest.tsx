@@ -13,7 +13,7 @@ import M from "src/components/M";
 import Matrix from "src/components/Matrix";
 import { isSet, useFields } from "src/state";
 import { PretestReminderSection, PretestSpiel } from "src/tutorials/pretests";
-import { Part } from "src/tutorials/shared";
+import { Part, useNextPartLink } from "src/tutorials/shared";
 
 export default function Pretest() {
   const { pretest, introCommit } = useFields(QuantumMouse);
@@ -29,6 +29,8 @@ export default function Pretest() {
     measureA,
     afterMeasureA,
   } = pretest.properties;
+
+  const firstPartLink = useNextPartLink();
 
   return (
     <Part label="Before You Start">
@@ -166,7 +168,7 @@ export default function Pretest() {
 
         <Section noScroll>
           <Continue
-            link="../what-is-a-quantum-mouse"
+            link={firstPartLink!}
             allowed={isSet(pretest)}
             label="Submit and move on"
           />

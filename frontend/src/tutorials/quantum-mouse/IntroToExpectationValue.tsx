@@ -2,7 +2,6 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import {
   Continue,
-  ContinueToNextPart,
   Help,
   HelpButton,
   Prose,
@@ -19,7 +18,7 @@ import {
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet, needsHelp, useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
 
 export default function IntroToExpectationValue() {
   const f = useFields(QuantumMouse);
@@ -224,10 +223,7 @@ export default function IntroToExpectationValue() {
               f.expValMeasurabilityCorrectionCommit,
           ]}
         >
-          <ContinueToNextPart
-            link="../challenge"
-            commit={f.expValFinalCommit}
-          />
+          <ContinueToNextPart commit={f.expValFinalCommit} />
         </Section>
       </Content>
     </Part>
