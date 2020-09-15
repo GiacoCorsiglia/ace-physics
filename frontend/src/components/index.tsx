@@ -104,7 +104,7 @@ export function Continue({
 
   const done = !link && commit && commit.value === true;
 
-  if (process.env.NODE_ENV === "development" && globals.unconditionalMoveOn) {
+  if (globals.unconditionalMoveOn) {
     allowed = true;
   }
 
@@ -197,7 +197,7 @@ export function Section({
   noScroll?: boolean;
 } & Children) {
   const globals = useContext(globalParams.Context);
-  if (process.env.NODE_ENV === "development" && globals.showAllSections) {
+  if (globals.showAllSections) {
     // Skip the other options
     // Also don't scroll all over the page.
     noScroll = true;
@@ -207,8 +207,7 @@ export function Section({
 
   return (
     <RevealedSection first={first} noScroll={noScroll}>
-      {process.env.NODE_ENV === "development" &&
-        globals.showAllSections &&
+      {globals.showAllSections &&
         (isSectionVisible(commits) ? (
           <EyeIcon className={styles.sectionDevNoticeVisible} />
         ) : (

@@ -17,11 +17,13 @@ export function GlobalParamsProvider({ children }: Children) {
   if (ref.current === undefined) {
     const params = new URLSearchParams(window.location.search);
 
+    const enablePreviewFeatures =
+      process.env.REACT_APP_ACE_ENV === "development" ||
+      process.env.REACT_APP_ACE_ENV === "staging";
+
     ref.current = {
-      unconditionalMoveOn:
-        process.env.NODE_ENV === "development" && params.get("amo") !== null,
-      showAllSections:
-        process.env.NODE_ENV === "development" && params.get("show") !== null,
+      unconditionalMoveOn: enablePreviewFeatures && params.get("amo") !== null,
+      showAllSections: enablePreviewFeatures && params.get("show") !== null,
     };
   }
 
