@@ -7,4 +7,4 @@
 /.aws-sam
 
 # Downloaded data
-/data
+/scripts/data

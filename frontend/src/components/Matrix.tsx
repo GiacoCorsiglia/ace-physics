@@ -142,21 +142,23 @@ export default function Matrix({
 export function fieldToMatrix(
   tupleField: Field<s.TupleSchema<any>>,
   inputEl: React.ReactElement,
-  asRow?: typeof fieldToMatrix["Row"]
+  asRow?: typeof fieldToMatrix["Row"],
+  internal: boolean = false
 ): React.ReactElement[][] {
   const matrix = tupleField.elements.map((subField: Field<s.Schema>) => {
     if (s.isTupleSchema(subField.schema)) {
       return fieldToMatrix(
         subField as Field<s.TupleSchema<any>>,
         inputEl,
-        fieldToMatrix.Row
+        fieldToMatrix.Row,
+        true
       );
     } else {
       const input = React.cloneElement(inputEl, { field: subField });
       return asRow ? input : [input];
     }
   });
-  if (asRow && !Array.isArray(matrix[0])) {
+  if (asRow && !internal) {
     return [matrix];
   }
   return matrix;

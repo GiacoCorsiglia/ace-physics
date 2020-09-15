@@ -22,6 +22,49 @@ import { approxEquals } from "src/util";
 export default function ChangingBasis() {
   const f = useFields(QuantumBasis);
 
+  const kColumnDiracCheck = () => {
+    const [v1_, v2_] = f.kColumnDirac.elements;
+    const v1 = v1_.value?.selected;
+    const v2 = v2_.value?.selected;
+
+    if (!v1 || !v2) {
+      // Shouldn't get here...
+      return;
+    }
+
+    const v1Correct = v1 === "<v1|u>";
+    const v2Correct = v2 === "<v2|u>";
+
+    const v1Reversed = v1 === "<v2|u>";
+    const v2Reversed = v2 === "<v1|u>";
+
+    const v1iOrJ = v1 === "<i|u>" || v1 === "<j|u>";
+    const v2iOrJ = v2 === "<i|u>" || v2 === "<j|u>";
+
+    const v1Ket = v1 === "|v1>" || v1 === "|v2>";
+    const v2Ket = v2 === "|v1>" || v2 === "|v2>";
+
+    // There are 6*6 = 36 total options
+
+    if (v1Ket || v2Ket) {
+      // (20) Really wrong.
+      f.kColumnDiracKetVisible.set(true);
+    } else if (v1Correct && v2Correct) {
+      // (1) Totally correct.
+      f.kColumnDiracCorrectVisible.set(true);
+    } else if (v1Reversed && v2Reversed) {
+      // (1) Just reversed.
+      f.kColumnDiracReversedVisible.set(true);
+    } else if ((v1Correct && v2Reversed) || (v1Reversed && v2Correct)) {
+      // (2) Duplicated correct answer.
+      f.kColumnDiracRepeatedVisible.set(true);
+    } else if (v1iOrJ || v2iOrJ) {
+      // (12) Wrong basis (or guessing).
+      f.kColumnDiracIorJVisible.set(true);
+    }
+    // This should be all the possibilities.
+  };
+
   return (
     <Part label="Changing Basis">
       <Content>
@@ -108,14 +151,28 @@ export default function ChangingBasis() {
               <Select
                 choices={kColumnDiracChoices}
                 field={f.kColumnDirac.elements[0]}
+                allowOther={false}
               />
             )}
           />
 
+          {needsHelp(f.kColumnDiracHelp) && (
+            <Help>
+              <Prose>
+                On the previous page, we could think of <M t="\braket{i}{u}" />{" "}
+                as the <M t="\ket{i}" /> component. Can you describe the
+                coefficient <M t="a" /> in similar terms?
+              </Prose>
+            </Help>
+          )}
+
           <Continue
             commit={f.kColumnDiracCommit}
             allowed={isSet(f.kColumnDirac)}
-          />
+            onClick={kColumnDiracCheck}
+          >
+            <HelpButton help={f.kColumnDiracHelp} />
+          </Continue>
         </Section>
 
         <Section commits={f.kColumnDiracCommit}>
@@ -138,12 +195,165 @@ export default function ChangingBasis() {
           <Continue
             commit={f.columnSubscriptExplainCommit}
             allowed={isSet(f.columnSubscriptExplain)}
+            label="Let‘s check in"
           >
             <HelpButton help={f.columnSubscriptExplainHelp} />
           </Continue>
         </Section>
 
-        <Section commits={f.columnSubscriptExplainCommit}>
+        <Section
+          commits={[f.columnSubscriptExplainCommit, f.kColumnDiracKetVisible]}
+        >
+          <Info>
+            <Prose>
+              <p>
+                You’ve inserted a <strong>ket</strong> (
+                <M prespace={false} t="\ket{v_1}" /> or
+                <M t="\ket{v_2}" />) into your column vector. This is kind of
+                like writing vector
+                <M t="\vec{v} = (5, \vec{w}, 3)" />, which normally doesn't make
+                sense.
+              </p>
+
+              <p>
+                The elements of your column vector should be{" "}
+                <strong>numbers</strong>. In Dirac notation,{" "}
+                <strong>inner products</strong> (aka “brakets”) evaluate to
+                numbers.
+              </p>
+
+              <p>
+                Similarly, it <em>would</em> be sensible to write{" "}
+                <M t="\vec{v} = (5, \vec{w} \cdot \vec{v}, 3)" />.
+              </p>
+
+              <p>Adjust your answers, then check in again.</p>
+            </Prose>
+          </Info>
+
+          <Continue
+            commit={f.kColumnDiracKetCommit}
+            onClick={kColumnDiracCheck}
+            label="Check in again"
+          />
+        </Section>
+
+        <Section
+          commits={[f.columnSubscriptExplainCommit, f.kColumnDiracIorJVisible]}
+        >
+          <Info>
+            <Prose>
+              <p>
+                Looks like you have <M t="\braket{i}{u}" /> or{" "}
+                <M t="\braket{j}{u}" /> in your column vector again. This was
+                right on the previous page, but the <M t="v" /> subscript on the
+                column tells you that now we’re working in a different basis!
+              </p>
+
+              <p>Which basis is that? What are the basis vectors?</p>
+
+              <p>Adjust your answers, then check in again.</p>
+            </Prose>
+          </Info>
+
+          <Continue
+            commit={f.kColumnDiracIorJCommit}
+            onClick={kColumnDiracCheck}
+            label="Check in again"
+          />
+        </Section>
+
+        <Section
+          commits={[
+            f.columnSubscriptExplainCommit,
+            f.kColumnDiracRepeatedVisible,
+          ]}
+        >
+          <Info>
+            <Prose>
+              <p>
+                Looks like you repeated the same answer for both components in
+                the column vector. You should have a different expression for
+                both elements.
+              </p>
+
+              <p>Adjust your answers, then check in again.</p>
+            </Prose>
+          </Info>
+
+          <Continue
+            commit={f.kColumnDiracRepeatedCommit}
+            onClick={kColumnDiracCheck}
+            label="Check in again"
+          />
+        </Section>
+
+        <Section
+          commits={[
+            f.columnSubscriptExplainCommit,
+            f.kColumnDiracReversedVisible,
+          ]}
+        >
+          <Info>
+            <Prose>
+              <p>
+                Looks like you may have swapped <M t="a" /> and <M t="b" />{" "}
+                (i.e., written the elements in your column vector in the wrong
+                order).
+              </p>
+
+              <p>Adjust your answers, then check in again.</p>
+            </Prose>
+          </Info>
+
+          <Continue
+            commit={f.kColumnDiracReversedCommit}
+            onClick={kColumnDiracCheck}
+            label="Check in again"
+          />
+        </Section>
+
+        <Section
+          commits={[
+            f.columnSubscriptExplainCommit,
+            f.kColumnDiracCorrectVisible,
+          ]}
+        >
+          <Help>
+            <Prose>
+              <p>Your column vector looks good to us! Nice work.</p>
+
+              <p>
+                The <M t="v" /> subscript is how we indicate that the column
+                vector is expressed in the basis of <M t="\ket{v_1}" />
+                and
+                <M t="\ket{v_2}" /> (as opposed to the standard basis of
+                <M t="\ket{i}" />
+                and
+                <M t="\ket{j}" />, which doesn't require a subscript).
+              </p>
+            </Prose>
+          </Help>
+
+          <Continue
+            commit={f.kColumnDiracCorrectCommit}
+            label="Keep on going"
+          />
+        </Section>
+
+        <Section
+          commits={[
+            f.columnSubscriptExplainCommit,
+            isVisible(f.kColumnDiracCorrectVisible) &&
+              f.kColumnDiracCorrectCommit,
+            isVisible(f.kColumnDiracReversedVisible) &&
+              f.kColumnDiracReversedCommit,
+            isVisible(f.kColumnDiracRepeatedVisible) &&
+              f.kColumnDiracRepeatedCommit,
+            isVisible(f.kColumnDiracKetVisible) && f.kColumnDiracKetCommit,
+            isVisible(f.kColumnDiracIorJVisible) && f.kColumnDiracIorJCommit,
+          ]}
+        >
           <Prose>
             <p>
               Change the basis for <M t="\ket{u}" /> to the <M t="\ket{v_1}" />
@@ -171,6 +381,10 @@ export default function ChangingBasis() {
             />
             <M
               display
+              t="\ket{i} \doteq \mqty(1 \\ 0) \text{ and } \ket{j} \doteq \mqty(0 \\ 1)"
+            />
+            <M
+              display
               t="
                   \ket{v_1} \doteq \mqty( \sqrt{3}/2 \\ 1/2 )
                   \text{ and }
@@ -185,8 +399,8 @@ export default function ChangingBasis() {
                 Our goal is to represent our vector in the form
                 <M display t="a\ket{v_1} + b\ket{v_2}" />
                 How do you represent the coefficients <M t="a" /> and
-                <M t="b" /> in Dirac notation? Can you compute those inner
-                products?
+                <M t="b" /> in Dirac notation? (Hint: You did it above!) Can you
+                compute those inner products?
               </Prose>
             </Help>
           )}
