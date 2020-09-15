@@ -10,7 +10,6 @@ import ProbabilityProjection from "./ProbabilityProjection";
 import RelatingDifferentBases from "./RelatingDifferentBases";
 import WrapUp from "./WrapUp";
 
-// eslint-disable-next-line
 const routeFull = tutorialRoute({
   url: urls.Tutorials.QuantumBasis,
   name: "QuantumBasis",
@@ -83,7 +82,7 @@ const routeLite = tutorialRoute({
 
 export const route = (
   <>
-    {/* {routeFull} */}
+    {routeFull}
     {routeLite}
   </>
 );
