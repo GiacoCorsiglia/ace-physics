@@ -19,6 +19,14 @@ function usePlot() {
   return useContext(PlotContext);
 }
 
+export function WithPlot({
+  children,
+}: {
+  children: (plot: PlotContext) => React.ReactNode;
+}) {
+  return <>{children(usePlot())}</>;
+}
+
 export function Plot({
   width = 300,
   height = 300,
