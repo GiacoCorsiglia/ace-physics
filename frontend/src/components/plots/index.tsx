@@ -281,6 +281,39 @@ export function Rotate({ degrees, children }: { degrees: number } & Children) {
   return <g transform={`rotate(-${degrees} 0 0)`}>{children}</g>;
 }
 
+const barWidth = 70;
+
+export function Bar({
+  x,
+  height,
+  stroke = "#a4a4a4",
+  fill = "#ddd",
+}: {
+  x: number;
+  height: number;
+  stroke?: string;
+  fill?: string;
+}) {
+  const plot = usePlot();
+
+  x = plot.x(x);
+  height = plot.scale(height);
+
+  const xLeft = x - barWidth / 2;
+
+  return (
+    <rect
+      x={xLeft}
+      y={height > 0 ? -height : 0}
+      width={barWidth}
+      height={Math.abs(height)}
+      stroke={stroke}
+      strokeWidth={axisWidth}
+      fill={fill}
+    />
+  );
+}
+
 export function CircleLabel({
   x,
   y,
