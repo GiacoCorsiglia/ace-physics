@@ -4,7 +4,7 @@ import {
   EyeClosedIcon,
   EyeIcon,
 } from "@primer/octicons-react";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import * as s from "src/common/schema";
 import * as globalParams from "src/globalParams";
 import { Field } from "src/state";
@@ -100,11 +100,9 @@ export function Continue({
   allowed?: boolean;
 } & ContinueProps &
   OptionalChildren) {
-  const globals = useContext(globalParams.Context);
-
   const done = !link && commit && commit.value === true;
 
-  if (globals.unconditionalMoveOn) {
+  if (globalParams.unconditionalMoveOn) {
     allowed = true;
   }
 
@@ -196,8 +194,7 @@ export function Section({
   first?: boolean;
   noScroll?: boolean;
 } & Children) {
-  const globals = useContext(globalParams.Context);
-  if (globals.showAllSections) {
+  if (globalParams.showAllSections) {
     // Skip the other options
     // Also don't scroll all over the page.
     noScroll = true;
@@ -207,7 +204,7 @@ export function Section({
 
   return (
     <RevealedSection first={first} noScroll={noScroll}>
-      {globals.showAllSections &&
+      {globalParams.showAllSections &&
         (isSectionVisible(commits) ? (
           <EyeIcon className={styles.sectionDevNoticeVisible} />
         ) : (
