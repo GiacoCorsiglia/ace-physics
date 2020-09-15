@@ -22,6 +22,7 @@ import { names } from "src/common/tutorials";
 import { Continue, Prose } from "src/components";
 import { Content, Header, Page } from "src/components/layout";
 import { UserMenu } from "src/components/shared/UserMenu";
+import * as globalParams from "src/globalParams";
 import { Field, Provider, ProviderSchema } from "src/state";
 import { ReactComponent as EllipsisCircleIcon } from "src/svgs/ellipsis-circle.svg";
 import * as urls from "src/urls";
@@ -434,7 +435,16 @@ function Tutorial({
 
           {status === "loaded" && (
             <Provider schema={schema} initial={initial} onChange={onChange}>
-              {!account.isForCredit && (
+              {globalParams.mockApi && (
+                <Content>
+                  <Prose className={styles.notForCreditAlert}>
+                    You’re currently in <strong>preview mode</strong>. Your
+                    responses will <strong>not</strong> be saved.
+                  </Prose>
+                </Content>
+              )}
+
+              {!globalParams.mockApi && !account.isForCredit && (
                 <Content>
                   <Prose className={styles.notForCreditAlert}>
                     This is an anonymous account. Your work will{" "}
