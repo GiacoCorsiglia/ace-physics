@@ -28,9 +28,9 @@ export function WithPlot({
 }
 
 export function Plot({
-  width = 300,
-  height = 300,
-  scale = 100,
+  width = 266,
+  height = 266,
+  scale = 90,
   center = true,
   children,
 }: {
