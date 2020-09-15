@@ -222,7 +222,11 @@ export function Tick({
   y,
   label,
   color = axisColor,
-}: ({ x: number; y?: never } | { x?: never; y: number }) & {
+  labelPosition,
+}: (
+  | { x: number; y?: never; labelPosition?: "above" | "below" }
+  | { x?: never; y: number; labelPosition?: "left" | "right" }
+) & {
   color?: string;
   label?: string | number;
 }) {
@@ -244,6 +248,9 @@ export function Tick({
         y2: plot.y(y!),
       };
 
+  labelPosition =
+    labelPosition === undefined ? (isX ? "below" : "left") : labelPosition;
+
   return (
     <>
       <line {...position} stroke={color} strokeWidth={axisWidth}></line>
@@ -255,7 +262,15 @@ export function Tick({
           inSvg
           x={position.x1}
           y={position.y2}
-          relativeTo={isX ? "topCenter" : "rightCenter"}
+          relativeTo={
+            labelPosition === "below"
+              ? "topCenter"
+              : labelPosition === "above"
+              ? "bottomCenter"
+              : labelPosition === "left"
+              ? "rightCenter"
+              : "leftCenter"
+          }
         />
       )}
     </>
