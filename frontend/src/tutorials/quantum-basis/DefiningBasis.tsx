@@ -23,28 +23,28 @@ export default function DefiningBasis() {
   const f = useFields(QuantumBasis);
 
   const uColumnDiracCheck = () => {
-    const [i, j] = f.uColumnDirac.elements;
+    const [i_, j_] = f.uColumnDirac.elements;
+    const i = i_.value?.selected;
+    const j = j_.value?.selected;
 
-    const iCorrect = i.value?.selected === "<i|u>";
-    const jCorrect = j.value?.selected === "<j|u>";
+    if (!i || !j) {
+      return;
+    }
 
-    const iConj = i.value?.selected === "<u|i>";
-    const jConj = j.value?.selected === "<u|j>";
+    const iCorrect = i === "<i|u>";
+    const jCorrect = j === "<j|u>";
 
-    const iReversed = i.value?.selected === "<j|u>";
-    const jReversed = j.value?.selected === "<i|u>";
+    const iConj = i === "<u|i>";
+    const jConj = j === "<u|j>";
 
-    const iReversedConj = i.value?.selected === "<u|j>";
-    const jReversedConj = j.value?.selected === "<u|i>";
+    const iReversed = i === "<j|u>";
+    const jReversed = j === "<i|u>";
 
-    const iKet =
-      i.value?.selected === "|u>" ||
-      i.value?.selected === "|i>" ||
-      i.value?.selected === "|j>";
-    const jKet =
-      j.value?.selected === "|u>" ||
-      j.value?.selected === "|i>" ||
-      j.value?.selected === "|j>";
+    const iReversedConj = i === "<u|j>";
+    const jReversedConj = j === "<u|i>";
+
+    const iKet = i === "|u>" || i === "|i>" || i === "|j>";
+    const jKet = j === "|u>" || j === "|i>" || j === "|j>";
 
     // There are 8 * 8 = 64 total options (including "other").
 
@@ -65,7 +65,7 @@ export default function DefiningBasis() {
     ) {
       // (4) Reversed.
       f.uColumnDiracReversedVisible.set(true);
-    } else if (i.value?.selected === j.value?.selected) {
+    } else if (i === j) {
       // (8) Repeated.
       f.uColumnDiracRepeatedVisible.set(true);
     } else {

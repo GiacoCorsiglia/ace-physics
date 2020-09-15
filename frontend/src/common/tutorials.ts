@@ -447,7 +447,19 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   basisChangeApproachCommit: Commit,
 
   kColumnDirac: s.tuple(kColumnDiracChoice, kColumnDiracChoice),
+  kColumnDiracHelp: Help,
   kColumnDiracCommit: Commit,
+
+  kColumnDiracCorrectVisible: Visibility,
+  kColumnDiracCorrectCommit: Commit,
+  kColumnDiracReversedVisible: Visibility,
+  kColumnDiracReversedCommit: Commit,
+  kColumnDiracRepeatedVisible: Visibility,
+  kColumnDiracRepeatedCommit: Commit,
+  kColumnDiracKetVisible: Visibility,
+  kColumnDiracKetCommit: Commit,
+  kColumnDiracIorJVisible: Visibility,
+  kColumnDiracIorJCommit: Commit,
 
   columnSubscriptExplain: s.string(),
   columnSubscriptExplainHelp: Help,
