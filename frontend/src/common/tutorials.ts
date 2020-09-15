@@ -357,11 +357,31 @@ const kColumnDiracChoice = s.choice([
   "<j|u>",
 ] as const);
 
+const HeightChoice = s.choice([
+  "3/5",
+  "-3/5",
+  "4/5",
+  "-4/5",
+  "9/25",
+  "-9/25",
+  "16/25",
+  "-16/25",
+] as const);
+
+const LabelChoice = s.choice([
+  "|->",
+  "|+>",
+  "<-|psi_A>",
+  "<+|psi_A>",
+  "|<-|psi_A>|^2",
+  "|<+|psi_A>|^2",
+]);
+
 const PlusMinus = s.record({
-  minusHeight: s.number(),
-  plusHeight: s.number(),
-  minusLabel: s.string(),
-  plusLabel: s.string(),
+  minusHeight: HeightChoice,
+  plusHeight: HeightChoice,
+  minusLabel: LabelChoice,
+  plusLabel: LabelChoice,
 });
 
 export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
@@ -384,7 +404,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   }),
   pretestCommit: Commit,
 
-  // Part 1.
+  // Probability and Projection.
   probabilityProjectionIntroCommit: Commit,
 
   meaningOfCoefficients: s.choice(
@@ -400,6 +420,14 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 
   probability: PlusMinus,
   probabilityAmplitude: PlusMinus,
+
+  histogramHeightCommit: Commit,
+  histogramLabelCommit: Commit,
+
+  relationshipProbAmp: s.string(),
+  relationshipProbAmpCommit: Commit,
+
+  probabilityProjectionFinalCommit: Commit,
 
   // Defining a Basis.
   definingBasisIntroCommit: Commit,
