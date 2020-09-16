@@ -6,6 +6,7 @@ import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet, useFields } from "src/state";
 import { ContinueToNextPart, Part } from "src/tutorials/shared";
+import { ReactComponent as Car } from "./car.svg";
 
 export default function WrapUp() {
   const f = useFields(QuantumBasis);
@@ -23,6 +24,18 @@ export default function WrapUp() {
             down a hill.
           </Prose>
 
+          <Car
+            style={{
+              display: "block",
+              margin: "1rem auto 0",
+              width: "100%",
+              maxWidth: "266px",
+              height: "auto",
+              border: "1px solid #b3b3b3",
+              borderRadius: "3px",
+            }}
+          />
+
           <Continue commit={f.wrapUpIntroCommit} />
         </Section>
 
@@ -31,8 +44,8 @@ export default function WrapUp() {
             field={f.positionCoord}
             label={
               <Prose>
-                Which coordinate system would you use to track the position
-                along the hill?
+                Which coordinate system would you use to track the car’s
+                position along the hill?
               </Prose>
             }
             yes="Horizontal and Vertical axes"
@@ -109,7 +122,7 @@ export default function WrapUp() {
           </Prose>
 
           <TextArea
-            field={f.xBaseRewrite}
+            field={f.xBasisRewriteReason}
             label={
               <Prose>
                 For example, given a spin-1/2 particle (e.g., electron) in a
@@ -130,7 +143,9 @@ export default function WrapUp() {
 
           <Continue
             commit={f.xBaseRewriteCommit}
-            allowed={isSet(f.xBaseRewrite) && isSet(f.xBasisRewriteNewInfo)}
+            allowed={
+              isSet(f.xBasisRewriteReason) && isSet(f.xBasisRewriteNewInfo)
+            }
           />
         </Section>
 
@@ -142,7 +157,7 @@ export default function WrapUp() {
           </Prose>
 
           <Toggle
-            field={f.repZ}
+            field={f.basisChoiceMeasureZ}
             label={
               <Prose>
                 If you were interest in predicting the outcome of a measurement
@@ -150,32 +165,39 @@ export default function WrapUp() {
                 basis) would be preferred
               </Prose>
             }
-            yes="The middle part"
+            yes="The middle part of the equation"
             no="The right part"
           />
 
           <Toggle
-            field={f.repX}
+            field={f.basisChoiceMeasureX}
             label={
               <Prose>
                 What about an outcome of a measurement along the x-direction?
               </Prose>
             }
-            yes="The middle part"
+            yes="The middle part of the equation"
             no="The right part"
           />
 
-          <TextArea field={f.repExplain} label={<Prose>Explain.</Prose>} />
+          <TextArea
+            field={f.basisChoiceExplain}
+            label={<Prose>Explain your choices.</Prose>}
+          />
 
           <Continue
-            commit={f.repCommit}
-            allowed={isSet(f.repZ) && isSet(f.repX) && isSet(f.repExplain)}
+            commit={f.basisChoiceCommit}
+            allowed={
+              isSet(f.basisChoiceMeasureZ) &&
+              isSet(f.basisChoiceMeasureX) &&
+              isSet(f.basisChoiceExplain)
+            }
           />
         </Section>
 
-        <Section commits={f.repCommit}>
+        <Section commits={f.basisChoiceCommit}>
           <Toggle
-            field={f.CoBEfect}
+            field={f.effectOfCoB}
             label={
               <Prose>
                 Does changing the basis representation change the physical state
@@ -186,8 +208,18 @@ export default function WrapUp() {
             no="Nope!"
           />
 
-          <TextArea field={f.CoBEffectExplain} label={<Prose>How so?</Prose>} />
+          <TextArea
+            field={f.effectOfCoBExplain}
+            label={<Prose>How so?</Prose>}
+          />
 
+          <Continue
+            commit={f.effectOfCoBCommit}
+            allowed={isSet(f.effectOfCoB) && isSet(f.effectOfCoBExplain)}
+          />
+        </Section>
+
+        <Section commits={f.effectOfCoBCommit}>
           <TextArea
             field={f.whyCoB}
             label={
@@ -197,12 +229,7 @@ export default function WrapUp() {
             }
           />
 
-          <Continue
-            commit={f.whyCoBCommit}
-            allowed={
-              isSet(f.CoBEfect) && isSet(f.CoBEffectExplain) && isSet(f.whyCoB)
-            }
-          />
+          <Continue commit={f.whyCoBCommit} allowed={isSet(f.whyCoB)} />
         </Section>
 
         <Section commits={f.whyCoBCommit}>
