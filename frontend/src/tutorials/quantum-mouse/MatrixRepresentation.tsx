@@ -1,13 +1,6 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import {
-  Continue,
-  ContinueToNextPart,
-  Help,
-  Prose,
-  Reminder,
-  Section,
-} from "src/components";
+import { Continue, Help, Prose, Reminder, Section } from "src/components";
 import {
   Decimal,
   FieldGroup,
@@ -19,7 +12,7 @@ import { Content } from "src/components/layout";
 import M from "src/components/M";
 import Matrix, { fieldToMatrix } from "src/components/Matrix";
 import { isSet, isVisible, useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
 
 export default function MatrixRepresentation() {
   const f = useFields(QuantumMouse);
@@ -262,10 +255,7 @@ export default function MatrixRepresentation() {
               f.moodMatrixDiagonalCommit,
           ]}
         >
-          <ContinueToNextPart
-            commit={f.matrixRepresentationFinalCommit}
-            link="../intro-to-expectation-value"
-          />
+          <ContinueToNextPart commit={f.matrixRepresentationFinalCommit} />
         </Section>
       </Content>
     </Part>

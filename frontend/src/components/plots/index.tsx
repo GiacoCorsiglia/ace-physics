@@ -19,10 +19,18 @@ function usePlot() {
   return useContext(PlotContext);
 }
 
+export function WithPlot({
+  children,
+}: {
+  children: (plot: PlotContext) => React.ReactNode;
+}) {
+  return <>{children(usePlot())}</>;
+}
+
 export function Plot({
-  width = 300,
-  height = 300,
-  scale = 100,
+  width = 266,
+  height = 266,
+  scale = 90,
   center = true,
   children,
 }: {
@@ -222,7 +230,11 @@ export function Tick({
   y,
   label,
   color = axisColor,
-}: ({ x: number; y?: never } | { x?: never; y: number }) & {
+  labelPosition,
+}: (
+  | { x: number; y?: never; labelPosition?: "above" | "below" }
+  | { x?: never; y: number; labelPosition?: "left" | "right" }
+) & {
   color?: string;
   label?: string | number;
 }) {
@@ -244,6 +256,9 @@ export function Tick({
         y2: plot.y(y!),
       };
 
+  labelPosition =
+    labelPosition === undefined ? (isX ? "below" : "left") : labelPosition;
+
   return (
     <>
       <line {...position} stroke={color} strokeWidth={axisWidth}></line>
@@ -255,7 +270,15 @@ export function Tick({
           inSvg
           x={position.x1}
           y={position.y2}
-          relativeTo={isX ? "topCenter" : "rightCenter"}
+          relativeTo={
+            labelPosition === "below"
+              ? "topCenter"
+              : labelPosition === "above"
+              ? "bottomCenter"
+              : labelPosition === "left"
+              ? "rightCenter"
+              : "leftCenter"
+          }
         />
       )}
     </>
@@ -264,6 +287,39 @@ export function Tick({
 
 export function Rotate({ degrees, children }: { degrees: number } & Children) {
   return <g transform={`rotate(-${degrees} 0 0)`}>{children}</g>;
+}
+
+const barWidth = 70;
+
+export function Bar({
+  x,
+  height,
+  stroke = "#a4a4a4",
+  fill = "#ddd",
+}: {
+  x: number;
+  height: number;
+  stroke?: string;
+  fill?: string;
+}) {
+  const plot = usePlot();
+
+  x = plot.x(x);
+  height = plot.scale(height);
+
+  const xLeft = x - barWidth / 2;
+
+  return (
+    <rect
+      x={xLeft}
+      y={height > 0 ? -height : 0}
+      width={barWidth}
+      height={Math.abs(height)}
+      stroke={stroke}
+      strokeWidth={axisWidth}
+      fill={fill}
+    />
+  );
 }
 
 export function CircleLabel({

@@ -4,37 +4,12 @@ import { Continue, Prose, Section } from "src/components";
 import { TextArea, Toggle } from "src/components/inputs";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { isSet, useFields } from "src/state";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
+import { ReactComponent as Car } from "./car.svg";
+
 export default function WrapUp() {
   const f = useFields(QuantumBasis);
-  const {
-    positionCoord,
-    positionCoordExplain,
-    positionCoordCommit,
-
-    potentialEnergyCoord,
-    potentialEnergyCoordExplain,
-    potentialEnergyCoordCommit,
-
-    coordChoiceEffect,
-    coordChoiceEffectExplain,
-    coordChoiceCommit,
-
-    xBaseRewrite,
-    xBasisRewriteNewInfo,
-    xBaseRewriteCommit,
-
-    repX,
-    repZ,
-    repExplain,
-    repCommit,
-
-    CoBEfect,
-    CoBEffectExplain,
-    whyCoB,
-    whyCoBCommit,
-  } = f;
 
   return (
     <Part label="Wrapping up">
@@ -49,77 +24,100 @@ export default function WrapUp() {
             down a hill.
           </Prose>
 
-          {/*Making everything a text area for easy right now!*/}
+          <Car
+            style={{
+              display: "block",
+              margin: "1rem auto 0",
+              width: "100%",
+              maxWidth: "266px",
+              height: "auto",
+              border: "1px solid #b3b3b3",
+              borderRadius: "3px",
+            }}
+          />
 
+          <Continue commit={f.wrapUpIntroCommit} />
+        </Section>
+
+        <Section commits={f.wrapUpIntroCommit}>
           <Toggle
-            field={positionCoord}
+            field={f.positionCoord}
             label={
               <Prose>
-                Which coordinate system would you use to track the postion along
-                the hill?
+                Which coordinate system would you use to track the car’s
+                position along the hill?
               </Prose>
             }
-            yes="Horizontal and Vertical axes"
-            no="A set of rotated axes"
+            choices={coordChoices}
           />
 
           <TextArea
-            field={positionCoordExplain}
-            label={<Prose>Justify you choice.</Prose>}
+            field={f.positionCoordExplain}
+            label={<Prose>Justify your choice.</Prose>}
           />
 
-          <Continue commit={positionCoordCommit} />
+          <Continue
+            commit={f.positionCoordCommit}
+            allowed={isSet(f.positionCoord) && isSet(f.positionCoordExplain)}
+          />
         </Section>
 
-        <Section commits={[positionCoordCommit]}>
+        <Section commits={f.positionCoordCommit}>
           <Toggle
-            field={potentialEnergyCoord}
+            field={f.potentialEnergyCoord}
             label={
               <Prose>
                 Now consider this: Which coordinate system would you use to
                 easily measure the gravitational potential energy of the car?
               </Prose>
             }
-            yes="Horizontal and Vertical axes"
-            no="A set of rotated axes"
+            choices={coordChoices}
           />
+
           <TextArea
-            field={potentialEnergyCoordExplain}
+            field={f.potentialEnergyCoordExplain}
             label={<Prose>Justify you choice.</Prose>}
           />
-          <Continue commit={potentialEnergyCoordCommit} />
+
+          <Continue
+            commit={f.potentialEnergyCoordCommit}
+            allowed={
+              isSet(f.potentialEnergyCoord) &&
+              isSet(f.potentialEnergyCoordExplain)
+            }
+          />
         </Section>
-        <Section commits={[positionCoordCommit, potentialEnergyCoordCommit]}>
+
+        <Section commits={f.potentialEnergyCoordCommit}>
           <Toggle
-            field={coordChoiceEffect}
+            field={f.coordEffect}
             label={
               <Prose>
                 For the previous two questions, did the choice of coordinate
                 system affect the physical scenario of the car?
               </Prose>
             }
-            yes="Yes, it changed the physics."
-            no="No, the physics was the same."
+            choices={coordEffectChoices}
           />
 
           <TextArea
-            field={coordChoiceEffectExplain}
+            field={f.coordEffectExplain}
             label={<Prose>Tell us what your thinking.</Prose>}
           />
-          <Continue commit={coordChoiceCommit} />
+
+          <Continue
+            commit={f.coordEffectCommit}
+            allowed={isSet(f.coordEffect) && isSet(f.coordEffectExplain)}
+          />
         </Section>
-        <Section
-          commits={[
-            positionCoordCommit,
-            potentialEnergyCoordCommit,
-            coordChoiceCommit,
-          ]}
-        >
+
+        <Section commits={f.coordEffectCommit}>
           <Prose>
             Now, let's think about changing basis in quantum mechanics.{" "}
           </Prose>
+
           <TextArea
-            field={xBaseRewrite}
+            field={f.xBasisRewriteReason}
             label={
               <Prose>
                 For example, given a spin-1/2 particle (e.g., electron) in a
@@ -128,32 +126,33 @@ export default function WrapUp() {
               </Prose>
             }
           />
+
           <TextArea
-            field={xBasisRewriteNewInfo}
+            field={f.xBasisRewriteNewInfo}
             label={
               <Prose>
                 What new information would the rewritten state reveal?
               </Prose>
             }
           />
-          <Continue commit={xBaseRewriteCommit} />
+
+          <Continue
+            commit={f.xBaseRewriteCommit}
+            allowed={
+              isSet(f.xBasisRewriteReason) && isSet(f.xBasisRewriteNewInfo)
+            }
+          />
         </Section>
 
-        <Section
-          commits={[
-            potentialEnergyCoordCommit,
-            positionCoordCommit,
-            coordChoiceCommit,
-            xBaseRewriteCommit,
-          ]}
-        >
+        <Section commits={f.xBaseRewriteCommit}>
           <Prose>
             Consider{" "}
             <M t="\ket{\psi}=\frac{1}{5\sqrt{2}}\ket{+}_x +\frac{7}{5\sqrt{2}}\ket{-}_x =\frac{3}{5}\ket{+}-\frac{4}{5}\ket{-}" />
             .
           </Prose>
+
           <Toggle
-            field={repZ}
+            field={f.basisChoiceMeasureZ}
             label={
               <Prose>
                 If you were interest in predicting the outcome of a measurement
@@ -161,56 +160,94 @@ export default function WrapUp() {
                 basis) would be preferred
               </Prose>
             }
-            yes="The middle part"
-            no="The right part"
+            choices={basisChoices}
           />
+
           <Toggle
-            field={repX}
+            field={f.basisChoiceMeasureX}
             label={
               <Prose>
                 What about an outcome of a measurement along the x-direction?
               </Prose>
             }
-            yes="The middle part"
-            no="The right part"
+            choices={basisChoices}
           />
-          <TextArea field={repExplain} label={<Prose>Explain.</Prose>} />
-          <Continue commit={repCommit} />
+
+          <TextArea
+            field={f.basisChoiceExplain}
+            label={<Prose>Explain your choices.</Prose>}
+          />
+
+          <Continue
+            commit={f.basisChoiceCommit}
+            allowed={
+              isSet(f.basisChoiceMeasureZ) &&
+              isSet(f.basisChoiceMeasureX) &&
+              isSet(f.basisChoiceExplain)
+            }
+          />
         </Section>
 
-        <Section
-          commits={[
-            positionCoordCommit,
-            potentialEnergyCoordCommit,
-            coordChoiceCommit,
-            xBaseRewriteCommit,
-            repCommit,
-          ]}
-        >
+        <Section commits={f.basisChoiceCommit}>
           <Toggle
-            field={CoBEfect}
+            field={f.effectOfCoB}
             label={
               <Prose>
                 Does changing the basis representation change the physical state
                 of the particle?
               </Prose>
             }
-            yes="Yup!"
-            no="Nope!"
+            choices={effectOfCoBChoices}
           />
 
-          <TextArea field={CoBEffectExplain} label={<Prose>How so?</Prose>} />
           <TextArea
-            field={whyCoB}
+            field={f.effectOfCoBExplain}
+            label={<Prose>How so?</Prose>}
+          />
+
+          <Continue
+            commit={f.effectOfCoBCommit}
+            allowed={isSet(f.effectOfCoB) && isSet(f.effectOfCoBExplain)}
+          />
+        </Section>
+
+        <Section commits={f.effectOfCoBCommit}>
+          <TextArea
+            field={f.whyCoB}
             label={
               <Prose>
                 Why might you want to write a state in a different basis?
               </Prose>
             }
           />
-          <Continue commit={whyCoBCommit} />
+
+          <Continue commit={f.whyCoBCommit} allowed={isSet(f.whyCoB)} />
+        </Section>
+
+        <Section commits={f.whyCoBCommit}>
+          <ContinueToNextPart commit={f.wrapUpFinalCommit} />
         </Section>
       </Content>
     </Part>
   );
 }
+
+const coordChoices = [
+  { value: "standard", label: "Horizontal and Vertical axes" },
+  { value: "rotated", label: "A set of rotated axes" },
+] as const;
+
+const coordEffectChoices = [
+  { value: "has effect", label: "Yes, it changed the physics." },
+  { value: "no effect", label: "No, the physics was the same." },
+] as const;
+
+const basisChoices = [
+  { value: "x-basis", label: "The middle part of the equation" },
+  { value: "z-basis", label: "The right part" },
+] as const;
+
+const effectOfCoBChoices = [
+  { value: "has effect", label: "Yup!" },
+  { value: "no effect", label: "Nope!" },
+] as const;

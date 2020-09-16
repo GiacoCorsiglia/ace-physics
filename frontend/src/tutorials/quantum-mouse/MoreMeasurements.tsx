@@ -2,7 +2,6 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import {
   Continue,
-  ContinueToNextPart,
   Help,
   HelpButton,
   Prose,
@@ -19,7 +18,7 @@ import {
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet, isVisible, needsHelp, useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
 
 export default function MoreMeasurement() {
   const f = useFields(QuantumMouse);
@@ -407,10 +406,7 @@ export default function MoreMeasurement() {
         </Section>
 
         <Section commits={[f.thinkingDeeperCommit]}>
-          <ContinueToNextPart
-            link="../matrix-representations"
-            commit={f.moreMeasurementsFinalCommit}
-          />
+          <ContinueToNextPart commit={f.moreMeasurementsFinalCommit} />
         </Section>
       </Content>
     </Part>

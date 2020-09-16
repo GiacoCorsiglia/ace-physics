@@ -1,13 +1,6 @@
 import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
-import {
-  Continue,
-  ContinueToNextPart,
-  Help,
-  HelpButton,
-  Prose,
-  Section,
-} from "src/components";
+import { Continue, Help, HelpButton, Prose, Section } from "src/components";
 import {
   Choice,
   FieldGroup,
@@ -19,7 +12,7 @@ import {
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet, needsHelp, useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
 import { ReactComponent as MouseBigEye } from "./svgs/mouse-big-eye.svg";
 import { ReactComponent as MouseSmallEye } from "./svgs/mouse-small-eye.svg";
 
@@ -314,10 +307,7 @@ export default function WhatIsAQuantumMouse() {
             sizeEigenvaluesCheckVisible.value && sizeEigenvaluesCheckCommit,
           ]}
         >
-          <ContinueToNextPart
-            link="../quantum-mood"
-            commit={whatIsAMouseFinalCommit}
-          />
+          <ContinueToNextPart commit={whatIsAMouseFinalCommit} />
         </Section>
       </Content>
     </Part>

@@ -1,6 +1,7 @@
 import * as apiTypes from "src/common/apiTypes";
 import * as s from "src/common/schema";
 import { AsyncResult, asyncResult, failure, success } from "src/common/util";
+import * as globalParams from "./globalParams";
 
 // Index.
 
@@ -93,10 +94,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
     ////////////////////////////////////////////////////////////////////////////
     // Mock responses: for development without a server.
     ////////////////////////////////////////////////////////////////////////////
-    if (
-      process.env.NODE_ENV === "development" &&
-      process.env.REACT_APP_ACE_API !== "yes"
-    ) {
+    if (globalParams.mockApi) {
       console.log("api: sending MOCK request", path, request);
       return new Promise((resolve) => {
         setTimeout(() => {

@@ -2,7 +2,6 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import {
   Continue,
-  ContinueToNextPart,
   Help,
   HelpButton,
   Prose,
@@ -20,7 +19,7 @@ import {
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet, isVisible, needsHelp, useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
 import { approxEquals, norm } from "src/util";
 
 export default function Superpositions() {
@@ -273,10 +272,7 @@ export default function Superpositions() {
             isVisible(f.abIncorrectVisible) && f.abIncorrectCommit,
           ]}
         >
-          <ContinueToNextPart
-            commit={f.superpositionsFinalCommit}
-            link="../measuring-eye-size"
-          />
+          <ContinueToNextPart commit={f.superpositionsFinalCommit} />
         </Section>
       </Content>
     </Part>

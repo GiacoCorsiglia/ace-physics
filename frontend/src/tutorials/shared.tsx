@@ -7,6 +7,7 @@ import {
 import debounce from "lodash.debounce";
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -21,7 +22,8 @@ import { names } from "src/common/tutorials";
 import { Continue, Prose } from "src/components";
 import { Content, Header, Page } from "src/components/layout";
 import { UserMenu } from "src/components/shared/UserMenu";
-import { Provider, ProviderSchema } from "src/state";
+import * as globalParams from "src/globalParams";
+import { Field, Provider, ProviderSchema } from "src/state";
 import { ReactComponent as EllipsisCircleIcon } from "src/svgs/ellipsis-circle.svg";
 import * as urls from "src/urls";
 import { Children, classes, useToggle } from "src/util";
@@ -171,7 +173,7 @@ export function tutorialRoute({
 
               <p>
                 Come back to see or update your work anytime (even if you close
-                his window).
+                this window).
               </p>
             </Prose>
           </Content>
@@ -180,6 +182,11 @@ export function tutorialRoute({
     </Route>
   );
 }
+
+interface TutorialContext {
+  parts: Parts;
+}
+const TutorialContext = React.createContext<TutorialContext>({ parts: [] });
 
 function Tutorial({
   url,
@@ -383,6 +390,8 @@ function Tutorial({
 
   const { currentTitle } = useCurrentPageInfo(parts, labelTitle);
 
+  const tutorialContext: TutorialContext = useMemo(() => ({ parts }), [parts]);
+
   if (!account.isLoggedIn) {
     // We really should never get here.
     return (
@@ -426,7 +435,16 @@ function Tutorial({
 
           {status === "loaded" && (
             <Provider schema={schema} initial={initial} onChange={onChange}>
-              {!account.isForCredit && (
+              {globalParams.mockApi && (
+                <Content>
+                  <Prose className={styles.notForCreditAlert}>
+                    You’re currently in <strong>preview mode</strong>. Your
+                    responses will <strong>not</strong> be saved.
+                  </Prose>
+                </Content>
+              )}
+
+              {!globalParams.mockApi && !account.isForCredit && (
                 <Content>
                   <Prose className={styles.notForCreditAlert}>
                     This is an anonymous account. Your work will{" "}
@@ -435,7 +453,9 @@ function Tutorial({
                 </Content>
               )}
 
-              <Outlet />
+              <TutorialContext.Provider value={tutorialContext}>
+                <Outlet />
+              </TutorialContext.Provider>
             </Provider>
           )}
         </div>
@@ -553,15 +573,21 @@ function TutorialPartsItem({
   );
 }
 
-function useCurrentPageInfo(parts: Parts, labelTitle: LabelTitle) {
+function useCurrentPart(parts: Parts) {
   const location = useLocation();
 
   const page = location.pathname.replace(/\/$/, "").split("/").pop();
 
   const currentPart = parts.find((part) => part.path === page);
+
+  return { page, currentPart };
+}
+
+function useCurrentPageInfo(parts: Parts, labelTitle: LabelTitle) {
+  const { page, currentPart } = useCurrentPart(parts);
   const currentTitle = getTitle(currentPart || labelTitle);
 
-  return { page, currentTitle };
+  return { page, currentPart, currentTitle };
 }
 
 type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
@@ -627,6 +653,58 @@ export function Part({
       </Content>
 
       {children}
+    </>
+  );
+}
+
+const exclamations = ["Cool!", "Rad!", "Nifty!", "Sweet!", "Neat!"];
+
+export function useNextPartLink() {
+  const { parts } = useContext(TutorialContext);
+
+  const { currentPart } = useCurrentPart(parts);
+
+  const nextPart: Part | undefined =
+    currentPart === undefined
+      ? parts[0] // Presumably we're currently on the intro page
+      : parts[parts.indexOf(currentPart) + 1];
+
+  return nextPart === undefined
+    ? undefined
+    : currentPart === undefined
+    ? `./${nextPart.path}`
+    : `../${nextPart.path}`;
+}
+
+export function ContinueToNextPart({
+  commit,
+}: {
+  commit: Field<s.BooleanSchema>;
+}) {
+  const randomExplanation = useRef(
+    exclamations[Math.floor(Math.random() * exclamations.length)]
+  );
+
+  const link = useNextPartLink();
+
+  return (
+    <>
+      <Prose>
+        {randomExplanation.current} We encourage you to continue to think about
+        these concepts and chat with your professor, TA, or classmates.{" "}
+        <strong className="text-blue">
+          This isn’t about being “right” or “wrong,” and we haven‘t “checked”
+          all your answers.
+        </strong>
+      </Prose>
+
+      {link && (
+        <Continue
+          link={link}
+          commit={commit}
+          label="Move on to the next page"
+        />
+      )}
     </>
   );
 }

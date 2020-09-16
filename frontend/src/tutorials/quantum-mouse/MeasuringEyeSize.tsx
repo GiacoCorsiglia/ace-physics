@@ -2,7 +2,6 @@ import React from "react";
 import { QuantumMouse } from "src/common/tutorials";
 import {
   Continue,
-  ContinueToNextPart,
   Help,
   HelpButton,
   Prose,
@@ -21,7 +20,7 @@ import {
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet, isVisible, needsHelp, useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
 import { approxEquals } from "src/util";
 
 export default function MeasuringEyeSize() {
@@ -416,10 +415,7 @@ export default function MeasuringEyeSize() {
               f.probabilityNegativeCommit,
           ]}
         >
-          <ContinueToNextPart
-            link="../more-measurements"
-            commit={f.measuringEyeSizeFinalCommit}
-          />
+          <ContinueToNextPart commit={f.measuringEyeSizeFinalCommit} />
         </Section>
       </Content>
     </Part>

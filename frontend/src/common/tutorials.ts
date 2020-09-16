@@ -357,11 +357,31 @@ const kColumnDiracChoice = s.choice([
   "<j|u>",
 ] as const);
 
+const HeightChoice = s.choice([
+  "3/5",
+  "-3/5",
+  "4/5",
+  "-4/5",
+  "9/25",
+  "-9/25",
+  "16/25",
+  "-16/25",
+] as const);
+
+const LabelChoice = s.choice([
+  "|->",
+  "|+>",
+  "<-|psi_A>",
+  "<+|psi_A>",
+  "|<-|psi_A>|^2",
+  "|<+|psi_A>|^2",
+]);
+
 const PlusMinus = s.record({
-  minusHeight: s.number(),
-  plusHeight: s.number(),
-  minusLabel: s.string(),
-  plusLabel: s.string(),
+  minusHeight: HeightChoice,
+  plusHeight: HeightChoice,
+  minusLabel: LabelChoice,
+  plusLabel: LabelChoice,
 });
 
 export type QuantumBasis = s.TypeOf<typeof QuantumBasis>;
@@ -384,7 +404,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   }),
   pretestCommit: Commit,
 
-  // Part 1.
+  // Probability and Projection.
   probabilityProjectionIntroCommit: Commit,
 
   meaningOfCoefficients: s.choice(
@@ -400,6 +420,14 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 
   probability: PlusMinus,
   probabilityAmplitude: PlusMinus,
+
+  histogramHeightCommit: Commit,
+  histogramLabelCommit: Commit,
+
+  relationshipProbAmp: s.string(),
+  relationshipProbAmpCommit: Commit,
+
+  probabilityProjectionFinalCommit: Commit,
 
   // Defining a Basis.
   definingBasisIntroCommit: Commit,
@@ -530,32 +558,38 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 
   relatingBasesFinalCommit: Commit,
 
-  //Part 5: WrapUp
-  positionCoord: s.boolean(),
+  // Wrap Up.
+  wrapUpIntroCommit: Commit,
+
+  positionCoord: s.choice(["standard", "rotated"] as const),
   positionCoordExplain: s.string(),
   positionCoordCommit: Commit,
 
-  potentialEnergyCoord: s.boolean(),
+  potentialEnergyCoord: s.choice(["standard", "rotated"] as const),
   potentialEnergyCoordExplain: s.string(),
   potentialEnergyCoordCommit: Commit,
 
-  coordChoiceEffect: s.boolean(),
-  coordChoiceEffectExplain: s.string(),
-  coordChoiceCommit: Commit,
+  coordEffect: s.choice(["has effect", "no effect"] as const),
+  coordEffectExplain: s.string(),
+  coordEffectCommit: Commit,
 
-  xBaseRewrite: s.string(),
+  xBasisRewriteReason: s.string(),
   xBasisRewriteNewInfo: s.string(),
   xBaseRewriteCommit: Commit,
 
-  repX: s.boolean(),
-  repZ: s.boolean(),
-  repExplain: s.string(),
-  repCommit: Commit,
+  basisChoiceMeasureZ: s.choice(["x-basis", "z-basis"] as const),
+  basisChoiceMeasureX: s.choice(["x-basis", "z-basis"] as const),
+  basisChoiceExplain: s.string(),
+  basisChoiceCommit: Commit,
 
-  CoBEfect: s.boolean(),
-  CoBEffectExplain: s.string(),
+  effectOfCoB: s.choice(["has effect", "no effect"] as const),
+  effectOfCoBExplain: s.string(),
+  effectOfCoBCommit: Commit,
+
   whyCoB: s.string(),
   whyCoBCommit: Commit,
+
+  wrapUpFinalCommit: Commit,
 });
 // HACK: This is strictly a duplicate, but it allows the Lite version to have
 // a different name!  It must be reference equals with QuantumBasis.

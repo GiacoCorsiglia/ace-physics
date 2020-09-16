@@ -4,7 +4,7 @@ import {
   EyeClosedIcon,
   EyeIcon,
 } from "@primer/octicons-react";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import * as s from "src/common/schema";
 import * as globalParams from "src/globalParams";
 import { Field } from "src/state";
@@ -100,11 +100,9 @@ export function Continue({
   allowed?: boolean;
 } & ContinueProps &
   OptionalChildren) {
-  const globals = useContext(globalParams.Context);
-
   const done = !link && commit && commit.value === true;
 
-  if (process.env.NODE_ENV === "development" && globals.unconditionalMoveOn) {
+  if (globalParams.unconditionalMoveOn) {
     allowed = true;
   }
 
@@ -143,35 +141,6 @@ export function Continue({
         Please respond to every question before moving on.
       </p>
     </Content>
-  );
-}
-
-const exclamations = ["Cool!", "Rad!", "Nifty!", "Sweet!", "Neat!"];
-
-export function ContinueToNextPart({
-  link,
-  commit,
-}: {
-  link: string;
-  commit: Field<s.BooleanSchema>;
-}) {
-  const randomExplanation = useRef(
-    exclamations[Math.floor(Math.random() * exclamations.length)]
-  );
-
-  return (
-    <>
-      <Prose>
-        {randomExplanation.current} We encourage you to continue to think about
-        these concepts and chat with your professor, TA, or classmates.{" "}
-        <strong className="text-blue">
-          This isn’t about being “right” or “wrong,” and we haven‘t “checked”
-          all your answers.
-        </strong>
-      </Prose>
-
-      <Continue link={link} commit={commit} label="Move on to the next page" />
-    </>
   );
 }
 
@@ -225,8 +194,7 @@ export function Section({
   first?: boolean;
   noScroll?: boolean;
 } & Children) {
-  const globals = useContext(globalParams.Context);
-  if (process.env.NODE_ENV === "development" && globals.showAllSections) {
+  if (globalParams.showAllSections) {
     // Skip the other options
     // Also don't scroll all over the page.
     noScroll = true;
@@ -236,8 +204,7 @@ export function Section({
 
   return (
     <RevealedSection first={first} noScroll={noScroll}>
-      {process.env.NODE_ENV === "development" &&
-        globals.showAllSections &&
+      {globalParams.showAllSections &&
         (isSectionVisible(commits) ? (
           <EyeIcon className={styles.sectionDevNoticeVisible} />
         ) : (
@@ -266,55 +233,13 @@ function RevealedSection({
   return (
     <section
       ref={el}
-      className={classes(styles.section, [styles.sectionFirst, first])}
+      className={classes(
+        styles.section,
+        [styles.sectionFirst, first],
+        [styles.sectionAnimateIn, !first && !noScroll]
+      )}
     >
       {children}
     </section>
-  );
-}
-
-////////////////////////////////////
-// DEPRECATED:
-//////////////////
-
-// Layout.
-
-export function Columns({
-  children,
-}: Children<React.ReactElement<any, typeof Column>[]>) {
-  return <div className={styles.columns}>{children}</div>;
-}
-
-export function Column({ children }: OptionalChildren) {
-  return <div className={styles.column}>{children}</div>;
-}
-
-///
-
-export function Part({ number, children }: { number: number } & Children) {
-  return (
-    <h2 className={styles.part}>
-      <span className={styles.label}>Part&nbsp;{number}</span>
-      {children}
-    </h2>
-  );
-}
-
-export function Question({
-  label,
-  level = "top",
-  children,
-}: {
-  label: string;
-  level?: "top" | "sub" | "subsub";
-} & Children) {
-  const LabelTag = level === "top" ? "h3" : level === "sub" ? "h4" : "h5";
-  const Container = containerFor(children);
-
-  return (
-    <div className={styles.question}>
-      <LabelTag className={styles.label}>{label}.</LabelTag>
-      <Container className={styles.description}>{children}</Container>
-    </div>
   );
 }

@@ -2,7 +2,6 @@ import { default as React } from "react";
 import { QuantumBasis } from "src/common/tutorials";
 import {
   Continue,
-  ContinueToNextPart,
   Help,
   HelpButton,
   Info,
@@ -16,7 +15,7 @@ import M from "src/components/M";
 import Matrix, { fieldToMatrix } from "src/components/Matrix";
 import { Axes, Plot, Tick, Vector } from "src/components/plots";
 import { isSet, isVisible, needsHelp, useFields } from "src/state";
-import { Part } from "src/tutorials/shared";
+import { ContinueToNextPart, Part } from "src/tutorials/shared";
 import { approxEquals } from "src/util";
 
 export default function ChangingBasis() {
@@ -647,10 +646,7 @@ export default function ChangingBasis() {
             isVisible(f.kColumnCorrectVisible) && f.kColumnCorrectCommit,
           ]}
         >
-          <ContinueToNextPart
-            link="../relating-different-bases"
-            commit={f.changingBasisFinalCommit}
-          />
+          <ContinueToNextPart commit={f.changingBasisFinalCommit} />
         </Section>
       </Content>
     </Part>
