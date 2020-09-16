@@ -8,33 +8,6 @@ import { useFields } from "src/state";
 import { Part } from "src/tutorials/shared";
 export default function WrapUp() {
   const f = useFields(QuantumBasis);
-  const {
-    positionCoord,
-    positionCoordExplain,
-    positionCoordCommit,
-
-    potentialEnergyCoord,
-    potentialEnergyCoordExplain,
-    potentialEnergyCoordCommit,
-
-    coordChoiceEffect,
-    coordChoiceEffectExplain,
-    coordChoiceCommit,
-
-    xBaseRewrite,
-    xBasisRewriteNewInfo,
-    xBaseRewriteCommit,
-
-    repX,
-    repZ,
-    repExplain,
-    repCommit,
-
-    CoBEfect,
-    CoBEffectExplain,
-    whyCoB,
-    whyCoBCommit,
-  } = f;
 
   return (
     <Part label="Wrapping up">
@@ -49,14 +22,12 @@ export default function WrapUp() {
             down a hill.
           </Prose>
 
-          {/*Making everything a text area for easy right now!*/}
-
           <Toggle
-            field={positionCoord}
+            field={f.positionCoord}
             label={
               <Prose>
-                Which coordinate system would you use to track the postion along
-                the hill?
+                Which coordinate system would you use to track the position
+                along the hill?
               </Prose>
             }
             yes="Horizontal and Vertical axes"
@@ -64,16 +35,16 @@ export default function WrapUp() {
           />
 
           <TextArea
-            field={positionCoordExplain}
-            label={<Prose>Justify you choice.</Prose>}
+            field={f.positionCoordExplain}
+            label={<Prose>Justify your choice.</Prose>}
           />
 
-          <Continue commit={positionCoordCommit} />
+          <Continue commit={f.positionCoordCommit} />
         </Section>
 
-        <Section commits={[positionCoordCommit]}>
+        <Section commits={f.positionCoordCommit}>
           <Toggle
-            field={potentialEnergyCoord}
+            field={f.potentialEnergyCoord}
             label={
               <Prose>
                 Now consider this: Which coordinate system would you use to
@@ -84,14 +55,15 @@ export default function WrapUp() {
             no="A set of rotated axes"
           />
           <TextArea
-            field={potentialEnergyCoordExplain}
+            field={f.potentialEnergyCoordExplain}
             label={<Prose>Justify you choice.</Prose>}
           />
-          <Continue commit={potentialEnergyCoordCommit} />
+          <Continue commit={f.potentialEnergyCoordCommit} />
         </Section>
-        <Section commits={[positionCoordCommit, potentialEnergyCoordCommit]}>
+
+        <Section commits={f.potentialEnergyCoordCommit}>
           <Toggle
-            field={coordChoiceEffect}
+            field={f.coordChoiceEffect}
             label={
               <Prose>
                 For the previous two questions, did the choice of coordinate
@@ -103,23 +75,18 @@ export default function WrapUp() {
           />
 
           <TextArea
-            field={coordChoiceEffectExplain}
+            field={f.coordChoiceEffectExplain}
             label={<Prose>Tell us what your thinking.</Prose>}
           />
-          <Continue commit={coordChoiceCommit} />
+          <Continue commit={f.coordChoiceCommit} />
         </Section>
-        <Section
-          commits={[
-            positionCoordCommit,
-            potentialEnergyCoordCommit,
-            coordChoiceCommit,
-          ]}
-        >
+
+        <Section commits={f.coordChoiceCommit}>
           <Prose>
             Now, let's think about changing basis in quantum mechanics.{" "}
           </Prose>
           <TextArea
-            field={xBaseRewrite}
+            field={f.xBaseRewrite}
             label={
               <Prose>
                 For example, given a spin-1/2 particle (e.g., electron) in a
@@ -129,31 +96,24 @@ export default function WrapUp() {
             }
           />
           <TextArea
-            field={xBasisRewriteNewInfo}
+            field={f.xBasisRewriteNewInfo}
             label={
               <Prose>
                 What new information would the rewritten state reveal?
               </Prose>
             }
           />
-          <Continue commit={xBaseRewriteCommit} />
+          <Continue commit={f.xBaseRewriteCommit} />
         </Section>
 
-        <Section
-          commits={[
-            potentialEnergyCoordCommit,
-            positionCoordCommit,
-            coordChoiceCommit,
-            xBaseRewriteCommit,
-          ]}
-        >
+        <Section commits={f.xBaseRewriteCommit}>
           <Prose>
             Consider{" "}
             <M t="\ket{\psi}=\frac{1}{5\sqrt{2}}\ket{+}_x +\frac{7}{5\sqrt{2}}\ket{-}_x =\frac{3}{5}\ket{+}-\frac{4}{5}\ket{-}" />
             .
           </Prose>
           <Toggle
-            field={repZ}
+            field={f.repZ}
             label={
               <Prose>
                 If you were interest in predicting the outcome of a measurement
@@ -165,7 +125,7 @@ export default function WrapUp() {
             no="The right part"
           />
           <Toggle
-            field={repX}
+            field={f.repX}
             label={
               <Prose>
                 What about an outcome of a measurement along the x-direction?
@@ -174,21 +134,13 @@ export default function WrapUp() {
             yes="The middle part"
             no="The right part"
           />
-          <TextArea field={repExplain} label={<Prose>Explain.</Prose>} />
-          <Continue commit={repCommit} />
+          <TextArea field={f.repExplain} label={<Prose>Explain.</Prose>} />
+          <Continue commit={f.repCommit} />
         </Section>
 
-        <Section
-          commits={[
-            positionCoordCommit,
-            potentialEnergyCoordCommit,
-            coordChoiceCommit,
-            xBaseRewriteCommit,
-            repCommit,
-          ]}
-        >
+        <Section commits={f.repCommit}>
           <Toggle
-            field={CoBEfect}
+            field={f.CoBEfect}
             label={
               <Prose>
                 Does changing the basis representation change the physical state
@@ -199,16 +151,16 @@ export default function WrapUp() {
             no="Nope!"
           />
 
-          <TextArea field={CoBEffectExplain} label={<Prose>How so?</Prose>} />
+          <TextArea field={f.CoBEffectExplain} label={<Prose>How so?</Prose>} />
           <TextArea
-            field={whyCoB}
+            field={f.whyCoB}
             label={
               <Prose>
                 Why might you want to write a state in a different basis?
               </Prose>
             }
           />
-          <Continue commit={whyCoBCommit} />
+          <Continue commit={f.whyCoBCommit} />
         </Section>
       </Content>
     </Part>
