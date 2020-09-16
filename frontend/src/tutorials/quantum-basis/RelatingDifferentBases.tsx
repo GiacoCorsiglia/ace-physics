@@ -346,7 +346,7 @@ export default function RelatingDifferentBases() {
           <Continue commit={f.equalityAllowedFeedbackCommit} />
         </Section>
 
-        <Section commits={f.whyNoSubscriptNeededCommit}>
+        <Section commits={f.equalityAllowedFeedbackCommit}>
           <ContinueToNextPart commit={f.relatingBasesFinalCommit} />
         </Section>
       </Content>
