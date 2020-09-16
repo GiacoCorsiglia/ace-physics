@@ -147,9 +147,15 @@ export default function WrapUp() {
 
         <Section commits={f.xBaseRewriteCommit}>
           <Prose>
-            Consider{" "}
-            <M t="\ket{\psi}=\frac{1}{5\sqrt{2}}\ket{+}_x +\frac{7}{5\sqrt{2}}\ket{-}_x =\frac{3}{5}\ket{+}-\frac{4}{5}\ket{-}" />
-            .
+            Consider:
+            <M
+              display
+              t="
+              \ket{\psi}
+              = \underbrace{\frac{1}{5\sqrt{2}}\ket{+}_x +\frac{7}{5\sqrt{2}}\ket{-}_x}_{A}
+              = \underbrace{\frac{3}{5}\ket{+}-\frac{4}{5}\ket{-}}_{B}
+              "
+            />
           </Prose>
 
           <Toggle
@@ -245,8 +251,8 @@ const coordEffectChoices = [
 ] as const;
 
 const basisChoices = [
-  { value: "x-basis", label: "The middle part of the equation" },
-  { value: "z-basis", label: "The right part" },
+  { value: "x-basis", label: "(A) The middle part of the equation" },
+  { value: "z-basis", label: "(B) The right part" },
 ] as const;
 
 const effectOfCoBChoices = [
