@@ -48,8 +48,7 @@ export default function WrapUp() {
                 position along the hill?
               </Prose>
             }
-            yes="Horizontal and Vertical axes"
-            no="A set of rotated axes"
+            choices={coordChoices}
           />
 
           <TextArea
@@ -72,8 +71,7 @@ export default function WrapUp() {
                 easily measure the gravitational potential energy of the car?
               </Prose>
             }
-            yes="Horizontal and Vertical axes"
-            no="A set of rotated axes"
+            choices={coordChoices}
           />
 
           <TextArea
@@ -92,31 +90,28 @@ export default function WrapUp() {
 
         <Section commits={f.potentialEnergyCoordCommit}>
           <Toggle
-            field={f.coordChoiceEffect}
+            field={f.coordEffect}
             label={
               <Prose>
                 For the previous two questions, did the choice of coordinate
                 system affect the physical scenario of the car?
               </Prose>
             }
-            yes="Yes, it changed the physics."
-            no="No, the physics was the same."
+            choices={coordEffectChoices}
           />
 
           <TextArea
-            field={f.coordChoiceEffectExplain}
+            field={f.coordEffectExplain}
             label={<Prose>Tell us what your thinking.</Prose>}
           />
 
           <Continue
-            commit={f.coordChoiceCommit}
-            allowed={
-              isSet(f.coordChoiceEffect) && isSet(f.coordChoiceEffectExplain)
-            }
+            commit={f.coordEffectCommit}
+            allowed={isSet(f.coordEffect) && isSet(f.coordEffectExplain)}
           />
         </Section>
 
-        <Section commits={f.coordChoiceCommit}>
+        <Section commits={f.coordEffectCommit}>
           <Prose>
             Now, let's think about changing basis in quantum mechanics.{" "}
           </Prose>
@@ -165,8 +160,7 @@ export default function WrapUp() {
                 basis) would be preferred
               </Prose>
             }
-            yes="The middle part of the equation"
-            no="The right part"
+            choices={basisChoices}
           />
 
           <Toggle
@@ -176,8 +170,7 @@ export default function WrapUp() {
                 What about an outcome of a measurement along the x-direction?
               </Prose>
             }
-            yes="The middle part of the equation"
-            no="The right part"
+            choices={basisChoices}
           />
 
           <TextArea
@@ -204,8 +197,7 @@ export default function WrapUp() {
                 of the particle?
               </Prose>
             }
-            yes="Yup!"
-            no="Nope!"
+            choices={effectOfCoBChoices}
           />
 
           <TextArea
@@ -239,3 +231,23 @@ export default function WrapUp() {
     </Part>
   );
 }
+
+const coordChoices = [
+  { value: "standard", label: "Horizontal and Vertical axes" },
+  { value: "rotated", label: "A set of rotated axes" },
+] as const;
+
+const coordEffectChoices = [
+  { value: "has effect", label: "Yes, it changed the physics." },
+  { value: "no effect", label: "No, the physics was the same." },
+] as const;
+
+const basisChoices = [
+  { value: "x-basis", label: "The middle part of the equation" },
+  { value: "z-basis", label: "The right part" },
+] as const;
+
+const effectOfCoBChoices = [
+  { value: "has effect", label: "Yup!" },
+  { value: "no effect", label: "Nope!" },
+] as const;

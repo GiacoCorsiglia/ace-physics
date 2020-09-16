@@ -561,28 +561,28 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   // Wrap Up.
   wrapUpIntroCommit: Commit,
 
-  positionCoord: s.boolean(),
+  positionCoord: s.choice(["standard", "rotated"] as const),
   positionCoordExplain: s.string(),
   positionCoordCommit: Commit,
 
-  potentialEnergyCoord: s.boolean(),
+  potentialEnergyCoord: s.choice(["standard", "rotated"] as const),
   potentialEnergyCoordExplain: s.string(),
   potentialEnergyCoordCommit: Commit,
 
-  coordChoiceEffect: s.boolean(),
-  coordChoiceEffectExplain: s.string(),
-  coordChoiceCommit: Commit,
+  coordEffect: s.choice(["has effect", "no effect"] as const),
+  coordEffectExplain: s.string(),
+  coordEffectCommit: Commit,
 
   xBasisRewriteReason: s.string(),
   xBasisRewriteNewInfo: s.string(),
   xBaseRewriteCommit: Commit,
 
-  basisChoiceMeasureZ: s.boolean(),
-  basisChoiceMeasureX: s.boolean(),
+  basisChoiceMeasureZ: s.choice(["x-basis", "z-basis"] as const),
+  basisChoiceMeasureX: s.choice(["x-basis", "z-basis"] as const),
   basisChoiceExplain: s.string(),
   basisChoiceCommit: Commit,
 
-  effectOfCoB: s.boolean(),
+  effectOfCoB: s.choice(["has effect", "no effect"] as const),
   effectOfCoBExplain: s.string(),
   effectOfCoBCommit: Commit,
 
