@@ -1,6 +1,6 @@
 import React from "react";
 import { QuantumBasis } from "src/common/tutorials";
-import { Continue, Prose, Section, Vocabulary } from "src/components";
+import { Continue, Prose, Reminder, Section, Vocabulary } from "src/components";
 import { Choice, Select, TextArea } from "src/components/inputs";
 import { Column, Columns, Content, Flex } from "src/components/layout";
 import M from "src/components/M";
@@ -84,6 +84,13 @@ export default function ProbabilityProjection() {
               <HistogramHeightControl pm={f.probability.properties} />
             </Column>
           </Columns>
+
+          <Reminder>
+            <M
+              display
+              t="\ket{\psi_A} = \frac{3}{5}\ket{+} - \frac{4}{5}\ket{-} \doteq \frac{1}{5} \begin{pmatrix} 3 \\ -4 \end{pmatrix}"
+            />
+          </Reminder>
 
           {/* <Content> */}
           <Continue
@@ -236,25 +243,19 @@ function Histogram({ pm }: { pm: NonNullable<QuantumBasis["probability"]> }) {
   );
 }
 
-const minusSelectStyles = {
-  control: (styles: any) => ({
-    ...styles,
-    borderColor: "green",
-    "&:hover": {
-      borderColor: "darkgreen",
-    },
-  }),
-};
-
-const plusSelectStyles = {
-  control: (styles: any) => ({
-    ...styles,
-    borderColor: "violet",
-    "&:hover": {
-      borderColor: "darkviolet",
-    },
-  }),
-};
+function selectStyles(borderColor: string, hoverBorderColor: string) {
+  return {
+    control: (styles: any) => ({
+      ...styles,
+      borderColor: borderColor,
+      "&:hover": {
+        borderColor: hoverBorderColor,
+      },
+    }),
+  };
+}
+const minusSelectStyles = selectStyles("green", "darkgreen");
+const plusSelectStyles = selectStyles("violet", "darkviolet");
 
 function HistogramHeightControl({
   pm,
@@ -276,6 +277,8 @@ function HistogramHeightControl({
         allowOther={false}
         placeholder="Height…"
         styles={minusSelectStyles}
+        // Disable clearing so there's more room in the select.
+        isClearable={false}
       />
 
       <Select
@@ -284,6 +287,7 @@ function HistogramHeightControl({
         allowOther={false}
         placeholder="Height…"
         styles={plusSelectStyles}
+        isClearable={false}
       />
     </Flex>
   );
@@ -309,6 +313,7 @@ function HistogramLabelControl({
         allowOther={false}
         placeholder="Label…"
         styles={minusSelectStyles}
+        isClearable={false}
       />
 
       <Select
@@ -317,6 +322,7 @@ function HistogramLabelControl({
         allowOther={false}
         placeholder="Label…"
         styles={plusSelectStyles}
+        isClearable={false}
       />
     </Flex>
   );
