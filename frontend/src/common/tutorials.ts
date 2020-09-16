@@ -558,7 +558,9 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 
   relatingBasesFinalCommit: Commit,
 
-  //Part 5: WrapUp
+  // Wrap Up.
+  wrapUpIntroCommit: Commit,
+
   positionCoord: s.boolean(),
   positionCoordExplain: s.string(),
   positionCoordCommit: Commit,
@@ -584,6 +586,8 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
   CoBEffectExplain: s.string(),
   whyCoB: s.string(),
   whyCoBCommit: Commit,
+
+  wrapUpFinalCommit: Commit,
 });
 // HACK: This is strictly a duplicate, but it allows the Lite version to have
 // a different name!  It must be reference equals with QuantumBasis.
