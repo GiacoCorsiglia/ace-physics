@@ -39,12 +39,23 @@
   user-select: none;
 }
 
+@keyframes section-animate-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
 .section {
   position: relative;
   margin-top: 6rem;
 
   &.sectionFirst {
     margin-top: 0;
+  }
+
+  &.sectionAnimateIn {
+    animation: section-animate-in 300ms ease-in-out;
   }
 }
 

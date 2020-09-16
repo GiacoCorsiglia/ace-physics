@@ -233,7 +233,11 @@ function RevealedSection({
   return (
     <section
       ref={el}
-      className={classes(styles.section, [styles.sectionFirst, first])}
+      className={classes(
+        styles.section,
+        [styles.sectionFirst, first],
+        [styles.sectionAnimateIn, !first && !noScroll]
+      )}
     >
       {children}
     </section>
