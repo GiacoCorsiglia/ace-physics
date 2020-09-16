@@ -19,6 +19,7 @@ export default function WrapUp() {
             Let’s think about what we've learned about the meaning and
             usefulness of changing basis.
           </Prose>
+
           <Prose>
             Consider a problem from classical mechanics involving a car driving
             down a hill.
@@ -53,7 +54,7 @@ export default function WrapUp() {
 
           <TextArea
             field={f.positionCoordExplain}
-            label={<Prose>Justify your choice.</Prose>}
+            label={<Prose>Justify your choice:</Prose>}
           />
 
           <Continue
@@ -76,7 +77,7 @@ export default function WrapUp() {
 
           <TextArea
             field={f.potentialEnergyCoordExplain}
-            label={<Prose>Justify you choice.</Prose>}
+            label={<Prose>Justify your choice:</Prose>}
           />
 
           <Continue
@@ -102,7 +103,7 @@ export default function WrapUp() {
 
           <TextArea
             field={f.coordEffectExplain}
-            label={<Prose>Tell us what your thinking.</Prose>}
+            label={<Prose>Tell us what you‘re thinking:</Prose>}
           />
 
           <Continue
@@ -113,16 +114,16 @@ export default function WrapUp() {
 
         <Section commits={f.coordEffectCommit}>
           <Prose>
-            Now, let's think about changing basis in quantum mechanics.{" "}
+            Now, let’s think about changing basis in quantum mechanics.
           </Prose>
 
           <TextArea
             field={f.xBasisRewriteReason}
             label={
               <Prose>
-                For example, given a spin-1/2 particle (e.g., electron) in a
-                state <M t="\ket{\psi}" /> initially written in the z-basis, why
-                might you choose to rewrite it in the x-basis?
+                For example, given a spin-½ particle (e.g., electron) in a state{" "}
+                <M t="\ket{\psi}" /> initially written in the <em>z</em>-basis,
+                why might you choose to rewrite it in the <em>x</em>-basis?
               </Prose>
             }
           />
@@ -155,9 +156,9 @@ export default function WrapUp() {
             field={f.basisChoiceMeasureZ}
             label={
               <Prose>
-                If you were interest in predicting the outcome of a measurement
-                along the z-direction, which representation of the state (which
-                basis) would be preferred
+                If you were interested in predicting the outcome of a
+                measurement along the <em>z</em>-direction, which representation
+                of the state (which basis) would be preferred?
               </Prose>
             }
             choices={basisChoices}
@@ -167,7 +168,8 @@ export default function WrapUp() {
             field={f.basisChoiceMeasureX}
             label={
               <Prose>
-                What about an outcome of a measurement along the x-direction?
+                What about an outcome of a measurement along the <em>x</em>
+                -direction?
               </Prose>
             }
             choices={basisChoices}
@@ -175,7 +177,7 @@ export default function WrapUp() {
 
           <TextArea
             field={f.basisChoiceExplain}
-            label={<Prose>Explain your choices.</Prose>}
+            label={<Prose>Explain your choices:</Prose>}
           />
 
           <Continue
@@ -202,7 +204,7 @@ export default function WrapUp() {
 
           <TextArea
             field={f.effectOfCoBExplain}
-            label={<Prose>How so?</Prose>}
+            label={<Prose>If yes, how so? If not, why not?</Prose>}
           />
 
           <Continue
@@ -233,7 +235,7 @@ export default function WrapUp() {
 }
 
 const coordChoices = [
-  { value: "standard", label: "Horizontal and Vertical axes" },
+  { value: "standard", label: "Horizontal and vertical axes" },
   { value: "rotated", label: "A set of rotated axes" },
 ] as const;
 
