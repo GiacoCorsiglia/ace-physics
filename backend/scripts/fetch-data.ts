@@ -22,7 +22,11 @@ async function run() {
   console.log(`Fetched ${items.length} items.`);
   console.log("Writing to file...");
 
-  const now = new Date().toISOString().replace("T", "_").replace(/\..+$/, "");
+  const now = new Date()
+    .toISOString()
+    .replace("T", "_")
+    .replace(/\..+$/, "")
+    .replace(/:/g, "-");
   const file = `data-${now}.json`;
   const filepath = join(__dirname, "data", file);
 
