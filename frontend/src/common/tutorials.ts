@@ -33,7 +33,7 @@ type CommonTutorialProperties = {
   tutorialFeedback: typeof tutorialFeedback;
 };
 
-const tutorialFeedback = s.record({
+export const tutorialFeedback = s.record({
   intention: s.string(),
   confidence: s.choice([
     "much less",

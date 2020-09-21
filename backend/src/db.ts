@@ -28,7 +28,7 @@ export const TableName = process.env.AWS_SAM_LOCAL
 
 export const now = () => new Date().toISOString();
 
-const parseId = (prefixedId: string) => prefixedId.replace(/^\w+#/, "");
+export const parseId = (prefixedId: string) => prefixedId.replace(/^\w+#/, "");
 
 export const learnerPk = (id: string) => `Learner#${parseId(id)}`;
 export const learnerProfileSk = "Profile";
