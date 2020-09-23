@@ -61,6 +61,7 @@ async function setup(db: Database) {
         learnerId INTEGER NOT NULL,
         createdAt TEXT  NOT NULL,
         updatedAt TEXT NOT NULL,
+        updateTimestamps JSON NOT NULL,
         tutorial TEXT NOT NULL,
         FOREIGN KEY(learnerId) REFERENCES Learners(learnerId)
       )
@@ -87,6 +88,8 @@ async function setup(db: Database) {
   );
 }
 
+const pathSeparator = "$";
+
 function schemaToColumnsDef(schema: s.RecordSchema<s.Properties>) {
   return schemaToColumns(schema)
     .map((c) => c.join(" "))
@@ -97,7 +100,7 @@ function schemaToColumns(
   rootSchema: s.RecordSchema<s.Properties>,
   prefix: string = ""
 ): [string, string][] {
-  prefix = prefix ? `${prefix}_` : "";
+  prefix = prefix ? `${prefix}${pathSeparator}` : "";
 
   return Object.entries(rootSchema.properties).reduce(
     (columns, [key, schema]) => {
@@ -108,12 +111,6 @@ function schemaToColumns(
         return columns;
       } else if (s.isRecordSchema(schema)) {
         return columns.concat(schemaToColumns(schema, column));
-      } else if (s.isChoiceSchema(schema)) {
-        const otherType = schemaToColumnType(schema.other);
-        return columns.concat([
-          [`${column}_selected`, "TEXT"],
-          [`${column}_other`, otherType],
-        ]);
       } else {
         return columns.concat([[column, schemaToColumnType(schema)]]);
       }
@@ -131,7 +128,7 @@ function schemaToColumnType(schema: s.Schema): string {
     return "BOOLEAN";
   } else {
     // Otherwise we'll just insert it as JSON
-    return "TEXT";
+    return "JSON";
   }
 }
 
@@ -192,13 +189,14 @@ async function insertTutorials(db: Database, tutorials: Item[]) {
       const tutorialId = (
         await db.run(
           `
-            INSERT INTO Tutorials(learnerId, createdAt, updatedAt, tutorial)
-            VALUES (:learnerId, :createdAt, :updatedAt, :tutorial)
+            INSERT INTO Tutorials(learnerId, createdAt, updatedAt, updateTimestamps, tutorial)
+            VALUES (:learnerId, :createdAt, :updatedAt, :updateTimestamps, :tutorial)
           `,
           {
             ":learnerId": parseInt(tutorial.learnerId),
             ":createdAt": tutorial.createdAt,
             ":updatedAt": tutorial.updatedAt,
+            ":updateTimestamps": JSON.stringify(tutorial.updateTimestamps),
             ":tutorial": tutorial.tutorial,
           }
         )
@@ -240,19 +238,35 @@ function insertTutorialData(
   data: Record<string, any>
 ) {
   const bindings: Record<string, string | number | boolean | null> = {};
-  bind(data);
-  function bind(data: Record<string, any>, prefix: string = "") {
-    prefix = prefix ? `${prefix}_` : "";
+
+  bind(data, schema);
+  function bind(
+    data: Record<string, any>,
+    parentSchema:
+      | s.RecordSchema<s.Properties>
+      | s.CompleteRecordSchema<s.Properties>,
+    prefix: string = ""
+  ) {
+    prefix = prefix ? `${prefix}${pathSeparator}` : "";
 
     Object.entries(data).forEach(([key, datum]) => {
       const bindingKey = `${prefix}${key}`;
 
-      if (datum === null || datum === undefined) {
-        // Don't bother.
-      } else if (Array.isArray(datum)) {
+      const subSchema = parentSchema.properties[key];
+
+      if (!subSchema) {
+        console.log(`Omitting extraneous field: ${key}`);
+        return;
+      }
+
+      if (s.isRecordSchema(subSchema) || s.isCompleteRecordSchema(subSchema)) {
+        bind(datum, subSchema, bindingKey);
+      } else if (
+        s.isTupleSchema(subSchema) ||
+        s.isArraySchema(subSchema) ||
+        s.isChoiceSchema(subSchema)
+      ) {
         bindings[bindingKey] = JSON.stringify(datum);
-      } else if (typeof datum === "object") {
-        bind(datum, bindingKey);
       } else {
         bindings[bindingKey] = datum;
       }
@@ -261,19 +275,20 @@ function insertTutorialData(
 
   const columns = schemaToColumns(schema).map((c) => c[0]);
   const bindColumns = columns.map((c) => `:${c}`);
-  const realBindings: Record<string, any> = {};
   // Fill any empty bindings, but also delete extraneous ones.
   columns.forEach((c) => {
-    realBindings[c] = bindings[c] === undefined ? null : bindings[c];
+    if (bindings[c] === undefined) {
+      bindings[c] = null;
+    }
   });
 
-  realBindings.tutorialId = tutorialId;
+  bindings.tutorialId = tutorialId;
 
   return db.run(
     `
       INSERT INTO ${tableName}(tutorialId, ${columns.join(", ")})
       VALUES (:tutorialId, ${bindColumns.join(", ")})
     `,
-    ddb.expressionAttributes(realBindings)
+    ddb.expressionAttributes(bindings)
   );
 }
