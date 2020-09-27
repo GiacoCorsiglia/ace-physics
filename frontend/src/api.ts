@@ -1,6 +1,6 @@
 import * as apiTypes from "src/common/apiTypes";
 import * as s from "src/common/schema";
-import { AsyncResult, asyncResult, failure, success } from "src/common/util";
+import { asyncResult, failure, Result, success } from "src/common/util";
 import * as globalParams from "./globalParams";
 
 // Index.
@@ -83,7 +83,7 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
   type RequestType = s.TypeOf<T>;
   type ResponseType = s.TypeOf<U>;
 
-  type AsyncResponse = AsyncResult<ResponseError, ResponseType>;
+  type AsyncResponse = Result<ResponseError, ResponseType>;
   type Endpoint = RequestType extends undefined
     ? () => Promise<AsyncResponse>
     : (request: RequestType) => Promise<AsyncResponse>;
