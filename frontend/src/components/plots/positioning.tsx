@@ -52,24 +52,55 @@ export function shift(
     height /= 2;
   }
 
+  // At the corners, the offset should be the hypotenuse of the triangle.
+  // 2 * offsetCorner^2 = offset^2
+  const offsetCorner = offset / Math.sqrt(2);
+
   switch (anchor) {
     case "center":
       return [width / 2, height / 2];
     case "topLeft":
-      return [offset, offset];
+      return [offsetCorner, offsetCorner];
     case "topCenter":
       return [-(width / 2), offset];
     case "topRight":
-      return [-(width + offset), offset];
+      return [-(width + offsetCorner), offsetCorner];
     case "rightCenter":
       return [-(width + offset), -(height / 2)];
     case "bottomRight":
-      return [-(width + offset), -(height + offset)];
+      return [-(width + offsetCorner), -(height + offsetCorner)];
     case "bottomCenter":
       return [-(width / 2), -(height + offset)];
     case "bottomLeft":
-      return [offset, -(height + offset)];
+      return [offsetCorner, -(height + offsetCorner)];
     case "leftCenter":
       return [offset, -(height / 2)];
+  }
+}
+
+export function offsetShift(anchor: Anchor, offset: number): [number, number] {
+  return shift(anchor, offset, 0, 0);
+}
+
+export function relativeTranslate(anchor: Anchor): string {
+  switch (anchor) {
+    case "center":
+      return "translate(-50%, -50%)";
+    case "topLeft":
+      return "translate(0, 0)";
+    case "topCenter":
+      return "translate(-50%, 0)";
+    case "topRight":
+      return "translate(-100%, 0)";
+    case "rightCenter":
+      return "translate(-100%, -50%)";
+    case "bottomRight":
+      return "translate(-100%, -100%)";
+    case "bottomCenter":
+      return "translate(-50%, -100%)";
+    case "bottomLeft":
+      return "translate(0, -100%)";
+    case "leftCenter":
+      return "translate(0, -50%)";
   }
 }

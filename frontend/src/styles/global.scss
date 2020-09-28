@@ -156,32 +156,6 @@ b {
   font-weight: $bold;
 }
 
-// MathJax corrections.
-
-mjx-container[jax="SVG"] {
-  // Let's reset things for MathJax.
-  font-family: initial;
-  line-height: initial;
-
-  &,
-  *,
-  *::before,
-  *::after {
-    box-sizing: initial;
-  }
-
-  &[display="true"] {
-    margin-top: 1.5rem !important;
-    margin-bottom: 1.5rem !important;
-  }
-}
-
-// HACK: This is required for positioning MathJax inside another <svg>.
-svg mjx-container {
-  /* https://stackoverflow.com/questions/8185845/svg-foreignobject-behaves-as-though-absolutely-positioned-in-webkit-browsers */
-  position: fixed !important;
-}
-
 // Utilities
 
 .text-center {

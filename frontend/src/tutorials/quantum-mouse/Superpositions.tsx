@@ -124,9 +124,9 @@ export default function Superpositions() {
                 <p>
                   <em>Orthonormality</em> and <em>completeness</em> tell you
                   that:
-                  <M display t="\braket{\smalleye}{\smalleye} = 1" />
+                  <M display t="\braket{\smalleye|\smalleye} = 1" />
                   and
-                  <M display t="\braket{\wideye}{\smalleye} = 0" />
+                  <M display t="\braket{\wideye|\smalleye} = 0" />
                 </p>
               </Prose>
             </Help>
@@ -249,14 +249,11 @@ export default function Superpositions() {
               You might want to check up on your coefficients <M t="a" /> and{" "}
               <M t="b" /> before moving on. You can double check the following
               relations:
-              <M
-                display
-                t="\braket{\smalleye}{\smalleye} = |a|^2 + |b|^2 = 1"
-              />
+              <M display t="\braket{\smalleye|\smalleye} = |a|^2 + |b|^2 = 1" />
               and
               <M
                 display
-                t="\braket{\wideye}{\smalleye} = \left(\frac{1}{\sqrt{5}} \bra{\smiley} + \frac{2}{\sqrt{5}} \bra{\frownie}\right) \left(a \ket{\smiley} + b \ket{\frownie}\right) = 0"
+                t="\braket{\wideye|\smalleye} = \left(\frac{1}{\sqrt{5}} \bra{\smiley} + \frac{2}{\sqrt{5}} \bra{\frownie}\right) \left(a \ket{\smiley} + b \ket{\frownie}\right) = 0"
               />
             </Prose>
           </Help>

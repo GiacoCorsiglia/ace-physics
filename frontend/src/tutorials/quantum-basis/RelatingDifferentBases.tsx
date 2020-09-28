@@ -36,15 +36,19 @@ export default function RelatingDifferentBases() {
             />
             <M
               display
-              t="\ket{i} \doteq \mqty(1 \\ 0) \text{ and } \ket{j} \doteq \mqty(0 \\ 1)"
+              t="
+              \ket{i} \doteq \begin{pmatrix} 1 \\ 0 \end{pmatrix}
+              \text{ and }
+              \ket{j} \doteq \begin{pmatrix} 0 \\ 1 \end{pmatrix}
+              "
             />
             <M
               display
               t="
-                  \ket{v_1} \doteq \mqty( \sqrt{3}/2 \\ 1/2 )
-                  \text{ and }
-                  \ket{v_2} \doteq \mqty( -1/2 \\ \sqrt{3}/2 )
-                "
+              \ket{v_1} \doteq \begin{pmatrix}  \sqrt{3}/2 \\ 1/2 \end{pmatrix}
+              \text{ and }
+              \ket{v_2} \doteq \begin{pmatrix}  -1/2 \\ \sqrt{3}/2 \end{pmatrix}
+              "
             />
           </Reminder>
           <Prose>

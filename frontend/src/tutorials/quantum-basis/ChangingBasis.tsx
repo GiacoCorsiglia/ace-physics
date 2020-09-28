@@ -77,9 +77,9 @@ export default function ChangingBasis() {
               <M
                 display
                 t="
-                  \ket{v_1} \doteq \mqty( \sqrt{3}/2 \\ 1/2 )
-                  \text{ and }
-                  \ket{v_2} \doteq \mqty( -1/2 \\ \sqrt{3}/2 )
+                \ket{v_1} \doteq \begin{pmatrix} \sqrt{3}/2 \\ 1/2 \end{pmatrix}
+                \text{ and }
+                \ket{v_2} \doteq \begin{pmatrix} -1/2 \\ \sqrt{3}/2 \end{pmatrix}
                 "
               />
               (You can check that these vectors are orthonormal if you'd like.)
@@ -158,7 +158,7 @@ export default function ChangingBasis() {
           {needsHelp(f.kColumnDiracHelp) && (
             <Help>
               <Prose>
-                On the previous page, we could think of <M t="\braket{i}{u}" />{" "}
+                On the previous page, we could think of <M t="\braket{i|u}" />{" "}
                 as the <M t="\ket{i}" /> component. Can you describe the
                 coefficient <M t="a" /> in similar terms?
               </Prose>
@@ -243,8 +243,8 @@ export default function ChangingBasis() {
           <Info>
             <Prose>
               <p>
-                Looks like you have <M t="\braket{i}{u}" /> or{" "}
-                <M t="\braket{j}{u}" /> in your column vector again. This was
+                Looks like you have <M t="\braket{i|u}" /> or{" "}
+                <M t="\braket{j|u}" /> in your column vector again. This was
                 right on the previous page, but the <M t="v" /> subscript on the
                 column tells you that now we’re working in a different basis!
               </p>
@@ -380,14 +380,14 @@ export default function ChangingBasis() {
             />
             <M
               display
-              t="\ket{i} \doteq \mqty(1 \\ 0) \text{ and } \ket{j} \doteq \mqty(0 \\ 1)"
+              t="\ket{i} \doteq \begin{pmatrix}1 \\ 0\end{pmatrix} \text{ and } \ket{j} \doteq \begin{pmatrix}0 \\ 1\end{pmatrix}"
             />
             <M
               display
               t="
-                  \ket{v_1} \doteq \mqty( \sqrt{3}/2 \\ 1/2 )
+                  \ket{v_1} \doteq \begin{pmatrix} \sqrt{3}/2 \\ 1/2 \end{pmatrix}
                   \text{ and }
-                  \ket{v_2} \doteq \mqty( -1/2 \\ \sqrt{3}/2 )
+                  \ket{v_2} \doteq \begin{pmatrix} -1/2 \\ \sqrt{3}/2 \end{pmatrix}
                 "
             />
           </Reminder>
@@ -587,7 +587,7 @@ export default function ChangingBasis() {
                     you’re using these equations:
                     <M
                       display
-                      t="a = \braket{v_1}{u} \text{ and } b = \braket{v_2}{u}"
+                      t="a = \braket{v_1|u} \text{ and } b = \braket{v_2|u}"
                     />
                   </p>
 
@@ -613,7 +613,7 @@ export default function ChangingBasis() {
                 make sure you’re using these equations:
                 <M
                   display
-                  t="a = \braket{v_1}{u} \text{ and } b = \braket{v_2}{u}"
+                  t="a = \braket{v_1|u} \text{ and } b = \braket{v_2|u}"
                 />
               </p>
 
@@ -661,10 +661,10 @@ const v1v2AxesAllowedChoices = [
 const kColumnDiracChoices = [
   { value: "|v1>", label: <M t="\ket{v_1}" /> },
   { value: "|v2>", label: <M t="\ket{v_2}" /> },
-  { value: "<v1|u>", label: <M t="\braket{v_1}{u}" /> },
-  { value: "<v2|u>", label: <M t="\braket{v_2}{u}" /> },
-  { value: "<i|u>", label: <M t="\braket{i}{u}" /> },
-  { value: "<j|u>", label: <M t="\braket{j}{u}" /> },
+  { value: "<v1|u>", label: <M t="\braket{v_1|u}" /> },
+  { value: "<v2|u>", label: <M t="\braket{v_2|u}" /> },
+  { value: "<i|u>", label: <M t="\braket{i|u}" /> },
+  { value: "<j|u>", label: <M t="\braket{j|u}" /> },
 ] as const;
 
 function PlotK() {
@@ -677,11 +677,11 @@ function PlotK() {
       <Axes xLabel="\vb{v_1}" yLabel="\vb{v_2}" color="darkgreen" />
 
       {x !== undefined && (
-        <Tick x={x} label={`\\braket{v_1}{u} = ${x}`} color="red" />
+        <Tick x={x} label={`\\braket{v_1|u} = ${x}`} color="red" />
       )}
 
       {y !== undefined && (
-        <Tick y={y} label={`\\braket{v_2}{u} = ${y}`} color="red" />
+        <Tick y={y} label={`\\braket{v_2|u} = ${y}`} color="red" />
       )}
 
       {(x !== undefined || y !== undefined) && (

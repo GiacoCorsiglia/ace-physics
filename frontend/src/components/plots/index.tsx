@@ -1,8 +1,14 @@
 import React, { createContext, useContext, useMemo } from "react";
 import { Children, useUniqueId } from "src/util";
-import M, { idealRelativeTo } from "../M";
+import M, { PropTypes as MPropTypes } from "../M";
 import styles from "./plots.module.scss";
-import { Anchor, shift } from "./positioning";
+import {
+  Anchor,
+  idealAnchor,
+  offsetShift,
+  relativeTranslate,
+  shift,
+} from "./positioning";
 
 interface PlotContext {
   width: number;
@@ -127,13 +133,12 @@ export function Vector({
       ></line>
 
       {label && (
-        <M
+        <PlotM
           t={label}
-          inSvg
           x={plot.x(x)}
           y={plot.y(y)}
           color={color}
-          relativeTo={idealRelativeTo(x, y)}
+          anchor={idealAnchor(x, y)}
         />
       )}
     </>
@@ -201,25 +206,17 @@ export function Axes({
       ></line>
 
       {xLabel && (
-        <M
+        <PlotM
           t={xLabel}
           color={color}
-          inSvg
           x={rightEdge}
           y={0}
-          relativeTo="bottomRight"
+          anchor="bottomRight"
         />
       )}
 
       {yLabel && (
-        <M
-          t={yLabel}
-          color={color}
-          inSvg
-          x={0}
-          y={topEdge}
-          relativeTo="topLeft"
-        />
+        <PlotM t={yLabel} color={color} x={0} y={topEdge} anchor="topLeft" />
       )}
     </>
   );
@@ -264,13 +261,12 @@ export function Tick({
       <line {...position} stroke={color} strokeWidth={axisWidth}></line>
 
       {(label !== undefined || label !== "") && (
-        <M
+        <PlotM
           t={label + ""}
           color={color}
-          inSvg
           x={position.x1}
           y={position.y2}
-          relativeTo={
+          anchor={
             labelPosition === "below"
               ? "topCenter"
               : labelPosition === "above"
@@ -366,5 +362,62 @@ export function CircleLabel({
         {label}
       </text>
     </>
+  );
+}
+
+function PlotM({
+  x,
+  y,
+  anchor,
+  offset = 5,
+  ...props
+}: MPropTypes & {
+  x: number;
+  y: number;
+  anchor: Anchor;
+  offset?: number;
+}) {
+  const plot = usePlot();
+
+  const style: React.CSSProperties = useMemo(() => {
+    const [offsetX, offsetY] = offsetShift(anchor, offset);
+
+    // The y offset needs to be adjusted since the math seems to be shifted down
+    // in its container somewhat.
+    const correctedOffsetY = offsetY ? offsetY - 4 : 0;
+
+    // Instead of positioning the foreignObject, we just make the foreign object
+    // as big as the enclosing plot, and position the div inside of it.  This
+    // avoids weird bugs where the offsetWidth and offsetHeight of the div
+    // produced different incorrect values in different browsers.
+    const left = (plot.center ? plot.width / 2 + x : x) + offsetX;
+    const top = (plot.center ? plot.height / 2 + y : y) + correctedOffsetY;
+
+    return {
+      // Fixed positioning is relative to the SVG not the window...
+      // https://stackoverflow.com/questions/8185845/svg-foreignobject-behaves-as-though-absolutely-positioned-in-webkit-browsers
+      position: "fixed",
+      left: `${(left / plot.width) * 100}%`,
+      top: `${(top / plot.height) * 100}%`,
+      // Use this transform trick to enable positioning relative to different
+      // anchors _without_ computing the width/height of the node.
+      transform: relativeTranslate(anchor),
+    };
+  }, [x, y, anchor, offset, plot]);
+
+  const leftmostX = plot.center ? -plot.width / 2 : 0;
+  const topmostY = plot.center ? -plot.height / 2 : 0;
+
+  return (
+    <foreignObject
+      x={leftmostX}
+      y={topmostY}
+      width={plot.width}
+      height={plot.height}
+    >
+      <div style={style} {...{ xmlns: "http://www.w3.org/1999/xhtml" }}>
+        <M {...props} display prespace={false} postspace={false} />
+      </div>
+    </foreignObject>
   );
 }

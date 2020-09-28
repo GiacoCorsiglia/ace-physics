@@ -1,191 +1,107 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import type { KatexOptions, ParseError } from "katex";
+import "katex/dist/katex.css";
+import React, { useLayoutEffect, useMemo, useState } from "react";
+import { result } from "src/common/util";
+import styles from "./M.module.scss";
 
-type Corner =
-  | "bottomLeft"
-  | "bottomRight"
-  | "topLeft"
-  | "topRight"
-  | "topCenter"
-  | "bottomCenter"
-  | "leftCenter"
-  | "rightCenter";
+// This removes the need for double backslashes in the macro definitions below.
+const t = String.raw;
 
-type PropTypes = {
+const macros = {
+  "\\e": t`{\rm e}`,
+  // Some exports from the physics package:
+  "\\vu": t`\mathbf{\hat{#1}}`,
+  "\\vb": t`\mathbf{#1}`,
+  // The braces around {#3} here seem to improve the spacing.  An alternative is
+  // to use the `\!` command for negative space as in \brasub.
+  "\\prescript": t`{}_{#1}^{#2}{#3}`,
+  "\\brasub": t`{}_{#1}\!`,
+  // From the quantum mouse tutorial:
+  "\\smalleye": t`\htmlClass{${styles.smalleye}}{\tiny \bull}`,
+  "\\wideye": t`\htmlClass{${styles.wideye}}{\large \ast}`,
+  "\\smiley": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \smile}}`,
+  "\\frownie": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \frown}}`,
+};
+
+// https://katex.org/docs/options.html
+const options: KatexOptions = {
+  macros,
+  throwOnError: process.env.NODE_ENV !== "production",
+  strict(errorCode: string) {
+    return errorCode === "htmlExtension" ? "ignore" : "warn";
+  },
+  trust({ command }) {
+    return command === "\\htmlClass";
+  },
+};
+
+export type PropTypes = {
   t: string;
   display?: boolean;
   prespace?: boolean;
   postspace?: boolean;
   color?: string;
-} & (
-  | { inSvg?: false; x?: never; y?: never; relativeTo?: never; offset?: never }
-  | { inSvg: true; x: number; y: number; relativeTo?: Corner; offset?: number }
-);
-
-export function idealRelativeTo(x: number, y: number): Corner {
-  if (x > 0 && y > 0) {
-    // First quadrant
-    return "bottomLeft";
-  } else if (x > 0 && y < 0) {
-    // Second quadrant
-    return "topLeft";
-  } else if (x < 0 && y < 0) {
-    // Third quadrant
-    return "topRight";
-  } else if (x < 0 && y > 0) {
-    // Fourth quadrant
-    return "bottomRight";
-  } else if (x > 0 && y === 0) {
-    // Positive x-axis
-    return "bottomLeft";
-  } else if (x < 0 && y === 0) {
-    // Negative x-axis
-    return "bottomRight";
-  } else if (x === 0 && y > 0) {
-    // Positive y-axis
-    return "bottomLeft";
-  } else if (x === 0 && y < 0) {
-    // Negative y-axis
-    return "bottomRight";
-  } else {
-    // Origin
-    return "bottomRight";
-  }
-}
-
-function transform(
-  relativeTo: Corner,
-  offset: number,
-  width: number,
-  height: number
-): string {
-  switch (relativeTo) {
-    case "topLeft":
-      return `translate(${offset}, ${offset})`;
-    case "topRight":
-      return `translate(${-(width + offset)}, ${offset})`;
-    case "bottomLeft":
-      return `translate(${offset}, ${-(height + offset)})`;
-    case "bottomRight":
-      return `translate(${-(width + offset)}, ${-(height + offset)})`;
-    case "topCenter":
-      return `translate(${-(width / 2)}, ${offset})`;
-    case "bottomCenter":
-      return `translate(${-(width / 2)}, ${-(height + offset)})`;
-    case "leftCenter":
-      return `translate(${offset}, ${-(height / 2)})`;
-    case "rightCenter":
-      return `translate(${-(width + offset)}, ${-(height / 2)})`;
-  }
-}
-
-const space = document.createTextNode(" ");
+};
 
 export default function M({
   t: tex,
   display = false,
-  inSvg = false,
-  x = 0,
-  y = 0,
-  relativeTo = "topLeft",
-  offset = 5,
   prespace = true,
-  postspace = false, // In case it's followed by punctuation.
+  postspace = false,
   color,
 }: PropTypes) {
-  const foreignObjectRef = useRef<SVGForeignObjectElement>(null);
-  const mathRef = useRef<any>(null);
+  prespace = prespace && !display;
+  postspace = postspace && !display;
 
-  const renderCount = useRef(0);
+  const [html, setHtml] = useState({ __html: "" });
 
-  const [isReady, setIsReady] = useState(ACE__MathJax.isReady);
-
+  // With simple `useEffect()`, rendering of the math was delayed too much,
+  // especially when `tex` was altered during the lifetime of the component.
   useLayoutEffect(() => {
-    if (!isReady) {
-      ACE__MathJax.promise.then(() => setIsReady(true));
-      return;
-    }
+    // This dynamic import defers the loading of KaTeX until we actually need to
+    // render math, thanks to the automatic code splitting from CRA. The KaTeX
+    // stylesheet is always loaded with the rest of our CSS, however; we import
+    // it at the top of this file.
+    import("katex").then((KaTeX) => {
+      const html = result<ParseError>(() =>
+        KaTeX.renderToString(tex, {
+          ...options,
+          displayMode: display,
+        })
+      );
 
-    // This element can't be null at this point.
-    const mathEl = mathRef.current as HTMLElement;
+      if (html.failed && process.env.NODE_ENV !== "production") {
+        // Make these loud on local; for the most part these should just be
+        // LaTeX compilation errors (from KaTeX), which we can fix.
+        const message = html.error.message.replace(": ", ":\n  ");
+        throw new Error(`\n${message}\nProblematic LaTeX code:\n  ${tex}`);
+      } else if (html.failed) {
+        // We shouldn't get here due to the throwOnError setting above, although
+        // KaTeX could always just blow it.  In that case, presumably users will
+        // get more out of the raw LaTeX code than a generic "Math Rendering
+        // Failed" error message, even though it may break the layout.
+        setHtml({
+          __html: `${prespace ? " " : ""}${tex
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")}${postspace ? " " : ""}`,
+        });
+      } else {
+        // Hey, it worked!
+        setHtml({
+          __html: `${prespace ? " " : ""}${html.value}${postspace ? " " : ""}`,
+        });
+      }
+    });
+  }, [tex, prespace, postspace, display]);
 
-    // Kill children.
-    mathEl.innerHTML = "";
+  const style = useMemo(
+    () => ({
+      display: display ? "block" : undefined, // "inline" is the default.
+      color,
+    }),
+    [display, color]
+  );
 
-    MathJax.texReset();
-
-    if (!tex) {
-      return;
-    }
-    renderCount.current++;
-
-    const options = MathJax.getMetricsFor(mathEl);
-    options.display = display;
-    MathJax.tex2svgPromise(tex, options)
-      .then(function (node: HTMLElement) {
-        if (!display && !inSvg && prespace) {
-          mathEl.appendChild(space.cloneNode(false));
-        }
-        mathEl.appendChild(node);
-        if (!display && !inSvg && postspace) {
-          mathEl.appendChild(space.cloneNode(false));
-        }
-        MathJax.startup.document.clear();
-        MathJax.startup.document.updateDocument();
-
-        if (inSvg) {
-          // This won't be null at this point either.
-          const foreignObject = foreignObjectRef.current as SVGForeignObjectElement;
-
-          const offsetWidth = node.offsetWidth;
-          const offsetHeight = node.offsetHeight;
-          foreignObject.setAttribute("width", offsetWidth + "");
-          foreignObject.setAttribute("height", offsetHeight + "");
-          foreignObject.setAttribute(
-            "transform",
-            transform(relativeTo, offset, offsetWidth, offsetHeight)
-          );
-
-          // HACK: Firefox ignored changes (e.g. if the tex changed) unless I
-          // did this...at least sometimes anyway...
-          let parent: Node | null = null;
-          if (renderCount.current > 1) {
-            parent = foreignObject.parentNode;
-            parent?.removeChild(foreignObject);
-            parent?.appendChild(foreignObject);
-          }
-
-          // HACK: Yes, this exactly duplicates the code above.  Why? Because
-          // it's the only way I could get `node.offsetWidth` to be nonzero in
-          // Firefox.  This also appears to fix a weird alignment bug in Chrome.
-          window.requestAnimationFrame(() => {
-            const offsetWidth = node.offsetWidth;
-            const offsetHeight = node.offsetHeight;
-            foreignObject.setAttribute("width", offsetWidth + "");
-            foreignObject.setAttribute("height", offsetHeight + "");
-            foreignObject.setAttribute(
-              "transform",
-              transform(relativeTo, offset, offsetWidth, offsetHeight)
-            );
-          });
-        }
-      })
-      .catch(function (err: any) {
-        console.error(err);
-      });
-  }, [tex, isReady, relativeTo, offset, display, inSvg, prespace, postspace]);
-
-  const style = color ? { color } : undefined;
-
-  if (inSvg) {
-    return (
-      <foreignObject x={x} y={y} ref={foreignObjectRef}>
-        <div
-          style={style}
-          {...{ xmlns: "http://www.w3.org/1999/xhtml" }}
-          ref={mathRef}
-        ></div>
-      </foreignObject>
-    );
-  }
-  return <span style={style} ref={mathRef}></span>;
+  return <span style={style} dangerouslySetInnerHTML={html} />;
 }

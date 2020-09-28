@@ -44,11 +44,11 @@ export default function Pretest() {
               <M
                 display
                 t="
-              \begin{align}
-                \hat{A}\ket{a_1} &= 5 \text{eV}\ket{a_1} \\
-                \hat{A}\ket{a_2} &= -4 \text{eV}\ket{a_2}
-              \end{align}
-              "
+                \begin{aligned}
+                  \hat{A}\ket{a_1} &= 5 \text{eV}\ket{a_1} \\
+                  \hat{A}\ket{a_2} &= -4 \text{eV}\ket{a_2}
+                \end{aligned}
+                "
               />
             </Prose>
           </Section>
@@ -121,11 +121,11 @@ export default function Pretest() {
                 <M
                   display
                   t="
-              \begin{align}
-                \ket{b_1} &= \frac{1}{\sqrt{3}}\ket{a_1} + \frac{\sqrt{2}}{\sqrt{3}}\ket{a_2} \\
-                \ket{b_2} &= \frac{\sqrt{2}}{\sqrt{3}}\ket{a_1} - \frac{1}{\sqrt{3}}\ket{a_2}
-              \end{align}
-              "
+                  \begin{aligned}
+                    \ket{b_1} &= \frac{1}{\sqrt{3}}\ket{a_1} + \frac{\sqrt{2}}{\sqrt{3}}\ket{a_2} \\
+                    \ket{b_2} &= \frac{\sqrt{2}}{\sqrt{3}}\ket{a_1} - \frac{1}{\sqrt{3}}\ket{a_2}
+                  \end{aligned}
+                  "
                 />
                 where <M t="\hat{B}\ket{b_1} = 2 \text{eV}\ket{b_1}" /> and
                 <M t="\hat{B}\ket{b_2} = 7 \text{eV}\ket{b_2}" />.
