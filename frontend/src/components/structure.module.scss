@@ -94,12 +94,12 @@
   & + * {
     margin-top: 0 !important;
 
-    :first-child {
+    > :first-child {
       margin-top: 0 !important;
     }
 
-    :last-child,
-    :last-child :last-child {
+    > :last-child,
+    > :last-child > :last-child {
       margin-bottom: 0 !important;
     }
   }
@@ -113,8 +113,8 @@
   background: $green-bg;
   box-shadow: $box-shadow-border, $box-shadow-light;
 
-  :first-child,
-  .prose :first-child {
+  > :first-child,
+  > .prose > :first-child {
     margin-top: 0;
   }
 }
@@ -127,8 +127,8 @@
   background: $light-blue;
   box-shadow: $box-shadow-border, $box-shadow-light;
 
-  :first-child,
-  .prose :first-child {
+  > :first-child,
+  .prose > :first-child {
     margin-top: 0;
   }
 }
