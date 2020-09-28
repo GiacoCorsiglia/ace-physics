@@ -20,6 +20,7 @@ interface PlotContext {
 }
 
 const PlotContext = createContext<PlotContext>({} as PlotContext);
+PlotContext.displayName = "PlotContext";
 
 function usePlot() {
   return useContext(PlotContext);

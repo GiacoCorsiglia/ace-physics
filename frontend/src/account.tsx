@@ -53,9 +53,11 @@ const defaultState: State = {
 };
 
 const Context = React.createContext<State>(defaultState);
+Context.displayName = "AccountContext";
 const DispatchContext = React.createContext<React.Dispatch<Action>>(
   () => undefined
 );
+DispatchContext.displayName = "AccountDispatchContext";
 
 export function useAccount() {
   return useContext(Context);

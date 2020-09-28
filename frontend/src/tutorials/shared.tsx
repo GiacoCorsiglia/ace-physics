@@ -187,6 +187,7 @@ interface TutorialContext {
   parts: Parts;
 }
 const TutorialContext = React.createContext<TutorialContext>({ parts: [] });
+TutorialContext.displayName = "TutorialContext";
 
 function Tutorial({
   url,
