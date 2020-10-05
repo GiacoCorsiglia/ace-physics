@@ -59,6 +59,7 @@ export function tutorialRoute({
   schema,
   intro,
   parts,
+  info,
   ...labelTitle
 }: {
   url: urls.URL;
@@ -66,6 +67,7 @@ export function tutorialRoute({
   schema: ProviderSchema;
   intro: React.ReactNode;
   parts: Parts;
+  info?: React.ReactNode;
 } & LabelTitle) {
   if (names[name] !== schema) {
     throw new Error(`Tutorial name "${name}" doesn't match the given schema.`);
@@ -89,6 +91,7 @@ export function tutorialRoute({
           name={name}
           schema={schema}
           parts={parts}
+          info={info}
           {...labelTitle}
         />
       }
@@ -194,12 +197,14 @@ function Tutorial({
   name,
   schema,
   parts,
+  info,
   ...labelTitle
 }: {
   url: urls.URL;
   name: string;
   schema: ProviderSchema;
   parts: Parts;
+  info?: React.ReactNode;
 } & LabelTitle) {
   const account = useAccount();
 
@@ -410,6 +415,7 @@ function Tutorial({
         url={url}
         parts={parts}
         savedStatusSubscribe={savedStatusSubscribe}
+        info={info}
         {...labelTitle}
       />
 
@@ -468,11 +474,13 @@ function Tutorial({
 function TutorialHeader({
   url,
   parts,
+  info,
   savedStatusSubscribe,
   ...labelTitle
 }: {
   url: urls.URL;
   parts: Parts;
+  info?: React.ReactNode;
   savedStatusSubscribe: (setter: (s: SavedStatus) => void) => () => void;
 } & LabelTitle) {
   const [toggled, setToggled, sidebarElRef] = useToggle();
@@ -543,6 +551,8 @@ function TutorialHeader({
             />
           ))}
         </ol>
+
+        {info}
       </nav>
 
       <UserMenu />
