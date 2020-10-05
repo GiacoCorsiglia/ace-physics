@@ -594,3 +594,57 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 // HACK: This is strictly a duplicate, but it allows the Lite version to have
 // a different name!  It must be reference equals with QuantumBasis.
 export const QuantumBasisLite = (names["QuantumBasisLite"] = QuantumBasis);
+
+////////////////////////////////////////////////////////////////////////////////
+// EPR.
+////////////////////////////////////////////////////////////////////////////////
+
+export type EPR = s.TypeOf<typeof EPR>;
+export const EPR = tutorialSchema("EPR", {
+  // Classical Marble Scenario.
+  marbleIntroCommit: Commit,
+
+  sameAsEPR: s.string(),
+  differentFromEPR: s.string(),
+  compareToEPRCommit: Commit,
+
+  marbleFinalCommit: Commit,
+
+  // Entangled States.
+  entangledIntroCommit: Commit,
+
+  bStateAfterMeasureA: s.choice([
+    "|up_B>X",
+    "|down_B>X",
+    "|up_B>Z",
+    "|down_B>Z",
+    "cannot predict",
+  ] as const),
+  bStateAfterMeasureAExplain: s.string(),
+  bStateAfterMeasureACommit: Commit,
+
+  bUpLikelihood: s.choice([
+    "100%",
+    "75%",
+    "50%",
+    "25%",
+    "0%",
+    "Not determined",
+  ] as const),
+  bUpLikelihoodExplain: s.string(),
+  bUpLikelihoodCommit: Commit,
+
+  howOftenAliceBobSpinUp: s.string(),
+  howOftenAliceBobSpinUpCommit: Commit,
+
+  howOftenAliceBobSame: s.string(),
+  howOftenAliceBobSameCommit: Commit,
+
+  howOftenAliceSzBobSxSame: s.string(),
+  howOftenAliceSzBobSxSameCommit: Commit,
+
+  causality: s.string(),
+  causalityCommit: Commit,
+
+  entangledFinalCommit: Commit,
+});
