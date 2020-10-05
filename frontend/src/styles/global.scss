@@ -114,6 +114,11 @@ body {
     & ul,
     ul#{&} {
       list-style-type: disc;
+
+      ul {
+        margin-top: 0;
+        list-style-type: circle;
+      }
     }
 
     & ol,
@@ -208,4 +213,26 @@ b {
 
 .text-green {
   color: $green;
+}
+
+.text-small {
+  font-size: $text-small;
+}
+
+.text-smaller {
+  font-size: $text-smaller;
+}
+
+.text-smallest {
+  font-size: $text-smallest;
+
+  @at-root {
+    p#{&} {
+      line-height: 1.1rem;
+    }
+  }
+}
+
+.faded {
+  opacity: $opacity-faded;
 }
