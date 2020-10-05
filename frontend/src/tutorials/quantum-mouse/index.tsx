@@ -27,7 +27,7 @@ export const route = tutorialRoute({
   parts: [
     {
       path: "before-you-start",
-      label: "Before you start",
+      label: "Before You start",
       element: <Pretest />,
     },
     {

@@ -38,17 +38,19 @@ export default function ChoiceAnswer<
       }
     >
       <Prose>
-        {isMulti ? (
-          <ul>
-            {(answer as C[number][]).map((a) => (
-              <li key={a + ""}>
-                {choices.find(({ value }) => value === a)!.label}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>{choices.find(({ value }) => value === answer)!.label}</p>
-        )}
+        <blockquote>
+          {isMulti ? (
+            <ul>
+              {(answer as C[number][]).map((a) => (
+                <li key={a + ""}>
+                  {choices.find(({ value }) => value === a)!.label}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>{choices.find(({ value }) => value === answer)!.label}</p>
+          )}
+        </blockquote>
         {typeof explanation === "string" ? <p>{explanation}</p> : explanation}
       </Prose>
     </Answer>

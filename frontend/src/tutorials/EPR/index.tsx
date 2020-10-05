@@ -5,6 +5,8 @@ import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
 import EntangledStates from "./EntangledStates";
 import Marbles from "./Marbles";
+import Pretest from "./Pretest";
+import QuantumCryptography from "./QuantumCryptography";
 
 export const route = tutorialRoute({
   url: urls.Tutorials.EPR,
@@ -29,6 +31,11 @@ export const route = tutorialRoute({
   ),
   parts: [
     {
+      label: "Before You Start",
+      path: "before-you-start",
+      element: <Pretest />,
+    },
+    {
       label: "Classical Marble Scenario",
       path: "marbles",
       element: <Marbles />,
@@ -37,6 +44,11 @@ export const route = tutorialRoute({
       label: "Entangled States",
       path: "entangled-states",
       element: <EntangledStates />,
+    },
+    {
+      label: "Quantum Cryptography",
+      path: "quantum-cryptography",
+      element: <QuantumCryptography />,
     },
   ],
 });

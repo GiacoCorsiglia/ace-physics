@@ -606,8 +606,23 @@ export const QuantumBasisLite = (names["QuantumBasisLite"] = QuantumBasis);
 // EPR.
 ////////////////////////////////////////////////////////////////////////////////
 
+const EPRPretestAnswer = s.choice([
+  "+hbar/2",
+  "-hbar/2",
+  "either",
+  "not sure",
+] as const);
+
 export type EPR = s.TypeOf<typeof EPR>;
 export const EPR = tutorialSchema("EPR", {
+  pretest: s.record({
+    aliceSpinUpX: EPRPretestAnswer,
+    aliceSpinUpZ: EPRPretestAnswer,
+    aliceSpinUpZAfter: EPRPretestAnswer,
+    aliceNoMeasurement: EPRPretestAnswer,
+  }),
+  pretestCommit: Commit,
+
   // Classical Marble Scenario.
   marbleIntroCommit: Commit,
 
@@ -658,4 +673,44 @@ export const EPR = tutorialSchema("EPR", {
   entangledAnswers: Answers,
 
   entangledFinalCommit: Commit,
+
+  // Quantum Cryptography
+  cryptographyIntroCommit: Commit,
+
+  bX1A0: s.choice(["X", "Z", "either", "none"] as const),
+  bX1A0Commit: Commit,
+
+  bX1A1: s.choice(["X", "Z", "either", "none"] as const),
+  bX1A1Commit: Commit,
+
+  aZ0B1Prob: s.choice([
+    "100% certainty",
+    "75% certainty",
+    "50% certainty",
+    "25% certainty",
+    "0% certainty",
+  ] as const),
+  aZ0B1ProbCommit: Commit,
+
+  aZ1B1Prob: s.choice([
+    "100% certainty",
+    "75% certainty",
+    "50% certainty",
+    "25% certainty",
+    "0% certainty",
+  ] as const),
+  aZ1B1ProbCommit: Commit,
+
+  aZbZ: s.choice(["0", "1", "either"] as const, true),
+  aZbZCommit: Commit,
+
+  aZbX: s.choice(["0", "1", "either"] as const, true),
+  aZbXCommit: Commit,
+
+  general: s.choice(["Bob 1", "Bob 0", "same direction"] as const, true),
+  generalCommit: Commit,
+
+  cryptographyAnswers: Answers,
+
+  cryptographyFinalCommit: Commit,
 });
