@@ -1,15 +1,17 @@
 import {
   ArrowDownIcon,
   ArrowRightIcon,
+  ChecklistIcon,
   EyeClosedIcon,
   EyeIcon,
 } from "@primer/octicons-react";
-import React, { useEffect, useRef } from "react";
+import React, { createContext, useContext, useEffect, useRef } from "react";
 import * as s from "src/common/schema";
+import { AnswersSchema } from "src/common/tutorials";
 import * as globalParams from "src/globalParams";
-import { Field } from "src/state";
-import { Children, classes, OptionalChildren } from "src/util";
-import { Button } from "./inputs";
+import { Field, isSet } from "src/state";
+import { Children, classes, OptionalChildren, scrollTo } from "src/util";
+import { Button, TextArea } from "./inputs";
 import { Content } from "./layout";
 import styles from "./structure.module.scss";
 
@@ -241,5 +243,119 @@ function RevealedSection({
     >
       {children}
     </section>
+  );
+}
+
+const AnswerVisibilityContext = createContext(false);
+AnswerVisibilityContext.displayName = "AnswerVisibilityContext";
+
+export function AnswerVisibility({
+  field,
+  children,
+}: { field: Field<AnswersSchema> } & Children) {
+  const visible = field.value?.visibility === true;
+
+  return (
+    <AnswerVisibilityContext.Provider value={visible}>
+      {visible && (
+        <Content>
+          <Section first>
+            <Answer>
+              <Prose>
+                Scroll down to see our answers to the questions below. They’ll
+                be in boxes like this one.
+              </Prose>
+            </Answer>
+          </Section>
+        </Content>
+      )}
+
+      {children}
+    </AnswerVisibilityContext.Provider>
+  );
+}
+
+export function Answer({
+  correct,
+  children,
+  ...props
+}: { correct?: boolean | "undetermined" } & JSX.IntrinsicElements["div"]) {
+  if (!useContext(AnswerVisibilityContext)) {
+    return null;
+  }
+
+  props.className = classes(
+    props.className,
+    styles.answer,
+    [styles.undetermined, correct === undefined || correct === "undetermined"],
+    [styles.correct, correct === true],
+    [styles.incorrect, correct === false]
+  );
+
+  return (
+    <div {...props}>
+      <span className={styles.answerLabel}>Our Answer:</span>
+      {children}
+    </div>
+  );
+}
+
+export function RevealAnswersSection({
+  commits,
+  field,
+}: {
+  commits: Commit | Commit[];
+  field: Field<AnswersSchema>;
+}) {
+  const visible = field.value?.visibility === true;
+
+  return (
+    <Section commits={commits}>
+      {!visible ? (
+        <>
+          <Prose className="text-center">
+            Alright! You’re done with this page. There’s only one thing left to
+            do…
+          </Prose>
+
+          <div className="text-center margin-top">
+            <Button
+              onClick={() => {
+                field.properties.visibility.set(true);
+                scrollTo(0, 600);
+              }}
+              kind="tertiary"
+              iconFirst
+            >
+              <ChecklistIcon />
+              Show me the answers
+            </Button>
+          </div>
+
+          <Prose className="text-center">
+            Clicking this button will scroll you to the top of the page.
+          </Prose>
+        </>
+      ) : (
+        <>
+          <TextArea
+            field={field.properties.reflection}
+            minRows={3}
+            label={
+              <Prose>
+                Now that you’ve seen our answers, briefly comment on where they
+                agree or disagree with yours, and why. Summarize what you feel
+                like you’ve learned, and/or what you’re feeling confused about.
+              </Prose>
+            }
+          />
+
+          <Continue
+            commit={field.properties.commit}
+            allowed={isSet(field.properties.reflection)}
+          />
+        </>
+      )}
+    </Section>
   );
 }

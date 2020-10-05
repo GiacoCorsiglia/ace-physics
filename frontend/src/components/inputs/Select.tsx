@@ -4,6 +4,7 @@ import Creatable from "react-select/creatable";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, Props, useUniqueId } from "src/util";
+import ChoiceAnswer from "./ChoiceAnswer";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
@@ -47,12 +48,16 @@ export default function Select<
   choices: originalChoices,
   allowOther = true,
   label,
+  answer,
+  explanation,
   ...props
 }: {
   field: Field<s.ChoiceSchema<C, M, string>>;
   choices: Choices<C[number]>;
   allowOther?: boolean;
   label?: React.ReactNode;
+  answer?: M extends true ? C[number][] : C[number];
+  explanation?: React.ReactNode;
 } & Props<ReactSelect<{ value: C[number]; label: React.ReactNode }>>) {
   const id = `select-${useUniqueId()}`;
   props.ACE_labelId = id;
@@ -200,6 +205,13 @@ export default function Select<
         {labelEl}
 
         <ReactSelect {...props} />
+
+        <ChoiceAnswer
+          field={field}
+          choices={choices}
+          answer={answer}
+          explanation={explanation}
+        />
       </>
     );
   }
@@ -302,6 +314,13 @@ export default function Select<
       {labelEl}
 
       <Creatable {...props} />
+
+      <ChoiceAnswer
+        field={field}
+        choices={choices}
+        answer={answer}
+        explanation={explanation}
+      />
     </>
   );
 }

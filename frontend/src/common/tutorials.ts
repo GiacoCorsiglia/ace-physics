@@ -25,6 +25,13 @@ const Commit = s.boolean();
 const Help = s.boolean();
 const Visibility = s.boolean();
 
+export type AnswersSchema = typeof Answers;
+const Answers = s.record({
+  visibility: Visibility,
+  reflection: s.string(),
+  commit: Commit,
+});
+
 ////////////////////////////////////////////////////////////////////////////////
 // Common properties.
 ////////////////////////////////////////////////////////////////////////////////

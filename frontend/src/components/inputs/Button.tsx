@@ -8,11 +8,13 @@ export default function Button({
   kind = "primary",
   block = false,
   link,
+  iconFirst,
   ...props
 }: JSX.IntrinsicElements["button"] & {
   kind?: "primary" | "secondary" | "tertiary";
   block?: boolean;
   link?: string;
+  iconFirst?: boolean;
 }) {
   props.disabled = useDisabled(props);
   const As = !props.disabled && link ? Link : "button";
@@ -26,6 +28,8 @@ export default function Button({
         styles[kind],
         styles.noLabel,
         [styles.block, block],
+        [styles.iconFirst, iconFirst],
+        [styles.iconLast, !iconFirst],
         props.className
       )}
     />

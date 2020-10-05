@@ -52,6 +52,10 @@
 
   &.sectionFirst {
     margin-top: 0;
+
+    + .sectionFirst {
+      margin-top: 6rem;
+    }
   }
 
   &.sectionAnimateIn {
@@ -74,23 +78,37 @@
   color: $red;
 }
 
-.reminder {
+@mixin box($bg, $labeled: false) {
   border-radius: $border-radius;
-  padding: 0.5rem 1rem 1rem;
+  padding: if($labeled, 0.5rem 1rem 1rem, 1rem);
   margin-top: 1rem;
   margin-bottom: 1rem;
-  background: hsl(0, 0, 95%);
-  opacity: 0.75;
+  background: $bg;
   box-shadow: $box-shadow-border, $box-shadow-light;
+
+  @if (not $labeled) {
+    > :first-child,
+    > .prose > :first-child {
+      margin-top: 0;
+    }
+  }
 }
 
-.reminderLabel {
+.reminder {
+  @include box(hsl(0, 0, 95%), $labeled: true);
+  opacity: 0.75;
+}
+
+.reminderLabel,
+.answerLabel {
   display: block;
   font-size: $text-smallest;
   text-transform: uppercase;
   opacity: 0.75;
   line-height: 1.5rem;
+}
 
+.reminderLabel {
   & + * {
     margin-top: 0 !important;
 
@@ -105,30 +123,22 @@
   }
 }
 
-.help {
-  border-radius: $border-radius;
-  padding: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  background: $green-bg;
-  box-shadow: $box-shadow-border, $box-shadow-light;
+.answer.undetermined {
+  @include box($light-blue);
+}
 
-  > :first-child,
-  > .prose > :first-child {
-    margin-top: 0;
-  }
+.answer.correct {
+  @include box($green-bg);
+}
+
+.answer.incorrect {
+  @include box($red-bg);
+}
+
+.help {
+  @include box($green-bg);
 }
 
 .info {
-  border-radius: $border-radius;
-  padding: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  background: $light-blue;
-  box-shadow: $box-shadow-border, $box-shadow-light;
-
-  > :first-child,
-  .prose > :first-child {
-    margin-top: 0;
-  }
+  @include box($light-blue);
 }
