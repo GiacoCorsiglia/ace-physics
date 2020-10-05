@@ -28,7 +28,7 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #333;
+  color: $text-color;
 }
 
 .prose {
@@ -239,4 +239,18 @@ b {
 
 .faded {
   opacity: $opacity-faded;
+}
+
+.svg-img {
+  margin-top: 1rem;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid $grey80;
+  border-radius: $border-radius;
+
+  text {
+    font-family: $font;
+    fill: $text-color;
+  }
 }

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 132">
+  <g fill="none" fill-rule="evenodd">
+    <g stroke="#6D7278" stroke-linecap="square">
+      <path d="M28.40001 48.669067v44M41.40001 74.669067l-26-8"/>
+    </g>
+    <path d="M4.90000998 24.34456202v76.29538768L51.90001 114.9935718V38.6981841L4.90000998 24.34456202z" stroke="#333"/>
+    <text font-size="11" font-weight="bold" transform="translate(4 23)">
+      <tspan x="3.40000998" y="45.6690669">0</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(4 23)">
+      <tspan x="21.40001" y="81.6690669">0</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(4 23)">
+      <tspan x="21.40001" y="21.6690669">1</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(4 23)">
+      <tspan x="39.40001" y="55.6690669">1</tspan>
+    </text>
+    <g stroke="#6D7278" stroke-linecap="square">
+      <path d="M531.59999 48.669067v44M518.59999 74.669067l26-8"/>
+    </g>
+    <path d="M555.09999002 24.34456202v76.29538768L508.09999 114.9935718V38.6981841l47.00000002-14.35362208z" stroke="#333"/>
+    <text font-size="11" font-weight="bold" transform="translate(507 23)">
+      <tspan x="3" y="55.6690669">0</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(507 23)">
+      <tspan x="21" y="81.6690669">0</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(507 23)">
+      <tspan x="21" y="21.6690669">1</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(507 23)">
+      <tspan x="39" y="46.6690669">1</tspan>
+    </text>
+    <g stroke="#6D7278" stroke-linecap="square">
+      <path d="M339.59999 48.669067v44M326.59999 74.669067l26-8"/>
+    </g>
+    <path d="M363.09999002 24.34456202v76.29538768L316.09999 114.9935718V38.6981841l47.00000002-14.35362208z" stroke="#333"/>
+    <text font-size="11" font-weight="bold" transform="translate(315 23)">
+      <tspan x="3" y="55.6690669">0</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(315 23)">
+      <tspan x="21" y="81.6690669">0</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(315 23)">
+      <tspan x="21" y="21.6690669">1</tspan>
+    </text>
+    <text font-size="11" font-weight="bold" transform="translate(315 23)">
+      <tspan x="39" y="46.6690669">1</tspan>
+    </text>
+    <path stroke="#333" fill="#A72828" d="M73.5 30.5h61v23h-61zM425.5 30.5h61v23h-61zM233.5 30.5h61v23h-61z"/>
+    <path stroke="#333" fill="#28A745" d="M73.5 88.5h61v23h-61zM425.5 88.5h61v23h-61zM233.5 88.5h61v23h-61z"/>
+    <text font-size="14" font-weight="bold">
+      <tspan x="88" y="24">Alice</tspan>
+    </text>
+    <text font-size="14" font-weight="bold">
+      <tspan x="154.5615" y="93">Source of</tspan> <tspan x="143.1445" y="110">particle pairs</tspan>
+    </text>
+    <text font-size="14" font-weight="bold">
+      <tspan x="375.3455" y="93">Source</tspan>
+    </text>
+    <text font-size="14" font-weight="bold">
+      <tspan x="443" y="24">Bob</tspan>
+    </text>
+    <text font-size="14" font-weight="bold">
+      <tspan x="253" y="24">Eve</tspan>
+    </text>
+    <g opacity=".5" stroke="#2684FF" stroke-linecap="square">
+      <path d="M398.51515152 71h32.96969698M531.4897959 47.5l-98.9795919 23M531.4897959 93.5l-98.9795919-23"/>
+    </g>
+    <g opacity=".5" stroke="#2684FF" stroke-linecap="square">
+      <path d="M125.5 70.5h117M28.5 47.5l97 23M28.5 93.5l97-23M339.5 47.5l-97 23M339.5 93.5l-97-23"/>
+    </g>
+    <circle stroke="#144079" stroke-width="2" fill-opacity=".5" fill="#2684FF" cx="178.5" cy="70.5" r="5.5"/>
+    <circle stroke="#144079" stroke-width="2" fill-opacity=".5" fill="#2684FF" cx="398.5" cy="70.5" r="5.5"/>
+  </g>
+</svg>

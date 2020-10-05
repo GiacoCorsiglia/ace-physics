@@ -14,6 +14,7 @@ import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet, useFields } from "src/state";
 import { ContinueToNextPart, Part } from "../shared";
+import { ReactComponent as Diagram } from "./svgs/entangled-states.svg";
 
 export default function EntangledStates() {
   const f = useFields(EPR);
@@ -23,6 +24,8 @@ export default function EntangledStates() {
       <AnswerVisibility field={f.entangledAnswers}>
         <Content>
           <Section first>
+            <Diagram className="svg-img" />
+
             <Prose>
               <p>
                 Suppose we have two entangled spin-½ particles (A and B)
