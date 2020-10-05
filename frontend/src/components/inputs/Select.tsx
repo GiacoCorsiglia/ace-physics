@@ -7,14 +7,37 @@ import { classes, Props, useUniqueId } from "src/util";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
+type Choices<V> = ReadonlyArray<{ value: V; label: React.ReactNode }>;
+
 type SelectChoice<T> = T extends Array<infer U> ? U : T;
 
 export type SelectChoices<
   V extends undefined | { selected?: s.Literal } | { selected?: s.Literal[] }
-> = Array<{
-  value: SelectChoice<NonNullable<NonNullable<V>["selected"]>>;
-  label: React.ReactNode;
-}>;
+> = Choices<SelectChoice<NonNullable<NonNullable<V>["selected"]>>>;
+
+const memoizedChoices = new Map<
+  Field<s.ChoiceSchema<any, any, any>>,
+  Choices<s.Literal>
+>();
+
+export function choices<C extends readonly (string | number)[]>(
+  field: Field<s.ChoiceSchema<C, any, any>>,
+  choices?: { [K in C[number]]: React.ReactNode }
+): Choices<C[number]> {
+  if (!memoizedChoices.has(field)) {
+    memoizedChoices.set(
+      field,
+      choices
+        ? Object.entries(choices).map(([value, label]) => ({
+            value,
+            label: label as React.ReactNode, // This wasn't inferred
+          }))
+        : field.schema.choices.map((value) => ({ value, label: value }))
+    );
+  }
+
+  return memoizedChoices.get(field) as any;
+}
 
 export default function Select<
   C extends readonly s.Literal[],
@@ -27,10 +50,7 @@ export default function Select<
   ...props
 }: {
   field: Field<s.ChoiceSchema<C, M, string>>;
-  choices: ReadonlyArray<{
-    value: C[number];
-    label: React.ReactNode;
-  }>;
+  choices: Choices<C[number]>;
   allowOther?: boolean;
   label?: React.ReactNode;
 } & Props<ReactSelect<{ value: C[number]; label: React.ReactNode }>>) {
