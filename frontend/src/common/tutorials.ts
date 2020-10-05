@@ -615,6 +615,8 @@ export const EPR = tutorialSchema("EPR", {
   differentFromEPR: s.string(),
   compareToEPRCommit: Commit,
 
+  marbleAnswers: Answers,
+
   marbleFinalCommit: Commit,
 
   // Entangled States.
@@ -652,6 +654,8 @@ export const EPR = tutorialSchema("EPR", {
 
   causality: s.string(),
   causalityCommit: Commit,
+
+  entangledAnswers: Answers,
 
   entangledFinalCommit: Commit,
 });
