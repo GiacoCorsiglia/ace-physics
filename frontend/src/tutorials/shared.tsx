@@ -23,7 +23,13 @@ import { Continue, Prose } from "src/components";
 import { Content, Header, Page } from "src/components/layout";
 import { UserMenu } from "src/components/shared/UserMenu";
 import * as globalParams from "src/globalParams";
-import { Field, Provider, ProviderSchema } from "src/state";
+import {
+  Field,
+  Provider,
+  ProviderFields,
+  ProviderSchema,
+  WithFields,
+} from "src/state";
 import { ReactComponent as EllipsisCircleIcon } from "src/svgs/ellipsis-circle.svg";
 import * as urls from "src/urls";
 import { Children, classes, useToggle } from "src/util";
@@ -718,4 +724,17 @@ export function ContinueToNextPart({
       )}
     </>
   );
+}
+
+export function sectionComponents<P extends s.Properties>(
+  schema: ProviderSchema<P>,
+  sections: ((fields: ProviderFields<P>) => React.ReactNode)[]
+) {
+  return sections.map((section, i) => (
+    // It's fine to use the index as the key here since the list is totally
+    // static.
+    <WithFields key={i} schema={schema}>
+      {section}
+    </WithFields>
+  ));
 }
