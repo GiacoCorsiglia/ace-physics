@@ -43,12 +43,14 @@ export default function ChoiceAnswer<
             <ul>
               {(answer as C[number][]).map((a) => (
                 <li key={a + ""}>
-                  {choices.find(({ value }) => value === a)!.label}
+                  {/* This shouldn't be undefined but guard just in case */}
+                  {choices.find(({ value }) => value === a)?.label}
                 </li>
               ))}
             </ul>
           ) : (
-            <p>{choices.find(({ value }) => value === answer)!.label}</p>
+            // This shouldn't be undefined but guard just in case
+            <p>{choices.find(({ value }) => value === answer)?.label}</p>
           )}
         </blockquote>
         {typeof explanation === "string" ? <p>{explanation}</p> : explanation}
