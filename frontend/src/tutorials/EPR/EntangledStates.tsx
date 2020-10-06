@@ -85,7 +85,7 @@ export default function EntangledStates() {
                 "|up_B>Z": <M t="\ket{\uparrow_B}_Z" />,
                 "|down_B>Z": <M t="\ket{\downarrow_B}_Z" />,
                 "cannot predict":
-                  "We cannot predict Particle B’s spin state from the knowledge of particle A’s spin state, even if the chosen basis is the same.",
+                  "We cannot predict Particle B’s spin state from the knowledge of particle A’s spin state",
               })}
               answer="|down_B>Z"
               explanation="Because we collapsed the state to this."

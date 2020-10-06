@@ -119,7 +119,7 @@ export default function Pretest() {
 
           <Section noScroll>
             <Choice
-              field={f.aliceSpinUpZAfter}
+              field={f.aliceNoMeasurement}
               choices={answers}
               label={
                 <Prose>

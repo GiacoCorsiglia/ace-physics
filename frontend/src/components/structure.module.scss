@@ -123,6 +123,27 @@
   }
 }
 
+.answer {
+  text-align: left;
+
+  // Specificity hack is necessary...
+  :global(.table) &#{&} {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    padding: 0.5rem;
+
+    :global(.prose) {
+      blockquote,
+      p {
+        margin-top: 0rem;
+      }
+      blockquote {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+
 .answer.undetermined {
   @include box($light-blue);
 }

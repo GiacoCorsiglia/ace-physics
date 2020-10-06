@@ -3,7 +3,9 @@ import { EPR } from "src/common/tutorials";
 import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
+import EavesdroppingDetection from "./EavesdroppingDetection";
 import EntangledStates from "./EntangledStates";
+import InvestigatingCorrelation from "./InvestigatingCorrelation";
 import Marbles from "./Marbles";
 import Pretest from "./Pretest";
 import QuantumCryptography from "./QuantumCryptography";
@@ -46,9 +48,19 @@ export const route = tutorialRoute({
       element: <EntangledStates />,
     },
     {
+      label: "Investigating Correlation",
+      path: "investigating-correlation",
+      element: <InvestigatingCorrelation />,
+    },
+    {
       label: "Quantum Cryptography",
       path: "quantum-cryptography",
       element: <QuantumCryptography />,
+    },
+    {
+      label: "Eavesdropping Detection",
+      path: "eavesdropping-detection",
+      element: <EavesdroppingDetection />,
     },
   ],
 });

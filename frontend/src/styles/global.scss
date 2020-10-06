@@ -254,3 +254,52 @@ b {
     fill: $text-color;
   }
 }
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+
+  .prose + & {
+    margin-top: 2rem;
+  }
+
+  th,
+  td {
+    border: 1px solid $grey80;
+    padding: 0.5rem;
+    vertical-align: middle;
+    text-align: center;
+    // word-break: break-all;
+  }
+
+  thead td,
+  th {
+    font-weight: $bold;
+  }
+
+  // This doesn't work with collapsed borders...
+  thead tr:first-child,
+  tbody:first-child tr:first-child {
+    th:first-child,
+    td:first-child {
+      border-top-left-radius: $border-radius;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-top-right-radius: $border-radius;
+    }
+  }
+
+  tbody:last-child tr:last-child {
+    th:first-child,
+    td:first-child {
+      border-bottom-left-radius: $border-radius;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-bottom-right-radius: $border-radius;
+    }
+  }
+}

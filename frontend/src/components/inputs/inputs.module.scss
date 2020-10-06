@@ -298,6 +298,12 @@
     border-color $duration-hover $easing, box-shadow $duration-hover $easing,
     color $duration-hover $easing;
 
+  text-align: center;
+
+  :global(.table) & {
+    flex-grow: 1;
+  }
+
   .toggleChoices.horizontal & {
     margin-left: -1px;
 
@@ -418,6 +424,10 @@
 
     .noLabel {
       grid-column: 2;
+    }
+
+    > * {
+      margin-top: 0 !important;
     }
   }
 
