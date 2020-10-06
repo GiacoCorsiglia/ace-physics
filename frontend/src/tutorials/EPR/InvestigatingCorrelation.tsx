@@ -123,7 +123,7 @@ const sections = sectionComponents(EPR, [
         label={
           <Prose>
             <p>
-              If Alice uses a SG oriented along the Z axis and measures a 0,
+              If Alice uses an SG oriented along the Z axis and measures a 0,
               what is the likelihood that Bob measures a 1?
             </p>
 
@@ -156,7 +156,7 @@ const sections = sectionComponents(EPR, [
         label={
           <Prose>
             <p>
-              If Alice uses a SG oriented along the Z axis and measures a 1,
+              If Alice uses an SG oriented along the Z axis and measures a 1,
               what is the likelihood that Bob measures a 1?
             </p>
 
