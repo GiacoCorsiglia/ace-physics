@@ -181,7 +181,7 @@ export default function Marbles() {
             field={f.marbleAnswers}
           />
 
-          <Section commits={f.marbleAnswers.properties.commit}>
+          <Section commits={f.marbleAnswers.properties.commit} noLabel>
             <ContinueToNextPart commit={f.marbleFinalCommit} />
           </Section>
         </Content>

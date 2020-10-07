@@ -22,6 +22,7 @@ import { names } from "src/common/tutorials";
 import { Continue, Prose } from "src/components";
 import { Content, Header, Page } from "src/components/layout";
 import { UserMenu } from "src/components/shared/UserMenu";
+import structureStyles from "src/components/structure.module.scss";
 import * as globalParams from "src/globalParams";
 import {
   Field,
@@ -51,6 +52,7 @@ type LabelTitle =
 type Part = {
   path: string;
   element: React.ReactElement;
+  labelSections?: boolean;
 } & LabelTitle;
 
 type Parts = Part[];
@@ -400,6 +402,7 @@ function Tutorial({
     return () => window.removeEventListener("beforeunload", beforeUnload);
   }, [account, name, save, debouncedSave]);
 
+  const { currentPart } = useCurrentPart(parts);
   const { currentTitle } = useCurrentPageInfo(parts, labelTitle);
 
   const tutorialContext: TutorialContext = useMemo(() => ({ parts }), [parts]);
@@ -426,7 +429,12 @@ function Tutorial({
       />
 
       <main className={styles.tutorialMain}>
-        <div className={styles.tutorialContent}>
+        <div
+          className={classes(
+            [structureStyles.labeledSections, currentPart?.labelSections],
+            styles.tutorialContent
+          )}
+        >
           {status === "loading" && (
             <Content className="prose">
               <h1>Loading…</h1>

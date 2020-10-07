@@ -52,21 +52,25 @@ export const route = tutorialRoute({
       label: "Entangled States",
       path: "entangled-states",
       element: <EntangledStates />,
+      labelSections: true,
     },
     {
       label: "Investigating Correlation",
       path: "investigating-correlation",
       element: <InvestigatingCorrelation />,
+      labelSections: true,
     },
     {
       label: "Quantum Cryptography",
       path: "quantum-cryptography",
       element: <QuantumCryptography />,
+      labelSections: true,
     },
     {
       label: "Eavesdropping Detection",
       path: "eavesdropping-detection",
       element: <EavesdroppingDetection />,
+      labelSections: true,
     },
   ],
 });

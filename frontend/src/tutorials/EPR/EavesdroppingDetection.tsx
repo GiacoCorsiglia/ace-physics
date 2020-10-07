@@ -32,7 +32,7 @@ export default function EavesdroppingDetection() {
             field={f.eavesdroppingAnswers}
           />
 
-          <Section commits={f.eavesdroppingAnswers.properties.commit}>
+          <Section commits={f.eavesdroppingAnswers.properties.commit} noLabel>
             <ContinueToNextPart commit={f.eavesdroppingFinalCommit} />
           </Section>
         </Content>

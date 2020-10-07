@@ -30,7 +30,7 @@ export default function QuantumCryptography() {
             field={f.cryptographyAnswers}
           />
 
-          <Section commits={f.cryptographyAnswers.properties.commit}>
+          <Section commits={f.cryptographyAnswers.properties.commit} noLabel>
             <ContinueToNextPart commit={f.cryptographyFinalCommit} />
           </Section>
         </Content>

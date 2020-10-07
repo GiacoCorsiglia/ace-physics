@@ -28,7 +28,7 @@ export default function InvestigatingCorrelation() {
             field={f.correlationAnswers}
           />
 
-          <Section commits={f.correlationAnswers.properties.commit}>
+          <Section commits={f.correlationAnswers.properties.commit} noLabel>
             <ContinueToNextPart commit={f.correlationFinalCommit} />
           </Section>
         </Content>

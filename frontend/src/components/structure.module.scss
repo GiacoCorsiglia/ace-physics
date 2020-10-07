@@ -46,6 +46,10 @@
   }
 }
 
+.labeledSections {
+  counter-reset: section;
+}
+
 .section {
   position: relative;
   margin-top: 6rem;
@@ -60,6 +64,23 @@
 
   &.sectionAnimateIn {
     animation: section-animate-in 300ms ease-in-out;
+  }
+
+  .labeledSections &:not(.sectionFirst):not(.noSectionLabel) {
+    &::before {
+      counter-increment: section;
+      content: counter(section, upper-alpha) ".";
+      position: absolute;
+      top: 0;
+      left: -2rem;
+      font-weight: bold;
+      opacity: $opacity-faded;
+    }
+
+    .sectionDevNoticeVisible,
+    .sectionDevNoticeHidden {
+      top: 2.3rem;
+    }
   }
 }
 

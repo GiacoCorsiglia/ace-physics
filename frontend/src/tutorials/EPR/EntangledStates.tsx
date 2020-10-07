@@ -230,7 +230,7 @@ export default function EntangledStates() {
             field={f.entangledAnswers}
           />
 
-          <Section commits={f.entangledAnswers.properties.commit}>
+          <Section commits={f.entangledAnswers.properties.commit} noLabel>
             <ContinueToNextPart commit={f.entangledFinalCommit} />
           </Section>
         </Content>

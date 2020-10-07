@@ -190,11 +190,13 @@ export function Section({
   commits,
   first = false,
   noScroll = false,
+  noLabel = false,
   children,
 }: {
   commits?: Commit | Commit[];
   first?: boolean;
   noScroll?: boolean;
+  noLabel?: boolean;
 } & Children) {
   if (globalParams.showAllSections) {
     // Skip the other options
@@ -205,7 +207,7 @@ export function Section({
   }
 
   return (
-    <RevealedSection first={first} noScroll={noScroll}>
+    <RevealedSection first={first} noScroll={noScroll} noLabel={noLabel}>
       {globalParams.showAllSections &&
         (isSectionVisible(commits) ? (
           <EyeIcon className={styles.sectionDevNoticeVisible} />
@@ -220,8 +222,9 @@ export function Section({
 function RevealedSection({
   first,
   noScroll,
+  noLabel,
   children,
-}: { first: boolean; noScroll: boolean } & Children) {
+}: { first: boolean; noScroll: boolean; noLabel: boolean } & Children) {
   const el = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -238,6 +241,7 @@ function RevealedSection({
       className={classes(
         styles.section,
         [styles.sectionFirst, first],
+        [styles.noSectionLabel, noLabel],
         [styles.sectionAnimateIn, !first && !noScroll]
       )}
     >
@@ -310,7 +314,7 @@ export function RevealAnswersSection({
   const visible = field.value?.visibility === true;
 
   return (
-    <Section commits={commits}>
+    <Section commits={commits} noLabel>
       {!visible ? (
         <>
           <Prose className="text-center">
