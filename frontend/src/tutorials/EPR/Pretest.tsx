@@ -16,6 +16,9 @@ export default function Pretest() {
     pretestCommit,
     marbleIntroCommit,
     entangledIntroCommit,
+    correlationIntroCommit,
+    cryptographyIntroCommit,
+    eavesdroppingIntroCommit,
   } = useFields(EPR);
   const f = pretest.properties;
 
@@ -39,7 +42,10 @@ export default function Pretest() {
           when={
             pretestCommit.value === true ||
             marbleIntroCommit.value === true ||
-            entangledIntroCommit.value === true
+            entangledIntroCommit.value === true ||
+            correlationIntroCommit.value === true ||
+            cryptographyIntroCommit.value === true ||
+            eavesdroppingIntroCommit.value === true
           }
         >
           <Section first>
