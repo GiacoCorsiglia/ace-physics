@@ -340,7 +340,7 @@ export function RevealAnswersSection({
         <>
           <TextArea
             field={field.properties.reflection}
-            minRows={3}
+            minRows={4}
             label={
               <Prose>
                 Now that you’ve seen our answers, briefly comment on where they
