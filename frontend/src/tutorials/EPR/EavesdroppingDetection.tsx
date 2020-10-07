@@ -28,7 +28,7 @@ export default function EavesdroppingDetection() {
           {sections}
 
           <RevealAnswersSection
-            commits={f.keyCommit}
+            commits={f.whyQuantumCommit}
             field={f.eavesdroppingAnswers}
           />
 
