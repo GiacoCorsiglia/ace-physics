@@ -804,6 +804,7 @@ export const EPR = tutorialSchema("EPR", {
   eveDetectionTableCommit: Commit,
 
   overallDetectionProb: s.number(),
+  oddsBobDoesntNoticeEve: s.string(),
   overallDetectionProbCommit: Commit,
 
   whyQuantum: s.string(),

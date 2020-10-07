@@ -365,21 +365,29 @@ const sections = sectionComponents(EPR, [
         className="margin-top-1"
       />
 
-      <Prose>
-        To think about: If we “check”, say, 100 bits with Eve present, what are
-        the odds that Bob FAILS to notice the eavesdropper?
-      </Prose>
-
       <Answer correct={f.overallDetectionProb.value === 25}>
         <Prose>
           <blockquote>25%</blockquote>
           <p>This is really the same question as two questions prior.</p>
+        </Prose>
+      </Answer>
 
-          <p>
-            After checking 100 bits, the odds that Bob FAILS to notice the
-            eavesdropper are:
-            <M display t="(0.75)^{100} = 3 \times 10^{-13}" />
-          </p>
+      <TextArea
+        field={f.oddsBobDoesntNoticeEve}
+        placeholder="Optional: type your response here"
+        label={
+          <Prose>
+            To think about: If we “check”, say, 100 bits with Eve present, what
+            are the odds that Bob FAILS to notice the eavesdropper?
+          </Prose>
+        }
+      />
+
+      <Answer>
+        <Prose>
+          After checking 100 bits, the odds that Bob FAILS to notice the
+          eavesdropper are:
+          <M display t="(0.75)^{100} = 3 \times 10^{-13}" />
         </Prose>
       </Answer>
 
