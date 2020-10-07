@@ -412,7 +412,7 @@ const sections = sectionComponents(EPR, [
 
       <Answer>
         <Prose>
-          Classically, there is no such thing as “collapse”. Eve’s measurement
+          Classically, there is no such thing as “collapse.” Eve’s measurement
           can be “delicate” and not change the state. She looks but simply
           passes it along to Bob, he has no way to know she peeked! Without an
           eavesdropper we don’t need QM, the “colored marbles” from page 3 (the
