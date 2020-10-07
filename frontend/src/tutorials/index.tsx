@@ -84,7 +84,8 @@ function TutorialsIndex() {
             </TutorialLink>
 
             <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
-              Maybe God does play dice with the universe after all…
+              Investigate the uniquely <em>quantum</em> effect of entanglement,
+              and apply it to cryptography.
             </TutorialLink>
           </ul>
         </nav>

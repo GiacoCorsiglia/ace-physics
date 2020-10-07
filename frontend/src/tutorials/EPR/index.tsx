@@ -15,7 +15,13 @@ export const route = tutorialRoute({
   name: "EPR",
   schema: EPR,
   label: "EPR and Entangled States",
-  intro: <Prose>Entanglement…</Prose>,
+  intro: (
+    <Prose>
+      Investigate the uniquely <em>quantum</em> effect of entanglement, and
+      apply it to cryptography. Maybe God does play dice with the universe after
+      all…
+    </Prose>
+  ),
   info: (
     <Prose className="faded text-smallest">
       <em>
