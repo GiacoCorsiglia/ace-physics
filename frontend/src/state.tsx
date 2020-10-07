@@ -18,9 +18,10 @@ interface Store<P extends s.Properties> {
 }
 
 const StoreContext = createContext<Store<any>>({} as any);
+StoreContext.displayName = "StoreContext";
 
 export type ProviderSchema<P extends s.Properties = any> = s.RecordSchema<P>;
-type ProviderFields<P extends s.Properties = any> = Readonly<
+export type ProviderFields<P extends s.Properties = any> = Readonly<
   { [K in keyof P]: Field<P[K]> }
 >;
 

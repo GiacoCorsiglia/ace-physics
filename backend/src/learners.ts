@@ -4,7 +4,7 @@ import {
   GetLearnerRequest,
   Learner,
 } from "ace-frontend/src/common/apiTypes";
-import { AsyncResult } from "ace-frontend/src/common/util";
+import { Result } from "ace-frontend/src/common/util";
 import type AWS from "aws-sdk";
 import * as db from "./db";
 import { generatePseudoRandomIds } from "./psuedoRandomId";
@@ -16,7 +16,7 @@ const randomSeed = 74139;
 
 async function getNextIdsAndReserve(
   blockSize: number
-): Promise<AsyncResult<AWS.AWSError, Generator<number>>> {
+): Promise<Result<AWS.AWSError, Generator<number>>> {
   const result = await db.result(
     db.client().update({
       TableName: db.TableName,

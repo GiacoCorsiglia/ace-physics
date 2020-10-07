@@ -18,7 +18,7 @@ const routeFull = tutorialRoute({
   intro: <Prose>Vectors, components, and bases—oh my!</Prose>,
   parts: [
     {
-      label: "Before you Start",
+      label: "Before You Start",
       path: "before-you-start",
       element: <Pretest />,
     },
@@ -58,7 +58,7 @@ const routeLite = tutorialRoute({
   intro: <Prose>Vectors, components, and bases—oh my!</Prose>,
   parts: [
     {
-      label: "Before you Start",
+      label: "Before You Start",
       path: "before-you-start",
       element: <Pretest />,
     },

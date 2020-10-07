@@ -25,6 +25,13 @@ const Commit = s.boolean();
 const Help = s.boolean();
 const Visibility = s.boolean();
 
+export type AnswersSchema = typeof Answers;
+const Answers = s.record({
+  visibility: Visibility,
+  reflection: s.string(),
+  commit: Commit,
+});
+
 ////////////////////////////////////////////////////////////////////////////////
 // Common properties.
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +40,7 @@ type CommonTutorialProperties = {
   tutorialFeedback: typeof tutorialFeedback;
 };
 
-const tutorialFeedback = s.record({
+export const tutorialFeedback = s.record({
   intention: s.string(),
   confidence: s.choice([
     "much less",
@@ -594,3 +601,212 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 // HACK: This is strictly a duplicate, but it allows the Lite version to have
 // a different name!  It must be reference equals with QuantumBasis.
 export const QuantumBasisLite = (names["QuantumBasisLite"] = QuantumBasis);
+
+////////////////////////////////////////////////////////////////////////////////
+// EPR.
+////////////////////////////////////////////////////////////////////////////////
+
+const EPRPretestAnswer = s.choice([
+  "+hbar/2",
+  "-hbar/2",
+  "either",
+  "not sure",
+] as const);
+
+export type EPR = s.TypeOf<typeof EPR>;
+export const EPR = tutorialSchema("EPR", {
+  pretest: s.record({
+    aliceSpinUpX: EPRPretestAnswer,
+    aliceSpinUpZ: EPRPretestAnswer,
+    aliceSpinUpZAfter: EPRPretestAnswer,
+    aliceNoMeasurement: EPRPretestAnswer,
+  }),
+  pretestCommit: Commit,
+
+  // Classical Marble Scenario.
+
+  marbleIntroCommit: Commit,
+  marbleAnswers: Answers,
+  marbleFinalCommit: Commit,
+
+  sameAsEPR: s.string(),
+  differentFromEPR: s.string(),
+  compareToEPRCommit: Commit,
+
+  // Entangled States.
+
+  entangledIntroCommit: Commit,
+  entangledAnswers: Answers,
+  entangledFinalCommit: Commit,
+
+  bStateAfterMeasureA: s.choice([
+    "|up_B>X",
+    "|down_B>X",
+    "|up_B>Z",
+    "|down_B>Z",
+    "cannot predict",
+  ] as const),
+  bStateAfterMeasureAExplain: s.string(),
+  bStateAfterMeasureACommit: Commit,
+
+  bUpLikelihood: s.choice([
+    "100%",
+    "75%",
+    "50%",
+    "25%",
+    "0%",
+    "Not determined",
+  ] as const),
+  bUpLikelihoodExplain: s.string(),
+  bUpLikelihoodCommit: Commit,
+
+  howOftenAliceBobSpinUp: s.string(),
+  howOftenAliceBobSpinUpCommit: Commit,
+
+  howOftenAliceBobSame: s.string(),
+  howOftenAliceBobSameCommit: Commit,
+
+  howOftenAliceSzBobSxSame: s.string(),
+  howOftenAliceSzBobSxSameCommit: Commit,
+
+  causality: s.string(),
+  causalityCommit: Commit,
+
+  // Investigating Correlation.
+
+  correlationIntroCommit: Commit,
+  correlationAnswers: Answers,
+  correlationFinalCommit: Commit,
+
+  bX1A0: s.choice(["X", "Z", "either", "none"] as const),
+  bX1A0Commit: Commit,
+
+  bX1A1: s.choice(["X", "Z", "either", "none"] as const),
+  bX1A1Commit: Commit,
+
+  aZ0B1Prob: s.choice([
+    "100% certainty",
+    "75% certainty",
+    "50% certainty",
+    "25% certainty",
+    "0% certainty",
+  ] as const),
+  aZ0B1ProbCommit: Commit,
+
+  aZ1B1Prob: s.choice([
+    "100% certainty",
+    "75% certainty",
+    "50% certainty",
+    "25% certainty",
+    "0% certainty",
+  ] as const),
+  aZ1B1ProbCommit: Commit,
+
+  aZbZ: s.choice(["0", "1", "either"] as const, true),
+  aZbZCommit: Commit,
+
+  aZbX: s.choice(["0", "1", "either"] as const, true),
+  aZbXCommit: Commit,
+
+  general: s.choice(["Bob 1", "Bob 0", "same direction"] as const, true),
+  generalCommit: Commit,
+
+  // Quantum Cryptography.
+  cryptographyIntroCommit: Commit,
+  cryptographyAnswers: Answers,
+  cryptographyFinalCommit: Commit,
+
+  bobCertaintyTable: (() => {
+    const choice = s.choice(["certain", "uncertain"] as const);
+    return s.record({
+      aXbX: choice,
+      aXbZ: choice,
+      aZbX: choice,
+      aZbZ: choice,
+    });
+  })(),
+  bobCertaintyTableCommit: Commit,
+
+  bobCertaintyTableRule: s.choice(["always", "sometimes", "never"] as const),
+  bobCertaintyTableRuleCommit: Commit,
+
+  bobMeasurementTable: (() => {
+    const choice = s.choice(["0", "1", "?"] as const);
+    return s.record({
+      a1aXbX: choice,
+      a1aXbZ: choice,
+      a1aZbX: choice,
+      a1aZbZ: choice,
+      a0aXbX: choice,
+      a0aXbZ: choice,
+      a0aZbX: choice,
+      a0aZbZ: choice,
+    });
+  })(),
+  bobMeasurementTableCommit: Commit,
+
+  keyTable: (() => {
+    const choice = s.choice(["0", "1", "-"] as const);
+    return s.tuple(
+      // 10 of them.
+      choice,
+      choice,
+      choice,
+      choice,
+      choice,
+      choice,
+      choice,
+      choice,
+      choice,
+      choice
+    );
+  })(),
+  keyTableCommit: Commit,
+
+  key: s.string(),
+  keyCommit: Commit,
+
+  // Eavesdropping Detection.
+
+  eavesdroppingIntroCommit: Commit,
+  eavesdroppingAnswers: Answers,
+  eavesdroppingFinalCommit: Commit,
+
+  eveCertainty: s.choice([
+    "certain if X",
+    "certain if Z",
+    "always certain",
+    "never certain",
+  ] as const),
+  eveCertaintyCommit: Commit,
+
+  eveUndetected: s.choice(["undetected", "detected", "maybe detected", "none"]),
+  eveUndetectedCommit: Commit,
+
+  eveVsBob: s.choice(["same", "opposite", "either", "none"] as const),
+  eveVsBobCommit: Commit,
+
+  probBobUnaffectedEveX: s.choice(["100%", "75%", "50%", "25%", "0%"] as const),
+  probBobUnaffectedEveXCommit: Commit,
+
+  probBobUnaffectedEveZ: s.choice(["100%", "50%", "25%", "0%"] as const),
+  probBobUnaffectedEveZCommit: Commit,
+
+  probEveDetected: s.choice(["75%", "50%", "25%", "0%"] as const),
+  probEveDetectedCommit: Commit,
+
+  eveDetectionTable: s.record({
+    abXeX: s.number(),
+    abXeZ: s.number(),
+    abZeX: s.number(),
+    abZeZ: s.number(),
+  }),
+  eveDetectionTableCommit: Commit,
+
+  overallDetectionProb: s.number(),
+  oddsBobDoesntNoticeEve: s.string(),
+  overallDetectionProbCommit: Commit,
+
+  whyQuantum: s.string(),
+  whyQuantumCommit: Commit,
+});

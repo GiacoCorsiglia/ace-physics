@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, useUniqueId } from "src/util";
+import ChoiceAnswer from "./ChoiceAnswer";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
@@ -14,12 +15,16 @@ export default function Choice<
   allowOther = true,
   disabled = false,
   label,
+  answer,
+  explanation,
 }: {
   field: Field<s.ChoiceSchema<C, M, string>>;
   choices: ReadonlyArray<{ value: C[number]; label: React.ReactNode }>;
   allowOther?: boolean;
   disabled?: boolean;
   label?: React.ReactNode;
+  answer?: M extends true ? C[number][] : C[number];
+  explanation?: React.ReactNode;
 }) {
   const isMulti = field.schema.isMulti;
   disabled = useDisabled(disabled);
@@ -221,6 +226,13 @@ export default function Choice<
           </div>
         )}
       </div>
+
+      <ChoiceAnswer
+        field={field}
+        choices={choices}
+        answer={answer}
+        explanation={explanation}
+      />
     </>
   );
 }

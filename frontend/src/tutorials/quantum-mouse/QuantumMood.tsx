@@ -162,7 +162,7 @@ export default function QuantumMood() {
             <Select
               field={happySadInnerProduct}
               choices={happySadInnerProductChoices}
-              label={<M t="\braket{\smiley}{\frownie} = " />}
+              label={<M t="\braket{\smiley|\frownie} = " />}
             />
 
             <TextArea field={happySadInnerProductExplain} label="Explain:" />
@@ -237,9 +237,9 @@ export default function QuantumMood() {
           <Help>
             <Prose>
               On the previous page, you said
-              <M t="\braket{\smalleye}{\wideye} = 0" />. <M t="\ket{\smiley}" />{" "}
+              <M t="\braket{\smalleye|\wideye} = 0" />. <M t="\ket{\smiley}" />{" "}
               and <M t="\ket{\frownie}" /> are also orthogonal, so consider
-              checking your answer for <M t="\braket{\smiley}{\frownie}" />.
+              checking your answer for <M t="\braket{\smiley|\frownie}" />.
             </Prose>
           </Help>
 
@@ -258,7 +258,7 @@ export default function QuantumMood() {
               <p>
                 <M t="\ket{\smiley}" /> and <M t="\ket{\frownie}" /> are
                 orthogonal, so there inner product (
-                <M t="\braket{\smiley}{\frownie}" prespace={false} />) is zero.
+                <M t="\braket{\smiley|\frownie}" prespace={false} />) is zero.
               </p>
 
               <p>

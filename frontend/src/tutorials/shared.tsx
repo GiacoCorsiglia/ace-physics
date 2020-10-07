@@ -22,8 +22,15 @@ import { names } from "src/common/tutorials";
 import { Continue, Prose } from "src/components";
 import { Content, Header, Page } from "src/components/layout";
 import { UserMenu } from "src/components/shared/UserMenu";
+import structureStyles from "src/components/structure.module.scss";
 import * as globalParams from "src/globalParams";
-import { Field, Provider, ProviderSchema } from "src/state";
+import {
+  Field,
+  Provider,
+  ProviderFields,
+  ProviderSchema,
+  WithFields,
+} from "src/state";
 import { ReactComponent as EllipsisCircleIcon } from "src/svgs/ellipsis-circle.svg";
 import * as urls from "src/urls";
 import { Children, classes, useToggle } from "src/util";
@@ -45,6 +52,7 @@ type LabelTitle =
 type Part = {
   path: string;
   element: React.ReactElement;
+  labelSections?: boolean;
 } & LabelTitle;
 
 type Parts = Part[];
@@ -59,6 +67,7 @@ export function tutorialRoute({
   schema,
   intro,
   parts,
+  info,
   ...labelTitle
 }: {
   url: urls.URL;
@@ -66,6 +75,7 @@ export function tutorialRoute({
   schema: ProviderSchema;
   intro: React.ReactNode;
   parts: Parts;
+  info?: React.ReactNode;
 } & LabelTitle) {
   if (names[name] !== schema) {
     throw new Error(`Tutorial name "${name}" doesn't match the given schema.`);
@@ -89,6 +99,7 @@ export function tutorialRoute({
           name={name}
           schema={schema}
           parts={parts}
+          info={info}
           {...labelTitle}
         />
       }
@@ -187,18 +198,21 @@ interface TutorialContext {
   parts: Parts;
 }
 const TutorialContext = React.createContext<TutorialContext>({ parts: [] });
+TutorialContext.displayName = "TutorialContext";
 
 function Tutorial({
   url,
   name,
   schema,
   parts,
+  info,
   ...labelTitle
 }: {
   url: urls.URL;
   name: string;
   schema: ProviderSchema;
   parts: Parts;
+  info?: React.ReactNode;
 } & LabelTitle) {
   const account = useAccount();
 
@@ -388,6 +402,7 @@ function Tutorial({
     return () => window.removeEventListener("beforeunload", beforeUnload);
   }, [account, name, save, debouncedSave]);
 
+  const { currentPart } = useCurrentPart(parts);
   const { currentTitle } = useCurrentPageInfo(parts, labelTitle);
 
   const tutorialContext: TutorialContext = useMemo(() => ({ parts }), [parts]);
@@ -409,11 +424,17 @@ function Tutorial({
         url={url}
         parts={parts}
         savedStatusSubscribe={savedStatusSubscribe}
+        info={info}
         {...labelTitle}
       />
 
       <main className={styles.tutorialMain}>
-        <div className={styles.tutorialContent}>
+        <div
+          className={classes(
+            [structureStyles.labeledSections, currentPart?.labelSections],
+            styles.tutorialContent
+          )}
+        >
           {status === "loading" && (
             <Content className="prose">
               <h1>Loading…</h1>
@@ -467,11 +488,13 @@ function Tutorial({
 function TutorialHeader({
   url,
   parts,
+  info,
   savedStatusSubscribe,
   ...labelTitle
 }: {
   url: urls.URL;
   parts: Parts;
+  info?: React.ReactNode;
   savedStatusSubscribe: (setter: (s: SavedStatus) => void) => () => void;
 } & LabelTitle) {
   const [toggled, setToggled, sidebarElRef] = useToggle();
@@ -542,6 +565,8 @@ function TutorialHeader({
             />
           ))}
         </ol>
+
+        {info}
       </nav>
 
       <UserMenu />
@@ -707,4 +732,17 @@ export function ContinueToNextPart({
       )}
     </>
   );
+}
+
+export function sectionComponents<P extends s.Properties>(
+  schema: ProviderSchema<P>,
+  sections: ((fields: ProviderFields<P>) => React.ReactNode)[]
+) {
+  return sections.map((section, i) => (
+    // It's fine to use the index as the key here since the list is totally
+    // static.
+    <WithFields key={i} schema={schema}>
+      {section}
+    </WithFields>
+  ));
 }

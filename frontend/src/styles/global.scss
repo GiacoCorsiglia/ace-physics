@@ -28,7 +28,7 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #333;
+  color: $text-color;
 }
 
 .prose {
@@ -38,6 +38,10 @@ body {
   &.no-margin,
   &.no-margin :first-child {
     margin-top: 0;
+  }
+
+  .margin-top + & {
+    margin-top: 2rem;
   }
 
   @at-root {
@@ -114,6 +118,11 @@ body {
     & ul,
     ul#{&} {
       list-style-type: disc;
+
+      ul {
+        margin-top: 0;
+        list-style-type: circle;
+      }
     }
 
     & ol,
@@ -154,32 +163,6 @@ i {
 
 b {
   font-weight: $bold;
-}
-
-// MathJax corrections.
-
-mjx-container[jax="SVG"] {
-  // Let's reset things for MathJax.
-  font-family: initial;
-  line-height: initial;
-
-  &,
-  *,
-  *::before,
-  *::after {
-    box-sizing: initial;
-  }
-
-  &[display="true"] {
-    margin-top: 1.5rem !important;
-    margin-bottom: 1.5rem !important;
-  }
-}
-
-// HACK: This is required for positioning MathJax inside another <svg>.
-svg mjx-container {
-  /* https://stackoverflow.com/questions/8185845/svg-foreignobject-behaves-as-though-absolutely-positioned-in-webkit-browsers */
-  position: fixed !important;
 }
 
 // Utilities
@@ -234,4 +217,89 @@ svg mjx-container {
 
 .text-green {
   color: $green;
+}
+
+.text-small {
+  font-size: $text-small;
+}
+
+.text-smaller {
+  font-size: $text-smaller;
+}
+
+.text-smallest {
+  font-size: $text-smallest;
+
+  @at-root {
+    p#{&} {
+      line-height: 1.1rem;
+    }
+  }
+}
+
+.faded {
+  opacity: $opacity-faded;
+}
+
+.svg-img {
+  margin-top: 1rem;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid $grey80;
+  border-radius: $border-radius;
+
+  text {
+    font-family: $font;
+    fill: $text-color;
+  }
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+
+  .prose + & {
+    margin-top: 2rem;
+  }
+
+  th,
+  td {
+    border: 1px solid $grey80;
+    padding: 0.5rem;
+    vertical-align: middle;
+    text-align: center;
+    // word-break: break-all;
+  }
+
+  thead td,
+  th {
+    font-weight: $bold;
+  }
+
+  // This doesn't work with collapsed borders...
+  thead tr:first-child,
+  tbody:first-child tr:first-child {
+    th:first-child,
+    td:first-child {
+      border-top-left-radius: $border-radius;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-top-right-radius: $border-radius;
+    }
+  }
+
+  tbody:last-child tr:last-child {
+    th:first-child,
+    td:first-child {
+      border-bottom-left-radius: $border-radius;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-bottom-right-radius: $border-radius;
+    }
+  }
 }

@@ -84,7 +84,11 @@ export default function DefiningBasis() {
             vectors as follows:
             <M
               display
-              t="\ket{i} \doteq \mqty(1 \\ 0) \text{ and } \ket{j} \doteq \mqty(0 \\ 1)"
+              t="
+              \ket{i} \doteq \begin{pmatrix} 1 \\ 0 \end{pmatrix}
+              \text{ and }
+              \ket{j} \doteq \begin{pmatrix} 0 \\ 1 \end{pmatrix}
+              "
             />
           </Prose>
 
@@ -422,7 +426,7 @@ export default function DefiningBasis() {
                 have:
                 <M
                   display
-                  t="\ket{u} \doteq \begin{pmatrix} \braket{i}{u} \\ \braket{j}{u} \end{pmatrix}"
+                  t="\ket{u} \doteq \begin{pmatrix} \braket{i|u} \\ \braket{j|u} \end{pmatrix}"
                 />
               </p>
 
@@ -480,10 +484,10 @@ const uColumnDiracChoices = [
   { value: "|i>", label: <M t="\ket{i}" /> },
   { value: "|j>", label: <M t="\ket{j}" /> },
   { value: "|u>", label: <M t="\ket{u}" /> },
-  { value: "<i|u>", label: <M t="\braket{i}{u}" /> },
-  { value: "<j|u>", label: <M t="\braket{j}{u}" /> },
-  { value: "<u|i>", label: <M t="\braket{u}{i}" /> },
-  { value: "<u|j>", label: <M t="\braket{u}{j}" /> },
+  { value: "<i|u>", label: <M t="\braket{i|u}" /> },
+  { value: "<j|u>", label: <M t="\braket{j|u}" /> },
+  { value: "<u|i>", label: <M t="\braket{u|i}" /> },
+  { value: "<u|j>", label: <M t="\braket{u|j}" /> },
 ] as const;
 
 const valueToDirac = uColumnDiracChoices.reduce((o, c) => {

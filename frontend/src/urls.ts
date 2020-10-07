@@ -46,10 +46,16 @@ const QuantumBasisLite = {
   link: "/tutorials/quantum-basis-lite",
 };
 
+const EPR = {
+  path: "EPR",
+  link: "/tutorials/EPR",
+};
+
 export const Tutorials = {
   path: "tutorials",
   link: "/tutorials",
   QuantumBasis,
   QuantumBasisLite,
   QuantumMouse,
+  EPR,
 };

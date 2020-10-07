@@ -342,10 +342,10 @@ const heightChoices = [
 const labelChoices = [
   { value: "|->", label: <M t="\ket{-}" /> },
   { value: "|+>", label: <M t="\ket{+}" /> },
-  { value: "<-|psi_A>", label: <M t="\braket{-}{\psi_A}" /> },
-  { value: "<+|psi_A>", label: <M t="\braket{+}{\psi_A}" /> },
-  { value: "|<-|psi_A>|^2", label: <M t="|\braket{-}{\psi_A}|^2" /> },
-  { value: "|<+|psi_A>|^2", label: <M t="|\braket{+}{\psi_A}|^2" /> },
+  { value: "<-|psi_A>", label: <M t="\braket{-|\psi_A}" /> },
+  { value: "<+|psi_A>", label: <M t="\braket{+|\psi_A}" /> },
+  { value: "|<-|psi_A>|^2", label: <M t="|\braket{-|\psi_A}|^2" /> },
+  { value: "|<+|psi_A>|^2", label: <M t="|\braket{+|\psi_A}|^2" /> },
 ] as const;
 
 const meaningOfCoefficientsChoices = [

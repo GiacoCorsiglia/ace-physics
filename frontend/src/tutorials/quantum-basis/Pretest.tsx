@@ -163,25 +163,25 @@ const coBExpressionChoices = [
   {
     value: "projection (correct)",
     label: (
-      <M t="{}_x \braket{+}{\psi} \ \ket{+}_x + {}_x \braket{-}{\psi} \ \ket{-}_x" />
+      <M t="\brasub{x}\braket{+|\psi} \ \ket{+}_x + \brasub{x}\braket{-|\psi} \ \ket{-}_x" />
     ),
   },
   {
     value: "probability coefficients",
     label: (
-      <M t="\Big| {}_x \braket{+}{\psi} \Big|^2 \ket{+}_x + \Big| {}_x \braket{-}{\psi} \Big|^2 \ket{-}_x" />
+      <M t="\Big| \brasub{x}\braket{+|\psi} \Big|^2 \ket{+}_x + \Big| \brasub{x}\braket{-|\psi} \Big|^2 \ket{-}_x" />
     ),
   },
   {
     value: "x<+|+> coefficients",
     label: (
-      <M t="{}_x \braket{+}{+} \ \ket{+}_x + {}_x \braket{-}{-} \ \ket{-}_x" />
+      <M t="\brasub{x}\braket{+|+} \ \ket{+}_x + \brasub{x}\braket{-|-} \ \ket{-}_x" />
     ),
   },
   {
     value: "just inner products",
     label: (
-      <M t="\frac{1}{\sqrt{3}} \ {}_x \braket{+}{+} + \frac{\sqrt{2}}{\sqrt{3}} \ {}_x \braket{-}{-}" />
+      <M t="\frac{1}{\sqrt{3}} \ \brasub{x}\braket{+|+} + \frac{\sqrt{2}}{\sqrt{3}} \ \brasub{x}\braket{-|-}" />
     ),
   },
 ] as const;

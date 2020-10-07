@@ -1,4 +1,4 @@
-export type AsyncResult<E, T> =
+export type Result<E, T> =
   | {
       readonly failed: true;
       readonly error: E;
@@ -8,16 +8,24 @@ export type AsyncResult<E, T> =
       readonly value: T;
     };
 
+export function result<E = any, T = any>(action: () => T): Result<E, T> {
+  try {
+    return { failed: false as const, value: action() };
+  } catch (error) {
+    return { failed: true as const, error };
+  }
+}
+
 export function asyncResult<E = any, T = any>(
   promise: Promise<T>
-): Promise<AsyncResult<E, T>> {
+): Promise<Result<E, T>> {
   return promise.then(
     (value) => ({ failed: false, value }),
     (error) => ({ failed: true, error })
   );
 }
 
-export function failure<T>(error: T) {
+export function failure<E>(error: E) {
   return { failed: true as const, error };
 }
 

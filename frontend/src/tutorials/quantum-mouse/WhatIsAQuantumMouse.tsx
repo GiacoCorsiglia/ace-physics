@@ -184,14 +184,14 @@ export default function WhatIsAQuantumMouse() {
         <Section commits={[hiddenUnitsCommit]}>
           <Prose>
             What can you say about the numerical value of{" "}
-            <M t="\braket{\smalleye}{\wideye}" />?
+            <M t="\braket{\smalleye|\wideye}" />?
           </Prose>
 
           <FieldGroup grid className="margin-top">
             <Select
               field={smallBigInnerProduct}
               choices={smallBigInnerProductChoices}
-              label={<M t="\braket{\smalleye}{\wideye} = " />}
+              label={<M t="\braket{\smalleye|\wideye} = " />}
             />
 
             <TextArea field={smallBigInnerProductExplain} label="Explain:" />
@@ -253,14 +253,14 @@ export default function WhatIsAQuantumMouse() {
           ]}
         >
           <Prose>
-            What about <M t="\braket{\wideye}{\wideye}" />?
+            What about <M t="\braket{\wideye|\wideye}" />?
           </Prose>
 
           <FieldGroup grid className="margin-top">
             <Select
               field={bigBigInnerProduct}
               choices={smallBigInnerProductChoices}
-              label={<M t="\braket{\wideye}{\wideye} = " />}
+              label={<M t="\braket{\wideye|\wideye} = " />}
             />
           </FieldGroup>
 

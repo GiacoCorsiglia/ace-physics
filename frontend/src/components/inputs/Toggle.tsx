@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import * as s from "src/common/schema";
 import { Field } from "src/state";
 import { classes, useUniqueId } from "src/util";
+import ChoiceAnswer from "./ChoiceAnswer";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
@@ -20,6 +21,8 @@ export default function Toggle<
   grid = false,
   label,
   disabled = false,
+  answer,
+  explanation,
 }: {
   field: Field<S>;
   label?: React.ReactNode;
@@ -33,11 +36,15 @@ export default function Toggle<
         }[];
         yes?: never;
         no?: never;
+        answer?: C[number];
+        explanation?: React.ReactNode;
       }
     : {
         choices?: never;
         yes?: React.ReactNode;
         no?: React.ReactNode;
+        answer?: never;
+        explanation?: never;
       })) {
   const id = `toggle-${useUniqueId()}`;
   const [focusedChoice, setFocusedChoice] = useState<{}>();
@@ -146,6 +153,15 @@ export default function Toggle<
       )}
 
       {vertical || grid ? <div>{choicesEl}</div> : choicesEl}
+
+      {s.isChoiceSchema(field.schema) && (
+        <ChoiceAnswer
+          field={field as Field<s.ChoiceSchema>}
+          choices={choices}
+          answer={answer}
+          explanation={explanation}
+        />
+      )}
     </>
   );
 }

@@ -49,10 +49,18 @@
   :global(.octicon) {
     position: relative;
     top: -0.1rem;
-    margin-left: 0.3rem;
-    margin-right: -0.3rem;
     width: 1em;
     height: auto;
+  }
+
+  &.iconFirst :global(.octicon) {
+    margin-left: -0.4rem;
+    margin-right: 0.4rem;
+  }
+
+  &.iconLast :global(.octicon) {
+    margin-left: 0.3rem;
+    margin-right: -0.3rem;
   }
 }
 
@@ -147,6 +155,14 @@
 
 .textArea {
   width: 100%;
+
+  // FireFox made the textarea too tall by default; apparently it tries to leave
+  // room for a horizontal scroll bar, which we shouldn't ever have.  This rule
+  // targets Firefox only.
+  // https://stackoverflow.com/a/22700700
+  @-moz-document url-prefix() {
+    overflow-x: hidden;
+  }
 }
 
 .numberInput {
@@ -290,6 +306,12 @@
     border-color $duration-hover $easing, box-shadow $duration-hover $easing,
     color $duration-hover $easing;
 
+  text-align: center;
+
+  :global(.table) & {
+    flex-grow: 1;
+  }
+
   .toggleChoices.horizontal & {
     margin-left: -1px;
 
@@ -410,6 +432,10 @@
 
     .noLabel {
       grid-column: 2;
+    }
+
+    > * {
+      margin-top: 0 !important;
     }
   }
 

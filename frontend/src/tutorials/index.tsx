@@ -6,6 +6,7 @@ import { Content, Header, Page } from "src/components/layout";
 import { UserMenu } from "src/components/shared/UserMenu";
 import * as urls from "src/urls";
 import { Children } from "src/util";
+import * as EPR from "./EPR";
 import * as QuantumBasis from "./quantum-basis";
 import * as QuantumMouse from "./quantum-mouse";
 import styles from "./tutorials.module.scss";
@@ -15,6 +16,7 @@ export const route = (
     <Route path="/" element={<TutorialsIndex />} />
     {QuantumBasis.route}
     {QuantumMouse.route}
+    {EPR.route}
   </Route>
 );
 
@@ -79,6 +81,11 @@ function TutorialsIndex() {
               <br />
               The “Lite” version doesn’t discuss the connection with quantum
               probabilities or reasons for changing basis, but takes less time.
+            </TutorialLink>
+
+            <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
+              Investigate the uniquely <em>quantum</em> effect of entanglement,
+              and apply it to cryptography.
             </TutorialLink>
           </ul>
         </nav>
