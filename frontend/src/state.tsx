@@ -413,6 +413,13 @@ export function isSet<S extends s.Schema>(
       return field.elements.every(isSet);
     case "record":
       return Object.values(field.properties).every(isSet);
+    case "array":
+      // There should be at least one element in the array, and it shouldn't
+      // have any empty slots.
+      return (
+        value.length &&
+        value.map((_: any, i: number) => field.elements[i]).every(isSet)
+      );
     default:
       return true;
   }
