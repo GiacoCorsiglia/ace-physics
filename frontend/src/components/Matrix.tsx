@@ -5,10 +5,18 @@ import { classes } from "src/util";
 import M from "./M";
 import styles from "./Matrix.module.scss";
 
-type Props =
+type MatrixContentProps =
   | { matrix: React.ReactNode[][]; column?: never; row?: never }
   | { matrix?: never; column: React.ReactNode[]; row?: never }
   | { matrix?: never; column?: never; row: React.ReactNode[] };
+
+export type MatrixDisplayProps = {
+  labelTex?: string;
+  subscriptTex?: string;
+  label?: React.ReactNode;
+  commas?: boolean;
+  className?: string;
+};
 
 export default function Matrix({
   matrix,
@@ -19,13 +27,7 @@ export default function Matrix({
   label,
   commas,
   className,
-}: {
-  labelTex?: string;
-  subscriptTex?: string;
-  label?: React.ReactNode;
-  commas?: boolean;
-  className?: string;
-} & Props) {
+}: MatrixDisplayProps & MatrixContentProps) {
   const cols = column ? 1 : row ? row.length : matrix ? matrix[0].length : 1;
 
   return (
