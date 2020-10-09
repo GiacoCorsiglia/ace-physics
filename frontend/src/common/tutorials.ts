@@ -810,3 +810,15 @@ export const EPR = tutorialSchema("EPR", {
   whyQuantum: s.string(),
   whyQuantumCommit: Commit,
 });
+
+////////////////////////////////////////////////////////////////////////////////
+// Vectors To Functions.
+////////////////////////////////////////////////////////////////////////////////
+
+export type VectorsToFunctions = s.TypeOf<typeof VectorsToFunctions>;
+export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
+  spin4IntroCommit: Commit,
+
+  spin4Column: s.array(s.optional(s.number())),
+  spin4ColumCommit: Commit,
+});

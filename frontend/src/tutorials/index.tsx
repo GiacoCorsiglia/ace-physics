@@ -10,6 +10,7 @@ import * as EPR from "./EPR";
 import * as QuantumBasis from "./quantum-basis";
 import * as QuantumMouse from "./quantum-mouse";
 import styles from "./tutorials.module.scss";
+import * as VectorsToFunctions from "./vectors-to-functions";
 
 export const route = (
   <Route path={urls.Tutorials.path} element={<Outlet />}>
@@ -17,6 +18,7 @@ export const route = (
     {QuantumBasis.route}
     {QuantumMouse.route}
     {EPR.route}
+    {VectorsToFunctions.route}
   </Route>
 );
 
@@ -86,6 +88,13 @@ function TutorialsIndex() {
             <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
               Investigate the uniquely <em>quantum</em> effect of entanglement,
               and apply it to cryptography.
+            </TutorialLink>
+
+            <TutorialLink
+              label="Probability Amplitude: From Vectors to Functions"
+              url={urls.Tutorials.VectorsToFunctions}
+            >
+              Vectors to functions…
             </TutorialLink>
           </ul>
         </nav>
