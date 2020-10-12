@@ -31,8 +31,8 @@
     transition: transform 75ms ease-in-out;
   }
 
-  &:hover,
-  &:active {
+  &:not(.dragHandleDisabled):hover,
+  &:not(.dragHandleDisabled):active {
     circle {
       stroke: #999;
       transform: scale(1.3);

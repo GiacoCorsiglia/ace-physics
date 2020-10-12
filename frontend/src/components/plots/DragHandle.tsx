@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { NumberSchema } from "src/common/schema";
 import { Field } from "src/state";
-import { roundToNearest } from "src/util";
+import { classes, roundToNearest } from "src/util";
 import { usePlot } from ".";
 import styles from "./plots.module.scss";
 
@@ -12,6 +12,7 @@ export default function DragHandle({
   yDefault = 0,
   xField,
   yField,
+  disabled = false,
 }: {
   direction?: "x" | "y" | "both";
   snap?: number | [number, number];
@@ -19,6 +20,7 @@ export default function DragHandle({
   yDefault?: number;
   xField?: Field<NumberSchema>;
   yField?: Field<NumberSchema>;
+  disabled?: boolean;
 }) {
   const plot = usePlot();
   const svgRect = useRef({ x: 0, y: 0, width: plot.outerWidth });
@@ -104,11 +106,25 @@ export default function DragHandle({
   const changeX = direction === "both" || direction === "x";
   const changeY = direction === "both" || direction === "y";
 
-  const x = changeX ? coordinates.x : plot.x(xDefault);
-  const y = changeY ? coordinates.y : plot.y(yDefault);
+  const x = disabled
+    ? plot.x(xField?.value || xDefault)
+    : changeX
+    ? coordinates.x
+    : plot.x(xDefault);
+  const y = disabled
+    ? plot.y(yField?.value || yDefault)
+    : changeY
+    ? coordinates.y
+    : plot.y(yDefault);
 
   return (
-    <g onMouseDown={mouseDown} className={styles.dragHandle}>
+    <g
+      onMouseDown={!disabled ? mouseDown : undefined}
+      className={classes(
+        [styles.dragHandleDisabled, disabled],
+        styles.dragHandle
+      )}
+    >
       <rect
         x={x - area / 2}
         y={y - area / 2}
