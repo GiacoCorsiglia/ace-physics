@@ -9,7 +9,33 @@
   border: 1px solid $grey80;
   border-radius: $border-radius;
 
+  overflow: hidden;
+
   &:not(:first-child) {
     margin-top: 2rem;
+  }
+}
+
+.mathForeignObject {
+  pointer-events: none;
+
+  > .mathElement {
+    pointer-events: auto;
+  }
+}
+
+.dragHandle {
+  circle {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 75ms ease-in-out;
+  }
+
+  &:hover,
+  &:active {
+    circle {
+      stroke: #999;
+      transform: scale(1.3);
+    }
   }
 }
