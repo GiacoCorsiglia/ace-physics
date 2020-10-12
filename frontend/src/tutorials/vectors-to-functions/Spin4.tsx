@@ -28,7 +28,7 @@ import styles from "./styles.module.scss";
 
 export default function Spin4() {
   return (
-    <Part label="Spin 4">
+    <Part label="A Spin-4 Particle">
       <Content>{sections}</Content>
     </Part>
   );

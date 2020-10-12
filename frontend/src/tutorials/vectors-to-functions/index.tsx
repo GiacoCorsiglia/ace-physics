@@ -13,7 +13,7 @@ export const route = tutorialRoute({
   intro: <Prose>Vectors to functions…</Prose>,
   parts: [
     {
-      label: "Spin 4",
+      label: "A Spin-4 Particle",
       path: "spin-4",
       element: <Spin4 />,
     },
