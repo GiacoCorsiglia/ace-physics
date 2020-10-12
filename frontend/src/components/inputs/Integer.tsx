@@ -33,7 +33,9 @@ export default function Integer({
 
       <input
         {...props}
-        placeholder={props.placeholder || "Integer"}
+        placeholder={
+          props.placeholder !== undefined ? props.placeholder : "Integer"
+        }
         className={classes(
           styles.numberInput,
           [styles.noLabel, !label],
