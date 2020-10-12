@@ -821,4 +821,17 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
 
   spin4Column: s.array(s.optional(s.number())),
   spin4ColumCommit: Commit,
+
+  spin4BarHeights: s.tuple(
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number()
+  ),
+  spin4HistogramCommit: Commit,
 });
