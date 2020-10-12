@@ -19,6 +19,12 @@ export function classes(
 
 ///
 
+export function range(n: number): number[] {
+  return [...(Array(Math.floor(n)) as any).keys()];
+}
+
+///
+
 export interface Children<T = React.ReactNode> {
   children?: T;
 }
@@ -102,6 +108,10 @@ export function norm(...ns: (number | undefined)[]): number | undefined {
     0
   );
   return squared === undefined ? undefined : Math.sqrt(squared);
+}
+
+export function roundToNearest(number: number, nearest: number): number {
+  return nearest * Math.round(number / nearest);
 }
 
 ///
