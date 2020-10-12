@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo } from "react";
-import { Children, useUniqueId } from "src/util";
+import { Children, range, useUniqueId } from "src/util";
 import M, { PropTypes as MPropTypes } from "../M";
 import styles from "./plots.module.scss";
 import {
@@ -13,16 +13,40 @@ import {
 interface PlotContext {
   width: number;
   height: number;
-  center: boolean;
-  scale(v: number): number;
+
+  xPadding: number;
+  yPadding: number;
+
+  outerWidth: number;
+  outerHeight: number;
+
+  originX: number;
+  originY: number;
+
+  leftEdge: number;
+  rightEdge: number;
+  topEdge: number;
+  bottomEdge: number;
+
+  outerLeftEdge: number;
+  outerRightEdge: number;
+  outerTopEdge: number;
+  outerBottomEdge: number;
+
+  xScale(v: number): number;
+  yScale(v: number): number;
+
   x(x: number): number;
   y(y: number): number;
+
+  xInverse(x: number): number;
+  yInverse(y: number): number;
 }
 
 const PlotContext = createContext<PlotContext>({} as PlotContext);
 PlotContext.displayName = "PlotContext";
 
-function usePlot() {
+export function usePlot() {
   return useContext(PlotContext);
 }
 
@@ -35,54 +59,107 @@ export function WithPlot({
 }
 
 export function Plot({
-  width = 266,
+  width = 266, // This just happens to be the width of a column...
   height = 266,
   scale = 90,
-  center = true,
+  origin: _origin = "center",
+  padding = 0,
   children,
 }: {
-  /**
-   * Width of the plot in pixels.  (Really max-width.)
-   */
+  /** Width of the plot in pixels.  (Really max-width.) */
   width?: number;
-  /**
-   * Height of the plot in pixels.  (Really max-width.)
-   */
+  /**  Height of the plot in pixels.  (Really max-width.) */
   height?: number;
+  /** Number of pixels per unit globally or per axis. */
+  scale?: number | [number, number];
   /**
-   * Number of pixels per unit.
+   * Position of the origin *relative to the top left*, in graph units (i.e.,
+   * not in pixels).
    */
-  scale?: number;
-  /**
-   * Whether the origin should be centered.
-   */
-  center?: boolean;
+  origin?:
+    | [
+        number | "left" | "center" | "right",
+        number | "top" | "center" | "bottom"
+      ]
+    | "center";
+  /** */
+  padding?: number | [number, number];
 } & Children) {
-  const context: PlotContext = useMemo(
+  const [xScale, yScale] = typeof scale === "number" ? [scale, scale] : scale;
+  const [xPadding, yPadding] =
+    typeof padding === "number" ? [padding, padding] : padding;
+
+  const originX =
+    _origin === "center"
+      ? width / 2
+      : _origin[0] === "left"
+      ? 0
+      : _origin[0] === "center"
+      ? width / 2
+      : _origin[0] === "right"
+      ? width
+      : _origin[0] * xScale;
+
+  const originY =
+    _origin === "center"
+      ? height / 2
+      : _origin[1] === "top"
+      ? 0
+      : _origin[1] === "center"
+      ? height / 2
+      : _origin[1] === "bottom"
+      ? height
+      : _origin[1] * yScale;
+
+  const plot: PlotContext = useMemo(
     () => ({
       width,
       height,
-      center,
-      scale: (v: number) => v * scale,
-      x: (x: number) => x * scale,
-      y: (y: number) => -y * scale,
+
+      xPadding,
+      yPadding,
+
+      outerWidth: width + xPadding * 2,
+      outerHeight: height + yPadding * 2,
+
+      originX,
+      originY,
+
+      leftEdge: -originX,
+      rightEdge: width - originX,
+      topEdge: -originY,
+      bottomEdge: height - originY,
+
+      outerLeftEdge: -originX - xPadding,
+      outerRightEdge: width - originX + xPadding,
+      outerTopEdge: -originY - yPadding,
+      outerBottomEdge: height - originY + yPadding,
+
+      xScale: (v: number) => v * xScale,
+      yScale: (v: number) => v * yScale,
+      // The below functions exist because the y coordinate is reversed:
+      x: (x: number) => x * xScale,
+      y: (y: number) => -(y * yScale),
+
+      xInverse: (x: number) => x / xScale,
+      yInverse: (y: number) => -(y / yScale),
     }),
-    [width, height, scale, center]
+    [width, height, xScale, yScale, originX, originY, xPadding, yPadding]
   );
 
-  const viewBox = center
-    ? `-${width / 2} -${height / 2} ${width} ${height}`
-    : `0 0 ${width} ${height}`;
+  const minX = originX === 0 ? "0" : `-${originX + xPadding}`;
+  const minY = originY === 0 ? "0" : `-${originY + yPadding}`;
+  const viewBox = `${minX} ${minY} ${plot.outerWidth} ${plot.outerHeight}`;
 
   return (
     <svg
       className={styles.plot}
-      width={width}
-      height={height}
+      width={plot.outerWidth}
+      height={plot.outerHeight}
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <PlotContext.Provider value={context}>{children}</PlotContext.Provider>
+      <PlotContext.Provider value={plot}>{children}</PlotContext.Provider>
     </svg>
   );
 }
@@ -147,6 +224,7 @@ export function Vector({
 }
 
 const axisColor = "#2d2d2d";
+const gridColor = "#ddd";
 const axisOpacity = 0.4;
 const axisWidth = 1;
 const tickLength = 5;
@@ -163,11 +241,6 @@ export function Axes({
   const plot = usePlot();
   const marker = useMarkerId();
 
-  const rightEdge = plot.width / 2;
-  const leftEdge = -rightEdge;
-  const bottomEdge = plot.height / 2;
-  const topEdge = -bottomEdge;
-
   return (
     <>
       <marker
@@ -183,9 +256,9 @@ export function Axes({
       </marker>
 
       <line
-        x1={leftEdge}
+        x1={plot.leftEdge}
         y1={0}
-        x2={rightEdge}
+        x2={plot.rightEdge}
         y2={0}
         stroke={color}
         opacity={axisOpacity}
@@ -196,9 +269,9 @@ export function Axes({
 
       <line
         x1={0}
-        y1={topEdge}
+        y1={plot.topEdge}
         x2={0}
-        y2={bottomEdge}
+        y2={plot.bottomEdge}
         stroke={color}
         opacity={axisOpacity}
         strokeWidth={axisWidth}
@@ -210,18 +283,121 @@ export function Axes({
         <PlotM
           t={xLabel}
           color={color}
-          x={rightEdge}
+          x={plot.outerRightEdge}
           y={0}
           anchor="bottomRight"
         />
       )}
 
       {yLabel && (
-        <PlotM t={yLabel} color={color} x={0} y={topEdge} anchor="topLeft" />
+        <PlotM
+          t={yLabel}
+          color={color}
+          x={0}
+          y={plot.outerTopEdge}
+          anchor="topLeft"
+        />
       )}
     </>
   );
 }
+
+function coordinatesForEvery(
+  plot: PlotContext,
+  axis: "x" | "y",
+  every: number
+) {
+  const origin = plot[`origin${axis.toUpperCase()}` as "originX" | "originY"];
+  const axisLength = axis === "x" ? plot.width : plot.height;
+
+  const beforeCount = Math.floor(origin / every);
+  const afterCount = Math.floor((axisLength - origin) / every);
+
+  return range(beforeCount)
+    .map((i) => -(i + 1) * every)
+    .concat(range(afterCount).map((i) => (i + 1) * every));
+}
+
+function Lines({
+  axis,
+  every,
+  start,
+  end,
+  ...lineProps
+}: {
+  axis: "x" | "y";
+  every: number;
+  start: number;
+  end: number;
+} & JSX.IntrinsicElements["line"]) {
+  const plot = usePlot();
+  const otherAxis = axis === "x" ? "y" : "x";
+
+  return (
+    <>
+      {coordinatesForEvery(plot, axis, every).map((c, i) => (
+        <line
+          key={i}
+          {...lineProps}
+          {...{
+            [`${axis}1`]: c,
+            [`${axis}2`]: c,
+            [`${otherAxis}1`]: start,
+            [`${otherAxis}2`]: end,
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+type GridProps =
+  | { every?: number | [number, number]; axis?: never }
+  | { every?: number; axis: "x" | "y" };
+
+export const Grid = React.memo(function Grid({
+  axis,
+  every = 1,
+  color = gridColor,
+}: GridProps & {
+  color?: string;
+}) {
+  // Turn them both on if they're both off!
+  const xAxis = !axis || axis === "x";
+  const yAxis = !axis || axis === "y";
+
+  const plot = usePlot();
+
+  const everyX = plot.xScale(typeof every === "number" ? every : every[0]);
+  const everyY = plot.yScale(typeof every === "number" ? every : every[1]);
+
+  return (
+    <>
+      {xAxis && (
+        <Lines
+          axis="x"
+          every={everyX}
+          start={plot.topEdge}
+          end={plot.bottomEdge}
+          stroke={color}
+          strokeWidth={1}
+          opacity={axisOpacity}
+        />
+      )}
+      {yAxis && (
+        <Lines
+          axis="y"
+          every={everyY}
+          start={plot.leftEdge}
+          end={plot.rightEdge}
+          stroke={color}
+          strokeWidth={1}
+          opacity={axisOpacity}
+        />
+      )}
+    </>
+  );
+});
 
 export function Tick({
   x,
@@ -261,7 +437,7 @@ export function Tick({
     <>
       <line {...position} stroke={color} strokeWidth={axisWidth}></line>
 
-      {(label !== undefined || label !== "") && (
+      {label !== undefined && label !== "" && (
         <PlotM
           t={label + ""}
           color={color}
@@ -291,30 +467,57 @@ const barWidth = 70;
 export function Bar({
   x,
   height,
+  width,
   stroke = "#a4a4a4",
   fill = "#ddd",
 }: {
   x: number;
   height: number;
+  width?: number;
   stroke?: string;
   fill?: string;
 }) {
   const plot = usePlot();
 
   x = plot.x(x);
-  height = plot.scale(height);
+  height = plot.yScale(height); // Don't want it reversed
+  width = width ? plot.xScale(width) : barWidth;
 
-  const xLeft = x - barWidth / 2;
+  const xLeft = x - width / 2;
 
   return (
     <rect
       x={xLeft}
       y={height > 0 ? -height : 0}
-      width={barWidth}
+      width={width}
       height={Math.abs(height)}
       stroke={stroke}
       strokeWidth={axisWidth}
       fill={fill}
+    />
+  );
+}
+
+export function Indicator({
+  x,
+  color = "#ddd",
+}: {
+  x: number;
+  color?: string;
+}) {
+  const plot = usePlot();
+
+  x = plot.xScale(x);
+
+  return (
+    <line
+      x1={x}
+      y1={30}
+      x2={x}
+      y2={plot.outerBottomEdge}
+      stroke={color}
+      strokeWidth={2}
+      strokeDasharray="4"
     />
   );
 }
@@ -391,32 +594,37 @@ function PlotM({
     // as big as the enclosing plot, and position the div inside of it.  This
     // avoids weird bugs where the offsetWidth and offsetHeight of the div
     // produced different incorrect values in different browsers.
-    const left = (plot.center ? plot.width / 2 + x : x) + offsetX;
-    const top = (plot.center ? plot.height / 2 + y : y) + correctedOffsetY;
+    //
+    // Add to the origin here because the positioning is not relative to the
+    // viewBox but is always relative to the top left.
+    const left = plot.originX + plot.xPadding + x + offsetX;
+    const top = plot.originY + plot.yPadding + y + correctedOffsetY;
 
     return {
       // Fixed positioning is relative to the SVG not the window...
       // https://stackoverflow.com/questions/8185845/svg-foreignobject-behaves-as-though-absolutely-positioned-in-webkit-browsers
       position: "fixed",
-      left: `${(left / plot.width) * 100}%`,
-      top: `${(top / plot.height) * 100}%`,
+      left: `${(left / plot.outerWidth) * 100}%`,
+      top: `${(top / plot.outerHeight) * 100}%`,
       // Use this transform trick to enable positioning relative to different
       // anchors _without_ computing the width/height of the node.
       transform: relativeTranslate(anchor),
     };
   }, [x, y, anchor, offset, plot]);
 
-  const leftmostX = plot.center ? -plot.width / 2 : 0;
-  const topmostY = plot.center ? -plot.height / 2 : 0;
-
   return (
     <foreignObject
-      x={leftmostX}
-      y={topmostY}
-      width={plot.width}
-      height={plot.height}
+      x={plot.outerLeftEdge}
+      y={plot.outerTopEdge}
+      width={plot.outerWidth}
+      height={plot.outerHeight}
+      className={styles.mathForeignObject}
     >
-      <div style={style} {...{ xmlns: "http://www.w3.org/1999/xhtml" }}>
+      <div
+        style={style}
+        className={styles.mathElement}
+        {...{ xmlns: "http://www.w3.org/1999/xhtml" }}
+      >
         <M {...props} display prespace={false} postspace={false} />
       </div>
     </foreignObject>
