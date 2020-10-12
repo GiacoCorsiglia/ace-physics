@@ -23,7 +23,7 @@ import {
 import VariableLengthColumn from "src/components/VariableLengthColumn";
 import { Field, isSet } from "src/state";
 import { range } from "src/util";
-import { Part, sectionComponents } from "../shared";
+import { ContinueToNextPart, Part, sectionComponents } from "../shared";
 import styles from "./styles.module.scss";
 
 export default function Spin4() {
@@ -86,7 +86,7 @@ const sections = sectionComponents(VectorsToFunctions, [
         </p>
       </Prose>
 
-      <Histogram field={f.spin4BarHeights} phase={"editing"} />
+      <Histogram field={f.spin4BarHeights} phase="editing" />
 
       <div className={styles.histogramLabels}>
         {range(9).map((i) => (
@@ -287,6 +287,11 @@ const sections = sectionComponents(VectorsToFunctions, [
           isSet(f.spin4ProbPositiveNegative)
         }
       />
+    </Section>
+  ),
+  (f) => (
+    <Section commits={f.spin4ProbCommit}>
+      <ContinueToNextPart commit={f.spin4FinalCommit} />
     </Section>
   ),
 ]);

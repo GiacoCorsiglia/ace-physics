@@ -829,6 +829,7 @@ const diracLabelChoice = s.choice([
 
 export type VectorsToFunctions = s.TypeOf<typeof VectorsToFunctions>;
 export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
+  // A Spin-4 Particle.
   spin4IntroCommit: Commit,
 
   spin4Column: s.array(s.optional(s.number())),
@@ -868,4 +869,38 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
     "equal",
   ] as const),
   spin4ProbCommit: Commit,
+
+  spin4FinalCommit: Commit,
+
+  // A Continuous Variable.
+
+  positionIntroCommit: Commit,
+
+  positionHeights: s.tuple(
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number()
+  ),
+  positionHeightsCommit: Commit,
+
+  xProb0or3: s.choice(["near 0", "near 3"] as const),
+  xProb0or3Explain: s.string(),
+  xProb0or3Commit: Commit,
+
+  xProbPositiveNegative: s.choice(["positive", "negative"] as const),
+  xProbPositiveNegativeExplain: s.string(),
+  xProbPositiveNegativeCommit: Commit,
+
+  waveFunctionCommit: Commit,
+
+  psiXasColumn: s.string(),
+  psiXasColumnCommit: Commit,
+
+  positionFinalCommit: Commit,
 });
