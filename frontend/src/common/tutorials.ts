@@ -815,6 +815,18 @@ export const EPR = tutorialSchema("EPR", {
 // Vectors To Functions.
 ////////////////////////////////////////////////////////////////////////////////
 
+const diracLabelChoice = s.choice([
+  "<-4|psi>",
+  "<-3|psi>",
+  "<-2|psi>",
+  "<-1|psi>",
+  "<0|psi>",
+  "<1|psi>",
+  "<2|psi>",
+  "<3|psi>",
+  "<4|psi>",
+] as const);
+
 export type VectorsToFunctions = s.TypeOf<typeof VectorsToFunctions>;
 export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
   spin4IntroCommit: Commit,
@@ -834,4 +846,26 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
     s.number()
   ),
   spin4HistogramCommit: Commit,
+
+  minus3Dirac: s.string(),
+  minus1Dirac: s.string(),
+  plus4Dirac: s.string(),
+  diracLabelsCommit: Commit,
+
+  minus3DiracSelect: diracLabelChoice,
+  minus1DiracSelect: diracLabelChoice,
+  plus4DiracSelect: diracLabelChoice,
+  diracLabelSelectsCommit: Commit,
+
+  spin4Normalization: s.string(),
+  spin4NormalizationCommit: Commit,
+
+  spin4ProbAsymmetric: s.choice(["0", "2hbar", "equal"] as const),
+  spin4ProbSymmetric: s.choice(["2hbar", "-2hbar", "equal"] as const),
+  spin4ProbPositiveNegative: s.choice([
+    "positive",
+    "negative",
+    "equal",
+  ] as const),
+  spin4ProbCommit: Commit,
 });

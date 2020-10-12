@@ -502,21 +502,28 @@ export function Bar({
 
 export function Indicator({
   x,
+  to = "bottom",
+  from,
   color = "#ddd",
 }: {
   x: number;
+  from?: number;
+  to?: "top" | "bottom";
   color?: string;
 }) {
   const plot = usePlot();
 
-  x = plot.xScale(x);
+  x = plot.x(x);
+
+  // Default to enough room for tick labels
+  from = from !== undefined ? plot.y(from) : 30;
 
   return (
     <line
       x1={x}
-      y1={30}
+      y1={from}
       x2={x}
-      y2={plot.outerBottomEdge}
+      y2={to === "bottom" ? plot.outerBottomEdge : plot.outerTopEdge}
       stroke={color}
       strokeWidth={2}
       strokeDasharray="4"
