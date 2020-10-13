@@ -13,6 +13,7 @@ import {
   Indicator,
   Plot,
   Tick,
+  WithPlot,
 } from "src/components/plots";
 import { Field, isSet } from "src/state";
 import { range } from "src/util";
@@ -69,7 +70,7 @@ const sections = sectionComponents(VectorsToFunctions, [
         </p>
       </Prose>
 
-      <Histogram field={f.positionHeights} phase="editing" barCount={9} />
+      <Diagram field={f.positionHeights} phase="editing" barCount={9} />
 
       <div className={styles.histogramLabels}>
         {range(9).map((i) => (
@@ -88,6 +89,8 @@ const sections = sectionComponents(VectorsToFunctions, [
   (f) => (
     <Section commits={f.positionHeightsCommit}>
       <Prose>TODO…</Prose>
+
+      <Diagram field={f.positionHeights} phase="smooth" />
     </Section>
   ),
   (f) => (
@@ -204,14 +207,14 @@ const sections = sectionComponents(VectorsToFunctions, [
   ),
 ]);
 
-const Histogram = ({
+const Diagram = ({
   field: tupleField,
   phase,
   barCount = 9,
   bars = false,
 }: {
   field: Field<typeof VectorsToFunctions["properties"]["positionHeights"]>;
-  phase: "editing" | "labeling";
+  phase: "editing" | "labeling" | "smooth";
   /** @deprecated */
   barCount?: 9;
   bars?: boolean;
@@ -257,6 +260,29 @@ const Histogram = ({
         </React.Fragment>
       );
     })}
+
+    {phase === "smooth" && (
+      <WithPlot>
+        {(plot) => {
+          const f = (x: number) => 16 - x ** 2;
+
+          const curve: string[] = [];
+          curve.push(`${plot.leftEdge},0`);
+          curve.push(`${plot.x(-4)},0`);
+
+          for (let x = -4.0; x <= 4.0; x += 0.1) {
+            curve.push(`${plot.x(x)},${plot.y(f(x))}`);
+          }
+
+          curve.push(`${plot.x(4)},0`);
+          curve.push(`${plot.rightEdge},0`);
+
+          return (
+            <polyline points={curve.join(" ")} fill="none" stroke="black" />
+          );
+        }}
+      </WithPlot>
+    )}
 
     <Tick y={16} label={16} labelPosition="left" />
 
