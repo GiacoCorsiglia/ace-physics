@@ -904,3 +904,15 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
 
   positionFinalCommit: Commit,
 });
+
+////////////////////////////////////////////////////////////////////////////////
+// Energy and Position.
+////////////////////////////////////////////////////////////////////////////////
+
+export type EnergyAndPosition = s.TypeOf<typeof EnergyAndPosition>;
+export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
+  introCommit: Commit,
+
+  // Name of last part.
+  // <Fields here>
+});

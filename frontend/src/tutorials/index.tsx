@@ -6,6 +6,7 @@ import { Content, Header, Page } from "src/components/layout";
 import { UserMenu } from "src/components/shared/UserMenu";
 import * as urls from "src/urls";
 import { Children } from "src/util";
+import * as EnergyAndPosition from "./energy-and-position";
 import * as EPR from "./EPR";
 import * as QuantumBasis from "./quantum-basis";
 import * as QuantumMouse from "./quantum-mouse";
@@ -19,6 +20,7 @@ export const route = (
     {QuantumMouse.route}
     {EPR.route}
     {VectorsToFunctions.route}
+    {EnergyAndPosition.route}
   </Route>
 );
 
@@ -95,6 +97,13 @@ function TutorialsIndex() {
               url={urls.Tutorials.VectorsToFunctions}
             >
               Vectors to functions…
+            </TutorialLink>
+
+            <TutorialLink
+              label="Energy and Position"
+              url={urls.Tutorials.EnergyAndPosition}
+            >
+              Energy and position…
             </TutorialLink>
           </ul>
         </nav>
