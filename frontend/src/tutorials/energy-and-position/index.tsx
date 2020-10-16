@@ -3,7 +3,7 @@ import { EnergyAndPosition } from "src/common/tutorials";
 import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
-import NameOfLastPart from "./NameOfLastPart";
+import WrapUpConnectingBases from "./WrapUpConnectingBases";
 
 export const route = tutorialRoute({
   url: urls.Tutorials.EnergyAndPosition,
@@ -13,9 +13,9 @@ export const route = tutorialRoute({
   intro: <Prose>Energy and position intro spiel here…</Prose>,
   parts: [
     {
-      label: "Name of last part",
-      path: "name-of-last-part",
-      element: <NameOfLastPart />,
+      label: "Wrap Up: Connecting Bases",
+      path: "wrap-up-connecting-bases",
+      element: <WrapUpConnectingBases/>,
     },
   ],
 });

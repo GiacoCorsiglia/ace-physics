@@ -4,9 +4,9 @@ import { Prose, Section } from "src/components";
 import { Content } from "src/components/layout";
 import { Part, sectionComponents } from "../shared";
 
-export default function NameOfLastPart() {
+export default function WrapUpConnectingBases() {
   return (
-    <Part label="Name of Last Part">
+    <Part label="Wrap Up: Connecting Bases">
       <Content>{sections}</Content>
     </Part>
   );
