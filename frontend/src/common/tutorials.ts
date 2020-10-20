@@ -913,6 +913,45 @@ export type EnergyAndPosition = s.TypeOf<typeof EnergyAndPosition>;
 export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   introCommit: Commit,
 
+
+
+  //Position represenation for function B
+  probabilityDensity: s.string(),
+  probabilityDensityCommit: Commit,
+
+  mostLikelyLocation: s.string(),
+  leastLikelyLocation: s.string(),
+  LikelyLocationCommit: Commit,
+
+  compare2PsiA: s.string(),
+  compare2PsiACommit: Commit,
+
+  EVLocationChoice: s.string(),
+  EVLocationCommit: Commit,
+
+  sameOrDif: s.string(),
+  sameOrDifCommit: Commit,
+
+  //Comparing representations
+  sameStateDifRep: s.string(),
+  sameStateDifRepCommit: Commit,
+
+
+  inferFromHistRep: s.string(),
+    inferFromFuncRep: s.string(),
+  inferFromRepCommit: Commit,
+
+  repWhichBetter: s.string(),
+  repWhichBetterCommit: Commit,
+
   // Wrap Up: Changing bases.
-  // <Fields here>
+  reviewCommit: Commit,
+
+  ket2Func: s.string(),
+  ket2FuncCommit: Commit,
+
+  repWhich4PosQ: s.string(),
+  repWhich4PosQCommit: Commit,
+
+
 });

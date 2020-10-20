@@ -3,6 +3,7 @@ import { EnergyAndPosition } from "src/common/tutorials";
 import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
+import ComparingRepresentations from "./ComparingRepresentations";
 import WrapUpConnectingBases from "./WrapUpConnectingBases";
 
 export const route = tutorialRoute({
@@ -12,6 +13,11 @@ export const route = tutorialRoute({
   label: "Energy and Position",
   intro: <Prose>Energy and position intro spiel here…</Prose>,
   parts: [
+    {
+      label: "Comparing representations",
+      path: "comparing-representations",
+      element: <ComparingRepresentations/>,
+    },
     {
       label: "Wrap Up: Connecting Bases",
       path: "wrap-up-connecting-bases",
