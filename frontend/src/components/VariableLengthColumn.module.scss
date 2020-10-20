@@ -3,6 +3,10 @@
 .row {
   display: flex;
   align-items: center;
+
+  input {
+    max-width: 10rem;
+  }
 }
 
 .addRowButton,

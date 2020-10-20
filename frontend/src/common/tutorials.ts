@@ -911,10 +911,34 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
 
 export type EnergyAndPosition = s.TypeOf<typeof EnergyAndPosition>;
 export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
-  introCommit: Commit,
+  // Part 1.
+  part1IntroCommit: Commit,
 
+  psiAMeasurements: s.string(),
+  psiAMeasurementsCommit: Commit,
 
+  isPsiAEnergyEigenstate: s.choice(["yes", "no"] as const),
+  isPsiAEnergyEigenstateExplain: s.string(),
+  isPsiAEnergyEigenstateCommit: Commit,
 
+  psiAEnergyExpectation: s.string(),
+  psiAEnergyExpectationCommit: Commit,
+
+  columnE2: s.array(s.optional(s.string())),
+  columnE2Commit: Commit,
+
+  columnPsiA: s.array(s.optional(s.string())),
+  columnPsiACommit: Commit,
+
+  dotDotDotMeaning: s.string(),
+  dotDotDotMeaningCommit: Commit,
+
+  part1FinalCommit: Commit,
+
+  // Part 2.
+  part2IntroCommit: Commit,
+
+  // Part 4.
   //Position represenation for function B
   probabilityDensity: s.string(),
   probabilityDensityCommit: Commit,
@@ -936,9 +960,8 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   sameStateDifRep: s.string(),
   sameStateDifRepCommit: Commit,
 
-
   inferFromHistRep: s.string(),
-    inferFromFuncRep: s.string(),
+  inferFromFuncRep: s.string(),
   inferFromRepCommit: Commit,
 
   repWhichBetter: s.string(),
@@ -952,6 +975,4 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
 
   repWhich4PosQ: s.string(),
   repWhich4PosQCommit: Commit,
-
-
 });

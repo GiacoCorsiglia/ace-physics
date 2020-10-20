@@ -4,6 +4,8 @@ import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
 import ComparingRepresentations from "./ComparingRepresentations";
+import Part1 from "./Part1";
+import Part2 from "./Part2";
 import WrapUpConnectingBases from "./WrapUpConnectingBases";
 
 export const route = tutorialRoute({
@@ -14,14 +16,24 @@ export const route = tutorialRoute({
   intro: <Prose>Energy and position intro spiel here…</Prose>,
   parts: [
     {
+      label: "The Energy Basis",
+      path: "energy-basis",
+      element: <Part1 />,
+    },
+    {
+      label: "Energy Histograms",
+      path: "energy-histograms",
+      element: <Part2 />,
+    },
+    {
       label: "Comparing representations",
       path: "comparing-representations",
-      element: <ComparingRepresentations/>,
+      element: <ComparingRepresentations />,
     },
     {
       label: "Wrap Up: Connecting Bases",
       path: "wrap-up-connecting-bases",
-      element: <WrapUpConnectingBases/>,
+      element: <WrapUpConnectingBases />,
     },
   ],
 });
