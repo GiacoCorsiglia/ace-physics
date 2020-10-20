@@ -18,7 +18,12 @@ const sections = sectionComponents(EnergyAndPosition, [
     <Section first>
       <Prose>Going back to the original state <M t="\ket{\psi_A}"/> - we reproduce the two pictorial representations we have been using so far.  </Prose>
 
-      {/* <Continue commit={f.positionIntroCommit} label="Sounds good" /> */}
+      <Continue commit={f.intro4Commit} label="Sounds good" /> */}
+
+      </Section>
+  ),
+  (f)=>(
+    <Section>
       <TextArea
         field={f.sameStateDifRep}
         label={<Prose>We are claiming these two very different representations show the SAME state <M t="\psi_A(x)"/>.
