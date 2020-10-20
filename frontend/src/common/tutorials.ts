@@ -962,6 +962,7 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   EV4PosCommit: Commit,
 
   posEigenstate: s.string(),
+  posEigenstateExplain: s.string(),
   posEigenstateCommit: Commit,
 
   // Part 4.

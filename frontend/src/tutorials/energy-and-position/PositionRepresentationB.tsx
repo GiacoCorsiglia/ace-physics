@@ -75,7 +75,7 @@ const sections = sectionComponents(EnergyAndPosition, [
     <TextArea
       field={f.EVLocationChoice}
       label={<Prose>
-        c) Do you think the expectation value of position for state <M t="\psi_B(x)"/> will be at the center, left of center, or right of center? (Why?)
+        c) Do you think the expectation value of position for state <M t="\psi_B(x)"/> will be at the center, left of center, or right of center?
       </Prose>}
     />
     <TextArea

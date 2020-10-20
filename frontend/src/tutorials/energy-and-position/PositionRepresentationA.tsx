@@ -76,13 +76,19 @@ A different representation of our original starting state <M t="\ket{\psi_A}"/> 
 
 (f)=>(
 <Section commits={f.AProbLocCommit}>
+    <Prose>
+    Some students are discussing their thoughts about the question “what is the probability that a measurement of position on a particle in state <M t="\ket{\psi_A}"/>⟩ will result in a value within <M t="dx"/> of <M t="x_0"/>?”: </Prose>
+      <Prose>A: Isn’t that exactly what <M t="\psi(x_0)" /> tells you?
+      </Prose>
+      <Prose>B: No, I think the probability is <M t="|\psi_A(x_0)|^2" /></Prose>
+      <Prose>C: I feel like we need to include <M t="dx" /> somehow. Isn’t the answer the area under the wave function?
+
+
+
+    </Prose>
     <TextArea
       field={f.StudResp}
       label={<Prose>
-Some students are discussing their thoughts about the question “what is the probability that a measurement of position on a particle in state <M t="\ket{\psi_A}"/>⟩ will result in a value within dx of x0?”:
-A: Isn’t that exactly what <M t="\psi(x_0)"/> tells you?
-B: No, I think the probability is <M t="|\psi_A(x_0)|^2"/>
-C: I feel like we need to include <M t="dx"/> somehow. Isn’t the answer the area under the wave function?
 
 What do you think about these responses? </Prose>}
     />
@@ -121,9 +127,13 @@ What do you think about these responses? </Prose>}
       field={f.posEigenstate}
       label={
         <Prose>
-          Is a particle described by <M t="\psi_A(x)"/> in an eigenstate of position? (Why/why not?)
+          Is a particle described by <M t="\psi_A(x)"/> in an eigenstate of position?
         </Prose>}
     />
+    <TextArea
+      field={f.posEigenstateExplain}
+      label={<Prose>Why or Why not?</Prose>}
+      />
     <Continue commit={f.posEigenstateCommit}/>
 
 /</Section>
