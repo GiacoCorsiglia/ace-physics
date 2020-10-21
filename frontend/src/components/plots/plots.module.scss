@@ -28,7 +28,7 @@
   circle {
     transform-box: fill-box;
     transform-origin: center;
-    transition: transform 75ms ease-in-out;
+    transition: transform $duration-hover $easing;
   }
 
   &:not(.dragHandleDisabled):hover,
@@ -38,4 +38,9 @@
       transform: scale(1.3);
     }
   }
+}
+
+.bar {
+  transition: opacity $duration-active $easing, fill $duration-active $easing,
+    stroke $duration-active $easing;
 }

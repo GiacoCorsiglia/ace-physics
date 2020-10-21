@@ -73,19 +73,19 @@ export function Plot({
   /**  Height of the plot in pixels.  (Really max-width.) */
   height?: number;
   /** Number of pixels per unit globally or per axis. */
-  scale?: number | [number, number];
+  scale?: number | readonly [number, number];
   /**
    * Position of the origin *relative to the top left*, in graph units (i.e.,
    * not in pixels).
    */
   origin?:
-    | [
+    | readonly [
         number | "left" | "center" | "right",
         number | "top" | "center" | "bottom"
       ]
     | "center";
   /** */
-  padding?: number | [number, number];
+  padding?: number | readonly [number, number];
 } & Children) {
   const [xScale, yScale] = typeof scale === "number" ? [scale, scale] : scale;
   const [xPadding, yPadding] =
@@ -354,7 +354,7 @@ function Lines({
 }
 
 type GridProps =
-  | { every?: number | [number, number]; axis?: never }
+  | { every?: number | readonly [number, number]; axis?: never }
   | { every?: number; axis: "x" | "y" };
 
 export const Grid = React.memo(function Grid({
@@ -472,12 +472,16 @@ export function Bar({
   width,
   stroke = "#a4a4a4",
   fill = "#ddd",
+  opacity = 1,
+  dashed = false,
 }: {
   x: number;
   height: number;
   width?: number;
   stroke?: string;
   fill?: string;
+  opacity?: number;
+  dashed?: boolean;
 }) {
   const plot = usePlot();
 
@@ -489,13 +493,16 @@ export function Bar({
 
   return (
     <rect
+      className={styles.bar}
       x={xLeft}
       y={height > 0 ? -height : 0}
       width={width}
       height={Math.abs(height)}
       stroke={stroke}
       strokeWidth={axisWidth}
+      strokeDasharray={dashed ? 5 : undefined}
       fill={fill}
+      opacity={opacity}
     />
   );
 }

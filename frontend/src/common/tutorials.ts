@@ -938,6 +938,27 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   // Part 2.
   part2IntroCommit: Commit,
 
+  interpretVerticalAxis: s.string(),
+  interpretVerticalAxisCommit: Commit,
+
+  normalizationMeaning: s.string(),
+  normalizationMeaningCommit: Commit,
+
+  psiBDifference: s.string(),
+  psiBDifferenceCommit: Commit,
+
+  psiBMeasurements: s.string(),
+  psiBvsPsiAExpectation: s.choice(["same", "different"] as const),
+  psiBMeasurementsCommit: Commit,
+
+  psiBBarHeights: s.tuple(s.number(), s.number(), s.number(), s.number()),
+  psiBHistogramCommit: Commit,
+
+  psiBDifferentFromPsiA: s.choice(["same", "different"] as const),
+  psiBDistinguishableFromPsiA: s.string(),
+  psiBDifferentFromPsiACommit: Commit,
+
+  part2FinalCommit: Commit,
 
   //Part 3
   //Position representation for function A
@@ -966,7 +987,7 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   posEigenstateCommit: Commit,
 
   // Part 4.
-  //Position represenation for function B
+  //Position representation for function B
   intro4Commit: Commit,
 
   probabilityDensity: s.string(),

@@ -46,11 +46,11 @@ const sections = sectionComponents(EnergyAndPosition, [
             <M
               display
               t="
-          \ket{\psi_A}
-          = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
-          + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
-          + \frac{1}{\sqrt{6}} \ket{E_4}
-          "
+              \ket{\psi_A}
+              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
+              + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+              + \frac{1}{\sqrt{6}} \ket{E_4}
+              "
             />
             If you make an energy measurement on this particle, what results
             could you get, with what probabilities? (Please look carefully at
