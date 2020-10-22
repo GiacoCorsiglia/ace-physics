@@ -258,7 +258,7 @@ const sections = sectionComponents(EnergyAndPosition, [
     <Section commits={f.psiBHistogramCommit}>
       <Choice
         field={f.psiBDifferentFromPsiA}
-        label={<Prose>Which which of the following do you agree?</Prose>}
+        label={<Prose>Which of the following do you agree?</Prose>}
         choices={choices(f.psiBDifferentFromPsiA, {
           same: (
             <>
