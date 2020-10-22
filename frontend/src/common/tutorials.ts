@@ -962,29 +962,33 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
 
   //Part 3
   //Position representation for function A
-  intro3Commit: Commit,
+  part3IntroCommit: Commit,
 
-  infoFromFunc: s.string(),
-  infoFromFuncCommit: Commit,
+  infoFromGraph: s.string(),
+  infoFromGraphCommit: Commit,
 
-  probDensA: s.string(),
   probDensACommit: Commit,
 
   MostProbLoc: s.string(),
   LeastProbLoc: s.string(),
   AProbLocCommit: Commit,
 
-  StudResp: s.string(),
-  StudCorrect: s.string(),
-  StudRespCommit: Commit,
+  studentInterpretationsProbDens: s.string(),
+  correctInterpretationProbDens: s.string(),
+  interpretProbDensCommit: Commit,
 
-  EV4ALoc: s.string(),
-  EV4ALocExplain: s.string(),
-  EV4PosCommit: Commit,
+  psiAExpVal: s.choice(["left", "center", "right"] as const),
+  psiAExpValExplain: s.string(),
+  psiAExpValCommit: Commit,
 
-  posEigenstate: s.string(),
-  posEigenstateExplain: s.string(),
-  posEigenstateCommit: Commit,
+  psiAPosEigenstate: s.choice([
+    "position eigenstate",
+    "not position eigenstate",
+  ] as const),
+  psiAPosEigenstateExplain: s.string(),
+  psiAPosEigenstateCommit: Commit,
+
+  part3FinalCommit: Commit,
 
   // Part 4.
   //Position representation for function B

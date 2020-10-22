@@ -1,143 +1,260 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { EnergyAndPosition } from "src/common/tutorials";
-import { Continue, Prose, Section } from "src/components";
-import { TextArea } from "src/components/inputs";
+import { Continue, Prose, Section, Vocabulary } from "src/components";
+import { TextArea, Toggle } from "src/components/inputs";
+import { choices } from "src/components/inputs/Select";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { Part, sectionComponents } from "../shared";
+import { Axes, Curve, Plot, Tick } from "src/components/plots";
+import { isSet } from "src/state";
+import { ContinueToNextPart, Part, sectionComponents } from "../shared";
 
 export default function PositionRepresentationA() {
   return (
-    <Part label="Position Representation of A">
+    <Part
+      label={
+        <>
+          Representing <M t="\ket{\psi_A}" /> in the Position Basis
+        </>
+      }
+    >
       <Content>{sections}</Content>
     </Part>
   );
 }
-const sections = sectionComponents(EnergyAndPosition, [
 
+const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section first>
       <Prose>
-A different representation of our original starting state <M t="\ket{\psi_A}"/> from page 1 is given here. This is called the “position representation” or the “wave function representation”.
- </Prose>
+        A <em>different representation</em> of our original starting state
+        <M t="\ket{\psi_A}" /> from page 1 is given here. This is called the
+        “position representation” or the “wave function representation.”
+      </Prose>
 
-      <Continue commit={f.intro3Commit} label="Sounds good" />
+      <Plot
+        width={360}
+        height={320}
+        scale={[360 / (Math.PI + 0.3), 320 / 3.2]}
+        origin={[0.1, "center"]}
+      >
+        <Axes xLabel="x" yLabel="\psi_A(x)" />
 
-      </Section>
-  ),
-  (f)=>(
-<Section commits={f.intro3Commit}>
+        <Tick x={Math.PI} length={20} />
 
-      <TextArea
-        field={f.infoFromFunc}
-        label={<Prose>
-          What information can you infer about this state from the graph?
-           </Prose>}
+        <Curve
+          f={useCallback(
+            (x: number) =>
+              (1 / Math.sqrt(2)) * Math.sin(x) +
+              (1 / Math.sqrt(3)) * Math.sin(2 * x) +
+              (1 / Math.sqrt(6)) * Math.sin(4 * x),
+            []
+          )}
+          from={0}
+          to={Math.PI}
         />
+      </Plot>
 
-      <Continue commit={f.infoFromFuncCommit}/>
+      <Continue commit={f.part3IntroCommit} label="Looks good" />
     </Section>
   ),
 
+  (f) => (
+    <Section commits={f.part3IntroCommit}>
+      <TextArea
+        field={f.infoFromGraph}
+        label={
+          <Prose>
+            What information can you infer about this state from the graph?
+          </Prose>
+        }
+      />
 
-/*Graph is just a picture. Explain box. Hint asks them to think about the the axes and what they can possible measure */
+      <Continue
+        commit={f.infoFromGraphCommit}
+        allowed={isSet(f.infoFromGraph)}
+      />
+    </Section>
+  ),
 
-    (f)=>(
-      <Section commits={f.infoFromFuncCommit}>
+  /*Graph is just a picture. Explain box. Hint asks them to think about the the
+  axes and what they can possible measure */
 
-        <TextArea
-          field={f.probDensA}
-          label={<Prose>
-            Given any wave function <M t="\psi(x)"/>, we define the probability density to be <M t="|\psi(x)|^2"/>.  Very roughly sketch the probability density associated with <M t="\psi_A(x)"/> in the graph to the right.
-             </Prose>}
+  (f) => (
+    <Section commits={f.infoFromGraphCommit}>
+      <Prose>
+        <p>
+          Given any wave function <M t="\psi(x)" />, we define the{" "}
+          <Vocabulary>probability density</Vocabulary> to be
+          <M t="|\psi(x)|^2" />.
+        </p>
+
+        <p>
+          Someone in your group should share their screen. Then,{" "}
+          <strong>
+            use Zoom’s “annotate” feature to very roughly sketch the probability
+            density associated with <M t="\psi_A(x)" />
+          </strong>
+          .
+        </p>
+      </Prose>
+
+      <Plot
+        width={360}
+        height={320}
+        scale={[360 / (Math.PI + 0.3), 320 / 5]}
+        origin={[0.1, "center"]}
+      >
+        <Axes xLabel="x" yLabel="|\psi_A(x)|^2,\,{\color{#999} \psi_A(x)}" />
+
+        <Tick x={Math.PI} length={20} />
+
+        <Curve
+          f={useCallback(
+            (x: number) =>
+              (1 / Math.sqrt(2)) * Math.sin(x) +
+              (1 / Math.sqrt(3)) * Math.sin(2 * x) +
+              (1 / Math.sqrt(6)) * Math.sin(4 * x),
+            []
+          )}
+          stroke={"#ddd"}
+          from={0}
+          to={Math.PI}
+          dotted
         />
+      </Plot>
 
-          <Continue commit={f.probDensACommit}/>
-        </Section>
-        ),
+      <Prose>
+        <p>
+          <strong>Indicate on your graph</strong> where a particle described by{" "}
+          <M t="\psi_A(x)" /> would be MOST likely to be found if you measured
+          its position, and where it is LEAST likely to be found.
+        </p>
+
+        <p>
+          <strong>Take a screenshot</strong> of your graph before you move on.
+        </p>
+      </Prose>
+
+      <Continue
+        commit={f.probDensACommit}
+        label="Someone in my group took a screenshot"
+      />
+    </Section>
+  ),
+
+  /*We might just have to do something where we give them the probability
+  density (click a button to probability density) and then just isolate regions
+  and ask them where it is most likely and least likely. I don’t think there is
+  any way to get them to graph or that it would be worth it to do that. Two drop
+  down menus with each */
+
   (f) => (
     <Section commits={f.probDensACommit}>
-      <TextArea
-        field={f.MostProbLoc}
-        label={<Prose>
-            Given your probability density sketch, indicate where a particle described by <M t="\psi_A(x)"/> would be MOST likely to be found if you measured its position,
-            </Prose>}
-        />
-        <TextArea
-        field={f.LeastProbLoc}
-        label={<Prose>and where it is LEAST likely to be found.</Prose>}/>
+      <Prose>
+        <p>
+          Some students are discussing their thoughts about the question{" "}
+          <em>
+            “what is the probability that a measurement of position on a
+            particle in state
+            <M t="\ket{\psi_A}" /> will result in a value within <M t="dx" /> of
+            <M t="x_0" />
+            ?”
+          </em>
+        </p>
 
-      <Continue commit={f.AProbLocCommit}/>
+        <blockquote>
+          <strong>Student A:</strong> Isn’t that exactly what{" "}
+          <M t="\psi(x_0)" /> tells you?
+        </blockquote>
 
-      </Section>
-    ),
+        <blockquote>
+          <strong>Student B:</strong> No, I think the probability is{" "}
+          <M t="|\psi_A(x_0)|^2" />
+        </blockquote>
 
-/*We might just have to do something where we give them the probability density (click a button to probability density) and then just isolate regions and ask them where it is most likely and least likely. I don’t think there is any way to get them to graph or that it would be worth it to do that. Two drop down menus with each */
-
-(f)=>(
-<Section commits={f.AProbLocCommit}>
-    <Prose>
-    Some students are discussing their thoughts about the question “what is the probability that a measurement of position on a particle in state <M t="\ket{\psi_A}"/>⟩ will result in a value within <M t="dx"/> of <M t="x_0"/>?”: </Prose>
-      <Prose>A: Isn’t that exactly what <M t="\psi(x_0)" /> tells you?
+        <blockquote>
+          <strong>Student C:</strong> I feel like we need to include{" "}
+          <M t="dx" /> somehow. Isn’t the answer the area under the wave
+          function?
+        </blockquote>
       </Prose>
-      <Prose>B: No, I think the probability is <M t="|\psi_A(x_0)|^2" /></Prose>
-      <Prose>C: I feel like we need to include <M t="dx" /> somehow. Isn’t the answer the area under the wave function?
 
-
-
-    </Prose>
-    <TextArea
-      field={f.StudResp}
-      label={<Prose>
-
-What do you think about these responses? </Prose>}
-    />
-    <TextArea
-      field={f.StudCorrect}
-      label={<Prose> Can you help firm up a fully correct answer?
-</Prose>}
+      <TextArea
+        field={f.studentInterpretationsProbDens}
+        label={<Prose>What do you think about these responses? </Prose>}
       />
-    <Continue commit={f.StudRespCommit}/>
 
-  </Section>
+      <TextArea
+        field={f.correctInterpretationProbDens}
+        label={<Prose> Can you help firm up a fully correct answer?</Prose>}
+      />
+
+      <Continue
+        commit={f.interpretProbDensCommit}
+        allowed={
+          isSet(f.studentInterpretationsProbDens) &&
+          isSet(f.correctInterpretationProbDens)
+        }
+      />
+    </Section>
   ),
 
-/*Just a big explain here since there isn’t one that is right.  */
-
-(f)=>(
-  <Section commits={f.StudRespCommit}>
-    <TextArea
-      field={f.EV4ALoc}
-      label={<Prose>
-        Do you think the expectation value of position for state <M t="\psi_A(x)"/> will be at the center, or left of center, or right of center?         </Prose>}
-    />
-    <TextArea
-      field={f.EV4ALocExplain}
-      label={<Prose>Why?</Prose>}
-    />
-    <Continue commit={f.EV4PosCommit}/>
-
-</Section>
-  ),
-  /*Choices. Hint The expectation value in discrete cases is EQUATION. How can we apply that in wave function notation */
-
-(f)=>(
-  <Section commits={f.EV4PosCommit}>
-    <TextArea
-      field={f.posEigenstate}
-      label={
-        <Prose>
-          Is a particle described by <M t="\psi_A(x)"/> in an eigenstate of position?
-        </Prose>}
-    />
-    <TextArea
-      field={f.posEigenstateExplain}
-      label={<Prose>Why or Why not?</Prose>}
+  (f) => (
+    <Section commits={f.interpretProbDensCommit}>
+      <Toggle
+        field={f.psiAExpVal}
+        label={
+          <Prose>
+            Where do you think the expectation value of position for state{" "}
+            <M t="\psi_A(x)" /> will be?
+          </Prose>
+        }
+        choices={choices(f.psiAExpVal, {
+          left: "Left of center",
+          center: "At the center",
+          right: "Right of center",
+        })}
       />
-    <Continue commit={f.posEigenstateCommit}/>
 
-/</Section>
-),
-/*Yes/No with explain. If they answer it wrong we can have a follow up question about  what an eigenstate of position would look like: function, spike*/
+      <TextArea field={f.psiAExpValExplain} label={<Prose>Why?</Prose>} />
 
+      <Continue
+        commit={f.psiAExpValCommit}
+        allowed={isSet(f.psiAExpVal) && isSet(f.psiAExpValExplain)}
+      />
+    </Section>
+  ),
+  /*Choices. Hint The expectation value in discrete cases is EQUATION. How can
+  we apply that in wave function notation */
+
+  (f) => (
+    <Section commits={f.psiAExpValCommit}>
+      <Toggle
+        field={f.psiAPosEigenstate}
+        label={
+          <Prose>
+            Is a particle described by <M t="\psi_A(x)" /> in an eigenstate of
+            position?
+          </Prose>
+        }
+        choices={choices(f.psiAPosEigenstate, {
+          "position eigenstate": "Yes, it is",
+          "not position eigenstate": "No, it isn’t",
+        })}
+      />
+      <TextArea
+        field={f.psiAPosEigenstateExplain}
+        label={<Prose>Why or why not?</Prose>}
+      />
+      <Continue commit={f.psiAPosEigenstateCommit} />
+    </Section>
+  ),
+
+  (f) => (
+    <Section commits={f.psiAPosEigenstateCommit}>
+      <ContinueToNextPart commit={f.part3FinalCommit} />
+    </Section>
+  ),
+  /*Yes/No with explain. If they answer it wrong we can have a follow up question about  what an eigenstate of position would look like: function, spike*/
 ]);

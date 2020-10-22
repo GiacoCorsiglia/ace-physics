@@ -1,6 +1,7 @@
 import React from "react";
 import { EnergyAndPosition } from "src/common/tutorials";
 import { Prose } from "src/components";
+import M from "src/components/M";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
 import ComparingRepresentations from "./ComparingRepresentations";
@@ -28,12 +29,22 @@ export const route = tutorialRoute({
       element: <Part2 />,
     },
     {
-      label: "Position Representation of A",
+      label: (
+        <>
+          Representing <M t="\ket{\psi_A}" /> in the Position Basis
+        </>
+      ),
+      title: "Representing A in the Position Basis",
       path: "position-representation-A",
       element: <PositionRepresentationA />,
     },
     {
-      label: "Position Representation of B",
+      label: (
+        <>
+          Representing <M t="\ket{\psi_B}" /> in the Position Basis
+        </>
+      ),
+      title: "Representing B in the Position Basis",
       path: "position-representation-B",
       element: <PositionRepresentationB />,
     },

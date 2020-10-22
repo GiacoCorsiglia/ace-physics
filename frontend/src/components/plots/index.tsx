@@ -407,27 +407,31 @@ export function Tick({
   label,
   color = axisColor,
   labelPosition,
+  length = tickLength * 2,
 }: (
   | { x: number; y?: never; labelPosition?: "above" | "below" }
   | { x?: never; y: number; labelPosition?: "left" | "right" }
 ) & {
   color?: string;
   label?: string | number;
+  length?: number;
 }) {
   const plot = usePlot();
 
   const isX = x !== undefined;
 
+  length /= 2;
+
   const position = isX
     ? {
         x1: plot.x(x!),
         x2: plot.x(x!),
-        y1: -tickLength,
-        y2: tickLength,
+        y1: -length,
+        y2: length,
       }
     : {
-        x1: -tickLength,
-        x2: tickLength,
+        x1: -length,
+        x2: length,
         y1: plot.y(y!),
         y2: plot.y(y!),
       };
@@ -537,6 +541,44 @@ export function Indicator({
     />
   );
 }
+
+export const Curve = React.memo(
+  ({
+    f,
+    from,
+    to,
+    numPoints = 100,
+    stroke = "#000",
+    dotted = false,
+  }: {
+    f: (x: number) => number;
+    from: number;
+    to: number;
+    numPoints?: number;
+    stroke?: string;
+    dotted?: boolean;
+  }) => {
+    const plot = usePlot();
+
+    const curve: string[] = [];
+    const step = (to - from) / numPoints;
+    curve.push(`${plot.x(from)},${plot.y(f(from))}`);
+    for (let x = from; x <= to; x += step) {
+      curve.push(`${plot.x(x)},${plot.y(f(x))}`);
+    }
+    curve.push(`${plot.x(to)},${plot.y(f(to))}`);
+
+    return (
+      <polyline
+        points={curve.join(" ")}
+        fill="none"
+        stroke={stroke}
+        strokeWidth={2}
+        strokeDasharray={dotted ? 2 : undefined}
+      />
+    );
+  }
+);
 
 export function CircleLabel({
   x,
