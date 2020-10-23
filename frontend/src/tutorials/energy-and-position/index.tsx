@@ -17,7 +17,12 @@ export const route = tutorialRoute({
   name: "EnergyAndPosition",
   schema: EnergyAndPosition,
   label: "Energy and Position",
-  intro: <Prose>Energy and position intro spiel here…</Prose>,
+  intro: (
+    <Prose>
+      Explore the connection between the energy and position representations of
+      a quantum state.
+    </Prose>
+  ),
   parts: [
     {
       label: "Before You Start",

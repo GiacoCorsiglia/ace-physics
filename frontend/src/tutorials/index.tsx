@@ -103,7 +103,8 @@ function TutorialsIndex() {
               label="Energy and Position"
               url={urls.Tutorials.EnergyAndPosition}
             >
-              Energy and position…
+              Explore the connection between the energy and position
+              representations of a quantum state.
             </TutorialLink>
           </ul>
         </nav>
