@@ -401,6 +401,36 @@ export const Grid = React.memo(function Grid({
   );
 });
 
+export const GridLine = ({
+  x,
+  y,
+  color = gridColor,
+}: ({ x: number; y?: never } | { x?: never; y: number }) & {
+  color?: string;
+}) => {
+  const plot = usePlot();
+
+  const isX = x !== undefined;
+
+  const position = isX
+    ? {
+        x1: plot.x(x!),
+        x2: plot.x(x!),
+        y1: plot.topEdge,
+        y2: plot.bottomEdge,
+      }
+    : {
+        x1: plot.leftEdge,
+        x2: plot.rightEdge,
+        y1: plot.y(y!),
+        y2: plot.y(y!),
+      };
+
+  return (
+    <line {...position} stroke={color} strokeWidth={1} opacity={axisOpacity} />
+  );
+};
+
 export function Tick({
   x,
   y,
