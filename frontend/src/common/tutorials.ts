@@ -1023,15 +1023,22 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   inferFromFuncRep: s.string(),
   inferFromRepCommit: Commit,
 
-  repWhichBetter: s.string(),
-  repWhichBetterCommit: Commit,
+  oneRepBetter: s.string(),
+  oneRepBetterCommit: Commit,
+
+  part5FinalCommit: Commit,
 
   // Wrap Up: Changing bases.
-  reviewCommit: Commit,
+  part6IntroCommit: Commit,
 
-  ket2Func: s.string(),
-  ket2FuncCommit: Commit,
+  ketInEnergyBasisFunc: s.string(),
+  ketInEnergyBasisFuncCommit: Commit,
 
-  repWhich4PosQ: s.string(),
-  repWhich4PosQCommit: Commit,
+  posQuestionsEnergyBasis: s.string(),
+  posQuestionsEnergyBasisCommit: Commit,
+
+  toThinkAbout: s.string(),
+  toThinkAboutCommit: Commit,
+
+  part6FinalCommit: Commit,
 });
