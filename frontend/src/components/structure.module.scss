@@ -109,7 +109,7 @@
 
   @if (not $labeled) {
     > :first-child,
-    > .prose > :first-child {
+    > :global(.prose) > :first-child {
       margin-top: 0;
     }
   }
