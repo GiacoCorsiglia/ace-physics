@@ -992,26 +992,30 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
 
   // Part 4.
   //Position representation for function B
-  intro4Commit: Commit,
+  part4IntroCommit: Commit,
 
   probabilityDensity: s.string(),
-  probabilityDensityCommit: Commit,
+  probDensBCommit: Commit,
 
   mostLikelyLocation: s.string(),
   leastLikelyLocation: s.string(),
   LikelyLocationCommit: Commit,
 
-  compare2PsiA: s.string(),
-  compare2PsiACommit: Commit,
+  compareGraphs: s.string(),
+  compareGraphsCommit: Commit,
 
-  EVLocationChoice: s.string(),
-  EVLocationExplain: s.string(),
-  EVLocationCommit: Commit,
+  psiBExpVal: s.choice(["left", "center", "right"] as const),
+  psiBExpValExplain: s.string(),
+  psiBExpValCommit: Commit,
 
-  sameOrDif: s.string(),
-  sameOrDifCommit: Commit,
+  psiBDifferentFromPsiAReflect: s.string(),
+  psiBDifferentFromPsiAReflectCommit: Commit,
+
+  part4FinalCommit: Commit,
 
   //Comparing representations
+  part5IntroCommit: Commit,
+
   sameStateDifRep: s.string(),
   sameStateDifRepCommit: Commit,
 

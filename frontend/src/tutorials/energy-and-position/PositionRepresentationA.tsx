@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { EnergyAndPosition } from "src/common/tutorials";
 import { Continue, Prose, Section, Vocabulary } from "src/components";
 import { TextArea, Toggle } from "src/components/inputs";
@@ -23,6 +23,11 @@ export default function PositionRepresentationA() {
   );
 }
 
+const psiA = (x: number) =>
+  (1 / Math.sqrt(2)) * Math.sin(x) +
+  (1 / Math.sqrt(3)) * Math.sin(2 * x) +
+  (1 / Math.sqrt(6)) * Math.sin(4 * x);
+
 const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section first>
@@ -42,17 +47,7 @@ const sections = sectionComponents(EnergyAndPosition, [
 
         <Tick x={Math.PI} length={20} />
 
-        <Curve
-          f={useCallback(
-            (x: number) =>
-              (1 / Math.sqrt(2)) * Math.sin(x) +
-              (1 / Math.sqrt(3)) * Math.sin(2 * x) +
-              (1 / Math.sqrt(6)) * Math.sin(4 * x),
-            []
-          )}
-          from={0}
-          to={Math.PI}
-        />
+        <Curve f={psiA} from={0} to={Math.PI} />
       </Plot>
 
       <Continue commit={f.part3IntroCommit} label="Looks good" />
@@ -109,19 +104,7 @@ const sections = sectionComponents(EnergyAndPosition, [
 
         <Tick x={Math.PI} length={20} />
 
-        <Curve
-          f={useCallback(
-            (x: number) =>
-              (1 / Math.sqrt(2)) * Math.sin(x) +
-              (1 / Math.sqrt(3)) * Math.sin(2 * x) +
-              (1 / Math.sqrt(6)) * Math.sin(4 * x),
-            []
-          )}
-          stroke={"#ddd"}
-          from={0}
-          to={Math.PI}
-          dotted
-        />
+        <Curve f={psiA} stroke={"#ddd"} from={0} to={Math.PI} dotted />
       </Plot>
 
       <Prose>
