@@ -27,7 +27,11 @@ export default function Text({
 
       <input
         {...props}
-        placeholder={props.placeholder || "Type your response here"}
+        placeholder={
+          props.placeholder !== undefined
+            ? props.placeholder
+            : "Type your response here"
+        }
         className={classes(
           styles.textInput,
           [styles.noLabel, !label],

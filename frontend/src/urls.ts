@@ -51,6 +51,16 @@ const EPR = {
   link: "/tutorials/EPR",
 };
 
+const VectorsToFunctions = {
+  path: "vectors-to-functions",
+  link: "/tutorials/vectors-to-functions",
+};
+
+const EnergyAndPosition = {
+  path: "energy-and-position",
+  link: "/tutorials/energy-and-position",
+};
+
 export const Tutorials = {
   path: "tutorials",
   link: "/tutorials",
@@ -58,4 +68,6 @@ export const Tutorials = {
   QuantumBasisLite,
   QuantumMouse,
   EPR,
+  VectorsToFunctions,
+  EnergyAndPosition,
 };

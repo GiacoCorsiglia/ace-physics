@@ -810,3 +810,243 @@ export const EPR = tutorialSchema("EPR", {
   whyQuantum: s.string(),
   whyQuantumCommit: Commit,
 });
+
+////////////////////////////////////////////////////////////////////////////////
+// Vectors To Functions.
+////////////////////////////////////////////////////////////////////////////////
+
+const diracLabelChoice = s.choice([
+  "<-4|psi>",
+  "<-3|psi>",
+  "<-2|psi>",
+  "<-1|psi>",
+  "<0|psi>",
+  "<1|psi>",
+  "<2|psi>",
+  "<3|psi>",
+  "<4|psi>",
+] as const);
+
+export type VectorsToFunctions = s.TypeOf<typeof VectorsToFunctions>;
+export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
+  // A Spin-4 Particle.
+  spin4IntroCommit: Commit,
+
+  spin4Column: s.array(s.optional(s.number())),
+  spin4ColumCommit: Commit,
+
+  spin4BarHeights: s.tuple(
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number()
+  ),
+  spin4HistogramCommit: Commit,
+
+  minus3Dirac: s.string(),
+  minus1Dirac: s.string(),
+  plus4Dirac: s.string(),
+  diracLabelsCommit: Commit,
+
+  minus3DiracSelect: diracLabelChoice,
+  minus1DiracSelect: diracLabelChoice,
+  plus4DiracSelect: diracLabelChoice,
+  diracLabelSelectsCommit: Commit,
+
+  spin4Normalization: s.string(),
+  spin4NormalizationCommit: Commit,
+
+  spin4ProbAsymmetric: s.choice(["0", "2hbar", "equal"] as const),
+  spin4ProbSymmetric: s.choice(["2hbar", "-2hbar", "equal"] as const),
+  spin4ProbPositiveNegative: s.choice([
+    "positive",
+    "negative",
+    "equal",
+  ] as const),
+  spin4ProbCommit: Commit,
+
+  spin4FinalCommit: Commit,
+
+  // A Continuous Variable.
+
+  positionIntroCommit: Commit,
+
+  positionHeights: s.tuple(
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number(),
+    s.number()
+  ),
+  positionHeightsCommit: Commit,
+
+  xProb0or3: s.choice(["near 0", "near 3"] as const),
+  xProb0or3Explain: s.string(),
+  xProb0or3Commit: Commit,
+
+  xProbPositiveNegative: s.choice(["positive", "negative"] as const),
+  xProbPositiveNegativeExplain: s.string(),
+  xProbPositiveNegativeCommit: Commit,
+
+  waveFunctionCommit: Commit,
+
+  psiXasColumn: s.string(),
+  psiXasColumnCommit: Commit,
+
+  positionFinalCommit: Commit,
+});
+
+////////////////////////////////////////////////////////////////////////////////
+// Energy and Position.
+////////////////////////////////////////////////////////////////////////////////
+
+export type EnergyAndPosition = s.TypeOf<typeof EnergyAndPosition>;
+export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
+  pretest: s.record({
+    probUpZEqual: s.choice(["true", "false"] as const),
+    probDownZEqual: s.choice(["true", "false"] as const),
+    probUpXEqual: s.choice(["true", "false"] as const),
+    howToNormalizeWaveFunction: s.string(),
+  }),
+  pretestCommit: Commit,
+
+  // Part 1.
+  part1IntroCommit: Commit,
+
+  psiAMeasurements: s.string(),
+  psiAMeasurementsCommit: Commit,
+
+  isPsiAEnergyEigenstate: s.choice(["yes", "no"] as const),
+  isPsiAEnergyEigenstateExplain: s.string(),
+  isPsiAEnergyEigenstateCommit: Commit,
+
+  psiAEnergyExpectation: s.string(),
+  psiAEnergyExpectationCommit: Commit,
+
+  columnE2: s.array(s.optional(s.string())),
+  columnE2Commit: Commit,
+
+  columnPsiA: s.array(s.optional(s.string())),
+  columnPsiACommit: Commit,
+
+  dotDotDotMeaning: s.string(),
+  dotDotDotMeaningCommit: Commit,
+
+  part1FinalCommit: Commit,
+
+  // Part 2.
+  part2IntroCommit: Commit,
+
+  interpretVerticalAxis: s.string(),
+  interpretVerticalAxisCommit: Commit,
+
+  normalizationMeaning: s.string(),
+  normalizationMeaningCommit: Commit,
+
+  psiBDifference: s.string(),
+  psiBDifferenceCommit: Commit,
+
+  psiBMeasurements: s.string(),
+  psiBvsPsiAExpectation: s.choice(["same", "different"] as const),
+  psiBMeasurementsCommit: Commit,
+
+  psiBBarHeights: s.tuple(s.number(), s.number(), s.number(), s.number()),
+  psiBHistogramCommit: Commit,
+
+  psiBDifferentFromPsiA: s.choice(["same", "different"] as const),
+  psiBDistinguishableFromPsiA: s.string(),
+  psiBDifferentFromPsiACommit: Commit,
+
+  part2FinalCommit: Commit,
+
+  //Part 3
+  //Position representation for function A
+  part3IntroCommit: Commit,
+
+  infoFromGraph: s.string(),
+  infoFromGraphCommit: Commit,
+
+  probDensACommit: Commit,
+
+  MostProbLoc: s.string(),
+  LeastProbLoc: s.string(),
+  AProbLocCommit: Commit,
+
+  studentInterpretationsProbDens: s.string(),
+  correctInterpretationProbDens: s.string(),
+  interpretProbDensCommit: Commit,
+
+  psiAExpVal: s.choice(["left", "center", "right"] as const),
+  psiAExpValExplain: s.string(),
+  psiAExpValCommit: Commit,
+
+  psiAPosEigenstate: s.choice([
+    "position eigenstate",
+    "not position eigenstate",
+  ] as const),
+  psiAPosEigenstateExplain: s.string(),
+  psiAPosEigenstateCommit: Commit,
+
+  part3FinalCommit: Commit,
+
+  // Part 4.
+  //Position representation for function B
+  part4IntroCommit: Commit,
+
+  probabilityDensity: s.string(),
+  probDensBCommit: Commit,
+
+  mostLikelyLocation: s.string(),
+  leastLikelyLocation: s.string(),
+  LikelyLocationCommit: Commit,
+
+  compareGraphs: s.string(),
+  compareGraphsCommit: Commit,
+
+  psiBExpVal: s.choice(["left", "center", "right"] as const),
+  psiBExpValExplain: s.string(),
+  psiBExpValCommit: Commit,
+
+  psiBDifferentFromPsiAReflect: s.string(),
+  psiBDifferentFromPsiAReflectCommit: Commit,
+
+  part4FinalCommit: Commit,
+
+  //Comparing representations
+  part5IntroCommit: Commit,
+
+  sameStateDifRep: s.string(),
+  sameStateDifRepCommit: Commit,
+
+  inferFromHistRep: s.string(),
+  inferFromFuncRep: s.string(),
+  inferFromRepCommit: Commit,
+
+  oneRepBetter: s.string(),
+  oneRepBetterCommit: Commit,
+
+  part5FinalCommit: Commit,
+
+  // Wrap Up: Changing bases.
+  part6IntroCommit: Commit,
+
+  ketInEnergyBasisFunc: s.string(),
+  ketInEnergyBasisFuncCommit: Commit,
+
+  posQuestionsEnergyBasis: s.string(),
+  posQuestionsEnergyBasisCommit: Commit,
+
+  toThinkAbout: s.string(),
+  toThinkAboutCommit: Commit,
+
+  part6FinalCommit: Commit,
+});

@@ -682,7 +682,7 @@ export function Part({
   );
 }
 
-const exclamations = ["Cool!", "Rad!", "Nifty!", "Sweet!", "Neat!"];
+// const exclamations = ["Cool!", "Rad!", "Nifty!", "Sweet!", "Neat!"];
 
 export function useNextPartLink() {
   const { parts } = useContext(TutorialContext);
@@ -706,21 +706,29 @@ export function ContinueToNextPart({
 }: {
   commit: Field<s.BooleanSchema>;
 }) {
-  const randomExplanation = useRef(
-    exclamations[Math.floor(Math.random() * exclamations.length)]
-  );
+  // const randomExplanation = useRef(
+  //   exclamations[Math.floor(Math.random() * exclamations.length)]
+  // );
 
   const link = useNextPartLink();
 
   return (
     <>
-      <Prose>
+      {/* <Prose>
         {randomExplanation.current} We encourage you to continue to think about
         these concepts and chat with your professor, TA, or classmates.{" "}
         <strong className="text-blue">
           This isn’t about being “right” or “wrong,” and we haven‘t “checked”
           all your answers.
         </strong>
+      </Prose> */}
+
+      <Prose>
+        Nice job finishing this page!{" "}
+        <strong className="text-blue">
+          We haven't checked any of your answers,
+        </strong>{" "}
+        so you may want to check in with your Professor/TA/LA.
       </Prose>
 
       {link && (

@@ -266,7 +266,7 @@ export const optional = <S extends Schema>(schema: S): OptionalSchema<S> =>
 /**
  * Determines if the Schema is an optional schema.
  */
-export const isOptionalSchema = (s: Schema): s is UndefinedSchema =>
+export const isOptionalSchema = (s: Schema): s is OptionalSchema<Schema> =>
   s.kind === "optional";
 
 /**

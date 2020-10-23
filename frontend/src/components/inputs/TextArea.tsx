@@ -78,7 +78,11 @@ export default function TextArea({
 
       <textarea
         {...props}
-        placeholder={props.placeholder || "Type your response here"}
+        placeholder={
+          props.placeholder !== undefined
+            ? props.placeholder
+            : "Type your response here"
+        }
         className={classes(
           styles.textArea,
           [styles.noLabel, !label],

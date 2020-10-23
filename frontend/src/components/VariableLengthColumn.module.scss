@@ -1,0 +1,81 @@
+@import "src/styles/definitions";
+
+.row {
+  display: flex;
+  align-items: center;
+
+  input {
+    max-width: 10rem;
+  }
+}
+
+.addRowButton,
+.removeRowButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 2rem;
+
+  font-size: $text-normal;
+  font-family: inherit;
+  line-height: inherit;
+
+  border-radius: $border-radius;
+  border-width: 1px;
+  border-style: solid;
+  border-color: $grey70;
+
+  background: none;
+  color: inherit;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  opacity: 0.5;
+
+  transition: opacity $duration-hover $easing, color $duration-hover $easing;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    transition-duration: $duration-active;
+  }
+
+  :global(.octicon) {
+    display: block !important;
+    height: $text-normal;
+    width: auto;
+  }
+
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    opacity: 1;
+    color: $blue;
+  }
+
+  &:disabled {
+    opacity: 0.25;
+  }
+}
+
+.removeRowButton {
+  margin-left: 0.5rem;
+  padding: 0 0.25rem;
+}
+
+.addRowButton {
+  width: 100%;
+  padding: 0 1rem;
+
+  span {
+    padding-left: 0.5rem;
+    font-size: $text-small;
+    position: relative;
+    top: -0.1rem;
+  }
+}

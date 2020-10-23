@@ -108,6 +108,8 @@ type T<S extends s.Schema> = s.TypeOf<S>;
 export interface Field<S extends s.Schema> {
   readonly key: string;
   readonly schema: S;
+  // TODO: This should be deep readonly but the choice field situation is too
+  // messy :(
   readonly value: T<S> | undefined;
   readonly validity: Validity;
   clear(): void;
@@ -122,6 +124,8 @@ export interface Field<S extends s.Schema> {
     ? {
         readonly [I in keyof E]: E[I] extends s.Schema ? Field<E[I]> : E[I];
       }
+    : S extends s.ArraySchema<s.OptionalSchema<infer E>>
+    ? ReadonlyArray<Field<E>>
     : never;
 }
 
@@ -238,6 +242,68 @@ function Field<S extends s.Schema>(
 
       return elementField;
     }) as any;
+  } else if (s.isArraySchema(schema)) {
+    const optionalElementSchema = schema.elements;
+
+    if (!s.isOptionalSchema(optionalElementSchema)) {
+      throw new Error("Non-optional array elements are not supported...");
+    }
+
+    const elementSchema = optionalElementSchema.wrappedSchema;
+
+    const asIndex = (i: number | string | symbol): number | null => {
+      if (typeof i === "number") {
+        return i;
+      } else if (typeof i === "symbol") {
+        return null;
+      }
+      const n = Number(i);
+      return n !== Infinity && String(n) === i && n >= 0 ? n : null;
+    };
+
+    ((field as unknown) as Writeable<
+      Field<s.ArraySchema<any>>
+    >).elements = new Proxy([] as Field<s.Schema>[], {
+      has(elementFields, property) {
+        const i = asIndex(property);
+        if (i === null) {
+          return property in elementFields;
+        }
+        return true;
+      },
+
+      get(elementFields, property) {
+        if (elementFields[property as any] !== undefined) {
+          return elementFields[property as any];
+        }
+
+        const i = asIndex(property);
+        if (i === null) {
+          return undefined;
+        }
+
+        const elementField = Field(`${key}[${i}]`, elementSchema);
+
+        Object.defineProperty(elementField, "value", {
+          enumerable: true,
+          get() {
+            return field.value === undefined
+              ? undefined
+              : (field as any).value[i];
+          },
+          set(newValue) {
+            const newArray = field.value === undefined ? [] : [...field.value];
+            const oldLength = newArray.length;
+            newArray[i] = newValue;
+            // Handle array holes with Array.from() in case we're setting an
+            // array element that's two or more past the old length.
+            field.set(oldLength < i ? Array.from(newArray) : newArray);
+          },
+        });
+
+        return (elementFields[i] = elementField);
+      },
+    });
   }
 
   return field;
@@ -347,6 +413,13 @@ export function isSet<S extends s.Schema>(
       return field.elements.every(isSet);
     case "record":
       return Object.values(field.properties).every(isSet);
+    case "array":
+      // There should be at least one element in the array, and it shouldn't
+      // have any empty slots.
+      return (
+        value.length &&
+        value.map((_: any, i: number) => field.elements[i]).every(isSet)
+      );
     default:
       return true;
   }

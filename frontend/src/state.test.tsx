@@ -16,6 +16,7 @@ const TestSchema = s.record({
     }),
   }),
   tuple: s.tuple(s.string(), s.tuple(s.number(), s.number())),
+  array: s.array(s.optional(s.number())),
 } as const);
 
 describe("Provider", () => {
@@ -597,6 +598,105 @@ describe("useFields", () => {
     expect(el10.value).toBe(8);
     expect(el11.value).toBe(7);
   });
+});
+
+it("unwraps optional schema for array sub-fields", () => {
+  function C() {
+    const field = useFields(TestSchema).array;
+    expect(field.elements[0].schema).toSatisfy(s.isNumberSchema);
+    return null;
+  }
+
+  render(
+    <Provider
+      schema={TestSchema}
+      initial={{
+        array: [5, 4, 3],
+      }}
+    >
+      <C />
+    </Provider>
+  );
+});
+
+it("handles sub-fields for array", () => {
+  let field: any;
+  let el0: any;
+  let el1: any;
+  let el4: any;
+
+  function C() {
+    const arrayField = useFields(TestSchema).array;
+    field = arrayField;
+    el0 = arrayField.elements[0];
+    el1 = arrayField.elements[1];
+    el4 = arrayField.elements[4];
+    return (
+      <ul>
+        {arrayField.value?.map((n, i) => (
+          <li key={`${i}-${n}`}>El {n || "undefined"}</li>
+        ))}
+      </ul>
+    );
+  }
+
+  const { getByText } = render(
+    <Provider
+      schema={TestSchema}
+      initial={{
+        array: [5, 4, 3],
+      }}
+    >
+      <C />
+    </Provider>
+  );
+
+  expect(getByText("El 5")).toBeInTheDocument();
+  expect(getByText("El 4")).toBeInTheDocument();
+  expect(getByText("El 3")).toBeInTheDocument();
+  expect(field.value).toStrictEqual([5, 4, 3]);
+  expect(el0.value).toBe(5);
+  expect(el1.value).toBe(4);
+  expect(el4.value).toBe(undefined);
+
+  act(() => {
+    field.set([10, 9, 8]);
+  });
+
+  expect(getByText("El 10")).toBeInTheDocument();
+  expect(getByText("El 9")).toBeInTheDocument();
+  expect(getByText("El 8")).toBeInTheDocument();
+  expect(field.value).toStrictEqual([10, 9, 8]);
+  expect(el0.value).toBe(10);
+  expect(el1.value).toBe(9);
+  expect(el4.value).toBe(undefined);
+
+  act(() => {
+    el0.set(2);
+  });
+
+  expect(getByText("El 2")).toBeInTheDocument();
+  expect(getByText("El 9")).toBeInTheDocument();
+  expect(getByText("El 8")).toBeInTheDocument();
+  expect(field.value).toStrictEqual([2, 9, 8]);
+  expect(el0.value).toBe(2);
+  expect(el1.value).toBe(9);
+  expect(el4.value).toBe(undefined);
+
+  act(() => {
+    el4.set(25);
+  });
+
+  expect(getByText("El 2")).toBeInTheDocument();
+  expect(getByText("El 9")).toBeInTheDocument();
+  expect(getByText("El 8")).toBeInTheDocument();
+  expect(getByText("El undefined")).toBeInTheDocument();
+  expect(getByText("El 25")).toBeInTheDocument();
+  expect(field.value).toStrictEqual([2, 9, 8, undefined, 25]);
+  expect(field.value.length).toBe(5);
+  expect(el0.value).toBe(2);
+  expect(el1.value).toBe(9);
+  expect(el4.value).toBe(25);
 });
 
 describe("WithField", () => {
