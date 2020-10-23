@@ -927,6 +927,7 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
 
   isPsiAEnergyEigenstate: s.choice(["yes", "no"] as const),
   isPsiAEnergyEigenstateExplain: s.string(),
+  isPsiAEnergyEigenstateHelp: Help,
   isPsiAEnergyEigenstateCommit: Commit,
 
   psiAEnergyExpectation: s.string(),
@@ -960,6 +961,7 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   psiBMeasurementsCommit: Commit,
 
   psiBBarHeights: s.tuple(s.number(), s.number(), s.number(), s.number()),
+  psiBHistogramTechDifficultiesHelp: Help,
   psiBHistogramCommit: Commit,
 
   psiBDifferentFromPsiA: s.choice(["same", "different"] as const),
@@ -1025,6 +1027,7 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   part5IntroCommit: Commit,
 
   sameStateDifRep: s.string(),
+  sameStateDifRepHelp: Help,
   sameStateDifRepCommit: Commit,
 
   inferFromHistRep: s.string(),

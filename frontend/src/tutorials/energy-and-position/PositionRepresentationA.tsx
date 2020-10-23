@@ -1,6 +1,6 @@
 import React from "react";
 import { EnergyAndPosition } from "src/common/tutorials";
-import { Continue, Prose, Section, Vocabulary } from "src/components";
+import { Continue, Prose, Reminder, Section, Vocabulary } from "src/components";
 import { TextArea, Toggle } from "src/components/inputs";
 import { choices } from "src/components/inputs/Select";
 import { Content } from "src/components/layout";
@@ -31,10 +31,22 @@ const psiA = (x: number) =>
 const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section first>
+      <Reminder>
+        <M
+          display
+          t="
+          \ket{\psi_A}
+          = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
+          + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+          + \frac{1}{\sqrt{6}} \ket{E_4}
+          "
+        />
+      </Reminder>
+
       <Prose>
         A <em>different representation</em> of our original starting state
-        <M t="\ket{\psi_A}" /> from page 1 is given here. This is called the
-        “position representation” or the “wave function representation.”
+        <M t="\ket{\psi_A}" /> is given here. This is called the “position
+        representation” or the “wave function representation.”
       </Prose>
 
       <Plot

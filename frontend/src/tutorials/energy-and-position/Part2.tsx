@@ -1,12 +1,26 @@
 import React from "react";
 import { EnergyAndPosition } from "src/common/tutorials";
-import { Continue, Prose, Section } from "src/components";
+import {
+  Continue,
+  Help,
+  HelpButton,
+  Prose,
+  Reminder,
+  Section,
+} from "src/components";
 import { Choice, TextArea, Toggle } from "src/components/inputs";
 import { choices } from "src/components/inputs/Select";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
-import { Axes, Bar, DragHandle, Plot, Tick } from "src/components/plots";
-import { isSet } from "src/state";
+import {
+  Axes,
+  Bar,
+  DragHandle,
+  GridLine,
+  Plot,
+  Tick,
+} from "src/components/plots";
+import { isSet, needsHelp } from "src/state";
 import { range } from "src/util";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
 
@@ -29,6 +43,18 @@ const graph = {
 const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section first>
+      <Reminder>
+        <M
+          display
+          t="
+              \ket{\psi_A}
+              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
+              + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+              + \frac{1}{\sqrt{6}} \ket{E_4}
+              "
+        />
+      </Reminder>
+
       <Prose>
         The graph below is a particular visual representation of the the state{" "}
         <M t="\ket{\psi_A}" /> from the previous page. It shows information
@@ -42,6 +68,13 @@ const sections = sectionComponents(EnergyAndPosition, [
         origin={graph.origin}
       >
         <Axes xLabel="E" />
+
+        <GridLine y={1 / Math.sqrt(2)} />
+        <GridLine y={1 / Math.sqrt(3)} />
+        <GridLine y={1 / Math.sqrt(6)} />
+        <GridLine y={-1 / Math.sqrt(2)} />
+        <GridLine y={-1 / Math.sqrt(3)} />
+        <GridLine y={-1 / Math.sqrt(6)} />
 
         <Tick x={1} label="E_1" />
         <Tick x={2} label="E_2" />
@@ -189,7 +222,7 @@ const sections = sectionComponents(EnergyAndPosition, [
     ];
 
     return (
-      <Section>
+      <Section commits={f.psiBMeasurementsCommit}>
         <Prose>
           Make a graph just like the one at the top of the page for this new
           state, <M t="\ket{\psi_B}" />. You can click and drag on the black
@@ -203,6 +236,13 @@ const sections = sectionComponents(EnergyAndPosition, [
           origin={graph.origin}
         >
           <Axes xLabel="E" />
+
+          <GridLine y={1 / Math.sqrt(2)} />
+          <GridLine y={1 / Math.sqrt(3)} />
+          <GridLine y={1 / Math.sqrt(6)} />
+          <GridLine y={-1 / Math.sqrt(2)} />
+          <GridLine y={-1 / Math.sqrt(3)} />
+          <GridLine y={-1 / Math.sqrt(6)} />
 
           <Tick y={1 / Math.sqrt(2)} label="1/\sqrt{2}" />
           <Tick y={1 / Math.sqrt(3)} label="1/\sqrt{3}" />
@@ -246,10 +286,49 @@ const sections = sectionComponents(EnergyAndPosition, [
           })}
         </Plot>
 
+        <Reminder>
+          <M
+            display
+            t="
+              \ket{\psi_B}
+              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
+              - \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+              + \frac{1}{\sqrt{6}} \ket{E_4}
+              "
+          />
+        </Reminder>
+
+        {needsHelp(f.psiBHistogramTechDifficultiesHelp) && (
+          <Help>
+            <Prose>
+              <p>
+                Are you having technical difficulties dragging the bars up and
+                down in the graph? Sorry about that! You can now move on without
+                finishing the graph. Please make note of this issue on the
+                feedback page at the end of the tutorial.
+              </p>
+
+              {!isSet(f.psiBBarHeights) && (
+                <p>
+                  If you‘re not having tech difficulties, please finish the
+                  graph before moving on though!
+                </p>
+              )}
+            </Prose>
+          </Help>
+        )}
+
         <Continue
           commit={f.psiBHistogramCommit}
-          allowed={isSet(f.psiBBarHeights)}
-        />
+          allowed={
+            isSet(f.psiBBarHeights) ||
+            needsHelp(f.psiBHistogramTechDifficultiesHelp)
+          }
+        >
+          <HelpButton help={f.psiBHistogramTechDifficultiesHelp}>
+            Technical difficulties?
+          </HelpButton>
+        </Continue>
       </Section>
     );
   },

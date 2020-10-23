@@ -1,11 +1,18 @@
 import React from "react";
 import { EnergyAndPosition } from "src/common/tutorials";
-import { Continue, Prose, Section } from "src/components";
+import {
+  Continue,
+  Help,
+  HelpButton,
+  Prose,
+  Reminder,
+  Section,
+} from "src/components";
 import { TextArea } from "src/components/inputs";
 import { Column, Columns, Content } from "src/components/layout";
 import M from "src/components/M";
-import { Axes, Bar, Curve, Plot, Tick } from "src/components/plots";
-import { isSet } from "src/state";
+import { Axes, Bar, Curve, GridLine, Plot, Tick } from "src/components/plots";
+import { isSet, needsHelp } from "src/state";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
 
 export default function ComparingRepresentations() {
@@ -33,6 +40,18 @@ const psiA = (x: number) =>
 const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section first>
+      <Reminder>
+        <M
+          display
+          t="
+          \ket{\psi_A}
+          = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
+          + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+          + \frac{1}{\sqrt{6}} \ket{E_4}
+          "
+        />
+      </Reminder>
+
       <Prose>
         <p>
           Let’s think again about the original state, <M t="\ket{\psi_A}" />.
@@ -52,6 +71,13 @@ const sections = sectionComponents(EnergyAndPosition, [
             origin={graph.origin}
           >
             <Axes xLabel="E" />
+
+            <GridLine y={1 / Math.sqrt(2)} />
+            <GridLine y={1 / Math.sqrt(3)} />
+            <GridLine y={1 / Math.sqrt(6)} />
+            <GridLine y={-1 / Math.sqrt(2)} />
+            <GridLine y={-1 / Math.sqrt(3)} />
+            <GridLine y={-1 / Math.sqrt(6)} />
 
             <Tick x={1} label="E_1" />
             <Tick x={2} label="E_2" />
@@ -104,10 +130,20 @@ const sections = sectionComponents(EnergyAndPosition, [
         }
       />
 
+      {needsHelp(f.sameStateDifRepHelp) && (
+        <Help>
+          <Prose>
+            What do the vertical and horizontal axes represent in each graph?
+          </Prose>
+        </Help>
+      )}
+
       <Continue
         commit={f.sameStateDifRepCommit}
         allowed={isSet(f.sameStateDifRep)}
-      />
+      >
+        <HelpButton help={f.sameStateDifRepHelp} />
+      </Continue>
     </Section>
   ),
 

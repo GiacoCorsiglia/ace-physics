@@ -1,6 +1,6 @@
 import React from "react";
 import { EnergyAndPosition } from "src/common/tutorials";
-import { Continue, Prose, Section } from "src/components";
+import { Continue, Prose, Reminder, Section } from "src/components";
 import { TextArea, Toggle } from "src/components/inputs";
 import { choices } from "src/components/inputs/Select";
 import { Content } from "src/components/layout";
@@ -31,6 +31,18 @@ const psiB = (x: number) =>
 const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section first>
+      <Reminder>
+        <M
+          display
+          t="
+          \ket{\psi_B}
+          = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
+          - \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+          + \frac{1}{\sqrt{6}} \ket{E_4}
+          "
+        />
+      </Reminder>
+
       <Prose>
         The position representation (or wave function) of the state
         <M t="\ket{\psi_B}" /> from page 2 is given here:
@@ -99,8 +111,9 @@ const sections = sectionComponents(EnergyAndPosition, [
         field={f.compareGraphs}
         label={
           <Prose>
-            Compare your answers with those you got for <M t="\psi_A(x)" />{" "}
-            (i.e., compare your two screenshots). What is different now?
+            Compare your graph, and the positions where the particle is most and
+            least likely to be found, with what you got for <M t="\psi_A(x)" />.
+            (I.e., compare your two screenshots). What is different now?
           </Prose>
         }
       />
@@ -144,8 +157,8 @@ const sections = sectionComponents(EnergyAndPosition, [
         field={f.psiBDifferentFromPsiAReflect}
         label={
           <Prose>
-            At the bottom of page 2 we asked you if the second particle (in
-            state <M t="\ket{\psi_B}" />) was in the SAME state as{" "}
+            Previously, we asked you if the second particle (in state{" "}
+            <M t="\ket{\psi_B}" />) was in the SAME state as{" "}
             <M t="\ket{\psi_A}" />, or if was it in a DIFFERENT state. Is your
             answer modified in any way at this point?
           </Prose>

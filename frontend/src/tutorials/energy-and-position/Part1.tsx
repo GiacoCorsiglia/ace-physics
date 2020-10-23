@@ -1,12 +1,19 @@
 import React from "react";
 import { EnergyAndPosition } from "src/common/tutorials";
-import { Continue, Prose, Section } from "src/components";
+import {
+  Continue,
+  Help,
+  HelpButton,
+  Prose,
+  Reminder,
+  Section,
+} from "src/components";
 import { Text, TextArea, Toggle } from "src/components/inputs";
 import { choices } from "src/components/inputs/Select";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import VariableLengthColumn from "src/components/VariableLengthColumn";
-import { isSet } from "src/state";
+import { isSet, needsHelp } from "src/state";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
 
 export default function Part1() {
@@ -16,6 +23,7 @@ export default function Part1() {
     </Part>
   );
 }
+
 const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section first>
@@ -90,13 +98,25 @@ const sections = sectionComponents(EnergyAndPosition, [
         label={<Prose>Why or why not?</Prose>}
       />
 
+      {needsHelp(f.isPsiAEnergyEigenstateHelp) && (
+        <Help>
+          <Prose>
+            Does <M t="\ket{\psi_A}" /> satisfy the{" "}
+            <em>energy eigenequation</em>,{" "}
+            <M t="\hat{H}\ket{\psi_A} \stackrel{?}{=} E \ket{\psi_A}" />?
+          </Prose>
+        </Help>
+      )}
+
       <Continue
         commit={f.isPsiAEnergyEigenstateCommit}
         allowed={
           isSet(f.isPsiAEnergyEigenstate) &&
           isSet(f.isPsiAEnergyEigenstateExplain)
         }
-      />
+      >
+        <HelpButton help={f.isPsiAEnergyEigenstateHelp} />
+      </Continue>
     </Section>
   ),
 
@@ -144,6 +164,8 @@ const sections = sectionComponents(EnergyAndPosition, [
 
       <Prose className="opacity-faded text-center">
         If you need it, you can type <M t="\frac{1}{\sqrt{N}}" /> as “1/sqrt(N)”
+        <br />
+        and the vertical “dot-dot-dot” just as “...”
       </Prose>
 
       <Continue commit={f.columnE2Commit} allowed={isSet(f.columnE2)} />
@@ -164,8 +186,22 @@ const sections = sectionComponents(EnergyAndPosition, [
       />
 
       <Prose className="opacity-faded text-center">
-        If you need it, you can type <M t="\frac{1}{\sqrt{N}}" /> as “1/sqrt(N)”
+        If you need it, you can type <M t="\frac{1}{\sqrt{N}}" /> as “1/sqrt(N)”{" "}
+        <br />
+        and the vertical “dot-dot-dot” just as “...”
       </Prose>
+
+      <Reminder>
+        <M
+          display
+          t="
+              \ket{\psi_A}
+              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
+              + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+              + \frac{1}{\sqrt{6}} \ket{E_4}
+              "
+        />
+      </Reminder>
 
       <Continue commit={f.columnPsiACommit} allowed={isSet(f.columnPsiA)} />
     </Section>

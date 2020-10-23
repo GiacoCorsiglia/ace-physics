@@ -101,7 +101,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   ),
 
   (f) => (
-    <Section commits={f.oneRepBetterCommit}>
+    <Section commits={f.posQuestionsEnergyBasisCommit}>
       <TextArea
         field={f.toThinkAbout}
         label={
