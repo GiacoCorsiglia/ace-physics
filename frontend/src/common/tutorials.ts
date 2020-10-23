@@ -911,6 +911,14 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
 
 export type EnergyAndPosition = s.TypeOf<typeof EnergyAndPosition>;
 export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
+  pretest: s.record({
+    probUpZEqual: s.choice(["true", "false"] as const),
+    probDownZEqual: s.choice(["true", "false"] as const),
+    probUpXEqual: s.choice(["true", "false"] as const),
+    howToNormalizeWaveFunction: s.string(),
+  }),
+  pretestCommit: Commit,
+
   // Part 1.
   part1IntroCommit: Commit,
 

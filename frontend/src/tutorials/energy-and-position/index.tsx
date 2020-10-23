@@ -9,6 +9,7 @@ import Part1 from "./Part1";
 import Part2 from "./Part2";
 import PositionRepresentationA from "./PositionRepresentationA";
 import PositionRepresentationB from "./PositionRepresentationB";
+import Pretest from "./Pretest";
 import WrapUpConnectingBases from "./WrapUpConnectingBases";
 
 export const route = tutorialRoute({
@@ -18,6 +19,11 @@ export const route = tutorialRoute({
   label: "Energy and Position",
   intro: <Prose>Energy and position intro spiel here…</Prose>,
   parts: [
+    {
+      label: "Before You Start",
+      path: "before-you-start",
+      element: <Pretest />,
+    },
     {
       label: "The Energy Basis",
       path: "energy-basis",
