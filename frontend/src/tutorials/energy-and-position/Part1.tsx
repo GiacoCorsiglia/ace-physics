@@ -55,8 +55,8 @@ const sections = sectionComponents(EnergyAndPosition, [
               display
               t="
               \ket{\psi_A}
-              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
-              + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+              = \frac{\sqrt{2}}{\sqrt{6}} \ket{E_1}
+              + \frac{\sqrt{3}}{\sqrt{6}} \ket{E_2}
               + \frac{1}{\sqrt{6}} \ket{E_4}
               "
             />
@@ -196,8 +196,8 @@ const sections = sectionComponents(EnergyAndPosition, [
           display
           t="
               \ket{\psi_A}
-              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
-              + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+              = \frac{\sqrt{2}}{\sqrt{6}} \ket{E_1}
+              + \frac{\sqrt{3}}{\sqrt{6}} \ket{E_2}
               + \frac{1}{\sqrt{6}} \ket{E_4}
               "
         />

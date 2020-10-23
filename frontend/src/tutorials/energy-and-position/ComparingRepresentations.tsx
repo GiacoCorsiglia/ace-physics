@@ -33,8 +33,8 @@ const graph = {
 } as const;
 
 const psiA = (x: number) =>
-  (1 / Math.sqrt(2)) * Math.sin(x) +
-  (1 / Math.sqrt(3)) * Math.sin(2 * x) +
+  (1 / Math.sqrt(3)) * Math.sin(x) +
+  (1 / Math.sqrt(2)) * Math.sin(2 * x) +
   (1 / Math.sqrt(6)) * Math.sin(4 * x);
 
 const sections = sectionComponents(EnergyAndPosition, [
@@ -45,8 +45,8 @@ const sections = sectionComponents(EnergyAndPosition, [
           display
           t="
           \ket{\psi_A}
-          = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
-          + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+          = \frac{\sqrt{2}}{\sqrt{6}} \ket{E_1}
+          + \frac{\sqrt{3}}{\sqrt{6}} \ket{E_2}
           + \frac{1}{\sqrt{6}} \ket{E_4}
           "
         />
@@ -92,8 +92,8 @@ const sections = sectionComponents(EnergyAndPosition, [
             <Tick y={-1 / Math.sqrt(3)} />
             <Tick y={-1 / Math.sqrt(6)} />
 
-            <Bar x={1} height={1 / Math.sqrt(2)} width={graph.barWidth} />
-            <Bar x={2} height={1 / Math.sqrt(3)} width={graph.barWidth} />
+            <Bar x={1} height={1 / Math.sqrt(3)} width={graph.barWidth} />
+            <Bar x={2} height={1 / Math.sqrt(2)} width={graph.barWidth} />
             <Bar x={4} height={1 / Math.sqrt(6)} width={graph.barWidth} />
           </Plot>
         </Column>

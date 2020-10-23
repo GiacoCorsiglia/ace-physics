@@ -24,8 +24,8 @@ export default function PositionRepresentationA() {
 }
 
 const psiA = (x: number) =>
-  (1 / Math.sqrt(2)) * Math.sin(x) +
-  (1 / Math.sqrt(3)) * Math.sin(2 * x) +
+  (1 / Math.sqrt(3)) * Math.sin(x) +
+  (1 / Math.sqrt(2)) * Math.sin(2 * x) +
   (1 / Math.sqrt(6)) * Math.sin(4 * x);
 
 const sections = sectionComponents(EnergyAndPosition, [
@@ -36,8 +36,8 @@ const sections = sectionComponents(EnergyAndPosition, [
           display
           t="
           \ket{\psi_A}
-          = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
-          + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+          = \frac{\sqrt{2}}{\sqrt{6}} \ket{E_1}
+          + \frac{\sqrt{3}}{\sqrt{6}} \ket{E_2}
           + \frac{1}{\sqrt{6}} \ket{E_4}
           "
         />

@@ -47,11 +47,11 @@ const sections = sectionComponents(EnergyAndPosition, [
         <M
           display
           t="
-              \ket{\psi_A}
-              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
-              + \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
-              + \frac{1}{\sqrt{6}} \ket{E_4}
-              "
+          \ket{\psi_A}
+          = \frac{\sqrt{2}}{\sqrt{6}} \ket{E_1}
+          + \frac{\sqrt{3}}{\sqrt{6}} \ket{E_2}
+          + \frac{1}{\sqrt{6}} \ket{E_4}
+          "
         />
       </Reminder>
 
@@ -89,8 +89,8 @@ const sections = sectionComponents(EnergyAndPosition, [
         <Tick y={-1 / Math.sqrt(3)} />
         <Tick y={-1 / Math.sqrt(6)} />
 
-        <Bar x={1} height={1 / Math.sqrt(2)} width={graph.barWidth} />
-        <Bar x={2} height={1 / Math.sqrt(3)} width={graph.barWidth} />
+        <Bar x={1} height={1 / Math.sqrt(3)} width={graph.barWidth} />
+        <Bar x={2} height={1 / Math.sqrt(2)} width={graph.barWidth} />
         <Bar x={4} height={1 / Math.sqrt(6)} width={graph.barWidth} />
       </Plot>
 
@@ -148,8 +148,8 @@ const sections = sectionComponents(EnergyAndPosition, [
               display
               t="
               \ket{\psi_B}
-              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
-              - \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+              = \frac{\sqrt{2}}{\sqrt{6}} \ket{E_1}
+              - \frac{\sqrt{3}}{\sqrt{6}} \ket{E_2}
               + \frac{1}{\sqrt{6}} \ket{E_4}
               "
             />
@@ -291,8 +291,8 @@ const sections = sectionComponents(EnergyAndPosition, [
             display
             t="
               \ket{\psi_B}
-              = \frac{\sqrt{3}}{\sqrt{6}} \ket{E_1}
-              - \frac{\sqrt{2}}{\sqrt{6}} \ket{E_2}
+              = \frac{\sqrt{2}}{\sqrt{6}} \ket{E_1}
+              - \frac{\sqrt{3}}{\sqrt{6}} \ket{E_2}
               + \frac{1}{\sqrt{6}} \ket{E_4}
               "
           />

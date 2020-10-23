@@ -31,12 +31,17 @@ const sections = sectionComponents(EnergyAndPosition, [
           Recall, our original state was
           <M
             display
-            t="\ket{\psi_A}=\sqrt{\frac{3}{6}}\ket{E_1}+\sqrt{\frac{2}{6}}\ket{E_2}+\sqrt{\frac{1}{6}}\ket{E_4}"
+            t="
+            \ket{\psi_A}
+            = \frac{\sqrt{2}}{\sqrt{6}} \ket{E_1}
+            + \frac{\sqrt{3}}{\sqrt{6}} \ket{E_2}
+            + \frac{1}{\sqrt{6}} \ket{E_4}
+            "
           />
           You worked out that this state was written in the energy basis as:
           <M
             display
-            t="\ket{\psi_A} \doteq \begin{pmatrix} \sqrt{1/2} \\ \sqrt{1/3} \\ 0 \\ \sqrt{1/6} \\ \vdots \end{pmatrix}_E"
+            t="\ket{\psi_A} \doteq \begin{pmatrix} \sqrt{2/6} \\[0.3em] \sqrt{3/6} \\[0.3em] 0 \\[0.3em] \sqrt{1/6} \\[0em] \vdots \end{pmatrix}_E"
           />
           Later, we also said that same state was given in the position basis as
           <M display t="\ket{\psi_A} \doteq \psi_A(x)" />
