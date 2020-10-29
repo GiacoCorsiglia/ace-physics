@@ -92,13 +92,12 @@ function TutorialsIndex() {
               and apply it to cryptography.
             </TutorialLink>
 
-            {/*
             <TutorialLink
               label="Probability Amplitude: From Vectors to Functions"
               url={urls.Tutorials.VectorsToFunctions}
             >
               Vectors to functions…
-            </TutorialLink> */}
+            </TutorialLink>
 
             <TutorialLink
               label="Energy and Position"
