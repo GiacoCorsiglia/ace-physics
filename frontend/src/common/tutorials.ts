@@ -876,18 +876,25 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
 
   positionIntroCommit: Commit,
 
-  positionHeights: s.tuple(
-    s.number(),
-    s.number(),
-    s.number(),
-    s.number(),
-    s.number(),
-    s.number(),
-    s.number(),
-    s.number(),
-    s.number()
-  ),
-  positionHeightsCommit: Commit,
+  originalPositionPlotSufficient: s.choice(["yes", "no"] as const),
+  originalPositionPlotCommit: Commit,
+
+  halfIntegerPossibleMeasurements: s.string(),
+  halfIntegerColumnElements: s.string(),
+  halfIntegerBasisStates: s.string(),
+  halfIntegerCommit: Commit,
+
+  halfIntegerDiracNotation: s.string(),
+  halfIntegerDiracNotationCommit: Commit,
+
+  addMorePoints: s.boolean(),
+  smooth: s.boolean(),
+  smoothPossibleMeasurements: s.string(),
+  smoothBasisStates: s.string(),
+  smoothingCommit: Commit,
+
+  xiLabel: s.string(),
+  xiLabelCommit: Commit,
 
   xProb0or3: s.choice(["near 0", "near 3"] as const),
   xProb0or3Explain: s.string(),

@@ -1,13 +1,19 @@
+import { ArrowUpIcon } from "@primer/octicons-react";
 import React from "react";
 import { VectorsToFunctions } from "src/common/tutorials";
-import { Continue, Prose, Section, Vocabulary } from "src/components";
-import { Choice, TextArea } from "src/components/inputs";
+import { Continue, Help, Prose, Section, Vocabulary } from "src/components";
+import {
+  Button,
+  Choice,
+  FieldGroup,
+  Text,
+  TextArea,
+} from "src/components/inputs";
 import { choices } from "src/components/inputs/Select";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import {
   Axes,
-  Bar,
   DragHandle,
   Grid,
   Indicator,
@@ -15,10 +21,8 @@ import {
   Tick,
   WithPlot,
 } from "src/components/plots";
-import { Field, isSet } from "src/state";
-import { range } from "src/util";
+import { isSet } from "src/state";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
-import styles from "./styles.module.scss";
 
 export default function Position() {
   return (
@@ -53,46 +57,264 @@ const sections = sectionComponents(VectorsToFunctions, [
       <Continue commit={f.positionIntroCommit} label="Sounds good" />
     </Section>
   ),
+
   (f) => (
     <Section commits={f.positionIntroCommit}>
       <Prose>
+        <p>Let’s create a diagram like we did on the previous page.</p>
+
         <p>
-          Let’s create a diagram like we did on the previous page. We’ll start
-          with the integer values of <M t="x" />, then fill in the rest.
+          First, we’ll just plot the integer values of <M t="x" />. (We could
+          think of this diagram as representing an experiment where we only have
+          9 sensors for measuring the position, i.e., sensors at
+          <M t="x=-4, -3, \ldots, 4" />
+          .)
         </p>
 
         <p>
-          You can click and drag on the black dots to move them up and down.
-        </p>
-
-        <p>
-          Notice that the horizontal axis is now labeled <M t="x" />.
+          This plot should look like your diagram from the previous page—except
+          we’ve gotten rid of the rectangles to make things less busy.
         </p>
       </Prose>
 
-      <Diagram field={f.positionHeights} phase="editing" barCount={9} />
+      <Diagram phase="integer" />
 
-      <div className={styles.histogramLabels}>
-        {range(9).map((i) => (
-          <div className={styles.histogramLabel} key={i}>
-            {f.positionHeights.elements[i].value}
-          </div>
-        ))}
-      </div>
+      <Choice
+        field={f.originalPositionPlotSufficient}
+        label={
+          <Prose>
+            Above, we said that position is a continuous variable. Is this plot
+            sufficient to describe the probability amplitude for all possible
+            values of <M t="x" />?
+          </Prose>
+        }
+        choices={choices(f.originalPositionPlotSufficient, {
+          yes: (
+            <>
+              Yes, it’s sufficient. The plot shows the probability amplitudes
+              for all the possible values of
+              <M t="x" />.
+            </>
+          ),
+          no: (
+            <>
+              No, it’s insufficient. There are other possible values of
+              <M t="x" /> that the plot doesn’t show the probability amplitude
+              for.
+            </>
+          ),
+        })}
+        allowOther={false}
+      />
+
+      {f.originalPositionPlotSufficient.value?.selected === "yes" && (
+        <Help>
+          <Prose>
+            We disagree! For example, this plot doesn’t show you the probability
+            amplitude for <M t="x=1.5" />, but that’s definitely an allowed
+            value of position.
+          </Prose>
+        </Help>
+      )}
+
+      {f.originalPositionPlotSufficient.value?.selected === "no" && (
+        <>
+          <Help>
+            <Prose>
+              We agree! Let’s try to address this problem by adding more points
+              to the plot.
+            </Prose>
+          </Help>
+
+          <Continue
+            commit={f.originalPositionPlotCommit}
+            label="Add more points to the plot"
+          />
+        </>
+      )}
+    </Section>
+  ),
+
+  (f) => (
+    <Section commits={f.originalPositionPlotCommit}>
+      <Prose>
+        Below, we’ve added points at <strong>every half-integer value</strong>{" "}
+        of <M t="x" /> (in addition to the integer values of <M t="x" />, which
+        were already there).
+      </Prose>
+
+      <Diagram phase="half-integer" />
+
+      <Prose>In this updated diagram…</Prose>
+
+      <Text
+        field={f.halfIntegerPossibleMeasurements}
+        label={
+          <Prose>
+            …how many different possible measurements are represented?
+          </Prose>
+        }
+        maxWidth
+      />
+
+      <Text
+        field={f.halfIntegerColumnElements}
+        label={
+          <Prose>
+            …how many elements would be in a column vector for this state?
+          </Prose>
+        }
+        maxWidth
+      />
+
+      <Text
+        field={f.halfIntegerBasisStates}
+        label={<Prose>…how many different basis states are represented?</Prose>}
+        maxWidth
+      />
 
       <Continue
-        commit={f.positionHeightsCommit}
-        allowed={isSet(f.positionHeights)}
+        commit={f.halfIntegerCommit}
+        allowed={
+          isSet(f.halfIntegerPossibleMeasurements) &&
+          isSet(f.halfIntegerColumnElements) &&
+          isSet(f.halfIntegerBasisStates)
+        }
       />
     </Section>
   ),
-  (f) => (
-    <Section commits={f.positionHeightsCommit}>
-      <Prose>TODO…</Prose>
 
-      <Diagram field={f.positionHeights} phase="smooth" />
+  (f) => (
+    <Section commits={f.halfIntegerCommit}>
+      <Prose>
+        Using <strong>Dirac notation</strong>, how would you represent the
+        probability amplitude for the particle at position <M t="x = 2.5" />?
+      </Prose>
+
+      <FieldGroup grid className="margin-top-1">
+        <Text
+          field={f.halfIntegerDiracNotation}
+          label={<M t="{\color{purple} ??} =" />}
+          maxWidth
+        />
+      </FieldGroup>
+
+      <Diagram phase="half-integer" xiPoint={2.5} xiPointLabel="" />
+
+      <Continue
+        commit={f.halfIntegerDiracNotationCommit}
+        allowed={isSet(f.halfIntegerDiracNotation)}
+      />
     </Section>
   ),
+
+  (f) => (
+    <Section commits={f.halfIntegerDiracNotationCommit}>
+      <Prose>Here’s the same diagram as in the previous question:</Prose>
+
+      <Diagram
+        phase={
+          f.smooth.value
+            ? "smooth"
+            : f.addMorePoints.value
+            ? "quarter-integer"
+            : "half-integer"
+        }
+      />
+
+      <Prose>
+        We still haven’t covered all the possible values of <M t="x" />. Let’s
+        fix that.
+      </Prose>
+
+      <div className="text-center margin-top-1">
+        <Button
+          onClick={() => f.addMorePoints.set(true)}
+          kind="secondary"
+          disabled={f.addMorePoints.value}
+        >
+          Add even more points <ArrowUpIcon />
+        </Button>
+      </div>
+
+      {f.addMorePoints.value && (
+        <>
+          <Prose>That’s getting a little busy, don’t you think?</Prose>
+
+          <div className="text-center margin-top-1">
+            <Button
+              onClick={() => f.smooth.set(true)}
+              kind="secondary"
+              disabled={f.smooth.value}
+            >
+              Replace the points with a continuous curve <ArrowUpIcon />
+            </Button>
+          </div>
+        </>
+      )}
+
+      {f.smooth.value && (
+        <>
+          <Prose>
+            <p>
+              <strong>Nice, we updated the diagram for you.</strong>
+            </p>
+
+            <p>
+              In the latest version of the diagram, with the continuous curve…
+            </p>
+          </Prose>
+
+          <Text
+            field={f.smoothPossibleMeasurements}
+            label={
+              <Prose>
+                …how many different possible measurements are represented?
+              </Prose>
+            }
+            maxWidth
+          />
+
+          <Text
+            field={f.smoothBasisStates}
+            label={
+              <Prose>…how many different basis states are represented?</Prose>
+            }
+            maxWidth
+          />
+
+          <Continue
+            commit={f.smoothingCommit}
+            allowed={
+              isSet(f.smoothPossibleMeasurements) && isSet(f.smoothBasisStates)
+            }
+          />
+        </>
+      )}
+    </Section>
+  ),
+
+  (f) => (
+    <Section commits={f.smoothingCommit}>
+      <Prose>
+        Using <strong>Dirac notation</strong>, how would you represent the
+        probability amplitude for the particle at position <M t="x = x_i" />?
+      </Prose>
+
+      <FieldGroup grid className="margin-top-1">
+        <Text
+          field={f.xiLabel}
+          label={<M t="{\color{purple} ??} =" />}
+          maxWidth
+        />
+      </FieldGroup>
+
+      <Diagram phase="smooth" xiPoint={1.5} />
+
+      <Continue commit={f.xiLabelCommit} allowed={isSet(f.xiLabel)} />
+    </Section>
+  ),
+
   (f) => (
     <Section /* TODO: commits={} */>
       <Choice
@@ -128,6 +350,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       />
     </Section>
   ),
+
   (f) => (
     <Section commits={f.xProb0or3Commit}>
       <Choice
@@ -172,14 +395,14 @@ const sections = sectionComponents(VectorsToFunctions, [
       <Prose>
         In QM, people write the function <M t="\psi(x)" /> instead of{" "}
         <M t="\braket{x|\psi}" />. This is called the{" "}
-        <Vocabulary>wave function</Vocabulary>. The diagram you created at the
-        top of this page can be labeled with <M t="\psi(x)" /> on the vertical
-        axis, like this:
+        <Vocabulary>wave function</Vocabulary>. The diagram you created on this
+        page can be labeled with <M t="\psi(x)" /> on the vertical axis, like
+        this:
       </Prose>
 
-      <Prose>TODO…</Prose>
+      <Diagram phase="smooth" axisLabel="\psi(x)" />
 
-      <Continue commit={f.waveFunctionCommit} label="Cool" />
+      <Continue commit={f.waveFunctionCommit} label="OK, cool" />
     </Section>
   ),
 
@@ -208,58 +431,68 @@ const sections = sectionComponents(VectorsToFunctions, [
 ]);
 
 const Diagram = ({
-  field: tupleField,
   phase,
-  barCount = 9,
-  bars = false,
+  xiPoint,
+  xiPointLabel = "x_i",
+  axisLabel = "\\text{Probability Amplitude}",
 }: {
-  field: Field<typeof VectorsToFunctions["properties"]["positionHeights"]>;
-  phase: "editing" | "labeling" | "smooth";
-  /** @deprecated */
-  barCount?: 9;
-  bars?: boolean;
+  phase?: "integer" | "half-integer" | "quarter-integer" | "smooth";
+  xiPoint?: number;
+  xiPointLabel?: string;
+  axisLabel?: string;
 }) => (
   <Plot
     width={560}
-    scale={[Math.ceil(560 / (barCount || 9)), 15]}
+    scale={[Math.ceil(560 / 9), 15]}
     height={(16 + 2 + 2) * 15}
     origin={["center", 16 + 2]}
     padding={25}
   >
     <Grid axis="y" />
 
-    {range(barCount).map((i) => {
-      const defaultHeight = 4;
-      // Only odd number counts have a center
-      const isCenter = barCount % 2 === 1 && i === Math.floor(barCount / 2);
-      const x = i - (barCount - 1) / 2;
-      const field = tupleField.elements[i];
+    {phase !== "smooth" &&
+      Array.from(
+        (function* () {
+          const step =
+            phase === "integer"
+              ? 1
+              : phase === "half-integer"
+              ? 0.5
+              : phase === "quarter-integer"
+              ? 0.25
+              : phase === "smooth"
+              ? 0.5
+              : 0.5;
+          for (let x = -4; x <= 4; x += step) {
+            yield x;
+          }
+        })()
+      ).map((x) => {
+        const height = 16 - x ** 2;
 
-      const height = field.value !== undefined ? field.value : defaultHeight;
+        const needsLabel = x !== 0 && Number.isInteger(x);
 
-      return (
-        <React.Fragment key={i}>
-          {phase === "editing" && <Indicator x={x} />}
+        return (
+          <React.Fragment key={x}>
+            <Tick x={x} label={needsLabel ? x : undefined} />
 
-          {phase === "labeling" && (i === 1 || i === 3 || i === 8) && (
-            <Indicator x={x} from={height} to="top" />
-          )}
+            <DragHandle
+              direction="y"
+              snap={1}
+              xDefault={x}
+              yDefault={height}
+              disabled
+            />
+          </React.Fragment>
+        );
+      })}
 
-          <Tick x={x} label={isCenter ? undefined : x} />
-
-          {bars && <Bar x={x} height={height} width={0.6} />}
-
-          <DragHandle
-            direction="y"
-            snap={1}
-            xDefault={x}
-            yDefault={defaultHeight}
-            yField={field}
-            disabled={phase !== "editing"}
-          />
-        </React.Fragment>
-      );
-    })}
+    {phase === "smooth" && (
+      <>
+        <Tick x={4} label={4} />
+        <Tick x={-4} label={-4} />
+      </>
+    )}
 
     {phase === "smooth" && (
       <WithPlot>
@@ -284,8 +517,31 @@ const Diagram = ({
       </WithPlot>
     )}
 
+    {xiPoint !== undefined && (
+      <>
+        {xiPointLabel && <Tick x={xiPoint} label={xiPointLabel} />}
+        <Indicator x={xiPoint} from={0} to={16 - xiPoint ** 2} />
+
+        <Tick y={16 - xiPoint ** 2} label="??" color="purple" />
+        <Indicator
+          y={16 - xiPoint ** 2}
+          from={0}
+          to={xiPoint}
+          color="#bb8ebb"
+        />
+
+        <DragHandle
+          direction="y"
+          snap={1}
+          xDefault={xiPoint}
+          yDefault={16 - xiPoint ** 2}
+          disabled
+        />
+      </>
+    )}
+
     <Tick y={16} label={16} labelPosition="left" />
 
-    <Axes xLabel="x" yLabel="\text{Probability Amplitude}" />
+    <Axes xLabel="x" yLabel={axisLabel} />
   </Plot>
 );
