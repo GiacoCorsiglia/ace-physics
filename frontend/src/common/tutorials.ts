@@ -877,8 +877,10 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
 
   positionIntroCommit: Commit,
 
-  originalPositionPlotSufficient: s.choice(["yes", "no"] as const),
   originalPositionPlotCommit: Commit,
+
+  originalPositionPlotSufficient: s.choice(["yes", "no"] as const),
+  addPointsCommit: Commit,
 
   halfIntegerPossibleMeasurements: s.string(),
   halfIntegerColumnElements: s.string(),

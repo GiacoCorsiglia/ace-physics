@@ -79,6 +79,12 @@ const sections = sectionComponents(VectorsToFunctions, [
 
       <Diagram phase="integer" />
 
+      <Continue commit={f.originalPositionPlotCommit} label="Looks good" />
+    </Section>
+  ),
+
+  (f) => (
+    <Section commits={f.originalPositionPlotCommit}>
       <Choice
         field={f.originalPositionPlotSufficient}
         label={
@@ -127,7 +133,7 @@ const sections = sectionComponents(VectorsToFunctions, [
           </Help>
 
           <Continue
-            commit={f.originalPositionPlotCommit}
+            commit={f.addPointsCommit}
             label="Add more points to the plot"
           />
         </>
@@ -136,7 +142,7 @@ const sections = sectionComponents(VectorsToFunctions, [
   ),
 
   (f) => (
-    <Section commits={f.originalPositionPlotCommit}>
+    <Section commits={f.addPointsCommit}>
       <Prose>
         Below, we’ve added points at <strong>every half-integer value</strong>{" "}
         of <M t="x" /> (in addition to the integer values of <M t="x" />, which
@@ -297,8 +303,9 @@ const sections = sectionComponents(VectorsToFunctions, [
   (f) => (
     <Section commits={f.smoothingCommit}>
       <Prose>
-        Using <strong>Dirac notation</strong>, how would you represent the
-        probability amplitude for the particle at position <M t="x = x_i" />?
+        Using <strong>Dirac notation</strong>, how would you label the
+        probability amplitude for the particle at an arbitrary position{" "}
+        <M t="x_i" />?
       </Prose>
 
       <FieldGroup grid className="margin-top-1">
@@ -316,7 +323,7 @@ const sections = sectionComponents(VectorsToFunctions, [
   ),
 
   (f) => (
-    <Section /* TODO: commits={} */>
+    <Section commits={f.xiLabelCommit}>
       <Choice
         field={f.xProb0or3}
         choices={choices(f.xProb0or3, {
