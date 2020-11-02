@@ -374,7 +374,7 @@ export const Grid = React.memo(function Grid({
   const everyY = plot.yScale(typeof every === "number" ? every : every[1]);
 
   return (
-    <>
+    <g>
       {xAxis && (
         <Lines
           axis="x"
@@ -397,7 +397,7 @@ export const Grid = React.memo(function Grid({
           opacity={axisOpacity}
         />
       )}
-    </>
+    </g>
   );
 });
 
