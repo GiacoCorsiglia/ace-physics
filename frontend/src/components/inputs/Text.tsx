@@ -8,10 +8,12 @@ import styles from "./inputs.module.scss";
 export default function Text({
   field,
   label = undefined,
+  maxWidth = false,
   ...props
 }: {
   field: Field<s.StringSchema>;
   label?: React.ReactNode;
+  maxWidth?: boolean;
 } & JSX.IntrinsicElements["input"]) {
   const id = `text-${useUniqueId()}`;
 
@@ -30,11 +32,14 @@ export default function Text({
         placeholder={
           props.placeholder !== undefined
             ? props.placeholder
+            : maxWidth
+            ? "Type here"
             : "Type your response here"
         }
         className={classes(
           styles.textInput,
           [styles.noLabel, !label],
+          [styles.textInputMaxWidth, maxWidth],
           props.className
         )}
         id={id}

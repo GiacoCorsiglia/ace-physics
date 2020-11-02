@@ -151,6 +151,10 @@
 .textInput {
   width: 100%;
   text-overflow: ellipsis;
+
+  &.textInputMaxWidth {
+    max-width: 8rem;
+  }
 }
 
 .textArea {
