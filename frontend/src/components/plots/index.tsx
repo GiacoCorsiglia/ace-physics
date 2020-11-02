@@ -287,7 +287,7 @@ export function Axes({
           color={color}
           x={plot.outerRightEdge}
           y={0}
-          anchor="bottomRight"
+          anchor={plot.xPadding !== 0 ? "rightCenter" : "bottomRight"}
         />
       )}
 
@@ -297,7 +297,7 @@ export function Axes({
           color={color}
           x={0}
           y={plot.outerTopEdge}
-          anchor="topLeft"
+          anchor={plot.yPadding !== 0 ? "topCenter" : "topLeft"}
         />
       )}
     </>
