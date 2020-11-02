@@ -116,12 +116,12 @@ export default function DragHandle({
   const changeY = direction === "both" || direction === "y";
 
   const x = disabled
-    ? plot.x(xField?.value || xDefault)
+    ? plot.x(xField?.value !== undefined ? xField?.value : xDefault)
     : changeX
     ? coordinates.x
     : plot.x(xDefault);
   const y = disabled
-    ? plot.y(yField?.value || yDefault)
+    ? plot.y(yField?.value !== undefined ? yField?.value : yDefault)
     : changeY
     ? coordinates.y
     : plot.y(yDefault);

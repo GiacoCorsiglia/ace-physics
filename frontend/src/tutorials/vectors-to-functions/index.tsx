@@ -11,7 +11,13 @@ export const route = tutorialRoute({
   name: "VectorsToFunctions",
   schema: VectorsToFunctions,
   label: "Vectors to Functions",
-  intro: <Prose>Vectors to functions…</Prose>,
+  intro: (
+    <Prose>
+      Bridging between discrete vectors (such as those describing a particle’s
+      spin state) and continuous wave functions (which might model a particle’s
+      position state).
+    </Prose>
+  ),
   parts: [
     {
       label: "A Spin-4 Particle",

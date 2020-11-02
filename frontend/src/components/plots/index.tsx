@@ -287,7 +287,7 @@ export function Axes({
           color={color}
           x={plot.outerRightEdge}
           y={0}
-          anchor="bottomRight"
+          anchor={plot.xPadding !== 0 ? "rightCenter" : "bottomRight"}
         />
       )}
 
@@ -297,7 +297,7 @@ export function Axes({
           color={color}
           x={0}
           y={plot.outerTopEdge}
-          anchor="topLeft"
+          anchor={plot.yPadding !== 0 ? "topCenter" : "topLeft"}
         />
       )}
     </>
@@ -374,7 +374,7 @@ export const Grid = React.memo(function Grid({
   const everyY = plot.yScale(typeof every === "number" ? every : every[1]);
 
   return (
-    <>
+    <g>
       {xAxis && (
         <Lines
           axis="x"
@@ -397,7 +397,7 @@ export const Grid = React.memo(function Grid({
           opacity={axisOpacity}
         />
       )}
-    </>
+    </g>
   );
 });
 
@@ -543,32 +543,66 @@ export function Bar({
 
 export function Indicator({
   x,
+  y,
   to = "bottom",
   from,
   color = "#ddd",
-}: {
-  x: number;
-  from?: number;
-  to?: "top" | "bottom";
+}: (
+  | {
+      x: number;
+      y?: never;
+      from?: number | "top" | "bottom";
+      to?: number | "top" | "bottom";
+    }
+  | {
+      x?: never;
+      y: number;
+      from?: number | "left" | "right";
+      to?: number | "left" | "right";
+    }
+) & {
   color?: string;
 }) {
   const plot = usePlot();
 
-  x = plot.x(x);
+  const isVerticalLine = x !== undefined;
 
-  // Default to enough room for tick labels
-  from = from !== undefined ? plot.y(from) : 30;
+  const toFrom = (n: "left" | "right" | "top" | "bottom" | number) =>
+    n === "left"
+      ? plot.outerLeftEdge
+      : n === "right"
+      ? plot.outerRightEdge
+      : n === "top"
+      ? plot.outerTopEdge
+      : n === "bottom"
+      ? plot.outerBottomEdge
+      : isVerticalLine
+      ? plot.y(n)
+      : plot.x(n);
+
+  to = toFrom(to);
+  // Default to enough room for tick labels.
+  from = from !== undefined ? toFrom(from) : 30;
+
+  x = x !== undefined ? plot.x(x) : x;
+  y = y !== undefined ? plot.y(y) : y;
+
+  const position = isVerticalLine
+    ? {
+        x1: x,
+        x2: x,
+        y1: from,
+        y2: to,
+      }
+    : {
+        x1: from,
+        x2: to,
+        y1: y,
+        y2: y,
+      };
 
   return (
-    <line
-      x1={x}
-      y1={from}
-      x2={x}
-      y2={to === "bottom" ? plot.outerBottomEdge : plot.outerTopEdge}
-      stroke={color}
-      strokeWidth={2}
-      strokeDasharray="4"
-    />
+    <line {...position} stroke={color} strokeWidth={2} strokeDasharray="4" />
   );
 }
 

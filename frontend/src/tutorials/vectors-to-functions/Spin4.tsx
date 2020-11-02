@@ -1,6 +1,6 @@
 import React from "react";
 import { VectorsToFunctions } from "src/common/tutorials";
-import { Continue, Prose, Section } from "src/components";
+import { Continue, Help, HelpButton, Prose, Section } from "src/components";
 import {
   Decimal,
   FieldGroup,
@@ -21,7 +21,7 @@ import {
   Tick,
 } from "src/components/plots";
 import VariableLengthColumn from "src/components/VariableLengthColumn";
-import { Field, isSet } from "src/state";
+import { Field, isSet, needsHelp } from "src/state";
 import { range } from "src/util";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
 import styles from "./styles.module.scss";
@@ -49,6 +49,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       <Continue commit={f.spin4IntroCommit} label="Ok, got it" />
     </Section>
   ),
+
   (f) => (
     <Section commits={f.spin4IntroCommit}>
       <Prose>
@@ -72,6 +73,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       <Continue commit={f.spin4ColumCommit} allowed={isSet(f.spin4Column)} />
     </Section>
   ),
+
   (f) => (
     <Section commits={f.spin4ColumCommit}>
       <Prose>
@@ -96,12 +98,38 @@ const sections = sectionComponents(VectorsToFunctions, [
         ))}
       </div>
 
+      {needsHelp(f.spin4HistogramTechDifficultiesHelp) && (
+        <Help>
+          <Prose>
+            <p>
+              Are you having technical difficulties dragging the bars up and
+              down in the graph? Sorry about that! You can now move on without
+              finishing the graph. Please make note of this issue on the
+              feedback page at the end of the tutorial.
+            </p>
+
+            <p>
+              If you‘re not having tech difficulties, please finish the graph
+              before moving on though!
+            </p>
+          </Prose>
+        </Help>
+      )}
+
       <Continue
         commit={f.spin4HistogramCommit}
-        allowed={isSet(f.spin4BarHeights)}
-      />
+        allowed={
+          isSet(f.spin4BarHeights) ||
+          needsHelp(f.spin4HistogramTechDifficultiesHelp)
+        }
+      >
+        <HelpButton help={f.spin4HistogramTechDifficultiesHelp}>
+          Technical difficulties?
+        </HelpButton>
+      </Continue>
     </Section>
   ),
+
   (f) => (
     <Section commits={f.spin4HistogramCommit}>
       <Prose>
@@ -139,6 +167,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       />
     </Section>
   ),
+
   (f) => {
     const cs = choices(f.minus3DiracSelect, {
       "<-4|psi>": <M t="\braket{-4|\psi_D}" />,
