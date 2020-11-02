@@ -846,6 +846,7 @@ export const VectorsToFunctions = tutorialSchema("VectorsToFunctions", {
     s.number(),
     s.number()
   ),
+  spin4HistogramTechDifficultiesHelp: Help,
   spin4HistogramCommit: Commit,
 
   minus3Dirac: s.string(),
