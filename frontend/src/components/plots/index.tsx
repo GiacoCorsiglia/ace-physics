@@ -73,7 +73,7 @@ export function Plot({
   /**  Height of the plot in pixels.  (Really max-width.) */
   height?: number;
   /** Number of pixels per unit globally or per axis. */
-  scale?: number | readonly [number, number];
+  scale?: number | readonly [x: number, y: number];
   /**
    * Position of the origin *relative to the top left*, in graph units (i.e.,
    * not in pixels).
@@ -85,7 +85,7 @@ export function Plot({
       ]
     | "center";
   /** */
-  padding?: number | readonly [number, number];
+  padding?: number | readonly [x: number, y: number];
 } & Children) {
   const [xScale, yScale] = typeof scale === "number" ? [scale, scale] : scale;
   const [xPadding, yPadding] =
@@ -354,7 +354,7 @@ function Lines({
 }
 
 type GridProps =
-  | { every?: number | readonly [number, number]; axis?: never }
+  | { every?: number | readonly [x: number, y: number]; axis?: never }
   | { every?: number; axis: "x" | "y" };
 
 export const Grid = React.memo(function Grid({

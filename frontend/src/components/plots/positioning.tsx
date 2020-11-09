@@ -46,7 +46,7 @@ export function shift(
   width: number,
   height: number,
   centered: boolean = false
-): [number, number] {
+): [x: number, y: number] {
   if (centered) {
     width /= 2;
     height /= 2;
@@ -78,7 +78,10 @@ export function shift(
   }
 }
 
-export function offsetShift(anchor: Anchor, offset: number): [number, number] {
+export function offsetShift(
+  anchor: Anchor,
+  offset: number
+): [x: number, y: number] {
   return shift(anchor, offset, 0, 0);
 }
 
