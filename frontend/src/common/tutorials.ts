@@ -382,7 +382,7 @@ const LabelChoice = s.choice([
   "<+|psi_A>",
   "|<-|psi_A>|^2",
   "|<+|psi_A>|^2",
-]);
+] as const);
 
 const PlusMinus = s.record({
   minusHeight: HeightChoice,
