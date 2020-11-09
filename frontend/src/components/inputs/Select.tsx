@@ -380,7 +380,7 @@ function applyDefaultStyles(
       inputStyles && defaultStyles
         ? (styles: any, state: any) =>
             inputStyles(defaultStyles(styles, state), state)
-        : defaultStyles || inputStyles;
+        : (defaultStyles as any) || inputStyles;
   }
 
   return outputs;
