@@ -1063,3 +1063,69 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
 
   part6FinalCommit: Commit,
 });
+
+////////////////////////////////////////////////////////////////////////////////
+// Reflecting on Transmission
+////////////////////////////////////////////////////////////////////////////////
+
+export type ReflectingOnTransmission = s.TypeOf<
+  typeof ReflectingOnTransmission
+>;
+const _rName = "ReflectingOnTransmission";
+export const ReflectingOnTransmission = tutorialSchema(_rName, {
+  pretest: s.record({}),
+  pretestCommit: Commit,
+
+  part1IntroCommit: Commit,
+
+  unitsOfV0: s.string(),
+  unitsOfV0Commit: Commit,
+
+  generalSolution: s.record({
+    regionI: s.string(),
+    regionII: s.string(),
+    regionIII: s.string(),
+  }),
+  generalSolutionNewSymbols: s.string(),
+  generalSolutionCommit: Commit,
+
+  generalSolutionConstraints: s.string(),
+  generalSolutionConstraintsCommit: Commit,
+
+  part1FinalCommit: Commit,
+
+  part2IntroCommit: Commit,
+
+  qualitativePredictionsForT: s.string(),
+  qualitativePredictionsForTCommit: Commit,
+
+  simSetupCommit: Commit,
+
+  simPatterns: s.string(),
+  simPatternsCommit: Commit,
+
+  comparePredictionsWithSim: s.string(),
+  comparePredictionsWithSimCommit: Commit,
+
+  part2FinalCommit: Commit,
+
+  part3IntroCommit: Commit,
+
+  wellPredictionsForT: s.string(),
+  wellPredictionsForTCommit: Commit,
+
+  wellSimTest: s.string(),
+  wavelengthAfterTunneling: s.string(),
+  wellSimCommit: Commit,
+
+  unitsOfT: s.string(),
+  unitsOfl: s.string(),
+  unitsOflAndTCommit: Commit,
+
+  tVersusEGraphCommit: Commit,
+
+  tVersusALimits: s.string(),
+  tVersusACommit: Commit,
+
+  part3FinalCommit: Commit,
+});
