@@ -103,9 +103,9 @@ const sections = sectionComponents(ReflectingOnTransmission, [
     <Section>
       <Prose>
         <p>
-          The sim calculates <M t="R" /> and <M t="T" /> for you. Play around a
-          bit, changing the energy and step size (depth). Feel free to let the
-          “step” go down as well as up.
+          The sim can calculate <M t="R" /> and <M t="T" /> for you (find the
+          checkbox). Play around a bit, changing the energy and step size
+          (depth). Feel free to let the “step” go down as well as up.
         </p>
       </Prose>
 

@@ -1090,6 +1090,7 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
   generalSolutionCommit: Commit,
 
   generalSolutionConstraints: s.string(),
+  generalSolutionPhysicalInterpretation: s.string(),
   generalSolutionConstraintsCommit: Commit,
 
   part1FinalCommit: Commit,
@@ -1116,6 +1117,7 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
 
   wellSimTest: s.string(),
   wavelengthAfterTunneling: s.string(),
+  energyAfterTunneling: s.string(),
   wellSimCommit: Commit,
 
   unitsOfT: s.string(),

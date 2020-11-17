@@ -33,6 +33,10 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         TODO: Graph here
       </Prose>
 
+      <Prose>
+        Take a moment to confirm that the formula matches with the graph
+      </Prose>
+
       <Continue commit={f.part1IntroCommit} label="Looks good" />
     </Section>
   ),
@@ -95,19 +99,24 @@ const sections = sectionComponents(ReflectingOnTransmission, [
               down if the physical situation involves particles approaching the
               well from the RIGHT.
             </p>
-
-            <p>
-              (Interpret the physical meaning of all terms—do any of them
-              vanish?)
-            </p>
           </Prose>
         }
         minRows={4}
       />
 
+      <TextArea
+        field={f.generalSolutionPhysicalInterpretation}
+        label={
+          <Prose>Interpret the physical meaning of all nonzero terms:</Prose>
+        }
+      />
+
       <Continue
         commit={f.generalSolutionConstraintsCommit}
-        allowed={isSet(f.generalSolutionConstraints)}
+        allowed={
+          isSet(f.generalSolutionConstraints) &&
+          isSet(f.generalSolutionPhysicalInterpretation)
+        }
       />
     </Section>
   ),

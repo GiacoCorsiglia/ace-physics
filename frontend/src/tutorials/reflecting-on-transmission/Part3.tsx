@@ -50,9 +50,9 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         field={f.wellPredictionsForT}
         label={
           <Prose>
-            Using physical arguments, but without carrying out calculations (or
-            using the sim, yet!), what can you predict qualitatively about{" "}
-            <M t="T" />?
+            Using physical arguments, but without carrying out calculations what
+            can you predict qualitatively about <M t="T" />? Don't use the sim
+            yet either!
           </Prose>
         }
         minRows={3}
@@ -97,14 +97,23 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         label={
           <Prose>
             What happened to the wavelength of a plane wave after tunneling
-            through a barrier? (Is energy lost?)
+            through a barrier?
           </Prose>
         }
       />
 
+      <TextArea
+        field={f.energyAfterTunneling}
+        label={<Prose>Is energy lost after tunneling?</Prose>}
+      />
+
       <Continue
         commit={f.wellSimCommit}
-        allowed={isSet(f.wellSimTest) && isSet(f.wavelengthAfterTunneling)}
+        allowed={
+          isSet(f.wellSimTest) &&
+          isSet(f.wavelengthAfterTunneling) &&
+          isSet(f.energyAfterTunneling)
+        }
       />
     </Section>
   ),
@@ -166,11 +175,11 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         </p>
 
         <p>
-          Label the axes, what sets the scales? Label any interesting points?
+          Label the axes, what sets the scales? Label any interesting points.
         </p>
       </Prose>
 
-      <Plot width={560} height={350} scale={100} origin={["center", 3.2]}>
+      <Plot width={560} height={350} scale={100} origin={[0.5, 3.2]}>
         <Axes yLabel="T" />
       </Plot>
 
@@ -211,7 +220,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         <ul>
           <li>
             Use <strong style={{ color: "red" }}>red</strong> for{" "}
-            <M t="E \ll V_0" />
+            <M t="0 \lte E \ll V_0" />
           </li>
           <li>
             Use <strong style={{ color: "blue" }}>blue</strong> for{" "}
