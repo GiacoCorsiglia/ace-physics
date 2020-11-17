@@ -1131,3 +1131,25 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
 
   part3FinalCommit: Commit,
 });
+
+////////////////////////////////////////////////////////////////////////////////
+// Time Dependence
+////////////////////////////////////////////////////////////////////////////////
+
+export type TimeDependence = s.TypeOf<typeof TimeDependence>;
+export const TimeDependence = tutorialSchema("TimeDependence", {
+  pretest: s.record({}),
+  pretestCommit: Commit,
+
+  // There will probably be more parts here than on the paper version, which
+  // only has two parts.
+  part1IntroCommit: Commit,
+
+  part1FinalCommit: Commit,
+
+  part2IntroCommit: Commit,
+
+  part2FinalCommit: Commit,
+
+  // etc.
+});

@@ -11,6 +11,7 @@ import * as EPR from "./EPR";
 import * as QuantumBasis from "./quantum-basis";
 import * as QuantumMouse from "./quantum-mouse";
 import * as ReflectingOnTransmission from "./reflecting-on-transmission";
+import * as TimeDependence from "./time-dependence";
 import styles from "./tutorials.module.scss";
 import * as VectorsToFunctions from "./vectors-to-functions";
 
@@ -22,6 +23,7 @@ export const route = (
     {EPR.route}
     {VectorsToFunctions.route}
     {EnergyAndPosition.route}
+    {TimeDependence.route}
     {ReflectingOnTransmission.route}
   </Route>
 );
@@ -109,6 +111,13 @@ function TutorialsIndex() {
             >
               Explore the connection between the energy and position
               representations of a quantum state.
+            </TutorialLink>
+
+            <TutorialLink
+              label="Time Dependence"
+              url={urls.Tutorials.TimeDependence}
+            >
+              Time dependence…
             </TutorialLink>
 
             <TutorialLink
