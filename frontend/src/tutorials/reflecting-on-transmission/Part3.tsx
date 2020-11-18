@@ -6,6 +6,7 @@ import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet } from "src/state";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
+import { SymmetricWellPotential } from "./figures";
 
 export default function Part3() {
   return (
@@ -20,7 +21,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
     <Section first>
       <Prose>Here’s the symmetric potential well from part 1.</Prose>
 
-      <Prose>TODO: Graph here</Prose>
+      <SymmetricWellPotential />
 
       <Reminder>
         <M

@@ -9,6 +9,7 @@ import M from "src/components/M";
 import { isSet } from "src/state";
 import { classes } from "src/util";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
+import { StepPotential } from "./figures";
 
 export default function Part2() {
   return (
@@ -23,7 +24,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
     <Section first>
       <Prose>Consider a single “step” (NOT a well), as shown here:</Prose>
 
-      <Prose>TODO: Graph here</Prose>
+      <StepPotential />
 
       <Prose>
         Think about the transmission coefficient <M t="T" /> for this system

@@ -6,6 +6,7 @@ import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet } from "src/state";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
+import { SymmetricWellPotential } from "./figures";
 
 export default function Part1() {
   return (
@@ -30,8 +31,9 @@ const sections = sectionComponents(ReflectingOnTransmission, [
           \end{cases}
           "
         />
-        TODO: Graph here
       </Prose>
+
+      <SymmetricWellPotential />
 
       <Prose>
         Take a moment to confirm that the formula matches with the graph
