@@ -43,6 +43,8 @@ interface PlotContext {
 
   xInverse(x: number): number;
   yInverse(y: number): number;
+
+  points(ps: [x: number, y: number][]): string;
 }
 
 const PlotContext = createContext<PlotContext>({} as PlotContext);
@@ -145,6 +147,9 @@ export function Plot({
 
       xInverse: (x: number) => x / xScale,
       yInverse: (y: number) => -(y / yScale),
+
+      points: (ps: [x: number, y: number][]) =>
+        ps.map(([x, y]) => `${plot.x(x)},${plot.y(y)}`).join(" "),
     }),
     [width, height, xScale, yScale, originX, originY, xPadding, yPadding]
   );
@@ -235,10 +240,14 @@ export function Axes({
   color = axisColor,
   xLabel,
   yLabel,
+  xAxis = true,
+  yAxis = true,
 }: {
   color?: string;
   xLabel?: string;
   yLabel?: string;
+  xAxis?: boolean;
+  yAxis?: boolean;
 }) {
   const plot = usePlot();
   const marker = useMarkerId();
@@ -257,31 +266,35 @@ export function Axes({
         <path d="M 0 0 L 10 5 L 0 10 z" fill={color} />
       </marker>
 
-      <line
-        x1={plot.leftEdge}
-        y1={0}
-        x2={plot.rightEdge}
-        y2={0}
-        stroke={color}
-        opacity={axisOpacity}
-        strokeWidth={axisWidth}
-        markerStart={`url(#${marker})`}
-        markerEnd={`url(#${marker})`}
-      ></line>
+      {xAxis && (
+        <line
+          x1={plot.leftEdge}
+          y1={0}
+          x2={plot.rightEdge}
+          y2={0}
+          stroke={color}
+          opacity={axisOpacity}
+          strokeWidth={axisWidth}
+          markerStart={`url(#${marker})`}
+          markerEnd={`url(#${marker})`}
+        />
+      )}
 
-      <line
-        x1={0}
-        y1={plot.topEdge}
-        x2={0}
-        y2={plot.bottomEdge}
-        stroke={color}
-        opacity={axisOpacity}
-        strokeWidth={axisWidth}
-        markerStart={`url(#${marker})`}
-        markerEnd={`url(#${marker})`}
-      ></line>
+      {yAxis && (
+        <line
+          x1={0}
+          y1={plot.topEdge}
+          x2={0}
+          y2={plot.bottomEdge}
+          stroke={color}
+          opacity={axisOpacity}
+          strokeWidth={axisWidth}
+          markerStart={`url(#${marker})`}
+          markerEnd={`url(#${marker})`}
+        />
+      )}
 
-      {xLabel && (
+      {xAxis && xLabel && (
         <PlotM
           t={xLabel}
           color={color}
@@ -291,7 +304,7 @@ export function Axes({
         />
       )}
 
-      {yLabel && (
+      {yAxis && yLabel && (
         <PlotM
           t={yLabel}
           color={color}
@@ -691,18 +704,19 @@ export function CircleLabel({
   );
 }
 
-function PlotM({
-  x,
-  y,
-  anchor,
-  offset = 5,
-  ...props
-}: MPropTypes & {
+type PlotMProps = MPropTypes & {
   x: number;
   y: number;
   anchor: Anchor;
   offset?: number;
-}) {
+};
+
+export const Label = ({ x, y, ...props }: PlotMProps) => {
+  const plot = usePlot();
+  return <PlotM x={plot.x(x)} y={plot.y(y)} {...props} />;
+};
+
+function PlotM({ x, y, anchor, offset = 5, ...props }: PlotMProps) {
   const plot = usePlot();
 
   const style: React.CSSProperties = useMemo(() => {
