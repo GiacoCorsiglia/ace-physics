@@ -1115,10 +1115,15 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
   wellPredictionsForT: s.string(),
   wellPredictionsForTCommit: Commit,
 
-  wellSimTest: s.string(),
+  wellSimTestPredictions: s.string(),
+  wellSimTestPredictionsCommit: Commit,
+
   wavelengthAfterTunneling: s.string(),
-  energyAfterTunneling: s.string(),
-  wellSimCommit: Commit,
+  wavelengthAfterTunnelingCommit: Commit,
+
+  energyAfterTunneling: s.choice(["lost", "not lost", "depends"] as const),
+  energyAfterTunnelingExplain: s.string(),
+  energyAfterTunnelingCommit: Commit,
 
   part3FinalCommit: Commit,
 

@@ -77,7 +77,11 @@ const sections = sectionComponents(ReflectingOnTransmission, [
       <Prose>
         <p>
           Below, sketch the transmission coefficient as a function of energy.
-          Use Zoom’s annotation feature.
+        </p>
+
+        <p>
+          <strong>Use Zoom’s annotation feature</strong> (or just sketch on
+          paper if you’re working alone).
         </p>
 
         <p>
@@ -111,7 +115,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         </Prose>
       </Reminder>
 
-      <Continue commit={f.tVersusEGraphCommit} />
+      <Continue commit={f.tVersusEGraphCommit} label="I’m done sketching" />
     </Section>
   ),
 

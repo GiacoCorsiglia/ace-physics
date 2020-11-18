@@ -22,3 +22,9 @@
     font-weight: $bold;
   }
 }
+
+.maxWidth {
+  svg {
+    max-width: 16rem;
+  }
+}

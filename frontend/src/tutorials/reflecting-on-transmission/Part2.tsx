@@ -28,8 +28,8 @@ const sections = sectionComponents(ReflectingOnTransmission, [
 
       <Prose>
         Think about the transmission coefficient <M t="T" /> for this system
-        (i.e., the probability that a particle entering from <M t="+\infty" />{" "}
-        will travel into the region <M t="x < 0" />
+        (i.e., the probability that a quantum particle entering from{" "}
+        <M t="+\infty" /> will travel into the region <M t="x < 0" />
         ).
       </Prose>
 
@@ -96,12 +96,12 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         </p>
       </Prose>
 
-      <Continue commit={f.simSetupCommit} />
+      <Continue commit={f.simSetupCommit} label="I’m done setting up the sim" />
     </Section>
   ),
 
   (f) => (
-    <Section>
+    <Section commits={f.simSetupCommit}>
       <Prose>
         <p>
           The sim can calculate <M t="R" /> and <M t="T" /> for you (find the

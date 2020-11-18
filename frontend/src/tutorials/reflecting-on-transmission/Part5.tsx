@@ -6,6 +6,7 @@ import { choices } from "src/components/inputs/Select";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet } from "src/state";
+import { classes } from "src/util";
 import { ContinueToNextPart, Part, sectionComponents } from "../shared";
 import {
   BarrierPotential,
@@ -26,9 +27,9 @@ export default function Part5() {
 const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section first>
-      <Prose>Consider these potentials:</Prose>
+      <Prose>Consider these potentials…</Prose>
 
-      <div className={styles.table}>
+      <div className={classes(styles.table, styles.maxWidth)}>
         <div>
           <b>Well</b>
           <WellPotential />
@@ -39,7 +40,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         </div>
       </div>
 
-      <Prose>and these reflection/transmission graphs:</Prose>
+      <Prose>…and these reflection/transmission graphs:</Prose>
 
       <div className={styles.table}>
         <div>
@@ -169,7 +170,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   ),
 
   (f) => (
-    <Section commits={f.physicalScenariosCommit}>
+    <Section commits={f.variationsInPhysicsFromSimCommit}>
       <ContinueToNextPart commit={f.part5FinalCommit} />
     </Section>
   ),

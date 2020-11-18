@@ -1,7 +1,8 @@
 import React from "react";
 import { ReflectingOnTransmission } from "src/common/tutorials";
 import { Continue, Hint, Prose, Reminder, Section } from "src/components";
-import { TextArea } from "src/components/inputs";
+import { TextArea, Toggle } from "src/components/inputs";
+import { choices } from "src/components/inputs/Select";
 import { Content } from "src/components/layout";
 import M from "src/components/M";
 import { isSet } from "src/state";
@@ -40,7 +41,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         Consider the transmission coefficient <M t="T" /> for this system.
       </Prose>
 
-      <Continue commit={f.part3IntroCommit} label="I’m thinking…" />
+      <Continue commit={f.part3IntroCommit} label="I’m considering…" />
     </Section>
   ),
 
@@ -75,7 +76,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.wellPredictionsForTCommit}>
       <TextArea
-        field={f.wellSimTest}
+        field={f.wellSimTestPredictions}
         label={
           <Prose>
             Use the{" "}
@@ -92,6 +93,15 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         }
       />
 
+      <Continue
+        commit={f.wellSimTestPredictionsCommit}
+        allowed={isSet(f.wellSimTestPredictions)}
+      />
+    </Section>
+  ),
+
+  (f) => (
+    <Section commits={f.wellSimTestPredictionsCommit}>
       <TextArea
         field={f.wavelengthAfterTunneling}
         label={
@@ -102,24 +112,41 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         }
       />
 
-      <TextArea
+      <Continue
+        commit={f.wavelengthAfterTunnelingCommit}
+        allowed={isSet(f.wavelengthAfterTunneling)}
+      />
+    </Section>
+  ),
+
+  (f) => (
+    <Section commits={f.wavelengthAfterTunnelingCommit}>
+      <Toggle
         field={f.energyAfterTunneling}
         label={<Prose>Is energy lost after tunneling?</Prose>}
+        choices={choices(f.energyAfterTunneling, {
+          lost: "Yes",
+          "not lost": "No",
+          depends: "It depends",
+        })}
+      />
+
+      <TextArea
+        field={f.energyAfterTunnelingExplain}
+        label={<Prose>Explain:</Prose>}
       />
 
       <Continue
-        commit={f.wellSimCommit}
+        commit={f.energyAfterTunnelingCommit}
         allowed={
-          isSet(f.wellSimTest) &&
-          isSet(f.wavelengthAfterTunneling) &&
-          isSet(f.energyAfterTunneling)
+          isSet(f.energyAfterTunneling) && isSet(f.energyAfterTunnelingExplain)
         }
       />
     </Section>
   ),
 
   (f) => (
-    <Section commits={f.wellSimCommit}>
+    <Section commits={f.energyAfterTunnelingCommit}>
       <ContinueToNextPart commit={f.part3FinalCommit} />
     </Section>
   ),
