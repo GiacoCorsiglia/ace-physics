@@ -6,6 +6,8 @@ import { tutorialRoute } from "../shared";
 import Part1 from "./Part1";
 import Part2 from "./Part2";
 import Part3 from "./Part3";
+import Part4 from "./Part4";
+import Part5 from "./Part5";
 
 export const route = tutorialRoute({
   url: urls.Tutorials.ReflectingOnTransmission,
@@ -25,9 +27,19 @@ export const route = tutorialRoute({
       element: <Part2 />,
     },
     {
-      label: "Transmission for the Potential Well",
-      path: "transmission-for-the-potential-well",
+      label: "Transmission for the Potential Well: Experiment",
+      path: "transmission-for-the-potential-well-experiment",
       element: <Part3 />,
+    },
+    {
+      label: "Transmission for the Potential Well: Formula",
+      path: "transmission-for-the-potential-well-formula",
+      element: <Part4 />,
+    },
+    {
+      label: "Summary",
+      path: "summary",
+      element: <Part5 />,
     },
   ],
 });

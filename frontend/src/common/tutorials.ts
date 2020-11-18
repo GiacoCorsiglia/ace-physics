@@ -1120,6 +1120,10 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
   energyAfterTunneling: s.string(),
   wellSimCommit: Commit,
 
+  part3FinalCommit: Commit,
+
+  part4IntroCommit: Commit,
+
   unitsOfT: s.string(),
   unitsOfl: s.string(),
   unitsOflAndTCommit: Commit,
@@ -1129,7 +1133,11 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
   tVersusALimits: s.string(),
   tVersusACommit: Commit,
 
-  part3FinalCommit: Commit,
+  part4FinalCommit: Commit,
+
+  part5IntroCommit: Commit,
+
+  part5FinalCommit: Commit,
 });
 
 ////////////////////////////////////////////////////////////////////////////////
