@@ -1137,6 +1137,17 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
 
   part5IntroCommit: Commit,
 
+  wellPotential: s.choice(["T/R #1", "T/R #2"] as const),
+  barrierPotential: s.choice(["T/R #1", "T/R #2"] as const),
+  graphMatchingExplain: s.string(),
+  graphMatchingCommit: Commit,
+
+  changesInGeneralSolution: s.string(),
+  changesInGeneralSolutionCommit: Commit,
+
+  physicalScenarios: s.string(),
+  physicalScenariosCommit: Commit,
+
   part5FinalCommit: Commit,
 });
 

@@ -1,0 +1,24 @@
+@import "src/styles/definitions";
+
+.table {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+
+  display: flex;
+  justify-content: space-around;
+
+  text-align: center;
+
+  > :first-child {
+    margin-right: 1rem;
+  }
+
+  svg {
+    display: block;
+    margin-top: 0 !important;
+  }
+
+  p {
+    font-weight: $bold;
+  }
+}
