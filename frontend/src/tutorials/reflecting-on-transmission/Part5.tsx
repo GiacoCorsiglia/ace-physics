@@ -152,6 +152,24 @@ const sections = sectionComponents(ReflectingOnTransmission, [
 
   (f) => (
     <Section commits={f.physicalScenariosCommit}>
+      <TextArea
+        field={f.variationsInPhysicsFromSim}
+        label={
+          <Prose>
+            If you have time, go back to the sim and make some more interesting
+            wells (e.g., a “double well”). Can you find any variations in the
+            physics?
+          </Prose>
+        }
+      />
+
+      {/* This is intended to be optional */}
+      <Continue commit={f.variationsInPhysicsFromSimCommit} />
+    </Section>
+  ),
+
+  (f) => (
+    <Section commits={f.physicalScenariosCommit}>
       <ContinueToNextPart commit={f.part5FinalCommit} />
     </Section>
   ),

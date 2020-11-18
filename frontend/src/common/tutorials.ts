@@ -1148,6 +1148,9 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
   physicalScenarios: s.string(),
   physicalScenariosCommit: Commit,
 
+  variationsInPhysicsFromSim: s.string(),
+  variationsInPhysicsFromSimCommit: Commit,
+
   part5FinalCommit: Commit,
 });
 
