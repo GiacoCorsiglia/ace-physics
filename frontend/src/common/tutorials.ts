@@ -1073,7 +1073,26 @@ export type ReflectingOnTransmission = s.TypeOf<
 >;
 const _rName = "ReflectingOnTransmission";
 export const ReflectingOnTransmission = tutorialSchema(_rName, {
-  pretest: s.record({}),
+  pretest: s.record({
+    reflectWhenEAboveVFromRight: s.choice([
+      "all",
+      "some",
+      "none",
+      "depends",
+    ] as const),
+    reflectWhenEAboveVFromLeft: s.choice([
+      "all",
+      "some",
+      "none",
+      "depends",
+    ] as const),
+    reflectWhenEBelowVFromLeft: s.choice([
+      "all",
+      "some",
+      "none",
+      "depends",
+    ] as const),
+  }),
   pretestCommit: Commit,
 
   part1IntroCommit: Commit,

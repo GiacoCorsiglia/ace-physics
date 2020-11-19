@@ -28,7 +28,7 @@ export function PretestSpiel() {
 
 export function PretestReminderSection() {
   return (
-    <Section noScroll>
+    <Section noScroll noLabel>
       <Prose>
         <strong className="text-blue">Reminder that this isn’t a quiz!</strong>{" "}
         It’s just a little diagnostic. Whether or not you feel confident in your
