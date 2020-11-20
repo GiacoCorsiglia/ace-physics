@@ -16,8 +16,8 @@ export default function DragHandle({
   disabled = false,
 }: {
   direction?: "x" | "y" | "both";
-  snap?: number | readonly [number, number];
-  snapPoints?: readonly number[] | readonly [number[], number[]];
+  snap?: number | readonly [x: number, y: number];
+  snapPoints?: readonly number[] | readonly [x: number[], y: number[]];
   xDefault?: number;
   yDefault?: number;
   xField?: Field<NumberSchema>;

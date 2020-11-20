@@ -61,6 +61,16 @@ const EnergyAndPosition = {
   link: "/tutorials/energy-and-position",
 };
 
+const ReflectingOnTransmission = {
+  path: "reflecting-on-transmission",
+  link: "/tutorials/reflecting-on-transmission",
+};
+
+const TimeDependence = {
+  path: "time-dependence",
+  link: "/tutorials/time-dependence",
+};
+
 export const Tutorials = {
   path: "tutorials",
   link: "/tutorials",
@@ -70,4 +80,6 @@ export const Tutorials = {
   EPR,
   VectorsToFunctions,
   EnergyAndPosition,
+  ReflectingOnTransmission,
+  TimeDependence,
 };

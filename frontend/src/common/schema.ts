@@ -580,86 +580,16 @@ export const array = <S extends Schema>(elements: S): ArraySchema<S> =>
 export const isArraySchema = (s: Schema): s is ArraySchema<Schema> =>
   s.kind === "array";
 
-type TupleEntry<S extends Schema> = TypeOf<S> | undefined;
-
 /**
  * Schema instance representing a tuple, which is an array of a fixed length
  * with each element matching a specific schema (that may differ by element).
  * Note that all elements are considered nullable!
  */
 class TupleSchemaC<S extends Schema[]> extends Schema<
-  S extends { length: 1 }
-    ? [TupleEntry<S[0]>]
-    : S extends { length: 2 }
-    ? [TupleEntry<S[0]>, TupleEntry<S[1]>]
-    : S extends { length: 3 }
-    ? [TupleEntry<S[0]>, TupleEntry<S[1]>, TupleEntry<S[1]>]
-    : S extends { length: 4 }
-    ? [TupleEntry<S[0]>, TupleEntry<S[1]>, TupleEntry<S[2]>, TupleEntry<S[3]>]
-    : S extends { length: 5 }
-    ? [
-        TupleEntry<S[0]>,
-        TupleEntry<S[1]>,
-        TupleEntry<S[2]>,
-        TupleEntry<S[3]>,
-        TupleEntry<S[4]>
-      ]
-    : S extends { length: 6 }
-    ? [
-        TupleEntry<S[0]>,
-        TupleEntry<S[1]>,
-        TupleEntry<S[2]>,
-        TupleEntry<S[3]>,
-        TupleEntry<S[4]>,
-        TupleEntry<S[5]>
-      ]
-    : S extends { length: 7 }
-    ? [
-        TupleEntry<S[0]>,
-        TupleEntry<S[1]>,
-        TupleEntry<S[2]>,
-        TupleEntry<S[3]>,
-        TupleEntry<S[4]>,
-        TupleEntry<S[5]>,
-        TupleEntry<S[6]>
-      ]
-    : S extends { length: 8 }
-    ? [
-        TupleEntry<S[0]>,
-        TupleEntry<S[1]>,
-        TupleEntry<S[2]>,
-        TupleEntry<S[3]>,
-        TupleEntry<S[4]>,
-        TupleEntry<S[5]>,
-        TupleEntry<S[6]>,
-        TupleEntry<S[7]>
-      ]
-    : S extends { length: 9 }
-    ? [
-        TupleEntry<S[0]>,
-        TupleEntry<S[1]>,
-        TupleEntry<S[2]>,
-        TupleEntry<S[3]>,
-        TupleEntry<S[4]>,
-        TupleEntry<S[5]>,
-        TupleEntry<S[6]>,
-        TupleEntry<S[7]>,
-        TupleEntry<S[8]>
-      ]
-    : S extends { length: 10 }
-    ? [
-        TupleEntry<S[0]>,
-        TupleEntry<S[1]>,
-        TupleEntry<S[2]>,
-        TupleEntry<S[3]>,
-        TupleEntry<S[4]>,
-        TupleEntry<S[5]>,
-        TupleEntry<S[6]>,
-        TupleEntry<S[7]>,
-        TupleEntry<S[8]>,
-        TupleEntry<S[9]>
-      ]
-    : never
+  {
+    // The extra conditional shouldn't be necessary, but it is...
+    [E in keyof S]: S[E] extends Schema ? TypeOf<S[E]> | undefined : never;
+  }
 > {
   readonly kind = "tuple";
 
@@ -724,80 +654,6 @@ export interface TupleSchema<S extends Schema[]> extends TupleSchemaC<S> {}
  * with each element matching a specific schema (that may differ by element).
  * Note that all elements are considered nullable!
  */
-export function tuple<A extends Schema>(...elements: [A]): TupleSchema<[A]>;
-export function tuple<A extends Schema, B extends Schema>(
-  ...elements: [A, B]
-): TupleSchema<[A, B]>;
-export function tuple<A extends Schema, B extends Schema, C extends Schema>(
-  ...elements: [A, B, C]
-): TupleSchema<[A, B, C]>;
-export function tuple<
-  A extends Schema,
-  B extends Schema,
-  C extends Schema,
-  D extends Schema
->(...elements: [A, B, C, D]): TupleSchema<[A, B, C, D]>;
-export function tuple<
-  A extends Schema,
-  B extends Schema,
-  C extends Schema,
-  D extends Schema,
-  E extends Schema
->(...elements: [A, B, C, D, E]): TupleSchema<[A, B, C, D, E]>;
-export function tuple<
-  A extends Schema,
-  B extends Schema,
-  C extends Schema,
-  D extends Schema,
-  E extends Schema,
-  F extends Schema
->(...elements: [A, B, C, D, E, F]): TupleSchema<[A, B, C, D, E, F]>;
-export function tuple<
-  A extends Schema,
-  B extends Schema,
-  C extends Schema,
-  D extends Schema,
-  E extends Schema,
-  F extends Schema,
-  G extends Schema
->(...elements: [A, B, C, D, E, F, G]): TupleSchema<[A, B, C, D, E, F, G]>;
-export function tuple<
-  A extends Schema,
-  B extends Schema,
-  C extends Schema,
-  D extends Schema,
-  E extends Schema,
-  F extends Schema,
-  G extends Schema,
-  H extends Schema
->(...elements: [A, B, C, D, E, F, G, H]): TupleSchema<[A, B, C, D, E, F, G, H]>;
-export function tuple<
-  A extends Schema,
-  B extends Schema,
-  C extends Schema,
-  D extends Schema,
-  E extends Schema,
-  F extends Schema,
-  G extends Schema,
-  H extends Schema,
-  I extends Schema
->(
-  ...elements: [A, B, C, D, E, F, G, H, I]
-): TupleSchema<[A, B, C, D, E, F, G, H, I]>;
-export function tuple<
-  A extends Schema,
-  B extends Schema,
-  C extends Schema,
-  D extends Schema,
-  E extends Schema,
-  F extends Schema,
-  G extends Schema,
-  H extends Schema,
-  I extends Schema,
-  J extends Schema
->(
-  ...elements: [A, B, C, D, E, F, G, H, I, J]
-): TupleSchema<[A, B, C, D, E, F, G, H, I, J]>;
 export function tuple<S extends Schema[]>(...elements: S): TupleSchema<S> {
   return new TupleSchemaC(elements);
 }

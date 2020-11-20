@@ -382,7 +382,7 @@ const LabelChoice = s.choice([
   "<+|psi_A>",
   "|<-|psi_A>|^2",
   "|<+|psi_A>|^2",
-]);
+] as const);
 
 const PlusMinus = s.record({
   minusHeight: HeightChoice,
@@ -1062,4 +1062,140 @@ export const EnergyAndPosition = tutorialSchema("EnergyAndPosition", {
   toThinkAboutCommit: Commit,
 
   part6FinalCommit: Commit,
+});
+
+////////////////////////////////////////////////////////////////////////////////
+// Reflecting on Transmission
+////////////////////////////////////////////////////////////////////////////////
+
+export type ReflectingOnTransmission = s.TypeOf<
+  typeof ReflectingOnTransmission
+>;
+const _rName = "ReflectingOnTransmission";
+export const ReflectingOnTransmission = tutorialSchema(_rName, {
+  pretest: s.record({
+    reflectWhenEAboveVFromRight: s.choice([
+      "all",
+      "some",
+      "none",
+      "depends",
+    ] as const),
+    reflectWhenEAboveVFromLeft: s.choice([
+      "all",
+      "some",
+      "none",
+      "depends",
+    ] as const),
+    reflectWhenEBelowVFromLeft: s.choice([
+      "all",
+      "some",
+      "none",
+      "depends",
+    ] as const),
+  }),
+  pretestCommit: Commit,
+
+  part1IntroCommit: Commit,
+
+  unitsOfV0: s.string(),
+  unitsOfV0Commit: Commit,
+
+  generalSolution: s.record({
+    regionI: s.string(),
+    regionII: s.string(),
+    regionIII: s.string(),
+  }),
+  generalSolutionNewSymbols: s.string(),
+  generalSolutionCommit: Commit,
+
+  generalSolutionConstraints: s.string(),
+  generalSolutionPhysicalInterpretation: s.string(),
+  generalSolutionConstraintsCommit: Commit,
+
+  part1FinalCommit: Commit,
+
+  part2IntroCommit: Commit,
+
+  qualitativePredictionsForT: s.string(),
+  qualitativePredictionsForTCommit: Commit,
+
+  simSetupCommit: Commit,
+
+  simPatterns: s.string(),
+  simPatternsCommit: Commit,
+
+  comparePredictionsWithSim: s.string(),
+  comparePredictionsWithSimCommit: Commit,
+
+  part2FinalCommit: Commit,
+
+  part3IntroCommit: Commit,
+
+  wellPredictionsForT: s.string(),
+  wellPredictionsForTCommit: Commit,
+
+  wellSimTestPredictions: s.string(),
+  wellSimTestPredictionsCommit: Commit,
+
+  wavelengthAfterTunneling: s.string(),
+  wavelengthAfterTunnelingCommit: Commit,
+
+  energyAfterTunneling: s.choice(["lost", "not lost", "depends"] as const),
+  energyAfterTunnelingExplain: s.string(),
+  energyAfterTunnelingCommit: Commit,
+
+  part3FinalCommit: Commit,
+
+  part4IntroCommit: Commit,
+
+  unitsOfT: s.string(),
+  unitsOfl: s.string(),
+  unitsOflAndTCommit: Commit,
+
+  tVersusEGraphCommit: Commit,
+
+  tVersusALimits: s.string(),
+  tVersusACommit: Commit,
+
+  part4FinalCommit: Commit,
+
+  part5IntroCommit: Commit,
+
+  wellPotential: s.choice(["T/R #1", "T/R #2"] as const),
+  barrierPotential: s.choice(["T/R #1", "T/R #2"] as const),
+  graphMatchingExplain: s.string(),
+  graphMatchingCommit: Commit,
+
+  changesInGeneralSolution: s.string(),
+  changesInGeneralSolutionCommit: Commit,
+
+  physicalScenarios: s.string(),
+  physicalScenariosCommit: Commit,
+
+  variationsInPhysicsFromSim: s.string(),
+  variationsInPhysicsFromSimCommit: Commit,
+
+  part5FinalCommit: Commit,
+});
+
+////////////////////////////////////////////////////////////////////////////////
+// Time Dependence
+////////////////////////////////////////////////////////////////////////////////
+
+export type TimeDependence = s.TypeOf<typeof TimeDependence>;
+export const TimeDependence = tutorialSchema("TimeDependence", {
+  pretest: s.record({}),
+  pretestCommit: Commit,
+
+  // There will probably be more parts here than on the paper version, which
+  // only has two parts.
+  part1IntroCommit: Commit,
+
+  part1FinalCommit: Commit,
+
+  part2IntroCommit: Commit,
+
+  part2FinalCommit: Commit,
+
+  // etc.
 });
