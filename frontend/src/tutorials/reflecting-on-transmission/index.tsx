@@ -15,7 +15,12 @@ export const route = tutorialRoute({
   name: "ReflectingOnTransmission",
   schema: ReflectingOnTransmission,
   label: "Reflecting on Transmission",
-  intro: <Prose>Reflection & Transmission…</Prose>,
+  intro: (
+    <Prose>
+      Explore the phenomena of reflection and transmission from 1D potential
+      barriers.
+    </Prose>
+  ),
   parts: [
     {
       label: "Before You Start",

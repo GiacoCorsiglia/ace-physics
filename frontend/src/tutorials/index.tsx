@@ -113,18 +113,19 @@ function TutorialsIndex() {
               representations of a quantum state.
             </TutorialLink>
 
-            <TutorialLink
+            {/* <TutorialLink
               label="Time Dependence"
               url={urls.Tutorials.TimeDependence}
             >
               Time dependence…
-            </TutorialLink>
+            </TutorialLink> */}
 
             <TutorialLink
               label="Reflecting on Transmission"
               url={urls.Tutorials.ReflectingOnTransmission}
             >
-              Tunneling…
+              Explore the phenomena of reflection and transmission from 1D
+              potential barriers.
             </TutorialLink>
           </ul>
         </nav>
