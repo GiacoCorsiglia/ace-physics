@@ -69,7 +69,7 @@ export default function Pretest() {
             <Prose>
               <p>
                 Consider just a single potential “step” (<em>not</em> a well).
-                Particles are incident from <M t="+\infty" />,{" "}
+                Quantum particles are incident from <M t="+\infty" />,{" "}
                 <strong>entering from the right</strong> with positive energy{" "}
                 <M t="E > V_0" />, as shown:
               </p>
@@ -87,7 +87,9 @@ export default function Pretest() {
             <Choice
               field={f.reflectWhenEAboveVFromRight}
               label={
-                <Prose>Will incoming particles “reflect” off this step?</Prose>
+                <Prose>
+                  Will incoming quantum particles “reflect” off this step?
+                </Prose>
               }
               choices={answers}
               allowOther={false}
@@ -108,7 +110,9 @@ export default function Pretest() {
             <Choice
               field={f.reflectWhenEAboveVFromLeft}
               label={
-                <Prose>Will incoming particles “reflect” off this step?</Prose>
+                <Prose>
+                  Will incoming quantum particles “reflect” off this step?
+                </Prose>
               }
               choices={answers}
               allowOther={false}
@@ -126,7 +130,9 @@ export default function Pretest() {
             <Choice
               field={f.reflectWhenEBelowVFromLeft}
               label={
-                <Prose>Will incoming particles “reflect” off this step?</Prose>
+                <Prose>
+                  Will incoming quantum particles “reflect” off this step?
+                </Prose>
               }
               choices={answers}
               allowOther={false}
