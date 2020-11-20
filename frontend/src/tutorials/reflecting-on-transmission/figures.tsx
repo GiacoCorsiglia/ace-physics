@@ -166,8 +166,6 @@ export function PretestStepPotential({
       <plots.Label t="V = 0" x={0} y={0.1} anchor="bottomLeft" />
 
       <plots.Tick x={0} label="0" labelPosition="below" />
-
-      <plots.Tick y={-1} label="-V_0" />
     </plots.Plot>
   );
 }
@@ -258,8 +256,6 @@ export function SymmetricWellPotential() {
       <plots.Tick x={-1} label="-a" labelPosition="below" />
       <plots.Tick x={0} label="0" labelPosition="below" />
       <plots.Tick x={1} label="a" labelPosition="below" />
-
-      <plots.Tick y={-1} label="-V_0" />
     </plots.Plot>
   );
 }
@@ -374,8 +370,6 @@ export function StepPotential() {
       <plots.Label t="V = -V_0" x={0} y={0.1} anchor="bottomRight" />
 
       <plots.Tick x={0} label="0" labelPosition="below" />
-
-      <plots.Tick y={-1} label="-V_0" />
     </plots.Plot>
   );
 }
