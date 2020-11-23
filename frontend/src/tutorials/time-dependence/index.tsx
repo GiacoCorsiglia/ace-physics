@@ -3,7 +3,11 @@ import { TimeDependence } from "src/common/tutorials";
 import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
-import Part1 from "./Part1";
+import AnEnergyEigenstate from "./AnEnergyEigenstate";
+import Superposition from "./Superposition";
+import TimeEvoInfiniteWell from "./TimeEvoInfiniteWell";
+import WrapUpTimeEv from "./WrapUpTimeEv";
+
 
 export const route = tutorialRoute({
   url: urls.Tutorials.TimeDependence,
@@ -13,9 +17,24 @@ export const route = tutorialRoute({
   intro: <Prose>Time dependence...</Prose>,
   parts: [
     {
-      label: "TODO: NAME OF PART ONE",
-      path: "TODO-NAME-OF-PART-ONE",
-      element: <Part1 />,
+      label: "Time Evolution in the infinite square well potential",
+      path: "TimeEvoInfiniteWell",
+      element: <TimeEvoInfiniteWell />,
+    },
+    {
+      label: "An energy eigenstate",
+      path: "AnEnergyEigenstate",
+      element: <AnEnergyEigenstate />,
+    },
+    {
+      label: "A superposition of eigenstates",
+      path: "Superposition",
+      element: <Superposition />,
+    },
+    {
+      label: "Wrap up: Time evolution",
+      path: "WrapUpTimeEv",
+      element: <WrapUpTimeEv />,
     },
   ],
 });

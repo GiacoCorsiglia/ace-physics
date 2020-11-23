@@ -1187,8 +1187,7 @@ export const TimeDependence = tutorialSchema("TimeDependence", {
   pretest: s.record({}),
   pretestCommit: Commit,
 
-  // There will probably be more parts here than on the paper version, which
-  // only has two parts.
+ //Part 1: Time evolution in the infinite square well
   part1IntroCommit: Commit,
 
   part1FinalCommit: Commit,
@@ -1197,5 +1196,92 @@ export const TimeDependence = tutorialSchema("TimeDependence", {
 
   part2FinalCommit: Commit,
 
-  // etc.
+  GroundStateSketch: s.string(),
+  GroundStateSketchCommit: Commit,
+
+  MidValue: s.string(),
+  MidValueCommit: Commit,
+
+  GSTimeEv: s.string(),
+  GSTimeEvCommit: Commit,
+
+  TimeEvExp:  s.string(),
+  TimeEvExpCommit: Commit,
+
+  ProbDensPlot: s.string(),
+  ProbDensPlotCommit: Commit,
+
+  DifTimesPlotExp: s.string(),
+  DifTimesPlotExpCommit: Commit,
+
+  WholeFunctionPlotExp: s.string(),
+  WholeFunctionPlotExpCommit: Commit,
+
+
+
+  // Part 2: Energy eigenstate
+  PrevGraphCompareExp: s.string(),
+  PrevGraphCompareExpCommit: Commit,
+
+  SimGraphCompExp: s.string(),
+  SimGraphCompExpCommit: Commit,
+
+  RotationPeriod1: s.string(),
+  RotationPeriod2: s.string(),
+  RotationPeriodCommit: Commit,
+
+  T2Compare: s.string(),
+  T2CompareExp: s.string(),
+  T2CompareCommit: Commit,
+
+  VerifyT2: s.string(),
+  VerifyT2Commit: Commit,
+
+  StudA: s.string(),
+  StudB: s.string(),
+  StudC: s.string(),
+  StudD: s.string(),
+  StudRepCommit: Commit,
+
+
+
+
+  //Part 3: A superposition
+  Part3IntroCommit: Commit,
+  Redline: s.string(),
+  RedlineCommit: Commit,
+
+  ProbDensGraph: s.string(),
+  ProbDensGraphCommit: Commit,
+
+  ProbDensMidPoint: s.string(),
+  ProbDensMidPointCommit: Commit,
+
+  SamePlaneSymmExp: s.string(),
+  PerpPlaneSymmExp: s.string(),
+  SymmExpCommit: Commit,
+
+  WhyPerpSymmExp: s.string(),
+  WhyPerpSymmExpCommit: Commit,
+
+  SupPeriodEntry: s.string(),
+  SupPeriodExp: s.string(),
+  SupPeriodEntryCommit: Commit,
+
+
+
+  //Part 4: Wrap up
+  part4IntroCommit: Commit,
+
+  StudAWrapUp: s.string(),
+  StudBWrapUp: s.string(),
+  StudWrapUpCommit: Commit,
+
+  GraphDisWrapUp: s.string(),
+  GraphDisWrapUpCommit: Commit,
+
+  DesripDiscuss: s.string(),
+  DesripDiscussCommit: Commit,
+
+
 });
