@@ -5,9 +5,8 @@ import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
 import AnEnergyEigenstate from "./AnEnergyEigenstate";
 import Superposition from "./Superposition";
-import TimeEvoInfiniteWell from "./TimeEvoInfiniteWell";
+import TimeEvInfiniteWell from "./TimeEvInfiniteWell";
 import WrapUpTimeEv from "./WrapUpTimeEv";
-
 
 export const route = tutorialRoute({
   url: urls.Tutorials.TimeDependence,
@@ -18,22 +17,22 @@ export const route = tutorialRoute({
   parts: [
     {
       label: "Time Evolution in the infinite square well potential",
-      path: "TimeEvoInfiniteWell",
-      element: <TimeEvoInfiniteWell />,
+      path: "time-evolution-infinite-square-well-potential",
+      element: <TimeEvInfiniteWell />,
     },
     {
       label: "An energy eigenstate",
-      path: "AnEnergyEigenstate",
+      path: "an-energy-eigenstate",
       element: <AnEnergyEigenstate />,
     },
     {
       label: "A superposition of eigenstates",
-      path: "Superposition",
+      path: "superposition",
       element: <Superposition />,
     },
     {
       label: "Wrap up: Time evolution",
-      path: "WrapUpTimeEv",
+      path: "wrap-up-time-evolution",
       element: <WrapUpTimeEv />,
     },
   ],
