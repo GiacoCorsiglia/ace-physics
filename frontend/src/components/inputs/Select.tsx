@@ -21,6 +21,19 @@ const memoizedChoices = new Map<
   Choices<s.Literal>
 >();
 
+if (process.env.NODE_ENV === "development") {
+  // HACK....I should just make this a hook and stash it in a ref (or, probably
+  // don't need to bother.)
+  try {
+    const refresh = require("react-refresh/runtime");
+    const old = refresh.performReactRefresh;
+    refresh.performReactRefresh = (...args: any) => {
+      memoizedChoices.clear();
+      old(...args);
+    };
+  } catch (e) {}
+}
+
 export function choices<C extends readonly (string | number)[]>(
   field: Field<s.ChoiceSchema<C, any, any>>,
   choices?: { [K in C[number]]: React.ReactNode }

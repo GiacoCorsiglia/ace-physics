@@ -1247,37 +1247,41 @@ export const TimeDependence = tutorialSchema("TimeDependence", {
   part2FinalCommit: Commit,
 
   //Part 3: A superposition
-  Part3IntroCommit: Commit,
-  Redline: s.string(),
-  RedlineCommit: Commit,
+  part3IntroCommit: Commit,
 
-  ProbDensGraph: s.string(),
-  ProbDensGraphCommit: Commit,
+  meaningOfRedLineInSim: s.string(),
+  meaningOfRedLineInSimCommit: Commit,
 
-  ProbDensMidPoint: s.string(),
-  ProbDensMidPointCommit: Commit,
+  explainTimeDependenceOfProbDens: s.string(),
+  explainTimeDependenceOfProbDensCommit: Commit,
 
-  SamePlaneSymmExp: s.string(),
-  PerpPlaneSymmExp: s.string(),
-  SymmExpCommit: Commit,
+  behaviorOfProbDensAtMidpoint: s.string(),
+  behaviorOfProbDensAtMidpointCommit: Commit,
 
-  WhyPerpSymmExp: s.string(),
-  WhyPerpSymmExpCommit: Commit,
+  samePlaneSymmetry: s.choice(["symmetric", "asymmetric"]),
+  perpPlaneSymmetry: s.choice(["symmetric", "asymmetric"]),
+  symmetryCommit: Commit,
 
-  SupPeriodEntry: s.string(),
-  SupPeriodExp: s.string(),
-  SupPeriodEntryCommit: Commit,
+  explainSymmetryWhenPerp: s.string(),
+  explainSymmetryWhenPerpCommit: Commit,
+
+  periodOfProbDens: s.number(),
+  periodOfProbDensCommit: Commit,
+
+  part3FinalCommit: Commit,
 
   //Part 4: Wrap up
   part4IntroCommit: Commit,
 
-  StudAWrapUp: s.string(),
-  StudBWrapUp: s.string(),
-  StudWrapUpCommit: Commit,
+  explainWhyIncorrectStudentA: s.string(),
+  explainWhyIncorrectStudentB: s.string(),
+  incorrectStatementsWrapUpCommit: Commit,
 
-  GraphDisWrapUp: s.string(),
-  GraphDisWrapUpCommit: Commit,
+  explainWhyGraphIncorrect: s.string(),
+  explainWhyGraphIncorrectCommit: Commit,
 
-  DesripDiscuss: s.string(),
-  DesripDiscussCommit: Commit,
+  connectSimWithCorrectDescription: s.string(),
+  connectSimWithCorrectDescriptionCommit: Commit,
+
+  part4FinalCommit: Commit,
 });

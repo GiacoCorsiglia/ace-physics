@@ -3,7 +3,10 @@ import { TimeDependence } from "src/common/tutorials";
 import { Continue, Prose, Section } from "src/components";
 import { TextArea } from "src/components/inputs";
 import { Content } from "src/components/layout";
-import { Part, sectionComponents } from "../shared";
+import M from "src/components/M";
+import { isSet } from "src/state";
+import { ContinueToNextPart, Part, sectionComponents } from "../shared";
+import graphsImg from "./img/student-graphs.png";
 
 export default function WrapUpTimeEv() {
   return (
@@ -17,10 +20,10 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section first>
       <Prose>
-        <p>Let us pull together the things we've learned</p>
+        <p>Let’s pull together the things we've learned</p>
       </Prose>
 
-      <Continue commit={f.part4IntroCommit} />
+      <Continue commit={f.part4IntroCommit} label="Let’s do it!" />
     </Section>
   ),
 
@@ -30,61 +33,128 @@ const sections = sectionComponents(TimeDependence, [
         The following two students’ statements are both incorrect. Explain how
         each statement is inconsistent with the graphs shown in the simulation.
       </Prose>
+
       <TextArea
-        field={f.StudAWrapUp}
+        field={f.explainWhyIncorrectStudentA}
         label={
           <Prose>
-            Student A: “The wave function has a real and imaginary component,
-            but you only need to consider the real component when determining
-            the probability density, because the imaginary component disappears
-            when you square the wave function.”
+            <p>
+              <strong>Student A:</strong>
+            </p>
+
+            <blockquote>
+              The wave function has a real and imaginary component, but you only
+              need to consider the real component when determining the
+              probability density, because the imaginary component disappears
+              when you square the wave function.
+            </blockquote>
+
+            <p>Explain why this statement is incorrect:</p>
           </Prose>
         }
       />
+
       <TextArea
-        field={f.StudBWrapUp}
+        field={f.explainWhyIncorrectStudentB}
         label={
           <Prose>
-            Student B: “The time evolution of the wave function ψ_A is ψ_A (x,t)
-            = e^(-iEt/ħ ) (ψ_1 (x) +ψ_2 (x) ) .”
+            <p>
+              <strong>Student B:</strong>
+            </p>
+
+            <blockquote>
+              The time evolution of the wave function <M t="\psi_A" /> is{" "}
+              <M
+                display
+                t="\psi_A (x,t) =
+              e^{-iEt/\hbar} ( \psi_1(x) + \psi_2(x) )"
+              />
+            </blockquote>
+
+            <p>Explain why this statement is incorrect:</p>
           </Prose>
         }
       />
-      <Continue commit={f.StudWrapUpCommit} />
+
+      <Continue
+        commit={f.incorrectStatementsWrapUpCommit}
+        allowed={
+          isSet(f.explainWhyIncorrectStudentA) &&
+          isSet(f.explainWhyIncorrectStudentB)
+        }
+      />
     </Section>
   ),
+
   (f) => (
-    <Section commits={f.StudWrapUpCommit}>
+    <Section commits={f.incorrectStatementsWrapUpCommit}>
+      <Prose>
+        <p>
+          Consider the following incorrect graphs made by a student to show the
+          time evolution of <M t="\psi_A" />, along with an explanation for the
+          graphs.
+        </p>
+
+        <img
+          src={graphsImg}
+          alt="Graphs of ψA at 3 at t=0, at a quarter period, and at a half period."
+        />
+
+        <blockquote>
+          The time evolution of the wave function is that it sloshes back and
+          forth along the real axis, in a way that the minimum and maximum
+          exchange places.
+        </blockquote>
+      </Prose>
+
       <TextArea
-        field={f.GraphDisWrapUp}
+        field={f.explainWhyGraphIncorrect}
         label={
-          <Prose>
-            Consider the following incorrect graphs made by a student to show
-            the time evolution of . Explain why the graphs and explanation are
-            incorrect. “The time evolution of the wave function is that it
-            sloshes back and forth along the real axis, in a way that the
-            minimum and maximum exchange places.”
-          </Prose>
+          <Prose>Explain why the graphs and explanation are incorrect.</Prose>
         }
       />
-      <Continue commit={f.GraphDisWrapUpCommit} />
+
+      <Continue
+        commit={f.explainWhyGraphIncorrectCommit}
+        allowed={isSet(f.explainWhyGraphIncorrect)}
+      />
     </Section>
   ),
+
   (f) => (
-    <Section commits={f.GraphDisWrapUpCommit}>
+    <Section commits={f.explainWhyGraphIncorrectCommit}>
       <TextArea
-        field={f.DesripDiscuss}
+        field={f.connectSimWithCorrectDescription}
         label={
           <Prose>
-            Consider the following correct description of how the wave function
-            ψ_A (x,t) evolves with time:“The time evolution of ψ_A has both real
-            and imaginary parts that change with time, due to the different
-            rotation frequencies of ψ_1and ψ_2 in the complex plane.” How does
-            the simulation illustrate this?
+            <p>
+              Consider the following <strong>correct</strong> description of how
+              the wave function
+              <M t="\psi_A (x,t)" /> evolves with time:
+            </p>
+
+            <blockquote>
+              The time evolution of <M t="\psi_A" /> has both real and imaginary
+              parts that change with time, due to the different rotation
+              frequencies of
+              <M t="\psi_1" /> and <M t="\psi_1" /> in the complex plane.
+            </blockquote>
+
+            <p>How does the simulation illustrate this?</p>
           </Prose>
         }
       />
-      <Continue commit={f.DesripDiscussCommit} />
+
+      <Continue
+        commit={f.connectSimWithCorrectDescriptionCommit}
+        allowed={isSet(f.connectSimWithCorrectDescription)}
+      />
+    </Section>
+  ),
+
+  (f) => (
+    <Section commits={f.connectSimWithCorrectDescriptionCommit}>
+      <ContinueToNextPart commit={f.part4FinalCommit} />
     </Section>
   ),
 ]);
