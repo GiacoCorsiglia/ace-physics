@@ -1187,64 +1187,64 @@ export const TimeDependence = tutorialSchema("TimeDependence", {
   pretest: s.record({}),
   pretestCommit: Commit,
 
- //Part 1: Time evolution in the infinite square well
+  //Part 1: Time evolution in the infinite square well
   part1IntroCommit: Commit,
 
   part1FinalCommit: Commit,
 
-  part2IntroCommit: Commit,
+  groundStateSketchCommit: Commit,
 
-  part2FinalCommit: Commit,
+  timeEvolvedGroundState: s.string(),
+  timeEvolvedGroundStateCommit: Commit,
 
-  GroundStateSketch: s.string(),
-  GroundStateSketchCommit: Commit,
+  timeEvolutionDescription: s.string(),
+  timeEvolutionDescriptionCommit: Commit,
 
-  MidValue: s.string(),
-  MidValueCommit: Commit,
+  probDensRelationshipToProbAmp: s.string(),
+  probDensPlotCommit: Commit,
 
-  GSTimeEv: s.string(),
-  GSTimeEvCommit: Commit,
+  exp3PiOver2: s.string(),
+  difTimePlotAxisX: s.string(),
+  difTimePlotAxisY: s.string(),
+  difTimePlotCommit: Commit,
 
-  TimeEvExp:  s.string(),
-  TimeEvExpCommit: Commit,
-
-  ProbDensPlot: s.string(),
-  ProbDensPlotCommit: Commit,
-
-  DifTimesPlotExp: s.string(),
-  DifTimesPlotExpCommit: Commit,
-
-  WholeFunctionPlotExp: s.string(),
-  WholeFunctionPlotExpCommit: Commit,
-
-
+  wholeFunctionTimeDependencePlot: s.string(),
+  wholeFunctionTimeDependencePlotCommit: Commit,
 
   // Part 2: Energy eigenstate
-  PrevGraphCompareExp: s.string(),
-  PrevGraphCompareExpCommit: Commit,
 
-  SimGraphCompExp: s.string(),
-  SimGraphCompExpCommit: Commit,
+  part2IntroCommit: Commit,
 
-  RotationPeriod1: s.string(),
-  RotationPeriod2: s.string(),
-  RotationPeriodCommit: Commit,
+  simSetupCommit: Commit,
 
-  T2Compare: s.string(),
-  T2CompareExp: s.string(),
-  T2CompareCommit: Commit,
+  prevGraphComparison: s.string(),
+  prevGraphComparisonCommit: Commit,
 
-  VerifyT2: s.string(),
-  VerifyT2Commit: Commit,
+  simGraphComparison: s.string(),
+  simGraphComparisonCommit: Commit,
 
-  StudA: s.string(),
-  StudB: s.string(),
-  StudC: s.string(),
-  StudD: s.string(),
-  StudRepCommit: Commit,
+  rotationPeriod1: s.number(),
+  rotationPeriod2: s.number(),
+  rotationPeriodsCommit: Commit,
 
+  comparePeriodicPsi2: s.choice(["same", "different"] as const),
+  comparePeriodicPsi2Difference: s.string(),
+  comparePeriodicPsi2Commit: Commit,
 
+  verifyRotationPeriod2: s.string(),
+  verifyRotationPeriod2Commit: Commit,
 
+  agreementStudentA: s.choice(["agree", "disagree"] as const),
+  explainStudentA: s.string(),
+  agreementStudentB: s.choice(["agree", "disagree"] as const),
+  explainStudentB: s.string(),
+  agreementStudentC: s.choice(["agree", "disagree"] as const),
+  explainStudentC: s.string(),
+  agreementStudentD: s.choice(["agree", "disagree"] as const),
+  explainStudentD: s.string(),
+  studentStatementsOnTimeEvolutionCommit: Commit,
+
+  part2FinalCommit: Commit,
 
   //Part 3: A superposition
   Part3IntroCommit: Commit,
@@ -1268,8 +1268,6 @@ export const TimeDependence = tutorialSchema("TimeDependence", {
   SupPeriodExp: s.string(),
   SupPeriodEntryCommit: Commit,
 
-
-
   //Part 4: Wrap up
   part4IntroCommit: Commit,
 
@@ -1282,6 +1280,4 @@ export const TimeDependence = tutorialSchema("TimeDependence", {
 
   DesripDiscuss: s.string(),
   DesripDiscussCommit: Commit,
-
-
 });

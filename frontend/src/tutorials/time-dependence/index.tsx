@@ -16,24 +16,28 @@ export const route = tutorialRoute({
   intro: <Prose>Time dependence...</Prose>,
   parts: [
     {
-      label: "Time Evolution in the infinite square well potential",
+      label: "Time Evolution in the Infinite Square Well Potential",
       path: "time-evolution-infinite-square-well-potential",
       element: <TimeEvInfiniteWell />,
+      labelSections: true,
     },
     {
-      label: "An energy eigenstate",
+      label: "An Energy Eigenstate",
       path: "an-energy-eigenstate",
       element: <AnEnergyEigenstate />,
+      labelSections: true,
     },
     {
-      label: "A superposition of eigenstates",
+      label: "A Superposition of Eigenstates",
       path: "superposition",
       element: <Superposition />,
+      labelSections: true,
     },
     {
       label: "Wrap up: Time evolution",
       path: "wrap-up-time-evolution",
       element: <WrapUpTimeEv />,
+      labelSections: true,
     },
   ],
 });
