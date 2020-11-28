@@ -1182,6 +1182,22 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
 // Time Dependence
 ////////////////////////////////////////////////////////////////////////////////
 
+const TimeDependenceTableRow = s.record({
+  phaseDifference: s.choice(["0_", "pi/2", "pi", "-pi/2"] as const),
+  equationProbAmp: s.choice([
+    "ψ1 + ψ2",
+    "-iψ1 + ψ2",
+    "-ψ1 + ψ2",
+    "iψ1 + ψ2",
+  ] as const),
+  equationProbDens: s.choice([
+    "ψ1^2 + ψ2^2 + ψ1ψ2",
+    "ψ1^2 + ψ2^2",
+    "ψ1^2 + ψ2^2 - ψ1ψ2",
+  ] as const),
+  graphProbDens: s.choice(["t000", "t025", "t050"] as const),
+});
+
 export type TimeDependence = s.TypeOf<typeof TimeDependence>;
 export const TimeDependence = tutorialSchema("TimeDependence", {
   pretest: s.record({}),
@@ -1257,6 +1273,14 @@ export const TimeDependence = tutorialSchema("TimeDependence", {
 
   behaviorOfProbDensAtMidpoint: s.string(),
   behaviorOfProbDensAtMidpointCommit: Commit,
+
+  table: s.record({
+    t000: TimeDependenceTableRow,
+    t025: TimeDependenceTableRow,
+    t050: TimeDependenceTableRow,
+    t075: TimeDependenceTableRow,
+  }),
+  tableCommit: Commit,
 
   samePlaneSymmetry: s.choice(["symmetric", "asymmetric"]),
   perpPlaneSymmetry: s.choice(["symmetric", "asymmetric"]),

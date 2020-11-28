@@ -28,7 +28,7 @@ const sections = sectionComponents(TimeDependence, [
 
         <p>
           The <M t="\psi_n(x)" /> are the spatial parts of the energy
-          eigenfunctions with energy values <M t="E_n" /> , such that
+          eigenfunctions with energy values <M t="E_n" />, such that
           <M t="E_n = n^2 E_1" />. Consider a particle in the ground state at
           time t=0 given by <M t="\psi_1(x)" />.
         </p>
