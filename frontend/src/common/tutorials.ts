@@ -1182,20 +1182,130 @@ export const ReflectingOnTransmission = tutorialSchema(_rName, {
 // Time Dependence
 ////////////////////////////////////////////////////////////////////////////////
 
+const TimeDependenceTableRow = s.record({
+  phaseDifference: s.choice(["0_", "pi/2", "pi", "-pi/2"] as const),
+  equationProbAmp: s.choice([
+    "ψ1 + ψ2",
+    "-iψ1 + ψ2",
+    "-ψ1 + ψ2",
+    "iψ1 + ψ2",
+  ] as const),
+  equationProbDens: s.choice([
+    "ψ1^2 + ψ2^2 + ψ1ψ2",
+    "ψ1^2 + ψ2^2",
+    "ψ1^2 + ψ2^2 - ψ1ψ2",
+  ] as const),
+  graphProbDens: s.choice(["t000", "t025", "t050"] as const),
+});
+
 export type TimeDependence = s.TypeOf<typeof TimeDependence>;
 export const TimeDependence = tutorialSchema("TimeDependence", {
   pretest: s.record({}),
   pretestCommit: Commit,
 
-  // There will probably be more parts here than on the paper version, which
-  // only has two parts.
+  //Part 1: Time evolution in the infinite square well
   part1IntroCommit: Commit,
 
   part1FinalCommit: Commit,
 
+  groundStateSketchCommit: Commit,
+
+  timeEvolvedGroundState: s.string(),
+  timeEvolvedGroundStateCommit: Commit,
+
+  timeEvolutionDescription: s.string(),
+  timeEvolutionDescriptionCommit: Commit,
+
+  probDensRelationshipToProbAmp: s.string(),
+  probDensPlotCommit: Commit,
+
+  exp3PiOver2: s.string(),
+  difTimePlotAxisX: s.string(),
+  difTimePlotAxisY: s.string(),
+  difTimePlotCommit: Commit,
+
+  wholeFunctionTimeDependencePlot: s.string(),
+  wholeFunctionTimeDependencePlotCommit: Commit,
+
+  // Part 2: Energy eigenstate
+
   part2IntroCommit: Commit,
+
+  simSetupCommit: Commit,
+
+  prevGraphComparison: s.string(),
+  prevGraphComparisonCommit: Commit,
+
+  simGraphComparison: s.string(),
+  simGraphComparisonCommit: Commit,
+
+  rotationPeriod1: s.number(),
+  rotationPeriod2: s.number(),
+  rotationPeriodsCommit: Commit,
+
+  comparePeriodicPsi2: s.choice(["same", "different"] as const),
+  comparePeriodicPsi2Difference: s.string(),
+  comparePeriodicPsi2Commit: Commit,
+
+  verifyRotationPeriod2: s.string(),
+  verifyRotationPeriod2Commit: Commit,
+
+  agreementStudentA: s.choice(["agree", "disagree"] as const),
+  explainStudentA: s.string(),
+  agreementStudentB: s.choice(["agree", "disagree"] as const),
+  explainStudentB: s.string(),
+  agreementStudentC: s.choice(["agree", "disagree"] as const),
+  explainStudentC: s.string(),
+  agreementStudentD: s.choice(["agree", "disagree"] as const),
+  explainStudentD: s.string(),
+  studentStatementsOnTimeEvolutionCommit: Commit,
 
   part2FinalCommit: Commit,
 
-  // etc.
+  //Part 3: A superposition
+  part3IntroCommit: Commit,
+
+  meaningOfRedLineInSim: s.string(),
+  meaningOfRedLineInSimCommit: Commit,
+
+  explainTimeDependenceOfProbDens: s.string(),
+  explainTimeDependenceOfProbDensCommit: Commit,
+
+  behaviorOfProbDensAtMidpoint: s.string(),
+  behaviorOfProbDensAtMidpointCommit: Commit,
+
+  table: s.record({
+    t000: TimeDependenceTableRow,
+    t025: TimeDependenceTableRow,
+    t050: TimeDependenceTableRow,
+    t075: TimeDependenceTableRow,
+  }),
+  tableCommit: Commit,
+
+  samePlaneSymmetry: s.choice(["symmetric", "asymmetric"]),
+  perpPlaneSymmetry: s.choice(["symmetric", "asymmetric"]),
+  symmetryCommit: Commit,
+
+  explainSymmetryWhenPerp: s.string(),
+  explainSymmetryWhenPerpCommit: Commit,
+
+  periodOfProbDens: s.number(),
+  periodOfProbDensCommit: Commit,
+
+  part3FinalCommit: Commit,
+
+  //Part 4: Wrap up
+  part4IntroCommit: Commit,
+
+  explainWhyIncorrectStudentA: s.string(),
+  explainWhyIncorrectStudentB: s.string(),
+  incorrectStatementsWrapUpCommit: Commit,
+
+  explainWhyGraphIncorrect: s.string(),
+  explainWhyGraphIncorrectCommit: Commit,
+
+  connectSimWithCorrectDescription: s.string(),
+  connectSimWithCorrectDescriptionCommit: Commit,
+
+  part4FinalCommit: Commit,
 });

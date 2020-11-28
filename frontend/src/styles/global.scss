@@ -154,6 +154,14 @@ body {
         color: lighten($blue, 10%);
       }
     }
+
+    & img,
+    img#{&} {
+      display: block;
+      margin-top: 1rem;
+      max-width: 100%;
+      height: auto;
+    }
   }
 }
 
@@ -166,6 +174,10 @@ b {
 }
 
 // Utilities
+
+.text-left {
+  text-align: left;
+}
 
 .text-center {
   text-align: center;
@@ -255,6 +267,12 @@ b {
   }
 }
 
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .table {
   border-collapse: collapse;
   width: 100%;
@@ -268,8 +286,22 @@ b {
     border: 1px solid $grey80;
     padding: 0.5rem;
     vertical-align: middle;
-    text-align: center;
     // word-break: break-all;
+  }
+
+  &:not(.text-left):not(.text-right) {
+    th,
+    td {
+      text-align: center;
+    }
+  }
+
+  &.tight,
+  .tight {
+    td,
+    th {
+      padding: 0;
+    }
   }
 
   thead td,

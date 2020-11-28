@@ -3,19 +3,45 @@ import { TimeDependence } from "src/common/tutorials";
 import { Prose } from "src/components";
 import * as urls from "src/urls";
 import { tutorialRoute } from "../shared";
-import Part1 from "./Part1";
+import AnEnergyEigenstate from "./AnEnergyEigenstate";
+import Superposition from "./Superposition";
+import TimeEvInfiniteWell from "./TimeEvInfiniteWell";
+import WrapUpTimeEv from "./WrapUpTimeEv";
 
 export const route = tutorialRoute({
   url: urls.Tutorials.TimeDependence,
   name: "TimeDependence",
   schema: TimeDependence,
   label: "Time Dependence",
-  intro: <Prose>Time dependence...</Prose>,
+  intro: (
+    <Prose>
+      Visualize the time evolution of position space wave functions.
+    </Prose>
+  ),
   parts: [
     {
-      label: "TODO: NAME OF PART ONE",
-      path: "TODO-NAME-OF-PART-ONE",
-      element: <Part1 />,
+      label: "Time Evolution in the Infinite Square Well Potential",
+      path: "time-evolution-infinite-square-well-potential",
+      element: <TimeEvInfiniteWell />,
+      labelSections: true,
+    },
+    {
+      label: "An Energy Eigenstate",
+      path: "an-energy-eigenstate",
+      element: <AnEnergyEigenstate />,
+      labelSections: true,
+    },
+    {
+      label: "A Superposition of Eigenstates",
+      path: "superposition",
+      element: <Superposition />,
+      labelSections: true,
+    },
+    {
+      label: "Wrap up: Time evolution",
+      path: "wrap-up-time-evolution",
+      element: <WrapUpTimeEv />,
+      labelSections: true,
     },
   ],
 });

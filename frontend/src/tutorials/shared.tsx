@@ -728,7 +728,7 @@ export function ContinueToNextPart({
         <strong className="text-blue">
           We haven't checked any of your answers,
         </strong>{" "}
-        so you may want to check in with your Professor/TA/LA.
+        so you may want to check in with an instructor.
       </Prose>
 
       {link && (
