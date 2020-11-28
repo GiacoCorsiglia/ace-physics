@@ -13,7 +13,11 @@ export const route = tutorialRoute({
   name: "TimeDependence",
   schema: TimeDependence,
   label: "Time Dependence",
-  intro: <Prose>Time dependence...</Prose>,
+  intro: (
+    <Prose>
+      Visualize the time evolution of position space wave functions.
+    </Prose>
+  ),
   parts: [
     {
       label: "Time Evolution in the Infinite Square Well Potential",

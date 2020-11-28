@@ -117,7 +117,7 @@ function TutorialsIndex() {
               label="Time Dependence"
               url={urls.Tutorials.TimeDependence}
             >
-              Time dependence…
+              Visualize the time evolution of position space wave functions.
             </TutorialLink>
 
             <TutorialLink
