@@ -182,7 +182,8 @@ const sections = sectionComponents(TimeDependence, [
           </p>
 
           <p>
-            <M t="\Delta =\," /> the phase (rotation angle) difference between
+            <M t="\Delta \equiv\," /> the phase difference (rotation angle)
+            between
             <M t="\psi_1" /> and <M t="\psi_2" />
           </p>
         </Prose>
@@ -195,7 +196,10 @@ const sections = sectionComponents(TimeDependence, [
             <col style={{ width: "30%" }} />
           </colgroup>
 
-          <thead>
+          <thead
+            className="text-center"
+            style={{ background: "hsl(0, 0%, 90%)" }}
+          >
             <tr>
               <th>
                 <M t="\Delta" />
@@ -218,9 +222,16 @@ const sections = sectionComponents(TimeDependence, [
           <tbody>
             {(["t000", "t025", "t050", "t075"] as const).map((row) => (
               <React.Fragment key={row}>
-                <tr>
-                  <th colSpan={4} style={{ textAlign: "left" }}>
-                    <M t={`t = 0.${row.substring(2)}0\\ h / E_1`} />
+                <tr style={{ background: "hsl(0, 0%, 95%)" }}>
+                  <th
+                    colSpan={4}
+                    style={{
+                      padding: "0.25rem 0.5rem",
+                      fontWeight: "normal",
+                    }}
+                    className="text-left text-smaller opacity-faded"
+                  >
+                    At time <M t={`t = 0.${row.substring(2)}0\\ h / E_1`} />:
                   </th>
                 </tr>
 
