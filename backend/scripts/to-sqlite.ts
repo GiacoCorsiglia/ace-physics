@@ -1,6 +1,6 @@
-import * as apiTypes from "ace-frontend/src/common/apiTypes";
-import * as s from "ace-frontend/src/common/schema";
-import { names, tutorialFeedback } from "ace-frontend/src/common/tutorials";
+import * as apiTypes from "common/apiTypes";
+import * as s from "common/schema";
+import { names, tutorialFeedback } from "common/tutorials";
 import { existsSync, readdirSync, readFileSync, unlinkSync } from "fs";
 import { join } from "path";
 import { Database, open } from "sqlite";
@@ -157,7 +157,7 @@ async function insertLearners(db: Database, learners: Item[]) {
         parseInt(learner.course),
         learner.createdAt,
       ]),
-    []
+    [] as [number, number, number, string][]
   );
 
   await db.run(
@@ -200,7 +200,7 @@ async function insertTutorials(db: Database, tutorials: Item[]) {
             ":tutorial": tutorial.tutorial,
           }
         )
-      ).lastID;
+      ).lastID!;
 
       const tutorialData = tutorial.tutorialData;
 

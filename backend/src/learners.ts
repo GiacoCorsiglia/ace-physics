@@ -1,15 +1,15 @@
+import type AWS from "aws-sdk";
 import {
   CreateLearnerRequest,
   CreateLearnersRequest,
   GetLearnerRequest,
   Learner,
-} from "ace-frontend/src/common/apiTypes";
-import { Result } from "ace-frontend/src/common/util";
-import type AWS from "aws-sdk";
+} from "common/apiTypes";
+import { Result } from "common/util";
+import { Handler } from "./api-route";
 import * as db from "./db";
 import { generatePseudoRandomIds } from "./psuedoRandomId";
 import * as response from "./response";
-import { Handler } from "./router";
 
 // DO NOT CHANGE THIS OR WE MAY SEE OVERLAPPING IDs IN PRODUCTION.
 const randomSeed = 74139;

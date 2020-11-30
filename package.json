@@ -1,14 +1,48 @@
 {
+  "name": "ace-physics",
   "private": true,
-  "workspaces": [
-    "backend",
-    "frontend"
-  ],
+  "version": "0.0.0",
   "scripts": {
-    "start": "yarn workspace ace-frontend run start"
+    "test": "jest",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "script": "ts-node -r tsconfig-paths/register --transpile-only --script-mode",
+    "dynamodb": "(sleep 3; aws dynamodb create-table --cli-input-json file://backend/template-local-db.json --endpoint-url http://localhost:8000 --output text) & docker run -p 8000:8000 amazon/dynamodb-local"
   },
   "dependencies": {
-    "prettier": "^2.1",
-    "typescript": "^4.0.5"
+    "@primer/octicons-react": "^11.1.0",
+    "@svgr/webpack": "^5.5.0",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@types/jest": "^26.0.15",
+    "@types/katex": "^0.11.0",
+    "@types/lodash.debounce": "^4.0.6",
+    "@types/node": "^12.19.7",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-select": "^3.0.26",
+    "@typescript-eslint/parser": "^4.8.2",
+    "aws-sdk": "^2.799.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.14.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
+    "katex": "^0.12.0",
+    "lodash.debounce": "^4.0.8",
+    "next": "^10.0.3",
+    "next-images": "^1.6.2",
+    "prettier": "^2.2.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-select": "^3.1.1",
+    "sass": "^1.29.0",
+    "sqlite": "^4.0.17",
+    "sqlite3": "^5.0.0",
+    "ts-node": "^9.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.1.2"
   }
 }

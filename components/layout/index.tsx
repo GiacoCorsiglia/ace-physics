@@ -1,0 +1,76 @@
+import Head from "next/head";
+import { Children, classes } from "services/util";
+import styles from "./layout.module.scss";
+
+export function Page({ title, children }: { title: string } & Children) {
+  title =
+    title !== ""
+      ? `${title} | ACEPhysics.net`
+      : "ACEPhysics.net - Interactive Online Activities for Physics Learners";
+
+  return (
+    <>
+      <Head>
+        <title>{title}</title>
+      </Head>
+
+      {children}
+    </>
+  );
+}
+
+export function Header(props: JSX.IntrinsicElements["header"]) {
+  return <header {...props} />;
+}
+
+export function Content<A extends keyof JSX.IntrinsicElements = "div">({
+  as = "div" as any,
+  columns = false,
+  ...props
+}: JSX.IntrinsicElements[A] & {
+  as?: A;
+  columns?: boolean;
+}) {
+  const As = as as any;
+  return (
+    <As
+      {...props}
+      className={classes(
+        styles.center,
+        [styles.oneColumn, !columns],
+        [styles.twoColumn, columns],
+        props.className
+      )}
+    />
+  );
+}
+
+export function Column<A extends keyof JSX.IntrinsicElements = "div">({
+  as = "div" as any,
+  ...props
+}: JSX.IntrinsicElements[A] & {
+  as?: A;
+}) {
+  const As = as as any;
+  return <As {...props} />;
+}
+
+export function Columns<A extends keyof JSX.IntrinsicElements = "div">({
+  as = "div" as any,
+  ...props
+}: JSX.IntrinsicElements[A] & {
+  as?: A;
+}) {
+  const As = as as any;
+  return <As {...props} className={classes(styles.columns, props.className)} />;
+}
+
+export function Flex<A extends keyof JSX.IntrinsicElements = "div">({
+  as = "div" as any,
+  ...props
+}: JSX.IntrinsicElements[A] & {
+  as?: A;
+}) {
+  const As = as as any;
+  return <As {...props} className={classes(styles.flex, props.className)} />;
+}

@@ -1,0 +1,6 @@
+import * as account from "services/account";
+
+export default function Login() {
+  // TODO: Move the actual presentation of this outside the account service.
+  return <account.Login />;
+}

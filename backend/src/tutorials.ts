@@ -1,9 +1,9 @@
-import * as apiTypes from "ace-frontend/src/common/apiTypes";
-import * as s from "ace-frontend/src/common/schema";
-import { names } from "ace-frontend/src/common/tutorials";
+import * as apiTypes from "common/apiTypes";
+import * as s from "common/schema";
+import { names } from "common/tutorials";
+import { Handler } from "./api-route";
 import * as db from "./db";
 import * as response from "./response";
-import { Handler } from "./router";
 
 export const get: Handler<apiTypes.GetTutorialRequest> = async (request) => {
   const { learnerId, tutorial } = request.body;

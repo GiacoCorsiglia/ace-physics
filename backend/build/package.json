@@ -1,8 +1,0 @@
-{
-  "comment": "AWS SAM wants this file to be here",
-  "name": "ace-backend",
-  "version": "0.0.0",
-  "private": true,
-  "main": "index.js",
-  "dependencies": {}
-}
