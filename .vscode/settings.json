@@ -23,7 +23,8 @@
     "Eigenstate",
     "braket",
     "doteq",
-    "eigenstates"
+    "eigenstates",
+    "linaria"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "css-modules-companion.fileType": "scss"
