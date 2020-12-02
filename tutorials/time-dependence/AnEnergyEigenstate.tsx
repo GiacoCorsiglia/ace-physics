@@ -202,8 +202,8 @@ const sections = sectionComponents(TimeDependence, [
         label={
           <Prose>
             Mathematically, the period is the time <M t="T" /> for which
-            <M t="\psi(x,0) = \psi(x,T)" />. Does the value you found in part
-            for <M t="T_2" /> satisfy this equation for <M t="\psi_2" />?
+            <M t="\psi(x,0) = \psi(x,T)" />. Use the value you found previously
+            for <M t="T_2" /> to verify this equation for <M t="\psi_2" />.
           </Prose>
         }
       />
