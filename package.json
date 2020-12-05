@@ -10,6 +10,10 @@
     "script": "ts-node -r tsconfig-paths/register --transpile-only --script-mode",
     "dynamodb": "(sleep 3; aws dynamodb create-table --cli-input-json file://backend/template-local-db.json --endpoint-url http://localhost:8000 --output text) & docker run -p 8000:8000 amazon/dynamodb-local"
   },
+  "engines": {
+    "node": "^12.0.0",
+    "npm": "^7.0.0"
+  },
   "dependencies": {
     "@primer/octicons-react": "^11.1.0",
     "@svgr/webpack": "^5.5.0",
