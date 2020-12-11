@@ -17,6 +17,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "jsx": "preserve",
+    "downlevelIteration": true,
 
     "baseUrl": "."
   },
