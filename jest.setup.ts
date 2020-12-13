@@ -16,8 +16,8 @@ expect.extend({
 
 declare global {
   namespace jest {
-    interface Matchers<R> {
-      toSatisfy<E extends any>(predicate: (arg: E) => boolean): R;
+    interface Matchers<R, T = {}> {
+      toSatisfy(predicate: (arg: T) => boolean): R;
     }
   }
 }
