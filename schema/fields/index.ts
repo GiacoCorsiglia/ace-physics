@@ -23,7 +23,7 @@ export type Field =
   | NumberField
   | ObjectField<any>
   | StringField
-  | TupleField<any>;
+  | TupleField<readonly any[]>;
 
 export { array } from "./array";
 export { cases } from "./cases";
