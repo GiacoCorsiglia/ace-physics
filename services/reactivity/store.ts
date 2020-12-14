@@ -1,28 +1,31 @@
-interface Store<T extends object> {
+import { get, Immutable, Path, set, TypeAtPath } from "./immutable";
+
+export interface Store<T extends object> {
   readonly state: Immutable<T>;
 
   transaction(
-    action: (
-      set: <P extends [] | Path<Immutable<T>>>(
-        path: P,
-        newValue: TypeAtPath<Immutable<T>, P>
-      ) => void,
-      prevState: Immutable<T>
-    ) => void
-  ): void;
+    action: (set: Setter<Immutable<T>>, prevState: Immutable<T>) => void
+  ): Immutable<T>;
 
-  subscribe<P extends [] | Path<T>>(
+  subscribe<P extends Path<T>>(
     path: P | string,
     listener: (newValue: TypeAtPath<T, P>) => void
   ): () => void;
 }
 
+type Setter<T> = <P extends Path<T>>(
+  path: P,
+  newValue:
+    | TypeAtPath<T, P>
+    | ((oldValue: TypeAtPath<T, P>) => TypeAtPath<T, P>)
+) => T;
+
 const pathString = (path: readonly PropertyKey[]) => path.join("/");
 const splitPathString = (path: string) => (path === "" ? [] : path.split("/"));
 
-export const store = <T extends object>(initial: Immutable<T>): Store<T> => {
+export const store = <T extends object>(initial: T): Store<T> => {
   // All the updates are immutable so it's fine to not clone here.
-  let currentState = initial;
+  let currentState: Immutable<T> = initial as Immutable<T>;
 
   const subscriptions = new Map<string, Set<(newValue: any) => void>>();
 
@@ -51,78 +54,46 @@ export const store = <T extends object>(initial: Immutable<T>): Store<T> => {
 
       let transactionState = currentState;
 
-      const set = <P extends [] | Path<Immutable<T>>>(
-        path: P,
-        newValue: TypeAtPath<Immutable<T>, P>
-      ) => {
-        if (get(transactionState, path) === newValue) {
-          // No changes!  We could consider checking isShallowEqual() here, too.
-          return;
+      // Fire the action with the setter, which mutates transactionState.
+      action((path, newValue) => {
+        const newState = set(transactionState, path, newValue);
+        if (newState !== transactionState) {
+          transactionState = newState;
+          changedPaths.add(pathString(path));
         }
+        return newState;
+      }, currentState);
 
-        let last: any = transactionState;
-        const valueStack: any[] = [last];
-        for (let i = 0; i < path.length - 1; i++) {
-          const key = path[i];
-          let next = last[key];
-          if (!isObject(next)) {
-            next = isIndex(key) ? [] : {};
+      // Now flush the changes.
+      currentState = transactionState;
+
+      if (process.env.NODE_ENV !== "production") {
+        console.info("New state:", transactionState);
+      }
+
+      // And fire the appropriate listeners.
+      // Surely there's a more efficient implementation here...
+      const listenersToFire = new Map<(value: any) => void, any>();
+      for (const changedPath of changedPaths) {
+        subscriptions.forEach((listeners, listenerPath) => {
+          if (
+            changedPath.startsWith(listenerPath) ||
+            listenerPath.startsWith(changedPath)
+          ) {
+            const newValue = get(
+              currentState,
+              splitPathString(listenerPath) as any
+            );
+            listeners.forEach((listener) => {
+              listenersToFire.set(listener, newValue);
+            });
           }
-          last = next;
-          valueStack.push(last);
-        }
+        });
+      }
+      listenersToFire.forEach((newValue, listener) => listener(newValue));
 
-        let newState: any = newValue;
-        for (let i = path.length - 1; i >= 0; i--) {
-          const key = path[i];
-          const prev = valueStack.pop();
-          if (Array.isArray(prev)) {
-            const nextNewState: any = prev.slice();
-            nextNewState[key] = newState;
-            newState = nextNewState;
-          } else {
-            newState = { ...prev, [key]: newState };
-          }
-        }
-
-        transactionState = newState;
-        changedPaths.add(pathString(path));
-      };
-
-      const flush = () => {
-        if (process.env.NODE_ENV !== "production") {
-          console.info("New state:", transactionState);
-        }
-
-        currentState = transactionState;
-
-        // Surely there's a more efficient implementation here...
-        const listenersToFire = new Map<(value: any) => void, any>();
-
-        for (const changedPath of changedPaths) {
-          subscriptions.forEach((listeners, listenerPath) => {
-            if (
-              changedPath.startsWith(listenerPath) ||
-              listenerPath.startsWith(changedPath)
-            ) {
-              const newValue = get(
-                currentState,
-                splitPathString(listenerPath) as any
-              );
-              listeners.forEach((listener) => {
-                listenersToFire.set(listener, newValue);
-              });
-            }
-          });
-        }
-
-        listenersToFire.forEach((newValue, listener) => listener(newValue));
-
-        changedPaths.clear();
-      };
-
-      action(set, currentState);
-      flush();
+      // Finally, return the new state.
+      return currentState;
     },
 
     subscribe(path, listener) {
@@ -141,78 +112,3 @@ export const store = <T extends object>(initial: Immutable<T>): Store<T> => {
     },
   };
 };
-
-const get = <T, P extends [] | Path<T>>(
-  value: T,
-  path: P
-): TypeAtPath<T, P> => {
-  let reference: any = value;
-  for (const key of path) {
-    if (!isObject(reference)) {
-      // If we get here, it means we have another key to read, but the reference
-      // doesn't hold an object (array or {}), so we can't.
-      return undefined as any;
-    }
-    reference = (reference as any)[key];
-  }
-  return reference;
-};
-
-// Helper functions.
-
-const isObject = (value: unknown): value is object =>
-  value !== null && typeof value === "object";
-
-const indexRegEx = /^(?:0|[1-9]\d*)$/;
-const isIndex = (i: PropertyKey) =>
-  typeof i === "number" ||
-  (typeof i !== "symbol" &&
-    indexRegEx.test(i) &&
-    // JavaScript will "correctly" cast the string to a number for this test.
-    ((i as unknown) as number) > -1 &&
-    ((i as unknown) as number) % 1 == 0);
-
-// Helper types.
-
-type Path<O> = O extends object
-  ? {
-      [K in keyof O]-?:
-        | readonly [K]
-        | (Path<O[K]> extends infer P
-            ? P extends readonly any[]
-              ? readonly [K, ...P]
-              : never
-            : never);
-    }[keyof O]
-  : readonly [];
-
-type TypeAtPath<O, P extends readonly PropertyKey[]> = P extends readonly []
-  ? O
-  : O extends any // This distributes over unions.
-  ? P extends readonly [keyof O, ...infer T]
-    ? T extends PropertyKey[]
-      ? TypeAtPath<O[P[0]], T>
-      : never
-    : never
-  : never;
-
-// Stolen from Immer:
-// https://github.com/immerjs/immer/blob/7faa7b47df78f30fced650c323f6b53b5e62e160/src/types/types-external.ts#L58
-type Immutable<T> = T extends
-  | Function
-  | Promise<any>
-  | Date
-  | RegExp
-  | Boolean
-  | Number
-  | String
-  ? T
-  : T extends ReadonlyMap<infer K, infer V>
-  ? ReadonlyMap<Immutable<K>, Immutable<V>>
-  : T extends ReadonlySet<infer V>
-  ? ReadonlySet<Immutable<V>>
-  : T extends WeakMap<any, any> | WeakSet<any>
-  ? T
-  : T extends object
-  ? { readonly [K in keyof T]: Immutable<T[K]> }
-  : T;
