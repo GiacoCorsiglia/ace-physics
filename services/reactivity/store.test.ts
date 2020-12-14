@@ -159,5 +159,41 @@ describe("subscriptions", () => {
     expect(el0NextListener).toHaveBeenCalledWith(s.state.top[0].next);
     expect(el1Listener).toHaveBeenCalledTimes(1);
     expect(el1Listener).toHaveBeenCalledWith(undefined);
+
+    clearMocks();
+
+    // Now unsubscribe.
+    rootUnsub();
+    topUnsub();
+    el0Unsub();
+    el0NextUnsub();
+    // Keep el1
+
+    // And reset the whole thing (which would have triggered everything).
+    s.transaction((set) => {
+      set([], { top: [{ next: "abc" }, { next: "123" }] });
+    });
+
+    expect(rootListener).not.toHaveBeenCalled();
+    expect(topListener).not.toHaveBeenCalled();
+    expect(el0Listener).not.toHaveBeenCalled();
+    expect(el0NextListener).not.toHaveBeenCalled();
+    expect(el1Listener).toHaveBeenCalledTimes(1);
+    expect(el1Listener).toHaveBeenCalledWith(s.state.top[1]);
+
+    clearMocks();
+
+    // Now unsubscribe el1
+    el1Unsub();
+
+    s.transaction((set) => {
+      set([], { top: [{ next: "abc" }, { next: "123456" }] });
+    });
+
+    expect(rootListener).not.toHaveBeenCalled();
+    expect(topListener).not.toHaveBeenCalled();
+    expect(el0Listener).not.toHaveBeenCalled();
+    expect(el0NextListener).not.toHaveBeenCalled();
+    expect(el1Listener).not.toHaveBeenCalled();
   });
 });
