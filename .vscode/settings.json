@@ -26,6 +26,7 @@
     "eigenstates",
     "linaria"
   ],
+  "jestrunner.jestCommand": "npm run test --",
   "typescript.tsdk": "node_modules/typescript/lib",
   "css-modules-companion.fileType": "scss"
 }
