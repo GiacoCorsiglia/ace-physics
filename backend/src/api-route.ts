@@ -18,7 +18,7 @@ export const apiRoute = <T extends s.Data>(
   handler: Handler<T>
 ) => {
   const wrapped = async (req: NextApiRequest): Promise<response.Response> => {
-    let payload: unknown = req.method === "GET" ? req.query : req.body;
+    const payload: unknown = req.method === "GET" ? req.query : req.body;
 
     const decoded = schema.decode(payload);
 

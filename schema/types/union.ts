@@ -26,7 +26,9 @@ export interface UnionType<Ms extends readonly Type[]> {
  */
 export const union = <Ms extends readonly [Type, ...Type[]]>(
   ...members: Ms
-): UnionType<Ms> => ({ kind: "union", members } as UnionType<Ms>);
+): UnionType<Ms> =>
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  ({ kind: "union", members } as UnionType<Ms>);
 
 export const decodeUnion: Decoder<UnionType<readonly Type[]>> = (
   type,

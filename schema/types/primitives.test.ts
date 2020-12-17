@@ -36,7 +36,7 @@ describe("number", () => {
   });
 
   it("decodes failures properly", () => {
-    let decoded = decode(type, "not a number!");
+    const decoded = decode(type, "not a number!");
     assertFailure(decoded);
     expect(decoded.error).toHaveLength(1);
     expect(decoded.error[0]).toMatchObject({

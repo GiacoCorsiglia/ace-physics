@@ -12,8 +12,7 @@ export interface AnyType<T = any> {
  * Creates a Type representing any value.
  */
 export const any = <T = any>() =>
-  ({
-    kind: "any",
-  } as AnyType<T>);
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  ({ kind: "any" } as AnyType<T>);
 
 export const decodeAny: Decoder<AnyType> = (_, value) => decodeSuccess(value);

@@ -23,6 +23,7 @@ export interface LiteralType<L extends Literal> {
  * constrained to be one just one string, number, or boolean value.
  */
 export const literal = <L extends Literal>(value: L): LiteralType<L> =>
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   ({ kind: "literal", value } as LiteralType<L>);
 
 export const decodeLiteral: Decoder<LiteralType<any>> = (

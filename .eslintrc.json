@@ -1,7 +1,40 @@
 {
   "extends": ["plugin:jsx-a11y/recommended", "plugin:react-hooks/recommended"],
-  "plugins": ["jsx-a11y", "react-hooks"],
-  "rules": {},
+  "plugins": ["@typescript-eslint", "jsx-a11y", "react-hooks"],
+  "rules": {
+    // ESLint Rules: https://eslint.org/docs/rules/
+    // TypeScript-ESLint Rules: https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
+
+    // Possible errors.
+    "eqeqeq": "error",
+    "getter-return": "warn",
+    "no-compare-neg-zero": "warn",
+    "no-cond-assign": "warn",
+    "no-constant-condition": "warn",
+    "no-empty-character-class": "warn",
+    "no-invalid-regexp": "error",
+    "no-misleading-character-class": "warn",
+    "no-setter-return": "warn",
+    "no-sparse-arrays": "warn",
+    "no-template-curly-in-string": "warn",
+    "no-unsafe-finally": "error",
+    "no-unsafe-negation": "error",
+    "no-unused-labels": "warn",
+    "use-isnan": "error",
+    "@typescript-eslint/no-implied-eval": ["error"],
+
+    // Style.
+    "dot-notation": "warn",
+    "func-style": ["warn", "declaration", { "allowArrowFunctions": true }],
+    "no-var": "warn",
+    "prefer-arrow-callback": ["warn", { "allowNamedFunctions": true }],
+    "prefer-const": "warn",
+    "@typescript-eslint/consistent-type-assertions": "warn",
+    "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
+    "@typescript-eslint/prefer-function-type": "warn",
+    "@typescript-eslint/unified-signatures": "warn"
+  },
+  "ignorePatterns": ["*.config.js"],
   "env": {
     "browser": true,
     "es2021": true,
@@ -9,10 +42,11 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": 2021,
     "sourceType": "module",
     "warnOnUnsupportedTypeScriptVersion": true
   }

@@ -94,7 +94,7 @@ describe("array", () => {
   it("decodes recursive failures properly", () => {
     const subType = array(string());
     const type = array(subType);
-    let decoded = decode(type, ["a", ["b", null]]);
+    const decoded = decode(type, ["a", ["b", null]]);
     assertFailure(decoded);
     expect(decoded.error).toHaveLength(2);
     expect(decoded.error[0]).toMatchObject({

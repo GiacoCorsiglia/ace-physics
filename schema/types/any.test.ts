@@ -20,7 +20,7 @@ describe("any", () => {
 
   it("returns value identically in decode()", () => {
     const orig = {};
-    let decoded = decode(type, orig);
+    const decoded = decode(type, orig);
     assertSuccess(decoded);
     expect(decoded.value).toBe(orig);
   });

@@ -30,7 +30,9 @@ export interface TupleType<Es extends readonly Type[]> {
  */
 export const tuple = <Es extends readonly [Type, ...Type[]]>(
   ...elements: Es
-): TupleType<Es> => ({ kind: "tuple", elements } as TupleType<Es>);
+): TupleType<Es> =>
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  ({ kind: "tuple", elements } as TupleType<Es>);
 
 export const decodeTuple: Decoder<TupleType<readonly Type[]>> = (
   type,

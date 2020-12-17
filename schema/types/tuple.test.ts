@@ -8,13 +8,13 @@ describe("tuple schema", () => {
   const type = tuple(number(), subType, boolean());
 
   it("decodes successes properly", () => {
-    let decoded = decode(type, [0, ["", "b"], false]);
+    const decoded = decode(type, [0, ["", "b"], false]);
     assertSuccess(decoded);
     expect(decoded.value).toStrictEqual([0, ["", "b"], false]);
   });
 
   it("rejects empty values", () => {
-    let decoded = decode(type, [null, null, undefined]);
+    const decoded = decode(type, [null, null, undefined]);
     assertFailure(decoded);
   });
 
@@ -42,7 +42,7 @@ describe("tuple schema", () => {
 
   it("always returns a clone from decode()", () => {
     const input = [5, ["a", "b"], true];
-    let decoded = decode(type, input);
+    const decoded = decode(type, input);
     assertSuccess(decoded);
     expect(decoded.value).not.toBe(input);
   });

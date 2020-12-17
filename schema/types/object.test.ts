@@ -102,7 +102,7 @@ describe("object", () => {
   });
 
   it("decodes successes properly", () => {
-    let decoded = decode(type, {
+    const decoded = decode(type, {
       numberProp: 5,
       stringProp1: "yo",
       stringProp2: "yo!",
@@ -121,7 +121,7 @@ describe("object", () => {
       stringProp1: "yo",
       stringProp2: "yo!",
     };
-    let decoded = decode(type, orig);
+    const decoded = decode(type, orig);
     assertSuccess(decoded);
     expect(decoded.value).not.toBe(orig);
   });
@@ -133,7 +133,7 @@ describe("object", () => {
       stringProp2: "yo!",
       extra: "blah",
     };
-    let decoded = decode(type, o2);
+    const decoded = decode(type, o2);
     assertSuccess(decoded);
     expect(decoded.value).toStrictEqual(o2);
   });
@@ -153,7 +153,7 @@ describe("object", () => {
   });
 
   it("decodes failures properly", () => {
-    let decoded = decode(type, {
+    const decoded = decode(type, {
       numberProp: "string!",
       stringProp1: 5,
       // stringProp2 Missing
@@ -186,7 +186,7 @@ describe("object", () => {
       str: string(),
       rec: subType,
     });
-    let decoded = decode(type, {
+    const decoded = decode(type, {
       str: 5,
       rec: { num: "string!" },
     });

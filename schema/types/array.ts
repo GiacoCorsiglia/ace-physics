@@ -26,6 +26,7 @@ export interface ArrayType<E extends Type> {
  * matching the Type given in the `elements` argument.
  */
 export const array = <E extends Type>(elements: E): ArrayType<E> =>
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   ({ kind: "array", elements } as ArrayType<E>);
 
 export const decodeArray: Decoder<ArrayType<Type>> = (type, value, context) => {

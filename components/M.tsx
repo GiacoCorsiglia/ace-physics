@@ -35,13 +35,13 @@ const options: KatexOptions = {
   },
 };
 
-export type PropTypes = {
+export interface PropTypes {
   t: string;
   display?: boolean;
   prespace?: boolean;
   postspace?: boolean;
   color?: string;
-};
+}
 
 export default function M({
   t: tex,

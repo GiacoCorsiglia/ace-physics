@@ -50,6 +50,7 @@ export interface ObjectType<P extends Properties> {
  * use `partial` instead.
  */
 export const object = <P extends Properties>(properties: P): ObjectType<P> =>
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   ({ kind: "object", properties, exact: false } as ObjectType<P>);
 
 /**
@@ -72,6 +73,7 @@ export const partial = <P extends Properties>(properties: P) =>
  * with `partial` instead.
  */
 export const exact = <P extends Properties>(properties: P): ObjectType<P> =>
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   ({ kind: "object", properties, exact: true } as ObjectType<P>);
 
 /**

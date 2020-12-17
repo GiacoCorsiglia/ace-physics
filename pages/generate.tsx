@@ -173,10 +173,10 @@ export default function Generate() {
               <Button
                 block
                 onClick={() => {
-                  let now = new Date();
+                  const now = new Date();
                   let month = "" + (now.getMonth() + 1);
                   let day = "" + now.getDate();
-                  let year = now.getFullYear();
+                  const year = now.getFullYear();
 
                   if (month.length < 2) {
                     month = "0" + month;
@@ -227,7 +227,7 @@ const matchChoice = (
 ) => choices.find((c) => c.value === value);
 
 function download(filename: string, text: string) {
-  var element = document.createElement("a");
+  const element = document.createElement("a");
   element.setAttribute(
     "href",
     "data:text/csv;charset=utf-8," + encodeURIComponent(text)

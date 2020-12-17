@@ -36,7 +36,7 @@ describe("union", () => {
   });
 
   it("decodes failures properly", () => {
-    let decoded = decode(type, false);
+    const decoded = decode(type, false);
     assertFailure(decoded);
     expect(decoded.error).toHaveLength(1);
     expect(decoded.error[0]).toMatchObject({

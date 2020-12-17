@@ -36,9 +36,9 @@ const Answers = s.record({
 // Common properties.
 ////////////////////////////////////////////////////////////////////////////////
 
-type CommonTutorialProperties = {
+interface CommonTutorialProperties {
   tutorialFeedback: typeof tutorialFeedback;
-};
+}
 
 export const tutorialFeedback = s.record({
   intention: s.string(),
@@ -600,7 +600,7 @@ export const QuantumBasis = tutorialSchema("QuantumBasis", {
 });
 // HACK: This is strictly a duplicate, but it allows the Lite version to have
 // a different name!  It must be reference equals with QuantumBasis.
-export const QuantumBasisLite = (names["QuantumBasisLite"] = QuantumBasis);
+export const QuantumBasisLite = (names.QuantumBasisLite = QuantumBasis);
 
 ////////////////////////////////////////////////////////////////////////////////
 // EPR.

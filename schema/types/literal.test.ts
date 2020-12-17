@@ -26,13 +26,13 @@ describe("literal", () => {
   });
 
   it("decodes successes properly", () => {
-    let decoded = decode(type, "the value");
+    const decoded = decode(type, "the value");
     assertSuccess(decoded);
     expect(decoded.value).toBe("the value");
   });
 
   it("decodes failures properly", () => {
-    let decoded = decode(type, "not the value");
+    const decoded = decode(type, "not the value");
     assertFailure(decoded);
     expect(decoded.error).toHaveLength(1);
     expect(decoded.error[0]).toMatchObject({

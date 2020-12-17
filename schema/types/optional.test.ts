@@ -26,19 +26,19 @@ describe("optional", () => {
   });
 
   it("decodes wrapped type properly", () => {
-    let decoded = decode(type, "some string");
+    const decoded = decode(type, "some string");
     assertSuccess(decoded);
     expect(decoded.value).toBe("some string");
   });
 
   it("converts null to undefined", () => {
-    let decoded = decode(type, null);
+    const decoded = decode(type, null);
     assertSuccess(decoded);
     expect(decoded.value).toBeUndefined();
   });
 
   it("decodes failures properly", () => {
-    let decoded = decode(type, 5);
+    const decoded = decode(type, 5);
     assertFailure(decoded);
     expect(decoded.error).toHaveLength(1);
     expect(decoded.error[0]).toMatchObject({

@@ -56,7 +56,7 @@ describe("number schema", () => {
   });
 
   it("decodes failures properly", () => {
-    let decoded = schema.decode("not a number");
+    const decoded = schema.decode("not a number");
     assertFailure(decoded);
     expect(decoded.errors).toHaveLength(1);
     expect(decoded.errors[0]).toMatchObject({
@@ -183,7 +183,7 @@ describe("array schema", () => {
   it("decodes recursive failures properly", () => {
     const subSchema = s.array(s.string());
     const schema = s.array(subSchema);
-    let decoded = schema.decode(["a", ["b", null]]);
+    const decoded = schema.decode(["a", ["b", null]]);
     assertFailure(decoded);
     expect(decoded.errors).toHaveLength(2);
     expect(decoded.errors[0]).toMatchObject({
@@ -251,7 +251,7 @@ describe("tuple schema", () => {
 
   it("always returns a clone from decode()", () => {
     const input = [5, [null, "b"], true];
-    let decoded = schema.decode(input);
+    const decoded = schema.decode(input);
     assertOk(decoded);
     expect(decoded.value).not.toBe(input);
   });
@@ -452,7 +452,7 @@ describe("record schema", () => {
 
   it("always returns a clone from decode()", () => {
     const empty = {};
-    let decoded = schema.decode(empty);
+    const decoded = schema.decode(empty);
     assertOk(decoded);
     expect(decoded.value).not.toBe(empty);
   });
@@ -463,13 +463,13 @@ describe("record schema", () => {
       stringProp1: "yo",
       extra: "blah",
     };
-    let decoded = schema.decode(o2);
+    const decoded = schema.decode(o2);
     assertOk(decoded);
     expect(decoded.value).toStrictEqual(o2);
   });
 
   it("decodes failures properly", () => {
-    let decoded = schema.decode({
+    const decoded = schema.decode({
       numberProp: "string!",
       stringProp1: 5,
     });
@@ -501,7 +501,7 @@ describe("record schema", () => {
       str: s.string(),
       rec: subSchema,
     });
-    let decoded = schema.decode({
+    const decoded = schema.decode({
       str: 5,
       rec: { num: "string!" },
     });

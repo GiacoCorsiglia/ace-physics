@@ -10,13 +10,13 @@ type MatrixContentProps =
   | { matrix?: never; column: React.ReactNode[]; row?: never }
   | { matrix?: never; column?: never; row: React.ReactNode[] };
 
-export type MatrixDisplayProps = {
+export interface MatrixDisplayProps {
   labelTex?: string;
   subscriptTex?: string;
   label?: React.ReactNode;
   commas?: boolean;
   className?: string;
-};
+}
 
 export default function Matrix({
   matrix,
