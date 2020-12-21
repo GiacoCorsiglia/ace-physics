@@ -44,7 +44,9 @@ export const set = <T, P extends Path<T>>(
 
   for (let i = 0; i < pathLength; i++) {
     const key = path[i];
-    last = isObject(last) ? last : isIndex(key) ? [] : {};
+    if (!isObject(last)) {
+      last = isIndex(key) ? [] : {};
+    }
     referenceStack.push(last);
     last = last[key];
   }
