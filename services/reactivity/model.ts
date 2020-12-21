@@ -5,6 +5,9 @@ export interface Model<F extends f.Field> {
   readonly path: readonly (string | number)[];
   readonly field: F;
 
+  /** @internal */
+  readonly contextId: symbol;
+
   // Extra fields depending on the field type.  Using these conditionals is
   // probably better than a union type?
 
@@ -34,7 +37,8 @@ export interface Model<F extends f.Field> {
 
 export const model = <F extends f.Field>(
   field: F,
-  path: readonly (string | number)[]
+  path: readonly (string | number)[],
+  contextId: symbol
 ): Model<F> => {
   const f: f.Field = field;
 
@@ -42,13 +46,15 @@ export const model = <F extends f.Field>(
     path,
     field,
 
+    contextId,
+
     // Add a `properties` property to hold the model for each sub-property.
     properties:
       f.kind === "object"
         ? (Object.fromEntries(
             Object.entries(f.properties).map(([key, subField]) => [
               key,
-              model(subField, path.concat(key)),
+              model(subField, path.concat(key), contextId),
             ])
           ) as any)
         : (undefined as any),
@@ -58,7 +64,9 @@ export const model = <F extends f.Field>(
     // each element on demand.
     elements:
       f.kind === "tuple"
-        ? f.elements.map((subField, i) => model(subField, path.concat(i)))
+        ? f.elements.map((subField, i) =>
+            model(subField, path.concat(i), contextId)
+          )
         : f.kind === "array"
         ? new Proxy([] as Model<f.Field>[], {
             has(elementModels, property) {
@@ -79,7 +87,11 @@ export const model = <F extends f.Field>(
                 return undefined;
               }
 
-              return (elementModels[i] = model(f.elements, path.concat(i)));
+              return (elementModels[i] = model(
+                f.elements,
+                path.concat(i),
+                contextId
+              ));
             },
           })
         : (undefined as any),
@@ -87,7 +99,7 @@ export const model = <F extends f.Field>(
     // Add an `other` property to hold a model for the "other" field.
     other:
       f.kind === "chooseOne" || f.kind === "chooseAll"
-        ? model(f.other, path.concat("other"))
+        ? model(f.other, path.concat("other"), contextId)
         : (undefined as any),
   };
 };
