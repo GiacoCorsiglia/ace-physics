@@ -1,4 +1,4 @@
-import * as f from "schema/fields";
+import type * as f from "schema/fields";
 import { asIndex } from "services/helpers";
 
 export interface Model<F extends f.Field> {

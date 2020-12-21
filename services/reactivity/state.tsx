@@ -6,7 +6,7 @@ import {
   useRef,
 } from "react";
 import { unstable_batchedUpdates } from "react-dom";
-import * as f from "schema/fields";
+import type * as f from "schema/fields";
 import type { Infer } from "schema/types";
 import { Immutable } from "services/helpers";
 import { Html, useForceUpdate } from "services/helpers/frontend";
