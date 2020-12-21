@@ -1,5 +1,5 @@
-import { asIndex } from "common/util";
 import * as f from "schema/fields";
+import { asIndex } from "services/helpers";
 
 export interface Model<F extends f.Field> {
   readonly path: readonly (string | number)[];

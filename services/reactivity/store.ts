@@ -1,4 +1,5 @@
-import { get, Immutable, Path, set, TypeAtPath } from "./immutable";
+import { Immutable, Path, TypeAtPath } from "services/helpers";
+import { get, set } from "./immutable";
 
 export interface Store<T extends object> {
   readonly state: Immutable<T>;

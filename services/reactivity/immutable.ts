@@ -1,3 +1,5 @@
+import { isIndex, isObject, Path, TypeAtPath } from "services/helpers";
+
 /**
  * Safely get the value in `o` at `path`.
  */
@@ -72,64 +74,3 @@ export const set = <T, P extends Path<T>>(
 
   return (newValue as unknown) as T;
 };
-
-// Helpers.
-
-const isObject = (value: unknown): value is object =>
-  value !== null && typeof value === "object";
-
-const indexRegEx = /^(?:0|[1-9]\d*)$/;
-const isIndex = (i: PropertyKey) =>
-  (typeof i === "number" || (typeof i !== "symbol" && indexRegEx.test(i))) &&
-  // JavaScript will "correctly" cast the string to a number for these tests.
-  ((i as unknown) as number) > -1 &&
-  ((i as unknown) as number) % 1 === 0;
-
-// Types.
-
-export type Path<O> = [] | Path_<O>;
-type Path_<O> = O extends object
-  ? {
-      [K in keyof O]-?:
-        | readonly [K]
-        | (Path_<O[K]> extends infer P
-            ? P extends readonly any[]
-              ? readonly [K, ...P]
-              : never
-            : never);
-    }[keyof O]
-  : readonly [];
-
-export type TypeAtPath<
-  O,
-  P extends readonly PropertyKey[]
-> = P extends readonly []
-  ? O
-  : O extends any // This distributes over unions.
-  ? P extends readonly [keyof O, ...infer T]
-    ? T extends PropertyKey[]
-      ? TypeAtPath<O[P[0]], T>
-      : never
-    : never
-  : never;
-
-// Stolen from Immer:
-// https://github.com/immerjs/immer/blob/7faa7b47df78f30fced650c323f6b53b5e62e160/src/types/types-external.ts#L58
-export type Immutable<T> = T extends
-  | Function
-  | Promise<any>
-  | Date
-  | RegExp
-  | Boolean
-  | Number
-  | String
-  ? T
-  : T extends ReadonlyMap<infer K, infer V>
-  ? ReadonlyMap<Immutable<K>, Immutable<V>>
-  : T extends ReadonlySet<infer V>
-  ? ReadonlySet<Immutable<V>>
-  : T extends WeakMap<any, any> | WeakSet<any>
-  ? T
-  : T extends object
-  ? { readonly [K in keyof T]: Immutable<T[K]> }
-  : T;

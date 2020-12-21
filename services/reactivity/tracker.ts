@@ -1,3 +1,5 @@
+import { isObject } from "services/helpers";
+
 interface Tracker<T extends object> {
   readonly proxy: T;
   resetTracking(): Set<PropertyKey>;
@@ -80,5 +82,4 @@ export const tracker = <T extends object>(o: T): Tracker<T> => {
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
-const shouldTrack = (o: unknown): o is object =>
-  o !== null && typeof o === "object";
+const shouldTrack = isObject;

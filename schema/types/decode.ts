@@ -1,4 +1,4 @@
-import { failure, Result, success } from "common/util";
+import { failure, Result, success } from "services/helpers/result";
 import type { Infer, Type } from ".";
 import { decodeAny } from "./any";
 import { decodeArray } from "./array";
