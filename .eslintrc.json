@@ -21,7 +21,9 @@
     "no-unsafe-negation": "error",
     "no-unused-labels": "warn",
     "use-isnan": "error",
-    "@typescript-eslint/no-implied-eval": ["error"],
+    "@typescript-eslint/no-implied-eval": "error",
+    "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+    "@typescript-eslint/switch-exhaustiveness-check": "error",
 
     // Style.
     "dot-notation": "warn",
@@ -31,6 +33,7 @@
     "prefer-const": "warn",
     "@typescript-eslint/consistent-type-assertions": "warn",
     "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
+    "@typescript-eslint/prefer-as-const": "warn",
     "@typescript-eslint/prefer-function-type": "warn",
     "@typescript-eslint/unified-signatures": "warn"
   },
