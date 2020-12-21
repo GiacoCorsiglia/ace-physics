@@ -1,13 +1,17 @@
 import { isObject } from "services/helpers";
 
-interface Tracker<T extends object> {
+export interface Tracker<T extends object> {
+  readonly original: T;
   readonly proxy: T;
-  resetTracking(): Set<PropertyKey>;
-  track(func: () => void): Set<PropertyKey>;
+  resetTracking(): Set<string>;
+  track<T>(func: () => T): [T, Set<string>];
 }
 
-export const tracker = <T extends object>(o: T): Tracker<T> => {
-  let accessed = new Set<PropertyKey>();
+export const tracker = <T extends object>(
+  original: T,
+  recursive: boolean = true
+): Tracker<T> => {
+  let accessed = new Set<string>();
   let proxyCache = new WeakMap<object, object>();
 
   const proxify = <T extends object>(o: T, rootPath: string = ""): T => {
@@ -38,7 +42,9 @@ export const tracker = <T extends object>(o: T): Tracker<T> => {
 
         accessed.add(shouldTrackSelf ? rootPath : subPath);
 
-        return shouldTrack(value) ? proxify(value, subPath) : value;
+        return recursive && shouldTrack(value)
+          ? proxify(value, subPath)
+          : value;
       },
 
       has(target, key) {
@@ -61,19 +67,20 @@ export const tracker = <T extends object>(o: T): Tracker<T> => {
   };
 
   const tracker: Tracker<T> = {
-    proxy: proxify(o),
+    original,
+
+    proxy: proxify(original),
 
     resetTracking() {
       const prevAccessed = accessed;
-      accessed = new Set<PropertyKey>();
+      accessed = new Set<string>();
       proxyCache = new WeakMap<object, object>();
       return prevAccessed;
     },
 
     track(func) {
       tracker.resetTracking();
-      func();
-      return tracker.resetTracking();
+      return [func(), tracker.resetTracking()];
     },
   };
 
