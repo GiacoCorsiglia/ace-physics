@@ -78,15 +78,18 @@ describe("subscriptions", () => {
   it("fires the right listeners", () => {
     const s = store(orig);
 
-    const rootListener = jest.fn();
+    const arity = (_: any) => {};
+    const src = undefined;
+
+    const rootListener = jest.fn(arity);
     const rootUnsub = s.subscribe([], rootListener);
-    const topListener = jest.fn();
+    const topListener = jest.fn(arity);
     const topUnsub = s.subscribe(["top"], topListener);
-    const el0Listener = jest.fn();
+    const el0Listener = jest.fn(arity);
     const el0Unsub = s.subscribe(["top", 0], el0Listener);
-    const el0NextListener = jest.fn();
+    const el0NextListener = jest.fn(arity);
     const el0NextUnsub = s.subscribe(["top", 0, "next"], el0NextListener);
-    const el1Listener = jest.fn();
+    const el1Listener = jest.fn(arity);
     const el1Unsub = s.subscribe(["top", 1], el1Listener);
 
     const mocks = [
@@ -114,13 +117,13 @@ describe("subscriptions", () => {
     });
 
     expect(rootListener).toHaveBeenCalledTimes(1);
-    expect(rootListener).toHaveBeenCalledWith(s.state);
+    expect(rootListener).toHaveBeenCalledWith(s.state, src);
     expect(topListener).toHaveBeenCalledTimes(1);
-    expect(topListener).toHaveBeenCalledWith(s.state.top);
+    expect(topListener).toHaveBeenCalledWith(s.state.top, src);
     expect(el0Listener).toHaveBeenCalledTimes(1);
-    expect(el0Listener).toHaveBeenCalledWith(s.state.top[0]);
+    expect(el0Listener).toHaveBeenCalledWith(s.state.top[0], src);
     expect(el0NextListener).toHaveBeenCalledTimes(1);
-    expect(el0NextListener).toHaveBeenCalledWith(s.state.top[0].next);
+    expect(el0NextListener).toHaveBeenCalledWith(s.state.top[0].next, src);
     expect(el1Listener).not.toHaveBeenCalled();
 
     clearMocks();
@@ -131,15 +134,15 @@ describe("subscriptions", () => {
     });
 
     expect(rootListener).toHaveBeenCalledTimes(1);
-    expect(rootListener).toHaveBeenCalledWith(s.state);
+    expect(rootListener).toHaveBeenCalledWith(s.state, src);
     expect(topListener).toHaveBeenCalledTimes(1);
-    expect(topListener).toHaveBeenCalledWith(s.state.top);
+    expect(topListener).toHaveBeenCalledWith(s.state.top, src);
     expect(el0Listener).toHaveBeenCalledTimes(1);
-    expect(el0Listener).toHaveBeenCalledWith(undefined);
+    expect(el0Listener).toHaveBeenCalledWith(undefined, src);
     expect(el0NextListener).toHaveBeenCalledTimes(1);
-    expect(el0NextListener).toHaveBeenCalledWith(undefined);
+    expect(el0NextListener).toHaveBeenCalledWith(undefined, src);
     expect(el1Listener).toHaveBeenCalledTimes(1);
-    expect(el1Listener).toHaveBeenCalledWith(undefined);
+    expect(el1Listener).toHaveBeenCalledWith(undefined, src);
 
     clearMocks();
 
@@ -150,15 +153,15 @@ describe("subscriptions", () => {
     });
 
     expect(rootListener).toHaveBeenCalledTimes(1);
-    expect(rootListener).toHaveBeenCalledWith(s.state);
+    expect(rootListener).toHaveBeenCalledWith(s.state, src);
     expect(topListener).toHaveBeenCalledTimes(1);
-    expect(topListener).toHaveBeenCalledWith(s.state.top);
+    expect(topListener).toHaveBeenCalledWith(s.state.top, src);
     expect(el0Listener).toHaveBeenCalledTimes(1);
-    expect(el0Listener).toHaveBeenCalledWith(s.state.top[0]);
+    expect(el0Listener).toHaveBeenCalledWith(s.state.top[0], src);
     expect(el0NextListener).toHaveBeenCalledTimes(1);
-    expect(el0NextListener).toHaveBeenCalledWith(s.state.top[0].next);
+    expect(el0NextListener).toHaveBeenCalledWith(s.state.top[0].next, src);
     expect(el1Listener).toHaveBeenCalledTimes(1);
-    expect(el1Listener).toHaveBeenCalledWith(undefined);
+    expect(el1Listener).toHaveBeenCalledWith(undefined, src);
 
     clearMocks();
 
@@ -179,7 +182,7 @@ describe("subscriptions", () => {
     expect(el0Listener).not.toHaveBeenCalled();
     expect(el0NextListener).not.toHaveBeenCalled();
     expect(el1Listener).toHaveBeenCalledTimes(1);
-    expect(el1Listener).toHaveBeenCalledWith(s.state.top[1]);
+    expect(el1Listener).toHaveBeenCalledWith(s.state.top[1], src);
 
     clearMocks();
 
