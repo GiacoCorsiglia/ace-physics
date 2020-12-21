@@ -7,13 +7,13 @@ export const get = <T, P extends [] | Path<T>>(
   o: T,
   path: P
 ): TypeAtPath<T, P> => {
-  for (const key of path) {
+  for (let i = 0; i < path.length; i++) {
     if (!isObject(o)) {
-      // If we get here, it means we have another key to read, but o doesn't
+      // If we get here, it means we have another key to read, but `o` doesn't
       // hold an object (array or {}), so we can't.
       return undefined as any;
     }
-    o = (o as any)[key];
+    o = (o as any)[path[i]];
   }
   return o as any;
 };
