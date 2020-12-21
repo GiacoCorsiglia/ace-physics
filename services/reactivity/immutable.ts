@@ -68,7 +68,10 @@ export const set = <T, P extends Path<T>>(
     if (Array.isArray(last)) {
       const newArray: any = last.slice();
       newArray[path[i]] = newValue;
-      newValue = newArray;
+      // Handle array holes with Array.from() in case we're setting an array
+      // element that's 2 or more past the old length.
+      newValue =
+        newArray.length > last.length + 1 ? Array.from(newArray) : newArray;
     } else {
       newValue = { ...last, [path[i]]: newValue };
     }
