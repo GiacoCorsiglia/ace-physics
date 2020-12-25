@@ -2,13 +2,13 @@ import * as f from "./fields";
 import type { Infer } from "./types";
 
 export type TutorialSchema<
-  Parts extends readonly string[] = string[],
+  Pages extends readonly string[] = string[],
   Pretest extends f.Properties = f.Properties,
   Responses extends f.Properties = f.Properties,
   Sections extends readonly string[] = string[],
   Hints extends readonly string[] = string[]
 > = f.ObjectField<{
-  parts: f.ObjectField<PropertiesFromNames<Parts, typeof PartStatus>>;
+  pages: f.ObjectField<PropertiesFromNames<Pages, typeof PageStatus>>;
   pretest: f.ObjectField<Pretest>;
   responses: f.ObjectField<Responses>;
   sections: f.ObjectField<PropertiesFromNames<Sections, typeof SectionStatus>>;
@@ -19,8 +19,8 @@ export type TutorialSchema<
 export type TutorialData = Infer<TutorialSchema["type"]>;
 
 export const tutorialSchema = <
-  Part extends string,
-  Parts extends readonly Part[],
+  Page extends string,
+  Pages extends readonly Page[],
   Pretest extends f.Properties,
   Responses extends f.Properties,
   Section extends string,
@@ -28,20 +28,20 @@ export const tutorialSchema = <
   Hint extends string,
   Hints extends readonly Hint[]
 >({
-  parts,
+  pages,
   pretest,
   responses,
   sections,
   hints,
 }: {
-  parts: Parts;
+  pages: Pages;
   pretest: Pretest;
   responses: Responses;
   sections: Sections;
   hints: Hints;
-}): TutorialSchema<Parts, Pretest, Responses, Sections, Hints> => {
+}): TutorialSchema<Pages, Pretest, Responses, Sections, Hints> => {
   return f.object({
-    parts: statuses(parts, PartStatus),
+    pages: statuses(pages, PageStatus),
     pretest: f.object(pretest),
     responses: f.object(responses),
     sections: statuses(sections, SectionStatus),
@@ -54,7 +54,7 @@ const TutorialFeedback = f.object({
   // TODO
 });
 
-const PartStatus = f.object({
+const PageStatus = f.object({
   answersRevealed: f.boolean(),
 });
 
