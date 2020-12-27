@@ -1,6 +1,8 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 
 export type Html = React.ReactNode;
+export type Component<P = {}> = React.FunctionComponent<P>;
+export type JsxElement = React.ReactElement<any, any> | null;
 
 export interface Children<T = Html> {
   children?: T;
