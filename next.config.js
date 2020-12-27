@@ -20,6 +20,11 @@ const forEachRule = (rules, iterator) =>
 module.exports = withPlugins(
   [require("next-images"), require("next-linaria")],
   (phase) => ({
+    // Only create routes for those files in the `pages` directory that end with
+    // these extensions.  This way we can put non-route files in the pages
+    // directory, allowing us to collocate such files with the relevant routes.
+    pageExtensions: ["page.tsx", "endpoint.ts"],
+
     // For next-images; remove SVG in favor of svgr
     fileExtensions: ["jpg", "jpeg", "png", "gif", "ico", "webp", "jp2", "avif"],
 
