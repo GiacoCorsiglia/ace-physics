@@ -16,7 +16,7 @@ export type TutorialSchema<
   feedback: typeof TutorialFeedback;
 }>;
 
-export type TutorialData = Infer<TutorialSchema["type"]>;
+export type TutorialState = Infer<TutorialSchema["type"]>;
 
 export const tutorialSchema = <
   Page extends string,
