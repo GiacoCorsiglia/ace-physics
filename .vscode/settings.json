@@ -19,11 +19,13 @@
     "source.organizeImports": true
   },
   "cSpell.words": [
-    "Eiegen",
-    "Eigenstate",
+    "eigen",
+    "eigenequation",
+    "eigenequations",
+    "eigenstate",
+    "eigenstates",
     "braket",
     "doteq",
-    "eigenstates",
     "linaria"
   ],
   "jestrunner.jestCommand": "npm run test --",
