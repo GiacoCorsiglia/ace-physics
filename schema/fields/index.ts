@@ -17,9 +17,9 @@ import { TupleField } from "./tuple";
 export type Field =
   | ArrayField<any>
   | BooleanField
-  | CasesField<[string, ...string[]]>
-  | ChooseAllField<[string, ...string[]], StringField | NumberField>
-  | ChooseOneField<[string, ...string[]], StringField | NumberField>
+  | CasesField<readonly [string, ...string[]]>
+  | ChooseAllField<readonly [string, ...string[]], StringField | NumberField>
+  | ChooseOneField<readonly [string, ...string[]], StringField | NumberField>
   | NumberField
   | ObjectField<any>
   | StringField

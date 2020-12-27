@@ -37,10 +37,9 @@ export interface ChooseOneField<
  * but can be made a `NumberField` via the `other` argument.
  */
 export const chooseOne: {
-  <C extends string, Cs extends [C, ...C[]]>(choices: Cs): ChooseOneField<
-    Cs,
-    StringField
-  >;
+  <C extends string, Cs extends readonly [C, ...C[]]>(
+    choices: Cs
+  ): ChooseOneField<Cs, StringField>;
   <
     C extends string,
     Cs extends [C, ...C[]],
@@ -96,10 +95,9 @@ export interface ChooseAllField<
  * but can be made a `NumberField` via the `other` argument.
  */
 export const chooseAll: {
-  <C extends string, Cs extends [C, ...C[]]>(choices: Cs): ChooseAllField<
-    Cs,
-    StringField
-  >;
+  <C extends string, Cs extends readonly [C, ...C[]]>(
+    choices: Cs
+  ): ChooseAllField<Cs, StringField>;
   <
     C extends string,
     Cs extends [C, ...C[]],
