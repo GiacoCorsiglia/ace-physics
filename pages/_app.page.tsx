@@ -6,14 +6,15 @@ import { JsxElement } from "services/helpers/frontend";
 import "styles/index.scss";
 
 export default function AceApp({ Component, pageProps }: AppProps) {
-  const layout: (page: JsxElement) => JsxElement =
-    (Component as any).layout || ((page: JsxElement) => page);
+  const layout: (Page: typeof Component, pageProps: any) => JsxElement =
+    (Component as any).layout ||
+    ((Page: typeof Component, pageProps: any) => <Page {...pageProps} />);
 
   return (
     <>
       <div className={footerStyles.bodyContent}>
         <account.AccountProvider>
-          {layout(<Component {...pageProps} />)}
+          {layout(Component, pageProps)}
         </account.AccountProvider>
       </div>
 
