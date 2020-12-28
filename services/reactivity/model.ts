@@ -1,12 +1,13 @@
 import type * as f from "schema/fields";
 import { asIndex } from "services/helpers";
+import type { ModelContext } from "./model-state-tree";
 
-export interface Model<F extends f.Field> {
+export interface Model<F extends f.Field = f.Field> {
   readonly path: readonly (string | number)[];
   readonly field: F;
 
   /** @internal */
-  readonly contextId: symbol;
+  readonly Context: React.Context<ModelContext>;
 
   // Extra fields depending on the field type.  Using these conditionals is
   // probably better than a union type?
@@ -38,7 +39,7 @@ export interface Model<F extends f.Field> {
 export const model = <F extends f.Field>(
   field: F,
   path: readonly (string | number)[],
-  contextId: symbol
+  Context: React.Context<ModelContext>
 ): Model<F> => {
   const f: f.Field = field;
 
@@ -46,7 +47,7 @@ export const model = <F extends f.Field>(
     path,
     field,
 
-    contextId,
+    Context,
 
     // Add a `properties` property to hold the model for each sub-property.
     properties:
@@ -54,7 +55,7 @@ export const model = <F extends f.Field>(
         ? (Object.fromEntries(
             Object.entries(f.properties).map(([key, subField]) => [
               key,
-              model(subField, path.concat(key), contextId),
+              model(subField, path.concat(key), Context),
             ])
           ) as any)
         : (undefined as any),
@@ -65,7 +66,7 @@ export const model = <F extends f.Field>(
     elements:
       f.kind === "tuple"
         ? f.elements.map((subField, i) =>
-            model(subField, path.concat(i), contextId)
+            model(subField, path.concat(i), Context)
           )
         : f.kind === "array"
         ? new Proxy([] as Model<f.Field>[], {
@@ -90,7 +91,7 @@ export const model = <F extends f.Field>(
               return (elementModels[i] = model(
                 f.elements,
                 path.concat(i),
-                contextId
+                Context
               ));
             },
           })
@@ -99,7 +100,7 @@ export const model = <F extends f.Field>(
     // Add an `other` property to hold a model for the "other" field.
     other:
       f.kind === "chooseOne" || f.kind === "chooseAll"
-        ? model(f.other, path.concat("other"), contextId)
+        ? model(f.other, path.concat("other"), Context)
         : (undefined as any),
   };
 };
