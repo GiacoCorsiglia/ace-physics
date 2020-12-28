@@ -48,5 +48,14 @@ export const useUniqueId = () => {
   return idRef.current || (idRef.current = ++uniqueId);
 };
 
+/**
+ * Creates a unique Symbol that's self-contained to the lifetime of this
+ * component but otherwise doesn't matter.
+ */
+export const useUniqueSymbol = () => {
+  const symbol = useRef<symbol>();
+  return symbol.current || (symbol.current = Symbol());
+};
+
 const tickReducer = (x: number) => x + 1;
 export const useForceUpdate = () => useReducer(tickReducer, 0)[1];
