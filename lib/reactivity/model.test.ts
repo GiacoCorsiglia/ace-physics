@@ -1,5 +1,5 @@
 import * as f from "@/schema/fields";
-import { model } from "./model";
+import { isSet, model } from "./model";
 
 describe("model", () => {
   // Just use a symbol here to make sure the same value is passed down.
@@ -98,5 +98,103 @@ describe("model", () => {
         Context,
       },
     });
+  });
+});
+
+describe("isSet", () => {
+  const C = {} as any;
+
+  it("works for booleans", () => {
+    const m = model(f.boolean(), [], C);
+    expect(isSet(m, false)).toBe(true);
+    expect(isSet(m, true)).toBe(true);
+    expect(isSet(m, undefined)).toBe(false);
+  });
+
+  it("works for numbers", () => {
+    const m = model(f.number(), [], C);
+    expect(isSet(m, 0)).toBe(true);
+    expect(isSet(m, 1)).toBe(true);
+    expect(isSet(m, -1)).toBe(true);
+    expect(isSet(m, undefined)).toBe(false);
+  });
+
+  it("works for strings", () => {
+    const m = model(f.string(), [], C);
+    expect(isSet(m, "hello")).toBe(true);
+    expect(isSet(m, "")).toBe(false);
+    expect(isSet(m, undefined)).toBe(false);
+  });
+
+  it("works for cases", () => {
+    const m = model(f.cases("case 1", "case 2"), [], C);
+    expect(isSet(m, "case 1")).toBe(true);
+    expect(isSet(m, "case 1")).toBe(true);
+    expect(isSet(m, undefined)).toBe(false);
+  });
+
+  it("works for chooseOne", () => {
+    const m = model(f.chooseOne(["choice 1", "choice 2"]), [], C);
+    expect(isSet(m, { selected: "choice 1" })).toBe(true);
+    expect(isSet(m, { selected: "choice 1", other: "other" })).toBe(true);
+    expect(isSet(m, { other: "other" })).toBe(true);
+
+    expect(isSet(m, {})).toBe(false);
+    expect(isSet(m, { selected: undefined, other: undefined })).toBe(false);
+    expect(isSet(m, { other: "" })).toBe(false);
+    expect(isSet(m, { selected: undefined, other: undefined })).toBe(false);
+    expect(isSet(m, undefined)).toBe(false);
+  });
+
+  it("works for chooseAll", () => {
+    const m = model(f.chooseAll(["choice 1", "choice 2"]), [], C);
+    expect(isSet(m, { selected: ["choice 1"] })).toBe(true);
+    expect(isSet(m, { selected: ["choice 1", "choice 2"] })).toBe(true);
+    expect(isSet(m, { selected: ["choice 1"], other: "other" })).toBe(true);
+    expect(isSet(m, { other: "other" })).toBe(true);
+    expect(isSet(m, { selected: [], other: "other" })).toBe(true);
+
+    expect(isSet(m, {})).toBe(false);
+    expect(isSet(m, { selected: undefined, other: undefined })).toBe(false);
+    expect(isSet(m, { other: "" })).toBe(false);
+    expect(isSet(m, { selected: [], other: "" })).toBe(false);
+    expect(isSet(m, { selected: [] })).toBe(false);
+    expect(isSet(m, undefined)).toBe(false);
+  });
+
+  it("works for tuple", () => {
+    const m = model(f.tuple(f.boolean(), f.string()), [], C);
+    expect(isSet(m, [false, "str"])).toBe(true);
+
+    expect(isSet(m, [false, ""])).toBe(false);
+    expect(isSet(m, [undefined, "str"])).toBe(false);
+    // eslint-disable-next-line no-sparse-arrays
+    expect(isSet(m, [, "str"])).toBe(false);
+    expect(isSet(m, [true, undefined])).toBe(false);
+    expect(isSet(m, undefined)).toBe(false);
+  });
+
+  it("works for array", () => {
+    const m = model(f.array(f.string()), [], C);
+    expect(isSet(m, ["yo"])).toBe(true);
+    expect(isSet(m, ["yo", "dude"])).toBe(true);
+
+    expect(isSet(m, ["yo", ""])).toBe(false);
+    expect(isSet(m, ["yo", undefined])).toBe(false);
+    expect(isSet(m, ["yo", undefined, "dude"])).toBe(false);
+    expect(isSet(m, [])).toBe(false);
+    expect(isSet(m, undefined)).toBe(false);
+  });
+
+  it("works for object", () => {
+    const m = model(f.object({ a: f.string(), b: f.boolean() }), [], C);
+    expect(isSet(m, { a: "str", b: true })).toBe(true);
+    expect(isSet(m, { a: "str", b: false })).toBe(true);
+
+    expect(isSet(m, { a: "str", b: undefined })).toBe(false);
+    expect(isSet(m, { a: "str" })).toBe(false);
+    expect(isSet(m, { a: "", b: true })).toBe(false);
+    expect(isSet(m, {})).toBe(false);
+    expect(isSet(m, undefined)).toBe(false);
   });
 });

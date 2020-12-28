@@ -123,10 +123,13 @@ export const isSet = <F extends f.Field>(
     case "string":
       return !!v;
     case "chooseOne":
-      return v.selected !== undefined || !!v.other;
+      return v.selected !== undefined || isSet(model.other, v.other);
     case "chooseAll":
       // If it's a multi-select, make sure it's not an empty array.
-      return (v.selected !== undefined && !!v.selected.length) || !!v.other;
+      return (
+        (v.selected !== undefined && !!v.selected.length) ||
+        isSet(model.other, v.other)
+      );
     case "tuple":
       return model.elements.every((m, i) => isSet(m, v[i]));
     case "array":
