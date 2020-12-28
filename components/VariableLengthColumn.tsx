@@ -1,7 +1,7 @@
+import { Field } from "@/state";
 import { PlusIcon, XIcon } from "@primer/octicons-react";
 import * as s from "common/schema";
 import { cloneElement, useRef } from "react";
-import { Field } from "services/state";
 import Matrix, { MatrixDisplayProps } from "./Matrix";
 import styles from "./VariableLengthColumn.module.scss";
 

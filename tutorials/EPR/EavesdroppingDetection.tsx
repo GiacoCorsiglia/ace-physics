@@ -1,3 +1,4 @@
+import { Field, isSet, useFields } from "@/state";
 import { NumberSchema } from "common/schema";
 import { EPR } from "common/tutorials";
 import {
@@ -13,7 +14,6 @@ import { Choice, Integer, TextArea } from "components/inputs";
 import { choices } from "components/inputs/Select";
 import { Content } from "components/layout";
 import M from "components/M";
-import { Field, isSet, useFields } from "services/state";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import Diagram from "./svgs/eavesdropping-protection.svg";
 

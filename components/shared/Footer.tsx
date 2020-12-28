@@ -1,5 +1,5 @@
+import * as urls from "@/urls";
 import Link from "next/link";
-import * as urls from "services/urls";
 import styles from "./Footer.module.scss";
 
 export function Footer() {

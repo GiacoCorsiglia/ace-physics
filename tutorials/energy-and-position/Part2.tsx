@@ -1,3 +1,5 @@
+import { isSet, needsHelp } from "@/state";
+import { range } from "@/util";
 import { EnergyAndPosition } from "common/tutorials";
 import {
   Continue,
@@ -13,8 +15,6 @@ import { Content } from "components/layout";
 import M from "components/M";
 import { Axes, Bar, DragHandle, GridLine, Plot, Tick } from "components/plots";
 import { Fragment } from "react";
-import { isSet, needsHelp } from "services/state";
-import { range } from "services/util";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function Part2() {

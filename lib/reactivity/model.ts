@@ -1,5 +1,5 @@
-import type * as f from "schema/fields";
-import { asIndex } from "services/helpers";
+import { asIndex } from "@/helpers";
+import type * as f from "@/schema/fields";
 import type { ModelContext } from "./model-state-tree";
 
 export interface Model<F extends f.Field = f.Field> {

@@ -1,6 +1,6 @@
+import * as urls from "@/urls";
 import { EPR } from "common/tutorials";
 import { Prose } from "components";
-import * as urls from "services/urls";
 import { tutorialRoute } from "tutorials/shared";
 import EavesdroppingDetection from "./EavesdroppingDetection";
 import EntangledStates from "./EntangledStates";

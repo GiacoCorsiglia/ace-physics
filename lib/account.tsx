@@ -1,3 +1,6 @@
+import * as api from "@/api";
+import * as urls from "@/urls";
+import { Children, classes } from "@/util";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { Learner } from "common/apiTypes";
 import { Prose } from "components";
@@ -16,9 +19,6 @@ import {
   useReducer,
   useState,
 } from "react";
-import * as api from "services/api";
-import * as urls from "services/urls";
-import { Children, classes } from "services/util";
 import styles from "./account.module.scss";
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,3 +1,15 @@
+import { useAccount } from "@/account";
+import * as api from "@/api";
+import * as globalParams from "@/globalParams";
+import {
+  Field,
+  Provider,
+  ProviderFields,
+  ProviderSchema,
+  WithFields,
+} from "@/state";
+import * as urls from "@/urls";
+import { Children, classes, useToggle } from "@/util";
 import {
   AlertIcon,
   ArrowLeftIcon,
@@ -22,18 +34,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useAccount } from "services/account";
-import * as api from "services/api";
-import * as globalParams from "services/globalParams";
-import {
-  Field,
-  Provider,
-  ProviderFields,
-  ProviderSchema,
-  WithFields,
-} from "services/state";
-import * as urls from "services/urls";
-import { Children, classes, useToggle } from "services/util";
 import EllipsisCircleIcon from "svgs/ellipsis-circle.svg";
 import Feedback from "./Feedback";
 import styles from "./shared.module.scss";

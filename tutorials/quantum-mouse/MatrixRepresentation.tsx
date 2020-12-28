@@ -1,3 +1,4 @@
+import { isSet, isVisible, useFields } from "@/state";
 import { QuantumMouse } from "common/tutorials";
 import { Continue, Help, Prose, Reminder, Section } from "components";
 import {
@@ -10,7 +11,6 @@ import {
 import { Content } from "components/layout";
 import M from "components/M";
 import Matrix, { fieldToMatrix } from "components/Matrix";
-import { isSet, isVisible, useFields } from "services/state";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function MatrixRepresentation() {

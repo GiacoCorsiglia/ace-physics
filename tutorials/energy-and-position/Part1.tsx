@@ -1,3 +1,4 @@
+import { isSet, needsHelp } from "@/state";
 import { EnergyAndPosition } from "common/tutorials";
 import {
   Continue,
@@ -12,7 +13,6 @@ import { choices } from "components/inputs/Select";
 import { Content } from "components/layout";
 import M from "components/M";
 import VariableLengthColumn from "components/VariableLengthColumn";
-import { isSet, needsHelp } from "services/state";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function Part1() {

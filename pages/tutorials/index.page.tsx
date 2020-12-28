@@ -1,10 +1,10 @@
+import * as urls from "@/urls";
+import { Children } from "@/util";
 import { ChevronRightIcon } from "@primer/octicons-react";
 import { Prose } from "components";
 import { Content, Header, Page } from "components/layout";
 import { UserMenu } from "components/shared/UserMenu";
 import Link from "next/link";
-import * as urls from "services/urls";
-import { Children } from "services/util";
 import styles from "tutorials/tutorials.module.scss";
 
 export default function TutorialsIndex() {

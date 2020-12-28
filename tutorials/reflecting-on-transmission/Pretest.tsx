@@ -1,10 +1,10 @@
+import { isSet, useFields } from "@/state";
 import { ReflectingOnTransmission } from "common/tutorials";
 import { Continue, Prose, Section } from "components";
 import { Choice, DisableInputs } from "components/inputs";
 import { choices } from "components/inputs/Select";
 import { Content } from "components/layout";
 import M from "components/M";
-import { isSet, useFields } from "services/state";
 import { PretestReminderSection, PretestSpiel } from "tutorials/pretests";
 import { Part, useNextPartLink } from "tutorials/shared";
 import { PretestStepPotential } from "./figures";

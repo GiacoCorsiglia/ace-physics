@@ -1,4 +1,4 @@
-import * as t from "schema/types";
+import * as t from "@/schema/types";
 import { NumberField, string, StringField } from "./primitives";
 
 type ChoicesToUnion<Cs extends readonly string[]> = t.UnionType<

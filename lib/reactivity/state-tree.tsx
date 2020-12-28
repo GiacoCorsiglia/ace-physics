@@ -1,7 +1,7 @@
+import { Immutable, Path, TypeAtPath } from "@/helpers";
+import { Html, useForceUpdate } from "@/helpers/frontend";
 import { createContext, useContext, useEffect, useRef } from "react";
 import { unstable_batchedUpdates } from "react-dom";
-import { Immutable, Path, TypeAtPath } from "services/helpers";
-import { Html, useForceUpdate } from "services/helpers/frontend";
 import { get } from "./immutable";
 import { Store, store } from "./store";
 import { Tracker, tracker } from "./tracker";

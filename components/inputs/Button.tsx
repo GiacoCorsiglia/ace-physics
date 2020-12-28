@@ -1,5 +1,5 @@
+import { classes } from "@/util";
 import Link from "next/link";
-import { classes } from "services/util";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 

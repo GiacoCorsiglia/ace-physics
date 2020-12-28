@@ -1,3 +1,5 @@
+import { Field, isSet } from "@/state";
+import { classes } from "@/util";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { ChoiceSchema, StringSchema } from "common/schema";
 import { TimeDependence } from "common/tutorials";
@@ -7,8 +9,6 @@ import inputStyles from "components/inputs/inputs.module.scss";
 import { choices } from "components/inputs/Select";
 import { Content } from "components/layout";
 import M from "components/M";
-import { Field, isSet } from "services/state";
-import { classes } from "services/util";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function AnEnergyEigenstate() {

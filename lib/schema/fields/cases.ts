@@ -1,4 +1,4 @@
-import * as t from "schema/types";
+import * as t from "@/schema/types";
 
 type CasesToUnion<Cs extends readonly string[]> = t.UnionType<
   {

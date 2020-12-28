@@ -1,9 +1,9 @@
+import { formatId, useAccount, useLogout } from "@/account";
+import { Login } from "@/urls";
+import { classes, useToggle } from "@/util";
 import { PersonIcon } from "@primer/octicons-react";
 import { Prose } from "components";
 import { Button } from "components/inputs";
-import { formatId, useAccount, useLogout } from "services/account";
-import { Login } from "services/urls";
-import { classes, useToggle } from "services/util";
 import styles from "./UserMenu.module.scss";
 
 export function UserMenu() {

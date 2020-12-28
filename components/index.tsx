@@ -1,3 +1,6 @@
+import * as globalParams from "@/globalParams";
+import { Field, isSet } from "@/state";
+import { Children, classes, OptionalChildren, scrollTo } from "@/util";
 import {
   ArrowDownIcon,
   ArrowRightIcon,
@@ -14,9 +17,6 @@ import {
   useEffect,
   useRef,
 } from "react";
-import * as globalParams from "services/globalParams";
-import { Field, isSet } from "services/state";
-import { Children, classes, OptionalChildren, scrollTo } from "services/util";
 import { Button, TextArea } from "./inputs";
 import { Content } from "./layout";
 import styles from "./structure.module.scss";

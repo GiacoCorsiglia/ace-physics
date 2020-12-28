@@ -1,3 +1,5 @@
+import { isSet, isVisible, needsHelp, useFields } from "@/state";
+import { arraysEqual } from "@/util";
 import { QuantumMouse } from "common/tutorials";
 import { Continue, Help, HelpButton, Prose, Section } from "components";
 import {
@@ -9,8 +11,6 @@ import {
 } from "components/inputs";
 import { Content } from "components/layout";
 import M from "components/M";
-import { isSet, isVisible, needsHelp, useFields } from "services/state";
-import { arraysEqual } from "services/util";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function QuantumMood() {

@@ -1,10 +1,10 @@
+import { isSet } from "@/state";
 import { TimeDependence } from "common/tutorials";
 import { Continue, Hint, Prose, Section } from "components";
 import { FieldGroup, Text, TextArea } from "components/inputs";
 import { Content } from "components/layout";
 import M from "components/M";
 import { Axes, Label, Plot, WithPlot } from "components/plots";
-import { isSet } from "services/state";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function TimeEvInfiniteWell() {

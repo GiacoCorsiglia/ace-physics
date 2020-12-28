@@ -1,9 +1,9 @@
+import { isSet } from "@/state";
 import { EnergyAndPosition } from "common/tutorials";
 import { Continue, Prose, Section } from "components";
 import { TextArea } from "components/inputs";
 import { Content } from "components/layout";
 import M from "components/M";
-import { isSet } from "services/state";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function WrapUpConnectingBases() {

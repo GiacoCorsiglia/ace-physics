@@ -1,4 +1,4 @@
-import { isObject } from "services/helpers";
+import { isObject } from "@/helpers";
 
 export interface Tracker<T extends object> {
   readonly original: T;

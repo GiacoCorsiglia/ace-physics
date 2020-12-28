@@ -1,4 +1,4 @@
-import * as f from "schema/fields";
+import * as f from "@/schema/fields";
 import { model } from "./model";
 
 describe("model", () => {

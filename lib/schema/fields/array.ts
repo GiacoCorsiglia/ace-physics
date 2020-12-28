@@ -1,4 +1,4 @@
-import * as t from "schema/types";
+import * as t from "@/schema/types";
 import type { Field } from ".";
 
 /**

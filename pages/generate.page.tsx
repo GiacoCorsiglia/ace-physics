@@ -1,3 +1,5 @@
+import * as api from "@/api";
+import { classes } from "@/util";
 import {
   ArrowRightIcon,
   CheckCircleIcon,
@@ -10,8 +12,6 @@ import inputStyles from "components/inputs/inputs.module.scss";
 import { Content, Page } from "components/layout";
 import { useState } from "react";
 import Select from "react-select";
-import * as api from "services/api";
-import { classes } from "services/util";
 
 const positiveIntegerPattern = /^[1-9]\d*$/;
 

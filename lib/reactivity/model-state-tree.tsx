@@ -1,3 +1,7 @@
+import type { Immutable } from "@/helpers";
+import { Html, useUniqueSymbol } from "@/helpers/frontend";
+import type * as f from "@/schema/fields";
+import type { Infer } from "@/schema/types";
 import {
   createContext,
   useCallback,
@@ -6,10 +10,6 @@ import {
   useRef,
   useState,
 } from "react";
-import type * as f from "schema/fields";
-import type { Infer } from "schema/types";
-import type { Immutable } from "services/helpers";
-import { Html, useUniqueSymbol } from "services/helpers/frontend";
 import { get } from "./immutable";
 import { model, Model } from "./model";
 import { stateTree } from "./state-tree";

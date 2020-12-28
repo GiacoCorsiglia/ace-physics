@@ -1,4 +1,4 @@
-import { Failure, Result, Success } from "services/helpers/result";
+import { Failure, Result, Success } from "@/helpers/result";
 import { Decoded, DecodeError } from "./decode";
 
 export const isFailure = (o: Result<any, any>) => o.failed;

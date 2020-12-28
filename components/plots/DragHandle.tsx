@@ -1,7 +1,7 @@
+import { Field } from "@/state";
+import { classes, roundToNearest } from "@/util";
 import { NumberSchema } from "common/schema";
 import { useState } from "react";
-import { Field } from "services/state";
-import { classes, roundToNearest } from "services/util";
 import { usePlot } from ".";
 import styles from "./plots.module.scss";
 

@@ -1,3 +1,5 @@
+import { isSet, isVisible, needsHelp, useFields } from "@/state";
+import { approxEquals } from "@/util";
 import { QuantumMouse } from "common/tutorials";
 import {
   Continue,
@@ -18,8 +20,6 @@ import {
 } from "components/inputs";
 import { Content } from "components/layout";
 import M from "components/M";
-import { isSet, isVisible, needsHelp, useFields } from "services/state";
-import { approxEquals } from "services/util";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function MeasuringEyeSize() {

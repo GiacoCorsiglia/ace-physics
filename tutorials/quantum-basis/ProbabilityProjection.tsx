@@ -1,10 +1,10 @@
+import { Field, isSet, useFields } from "@/state";
 import { QuantumBasis } from "common/tutorials";
 import { Continue, Prose, Reminder, Section, Vocabulary } from "components";
 import { Choice, Select, TextArea } from "components/inputs";
 import { Column, Columns, Content, Flex } from "components/layout";
 import M from "components/M";
 import { Axes, Bar, Plot, Tick, WithPlot } from "components/plots";
-import { Field, isSet, useFields } from "services/state";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function ProbabilityProjection() {

@@ -1,6 +1,6 @@
+import * as urls from "@/urls";
 import { QuantumMouse } from "common/tutorials";
 import { Prose } from "components";
-import * as urls from "services/urls";
 import { tutorialRoute } from "tutorials/shared";
 import Challenge from "./Challenge";
 import IntroToExpectationValue from "./IntroToExpectationValue";

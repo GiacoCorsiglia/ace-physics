@@ -1,3 +1,4 @@
+import { isSet } from "@/state";
 import { EnergyAndPosition } from "common/tutorials";
 import { Continue, Prose, Reminder, Section, Vocabulary } from "components";
 import { TextArea, Toggle } from "components/inputs";
@@ -5,7 +6,6 @@ import { choices } from "components/inputs/Select";
 import { Content } from "components/layout";
 import M from "components/M";
 import { Axes, Curve, Plot, Tick } from "components/plots";
-import { isSet } from "services/state";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function PositionRepresentationA() {

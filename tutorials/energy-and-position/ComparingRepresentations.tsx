@@ -1,3 +1,4 @@
+import { isSet, needsHelp } from "@/state";
 import { EnergyAndPosition } from "common/tutorials";
 import {
   Continue,
@@ -11,7 +12,6 @@ import { TextArea } from "components/inputs";
 import { Column, Columns, Content } from "components/layout";
 import M from "components/M";
 import { Axes, Bar, Curve, GridLine, Plot, Tick } from "components/plots";
-import { isSet, needsHelp } from "services/state";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function ComparingRepresentations() {

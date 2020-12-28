@@ -1,6 +1,6 @@
+import * as urls from "@/urls";
 import { VectorsToFunctions } from "common/tutorials";
 import { Prose } from "components";
-import * as urls from "services/urls";
 import { tutorialRoute } from "tutorials/shared";
 import Position from "./Position";
 import Spin4 from "./Spin4";

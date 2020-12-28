@@ -1,3 +1,4 @@
+import { isSet, useFields } from "@/state";
 import { EPR } from "common/tutorials";
 import {
   Answer,
@@ -11,7 +12,6 @@ import { Choice, TextArea } from "components/inputs";
 import { choices } from "components/inputs/Select";
 import { Content } from "components/layout";
 import M from "components/M";
-import { isSet, useFields } from "services/state";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 import Diagram from "./svgs/entangled-states.svg";
 

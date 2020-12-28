@@ -1,3 +1,4 @@
+import { isSet } from "@/state";
 import { TimeDependence } from "common/tutorials";
 import { Continue, Prose, Section } from "components";
 import { Decimal, FieldGroup, TextArea, Toggle } from "components/inputs";
@@ -6,7 +7,6 @@ import { Content } from "components/layout";
 import M from "components/M";
 import { Fragment } from "react";
 import { StylesConfig } from "react-select";
-import { isSet } from "services/state";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import tableGraph1 from "./img/table-graph-1.png";
 import tableGraph2 from "./img/table-graph-2.png";

@@ -1,3 +1,4 @@
+import { isSet } from "@/state";
 import { ArrowUpIcon } from "@primer/octicons-react";
 import { VectorsToFunctions } from "common/tutorials";
 import { Continue, Help, Prose, Section, Vocabulary } from "components";
@@ -15,7 +16,6 @@ import {
   WithPlot,
 } from "components/plots";
 import { Fragment } from "react";
-import { isSet } from "services/state";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function Position() {

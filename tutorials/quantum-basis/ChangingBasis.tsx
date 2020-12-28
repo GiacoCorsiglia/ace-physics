@@ -1,3 +1,5 @@
+import { isSet, isVisible, needsHelp, useFields } from "@/state";
+import { approxEquals } from "@/util";
 import { QuantumBasis } from "common/tutorials";
 import {
   Continue,
@@ -13,8 +15,6 @@ import { Column, Columns, Content } from "components/layout";
 import M from "components/M";
 import Matrix, { fieldToMatrix } from "components/Matrix";
 import { Axes, Plot, Tick, Vector } from "components/plots";
-import { isSet, isVisible, needsHelp, useFields } from "services/state";
-import { approxEquals } from "services/util";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function ChangingBasis() {

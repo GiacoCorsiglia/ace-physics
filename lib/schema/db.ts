@@ -1,4 +1,4 @@
-import { isObject } from "services/helpers";
+import { isObject } from "@/helpers";
 import { Event } from "./events";
 import * as t from "./types";
 

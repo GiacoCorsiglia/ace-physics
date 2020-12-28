@@ -1,5 +1,5 @@
+import { Children, classes } from "@/util";
 import Head from "next/head";
-import { Children, classes } from "services/util";
 import styles from "./layout.module.scss";
 
 export function Page({ title, children }: { title: string } & Children) {

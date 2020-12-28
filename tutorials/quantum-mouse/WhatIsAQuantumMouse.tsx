@@ -1,3 +1,4 @@
+import { isSet, needsHelp, useFields } from "@/state";
 import { QuantumMouse } from "common/tutorials";
 import { Continue, Help, HelpButton, Prose, Section } from "components";
 import {
@@ -10,7 +11,6 @@ import {
 } from "components/inputs";
 import { Content } from "components/layout";
 import M from "components/M";
-import { isSet, needsHelp, useFields } from "services/state";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 import MouseBigEye from "./svgs/mouse-big-eye.svg";
 import MouseSmallEye from "./svgs/mouse-small-eye.svg";

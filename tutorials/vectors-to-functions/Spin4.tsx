@@ -1,3 +1,5 @@
+import { Field, isSet, needsHelp } from "@/state";
+import { range } from "@/util";
 import { VectorsToFunctions } from "common/tutorials";
 import { Continue, Help, HelpButton, Prose, Section } from "components";
 import { Decimal, FieldGroup, Text, TextArea, Toggle } from "components/inputs";
@@ -15,8 +17,6 @@ import {
 } from "components/plots";
 import VariableLengthColumn from "components/VariableLengthColumn";
 import { Fragment } from "react";
-import { Field, isSet, needsHelp } from "services/state";
-import { range } from "services/util";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import styles from "./styles.module.scss";
 
