@@ -1,8 +1,9 @@
 // @ts-check
+const path = require("path");
 const tsconfig = require("./tsconfig.json");
 
 /** @type {import("@jest/types").Config.InitialOptions} */
-const config = {
+const config = (module.exports = {
   // Test files.
   testPathIgnorePatterns: ["<rootDir>[/\\\\](node_modules|.next)[/\\\\]"],
 
@@ -28,11 +29,15 @@ const config = {
   moduleNameMapper: {
     // Fake CSS Modules.
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
-    // TODO: Add support for tsconfig paths.
+    // Support for tsconfig paths.
+    ...Object.fromEntries(
+      Object.entries(tsconfig.compilerOptions.paths || {}).map(([k, [v]]) => [
+        `^${k.replace(/\*/, "(.*)")}`,
+        path.join("<rootDir>", v.replace(/\*/, "$1")),
+      ])
+    ),
   },
 
   // Setup.
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-};
-
-module.exports = config;
+});
