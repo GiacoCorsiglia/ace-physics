@@ -1,3 +1,5 @@
+export const htmlTitle = (title: string) => `${title} | ACEPhysics.net`;
+
 export const isObject = (value: unknown): value is object =>
   value !== null && typeof value === "object";
 
