@@ -1,3 +1,4 @@
+export { isSet } from "./model";
 export type { Model } from "./model";
 export { modelStateTree, useModel } from "./model-state-tree";
 export { stateTree } from "./state-tree";

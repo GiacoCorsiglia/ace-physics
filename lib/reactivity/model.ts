@@ -1,5 +1,6 @@
 import { asIndex } from "@/helpers";
 import type * as f from "@/schema/fields";
+import { Infer } from "@/schema/types";
 import type { ModelContext } from "./model-state-tree";
 
 export interface Model<F extends f.Field = f.Field> {
@@ -103,4 +104,43 @@ export const model = <F extends f.Field>(
         ? model(f.other, path.concat("other"), Context)
         : (undefined as any),
   };
+};
+
+export const isSet = <F extends f.Field>(
+  model: Model<F>,
+  value: Infer<F["type"]> | undefined
+): boolean => {
+  if (value === undefined) {
+    return false;
+  }
+
+  const v: any = value;
+  switch (model.field.kind) {
+    case "boolean":
+    case "number":
+    case "cases":
+      return true;
+    case "string":
+      return !!v;
+    case "chooseOne":
+      return v.selected !== undefined || !!v.other;
+    case "chooseAll":
+      // If it's a multi-select, make sure it's not an empty array.
+      return (v.selected !== undefined && !!v.selected.length) || !!v.other;
+    case "tuple":
+      return model.elements.every((m, i) => isSet(m, v[i]));
+    case "array":
+      // There should be at least one element in the array, and it shouldn't
+      // have any empty slots.
+      return (
+        !!v.length &&
+        v.every((subValue: any, i: number) =>
+          isSet(model.elements[i], subValue)
+        )
+      );
+    case "object":
+      return Object.entries(model.properties).every(([key, subModel]) =>
+        isSet(subModel, v[key])
+      );
+  }
 };
