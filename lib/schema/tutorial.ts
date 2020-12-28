@@ -16,8 +16,13 @@ export type TutorialSchema<
   feedback: typeof TutorialFeedback;
 }>;
 
-export type TutorialState = Infer<TutorialSchema["type"]>;
+export type TutorialState<S extends TutorialSchema = TutorialSchema> = Infer<
+  S["type"]
+>;
 
+/**
+ * Creates the schema for a new tutorial.
+ */
 export const tutorialSchema = <
   Page extends string,
   Pages extends readonly Page[],
