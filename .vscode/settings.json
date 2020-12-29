@@ -19,14 +19,15 @@
     "source.organizeImports": true
   },
   "cSpell.words": [
+    "braket",
+    "doteq",
     "eigen",
     "eigenequation",
     "eigenequations",
     "eigenstate",
     "eigenstates",
-    "braket",
-    "doteq",
-    "linaria"
+    "linaria",
+    "rerender"
   ],
   "jestrunner.jestCommand": "npm run test --",
   "typescript.tsdk": "node_modules/typescript/lib",
