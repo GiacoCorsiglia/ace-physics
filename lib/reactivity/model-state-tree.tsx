@@ -40,7 +40,7 @@ export const modelStateTree = <P extends f.Properties>(
     children,
   }: {
     initial: T;
-    overrideRootField: f.ObjectField<P>;
+    overrideRootField?: f.ObjectField<P>;
     children?: Html;
   }) => {
     const ctx = useRef<ModelContext<P>>();
@@ -83,8 +83,8 @@ type GetSetTuple<T> = [
   setValue: (next: T | ((prev: Immutable<T>) => T)) => void
 ];
 
-export const useModel = <F extends f.Field, M extends Model<F>>(
-  model: M,
+export const useModel = <F extends f.Field>(
+  model: Model<F>,
   onExternalUpdate?: (newValue: Infer<F["type"]>) => void
 ): GetSetTuple<Infer<F["type"]>> => {
   const store = useContext(model.Context).useStore();
