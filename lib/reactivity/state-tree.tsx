@@ -36,7 +36,7 @@ export const stateTree = <T extends object>(displayName: string) => {
     return <Context.Provider value={ctx.current} children={children} />;
   };
 
-  const useStore = () => useContext(Context).store;
+  const useStore = (): Store<T> => useContext(Context).store;
 
   const useValue = <P extends Path<Immutable<T>>>(
     path: P
