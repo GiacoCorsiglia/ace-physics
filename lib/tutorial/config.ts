@@ -10,11 +10,11 @@ type Label =
       /**
        * The version of the label for display within the page.
        */
-      html: Html;
+      readonly html: Html;
       /**
        * The version of the label for display in the browser tab bar.
        */
-      title: string;
+      readonly title: string;
     };
 
 /**
@@ -24,35 +24,35 @@ export interface TutorialConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * The schema for the tutorial.
    */
-  schema: S;
+  readonly schema: S;
   /**
    * The link for the tutorial ("/tutorials/{this-part-of-the-link-only}")
    */
-  link: string;
+  readonly link: string;
   /**
    * The tutorial's title.
    */
-  label: Label;
+  readonly label: Label;
   /**
    * Snippet of Html to show in the sidebar.
    */
-  info?: Html;
+  readonly info?: Html;
   /**
    * Whether the tutorial has a pretest page.
    */
-  pretest: boolean;
+  readonly pretest: boolean;
   /**
    * The list of pages in the tutorial to include in the sidebar.
    */
-  pages: {
+  readonly pages: readonly {
     /**
      * The page's link ("tutorials/tutorial-name/{this-part-of-the-link-only}").
      */
-    link: string;
+    readonly link: string;
     /**
      * The label for the page in the sidebar.
      */
-    label: Html;
+    readonly label: Html;
   }[];
 }
 
@@ -68,7 +68,7 @@ export interface IntroConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * The body of the introduction (displayed in addition to the default text).
    */
-  body: Html;
+  readonly body: Html;
 }
 
 /**
@@ -78,7 +78,7 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * The sections in the pretest.
    */
-  sections: PretestSectionConfig<S>[];
+  readonly sections: readonly PretestSectionConfig<S>[];
 }
 
 /**
@@ -90,7 +90,7 @@ export interface PretestSectionConfig<
   /**
    * The contents of this section.
    */
-  body:
+  readonly body:
     | Html
     | ((
         models: Models<S>["pretest"]["properties"],
@@ -105,15 +105,15 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * The internal name for this page.
    */
-  name: keyof S["properties"]["pages"]["properties"];
+  readonly name: keyof S["properties"]["pages"]["properties"];
   /**
    * The page's title.
    */
-  label: Label;
+  readonly label: Label;
   /**
    * The sections (or nested sequences of sections) in the page.
    */
-  sections: NodeConfig<S>[];
+  readonly sections: readonly NodeConfig<S>[];
 }
 
 /**
@@ -132,15 +132,15 @@ type When<S extends TutorialSchema> = (
  * Configuration for a section of a body page.
  */
 export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
-  kind: "section";
+  readonly kind: "section";
   /**
    * The internal name of the section.
    */
-  name: keyof S["properties"]["sections"]["properties"];
+  readonly name: keyof S["properties"]["sections"]["properties"];
   /**
    * The contents of the section.
    */
-  body:
+  readonly body:
     | Html
     | ((
         models: Models<S>["responses"]["properties"],
@@ -149,17 +149,17 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * Conditional logic dictating when the section should be revealed.
    */
-  when?: When<S>;
+  readonly when?: When<S>;
   /** Configuration  */
-  hints?: Array<HintConfig<S> | Array<HintConfig<S>>>;
+  readonly hints?: Array<HintConfig<S> | Array<HintConfig<S>>>;
   /**
    * Configuration for the section's continue button.
    */
-  continue?: {
+  readonly continue?: {
     /**
      * The continue button's label.
      */
-    label?: Html | ((state: TutorialState<S>) => Html);
+    readonly label?: Html | ((state: TutorialState<S>) => Html);
     /**
      * Conditional logic dictating when the continue button should be enabled.
      * By default, the button will only be enabled when all models used in the
@@ -168,7 +168,7 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
      * @param allowed The original determination of whether the button should be
      * enabled based on the default logic.
      */
-    allowed?: (state: TutorialState<S>, allowed: boolean) => boolean;
+    readonly allowed?: (state: TutorialState<S>, allowed: boolean) => boolean;
   };
 }
 
@@ -176,15 +176,15 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
  * Configuration for a sequence of sections in the section tree of a body page.
  */
 export interface SequenceConfig<S extends TutorialSchema = TutorialSchema> {
-  kind: "sequence";
+  readonly kind: "sequence";
   /**
    * Conditional logic dictating when the sequence should be revealed.
    */
-  when?: When<S>;
+  readonly when?: When<S>;
   /**
    * The sections inside this sequence.
    */
-  sections: NodeConfig<S>[];
+  readonly sections: readonly NodeConfig<S>[];
 }
 
 export const section = <S extends TutorialSchema>(
@@ -199,11 +199,11 @@ export const sequence = <S extends TutorialSchema>(
  * Configuration for a hint.
  */
 interface HintConfig<S extends TutorialSchema> {
-  name: keyof S["properties"]["hints"]["properties"];
-  body:
+  readonly name: keyof S["properties"]["hints"]["properties"];
+  readonly body:
     | Html
     | ((models: Models<S>, state: TutorialState<S>) => Html)
     | "disable";
-  label?: Html | ((state: TutorialState<S>) => Html);
-  when?: (state: TutorialState<S>) => boolean;
+  readonly label?: Html | ((state: TutorialState<S>) => Html);
+  readonly when?: (state: TutorialState<S>) => boolean;
 }
