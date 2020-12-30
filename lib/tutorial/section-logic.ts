@@ -19,7 +19,8 @@ export const nextSectionToReveal = (
   const nodes = sequence.sections;
   const responses = state.responses || {};
 
-  const start = lastCommittedNodeIndex(state, nodes) + 1;
+  const start = firstUncommittedNodeIndex(state, nodes);
+  // It's possible for `start` to be over the array length, but that's fine:
   for (let i = start; i < nodes.length; i++) {
     const node = nodes[i];
 
@@ -43,12 +44,12 @@ export const nextSectionToReveal = (
   return null;
 };
 
-const lastCommittedNodeIndex = (
+const firstUncommittedNodeIndex = (
   state: TutorialState,
-  nodes: NodeConfig[]
+  nodes: readonly NodeConfig[]
 ): number => {
   const statuses = state.sections || {};
-  for (let i = nodes.length; i >= 0; i--) {
+  for (let i = nodes.length - 1; i >= 0; i--) {
     const node = nodes[i];
 
     const isSectionCommitted =
@@ -57,7 +58,7 @@ const lastCommittedNodeIndex = (
       node.kind === "sequence" && nextSectionToReveal(state, node) === null;
 
     if (isSectionCommitted || isSequenceCommitted) {
-      return i;
+      return i + 1;
     }
   }
   return 0;
