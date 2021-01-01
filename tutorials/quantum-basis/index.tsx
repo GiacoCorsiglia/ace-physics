@@ -1,6 +1,6 @@
+import { Prose } from "@/design";
 import * as urls from "@/urls";
 import { QuantumBasis, QuantumBasisLite } from "common/tutorials";
-import { Prose } from "components";
 import { tutorialRoute } from "tutorials/shared";
 import ChangingBasis from "./ChangingBasis";
 import DefiningBasis from "./DefiningBasis";

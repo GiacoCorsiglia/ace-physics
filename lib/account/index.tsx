@@ -1,12 +1,12 @@
 import * as api from "@/api";
+import { Prose } from "@/design";
+import { Content, Page } from "@/design/layout";
+import { Button } from "@/inputs";
+import inputStyles from "@/inputs/inputs.module.scss";
 import * as urls from "@/urls";
 import { Children, classes } from "@/util";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { Learner } from "common/apiTypes";
-import { Prose } from "components";
-import { Button } from "components/inputs";
-import inputStyles from "components/inputs/inputs.module.scss";
-import { Content, Page } from "components/layout";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";

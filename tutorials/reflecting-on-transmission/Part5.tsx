@@ -1,11 +1,11 @@
+import { Continue, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { FieldGroup, Select, TextArea } from "@/inputs";
+import { choices } from "@/inputs/Select";
+import M from "@/math";
 import { isSet } from "@/state";
 import { classes } from "@/util";
 import { ReflectingOnTransmission } from "common/tutorials";
-import { Continue, Prose, Section } from "components";
-import { FieldGroup, Select, TextArea } from "components/inputs";
-import { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import {
   BarrierPotential,

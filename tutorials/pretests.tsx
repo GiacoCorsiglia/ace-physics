@@ -1,4 +1,4 @@
-import { Prose, Section } from "components";
+import { Prose, Section } from "@/design";
 
 export function PretestSpiel() {
   return (

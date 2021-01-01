@@ -1,5 +1,9 @@
 import { useAccount } from "@/account";
+import { UserMenu } from "@/account/UserMenu";
 import * as api from "@/api";
+import { Continue, Prose } from "@/design";
+import { Content, Header, Page } from "@/design/layout";
+import structureStyles from "@/design/structure.module.scss";
 import * as globalParams from "@/globalParams";
 import {
   Field,
@@ -8,6 +12,7 @@ import {
   ProviderSchema,
   WithFields,
 } from "@/state";
+import EllipsisCircleIcon from "@/svgs/ellipsis-circle.svg";
 import * as urls from "@/urls";
 import { Children, classes, useToggle } from "@/util";
 import {
@@ -18,10 +23,6 @@ import {
 } from "@primer/octicons-react";
 import * as s from "common/schema";
 import { names } from "common/tutorials";
-import { Continue, Prose } from "components";
-import { Content, Header, Page } from "components/layout";
-import { UserMenu } from "components/shared/UserMenu";
-import structureStyles from "components/structure.module.scss";
 import debounce from "lodash.debounce";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -34,7 +35,6 @@ import {
   useRef,
   useState,
 } from "react";
-import EllipsisCircleIcon from "svgs/ellipsis-circle.svg";
 import Feedback from "./Feedback";
 import styles from "./shared.module.scss";
 

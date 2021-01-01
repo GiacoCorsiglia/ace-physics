@@ -1,5 +1,3 @@
-import { isSet, useFields } from "@/state";
-import { EPR } from "common/tutorials";
 import {
   Answer,
   AnswerVisibility,
@@ -8,11 +6,13 @@ import {
   Reminder,
   RevealAnswersSection,
   Section,
-} from "components";
-import { Choice, FieldGroup, Text, Toggle } from "components/inputs";
-import { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
+} from "@/design";
+import { Content } from "@/design/layout";
+import { Choice, FieldGroup, Text, Toggle } from "@/inputs";
+import { choices } from "@/inputs/Select";
+import M from "@/math";
+import { isSet, useFields } from "@/state";
+import { EPR } from "common/tutorials";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function QuantumCryptography() {

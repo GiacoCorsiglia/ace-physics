@@ -1,6 +1,3 @@
-import { Field, isSet, useFields } from "@/state";
-import { NumberSchema } from "common/schema";
-import { EPR } from "common/tutorials";
 import {
   Answer,
   AnswerVisibility,
@@ -9,11 +6,14 @@ import {
   Reminder,
   RevealAnswersSection,
   Section,
-} from "components";
-import { Choice, Integer, TextArea } from "components/inputs";
-import { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
+} from "@/design";
+import { Content } from "@/design/layout";
+import { Choice, Integer, TextArea } from "@/inputs";
+import { choices } from "@/inputs/Select";
+import M from "@/math";
+import { Field, isSet, useFields } from "@/state";
+import { NumberSchema } from "common/schema";
+import { EPR } from "common/tutorials";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import Diagram from "./svgs/eavesdropping-protection.svg";
 

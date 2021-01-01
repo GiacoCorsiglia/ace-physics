@@ -1,19 +1,12 @@
+import { Continue, Help, HelpButton, Prose, Reminder, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Choice, TextArea, Toggle } from "@/inputs";
+import { choices } from "@/inputs/Select";
+import M from "@/math";
+import { Axes, Bar, DragHandle, GridLine, Plot, Tick } from "@/plots";
 import { isSet, needsHelp } from "@/state";
 import { range } from "@/util";
 import { EnergyAndPosition } from "common/tutorials";
-import {
-  Continue,
-  Help,
-  HelpButton,
-  Prose,
-  Reminder,
-  Section,
-} from "components";
-import { Choice, TextArea, Toggle } from "components/inputs";
-import { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
-import { Axes, Bar, DragHandle, GridLine, Plot, Tick } from "components/plots";
 import { Fragment } from "react";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 

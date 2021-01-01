@@ -1,10 +1,10 @@
+import { Continue, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
+import Select, { choices } from "@/inputs/Select";
+import M from "@/math";
 import { isSet } from "@/state";
 import { TimeDependence } from "common/tutorials";
-import { Continue, Prose, Section } from "components";
-import { Decimal, FieldGroup, TextArea, Toggle } from "components/inputs";
-import Select, { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
 import { Fragment } from "react";
 import { StylesConfig } from "react-select";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";

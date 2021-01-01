@@ -1,10 +1,10 @@
+import { Continue, Hint, Prose, Reminder, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { TextArea, Toggle } from "@/inputs";
+import { choices } from "@/inputs/Select";
+import M from "@/math";
 import { isSet } from "@/state";
 import { ReflectingOnTransmission } from "common/tutorials";
-import { Continue, Hint, Prose, Reminder, Section } from "components";
-import { TextArea, Toggle } from "components/inputs";
-import { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import { SymmetricWellPotential } from "./figures";
 

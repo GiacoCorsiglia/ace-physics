@@ -1,22 +1,9 @@
+import { Continue, Help, HelpButton, Prose, Reminder, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Choice, Select, SelectChoices, TextArea, Toggle } from "@/inputs";
+import M from "@/math";
 import { isSet, isVisible, needsHelp, useFields } from "@/state";
 import { QuantumMouse } from "common/tutorials";
-import {
-  Continue,
-  Help,
-  HelpButton,
-  Prose,
-  Reminder,
-  Section,
-} from "components";
-import {
-  Choice,
-  Select,
-  SelectChoices,
-  TextArea,
-  Toggle,
-} from "components/inputs";
-import { Content } from "components/layout";
-import M from "components/M";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function MoreMeasurement() {

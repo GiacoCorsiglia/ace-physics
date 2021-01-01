@@ -1,16 +1,10 @@
+import { Continue, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Decimal, DisableInputs, FieldGroup, Text, TextArea } from "@/inputs";
+import M from "@/math";
+import Matrix from "@/math/Matrix";
 import { isSet, useFields } from "@/state";
 import { QuantumMouse } from "common/tutorials";
-import { Continue, Prose, Section } from "components";
-import {
-  Decimal,
-  DisableInputs,
-  FieldGroup,
-  Text,
-  TextArea,
-} from "components/inputs";
-import { Content } from "components/layout";
-import M from "components/M";
-import Matrix from "components/Matrix";
 import { PretestReminderSection, PretestSpiel } from "tutorials/pretests";
 import { Part, useNextPartLink } from "tutorials/shared";
 

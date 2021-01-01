@@ -1,5 +1,5 @@
-import { Prose } from "components";
-import { Content, Page } from "components/layout";
+import { Prose } from "@/design";
+import { Content, Page } from "@/design/layout";
 import Link from "next/link";
 
 export default function Privacy() {

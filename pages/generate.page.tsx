@@ -1,4 +1,8 @@
 import * as api from "@/api";
+import { Prose } from "@/design";
+import { Content, Page } from "@/design/layout";
+import { Button } from "@/inputs";
+import inputStyles from "@/inputs/inputs.module.scss";
 import { classes } from "@/util";
 import {
   ArrowRightIcon,
@@ -6,10 +10,6 @@ import {
   ClippyIcon,
   DownloadIcon,
 } from "@primer/octicons-react";
-import { Prose } from "components";
-import { Button } from "components/inputs";
-import inputStyles from "components/inputs/inputs.module.scss";
-import { Content, Page } from "components/layout";
 import { useState } from "react";
 import Select from "react-select";
 

@@ -1,15 +1,9 @@
+import { Continue, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Choice, DisableInputs, FieldGroup, TextArea, Toggle } from "@/inputs";
+import M from "@/math";
 import { isSet, useFields } from "@/state";
 import { QuantumBasis } from "common/tutorials";
-import { Continue, Prose, Section } from "components";
-import {
-  Choice,
-  DisableInputs,
-  FieldGroup,
-  TextArea,
-  Toggle,
-} from "components/inputs";
-import { Content } from "components/layout";
-import M from "components/M";
 import { PretestReminderSection, PretestSpiel } from "tutorials/pretests";
 import { Part, useNextPartLink } from "tutorials/shared";
 

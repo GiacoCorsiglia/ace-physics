@@ -1,6 +1,6 @@
+import { Prose } from "@/design";
 import * as urls from "@/urls";
 import { TimeDependence } from "common/tutorials";
-import { Prose } from "components";
 import { tutorialRoute } from "tutorials/shared";
 import AnEnergyEigenstate from "./AnEnergyEigenstate";
 import Superposition from "./Superposition";

@@ -1,5 +1,3 @@
-import { isSet, useFields } from "@/state";
-import { EPR } from "common/tutorials";
 import {
   Answer,
   AnswerVisibility,
@@ -7,9 +5,11 @@ import {
   Prose,
   RevealAnswersSection,
   Section,
-} from "components";
-import { TextArea } from "components/inputs";
-import { Column, Columns, Content } from "components/layout";
+} from "@/design";
+import { Column, Columns, Content } from "@/design/layout";
+import { TextArea } from "@/inputs";
+import { isSet, useFields } from "@/state";
+import { EPR } from "common/tutorials";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function Marbles() {

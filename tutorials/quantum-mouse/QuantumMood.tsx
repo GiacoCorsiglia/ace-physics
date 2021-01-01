@@ -1,16 +1,10 @@
+import { Continue, Help, HelpButton, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Choice, FieldGroup, Select, SelectChoices, TextArea } from "@/inputs";
+import M from "@/math";
 import { isSet, isVisible, needsHelp, useFields } from "@/state";
 import { arraysEqual } from "@/util";
 import { QuantumMouse } from "common/tutorials";
-import { Continue, Help, HelpButton, Prose, Section } from "components";
-import {
-  Choice,
-  FieldGroup,
-  Select,
-  SelectChoices,
-  TextArea,
-} from "components/inputs";
-import { Content } from "components/layout";
-import M from "components/M";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function QuantumMood() {

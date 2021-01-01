@@ -1,6 +1,6 @@
-import { Continue, Prose, Reminder, Section } from "components";
-import { Content } from "components/layout";
-import M from "components/M";
+import { Continue, Prose, Reminder, Section } from "@/design";
+import { Content } from "@/design/layout";
+import M from "@/math";
 import { Part } from "tutorials/shared";
 
 export default function Challenge() {

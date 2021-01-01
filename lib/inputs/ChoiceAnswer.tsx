@@ -1,7 +1,7 @@
+import { Answer, Prose } from "@/design";
 import { Field } from "@/state";
 import { arraysEqual } from "@/util";
 import * as s from "common/schema";
-import { Answer, Prose } from "components";
 
 export default function ChoiceAnswer<
   C extends readonly s.Literal[],

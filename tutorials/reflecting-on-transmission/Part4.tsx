@@ -1,10 +1,10 @@
+import { Continue, Hint, Prose, Reminder, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { FieldGroup, Text, TextArea } from "@/inputs";
+import M from "@/math";
+import { Axes, Plot } from "@/plots";
 import { isSet } from "@/state";
 import { ReflectingOnTransmission } from "common/tutorials";
-import { Continue, Hint, Prose, Reminder, Section } from "components";
-import { FieldGroup, Text, TextArea } from "components/inputs";
-import { Content } from "components/layout";
-import M from "components/M";
-import { Axes, Plot } from "components/plots";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function Part4() {

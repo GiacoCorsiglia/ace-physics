@@ -1,9 +1,9 @@
+import { Continue, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { TextArea } from "@/inputs";
+import M from "@/math";
 import { isSet } from "@/state";
 import { TimeDependence } from "common/tutorials";
-import { Continue, Prose, Section } from "components";
-import { TextArea } from "components/inputs";
-import { Content } from "components/layout";
-import M from "components/M";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import graphsImg from "./img/student-graphs.png";
 

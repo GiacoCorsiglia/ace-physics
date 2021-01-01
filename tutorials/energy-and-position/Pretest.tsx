@@ -1,10 +1,10 @@
+import { Continue, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Choice, DisableInputs, TextArea } from "@/inputs";
+import { choices } from "@/inputs/Select";
+import M from "@/math";
 import { isSet, useFields } from "@/state";
 import { EnergyAndPosition } from "common/tutorials";
-import { Continue, Prose, Section } from "components";
-import { Choice, DisableInputs, TextArea } from "components/inputs";
-import { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
 import { PretestReminderSection, PretestSpiel } from "tutorials/pretests";
 import { Part, useNextPartLink } from "tutorials/shared";
 

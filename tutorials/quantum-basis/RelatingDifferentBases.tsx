@@ -1,5 +1,3 @@
-import { isSet, needsHelp, useFields } from "@/state";
-import { QuantumBasis } from "common/tutorials";
 import {
   Continue,
   Help,
@@ -8,11 +6,13 @@ import {
   Prose,
   Reminder,
   Section,
-} from "components";
-import { Button, Choice, Select, TextArea, Toggle } from "components/inputs";
-import { Column, Columns, Content } from "components/layout";
-import M from "components/M";
-import { Axes, Plot, Rotate, Tick, Vector } from "components/plots";
+} from "@/design";
+import { Column, Columns, Content } from "@/design/layout";
+import { Button, Choice, Select, TextArea, Toggle } from "@/inputs";
+import M from "@/math";
+import { Axes, Plot, Rotate, Tick, Vector } from "@/plots";
+import { isSet, needsHelp, useFields } from "@/state";
+import { QuantumBasis } from "common/tutorials";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function RelatingDifferentBases() {

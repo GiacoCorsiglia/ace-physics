@@ -1,21 +1,13 @@
+import { Continue, Help, HelpButton, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Decimal, FieldGroup, Text, TextArea, Toggle } from "@/inputs";
+import Select, { choices } from "@/inputs/Select";
+import M from "@/math";
+import VariableLengthColumn from "@/math/VariableLengthColumn";
+import { Axes, Bar, DragHandle, Grid, Indicator, Plot, Tick } from "@/plots";
 import { Field, isSet, needsHelp } from "@/state";
 import { range } from "@/util";
 import { VectorsToFunctions } from "common/tutorials";
-import { Continue, Help, HelpButton, Prose, Section } from "components";
-import { Decimal, FieldGroup, Text, TextArea, Toggle } from "components/inputs";
-import Select, { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
-import {
-  Axes,
-  Bar,
-  DragHandle,
-  Grid,
-  Indicator,
-  Plot,
-  Tick,
-} from "components/plots";
-import VariableLengthColumn from "components/VariableLengthColumn";
 import { Fragment } from "react";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import styles from "./styles.module.scss";

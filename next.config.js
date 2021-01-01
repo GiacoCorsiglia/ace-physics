@@ -35,7 +35,7 @@ module.exports = withPlugins(
 
     // Real next config.
     sassOptions: {
-      includePaths: [path.join(__dirname, "styles")],
+      includePaths: [path.join(__dirname, "lib/design/css")],
     },
     webpack(config) {
       const cssX = /(^|\/)css-loader($|\/)/;

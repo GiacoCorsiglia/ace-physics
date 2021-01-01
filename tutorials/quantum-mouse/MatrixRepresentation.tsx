@@ -1,16 +1,10 @@
+import { Continue, Help, Prose, Reminder, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Decimal, FieldGroup, Select, SelectChoices, Text } from "@/inputs";
+import M from "@/math";
+import Matrix, { fieldToMatrix } from "@/math/Matrix";
 import { isSet, isVisible, useFields } from "@/state";
 import { QuantumMouse } from "common/tutorials";
-import { Continue, Help, Prose, Reminder, Section } from "components";
-import {
-  Decimal,
-  FieldGroup,
-  Select,
-  SelectChoices,
-  Text,
-} from "components/inputs";
-import { Content } from "components/layout";
-import M from "components/M";
-import Matrix, { fieldToMatrix } from "components/Matrix";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function MatrixRepresentation() {

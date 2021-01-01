@@ -17,7 +17,7 @@ import {
   useEffect,
   useRef,
 } from "react";
-import { Button, TextArea } from "./inputs";
+import { Button, TextArea } from "../inputs";
 import { Content } from "./layout";
 import styles from "./structure.module.scss";
 

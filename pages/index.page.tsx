@@ -1,9 +1,9 @@
+import { UserMenu } from "@/account/UserMenu";
+import { Prose } from "@/design";
+import { Content, Header, Page } from "@/design/layout";
+import { Button } from "@/inputs";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
-import { Prose } from "components";
-import { Button } from "components/inputs";
-import { Content, Header, Page } from "components/layout";
-import { UserMenu } from "components/shared/UserMenu";
 
 export default function Index() {
   return (

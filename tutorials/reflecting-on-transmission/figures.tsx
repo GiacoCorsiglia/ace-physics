@@ -1,5 +1,5 @@
+import * as plots from "@/plots";
 import { useUniqueId } from "@/util";
-import * as plots from "components/plots";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Pretest Step Potential

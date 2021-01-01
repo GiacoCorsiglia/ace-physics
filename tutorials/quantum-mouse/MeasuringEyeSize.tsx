@@ -1,14 +1,5 @@
-import { isSet, isVisible, needsHelp, useFields } from "@/state";
-import { approxEquals } from "@/util";
-import { QuantumMouse } from "common/tutorials";
-import {
-  Continue,
-  Help,
-  HelpButton,
-  Prose,
-  Reminder,
-  Section,
-} from "components";
+import { Continue, Help, HelpButton, Prose, Reminder, Section } from "@/design";
+import { Content } from "@/design/layout";
 import {
   Choice,
   Decimal,
@@ -17,9 +8,11 @@ import {
   SelectChoices,
   TextArea,
   Toggle,
-} from "components/inputs";
-import { Content } from "components/layout";
-import M from "components/M";
+} from "@/inputs";
+import M from "@/math";
+import { isSet, isVisible, needsHelp, useFields } from "@/state";
+import { approxEquals } from "@/util";
+import { QuantumMouse } from "common/tutorials";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function MeasuringEyeSize() {

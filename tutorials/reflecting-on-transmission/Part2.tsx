@@ -1,12 +1,12 @@
+import { Continue, Hint, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { TextArea } from "@/inputs";
+import inputStyles from "@/inputs/inputs.module.scss";
+import M from "@/math";
 import { isSet } from "@/state";
 import { classes } from "@/util";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { ReflectingOnTransmission } from "common/tutorials";
-import { Continue, Hint, Prose, Section } from "components";
-import { TextArea } from "components/inputs";
-import inputStyles from "components/inputs/inputs.module.scss";
-import { Content } from "components/layout";
-import M from "components/M";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 import { StepPotential } from "./figures";
 

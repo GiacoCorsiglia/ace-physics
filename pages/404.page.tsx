@@ -1,5 +1,5 @@
-import { Content, Header, Page } from "components/layout";
-import { UserMenu } from "components/shared/UserMenu";
+import { UserMenu } from "@/account/UserMenu";
+import { Content, Header, Page } from "@/design/layout";
 import Link from "next/link";
 
 export default function Error404() {

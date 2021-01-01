@@ -1,27 +1,8 @@
-import { result } from "common/util";
+import { result } from "@/helpers/result";
 import type { KatexOptions, ParseError } from "katex";
 import "katex/dist/katex.css";
 import { useLayoutEffect, useMemo, useState } from "react";
-import styles from "./M.module.scss";
-
-// This removes the need for double backslashes in the macro definitions below.
-const t = String.raw;
-
-const macros = {
-  "\\e": t`{\rm e}`,
-  // Some exports from the physics package:
-  "\\vu": t`\mathbf{\hat{#1}}`,
-  "\\vb": t`\mathbf{#1}`,
-  // The braces around {#3} here seem to improve the spacing.  An alternative is
-  // to use the `\!` command for negative space as in \brasub.
-  "\\prescript": t`{}_{#1}^{#2}{#3}`,
-  "\\brasub": t`{}_{#1}\!`,
-  // From the quantum mouse tutorial:
-  "\\smalleye": t`\htmlClass{${styles.smalleye}}{\tiny \bull}`,
-  "\\wideye": t`\htmlClass{${styles.wideye}}{\large \ast}`,
-  "\\smiley": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \smile}}`,
-  "\\frownie": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \frown}}`,
-};
+import { macros } from "./macros";
 
 // https://katex.org/docs/options.html
 const options: KatexOptions = {

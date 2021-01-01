@@ -2,7 +2,7 @@ import { Field } from "@/state";
 import { classes } from "@/util";
 import * as s from "common/schema";
 import { cloneElement } from "react";
-import M from "./M";
+import M from ".";
 import styles from "./Matrix.module.scss";
 
 type MatrixContentProps =

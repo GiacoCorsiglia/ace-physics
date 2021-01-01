@@ -1,7 +1,7 @@
+import { Prose } from "@/design";
+import M from "@/math";
 import * as urls from "@/urls";
 import { EnergyAndPosition } from "common/tutorials";
-import { Prose } from "components";
-import M from "components/M";
 import { tutorialRoute } from "tutorials/shared";
 import ComparingRepresentations from "./ComparingRepresentations";
 import Part1 from "./Part1";

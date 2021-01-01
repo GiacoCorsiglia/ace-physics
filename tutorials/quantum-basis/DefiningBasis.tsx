@@ -1,13 +1,13 @@
+import { Continue, Help, HelpButton, Info, Prose, Section } from "@/design";
+import { Column, Columns, Content } from "@/design/layout";
+import { Decimal, Select, TextArea, Toggle } from "@/inputs";
+import M from "@/math";
+import Matrix, { fieldToMatrix } from "@/math/Matrix";
+import { Axes, Plot, Tick, Vector } from "@/plots";
 import { isSet, isVisible, needsHelp, useFields } from "@/state";
 import { approxEquals } from "@/util";
 import { ArrowDownIcon } from "@primer/octicons-react";
 import { QuantumBasis } from "common/tutorials";
-import { Continue, Help, HelpButton, Info, Prose, Section } from "components";
-import { Decimal, Select, TextArea, Toggle } from "components/inputs";
-import { Column, Columns, Content } from "components/layout";
-import M from "components/M";
-import Matrix, { fieldToMatrix } from "components/Matrix";
-import { Axes, Plot, Tick, Vector } from "components/plots";
 import { ContinueToNextPart, Part } from "tutorials/shared";
 
 export default function DefiningBasis() {

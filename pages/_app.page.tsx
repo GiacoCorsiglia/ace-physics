@@ -1,9 +1,9 @@
 import * as account from "@/account";
+import "@/design/css/index.scss";
+import { Footer } from "@/design/Footer";
+import footerStyles from "@/design/Footer.module.scss";
 import { JsxElement } from "@/helpers/frontend";
-import { Footer } from "components/shared/Footer";
-import footerStyles from "components/shared/Footer.module.scss";
 import type { AppProps } from "next/app";
-import "styles/index.scss";
 
 export default function AceApp({ Component, pageProps }: AppProps) {
   const layout: (Page: typeof Component, pageProps: any) => JsxElement =

@@ -1,18 +1,11 @@
+import { Continue, Help, HelpButton, Prose, Reminder, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { Text, TextArea, Toggle } from "@/inputs";
+import { choices } from "@/inputs/Select";
+import M from "@/math";
+import VariableLengthColumn from "@/math/VariableLengthColumn";
 import { isSet, needsHelp } from "@/state";
 import { EnergyAndPosition } from "common/tutorials";
-import {
-  Continue,
-  Help,
-  HelpButton,
-  Prose,
-  Reminder,
-  Section,
-} from "components";
-import { Text, TextArea, Toggle } from "components/inputs";
-import { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
-import VariableLengthColumn from "components/VariableLengthColumn";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function Part1() {

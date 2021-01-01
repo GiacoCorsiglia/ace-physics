@@ -1,8 +1,8 @@
+import { Continue, Prose, Section } from "@/design";
+import { Content } from "@/design/layout";
+import { FieldGroup, TextArea, Toggle } from "@/inputs";
 import { useFields, useStore } from "@/state";
 import { QuantumMouse } from "common/tutorials";
-import { Continue, Prose, Section } from "components";
-import { FieldGroup, TextArea, Toggle } from "components/inputs";
-import { Content } from "components/layout";
 import { Part } from "tutorials/shared";
 
 export default function Feedback() {

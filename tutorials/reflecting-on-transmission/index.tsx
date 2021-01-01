@@ -1,6 +1,6 @@
+import { Prose } from "@/design";
 import * as urls from "@/urls";
 import { ReflectingOnTransmission } from "common/tutorials";
-import { Prose } from "components";
 import { tutorialRoute } from "tutorials/shared";
 import Part1 from "./Part1";
 import Part2 from "./Part2";

@@ -1,9 +1,9 @@
+import { UserMenu } from "@/account/UserMenu";
+import { Prose } from "@/design";
+import { Content, Header, Page } from "@/design/layout";
 import * as urls from "@/urls";
 import { Children } from "@/util";
 import { ChevronRightIcon } from "@primer/octicons-react";
-import { Prose } from "components";
-import { Content, Header, Page } from "components/layout";
-import { UserMenu } from "components/shared/UserMenu";
 import Link from "next/link";
 import styles from "tutorials/tutorials.module.scss";
 

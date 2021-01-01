@@ -1,5 +1,5 @@
+import M, { PropTypes as MPropTypes } from "@/math";
 import { Children, range, useUniqueId } from "@/util";
-import M, { PropTypes as MPropTypes } from "components/M";
 import { createContext, memo, useContext, useMemo } from "react";
 import styles from "./plots.module.scss";
 import {

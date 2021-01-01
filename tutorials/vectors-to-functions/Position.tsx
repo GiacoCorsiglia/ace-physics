@@ -1,11 +1,8 @@
-import { isSet } from "@/state";
-import { ArrowUpIcon } from "@primer/octicons-react";
-import { VectorsToFunctions } from "common/tutorials";
-import { Continue, Help, Prose, Section, Vocabulary } from "components";
-import { Button, Choice, FieldGroup, Text, TextArea } from "components/inputs";
-import { choices } from "components/inputs/Select";
-import { Content } from "components/layout";
-import M from "components/M";
+import { Continue, Help, Prose, Section, Vocabulary } from "@/design";
+import { Content } from "@/design/layout";
+import { Button, Choice, FieldGroup, Text, TextArea } from "@/inputs";
+import { choices } from "@/inputs/Select";
+import M from "@/math";
 import {
   Axes,
   DragHandle,
@@ -14,7 +11,10 @@ import {
   Plot,
   Tick,
   WithPlot,
-} from "components/plots";
+} from "@/plots";
+import { isSet } from "@/state";
+import { ArrowUpIcon } from "@primer/octicons-react";
+import { VectorsToFunctions } from "common/tutorials";
 import { Fragment } from "react";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 

@@ -1,17 +1,10 @@
+import { Continue, Help, HelpButton, Prose, Reminder, Section } from "@/design";
+import { Column, Columns, Content } from "@/design/layout";
+import { TextArea } from "@/inputs";
+import M from "@/math";
+import { Axes, Bar, Curve, GridLine, Plot, Tick } from "@/plots";
 import { isSet, needsHelp } from "@/state";
 import { EnergyAndPosition } from "common/tutorials";
-import {
-  Continue,
-  Help,
-  HelpButton,
-  Prose,
-  Reminder,
-  Section,
-} from "components";
-import { TextArea } from "components/inputs";
-import { Column, Columns, Content } from "components/layout";
-import M from "components/M";
-import { Axes, Bar, Curve, GridLine, Plot, Tick } from "components/plots";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function ComparingRepresentations() {
