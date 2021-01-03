@@ -1,9 +1,12 @@
 import * as t from "@/schema/types";
-import { NumberField, string, StringField } from "./primitives";
+import { string, StringField } from "./primitives";
+
+export type Choices = readonly string[];
+export type Choice<Cs extends Choices> = Cs[number];
 
 type ChoicesToUnion<Cs extends readonly string[]> = t.UnionType<
   {
-    [I in keyof Cs]: Cs[I] extends string ? t.LiteralType<Cs[I]> : Cs[I];
+    [I in keyof Cs]: Cs[I] extends string ? t.LiteralType<Cs[I]> : never;
   }
 >;
 
@@ -12,8 +15,8 @@ type ChoicesToUnion<Cs extends readonly string[]> = t.UnionType<
  * option, stored in a object.
  */
 export interface ChooseOneField<
-  Cs extends readonly string[],
-  O extends StringField | NumberField = StringField
+  Cs extends Choices,
+  O extends StringField = StringField
 > {
   readonly kind: "chooseOne";
   readonly choices: Cs;
@@ -40,11 +43,7 @@ export const chooseOne: {
   <C extends string, Cs extends readonly [C, ...C[]]>(
     choices: Cs
   ): ChooseOneField<Cs, StringField>;
-  <
-    C extends string,
-    Cs extends [C, ...C[]],
-    O extends StringField | NumberField
-  >(
+  <C extends string, Cs extends [C, ...C[]], O extends StringField>(
     choices: Cs,
     other: O
   ): ChooseOneField<Cs, O>;
@@ -70,8 +69,8 @@ export const chooseOne: {
  * option, stored in a object.
  */
 export interface ChooseAllField<
-  Cs extends readonly string[],
-  O extends StringField | NumberField = StringField
+  Cs extends Choices,
+  O extends StringField = StringField
 > {
   readonly kind: "chooseAll";
   readonly choices: Cs;
@@ -98,11 +97,7 @@ export const chooseAll: {
   <C extends string, Cs extends readonly [C, ...C[]]>(
     choices: Cs
   ): ChooseAllField<Cs, StringField>;
-  <
-    C extends string,
-    Cs extends [C, ...C[]],
-    O extends StringField | NumberField
-  >(
+  <C extends string, Cs extends [C, ...C[]], O extends StringField>(
     choices: Cs,
     other: O
   ): ChooseAllField<Cs, O>;

@@ -1,6 +1,6 @@
 import { ArrayField } from "./array";
 import { CasesField } from "./cases";
-import { ChooseAllField, ChooseOneField } from "./choose";
+import { Choice, Choices, ChooseAllField, ChooseOneField } from "./choose";
 import { ObjectField, Properties } from "./object";
 import { BooleanField, NumberField, StringField } from "./primitives";
 import { TupleField } from "./tuple";
@@ -18,8 +18,8 @@ export type Field =
   | ArrayField<any>
   | BooleanField
   | CasesField<readonly [string, ...string[]]>
-  | ChooseAllField<readonly [string, ...string[]], StringField | NumberField>
-  | ChooseOneField<readonly [string, ...string[]], StringField | NumberField>
+  | ChooseAllField<Choices, StringField>
+  | ChooseOneField<Choices, StringField>
   | NumberField
   | ObjectField<any>
   | StringField
@@ -35,6 +35,8 @@ export type {
   ArrayField,
   BooleanField,
   CasesField,
+  Choice,
+  Choices,
   ChooseAllField,
   ChooseOneField,
   NumberField,
