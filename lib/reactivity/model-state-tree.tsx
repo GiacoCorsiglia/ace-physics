@@ -1,4 +1,3 @@
-import type { Immutable } from "@/helpers";
 import { Html, useUniqueSymbol } from "@/helpers/frontend";
 import type * as f from "@/schema/fields";
 import type { Infer } from "@/schema/types";
@@ -79,14 +78,14 @@ export const modelStateTree = <P extends f.Properties>(
 };
 
 type GetSetTuple<T> = [
-  value: Immutable<T>,
-  setValue: (next: T | ((prev: Immutable<T>) => T)) => void
+  value: T,
+  setValue: (next: T | ((prev: T) => T)) => void
 ];
 
 export const useModel = <F extends f.Field>(
   model: Model<F>,
-  onExternalUpdate?: (newValue: Infer<F["type"]>) => void
-): GetSetTuple<Infer<F["type"]>> => {
+  onExternalUpdate?: (newValue: Infer<F["type"]> | undefined) => void
+): GetSetTuple<Infer<F["type"]> | undefined> => {
   const store = useContext(model.Context).useStore();
   const source = useUniqueSymbol();
 
@@ -99,10 +98,9 @@ export const useModel = <F extends f.Field>(
     [model, store, source]
   );
 
-  const [tuple, setTuple] = useState<GetSetTuple<Infer<F["type"]>>>(() => [
-    get(store.state, model.path as any) as Immutable<Infer<F["type"]>>,
-    setValue,
-  ]);
+  const [tuple, setTuple] = useState<GetSetTuple<Infer<F["type"]> | undefined>>(
+    () => [get(store.state, model.path as any), setValue]
+  );
 
   // Make sure we always have the latest version of the callback in the
   // subscription, but avoid re-triggering the effect on every render (in case
@@ -113,7 +111,7 @@ export const useModel = <F extends f.Field>(
   useEffect(
     () =>
       store.subscribe(model.path as any, (newValue, updateSource) => {
-        setTuple([newValue as Immutable<Infer<F["type"]>>, setValue]);
+        setTuple([newValue, setValue]);
 
         if (updateSource !== source && onExternalUpdateRef.current) {
           onExternalUpdateRef.current(newValue);
