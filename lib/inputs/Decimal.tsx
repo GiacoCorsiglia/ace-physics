@@ -1,6 +1,6 @@
-import { Field } from "@/state";
+import { Model, useModel } from "@/reactivity";
+import { NumberField } from "@/schema/fields";
 import { classes, useUniqueId } from "@/util";
-import * as s from "common/schema";
 import { useState } from "react";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
@@ -8,18 +8,18 @@ import styles from "./inputs.module.scss";
 const decimalPattern = /^[+-]?((\d+(\.\d*)?)|(\.\d+))$/;
 
 export default function Decimal({
-  field,
+  model,
   label,
   ...props
 }: {
-  field: Field<s.NumberSchema>;
+  model: Model<NumberField>;
   label?: React.ReactNode;
 } & JSX.IntrinsicElements["input"]) {
+  const [value, setValue] = useModel(model);
+
   const id = `decimal-${useUniqueId()}`;
 
-  const [raw, setRaw] = useState(
-    field.value !== undefined ? field.value.toString() : ""
-  );
+  const [raw, setRaw] = useState(value !== undefined ? value.toString() : "");
 
   props.disabled = useDisabled(props);
 
@@ -54,7 +54,7 @@ export default function Decimal({
           if (input === "") {
             // Well, it's empty.
             setRaw("");
-            field.clear();
+            setValue(undefined);
           } else if (
             input === "." ||
             input === "+" ||
@@ -65,13 +65,13 @@ export default function Decimal({
             // They're in the process of inputting or deleting a valid input.
             setRaw(input);
             // But they haven't gotten there yet.
-            field.clear();
+            setValue(undefined);
           } else if (decimalPattern.test(input)) {
             // They've input a valid decimal number (without trailing
             // characters---which is why we don't just test this with
             // `parseFloat()`).
             setRaw(input);
-            field.set(parseFloat(input));
+            setValue(parseFloat(input));
           }
           // Otherwise ignore/block additional input, but don't delete anything.
         }}

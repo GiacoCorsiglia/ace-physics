@@ -41,7 +41,7 @@ export default function WrapUp() {
 
         <Section commits={f.wrapUpIntroCommit}>
           <Toggle
-            field={f.positionCoord}
+            model={f.positionCoord}
             label={
               <Prose>
                 Which coordinate system would you use to track the car’s
@@ -52,7 +52,7 @@ export default function WrapUp() {
           />
 
           <TextArea
-            field={f.positionCoordExplain}
+            model={f.positionCoordExplain}
             label={<Prose>Justify your choice:</Prose>}
           />
 
@@ -64,7 +64,7 @@ export default function WrapUp() {
 
         <Section commits={f.positionCoordCommit}>
           <Toggle
-            field={f.potentialEnergyCoord}
+            model={f.potentialEnergyCoord}
             label={
               <Prose>
                 Now consider this: Which coordinate system would you use to
@@ -75,7 +75,7 @@ export default function WrapUp() {
           />
 
           <TextArea
-            field={f.potentialEnergyCoordExplain}
+            model={f.potentialEnergyCoordExplain}
             label={<Prose>Justify your choice:</Prose>}
           />
 
@@ -90,7 +90,7 @@ export default function WrapUp() {
 
         <Section commits={f.potentialEnergyCoordCommit}>
           <Toggle
-            field={f.coordEffect}
+            model={f.coordEffect}
             label={
               <Prose>
                 For the previous two questions, did the choice of coordinate
@@ -101,7 +101,7 @@ export default function WrapUp() {
           />
 
           <TextArea
-            field={f.coordEffectExplain}
+            model={f.coordEffectExplain}
             label={<Prose>Tell us what you‘re thinking:</Prose>}
           />
 
@@ -117,7 +117,7 @@ export default function WrapUp() {
           </Prose>
 
           <TextArea
-            field={f.xBasisRewriteReason}
+            model={f.xBasisRewriteReason}
             label={
               <Prose>
                 For example, given a spin-½ particle (e.g., electron) in a state{" "}
@@ -128,7 +128,7 @@ export default function WrapUp() {
           />
 
           <TextArea
-            field={f.xBasisRewriteNewInfo}
+            model={f.xBasisRewriteNewInfo}
             label={
               <Prose>
                 What new information would the rewritten state reveal?
@@ -158,7 +158,7 @@ export default function WrapUp() {
           </Prose>
 
           <Toggle
-            field={f.basisChoiceMeasureZ}
+            model={f.basisChoiceMeasureZ}
             label={
               <Prose>
                 If you were interested in predicting the outcome of a
@@ -170,7 +170,7 @@ export default function WrapUp() {
           />
 
           <Toggle
-            field={f.basisChoiceMeasureX}
+            model={f.basisChoiceMeasureX}
             label={
               <Prose>
                 What about an outcome of a measurement along the <em>x</em>
@@ -181,7 +181,7 @@ export default function WrapUp() {
           />
 
           <TextArea
-            field={f.basisChoiceExplain}
+            model={f.basisChoiceExplain}
             label={<Prose>Explain your choices:</Prose>}
           />
 
@@ -197,7 +197,7 @@ export default function WrapUp() {
 
         <Section commits={f.basisChoiceCommit}>
           <Toggle
-            field={f.effectOfCoB}
+            model={f.effectOfCoB}
             label={
               <Prose>
                 Does changing the basis representation change the physical state
@@ -208,7 +208,7 @@ export default function WrapUp() {
           />
 
           <TextArea
-            field={f.effectOfCoBExplain}
+            model={f.effectOfCoBExplain}
             label={<Prose>If yes, how so? If not, why not?</Prose>}
           />
 
@@ -220,7 +220,7 @@ export default function WrapUp() {
 
         <Section commits={f.effectOfCoBCommit}>
           <TextArea
-            field={f.whyCoB}
+            model={f.whyCoB}
             label={
               <Prose>
                 Why might you want to write a state in a different basis?

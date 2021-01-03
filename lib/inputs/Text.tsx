@@ -1,19 +1,22 @@
-import { Field } from "@/state";
+import { Html } from "@/helpers/frontend";
+import { Model, useModel } from "@/reactivity";
+import { StringField } from "@/schema/fields";
 import { classes, useUniqueId } from "@/util";
-import * as s from "common/schema";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
 export default function Text({
-  field,
+  model,
   label = undefined,
   maxWidth = false,
   ...props
 }: {
-  field: Field<s.StringSchema>;
-  label?: React.ReactNode;
+  model: Model<StringField>;
+  label?: Html;
   maxWidth?: boolean;
 } & JSX.IntrinsicElements["input"]) {
+  const [value, setValue] = useModel(model);
+
   const id = `text-${useUniqueId()}`;
 
   props.disabled = useDisabled(props);
@@ -43,8 +46,8 @@ export default function Text({
         )}
         id={id}
         type="text"
-        value={field.value || ""}
-        onChange={(e) => field.set(e.target.value)}
+        value={value || ""}
+        onChange={(e) => setValue(e.target.value)}
       />
     </>
   );

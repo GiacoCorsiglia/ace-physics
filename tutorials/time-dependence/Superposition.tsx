@@ -36,7 +36,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.part3IntroCommit}>
       <TextArea
-        field={f.meaningOfRedLineInSim}
+        model={f.meaningOfRedLineInSim}
         label={
           <Prose>
             What does the red line in the top right wave function graph depict?
@@ -54,7 +54,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.meaningOfRedLineInSimCommit}>
       <TextArea
-        field={f.explainTimeDependenceOfProbDens}
+        model={f.explainTimeDependenceOfProbDens}
         label={
           <Prose>
             Using the top right graph, explain why the <M t="|\psi_A|^2" />{" "}
@@ -73,7 +73,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.explainTimeDependenceOfProbDensCommit}>
       <TextArea
-        field={f.behaviorOfProbDensAtMidpoint}
+        model={f.behaviorOfProbDensAtMidpoint}
         label={
           <Prose>
             What happens to the <M t="|\psi_A|^2" /> probability density graph
@@ -238,7 +238,7 @@ const sections = sectionComponents(TimeDependence, [
                 <tr className="tight">
                   <td>
                     <Select
-                      field={table[row].properties.phaseDifference}
+                      model={table[row].properties.phaseDifference}
                       choices={phaseChoices}
                       allowOther={false}
                       isClearable={false}
@@ -248,7 +248,7 @@ const sections = sectionComponents(TimeDependence, [
 
                   <td>
                     <Select
-                      field={table[row].properties.equationProbAmp}
+                      model={table[row].properties.equationProbAmp}
                       choices={equationProbAmpChoices}
                       allowOther={false}
                       isClearable={false}
@@ -258,7 +258,7 @@ const sections = sectionComponents(TimeDependence, [
 
                   <td>
                     <Select
-                      field={table[row].properties.equationProbDens}
+                      model={table[row].properties.equationProbDens}
                       choices={equationProbDensChoices}
                       allowOther={false}
                       isClearable={false}
@@ -268,7 +268,7 @@ const sections = sectionComponents(TimeDependence, [
 
                   <td>
                     <Select
-                      field={table[row].properties.graphProbDens}
+                      model={table[row].properties.graphProbDens}
                       choices={graphChoices}
                       allowOther={false}
                       isClearable={false}
@@ -314,7 +314,7 @@ const sections = sectionComponents(TimeDependence, [
         </Prose>
 
         <Toggle
-          field={f.samePlaneSymmetry}
+          model={f.samePlaneSymmetry}
           label={
             <Prose>
               When <M t="\psi_1" /> and <M t="\psi_2" /> are in{" "}
@@ -325,7 +325,7 @@ const sections = sectionComponents(TimeDependence, [
         />
 
         <Toggle
-          field={f.perpPlaneSymmetry}
+          model={f.perpPlaneSymmetry}
           label={
             <Prose>
               When <M t="\psi_1" /> and <M t="\psi_2" /> are in{" "}
@@ -347,7 +347,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.symmetryCommit}>
       <TextArea
-        field={f.explainSymmetryWhenPerp}
+        model={f.explainSymmetryWhenPerp}
         label={
           <Prose>
             <p>
@@ -381,7 +381,7 @@ const sections = sectionComponents(TimeDependence, [
       </Prose>
 
       <FieldGroup grid suffixed className="margin-top-1">
-        <Decimal field={f.periodOfProbDens} label={<M t="T_A = " />} />
+        <Decimal model={f.periodOfProbDens} label={<M t="T_A = " />} />
 
         <M t="\times \frac{h}{E_1}" />
       </FieldGroup>

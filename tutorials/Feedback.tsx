@@ -40,7 +40,7 @@ export default function Feedback() {
 
         <Section noScroll>
           <Toggle
-            field={confidence}
+            model={confidence}
             choices={confidenceChoices}
             label={
               <Prose>
@@ -52,7 +52,7 @@ export default function Feedback() {
           />
 
           <TextArea
-            field={confidenceExplain}
+            model={confidenceExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
         </Section>
@@ -60,21 +60,21 @@ export default function Feedback() {
         <Section noScroll>
           {/* Needs None of the above */}
           <Toggle
-            field={easyOrChallenging}
+            model={easyOrChallenging}
             choices={easyOrChallengingChoices}
             grid
             label={<Prose>I thought that this tutorial was mostly…</Prose>}
           />
 
           <TextArea
-            field={easyOrChallengingExplain}
+            model={easyOrChallengingExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
         </Section>
 
         <Section noScroll>
           <Toggle
-            field={workedAlone}
+            model={workedAlone}
             choices={workedAloneChoices}
             label={<Prose>I worked on this tutorial…</Prose>}
           />
@@ -82,7 +82,7 @@ export default function Feedback() {
 
         <Section noScroll>
           <TextArea
-            field={ratherInPerson}
+            model={ratherInPerson}
             label={
               <Prose>
                 Would you have rather done this activity on paper [in a group]
@@ -96,22 +96,22 @@ export default function Feedback() {
           <Prose>While filling out this tutorial, I…</Prose>
           <FieldGroup grid>
             <Toggle
-              field={usedCourseMaterials}
+              model={usedCourseMaterials}
               choices={materialsChoices}
               label="Referred to course materials:"
             />
             <Toggle
-              field={usedOtherMaterials}
+              model={usedOtherMaterials}
               choices={materialsChoices}
               label="Referred to other online resources:"
             />
-            <TextArea field={usedMaterialsOther} label="Other:" />
+            <TextArea model={usedMaterialsOther} label="Other:" />
           </FieldGroup>
         </Section>
 
         <Section noScroll>
           <TextArea
-            field={suggestedImprovements}
+            model={suggestedImprovements}
             label={
               <Prose>
                 Do you have any suggestions about how you would make this
@@ -123,7 +123,7 @@ export default function Feedback() {
 
         <Section noScroll>
           <TextArea
-            field={technicalDifficulties}
+            model={technicalDifficulties}
             label={
               <Prose>
                 Did you have any difficulty with the interface or any other
@@ -135,7 +135,7 @@ export default function Feedback() {
 
         <Section noScroll>
           <TextArea
-            field={challengingParts}
+            model={challengingParts}
             label={
               <Prose>
                 What specific part(s) of the tutorial was most challenging or
@@ -147,7 +147,7 @@ export default function Feedback() {
 
         <Section noScroll>
           <TextArea
-            field={intention}
+            model={intention}
             label={
               <Prose>
                 What do you think this tutorial was designed to explore,

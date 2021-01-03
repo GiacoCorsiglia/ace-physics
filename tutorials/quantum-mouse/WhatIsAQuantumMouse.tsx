@@ -109,14 +109,14 @@ export default function WhatIsAQuantumMouse() {
 
           <FieldGroup grid className="margin-top">
             <Select
-              field={sizeEigenvalues}
+              model={sizeEigenvalues}
               choices={sizeChoices}
               label="Eigenvalues:"
               placeholder="Select eigenvalues…"
             />
 
             <Select
-              field={sizeEigenvectors}
+              model={sizeEigenvectors}
               choices={sizeChoices}
               label="Eigenvectors:"
               placeholder="Select eigenvectors…"
@@ -149,7 +149,7 @@ export default function WhatIsAQuantumMouse() {
 
           <FieldGroup grid className="margin-top">
             <Toggle
-              field={hiddenUnits}
+              model={hiddenUnits}
               label="Do any numbers have “hidden” units?"
             />
           </FieldGroup>
@@ -188,12 +188,12 @@ export default function WhatIsAQuantumMouse() {
 
           <FieldGroup grid className="margin-top">
             <Select
-              field={smallBigInnerProduct}
+              model={smallBigInnerProduct}
               choices={smallBigInnerProductChoices}
               label={<M t="\braket{\smalleye|\wideye} = " />}
             />
 
-            <TextArea field={smallBigInnerProductExplain} label="Explain:" />
+            <TextArea model={smallBigInnerProductExplain} label="Explain:" />
           </FieldGroup>
 
           {needsHelp(smallBigInnerProductHelp) && (
@@ -257,7 +257,7 @@ export default function WhatIsAQuantumMouse() {
 
           <FieldGroup grid className="margin-top">
             <Select
-              field={bigBigInnerProduct}
+              model={bigBigInnerProduct}
               choices={smallBigInnerProductChoices}
               label={<M t="\braket{\wideye|\wideye} = " />}
             />

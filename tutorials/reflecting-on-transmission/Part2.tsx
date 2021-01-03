@@ -39,7 +39,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.part2IntroCommit}>
       <TextArea
-        field={f.qualitativePredictionsForT}
+        model={f.qualitativePredictionsForT}
         label={
           <Prose>
             <p>
@@ -110,7 +110,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
       </Prose>
 
       <TextArea
-        field={f.simPatterns}
+        model={f.simPatterns}
         label={
           <Prose>
             Comment briefly on what patterns/general behavior you see:
@@ -133,7 +133,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.simPatternsCommit}>
       <TextArea
-        field={f.comparePredictionsWithSim}
+        model={f.comparePredictionsWithSim}
         label={
           <Prose>
             Compare your initial predictions with the patterns you observed in

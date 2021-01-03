@@ -45,7 +45,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.part1IntroCommit}>
       <Text
-        field={f.unitsOfV0}
+        model={f.unitsOfV0}
         label={
           <Prose>
             What are the units of <M t="V_0" />?
@@ -66,19 +66,19 @@ const sections = sectionComponents(ReflectingOnTransmission, [
       </Prose>
 
       <FieldGroup grid className="margin-top-1">
-        <Text field={f.generalSolution.properties.regionI} label="Region I:" />
+        <Text model={f.generalSolution.properties.regionI} label="Region I:" />
         <Text
-          field={f.generalSolution.properties.regionII}
+          model={f.generalSolution.properties.regionII}
           label="Region II:"
         />
         <Text
-          field={f.generalSolution.properties.regionIII}
+          model={f.generalSolution.properties.regionIII}
           label="Region III:"
         />
       </FieldGroup>
 
       <TextArea
-        field={f.generalSolutionNewSymbols}
+        model={f.generalSolutionNewSymbols}
         label={<Prose>Define any new symbols you used:</Prose>}
       />
 
@@ -92,7 +92,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.generalSolutionCommit}>
       <TextArea
-        field={f.generalSolutionConstraints}
+        model={f.generalSolutionConstraints}
         label={
           <Prose>
             <p>
@@ -106,7 +106,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
       />
 
       <TextArea
-        field={f.generalSolutionPhysicalInterpretation}
+        model={f.generalSolutionPhysicalInterpretation}
         label={
           <Prose>Interpret the physical meaning of all nonzero terms:</Prose>
         }

@@ -112,7 +112,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.part5IntroCommit}>
       <TextArea
-        field={f.sameStateDifRep}
+        model={f.sameStateDifRep}
         label={
           <Prose>
             We are claiming these two very different representations show the
@@ -142,7 +142,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.sameStateDifRepCommit}>
       <TextArea
-        field={f.inferFromHistRep}
+        model={f.inferFromHistRep}
         label={
           <Prose>
             What probabilities or information can you easily infer about this
@@ -152,7 +152,7 @@ const sections = sectionComponents(EnergyAndPosition, [
       />
 
       <TextArea
-        field={f.inferFromFuncRep}
+        model={f.inferFromFuncRep}
         label={
           <Prose>What about the wave function graph (on the right)?</Prose>
         }
@@ -168,7 +168,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.inferFromRepCommit}>
       <TextArea
-        field={f.oneRepBetter}
+        model={f.oneRepBetter}
         label={
           <Prose>
             Is one representation better (or more complete?) than the other?

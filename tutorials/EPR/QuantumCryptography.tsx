@@ -98,7 +98,7 @@ const sections = sectionComponents(EPR, [
                 <td>X axis</td>
                 <td>
                   <Toggle
-                    field={f.bobCertaintyTable.properties.aXbX}
+                    model={f.bobCertaintyTable.properties.aXbX}
                     choices={certaintyChoices}
                     answer="certain"
                   />
@@ -109,7 +109,7 @@ const sections = sectionComponents(EPR, [
                 <td>Z axis</td>
                 <td>
                   <Toggle
-                    field={f.bobCertaintyTable.properties.aXbZ}
+                    model={f.bobCertaintyTable.properties.aXbZ}
                     choices={certaintyChoices}
                     answer="uncertain"
                   />
@@ -121,7 +121,7 @@ const sections = sectionComponents(EPR, [
                 <td>X axis</td>
                 <td>
                   <Toggle
-                    field={f.bobCertaintyTable.properties.aZbX}
+                    model={f.bobCertaintyTable.properties.aZbX}
                     choices={certaintyChoices}
                     answer="uncertain"
                   />
@@ -132,7 +132,7 @@ const sections = sectionComponents(EPR, [
                 <td>Z axis</td>
                 <td>
                   <Toggle
-                    field={f.bobCertaintyTable.properties.aZbZ}
+                    model={f.bobCertaintyTable.properties.aZbZ}
                     choices={certaintyChoices}
                     answer="certain"
                   />
@@ -204,14 +204,14 @@ const sections = sectionComponents(EPR, [
               <td rowSpan={2}>X axis</td>
               <td>X axis</td>
               <td>
-                <Toggle field={t.a1aXbX} choices={cs} answer="0" />
+                <Toggle model={t.a1aXbX} choices={cs} answer="0" />
               </td>
             </tr>
 
             <tr>
               <td>Z axis</td>
               <td>
-                <Toggle field={t.a1aXbZ} choices={cs} answer="?" />
+                <Toggle model={t.a1aXbZ} choices={cs} answer="?" />
               </td>
             </tr>
 
@@ -219,14 +219,14 @@ const sections = sectionComponents(EPR, [
               <td rowSpan={2}>Z axis</td>
               <td>X axis</td>
               <td>
-                <Toggle field={t.a1aZbX} choices={cs} answer="?" />
+                <Toggle model={t.a1aZbX} choices={cs} answer="?" />
               </td>
             </tr>
 
             <tr>
               <td>Z axis</td>
               <td>
-                <Toggle field={t.a1aZbZ} choices={cs} answer="0" />
+                <Toggle model={t.a1aZbZ} choices={cs} answer="0" />
               </td>
             </tr>
 
@@ -235,14 +235,14 @@ const sections = sectionComponents(EPR, [
               <td rowSpan={2}>X axis</td>
               <td>X axis</td>
               <td>
-                <Toggle field={t.a0aXbX} choices={cs} answer="1" />
+                <Toggle model={t.a0aXbX} choices={cs} answer="1" />
               </td>
             </tr>
 
             <tr>
               <td>Z axis</td>
               <td>
-                <Toggle field={t.a0aXbZ} choices={cs} answer="?" />
+                <Toggle model={t.a0aXbZ} choices={cs} answer="?" />
               </td>
             </tr>
 
@@ -250,14 +250,14 @@ const sections = sectionComponents(EPR, [
               <td rowSpan={2}>Z axis</td>
               <td>X axis</td>
               <td>
-                <Toggle field={t.a0aZbX} choices={cs} answer="?" />
+                <Toggle model={t.a0aZbX} choices={cs} answer="?" />
               </td>
             </tr>
 
             <tr>
               <td>Z axis</td>
               <td>
-                <Toggle field={t.a0aZbZ} choices={cs} answer="1" />
+                <Toggle model={t.a0aZbZ} choices={cs} answer="1" />
               </td>
             </tr>
           </tbody>
@@ -334,7 +334,7 @@ const sections = sectionComponents(EPR, [
                   <td>{bM}</td>
                   <td>
                     <Toggle
-                      field={f.keyTable.elements[i]}
+                      model={f.keyTable.elements[i]}
                       choices={cs}
                       answer={answers[i]}
                     />
@@ -352,7 +352,7 @@ const sections = sectionComponents(EPR, [
 
           <FieldGroup grid className="margin-top">
             <Text
-              field={f.key}
+              model={f.key}
               label="Shared key:"
               style={{ maxWidth: "13rem" }}
               placeholder="Type the key here"

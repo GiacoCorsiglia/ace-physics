@@ -108,7 +108,7 @@ export default function ChangingBasis() {
             </p>
           </Prose>
 
-          <TextArea field={f.basisChangeApproach} label={<Prose></Prose>} />
+          <TextArea model={f.basisChangeApproach} label={<Prose></Prose>} />
 
           <Continue
             commit={f.basisChangeApproachCommit}
@@ -148,7 +148,7 @@ export default function ChangingBasis() {
               f.kColumnDirac,
               <Select
                 choices={kColumnDiracChoices}
-                field={f.kColumnDirac.elements[0]}
+                model={f.kColumnDirac.elements[0]}
                 allowOther={false}
               />
             )}
@@ -175,7 +175,7 @@ export default function ChangingBasis() {
 
         <Section commits={f.kColumnDiracCommit}>
           <TextArea
-            field={f.columnSubscriptExplain}
+            model={f.columnSubscriptExplain}
             label={
               <Prose>Why is there a subscript on the column vectors?</Prose>
             }
@@ -422,7 +422,7 @@ export default function ChangingBasis() {
           </Prose>
 
           <Toggle
-            field={f.v1v2AxesAllowed}
+            model={f.v1v2AxesAllowed}
             choices={v1v2AxesAllowedChoices}
             label={
               <Prose>
@@ -434,7 +434,7 @@ export default function ChangingBasis() {
 
           {f.v1v2AxesAllowed.value?.selected === "no" && (
             <TextArea
-              field={f.v1v2AxesAllowedExplain}
+              model={f.v1v2AxesAllowedExplain}
               label={<Prose>Explain why not:</Prose>}
             />
           )}
@@ -534,7 +534,7 @@ export default function ChangingBasis() {
                 subscriptTex="v"
                 matrix={fieldToMatrix(
                   f.kColumn,
-                  <Decimal field={f.kColumn.elements[0]} />
+                  <Decimal model={f.kColumn.elements[0]} />
                 )}
               />
             </Column>

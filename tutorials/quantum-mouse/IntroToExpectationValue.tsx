@@ -68,7 +68,7 @@ export default function IntroToExpectationValue() {
 
           <FieldGroup grid className="margin-top">
             <Decimal
-              field={weightedAverage}
+              model={weightedAverage}
               label="Average eye size (in mm):"
             />
           </FieldGroup>
@@ -101,7 +101,7 @@ export default function IntroToExpectationValue() {
 
         <Section commits={[weightedAverageCommit]}>
           <Toggle
-            field={expValueMeasurability}
+            model={expValueMeasurability}
             choices={expValueMeasurabilityChoices}
             label={
               <Prose>
@@ -120,7 +120,7 @@ export default function IntroToExpectationValue() {
           */}
 
           <TextArea
-            field={expValueMeasurabilityExplain}
+            model={expValueMeasurabilityExplain}
             label={<Prose>Why or why not?</Prose>}
           />
 
@@ -143,7 +143,7 @@ export default function IntroToExpectationValue() {
 
         <Section commits={[weightedAverageCommit, expValueMeasurabilityCommit]}>
           <TextArea
-            field={naiveAvg}
+            model={naiveAvg}
             label={
               <Prose>
                 <p>

@@ -149,7 +149,7 @@ export default function ProbabilityProjection() {
 
         <Section commits={f.histogramLabelCommit}>
           <TextArea
-            field={f.relationshipProbAmp}
+            model={f.relationshipProbAmp}
             label={
               <Prose>
                 What is the relationship between the{" "}
@@ -271,7 +271,7 @@ function HistogramHeightControl({
   return (
     <Flex className="margin-top-1">
       <Select
-        field={pm.minusHeight}
+        model={pm.minusHeight}
         choices={heightChoices}
         allowOther={false}
         placeholder="Height…"
@@ -281,7 +281,7 @@ function HistogramHeightControl({
       />
 
       <Select
-        field={pm.plusHeight}
+        model={pm.plusHeight}
         choices={heightChoices}
         allowOther={false}
         placeholder="Height…"
@@ -307,7 +307,7 @@ function HistogramLabelControl({
   return (
     <Flex className="margin-top-1">
       <Select
-        field={pm.minusLabel}
+        model={pm.minusLabel}
         choices={labelChoices}
         allowOther={false}
         placeholder="Label…"
@@ -316,7 +316,7 @@ function HistogramLabelControl({
       />
 
       <Select
-        field={pm.plusLabel}
+        model={pm.plusLabel}
         choices={labelChoices}
         allowOther={false}
         placeholder="Label…"

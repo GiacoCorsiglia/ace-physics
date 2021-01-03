@@ -372,7 +372,7 @@ const sections = sectionComponents(EPR, [
       </Answer>
 
       <TextArea
-        field={f.oddsBobDoesntNoticeEve}
+        model={f.oddsBobDoesntNoticeEve}
         placeholder="Optional: type your response here"
         label={
           <Prose>
@@ -400,7 +400,7 @@ const sections = sectionComponents(EPR, [
   (f) => (
     <Section commits={f.overallDetectionProbCommit}>
       <TextArea
-        field={f.whyQuantum}
+        model={f.whyQuantum}
         label={
           <Prose>
             Why does this system necessarily depend on quantum mechanics rather
@@ -455,7 +455,7 @@ function Percent({
             borderBottomRightRadius: 0,
             textAlign: "right",
           }}
-          field={field}
+          model={field}
           placeholder="Percent"
         />
         <div

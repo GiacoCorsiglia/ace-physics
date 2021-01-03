@@ -65,7 +65,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
 
       <FieldGroup grid className="margin-top-1">
         <Select
-          field={f.wellPotential}
+          model={f.wellPotential}
           label={
             <>
               Well potential <M t="\, \leftrightarrow" />
@@ -77,7 +77,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
         />
 
         <Select
-          field={f.barrierPotential}
+          model={f.barrierPotential}
           label={
             <>
               Barrier potential <M t="\, \leftrightarrow" />
@@ -90,7 +90,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
       </FieldGroup>
 
       <TextArea
-        field={f.graphMatchingExplain}
+        model={f.graphMatchingExplain}
         label={<Prose>Explain your choices</Prose>}
       />
 
@@ -114,7 +114,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
       <BarrierPotential />
 
       <TextArea
-        field={f.changesInGeneralSolution}
+        model={f.changesInGeneralSolution}
         label={
           <Prose>
             What <strong>changes</strong> in the general form of the solution to
@@ -134,7 +134,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.changesInGeneralSolutionCommit}>
       <TextArea
-        field={f.physicalScenarios}
+        model={f.physicalScenarios}
         label={
           <Prose>
             Can you think of physical situations (classical and/or quantum) that
@@ -153,7 +153,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.physicalScenariosCommit}>
       <TextArea
-        field={f.variationsInPhysicsFromSim}
+        model={f.variationsInPhysicsFromSim}
         label={
           <Prose>
             If you have time, go back to the sim and make some more interesting

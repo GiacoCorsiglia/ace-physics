@@ -46,7 +46,7 @@ export default function Pretest() {
 
           <Section noScroll>
             <TextArea
-              field={f.meaningOfCoefficients}
+              model={f.meaningOfCoefficients}
               label={
                 <Prose>
                   What do the coefficients in this expression (the{" "}
@@ -93,7 +93,7 @@ export default function Pretest() {
 
             <FieldGroup className="margin-top" grid="labelsRight">
               <Toggle
-                field={f.changedProbabilities}
+                model={f.changedProbabilities}
                 label={
                   <>
                     By writing the state <M t="\ket{\psi}" /> in the <i>x</i>
@@ -106,7 +106,7 @@ export default function Pretest() {
               />
 
               <Toggle
-                field={f.cantKnowBothProbabilities}
+                model={f.cantKnowBothProbabilities}
                 label={
                   <>
                     We can‘t know the probabilities for measurements along both
@@ -119,7 +119,7 @@ export default function Pretest() {
               />
 
               <Toggle
-                field={f.createdNewState}
+                model={f.createdNewState}
                 label={
                   <>
                     By representing the state <M t="\ket{\psi}" /> in the{" "}

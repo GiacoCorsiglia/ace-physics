@@ -91,7 +91,7 @@ export default function EntangledStates() {
             />
 
             <TextArea
-              field={f.bStateAfterMeasureAExplain}
+              model={f.bStateAfterMeasureAExplain}
               label={<Prose>Discuss how you made this prediction:</Prose>}
             />
 
@@ -125,7 +125,7 @@ export default function EntangledStates() {
             />
 
             <TextArea
-              field={f.bUpLikelihoodExplain}
+              model={f.bUpLikelihoodExplain}
               label={<Prose>Discuss how you found this likelihood:</Prose>}
             />
 
@@ -142,7 +142,7 @@ export default function EntangledStates() {
             </Prose>
 
             <TextArea
-              field={f.howOftenAliceBobSpinUp}
+              model={f.howOftenAliceBobSpinUp}
               label={
                 <Prose>
                   If Alice and Bob both measure <M t="S_z" />, how often does
@@ -163,7 +163,7 @@ export default function EntangledStates() {
 
           <Section commits={f.howOftenAliceBobSpinUpCommit}>
             <TextArea
-              field={f.howOftenAliceBobSame}
+              model={f.howOftenAliceBobSame}
               label={
                 <Prose>
                   How often do Alice and Bob both measure the SAME result (up or
@@ -184,7 +184,7 @@ export default function EntangledStates() {
 
           <Section commits={f.howOftenAliceBobSameCommit}>
             <TextArea
-              field={f.howOftenAliceSzBobSxSame}
+              model={f.howOftenAliceSzBobSxSame}
               label={
                 <Prose>
                   If Alice measures <M t="S_z" /> and Bob measures <M t="S_x" />
@@ -206,7 +206,7 @@ export default function EntangledStates() {
 
           <Section commits={f.howOftenAliceSzBobSxSameCommit}>
             <TextArea
-              field={f.causality}
+              model={f.causality}
               label={
                 <Prose>
                   In any scenario above, are Alice’s measurements “causing”

@@ -38,7 +38,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.part1IntroCommit}>
       <TextArea
-        field={f.psiAMeasurements}
+        model={f.psiAMeasurements}
         label={
           <Prose>
             Suppose you have a particle initially in the normalized quantum
@@ -69,7 +69,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.psiAMeasurementsCommit}>
       <Toggle
-        field={f.isPsiAEnergyEigenstate}
+        model={f.isPsiAEnergyEigenstate}
         label={
           <Prose>
             Given the state above, are we in an eigenstate of energy?
@@ -86,7 +86,7 @@ const sections = sectionComponents(EnergyAndPosition, [
       />
 
       <TextArea
-        field={f.isPsiAEnergyEigenstateExplain}
+        model={f.isPsiAEnergyEigenstateExplain}
         label={<Prose>Why or why not?</Prose>}
       />
 
@@ -115,7 +115,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.isPsiAEnergyEigenstateCommit}>
       <TextArea
-        field={f.psiAEnergyExpectation}
+        model={f.psiAEnergyExpectation}
         label={
           <Prose>
             In terms of <M t="E_1, E_2, E_3," /> etc., what is the expectation
@@ -149,7 +149,7 @@ const sections = sectionComponents(EnergyAndPosition, [
         className="margin-top-1"
         field={f.columnE2}
         inputEl={
-          <Text field={f.columnE2.elements[0]} placeholder="Type here" />
+          <Text model={f.columnE2.elements[0]} placeholder="Type here" />
         }
         labelTex="\ket{E_2}"
       />
@@ -172,7 +172,7 @@ const sections = sectionComponents(EnergyAndPosition, [
         className="margin-top-1"
         field={f.columnPsiA}
         inputEl={
-          <Text field={f.columnPsiA.elements[0]} placeholder="Type here" />
+          <Text model={f.columnPsiA.elements[0]} placeholder="Type here" />
         }
         labelTex="\ket{\psi_A}"
       />
@@ -202,7 +202,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.columnPsiACommit}>
       <TextArea
-        field={f.dotDotDotMeaning}
+        model={f.dotDotDotMeaning}
         label={
           <Prose>
             You should have a “dot-dot-dot” in your answers, what does it mean

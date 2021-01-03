@@ -66,7 +66,7 @@ export default function Superpositions() {
                 Briefly, why might I say that?
               </Prose>
             }
-            field={whyWideStressed}
+            model={whyWideStressed}
           />
 
           {needsHelp(whyWideStressedHelp) && (
@@ -103,9 +103,9 @@ export default function Superpositions() {
           </Prose>
 
           <FieldGroup grid className="margin-top">
-            <Decimal label={<M t="a =" />} field={smallEyeA} />
+            <Decimal label={<M t="a =" />} model={smallEyeA} />
 
-            <Decimal label={<M t="b =" />} field={smallEyeB} />
+            <Decimal label={<M t="b =" />} model={smallEyeB} />
           </FieldGroup>
 
           <Prose>(You can type them in as decimals.)</Prose>
@@ -140,7 +140,7 @@ export default function Superpositions() {
           ]}
         >
           <Toggle
-            field={abUnique}
+            model={abUnique}
             choices={abUniqueChoices}
             label={
               <Prose>

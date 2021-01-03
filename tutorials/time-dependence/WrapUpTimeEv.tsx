@@ -34,7 +34,7 @@ const sections = sectionComponents(TimeDependence, [
       </Prose>
 
       <TextArea
-        field={f.explainWhyIncorrectStudentA}
+        model={f.explainWhyIncorrectStudentA}
         label={
           <Prose>
             <p>
@@ -54,7 +54,7 @@ const sections = sectionComponents(TimeDependence, [
       />
 
       <TextArea
-        field={f.explainWhyIncorrectStudentB}
+        model={f.explainWhyIncorrectStudentB}
         label={
           <Prose>
             <p>
@@ -107,7 +107,7 @@ const sections = sectionComponents(TimeDependence, [
       </Prose>
 
       <TextArea
-        field={f.explainWhyGraphIncorrect}
+        model={f.explainWhyGraphIncorrect}
         label={
           <Prose>Explain why the graphs and explanation are incorrect.</Prose>
         }
@@ -123,7 +123,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.explainWhyGraphIncorrectCommit}>
       <TextArea
-        field={f.connectSimWithCorrectDescription}
+        model={f.connectSimWithCorrectDescription}
         label={
           <Prose>
             <p>

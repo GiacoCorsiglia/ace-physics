@@ -154,7 +154,7 @@ export default function RelatingDifferentBases() {
           />
 
           <TextArea
-            field={f.newNameNecessaryExplain}
+            model={f.newNameNecessaryExplain}
             label={<Prose>Explain</Prose>}
           />
 
@@ -244,7 +244,7 @@ export default function RelatingDifferentBases() {
 
         <Section commits={f.uVsKFeedbackCommit}>
           <TextArea
-            field={f.meaningOfCoB}
+            model={f.meaningOfCoB}
             label={
               <Prose>
                 Using the analogy we’ve created to 2-D spatial vectors, explain
@@ -263,7 +263,7 @@ export default function RelatingDifferentBases() {
 
         <Section commits={f.meaningOfCoBCommit}>
           <Toggle
-            field={f.equalityAllowed}
+            model={f.equalityAllowed}
             choices={equalityAllowedChoices}
             label={
               <Prose>
@@ -282,7 +282,7 @@ export default function RelatingDifferentBases() {
 
         <Section commits={f.equalityAllowedCommit}>
           <TextArea
-            field={f.whyNoSubscriptNeeded}
+            model={f.whyNoSubscriptNeeded}
             label={
               <Prose>
                 Why do we not need an <M t="x" /> subscript on{" "}
@@ -458,7 +458,7 @@ function PlotOptions() {
       {graph.u.value === true && (
         <Select
           className="margin-top-1"
-          field={graph.v1v2}
+          model={graph.v1v2}
           choices={finalGraphV1V2Choices}
           placeholder="What next?"
           allowOther={false}
@@ -489,7 +489,7 @@ function PlotOptions() {
       {graph.v1v2Axes.value === true && (
         <Select
           className="margin-top-1"
-          field={graph.k}
+          model={graph.k}
           choices={finalGraphKChoices}
           allowOther={false}
           placeholder={

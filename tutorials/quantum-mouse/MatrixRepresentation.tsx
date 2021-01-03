@@ -125,7 +125,7 @@ export default function MatrixRepresentation() {
             matrix={fieldToMatrix(
               smallVector,
               <Select
-                field={smallVector.elements[0]}
+                model={smallVector.elements[0]}
                 choices={vectorSelectChoices}
               />
             )}
@@ -138,7 +138,7 @@ export default function MatrixRepresentation() {
             matrix={fieldToMatrix(
               wideVector,
               <Select
-                field={wideVector.elements[0]}
+                model={wideVector.elements[0]}
                 choices={vectorSelectChoices}
               />
             )}
@@ -163,12 +163,12 @@ export default function MatrixRepresentation() {
 
           <FieldGroup grid className="margin-top">
             <Text
-              field={happyEigenequation}
+              model={happyEigenequation}
               label={<M t="\hat{M}\ket{\smiley} =" />}
             />
 
             <Text
-              field={sadEigenequation}
+              model={sadEigenequation}
               label={<M t="\hat{M}\ket{\frownie} =" />}
             />
           </FieldGroup>
@@ -211,7 +211,7 @@ export default function MatrixRepresentation() {
             labelTex="\hat{M}"
             matrix={fieldToMatrix(
               moodMatrix,
-              <Decimal field={moodMatrix.elements[0].elements[0]} />
+              <Decimal model={moodMatrix.elements[0].elements[0]} />
             )}
           />
 

@@ -47,7 +47,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.part3IntroCommit}>
       <TextArea
-        field={f.wellPredictionsForT}
+        model={f.wellPredictionsForT}
         label={
           <Prose>
             Using physical arguments, but without carrying out calculations what
@@ -75,7 +75,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.wellPredictionsForTCommit}>
       <TextArea
-        field={f.wellSimTestPredictions}
+        model={f.wellSimTestPredictions}
         label={
           <Prose>
             Use the{" "}
@@ -102,7 +102,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.wellSimTestPredictionsCommit}>
       <TextArea
-        field={f.wavelengthAfterTunneling}
+        model={f.wavelengthAfterTunneling}
         label={
           <Prose>
             What happened to the wavelength of a plane wave after tunneling
@@ -121,7 +121,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
   (f) => (
     <Section commits={f.wavelengthAfterTunnelingCommit}>
       <Toggle
-        field={f.energyAfterTunneling}
+        model={f.energyAfterTunneling}
         label={<Prose>Is energy lost after tunneling?</Prose>}
         choices={choices(f.energyAfterTunneling, {
           lost: "Yes",
@@ -131,7 +131,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
       />
 
       <TextArea
-        field={f.energyAfterTunnelingExplain}
+        model={f.energyAfterTunnelingExplain}
         label={<Prose>Explain:</Prose>}
       />
 

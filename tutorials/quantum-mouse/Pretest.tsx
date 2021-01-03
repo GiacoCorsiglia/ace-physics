@@ -55,7 +55,7 @@ export default function Pretest() {
 
             <FieldGroup grid className="margin-top">
               <Text
-                field={operatorLabel}
+                model={operatorLabel}
                 placeholder="Your label"
                 label={
                   <>
@@ -65,7 +65,7 @@ export default function Pretest() {
                 }
               />
               <Text
-                field={eigenstateLabel}
+                model={eigenstateLabel}
                 placeholder="Your label"
                 label={
                   <>
@@ -75,7 +75,7 @@ export default function Pretest() {
                 }
               />
               <Text
-                field={eigenvalueLabel}
+                model={eigenvalueLabel}
                 placeholder="Your label"
                 label={
                   <>
@@ -101,8 +101,8 @@ export default function Pretest() {
               className="margin-top"
               labelTex="\hat{A}"
               matrix={[
-                [<Decimal field={A0_0} />, <Decimal field={A0_1} />],
-                [<Decimal field={A1_0} />, <Decimal field={A1_1} />],
+                [<Decimal model={A0_0} />, <Decimal model={A0_1} />],
+                [<Decimal model={A1_0} />, <Decimal model={A1_1} />],
               ]}
             />
           </Section>
@@ -133,7 +133,7 @@ export default function Pretest() {
 
           <Section noScroll>
             <TextArea
-              field={measureA}
+              model={measureA}
               label={
                 <Prose>
                   …if you measure <M t="\hat{A}" />, what value(s) could you
@@ -147,7 +147,7 @@ export default function Pretest() {
             {/* Multiple choice b1/b2/a1/a2/|a1>/... */}
             {/* Briefly comment on your answer */}
             <TextArea
-              field={afterMeasureA}
+              model={afterMeasureA}
               label={
                 <Prose>
                   <strong>After the measurement</strong> of <M t="\hat{A}" />{" "}

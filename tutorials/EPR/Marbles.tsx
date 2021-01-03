@@ -102,7 +102,7 @@ export default function Marbles() {
             <Columns>
               <Column>
                 <TextArea
-                  field={f.sameAsEPR}
+                  model={f.sameAsEPR}
                   minRows={4}
                   label={
                     <Prose>
@@ -126,7 +126,7 @@ export default function Marbles() {
 
               <Column>
                 <TextArea
-                  field={f.differentFromEPR}
+                  model={f.differentFromEPR}
                   minRows={4}
                   label={
                     <Prose>

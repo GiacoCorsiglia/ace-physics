@@ -89,7 +89,7 @@ export default function DefiningBasis() {
 
         <Section commits={[f.definingBasisIntroCommit]}>
           <Toggle
-            field={f.iAndJFormBasis}
+            model={f.iAndJFormBasis}
             choices={iAndJFormBasisChoices}
             label={
               <Prose>
@@ -99,7 +99,7 @@ export default function DefiningBasis() {
           />
 
           <TextArea
-            field={f.iAndJFormBasisExplain}
+            model={f.iAndJFormBasisExplain}
             label={
               <Prose>
                 What do you need to form a basis? Explain whether or not{" "}
@@ -121,7 +121,7 @@ export default function DefiningBasis() {
 
         <Section commits={[f.iAndJFormBasisCommit, f.iAndJSpanVisible]}>
           <Toggle
-            field={f.iAndJSpan}
+            model={f.iAndJSpan}
             choices={iAndJSpanChoices}
             label={
               <Prose>
@@ -192,11 +192,11 @@ export default function DefiningBasis() {
                 labelTex="\ket{u}"
                 column={[
                   <Decimal
-                    field={f.uColumn.elements[0]}
+                    model={f.uColumn.elements[0]}
                     placeholder="Horizontal"
                   />,
                   <Decimal
-                    field={f.uColumn.elements[1]}
+                    model={f.uColumn.elements[1]}
                     placeholder="Vertical"
                   />,
                 ]}
@@ -249,7 +249,7 @@ export default function DefiningBasis() {
                   f.uColumnDirac,
                   <Select
                     choices={uColumnDiracChoices}
-                    field={f.uColumnDirac.elements[0]}
+                    model={f.uColumnDirac.elements[0]}
                   />
                 )}
               />
@@ -449,7 +449,7 @@ export default function DefiningBasis() {
           ]}
         >
           <TextArea
-            field={f.innerProductMeaning}
+            model={f.innerProductMeaning}
             label={
               <Prose>
                 Discuss a conceptual meaning for these inner products based on

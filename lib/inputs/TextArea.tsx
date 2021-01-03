@@ -1,22 +1,24 @@
-import { Field } from "@/state";
+import { Model, useModel } from "@/reactivity";
+import { StringField } from "@/schema/fields";
 import { classes, useUniqueId } from "@/util";
-import * as s from "common/schema";
 import { useEffect, useRef } from "react";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
 export default function TextArea({
-  field,
+  model,
   minRows = 2,
   maxRows = 8,
   label,
   ...props
 }: {
-  field: Field<s.StringSchema>;
+  model: Model<StringField>;
   minRows?: number;
   maxRows?: number;
   label?: React.ReactNode;
 } & JSX.IntrinsicElements["textarea"]) {
+  const [value, setValue] = useModel(model);
+
   const stylesRef = useRef<{
     lineHeight: number;
     padding: number;
@@ -66,7 +68,7 @@ export default function TextArea({
     }
     // Also store this in a ref for the next render.
     rowsRef.current = newRows;
-  }, [field.value, maxRows, minRows]);
+  }, [value, maxRows, minRows]);
 
   return (
     <>
@@ -91,8 +93,8 @@ export default function TextArea({
         id={id}
         ref={textareaRef}
         rows={rowsRef.current}
-        value={field.value || ""}
-        onChange={(e) => field.set(e.target.value)}
+        value={value || ""}
+        onChange={(e) => setValue(e.target.value)}
       />
     </>
   );

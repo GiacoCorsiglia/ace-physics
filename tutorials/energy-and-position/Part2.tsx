@@ -87,7 +87,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.part2IntroCommit}>
       <TextArea
-        field={f.interpretVerticalAxis}
+        model={f.interpretVerticalAxis}
         label={
           <Prose>
             Interpret the vertical values for each bar in the graph. What does
@@ -106,7 +106,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.interpretVerticalAxisCommit}>
       <TextArea
-        field={f.normalizationMeaning}
+        model={f.normalizationMeaning}
         label={
           <Prose>
             Use the graph to check the <em>normalization</em> of{" "}
@@ -125,7 +125,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.normalizationMeaningCommit}>
       <TextArea
-        field={f.psiBDifference}
+        model={f.psiBDifference}
         label={
           <Prose>
             Consider a particle in the quantum state <M t="\ket{\psi_B}" />,
@@ -155,7 +155,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.psiBDifferenceCommit}>
       <TextArea
-        field={f.psiBMeasurements}
+        model={f.psiBMeasurements}
         label={
           <Prose>
             If you make an energy measurement on this new particle (in state{" "}
@@ -166,7 +166,7 @@ const sections = sectionComponents(EnergyAndPosition, [
       />
 
       <Toggle
-        field={f.psiBvsPsiAExpectation}
+        model={f.psiBvsPsiAExpectation}
         label={
           <Prose>
             Is the expectation value of energy for this particle the same, or
@@ -341,7 +341,7 @@ const sections = sectionComponents(EnergyAndPosition, [
       />
 
       <TextArea
-        field={f.psiBDistinguishableFromPsiA}
+        model={f.psiBDistinguishableFromPsiA}
         label={
           <Prose>Is there any way, in principle, to distinguish them?</Prose>
         }

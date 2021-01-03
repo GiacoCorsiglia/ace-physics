@@ -54,7 +54,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.part6IntroCommit}>
       <TextArea
-        field={f.ketInEnergyBasisFunc}
+        model={f.ketInEnergyBasisFunc}
         label={
           <Prose>
             Combine the information on this page to express <M t="\psi_A(x)" />{" "}
@@ -86,7 +86,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.ketInEnergyBasisFuncCommit}>
       <TextArea
-        field={f.posQuestionsEnergyBasis}
+        model={f.posQuestionsEnergyBasis}
         label={
           <Prose>
             Given all the results above, could you <em>easily</em> answer any
@@ -107,7 +107,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.posQuestionsEnergyBasisCommit}>
       <TextArea
-        field={f.toThinkAbout}
+        model={f.toThinkAbout}
         label={
           <Prose>
             <em>To think about:</em> how about vice-versa, do you think you

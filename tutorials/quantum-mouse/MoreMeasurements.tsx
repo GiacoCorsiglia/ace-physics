@@ -97,7 +97,7 @@ export default function MoreMeasurement() {
           />
 
           <TextArea
-            field={moodStartAmbiguity}
+            model={moodStartAmbiguity}
             label={
               <Prose>
                 Is there any ambiguity about the state at this point? Explain.
@@ -125,7 +125,7 @@ export default function MoreMeasurement() {
 
         <Section commits={[moodStartCommit]}>
           <Select
-            field={smallEyeProb}
+            model={smallEyeProb}
             choices={smallEyeProbChoices}
             label={
               <Prose>
@@ -142,7 +142,7 @@ export default function MoreMeasurement() {
           />
 
           <TextArea
-            field={smallEyeProbExplain}
+            model={smallEyeProbExplain}
             label={<Prose>Explain your thoughts:</Prose>}
           />
 
@@ -212,7 +212,7 @@ export default function MoreMeasurement() {
           </Prose>
 
           <TextArea
-            field={finalMood}
+            model={finalMood}
             label={
               <Prose>
                 Now, you measure mood once again. What do you get (with what
@@ -222,7 +222,7 @@ export default function MoreMeasurement() {
           />
 
           <Toggle
-            field={f.finalMoodCanBeHappy}
+            model={f.finalMoodCanBeHappy}
             choices={finalMoodCanBeHappyChoices}
             label={
               <Prose>
@@ -325,7 +325,7 @@ export default function MoreMeasurement() {
           ]}
         >
           <TextArea
-            field={surpriseResults}
+            model={surpriseResults}
             label={
               <Prose>
                 <p>
@@ -361,14 +361,14 @@ export default function MoreMeasurement() {
           </Prose>
 
           <Toggle
-            field={thinkingDeeperAgreement}
+            model={thinkingDeeperAgreement}
             yes="I agree"
             no="I disagree"
             label={<Prose>Do you agree with your friend’s statement?</Prose>}
           />
 
           <TextArea
-            field={thinkingDeeperExplain}
+            model={thinkingDeeperExplain}
             label={<Prose>Why or why not?</Prose>}
           />
 

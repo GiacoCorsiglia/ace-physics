@@ -107,7 +107,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.probDensBCommit}>
       <TextArea
-        field={f.compareGraphs}
+        model={f.compareGraphs}
         label={
           <Prose>
             Compare your graph, and the positions where the particle is most and
@@ -127,7 +127,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.compareGraphsCommit}>
       <Toggle
-        field={f.psiBExpVal}
+        model={f.psiBExpVal}
         label={
           <Prose>
             Where do you think the expectation value of position for state{" "}
@@ -141,7 +141,7 @@ const sections = sectionComponents(EnergyAndPosition, [
         })}
       />
 
-      <TextArea field={f.psiBExpValExplain} label={<Prose>Why?</Prose>} />
+      <TextArea model={f.psiBExpValExplain} label={<Prose>Why?</Prose>} />
 
       <Continue
         commit={f.psiBExpValCommit}
@@ -153,7 +153,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.psiBExpValCommit}>
       <TextArea
-        field={f.psiBDifferentFromPsiAReflect}
+        model={f.psiBDifferentFromPsiAReflect}
         label={
           <Prose>
             Previously, we asked you if the second particle (in state{" "}

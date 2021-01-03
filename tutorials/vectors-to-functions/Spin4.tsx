@@ -52,7 +52,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       <VariableLengthColumn
         className="margin-top-1"
         field={f.spin4Column}
-        inputEl={<Decimal field={f.spin4Column.elements[0]} />}
+        inputEl={<Decimal model={f.spin4Column.elements[0]} />}
         labelTex="\ket{\psi_D}"
       />
 
@@ -128,17 +128,17 @@ const sections = sectionComponents(VectorsToFunctions, [
       <div className={styles.diracLabels}>
         <Text
           className={styles.diracLabelInput}
-          field={f.minus3Dirac}
+          model={f.minus3Dirac}
           placeholder=""
         />
         <Text
           className={styles.diracLabelInput}
-          field={f.minus1Dirac}
+          model={f.minus1Dirac}
           placeholder=""
         />
         <Text
           className={styles.diracLabelInput}
-          field={f.plus4Dirac}
+          model={f.plus4Dirac}
           placeholder=""
         />
       </div>
@@ -185,7 +185,7 @@ const sections = sectionComponents(VectorsToFunctions, [
         <div className={styles.diracLabels}>
           <Select
             className={styles.diracLabelSelect}
-            field={f.minus3DiracSelect}
+            model={f.minus3DiracSelect}
             choices={cs}
             placeholder=""
             allowOther={false}
@@ -194,7 +194,7 @@ const sections = sectionComponents(VectorsToFunctions, [
           />
           <Select
             className={styles.diracLabelSelect}
-            field={f.minus1DiracSelect}
+            model={f.minus1DiracSelect}
             choices={cs}
             placeholder=""
             allowOther={false}
@@ -203,7 +203,7 @@ const sections = sectionComponents(VectorsToFunctions, [
           />
           <Select
             className={styles.diracLabelSelect}
-            field={f.plus4DiracSelect}
+            model={f.plus4DiracSelect}
             choices={cs}
             placeholder=""
             allowOther={false}
@@ -228,7 +228,7 @@ const sections = sectionComponents(VectorsToFunctions, [
   (f) => (
     <Section commits={f.diracLabelSelectsCommit}>
       <TextArea
-        field={f.spin4Normalization}
+        model={f.spin4Normalization}
         label={
           <Prose>
             <p>
@@ -254,7 +254,7 @@ const sections = sectionComponents(VectorsToFunctions, [
 
       <FieldGroup grid className="margin-top-1">
         <Toggle
-          field={f.spin4ProbAsymmetric}
+          model={f.spin4ProbAsymmetric}
           choices={choices(f.spin4ProbAsymmetric, {
             "0": <M t="0" />,
             "2hbar": <M t="+2 \hbar" />,
@@ -267,7 +267,7 @@ const sections = sectionComponents(VectorsToFunctions, [
           }
         />
         <Toggle
-          field={f.spin4ProbSymmetric}
+          model={f.spin4ProbSymmetric}
           choices={choices(f.spin4ProbSymmetric, {
             "-2hbar": <M t="-2 \hbar" />,
             "2hbar": <M t="+2 \hbar" />,
@@ -280,7 +280,7 @@ const sections = sectionComponents(VectorsToFunctions, [
           }
         />
         <Toggle
-          field={f.spin4ProbPositiveNegative}
+          model={f.spin4ProbPositiveNegative}
           choices={choices(f.spin4ProbPositiveNegative, {
             positive: "Positive",
             negative: "Negative",

@@ -135,7 +135,7 @@ export default function MeasuringEyeSize() {
           commits={[measuringEyeSizeIntroCommit, collapsed1mmStateCommit]}
         >
           <TextArea
-            field={remeasure1mmResults}
+            model={remeasure1mmResults}
             label={
               <Prose>
                 If you now re-measure <M t="\hat{S}" /> on this state, what
@@ -145,7 +145,7 @@ export default function MeasuringEyeSize() {
           />
 
           <Select
-            field={remeasure1mmState}
+            model={remeasure1mmState}
             choices={remeasure1mmStateChoices}
             label={
               <Prose>
@@ -206,13 +206,13 @@ export default function MeasuringEyeSize() {
 
           <FieldGroup grid className="margin-top">
             <Decimal
-              field={measureUnhappyProbability}
+              model={measureUnhappyProbability}
               label="Probability:"
               placeholder="As a decimal"
             />
 
             <TextArea
-              field={measureUnhappyProbabilityExplain}
+              model={measureUnhappyProbabilityExplain}
               label="Explain:"
             />
           </FieldGroup>
@@ -245,7 +245,7 @@ export default function MeasuringEyeSize() {
           ]}
         >
           <TextArea
-            field={smallEyedEmotion}
+            model={smallEyedEmotion}
             label={
               <Prose>
                 We said before that “wide-eyed mice are rather stressed.” In
@@ -334,7 +334,7 @@ export default function MeasuringEyeSize() {
           ]}
         >
           <Toggle
-            field={f.collapsedRemeasuredEffect}
+            model={f.collapsedRemeasuredEffect}
             choices={collapsedRemeasuredEffectChoices}
             label={
               <Prose>

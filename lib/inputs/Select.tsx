@@ -1,63 +1,22 @@
-import { Field } from "@/state";
-import { classes, Props, useUniqueId } from "@/util";
-import * as s from "common/schema";
+import { Html } from "@/helpers/frontend";
+import { Model, useModel } from "@/reactivity";
+import {
+  Choice,
+  Choices as FieldChoices,
+  ChooseOneField,
+} from "@/schema/fields";
+import { Props, useUniqueId } from "@/util";
+import { cx } from "linaria";
 import { useMemo, useState } from "react";
 import ReactSelect, { components, StylesConfig } from "react-select";
 import Creatable from "react-select/creatable";
-import ChoiceAnswer from "./ChoiceAnswer";
+import { ChoicesConfig } from "./choices";
+import ChoiceAnswer from "./ChooseAnswer";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
-type Choices<V> = ReadonlyArray<{ value: V; label: React.ReactNode }>;
-
-type SelectChoice<T> = T extends Array<infer U> ? U : T;
-
-export type SelectChoices<
-  V extends undefined | { selected?: s.Literal } | { selected?: s.Literal[] }
-> = Choices<SelectChoice<NonNullable<NonNullable<V>["selected"]>>>;
-
-const memoizedChoices = new Map<
-  Field<s.ChoiceSchema<any, any, any>>,
-  Choices<s.Literal>
->();
-
-if (process.env.NODE_ENV === "development") {
-  // HACK....I should just make this a hook and stash it in a ref (or, probably
-  // don't need to bother.)
-  try {
-    const refresh = require("react-refresh/runtime");
-    const old = refresh.performReactRefresh;
-    refresh.performReactRefresh = (...args: any) => {
-      memoizedChoices.clear();
-      old(...args);
-    };
-  } catch (e) {}
-}
-
-export function choices<C extends readonly (string | number)[]>(
-  field: Field<s.ChoiceSchema<C, any, any>>,
-  choices?: { [K in C[number]]: React.ReactNode }
-): Choices<C[number]> {
-  if (!memoizedChoices.has(field)) {
-    memoizedChoices.set(
-      field,
-      choices
-        ? Object.entries(choices).map(([value, label]) => ({
-            value,
-            label: label as React.ReactNode, // This wasn't inferred
-          }))
-        : field.schema.choices.map((value) => ({ value, label: value }))
-    );
-  }
-
-  return memoizedChoices.get(field) as any;
-}
-
-export default function Select<
-  C extends readonly s.Literal[],
-  M extends boolean
->({
-  field,
+export default function Select<Cs extends FieldChoices>({
+  model,
   choices: originalChoices,
   allowOther = true,
   label,
@@ -65,34 +24,36 @@ export default function Select<
   explanation,
   ...props
 }: {
-  field: Field<s.ChoiceSchema<C, M, string>>;
-  choices: Choices<C[number]>;
+  model: Model<ChooseOneField<Cs>>;
+  choices: ChoicesConfig<Cs>;
   allowOther?: boolean;
   label?: React.ReactNode;
-  answer?: M extends true ? C[number][] : C[number];
+  answer?: Choice<Cs>;
   explanation?: React.ReactNode;
-} & Props<ReactSelect<{ value: C[number]; label: React.ReactNode }>>) {
+} & Props<
+  ReactSelect<{
+    readonly value: Choice<Cs>;
+    readonly label: Html;
+  }>
+>) {
+  const [value, setValue] = useModel(model);
+
   const id = `select-${useUniqueId()}`;
   props.ACE_labelId = id;
 
   props.isDisabled = useDisabled(!!props.isDisabled);
 
-  // If the schema supports multiple selections then so should the select!
-  props.isMulti = field.schema.isMulti;
-
-  // We don't support the "other" choice for multi-selects.
-  if (props.isMulti) {
-    allowOther = false;
-  }
+  // No support for multi-selects
+  props.isMulti = false;
 
   // The "other" value associated with this select, if any.  We only consider
   // this value actually chosen if `field.value.selected === undefined`
-  const other = field.value?.other;
+  const other = value?.other;
 
   // Tracks the value of the text input associated with the select.  This is the
   // value that becomes "other" (depending on the user's actions).
   const [inputValue, setInputValue] = useState(
-    (field.value?.selected === undefined ? other : "") || ""
+    (value?.selected === undefined ? other : "") || ""
   );
 
   // This tracks the open/closed status of the dropdown, to fix the behavior of
@@ -121,18 +82,10 @@ export default function Select<
   // Now we set the value prop of the select, which tells it which option is
   // actually selected.  React-select tracks options by object identity, whereas
   // we track options by the `value` property (string or number).
-  if (field.value === undefined) {
+  if (value === undefined) {
     props.value = undefined;
-  } else if (props.isMulti) {
-    const selected = field.value.selected as C[number][] | undefined;
-    if (selected === undefined) {
-      props.value = undefined;
-    } else {
-      const value = choices.filter((choice) => selected.includes(choice.value));
-      props.value = value.length === 0 ? undefined : value;
-    }
   } else {
-    const selected = field.value.selected as C[number] | undefined;
+    const selected = value.selected;
     if (selected !== undefined) {
       props.value = choices.find((choice) => choice.value === selected);
     } else if (other !== undefined) {
@@ -150,7 +103,7 @@ export default function Select<
     // the user's choice if its set, but this way they won't lose their "Other"
     // option immediately.
     const other =
-      allowOther && meta.action !== "clear" ? field.value?.other : undefined;
+      allowOther && meta.action !== "clear" ? value?.other : undefined;
 
     if (allowOther) {
       setInputValue("");
@@ -159,27 +112,20 @@ export default function Select<
     if (selected === null || selected === undefined) {
       // Nothing's selected or something was deselected, so we just clear the
       // value of the `selected` property in the field.
-      field.set({
+      setValue({
         selected: undefined,
-        other,
-      });
-    } else if (props.isMulti) {
-      // In this case, `selected` is an array of choice objects, and we don't
-      // support the Other choice.
-      field.set({
-        selected: (selected as any).map((s: { value: C[number] }) => s.value),
         other,
       });
     } else if (selected === otherChoice) {
       // In this case, `selected` is a single choice object.  If that object is
       // actually the Other choice, then we clear the other selection
-      field.set({
+      setValue({
         selected: undefined,
         other,
       });
     } else {
       // Otherwise we've actually selected an real choice, so set that.
-      field.set({
+      setValue({
         selected: (selected as any).value,
         other,
       });
@@ -208,7 +154,7 @@ export default function Select<
     menu: (styles) => ({ ...styles, zIndex: 10_000 }),
   });
 
-  props.className = classes([styles.noLabel, !label], props.className);
+  props.className = cx(!label && styles.noLabel, props.className);
 
   // If we're not allowing the user to input an "other" option, things are easy!
   if (!allowOther) {
@@ -220,7 +166,9 @@ export default function Select<
         <ReactSelect {...props} />
 
         <ChoiceAnswer
-          field={field}
+          isMulti={false}
+          selected={value?.selected}
+          other={value?.other}
           choices={choices}
           answer={answer}
           explanation={explanation}
@@ -255,8 +203,8 @@ export default function Select<
     }
     // This handler gets called repeatedly for some reason...
     setWasMenuOpen(true);
-    if (field.value?.selected === undefined) {
-      setInputValue(field.value?.other || "");
+    if (value?.selected === undefined) {
+      setInputValue(value?.other || "");
     }
   };
   props.onMenuClose = () => {
@@ -265,8 +213,8 @@ export default function Select<
 
   // Meanwhile this is `onFocus` for the whole select.
   props.onFocus = () => {
-    if (field.value?.selected === undefined && !inputValue) {
-      setInputValue(field.value?.other || "");
+    if (value?.selected === undefined && !inputValue) {
+      setInputValue(value?.other || "");
     }
   };
 
@@ -274,7 +222,7 @@ export default function Select<
   props.onBlur = () => {
     // We still save your value if you start typing then click away.
     if (inputValue) {
-      field.set({
+      setValue({
         selected: undefined,
         other: inputValue,
       });
@@ -287,7 +235,7 @@ export default function Select<
   // the list (e.g., by hitting return/enter).
   props.onCreateOption = (newValue: string) => {
     // Clearing `selected` is how we actually select "Other".
-    field.set({
+    setValue({
       selected: undefined,
       other: newValue,
     });
@@ -329,7 +277,9 @@ export default function Select<
       <Creatable {...props} />
 
       <ChoiceAnswer
-        field={field}
+        isMulti={false}
+        selected={value?.selected}
+        other={value?.other}
         choices={choices}
         answer={answer}
         explanation={explanation}

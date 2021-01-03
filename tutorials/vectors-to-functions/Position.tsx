@@ -148,7 +148,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       <Prose>In this updated diagram…</Prose>
 
       <Text
-        field={f.halfIntegerPossibleMeasurements}
+        model={f.halfIntegerPossibleMeasurements}
         label={
           <Prose>
             …how many different possible measurements are represented?
@@ -158,7 +158,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       />
 
       <Text
-        field={f.halfIntegerColumnElements}
+        model={f.halfIntegerColumnElements}
         label={
           <Prose>
             …how many elements would be in a column vector for this state?
@@ -168,7 +168,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       />
 
       <Text
-        field={f.halfIntegerBasisStates}
+        model={f.halfIntegerBasisStates}
         label={<Prose>…how many different basis states are represented?</Prose>}
         maxWidth
       />
@@ -193,7 +193,7 @@ const sections = sectionComponents(VectorsToFunctions, [
 
       <FieldGroup grid className="margin-top-1">
         <Text
-          field={f.halfIntegerDiracNotation}
+          model={f.halfIntegerDiracNotation}
           label={<M t="{\color{purple} ??} =" />}
           maxWidth
         />
@@ -266,7 +266,7 @@ const sections = sectionComponents(VectorsToFunctions, [
           </Prose>
 
           <Text
-            field={f.smoothPossibleMeasurements}
+            model={f.smoothPossibleMeasurements}
             label={
               <Prose>
                 …how many different possible measurements are represented?
@@ -276,7 +276,7 @@ const sections = sectionComponents(VectorsToFunctions, [
           />
 
           <Text
-            field={f.smoothBasisStates}
+            model={f.smoothBasisStates}
             label={
               <Prose>…how many different basis states are represented?</Prose>
             }
@@ -304,7 +304,7 @@ const sections = sectionComponents(VectorsToFunctions, [
 
       <FieldGroup grid className="margin-top-1">
         <Text
-          field={f.xiLabel}
+          model={f.xiLabel}
           label={<M t="{\color{purple} ??} =" />}
           maxWidth
         />
@@ -341,7 +341,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       />
 
       <TextArea
-        field={f.xProb0or3Explain}
+        model={f.xProb0or3Explain}
         label={<Prose>How can you tell?</Prose>}
       />
 
@@ -377,7 +377,7 @@ const sections = sectionComponents(VectorsToFunctions, [
       />
 
       <TextArea
-        field={f.xProbPositiveNegativeExplain}
+        model={f.xProbPositiveNegativeExplain}
         label={<Prose>How can you tell?</Prose>}
       />
 
@@ -410,7 +410,7 @@ const sections = sectionComponents(VectorsToFunctions, [
   (f) => (
     <Section commits={f.waveFunctionCommit}>
       <TextArea
-        field={f.psiXasColumn}
+        model={f.psiXasColumn}
         label={
           <Prose>
             Could you still write <M t="\ket{\psi}" /> as a column vector? If

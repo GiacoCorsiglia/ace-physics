@@ -68,7 +68,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.part3IntroCommit}>
       <TextArea
-        field={f.infoFromGraph}
+        model={f.infoFromGraph}
         label={
           <Prose>
             What information can you infer about this state from the graph?
@@ -175,12 +175,12 @@ const sections = sectionComponents(EnergyAndPosition, [
       </Prose>
 
       <TextArea
-        field={f.studentInterpretationsProbDens}
+        model={f.studentInterpretationsProbDens}
         label={<Prose>What do you think about these responses? </Prose>}
       />
 
       <TextArea
-        field={f.correctInterpretationProbDens}
+        model={f.correctInterpretationProbDens}
         label={<Prose> Can you help firm up a fully correct answer?</Prose>}
       />
 
@@ -197,7 +197,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.interpretProbDensCommit}>
       <Toggle
-        field={f.psiAExpVal}
+        model={f.psiAExpVal}
         label={
           <Prose>
             Where do you think the expectation value of position for state{" "}
@@ -211,7 +211,7 @@ const sections = sectionComponents(EnergyAndPosition, [
         })}
       />
 
-      <TextArea field={f.psiAExpValExplain} label={<Prose>Why?</Prose>} />
+      <TextArea model={f.psiAExpValExplain} label={<Prose>Why?</Prose>} />
 
       <Continue
         commit={f.psiAExpValCommit}
@@ -225,7 +225,7 @@ const sections = sectionComponents(EnergyAndPosition, [
   (f) => (
     <Section commits={f.psiAExpValCommit}>
       <Toggle
-        field={f.psiAPosEigenstate}
+        model={f.psiAPosEigenstate}
         label={
           <Prose>
             Is a particle described by <M t="\psi_A(x)" /> in an eigenstate of
@@ -238,7 +238,7 @@ const sections = sectionComponents(EnergyAndPosition, [
         })}
       />
       <TextArea
-        field={f.psiAPosEigenstateExplain}
+        model={f.psiAPosEigenstateExplain}
         label={<Prose>Why or why not?</Prose>}
       />
       <Continue commit={f.psiAPosEigenstateCommit} />

@@ -71,7 +71,7 @@ const sections = sectionComponents(TimeDependence, [
 
       <FieldGroup grid className="margin-top-1">
         <Text
-          field={f.timeEvolvedGroundState}
+          model={f.timeEvolvedGroundState}
           label={<M t="\psi_1(x,t) =" />}
         />
       </FieldGroup>
@@ -115,7 +115,7 @@ const sections = sectionComponents(TimeDependence, [
       </Prose>
 
       <TextArea
-        field={f.timeEvolutionDescription}
+        model={f.timeEvolutionDescription}
         label={<Prose>Describe this time evolution in words:</Prose>}
       />
 
@@ -173,7 +173,7 @@ const sections = sectionComponents(TimeDependence, [
       </Plot>
 
       <TextArea
-        field={f.probDensRelationshipToProbAmp}
+        model={f.probDensRelationshipToProbAmp}
         label={
           <Prose>
             How is this value related to the value of <M t="\psi_1" />?
@@ -196,7 +196,7 @@ const sections = sectionComponents(TimeDependence, [
       </Prose>
 
       <FieldGroup grid className="margin-top-1">
-        <Text field={f.exp3PiOver2} label={<M t="e^{i3\pi/2} = " />} />
+        <Text model={f.exp3PiOver2} label={<M t="e^{i3\pi/2} = " />} />
       </FieldGroup>
 
       <Prose>
@@ -210,8 +210,8 @@ const sections = sectionComponents(TimeDependence, [
       </Prose>
 
       <FieldGroup grid className="margin-top">
-        <Text field={f.difTimePlotAxisX} label="Horizontal axis label:" />
-        <Text field={f.difTimePlotAxisY} label="Vertical axis label:" />
+        <Text model={f.difTimePlotAxisX} label="Horizontal axis label:" />
+        <Text model={f.difTimePlotAxisY} label="Vertical axis label:" />
       </FieldGroup>
 
       <Prose>Now complete the sketch using Zoom annotation.</Prose>
@@ -246,7 +246,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.difTimePlotCommit}>
       <TextArea
-        field={f.wholeFunctionTimeDependencePlot}
+        model={f.wholeFunctionTimeDependencePlot}
         label={
           <Prose>
             Above, you plotted the time evolution for a single value of

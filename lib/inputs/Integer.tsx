@@ -1,6 +1,6 @@
-import { Field } from "@/state";
+import { Model, useModel } from "@/reactivity";
+import { NumberField } from "@/schema/fields";
 import { classes, useUniqueId } from "@/util";
-import * as s from "common/schema";
 import { useState } from "react";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
@@ -8,18 +8,18 @@ import styles from "./inputs.module.scss";
 const integerPattern = /^[+-]?\d+$/;
 
 export default function Integer({
-  field,
+  model,
   label,
   ...props
 }: {
-  field: Field<s.NumberSchema>;
+  model: Model<NumberField>;
   label?: React.ReactNode;
 } & JSX.IntrinsicElements["input"]) {
+  const [value, setValue] = useModel(model);
+
   const id = `integer-${useUniqueId()}`;
 
-  const [raw, setRaw] = useState(
-    field.value !== undefined ? field.value.toString() : ""
-  );
+  const [raw, setRaw] = useState(value !== undefined ? value.toString() : "");
 
   props.disabled = useDisabled(props);
 
@@ -52,13 +52,13 @@ export default function Integer({
           const input = e.target.value;
           if (input === "") {
             setRaw("");
-            field.clear();
+            setValue(undefined);
           } else if (input === "-" || input === "+") {
             setRaw(input);
-            field.clear();
+            setValue(undefined);
           } else if (integerPattern.test(input)) {
             setRaw(input);
-            field.set(parseInt(input));
+            setValue(parseInt(input));
           }
           // Otherwise ignore/block additional input, but don't delete anything.
         }}

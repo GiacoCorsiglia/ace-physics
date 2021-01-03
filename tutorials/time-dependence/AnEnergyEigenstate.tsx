@@ -74,7 +74,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.simSetupCommit}>
       <TextArea
-        field={f.prevGraphComparison}
+        model={f.prevGraphComparison}
         label={
           <Prose>
             <p>
@@ -101,7 +101,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.prevGraphComparisonCommit}>
       <TextArea
-        field={f.simGraphComparison}
+        model={f.simGraphComparison}
         label={
           <Prose>
             <p>
@@ -141,11 +141,11 @@ const sections = sectionComponents(TimeDependence, [
       </Prose>
 
       <FieldGroup grid suffixed className="margin-top-1">
-        <Decimal field={f.rotationPeriod1} label={<M t="T_1 = " />} />
+        <Decimal model={f.rotationPeriod1} label={<M t="T_1 = " />} />
 
         <M t="\times \frac{h}{E_1}" />
 
-        <Decimal field={f.rotationPeriod2} label={<M t="T_2 = " />} />
+        <Decimal model={f.rotationPeriod2} label={<M t="T_2 = " />} />
 
         <M t="\times \frac{h}{E_1}" />
       </FieldGroup>
@@ -164,7 +164,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.rotationPeriodsCommit}>
       <Toggle
-        field={f.comparePeriodicPsi2}
+        model={f.comparePeriodicPsi2}
         choices={choices(f.comparePeriodicPsi2, {
           same: "They’re identical",
           different: "They’re different",
@@ -179,7 +179,7 @@ const sections = sectionComponents(TimeDependence, [
 
       {f.comparePeriodicPsi2.value?.selected === "different" && (
         <TextArea
-          field={f.comparePeriodicPsi2Difference}
+          model={f.comparePeriodicPsi2Difference}
           label={<Prose>Explain the difference you see.</Prose>}
         />
       )}
@@ -198,7 +198,7 @@ const sections = sectionComponents(TimeDependence, [
   (f) => (
     <Section commits={f.comparePeriodicPsi2Commit}>
       <TextArea
-        field={f.verifyRotationPeriod2}
+        model={f.verifyRotationPeriod2}
         label={
           <Prose>
             Mathematically, the period is the time <M t="T" /> for which
@@ -345,7 +345,7 @@ function Agreement({
         }}
       >
         <Toggle
-          field={agreementField}
+          model={agreementField}
           choices={choices(agreementField, {
             agree: "I agree",
             disagree: "I disagree",
@@ -355,7 +355,7 @@ function Agreement({
 
         <div>
           <TextArea
-            field={explainField}
+            model={explainField}
             placeholder={
               agreementField.value?.selected !== "disagree"
                 ? ""

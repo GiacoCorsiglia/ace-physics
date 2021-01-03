@@ -103,21 +103,21 @@ export default function QuantumMood() {
 
           <FieldGroup grid className="margin-top">
             <Select
-              field={moodEigenvalues}
+              model={moodEigenvalues}
               choices={moodChoices}
               label="Eigenvalues:"
               placeholder="Select eigenvalues…"
             />
 
             <Select
-              field={moodEigenvectors}
+              model={moodEigenvectors}
               choices={moodChoices}
               label="Eigenvectors:"
               placeholder="Select eigenvectors…"
             />
 
             <Select
-              field={moodOperators}
+              model={moodOperators}
               choices={moodChoices}
               label="Operators:"
               placeholder="Select operators..."
@@ -153,12 +153,12 @@ export default function QuantumMood() {
         >
           <FieldGroup grid>
             <Select
-              field={happySadInnerProduct}
+              model={happySadInnerProduct}
               choices={happySadInnerProductChoices}
               label={<M t="\braket{\smiley|\frownie} = " />}
             />
 
-            <TextArea field={happySadInnerProductExplain} label="Explain:" />
+            <TextArea model={happySadInnerProductExplain} label="Explain:" />
           </FieldGroup>
 
           {needsHelp(happySadInnerProductHelp) && (

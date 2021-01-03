@@ -105,7 +105,7 @@ export default function Pretest() {
 
           <Section noScroll>
             <TextArea
-              field={f.howToNormalizeWaveFunction}
+              model={f.howToNormalizeWaveFunction}
               label={
                 <Prose>
                   This may be a little tough to “type” in words, but do your

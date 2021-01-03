@@ -47,7 +47,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
 
       <FieldGroup grid className="margin-top-1">
         <Text
-          field={f.unitsOfT}
+          model={f.unitsOfT}
           label={
             <>
               <M t="T" />:
@@ -55,7 +55,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
           }
         />
         <Text
-          field={f.unitsOfl}
+          model={f.unitsOfl}
           label={
             <>
               <M t="l" />:
@@ -143,7 +143,7 @@ const sections = sectionComponents(ReflectingOnTransmission, [
       </Plot>
 
       <TextArea
-        field={f.tVersusALimits}
+        model={f.tVersusALimits}
         label={
           <Prose>
             Discuss any interesting limits—can you interpret anything
