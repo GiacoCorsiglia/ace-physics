@@ -9,9 +9,7 @@ type JsonValue =
   | number
   | string
   | JsonValue[]
-  | {
-      [key: string]: JsonValue;
-    };
+  | Partial<{ [key: string]: JsonValue }>;
 
 const JsonValue = t.any<JsonValue>();
 
