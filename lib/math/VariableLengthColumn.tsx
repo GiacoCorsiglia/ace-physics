@@ -1,23 +1,24 @@
-import { Field } from "@/state";
+import { Model, useModel } from "@/reactivity";
+import { ArrayField } from "@/schema/fields";
 import { PlusIcon, XIcon } from "@primer/octicons-react";
-import * as s from "common/schema";
 import { cloneElement, useRef } from "react";
 import Matrix, { MatrixDisplayProps } from "./Matrix";
 import styles from "./VariableLengthColumn.module.scss";
 
 export default function VariableLengthColumn({
-  field,
+  model,
   inputEl,
   minRows = 1,
   maxRows = Infinity,
   ...matrixProps
 }: {
-  field: Field<s.ArraySchema<s.OptionalSchema<any>>>;
+  model: Model<ArrayField<any>>;
   inputEl: React.ReactElement;
   minRows?: number;
   maxRows?: number;
 } & MatrixDisplayProps) {
-  const value = field.value || [];
+  const [mValue, setValue] = useModel(model);
+  const value = mValue || [];
 
   // Increment this every time we splice the array so we can generate a unique
   // React key for the element, but as infrequently as possible.
@@ -26,44 +27,44 @@ export default function VariableLengthColumn({
   const extraRows = (v: any[], desiredLength = minRows) =>
     Array(Math.max(desiredLength - v.length, 0)).fill(undefined);
 
-  const addRow = () => {
-    if (value.length >= maxRows) {
-      return;
-    }
+  const addRow = () =>
+    setValue((oldValue) => {
+      if (oldValue && oldValue.length >= maxRows) {
+        return oldValue;
+      }
 
-    const latestValue = field.value || [];
-    const latestExtra = extraRows(latestValue);
-    const latestLength = latestValue.length + latestExtra.length;
-    const newLength = latestLength + 1;
-    const newValue = [...latestValue, undefined];
-    const newExtra = extraRows(newValue, newLength);
-    field.set(newValue.concat(newExtra));
-  };
+      const latestValue = oldValue || [];
+      const latestExtra = extraRows(latestValue);
+      const latestLength = latestValue.length + latestExtra.length;
+      const newLength = latestLength + 1;
+      const newValue = [...latestValue, undefined];
+      const newExtra = extraRows(newValue, newLength);
+      return newValue.concat(newExtra);
+    });
 
   const column = value
     .concat(extraRows(value))
     .map((_, i, fullArray) => {
-      const removeRow = () => {
-        if (value.length <= minRows) {
-          return;
-        }
+      const removeRow = () =>
+        setValue((oldValue) => {
+          if (oldValue && oldValue.length <= minRows) {
+            return oldValue;
+          }
 
-        const newValue = [...(field.value || [])];
-        newValue.splice(i, 1);
-        spliceVersion.current++;
-        field.set(newValue);
-      };
+          const newValue = oldValue || [];
+          newValue.splice(i, 1);
+          spliceVersion.current++;
+          return newValue;
+        });
 
-      const elementField = field.elements[i];
+      const elementModel = model.elements[i];
       return (
         <div className={styles.row} key={`${spliceVersion.current}-${i}`}>
           {cloneElement(inputEl, {
-            field: elementField,
+            model: elementModel,
             "aria-label": `Element ${i + 1} in the column vector`,
             autoFocus:
-              i !== 0 &&
-              elementField.value === undefined &&
-              i === fullArray.length - 1,
+              i !== 0 && value[i] === undefined && i === fullArray.length - 1,
             onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === "Enter") {
                 addRow();
@@ -72,10 +73,7 @@ export default function VariableLengthColumn({
             },
             onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
               // onKeyPress didn't detect this for some reason.
-              if (
-                (e.key === "Delete" || e.key === "Backspace") &&
-                !elementField.value
-              ) {
+              if ((e.key === "Delete" || e.key === "Backspace") && !value[i]) {
                 removeRow();
                 e.preventDefault();
               }

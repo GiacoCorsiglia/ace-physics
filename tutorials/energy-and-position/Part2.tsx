@@ -265,7 +265,7 @@ const sections = sectionComponents(EnergyAndPosition, [
                   snapPoints={snapPoints}
                   xDefault={n}
                   yDefault={0.1}
-                  yField={field}
+                  yModel={field}
                 />
               </Fragment>
             );

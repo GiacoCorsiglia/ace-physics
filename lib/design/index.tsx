@@ -90,11 +90,13 @@ export function Hint({ children }: Children) {
   return <em>Hint: {children}</em>;
 }
 
+/** @deprecated */
 type ContinueProps =
   | { link: string; commit?: never }
   | { link?: never; commit: Field<s.BooleanSchema> }
   | { link: string; commit: Field<s.BooleanSchema> };
 
+/** @deprecated */
 export function Continue({
   label = "Move on",
   link,
@@ -152,6 +154,7 @@ export function Continue({
   );
 }
 
+/** @deprecated */
 export function HelpButton({
   help,
   children,
@@ -171,8 +174,10 @@ export function HelpButton({
   );
 }
 
+/** @deprecated */
 type Commit = Field<s.BooleanSchema> | undefined | false;
 
+/** @deprecated */
 function isSectionVisible(commits: Commit | Commit[]): boolean {
   if (!commits) {
     // This includes undefined or false.  If the commit has that value it's
@@ -192,6 +197,7 @@ function isSectionVisible(commits: Commit | Commit[]): boolean {
   return commits.value === true;
 }
 
+/** @deprecated */
 export function Section({
   commits,
   first = false,
@@ -225,6 +231,7 @@ export function Section({
   );
 }
 
+/** @deprecated */
 function RevealedSection({
   first,
   noScroll,
@@ -259,6 +266,7 @@ function RevealedSection({
 const AnswerVisibilityContext = createContext(false);
 AnswerVisibilityContext.displayName = "AnswerVisibilityContext";
 
+/** @deprecated */
 export function AnswerVisibility({
   field,
   children,
@@ -285,6 +293,7 @@ export function AnswerVisibility({
   );
 }
 
+/** @deprecated */
 export function Answer({
   correct,
   children,
@@ -310,6 +319,7 @@ export function Answer({
   );
 }
 
+/** @deprecated */
 export function RevealAnswersSection({
   commits,
   field,

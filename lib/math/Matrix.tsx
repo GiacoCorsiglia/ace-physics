@@ -1,6 +1,6 @@
-import { Field } from "@/state";
+import { Model } from "@/reactivity";
+import { TupleField } from "@/schema/fields";
 import { classes } from "@/util";
-import * as s from "common/schema";
 import { cloneElement } from "react";
 import M from ".";
 import styles from "./Matrix.module.scss";
@@ -142,21 +142,21 @@ export default function Matrix({
 }
 
 export function fieldToMatrix(
-  tupleField: Field<s.TupleSchema<any>>,
+  tupleModel: Model<TupleField<any>>,
   inputEl: React.ReactElement,
   asRow?: typeof fieldToMatrix["Row"],
   internal: boolean = false
 ): React.ReactElement[][] {
-  const matrix = tupleField.elements.map((subField: Field<s.Schema>) => {
-    if (s.isTupleSchema(subField.schema)) {
+  const matrix = tupleModel.elements.map((subModel: Model) => {
+    if (subModel.field.kind === "tuple") {
       return fieldToMatrix(
-        subField as Field<s.TupleSchema<any>>,
+        subModel as Model<TupleField<any>>,
         inputEl,
         fieldToMatrix.Row,
         true
       );
     } else {
-      const input = cloneElement(inputEl, { field: subField });
+      const input = cloneElement(inputEl, { field: subModel });
       return asRow ? input : [input];
     }
   });

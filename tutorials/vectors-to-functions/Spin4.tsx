@@ -51,7 +51,7 @@ const sections = sectionComponents(VectorsToFunctions, [
 
       <VariableLengthColumn
         className="margin-top-1"
-        field={f.spin4Column}
+        model={f.spin4Column}
         inputEl={<Decimal model={f.spin4Column.elements[0]} />}
         labelTex="\ket{\psi_D}"
       />
@@ -356,7 +356,7 @@ const Histogram = ({
             snap={1}
             xDefault={x}
             yDefault={defaultHeight}
-            yField={field}
+            yModel={field}
             disabled={phase !== "editing"}
           />
         </Fragment>

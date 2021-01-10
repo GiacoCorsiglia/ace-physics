@@ -147,7 +147,7 @@ const sections = sectionComponents(EnergyAndPosition, [
 
       <VariableLengthColumn
         className="margin-top-1"
-        field={f.columnE2}
+        model={f.columnE2}
         inputEl={
           <Text model={f.columnE2.elements[0]} placeholder="Type here" />
         }
@@ -170,7 +170,7 @@ const sections = sectionComponents(EnergyAndPosition, [
 
       <VariableLengthColumn
         className="margin-top-1"
-        field={f.columnPsiA}
+        model={f.columnPsiA}
         inputEl={
           <Text model={f.columnPsiA.elements[0]} placeholder="Type here" />
         }

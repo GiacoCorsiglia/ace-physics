@@ -1,6 +1,6 @@
-import { Field } from "@/state";
+import { Model, useModel } from "@/reactivity";
+import { NumberField } from "@/schema/fields";
 import { classes, roundToNearest } from "@/util";
-import { NumberSchema } from "common/schema";
 import { useState } from "react";
 import { usePlot } from ".";
 import styles from "./plots.module.scss";
@@ -11,8 +11,8 @@ export default function DragHandle({
   snapPoints,
   xDefault = 0,
   yDefault = 0,
-  xField,
-  yField,
+  xModel,
+  yModel,
   disabled = false,
 }: {
   direction?: "x" | "y" | "both";
@@ -20,15 +20,35 @@ export default function DragHandle({
   snapPoints?: readonly number[] | readonly [x: number[], y: number[]];
   xDefault?: number;
   yDefault?: number;
-  xField?: Field<NumberSchema>;
-  yField?: Field<NumberSchema>;
+  xModel?: Model<NumberField>;
+  yModel?: Model<NumberField>;
   disabled?: boolean;
 }) {
   const plot = usePlot();
 
+  // This should be fine, the models shouldn't be changing with each render.
+  const [xValue, setXValue] = xModel
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useModel(xModel, (xNew) => {
+        setCoordinates((old) => ({
+          x: plot.x(xNew || xDefault),
+          y: old.y,
+        }));
+      })
+    : [undefined, () => {}];
+  const [yValue, setYValue] = yModel
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useModel(yModel, (yNew) => {
+        setCoordinates((old) => ({
+          x: old.x,
+          y: plot.y(yNew || yDefault),
+        }));
+      })
+    : [undefined, () => {}];
+
   const [coordinates, setCoordinates] = useState({
-    x: plot.x(xField?.value || xDefault),
-    y: plot.y(yField?.value || yDefault),
+    x: plot.x(xValue || xDefault),
+    y: plot.y(yValue || yDefault),
   });
 
   const mouseDown = (e: React.MouseEvent<SVGGElement, MouseEvent>) => {
@@ -97,8 +117,13 @@ export default function DragHandle({
       const x = snapTo(xClamped, xSnap, xSnapPoints);
       const y = snapTo(yClamped, ySnap, ySnapPoints);
       setCoordinates({ x, y });
-      xField?.set(plot.xInverse(x));
-      yField?.set(plot.yInverse(y));
+
+      if (xModel) {
+        setXValue(plot.xInverse(x));
+      }
+      if (yModel) {
+        setYValue(plot.yInverse(y));
+      }
     };
 
     document.addEventListener("mousemove", documentMouseMove);
@@ -116,12 +141,12 @@ export default function DragHandle({
   const changeY = direction === "both" || direction === "y";
 
   const x = disabled
-    ? plot.x(xField?.value !== undefined ? xField?.value : xDefault)
+    ? plot.x(xValue !== undefined ? xValue : xDefault)
     : changeX
     ? coordinates.x
     : plot.x(xDefault);
   const y = disabled
-    ? plot.y(yField?.value !== undefined ? yField?.value : yDefault)
+    ? plot.y(yValue !== undefined ? yValue : yDefault)
     : changeY
     ? coordinates.y
     : plot.y(yDefault);
