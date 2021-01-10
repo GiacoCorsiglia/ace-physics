@@ -27,9 +27,12 @@ async function getNextIdsAndReserve(
         pk: db.key(db.learnerPrefix, "ID_COUNTER"),
         sk: "ID_COUNTER",
       },
-      UpdateExpression: "ADD lastId :incr",
+      UpdateExpression: "ADD #lastId :incr",
       ExpressionAttributeValues: {
         ":incr": blockSize,
+      },
+      ExpressionAttributeNames: {
+        "#lastId": "lastId",
       },
       ReturnValues: "UPDATED_NEW",
     })

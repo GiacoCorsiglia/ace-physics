@@ -124,7 +124,7 @@ export const update: Handler<
       // Only update if no version number is set (it's a new entry), or the
       // version in the database is less (older) than the incoming version.
       ConditionExpression:
-        "attribute_not_exists(version) OR version < :version",
+        "attribute_not_exists(#version) OR version < :version",
       UpdateExpression,
       ExpressionAttributeValues,
       ExpressionAttributeNames,
