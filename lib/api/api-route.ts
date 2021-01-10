@@ -1,31 +1,31 @@
-import * as s from "common/schema";
+import { decode, Infer, Type } from "@/schema/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import * as response from "./response";
 
-interface Request<T extends s.Data> {
+interface Request<T> {
   body: T;
 }
 
-export type Handler<T extends s.Data> = (
+export type Handler<T, B> = (
   request: Request<T>
-) => Promise<response.Response>;
+) => Promise<response.Response<B>>;
 
 type Method = "GET" | "PUT" | "POST";
 
-export const apiRoute = <T extends s.Data>(
+export const apiRoute = <T extends Type>(
   method: Method,
-  schema: s.Schema<T>,
-  handler: Handler<T>
+  schema: T,
+  handler: Handler<Infer<T>, any>
 ) => {
   const wrapped = async (req: NextApiRequest): Promise<response.Response> => {
     const payload: unknown = req.method === "GET" ? req.query : req.body;
 
-    const decoded = schema.decode(payload);
+    const decoded = decode(schema, payload);
 
-    if (s.isFailure(decoded)) {
+    if (decoded.failed) {
       return response.error(
         "Invalid payload",
-        decoded.errors.map((e) => ({
+        decoded.error.map((e) => ({
           path: e.path,
           error: e.message,
           received: e.value,
@@ -34,10 +34,9 @@ export const apiRoute = <T extends s.Data>(
     }
 
     try {
-      const request: Request<any> = {
+      return handler({
         body: decoded.value,
-      };
-      return handler(request).catch((e) => {
+      }).catch((e) => {
         if (process.env.NODE_ENV === "development") {
           console.error(e);
         }

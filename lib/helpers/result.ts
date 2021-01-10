@@ -22,6 +22,14 @@ export const result = <E = Error, T = any>(action: () => T): Result<E, T> => {
   }
 };
 
+/** @throws E */
+export const unwrap = <E, T>(r: Result<E, T>): T => {
+  if (r.failed) {
+    throw r.error;
+  }
+  return r.value;
+};
+
 export const asyncResult = <E = any, T = any>(
   promise: Promise<T>
 ): Promise<Result<E, T>> =>

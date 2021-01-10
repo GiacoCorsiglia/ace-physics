@@ -1,22 +1,30 @@
-import * as apiTypes from "common/apiTypes";
-import * as s from "common/schema";
-import { asyncResult, failure, Result, success } from "common/util";
-import * as globalParams from "./globalParams";
+import * as globalParams from "@/globalParams";
+import { asyncResult, failure, Result, success } from "@/helpers/result";
+import * as apiTypes from "@/schema/api";
+import {
+  decode,
+  DecodeError,
+  Infer,
+  literal,
+  object,
+  Type,
+  undefined_,
+} from "@/schema/types";
 
 // Index.
 
 export const getIndex = endpoint(
   "",
   "GET",
-  apiTypes.GetIndexRequest,
-  apiTypes.GetIndexResponse,
+  undefined_(),
+  object({ ok: literal(true) }),
   () => ({ ok: true as const })
 );
 
 // Learners.
 
 export const getLearner = endpoint(
-  "GetLearner",
+  "get-learner",
   "GET",
   apiTypes.GetLearnerRequest,
   apiTypes.GetLearnerResponse,
@@ -24,7 +32,7 @@ export const getLearner = endpoint(
 );
 
 export const createLearner = endpoint(
-  "CreateLearner",
+  "create-learner",
   "POST",
   apiTypes.CreateLearnerRequest,
   apiTypes.CreateLearnerResponse,
@@ -32,7 +40,7 @@ export const createLearner = endpoint(
 );
 
 export const createLearners = endpoint(
-  "CreateLearners",
+  "create-learners",
   "POST",
   apiTypes.CreateLearnersRequest,
   apiTypes.CreateLearnersResponse,
@@ -46,25 +54,24 @@ export const createLearners = endpoint(
 // Tutorials.
 
 export const getTutorial = endpoint(
-  "GetTutorial",
+  "get-tutorial",
   "GET",
   apiTypes.GetTutorialRequest,
   apiTypes.GetTutorialResponse,
-  ({ learnerId, tutorial }) => ({
+  ({ learnerId, tutorial, edition }) => ({
     learnerId,
     tutorial,
-    institution: "NONE",
-    course: "NONE",
+    edition,
     createdAt: now,
     updatedAt: now,
-    updateTimestamps: [now],
     version: 0,
-    tutorialData: {},
+    state: {},
+    events: [],
   })
 );
 
 export const updateTutorial = endpoint(
-  "UpdateTutorial",
+  "update-tutorial",
   "PUT",
   apiTypes.UpdateTutorialRequest,
   apiTypes.UpdateTutorialResponse,
@@ -73,18 +80,18 @@ export const updateTutorial = endpoint(
 
 // Endpoint.
 
-function endpoint<T extends s.Schema, U extends s.Schema>(
+function endpoint<T extends Type, U extends Type>(
   path: string,
   method: "GET" | "PUT" | "POST",
   requestSchema: T,
   responseSchema: U,
-  mockResponse: (request: s.TypeOf<T>) => s.TypeOf<U>
+  mockResponse: (request: Infer<T>) => Infer<U>
 ) {
-  type RequestType = s.TypeOf<T>;
-  type ResponseType = s.TypeOf<U>;
+  type RequestType = Infer<T>;
+  type ResponseType = Infer<U>;
 
   type AsyncResponse = Result<ResponseError, ResponseType>;
-  type Endpoint = RequestType extends undefined
+  type Endpoint = undefined extends RequestType
     ? () => Promise<AsyncResponse>
     : (request: RequestType) => Promise<AsyncResponse>;
 
@@ -171,11 +178,11 @@ function endpoint<T extends s.Schema, U extends s.Schema>(
 
     console.log("api: request succeeded", path, body);
 
-    const decoded = responseSchema.decode(body);
+    const decoded = decode(responseSchema, body);
 
-    if (s.isFailure(decoded)) {
-      console.error("api: invalid response type", path, decoded.errors);
-      return failure({ type: "RESPONSE_TYPE", body, errors: decoded.errors });
+    if (decoded.failed) {
+      console.error("api: invalid response type", path, decoded.error);
+      return failure({ type: "RESPONSE_TYPE", body, errors: decoded.error });
     }
 
     return success(decoded.value);
@@ -193,11 +200,11 @@ type ResponseError = Readonly<
   | {
       type: "RESPONSE_TYPE";
       body: any;
-      errors: readonly s.Error<any>[];
+      errors: readonly DecodeError[];
     }
 >;
 
-function mockLearner({
+const mockLearner = ({
   learnerId = (100_000 + 99_999 * Math.random()).toFixed(0),
   institution = "NONE",
   course = "NONE",
@@ -205,13 +212,11 @@ function mockLearner({
   learnerId?: string;
   institution?: string;
   course?: string;
-}) {
-  return {
-    learnerId,
-    institution,
-    course,
-    createdAt: now,
-  };
-}
+}) => ({
+  learnerId,
+  institution,
+  course,
+  createdAt: now,
+});
 
 const now = new Date().toISOString();

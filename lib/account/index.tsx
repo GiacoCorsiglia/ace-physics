@@ -1,4 +1,4 @@
-import * as api from "@/api";
+import * as api from "@/api/client";
 import { Prose } from "@/design";
 import { Content, Page } from "@/design/layout";
 import { Button } from "@/inputs";

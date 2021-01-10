@@ -1,14 +1,17 @@
-import type AWS from "aws-sdk";
+import { Result, unwrap } from "@/helpers/result";
 import {
   CreateLearnerRequest,
+  CreateLearnerResponse,
   CreateLearnersRequest,
+  CreateLearnersResponse,
   GetLearnerRequest,
-  Learner,
-} from "common/apiTypes";
-import { Result } from "common/util";
+  GetLearnerResponse,
+} from "@/schema/api";
+import { Learner } from "@/schema/db";
+import type AWS from "aws-sdk";
 import { Handler } from "./api-route";
 import * as db from "./db";
-import { generatePseudoRandomIds } from "./psuedoRandomId";
+import { generatePseudoRandomIds } from "./pseudo-random-id";
 import * as response from "./response";
 
 // DO NOT CHANGE THIS OR WE MAY SEE OVERLAPPING IDs IN PRODUCTION.
@@ -21,7 +24,7 @@ async function getNextIdsAndReserve(
     db.client().update({
       TableName: db.TableName,
       Key: {
-        pk: db.learnerPk("ID_COUNTER"),
+        pk: db.key(db.learnerPrefix, "ID_COUNTER"),
         sk: "ID_COUNTER",
       },
       UpdateExpression: "ADD lastId :incr",
@@ -48,14 +51,13 @@ async function getNextIdsAndReserve(
   };
 }
 
-export const get: Handler<GetLearnerRequest> = async (request) => {
+export const get: Handler<GetLearnerRequest, GetLearnerResponse> = async (
+  request
+) => {
   const result = await db.result(
     db.client().get({
       TableName: db.TableName,
-      Key: {
-        pk: db.learnerPk(request.body.learnerId),
-        sk: db.learnerProfileSk,
-      },
+      Key: db.LearnerCodec.key(request.body.learnerId),
     })
   );
 
@@ -68,15 +70,24 @@ export const get: Handler<GetLearnerRequest> = async (request) => {
     return response.notFound();
   }
 
-  db.deleteKey(item, "learnerId");
-  return response.success(item);
+  const decoded = db.LearnerCodec.forClient(item);
+  if (decoded.failed) {
+    return response.notFound();
+  }
+
+  return response.success(decoded.value);
 };
 
-export const create: Handler<CreateLearnerRequest> = async (request) => {
+export const create: Handler<
+  CreateLearnerRequest,
+  CreateLearnerResponse
+> = async (request) => {
   const client = db.client();
 
   let attempts = 0;
-  async function createLearner(): Promise<response.Response> {
+  async function createLearner(): Promise<
+    response.Response<CreateLearnerResponse>
+  > {
     if (attempts >= 5) {
       return response.error("Failed to generate a unique Learner ID");
     }
@@ -87,12 +98,9 @@ export const create: Handler<CreateLearnerRequest> = async (request) => {
       return response.error("Failed to get next Learner IDs", idsResult.error);
     }
     // It will only ever yield 1 id.
-    const id = idsResult.value.next().value.toString();
+    const id: string = idsResult.value.next().value.toString();
 
-    const key: db.Key = {
-      pk: db.learnerPk(id),
-      sk: db.learnerProfileSk,
-    };
+    const key: db.Key = db.LearnerCodec.key(id);
 
     const learner: Omit<Learner, "learnerId"> = {
       institution: "NONE",
@@ -127,7 +135,10 @@ export const create: Handler<CreateLearnerRequest> = async (request) => {
   return createLearner();
 };
 
-export const createMany: Handler<CreateLearnersRequest> = async (request) => {
+export const createMany: Handler<
+  CreateLearnersRequest,
+  CreateLearnersResponse
+> = async (request) => {
   const number = request.body.number;
 
   if (number <= 0) {
@@ -150,14 +161,12 @@ export const createMany: Handler<CreateLearnersRequest> = async (request) => {
   for (const id of idsResult.value) {
     writeRequests.push({
       PutRequest: {
-        Item: {
-          pk: db.learnerPk(id.toString()),
-          sk: db.learnerProfileSk,
-
+        Item: db.LearnerCodec.forDb({
+          learnerId: id.toString(),
           institution: request.body.institution,
           course: request.body.course,
           createdAt,
-        },
+        }),
       },
     });
   }
@@ -182,7 +191,7 @@ export const createMany: Handler<CreateLearnersRequest> = async (request) => {
     () =>
       response.success({
         learners: writeRequests.map((wr) =>
-          db.deleteKey(wr.PutRequest.Item, "learnerId")
+          unwrap(db.LearnerCodec.forClient(wr.PutRequest.Item))
         ),
       }),
     (e) => response.error("Learner creation failed", e)

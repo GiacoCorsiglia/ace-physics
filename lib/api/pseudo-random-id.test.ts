@@ -1,4 +1,4 @@
-import { generatePseudoRandomIds } from "./psuedoRandomId";
+import { generatePseudoRandomIds } from "./pseudo-random-id";
 
 function* range(start: number, stop?: number) {
   if (stop === undefined) {

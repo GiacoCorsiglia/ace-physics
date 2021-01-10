@@ -37,6 +37,7 @@ export type Infer<T extends Type> = T["_"];
 export { any } from "./any";
 export { array } from "./array";
 export { decode } from "./decode";
+export type { DecodeError } from "./decode";
 export { literal } from "./literal";
 export { asExact, exact, object, partial } from "./object";
 export { optional } from "./optional";

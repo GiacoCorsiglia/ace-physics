@@ -1,6 +1,6 @@
 import { useAccount } from "@/account";
 import { UserMenu } from "@/account/UserMenu";
-import * as api from "@/api";
+import * as api from "@/api/client";
 import { Continue, Prose } from "@/design";
 import { Content, Header, Page } from "@/design/layout";
 import structureStyles from "@/design/structure.module.scss";

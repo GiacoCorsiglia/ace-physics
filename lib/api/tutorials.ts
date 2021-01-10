@@ -1,24 +1,29 @@
-import * as apiTypes from "common/apiTypes";
-import * as s from "common/schema";
-import { names } from "common/tutorials";
+import {
+  GetTutorialRequest,
+  GetTutorialResponse,
+  UpdateTutorialRequest,
+  UpdateTutorialResponse,
+} from "@/schema/api";
+import { Tutorial } from "@/schema/db";
+import { decode } from "@/schema/types";
+import { tutorialSchemas } from "@pages/tutorials/schemas";
 import { Handler } from "./api-route";
 import * as db from "./db";
 import * as response from "./response";
 
-export const get: Handler<apiTypes.GetTutorialRequest> = async (request) => {
-  const { learnerId, tutorial } = request.body;
+export const get: Handler<GetTutorialRequest, GetTutorialResponse> = async (
+  request
+) => {
+  const { learnerId, tutorial, edition } = request.body;
 
-  if (!names[tutorial]) {
-    return response.error("Invalid Tutorial");
+  if (!tutorialSchemas.has(tutorial)) {
+    return response.error("Invalid Tutorial: ", tutorial);
   }
 
   const result = await db.result(
     db.client().get({
       TableName: db.TableName,
-      Key: {
-        pk: db.learnerPk(learnerId),
-        sk: db.tutorialSk(tutorial),
-      } as db.Key,
+      Key: db.TutorialCodec.key(learnerId, tutorial, edition),
     })
   );
 
@@ -32,17 +37,22 @@ export const get: Handler<apiTypes.GetTutorialRequest> = async (request) => {
     return response.notFound();
   }
 
-  db.deleteKey(item, "learnerId", "tutorial");
-  return response.success(item);
+  const decoded = db.TutorialCodec.forClient(item);
+  if (decoded.failed) {
+    return response.notFound();
+  }
+
+  return response.success(decoded.value);
 };
 
-export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
-  request
-) => {
-  const { learnerId, tutorial, version, tutorialData } = request.body;
+export const update: Handler<
+  UpdateTutorialRequest,
+  UpdateTutorialResponse
+> = async (request) => {
+  const { learnerId, tutorial, edition, version, state, events } = request.body;
 
   // Is this a real tutorial?
-  const tutorialSchema = names[tutorial];
+  const tutorialSchema = tutorialSchemas.get(tutorial);
   if (!tutorialSchema) {
     return response.error("Invalid tutorial", {
       received: tutorial,
@@ -50,11 +60,11 @@ export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
   }
 
   // Are the types valid?
-  const decoded = tutorialSchema.decode(tutorialData);
-  if (s.isFailure(decoded)) {
+  const decoded = decode(tutorialSchema.type, state);
+  if (decoded.failed) {
     return response.error(
       "Invalid tutorial data",
-      decoded.errors.map((e) => ({
+      decoded.error.map((e) => ({
         path: e.path,
         error: e.message,
         received: e.value,
@@ -66,10 +76,7 @@ export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
   const learnerResult = await db.result(
     db.client().get({
       TableName: db.TableName,
-      Key: {
-        pk: db.learnerPk(learnerId),
-        sk: db.learnerProfileSk,
-      } as db.Key,
+      Key: db.LearnerCodec.key(learnerId),
     })
   );
 
@@ -77,8 +84,7 @@ export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
     return response.error("Get learner failed", learnerResult.error);
   }
 
-  const learner = learnerResult.value.Item as apiTypes.Learner | undefined;
-  if (!learner) {
+  if (!learnerResult.value.Item) {
     return response.error("No such learner");
   }
 
@@ -88,52 +94,40 @@ export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
   const UpdateExpression =
     "set " +
     [
-      "institution = :institution",
-      "course = :course",
-
       // Only set createdAt the first time.
-      "createdAt = if_not_exists(createdAt, :createdAt)",
-      "updatedAt = :updatedAt",
-      "updateTimestamps = list_append(if_not_exists(updateTimestamps, :EmptyList), :updateTimestamps)",
-
-      "version = :version",
-
-      "tutorialData = :tutorialData",
+      "#createdAt = if_not_exists(createdAt, :createdAt)",
+      "#updatedAt = :updatedAt",
+      "#version = :version",
+      "#state = :state",
+      "#events = :events",
     ].join(", ");
 
   const now = db.now();
   const values: Omit<
-    apiTypes.Tutorial,
-    // These two fields constitute the key.
-    "learnerId" | "tutorial"
+    Tutorial,
+    // These fields constitute the key.
+    "learnerId" | "tutorial" | "edition"
   > = {
-    institution: learner.institution,
-    course: learner.course,
-
     createdAt: now,
     updatedAt: now,
-    updateTimestamps: [now],
-
     version,
-
-    tutorialData: decoded.value,
+    state: decoded.value,
+    events,
   };
-  const ExpressionAttributeValues = db.expressionAttributes(values);
-  ExpressionAttributeValues[":EmptyList"] = [];
+  const ExpressionAttributeValues = db.expressionAttributeValues(values);
+  const ExpressionAttributeNames = db.expressionAttributeNames(values);
 
   const result = await db.result(
     db.client().update({
       TableName: db.TableName,
-      Key: {
-        pk: db.learnerPk(learnerId),
-        sk: db.tutorialSk(tutorial),
-      },
+      Key: db.TutorialCodec.key(learnerId, tutorial, edition),
       // Only update if no version number is set (it's a new entry), or the
       // version in the database is less (older) than the incoming version.
       ConditionExpression:
         "attribute_not_exists(version) OR version < :version",
       UpdateExpression,
       ExpressionAttributeValues,
+      ExpressionAttributeNames,
     })
   );
 
@@ -142,7 +136,7 @@ export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
       return response.success({
         ok: true,
         updated: false,
-      });
+      } as const);
     }
 
     return response.error("Tutorial update failed", result.error);
@@ -151,5 +145,5 @@ export const update: Handler<apiTypes.UpdateTutorialRequest> = async (
   return response.success({
     ok: true,
     updated: true,
-  });
+  } as const);
 };
