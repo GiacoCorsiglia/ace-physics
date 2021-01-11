@@ -4,10 +4,18 @@ import { Content, Header, Page } from "@/design/layout";
 import { Button } from "@/inputs";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
+import Head from "next/head";
+import React from "react";
 
 export default function Index() {
   return (
-    <Page title="">
+    <Page>
+      <Head>
+        <title>
+          ACEPhysics.net - Interactive Online Activities for Physics Learners
+        </title>
+      </Head>
+
       <Header>
         <UserMenu />
       </Header>

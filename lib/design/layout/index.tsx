@@ -2,17 +2,14 @@ import { Children, classes } from "@/util";
 import Head from "next/head";
 import styles from "./layout.module.scss";
 
-export function Page({ title, children }: { title: string } & Children) {
-  title =
-    title !== ""
-      ? `${title} | ACEPhysics.net`
-      : "ACEPhysics.net - Interactive Online Activities for Physics Learners";
-
+export function Page({ title, children }: { title?: string } & Children) {
   return (
     <>
-      <Head>
-        <title>{title}</title>
-      </Head>
+      {title && (
+        <Head>
+          <title>{title} | ACEPhysics.net</title>
+        </Head>
+      )}
 
       {children}
     </>
