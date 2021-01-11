@@ -1,4 +1,4 @@
-import { UserMenu } from "@/account/UserMenu";
+import { UserMenu } from "@/auth";
 import { Content, Header, Page } from "@/design/layout";
 import Link from "next/link";
 

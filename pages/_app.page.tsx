@@ -1,4 +1,4 @@
-import * as account from "@/account";
+import { AuthProvider } from "@/auth";
 import "@/design/css/index.scss";
 import { Footer } from "@/design/Footer";
 import footerStyles from "@/design/Footer.module.scss";
@@ -11,14 +11,12 @@ export default function AceApp({ Component, pageProps }: AppProps) {
     ((Page: typeof Component, pageProps: any) => <Page {...pageProps} />);
 
   return (
-    <>
+    <AuthProvider>
       <div className={footerStyles.bodyContent}>
-        <account.AccountProvider>
-          {layout(Component, pageProps)}
-        </account.AccountProvider>
+        {layout(Component, pageProps)}
       </div>
 
       <Footer />
-    </>
+    </AuthProvider>
   );
 }
