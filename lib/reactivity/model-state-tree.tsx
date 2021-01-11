@@ -65,6 +65,7 @@ export const modelStateTree = <P extends f.Properties>(
       </Context.Provider>
     );
   };
+  (Root as any).displayName = `Root:ModelStateTree:${displayName}`;
 
   const useRootModel = () => useContext(Context).rootModel;
 

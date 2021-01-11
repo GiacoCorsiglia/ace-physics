@@ -42,6 +42,7 @@ export const stateTree = <T extends object>(displayName: string) => {
 
     return <Context.Provider value={ctx.current} children={children} />;
   };
+  (Root as any).displayName = `Root:StateTree:${displayName}`;
 
   const useStore = (): Store<T> => useContext(Context).store;
 
