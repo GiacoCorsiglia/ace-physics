@@ -71,7 +71,7 @@ describe("model", () => {
   });
 
   it("constructs correctly for choose fields", () => {
-    const otherFieldOne = f.number();
+    const otherFieldOne = f.string();
     const chooseOne = f.chooseOne(["a", "b"], otherFieldOne);
 
     const otherFieldAll = f.string();
