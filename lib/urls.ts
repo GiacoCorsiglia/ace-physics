@@ -1,4 +1,4 @@
-function join(...pieces: string[]) {
+export function join(...pieces: string[]) {
   return pieces.join("/");
 }
 
