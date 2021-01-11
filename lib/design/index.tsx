@@ -359,6 +359,8 @@ export function RevealAnswersSection({
       ) : (
         <>
           <TextArea
+            // TODO:
+            // @ts-ignore
             model={field.properties.reflection}
             minRows={4}
             label={
