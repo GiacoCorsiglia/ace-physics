@@ -22,6 +22,14 @@ type Label =
  */
 export interface TutorialConfig<S extends TutorialSchema = TutorialSchema> {
   /**
+   * Name of the tutorial
+   */
+  readonly name: string;
+  /**
+   * Edition of the tutorial.
+   */
+  readonly edition: string;
+  /**
    * The schema for the tutorial.
    */
   readonly schema: S;
