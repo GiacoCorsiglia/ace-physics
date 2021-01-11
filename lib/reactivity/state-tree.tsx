@@ -49,7 +49,6 @@ export const stateTree = <T extends object>(displayName: string) => {
 
   const useValue = <P extends Path<Immutable<T>>>(path: P) => {
     const store = useStore();
-    const forceUpdate = useForceUpdate();
 
     const setValue = useCallback(
       (next: NextSetter<TypeAtPath<Immutable<T>, P>>) => {
@@ -71,7 +70,7 @@ export const stateTree = <T extends object>(displayName: string) => {
           setTuple([newValue as TypeAtPath<Immutable<T>, P>, setValue])
         ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [store, forceUpdate, path.join("/")]
+      [store, path.join("/")]
     );
 
     return tuple;
