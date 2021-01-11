@@ -71,7 +71,7 @@ describe("state tree", () => {
   describe("useValue", () => {
     it("gets initial value", () => {
       const { result } = rh(() => useValue(["top1"]));
-      expect(result.current.nested).toBe("initial1");
+      expect(result.current[0].nested).toBe("initial1");
     });
 
     it("triggers rerender", () => {
@@ -81,7 +81,7 @@ describe("state tree", () => {
       );
 
       expect(renderCount).toBe(1);
-      expect(result.current[1].nested).toBe("initial1");
+      expect(result.current[1][0].nested).toBe("initial1");
 
       act(() => {
         result.current[0].transaction((set) =>
@@ -89,7 +89,7 @@ describe("state tree", () => {
         );
       });
 
-      expect(result.current[1].nested).toBe("updated1");
+      expect(result.current[1][0].nested).toBe("updated1");
       expect(renderCount).toBe(2);
     });
 
@@ -100,14 +100,31 @@ describe("state tree", () => {
       );
 
       expect(renderCount).toBe(1);
-      expect(result.current[1].nested).toBe("initial1");
+      expect(result.current[1][0].nested).toBe("initial1");
 
       act(() => {
         result.current[0].transaction((set) => set(["top2"], "updated2"));
       });
 
       expect(renderCount).toBe(1);
-      expect(result.current[1].nested).toBe("initial1");
+      expect(result.current[1][0].nested).toBe("initial1");
+    });
+
+    it("provides setter which triggers rerender", () => {
+      let renderCount = 0;
+      const { result } = rh(
+        () => [useStore(), useValue(["top1"]), renderCount++] as const
+      );
+
+      expect(renderCount).toBe(1);
+      expect(result.current[1][0].nested).toBe("initial1");
+
+      act(() => {
+        result.current[1][1]({ nested: "updated1" });
+      });
+
+      expect(result.current[1][0].nested).toBe("updated1");
+      expect(renderCount).toBe(2);
     });
   });
 

@@ -1,6 +1,13 @@
 import { Immutable, Path, TypeAtPath } from "@/helpers";
 import { Html, useForceUpdate } from "@/helpers/frontend";
-import { createContext, useContext, useEffect, useRef } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import { get } from "./immutable";
 import { Store, store } from "./store";
@@ -38,19 +45,36 @@ export const stateTree = <T extends object>(displayName: string) => {
 
   const useStore = (): Store<T> => useContext(Context).store;
 
-  const useValue = <P extends Path<Immutable<T>>>(
-    path: P
-  ): TypeAtPath<Immutable<T>, P> => {
+  type NextSetter<T> = T | ((prev: T) => T);
+
+  const useValue = <P extends Path<Immutable<T>>>(path: P) => {
     const store = useStore();
     const forceUpdate = useForceUpdate();
 
-    useEffect(
-      () => store.subscribe(path as Path<T>, forceUpdate),
+    const setValue = useCallback(
+      (next: NextSetter<TypeAtPath<Immutable<T>, P>>) => {
+        store.transaction((set) => {
+          set(path, next);
+        });
+      },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [store, forceUpdate, ...path]
+      [store, path.join("/")]
     );
 
-    return get(store.state, path);
+    const [tuple, setTuple] = useState(
+      () => [get(store.state, path), setValue] as const
+    );
+
+    useEffect(
+      () =>
+        store.subscribe(path as Path<T>, (newValue) =>
+          setTuple([newValue as TypeAtPath<Immutable<T>, P>, setValue])
+        ),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [store, forceUpdate, path.join("/")]
+    );
+
+    return tuple;
   };
 
   const useTracked = <R extends any>(func: (state: Immutable<T>) => R): R => {
