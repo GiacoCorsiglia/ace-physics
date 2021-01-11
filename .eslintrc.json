@@ -25,6 +25,7 @@
     "no-unsafe-negation": "error",
     "no-unused-labels": "warn",
     "use-isnan": "error",
+    "no-param-reassign": ["error", { "props": true }],
     "@typescript-eslint/no-implied-eval": "error",
     "@typescript-eslint/no-unnecessary-type-assertion": "warn",
     "@typescript-eslint/switch-exhaustiveness-check": "error",

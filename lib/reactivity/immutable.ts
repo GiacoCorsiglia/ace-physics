@@ -13,6 +13,7 @@ export const get = <T, P extends [] | Path<T>>(
       // hold an object (array or {}), so we can't.
       return undefined as any;
     }
+    // eslint-disable-next-line no-param-reassign
     o = (o as any)[path[i]];
   }
   return o as any;
@@ -54,6 +55,7 @@ export const set = <T, P extends Path<T>>(
   // Now `last` holds the old value at `path`.
 
   if (typeof newValue === "function") {
+    // eslint-disable-next-line no-param-reassign
     newValue = (newValue as any)(last);
   }
 
@@ -70,9 +72,11 @@ export const set = <T, P extends Path<T>>(
       newArray[path[i]] = newValue;
       // Handle array holes with Array.from() in case we're setting an array
       // element that's 2 or more past the old length.
+      // eslint-disable-next-line no-param-reassign
       newValue =
         newArray.length > last.length + 1 ? Array.from(newArray) : newArray;
     } else {
+      // eslint-disable-next-line no-param-reassign
       newValue = { ...last, [path[i]]: newValue };
     }
   }
