@@ -95,6 +95,7 @@ function endpoint<T extends Type, U extends Type>(
     ? () => Promise<AsyncResponse>
     : (request: RequestType) => Promise<AsyncResponse>;
 
+  // eslint-disable-next-line no-param-reassign
   path = `/api/${path}`;
 
   return async function endpoint(request): Promise<AsyncResponse> {
@@ -124,14 +125,12 @@ function endpoint<T extends Type, U extends Type>(
     }
 
     const search = searchParams.toString();
-    if (search) {
-      path += `?${search}`;
-    }
+    const url = search ? `${path}?${search}` : path;
 
-    console.log("api: sending request", path, request);
+    console.log("api: sending request", url, request);
 
     const result = await asyncResult(
-      fetch(path, {
+      fetch(url, {
         method,
         body: method === "GET" ? undefined : JSON.stringify(request),
         headers: {
