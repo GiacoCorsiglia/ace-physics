@@ -36,10 +36,12 @@ export const modelStateTree = <P extends f.Properties>(
   const Root = ({
     initial,
     overrideRootField,
+    onChange,
     children,
   }: {
     initial: T;
     overrideRootField?: f.ObjectField<P>;
+    onChange?: (newState: T) => void;
     children?: Html;
   }) => {
     const ctx = useRef<ModelContext<P>>();
@@ -61,7 +63,7 @@ export const modelStateTree = <P extends f.Properties>(
 
     return (
       <Context.Provider value={ctx.current}>
-        <TreeRoot initial={initial} children={children} />
+        <TreeRoot initial={initial} children={children} onChange={onChange} />
       </Context.Provider>
     );
   };

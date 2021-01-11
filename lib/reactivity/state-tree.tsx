@@ -22,7 +22,15 @@ export const stateTree = <T extends object>(displayName: string) => {
   const Context = createContext<Context>(undefined as any);
   Context.displayName = `StateTreeContext:${displayName}`;
 
-  const Root = ({ initial, children }: { initial: T; children?: Html }) => {
+  const Root = ({
+    initial,
+    onChange,
+    children,
+  }: {
+    initial: T;
+    onChange?: (newValue: T) => void;
+    children?: Html;
+  }) => {
     const ctx = useRef<Context>();
 
     if (ctx.current === undefined) {
@@ -39,6 +47,12 @@ export const stateTree = <T extends object>(displayName: string) => {
         store: s,
       };
     }
+
+    useEffect(() => {
+      if (onChange) {
+        return ctx.current!.store.subscribe([], onChange);
+      }
+    }, [onChange]);
 
     return <Context.Provider value={ctx.current} children={children} />;
   };
