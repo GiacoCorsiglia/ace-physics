@@ -26,9 +26,13 @@ export const modelStateTree = <P extends f.Properties>(
 ) => {
   type T = Infer<f.ObjectField<P>["type"]>;
 
-  const { Root: TreeRoot, useStore, useValue, useTracked } = stateTree<T>(
-    displayName
-  );
+  const {
+    Root: TreeRoot,
+    useStore,
+    useValue,
+    useTracked,
+    tracked,
+  } = stateTree<T>(displayName);
 
   const Context = createContext<ModelContext<P>>(undefined as any);
   Context.displayName = `ModelStateTreeContext:${displayName}`;
@@ -76,6 +80,7 @@ export const modelStateTree = <P extends f.Properties>(
     useStore,
     useValue,
     useTracked,
+    tracked,
     useRootModel,
   };
 };

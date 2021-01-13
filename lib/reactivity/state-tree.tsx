@@ -1,7 +1,8 @@
 import { Immutable, Path, TypeAtPath } from "@/helpers";
 import { Html, useForceUpdate } from "@/helpers/frontend";
-import {
+import React, {
   createContext,
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -132,10 +133,24 @@ export const stateTree = <T extends object>(displayName: string) => {
     return ret;
   };
 
+  const tracked = <P extends {}>(
+    component: (
+      props: P,
+      state: Immutable<T>
+    ) => React.ReactElement<any, any> | null
+  ) => {
+    const memoized = memo((props: P) =>
+      useTracked((state) => component(props, state))
+    );
+    memoized.displayName = (component as any).displayName || component.name;
+    return memoized;
+  };
+
   return {
     Root,
     useStore,
     useValue,
     useTracked,
+    tracked,
   };
 };
