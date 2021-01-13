@@ -34,3 +34,6 @@ yarn-error.log*
 
 # Linaria.
 **/.linaria-cache
+
+# Typescript.
+**/*.tsbuildinfo
