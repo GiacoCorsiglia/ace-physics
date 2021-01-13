@@ -6,23 +6,30 @@ import Section from "./Section";
 
 export default function Sequence({
   config,
+  first,
   commit,
 }: {
   config: SequenceConfig;
+  first: boolean;
   commit: CommitAction;
 }) {
   const visibleNodes = useTracked((state) =>
     config.sections.filter((node) => isMarkedVisible(state, node))
   );
 
-  const nodeComponents = visibleNodes.map((node) => {
+  const nodeComponents = visibleNodes.map((node, i) => {
     const key = nodeKey(node);
+    const first_ = first && i === 0;
 
     switch (node.kind) {
       case "section":
-        return <Section key={key} config={node} commit={commit} />;
+        return (
+          <Section key={key} config={node} first={first_} commit={commit} />
+        );
       case "sequence":
-        return <Sequence key={key} config={node} commit={commit} />;
+        return (
+          <Sequence key={key} config={node} first={first_} commit={commit} />
+        );
     }
   });
 

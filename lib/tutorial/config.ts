@@ -158,6 +158,10 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
    * Conditional logic dictating when the section should be revealed.
    */
   readonly when?: When<S>;
+  /**
+   * Disables the numbered/lettered label for the section.
+   */
+  readonly noLabel?: true;
   /** Configuration  */
   readonly hints?: Array<HintConfig<S> | Array<HintConfig<S>>>;
   /**

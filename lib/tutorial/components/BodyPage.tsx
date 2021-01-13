@@ -1,3 +1,4 @@
+import { Content } from "@/design/layout";
 import { htmlTitle } from "@/helpers";
 import Head from "next/head";
 import { PageConfig } from "../config";
@@ -14,11 +15,11 @@ export default function BodyPage({ config }: { config: PageConfig }) {
         </title>
       </Head>
 
-      <section>
-        <h1>
+      <Content as="section">
+        <h1 className="prose">
           {typeof config.label === "string" ? config.label : config.label.html}
         </h1>
-      </section>
+      </Content>
 
       <SectionTree config={config} />
     </>

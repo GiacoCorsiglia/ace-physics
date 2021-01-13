@@ -1,9 +1,15 @@
+import { useAuth } from "@/auth";
+import { Prose } from "@/design";
+import { Content } from "@/design/layout";
+import * as globalParams from "@/globalParams";
 import { JsxElement } from "@/helpers/frontend";
+import { Button } from "@/inputs";
+import { ArrowRightIcon } from "@primer/octicons-react";
 import { TutorialConfig } from "../config";
-import { Root } from "../state-tree";
+import styles from "./shared.module.scss";
 import TutorialHeader from "./TutorialHeader";
-import TutorialNav from "./TutorialNav";
-import TutorialSidebar from "./TutorialSidebar";
+import TutorialLoading from "./TutorialLoading";
+import { TutorialStateRoot } from "./TutorialStateRoot";
 
 export default function TutorialRoot({
   config,
@@ -12,14 +18,67 @@ export default function TutorialRoot({
   config: TutorialConfig;
   routeElement: JsxElement;
 }) {
-  const schema = config.schema;
+  const { auth } = useAuth();
 
   return (
-    <Root overrideRootField={schema} initial={{}}>
+    <>
       <TutorialHeader config={config} />
-      <TutorialNav config={config} />
-      <TutorialSidebar />
-      {routeElement}
-    </Root>
+      {/* <TutorialNav config={config} /> */}
+      {/* <TutorialSidebar /> */}
+
+      <main className={styles.tutorialMain}>
+        <div className={styles.tutorialContent}>
+          {(() => {
+            switch (auth.status) {
+              case "Initial":
+              case "Loading":
+                return <TutorialLoading />;
+              case "LoggedOut":
+                return <LoggedOut />;
+              case "LoggedIn":
+                return (
+                  <>
+                    {globalParams.mockApi && (
+                      <Content>
+                        <Prose className={styles.notForCreditAlert}>
+                          You’re currently in <strong>preview mode</strong>.
+                          Your responses will <strong>not</strong> be saved.
+                        </Prose>
+                      </Content>
+                    )}
+
+                    {!globalParams.mockApi && !auth.isForCredit && (
+                      <Content>
+                        <Prose className={styles.notForCreditAlert}>
+                          This is an anonymous account. Your work will{" "}
+                          <strong>not</strong> count for any course credit.
+                        </Prose>
+                      </Content>
+                    )}
+
+                    <TutorialStateRoot
+                      config={config}
+                      routeElement={routeElement}
+                      learner={auth.learner}
+                    />
+                  </>
+                );
+            }
+          })()}
+        </div>
+      </main>
+    </>
+  );
+}
+
+function LoggedOut() {
+  return (
+    <Content className="text-center margin-top">
+      <Prose>You must be logged in to see this page.</Prose>
+
+      <Button link="/login" className="margin-top">
+        Log in <ArrowRightIcon />
+      </Button>
+    </Content>
   );
 }
