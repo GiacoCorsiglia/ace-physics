@@ -7,7 +7,7 @@ import {
 } from "@/schema/fields";
 import { Props, useUniqueId } from "@/util";
 import { cx } from "linaria";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import ReactSelect, { components, StylesConfig } from "react-select";
 import Creatable from "react-select/creatable";
 import { ChoicesConfig } from "./choices";
@@ -62,14 +62,10 @@ export default function Select<Cs extends FieldChoices>({
 
   // These are the choices the user can pick from in the select dropdown.  They
   // have to include the `other` option when it's a thing.
-  const choices = useMemo(() => {
-    if (allowOther && other !== undefined && other !== "") {
-      return originalChoices.concat([
-        { value: other, label: `Other: “${other}”` },
-      ]);
-    }
-    return originalChoices;
-  }, [originalChoices, other, allowOther]);
+  const choices = originalChoices.map(([value, label]) => ({ value, label }));
+  if (allowOther && other !== undefined && other !== "") {
+    choices.push({ value: other, label: `Other: “${other}”` });
+  }
 
   // This is identically the object in the choices array representing the
   // "other" choice.  It's always the next element, which may be undefined.
@@ -169,7 +165,7 @@ export default function Select<Cs extends FieldChoices>({
           isMulti={false}
           selected={value?.selected}
           other={value?.other}
-          choices={choices}
+          choices={originalChoices}
           answer={answer}
           explanation={explanation}
         />
@@ -280,7 +276,7 @@ export default function Select<Cs extends FieldChoices>({
         isMulti={false}
         selected={value?.selected}
         other={value?.other}
-        choices={choices}
+        choices={originalChoices}
         answer={answer}
         explanation={explanation}
       />

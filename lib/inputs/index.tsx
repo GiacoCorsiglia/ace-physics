@@ -1,6 +1,5 @@
 export { default as BooleanToggle } from "./BooleanToggle";
 export { default as Button } from "./Button";
-export { choices } from "./choices";
 export { default as ChooseAll } from "./ChooseAll";
 export { default as ChooseOne } from "./ChooseOne";
 export { default as Decimal } from "./Decimal";

@@ -1,6 +1,7 @@
 import { Html, useUniqueId } from "@/helpers/frontend";
 import { cx } from "linaria";
 import { useState } from "react";
+import { ChoicesConfigUnion } from "./choices";
 import styles from "./inputs.module.scss";
 
 export interface ToggleCoreProps {
@@ -19,15 +20,12 @@ export default function ToggleCore<C>({
 }: {
   disabled?: boolean;
   selected: C | undefined;
-  choices: readonly {
-    readonly value: C;
-    readonly label: Html;
-  }[];
+  choices: ChoicesConfigUnion<C>;
   onSelect: (choice: C) => void;
   onDeselect: (choice: C) => void;
 } & ToggleCoreProps) {
-  const id = `toggle-${useUniqueId()}`;
-  const [focusedChoice, setFocusedChoice] = useState<{}>();
+  const uniqueId = `toggle-${useUniqueId()}`;
+  const [focusedChoice, setFocusedChoice] = useState<C>();
 
   const choicesEl = (
     <div
@@ -39,40 +37,38 @@ export default function ToggleCore<C>({
         layout === "grid" && styles.grid
       )}
       role="group"
-      aria-labelledby={label ? `${id}_legend` : undefined}
+      aria-labelledby={label ? `${uniqueId}_legend` : undefined}
     >
-      {choices.map((choice) => (
+      {choices.map(([choiceId, choiceLabel]) => (
         <label
-          htmlFor={`${id}-${choice.value}`}
+          htmlFor={`${choiceId}-${choiceId}`}
           className={cx(
             styles.toggleChoice,
-            selected === choice.value && styles.selected,
+            selected === choiceId && styles.selected,
             disabled && styles.disabled,
-            focusedChoice === choice && styles.focused
+            focusedChoice === choiceId && styles.focused
           )}
-          key={choice.value + ""}
+          key={choiceId + ""}
         >
           <input
             type="radio"
             disabled={disabled}
             className={styles.toggleRadio}
-            value={choice.value + ""}
-            name={id}
-            id={`${id}-${choice.value}`}
-            checked={selected === choice.value}
+            value={choiceId + ""}
+            name={choiceId + ""}
+            id={`${uniqueId}-${choiceId}`}
+            checked={selected === choiceId}
             onChange={(e) =>
-              e.target.checked
-                ? onSelect(choice.value)
-                : onDeselect(choice.value)
+              e.target.checked ? onSelect(choiceId) : onDeselect(choiceId)
             }
-            onFocus={() => setFocusedChoice(choice)}
+            onFocus={() => setFocusedChoice(choiceId)}
             onBlur={() =>
               setFocusedChoice((focused) =>
-                focused === choice ? undefined : focused
+                focused === choiceId ? undefined : focused
               )
             }
           />
-          {choice.label}
+          {choiceLabel}
         </label>
       ))}
     </div>
@@ -83,7 +79,7 @@ export default function ToggleCore<C>({
   return (
     <>
       {label && (
-        <div className={styles.label} id={`${id}_legend`}>
+        <div className={styles.label} id={`${uniqueId}_legend`}>
           {label}
         </div>
       )}

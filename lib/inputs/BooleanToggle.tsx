@@ -20,8 +20,8 @@ export default function BooleanToggle({
       selected={value}
       choices={[
         // I think True/False or Yes/No is better than the reversed order.
-        { value: true, label: yes },
-        { value: false, label: no },
+        [true, yes],
+        [false, no],
       ]}
       onSelect={setValue}
       onDeselect={(newValue) =>

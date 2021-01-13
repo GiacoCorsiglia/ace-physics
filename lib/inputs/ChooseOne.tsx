@@ -26,6 +26,7 @@ export default function ChooseOne<Cs extends Choices>({
 }) {
   const [value, setValue] = useModel(model);
   const [otherInput, setOtherInput] = useState(value?.other || "");
+  // eslint-disable-next-line no-param-reassign
   disabled = useDisabled(disabled);
 
   return (

@@ -1,9 +1,9 @@
 import { Answer, Prose } from "@/design";
-import { Html } from "@/helpers/frontend";
 import { arraysEqual } from "@/util";
 import React from "react";
+import { ChoicesConfigUnion } from "./choices";
 
-export default function ChoiceAnswer<C, M extends boolean>({
+export default function ChoiceAnswer<C extends string, M extends boolean>({
   isMulti,
   selected,
   other,
@@ -14,10 +14,7 @@ export default function ChoiceAnswer<C, M extends boolean>({
   isMulti: M;
   selected: (M extends true ? readonly C[] : C) | undefined;
   other: string | undefined;
-  choices: readonly {
-    readonly value: C;
-    readonly label: Html;
-  }[];
+  choices: ChoicesConfigUnion<C>;
   answer?: M extends true ? C[] : C;
   explanation?: React.ReactNode;
 }) {
@@ -42,13 +39,13 @@ export default function ChoiceAnswer<C, M extends boolean>({
               {(answer as C[]).map((a) => (
                 <li key={a + ""}>
                   {/* This shouldn't be undefined but guard just in case */}
-                  {choices.find(({ value }) => value === a)?.label}
+                  {choices.find(([choiceId]) => choiceId === a)?.[1]}
                 </li>
               ))}
             </ul>
           ) : (
             // This shouldn't be undefined but guard just in case
-            <p>{choices.find(({ value }) => value === answer)?.label}</p>
+            <p>{choices.find(([choiceId]) => choiceId === answer)?.[1]}</p>
           )}
         </blockquote>
         {typeof explanation === "string" ? <p>{explanation}</p> : explanation}

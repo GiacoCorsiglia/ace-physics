@@ -22,6 +22,7 @@ export default function Toggle<Cs extends Choices>({
   explanation?: Html;
 } & ToggleCoreProps) {
   const [value, setValue] = useModel(model);
+  // eslint-disable-next-line no-param-reassign
   disabled = useDisabled(disabled);
 
   return (

@@ -1,7 +1,10 @@
 import { Html, useUniqueId } from "@/helpers/frontend";
 import { cx } from "linaria";
 import { useRef, useState } from "react";
+import { ChoicesConfigUnion } from "./choices";
 import styles from "./inputs.module.scss";
+
+const Other = Symbol("OtherChoice");
 
 export default function ChooseCore<C, M extends Boolean>({
   isMulti,
@@ -15,10 +18,7 @@ export default function ChooseCore<C, M extends Boolean>({
   disabled,
 }: {
   isMulti: M;
-  choices: readonly {
-    readonly value: C;
-    readonly label: Html;
-  }[];
+  choices: ChoicesConfigUnion<C>;
   selected: (M extends true ? readonly C[] : C) | undefined;
   onSelect: (value: C) => void;
   onDeselect: (value: C) => void;
@@ -32,25 +32,24 @@ export default function ChooseCore<C, M extends Boolean>({
   allowOther: boolean;
   disabled: boolean;
 }) {
-  const id = `choice-${useUniqueId()}`;
-  const [focusedChoice, setFocusedChoice] = useState<{}>();
+  const uniqueId = `choice-${useUniqueId()}`;
+  const [focusedChoice, setFocusedChoice] = useState<C | typeof Other>();
   const otherInputRef = useRef<HTMLInputElement>(null);
 
-  const isSelected = (choice: { value: C }) => {
+  const isSelected = (choiceId: C) => {
     if (isMulti) {
       return (
-        selected !== undefined &&
-        (selected as readonly C[]).includes(choice.value)
+        selected !== undefined && (selected as readonly C[]).includes(choiceId)
       );
     } else {
-      return selected === choice.value;
+      return selected === choiceId;
     }
   };
 
   return (
     <>
       {label && (
-        <div className={styles.label} id={`${id}_legend`}>
+        <div className={styles.label} id={`${uniqueId}_legend`}>
           {label}
         </div>
       )}
@@ -58,43 +57,41 @@ export default function ChooseCore<C, M extends Boolean>({
       <div
         className={cx(!label && styles.noLabel)}
         role="group"
-        aria-labelledby={label ? `${id}_legend` : undefined}
+        aria-labelledby={label ? `${uniqueId}_legend` : undefined}
       >
-        {choices.map((choice) => (
+        {choices.map(([choiceId, choiceLabel]) => (
           <label
             className={cx(
               styles.choiceChoice,
-              isSelected(choice) && styles.selected,
+              isSelected(choiceId) && styles.selected,
               disabled && styles.disabled,
-              focusedChoice === choice && styles.focused
+              focusedChoice === choiceId && styles.focused
             )}
-            key={choice.value + ""}
-            htmlFor={`${id}-${choice.value}`}
+            key={choiceId + ""}
+            htmlFor={`${uniqueId}-${choiceId}`}
           >
             <div className={styles.choiceRadioBox}>
               <input
                 className={styles.choiceRadio}
                 disabled={disabled}
                 type={isMulti ? "checkbox" : "radio"}
-                value={choice.value + ""}
-                name={id}
-                id={`${id}-${choice.value}`}
-                checked={isSelected(choice)}
+                value={choiceId + ""}
+                name={choiceId + ""}
+                id={`${uniqueId}-${choiceId}`}
+                checked={isSelected(choiceId)}
                 onChange={(e) =>
-                  e.target.checked
-                    ? onSelect(choice.value)
-                    : onDeselect(choice.value)
+                  e.target.checked ? onSelect(choiceId) : onDeselect(choiceId)
                 }
-                onFocus={() => setFocusedChoice(choice)}
+                onFocus={() => setFocusedChoice(choiceId)}
                 onBlur={() =>
                   setFocusedChoice((focused) =>
-                    focused === choice ? undefined : focused
+                    focused === choiceId ? undefined : focused
                   )
                 }
               />
             </div>
 
-            <div className={styles.choiceLabel}>{choice.label}</div>
+            <div className={styles.choiceLabel}>{choiceLabel}</div>
           </label>
         ))}
 
@@ -104,18 +101,21 @@ export default function ChooseCore<C, M extends Boolean>({
               styles.choiceChoice,
               other.isSelected && styles.selected,
               disabled && styles.disabled,
-              focusedChoice === "other" && styles.focused
+              focusedChoice === Other && styles.focused
             )}
           >
-            <label className={styles.choiceOtherLabel} htmlFor={`${id}-other`}>
+            <label
+              className={styles.choiceOtherLabel}
+              htmlFor={`${uniqueId}-other`}
+            >
               <div className={styles.choiceRadioBox}>
                 <input
                   className={styles.choiceRadio}
                   disabled={disabled}
                   type={isMulti ? "checkbox" : "radio"}
                   value="other"
-                  name={id}
-                  id={`${id}-other`}
+                  name={uniqueId}
+                  id={`${uniqueId}-other`}
                   checked={other.isSelected}
                   onChange={(e) => {
                     if (e.target.checked) {
@@ -127,10 +127,10 @@ export default function ChooseCore<C, M extends Boolean>({
                       other.update(undefined);
                     }
                   }}
-                  onFocus={() => setFocusedChoice("other")}
+                  onFocus={() => setFocusedChoice(Other)}
                   onBlur={() =>
                     setFocusedChoice((focused) =>
-                      focused === "other" ? undefined : focused
+                      focused === Other ? undefined : focused
                     )
                   }
                 />
@@ -157,7 +157,7 @@ export default function ChooseCore<C, M extends Boolean>({
                 if (e.target.value) {
                   other.update(e.target.value);
                 }
-                setFocusedChoice("other");
+                setFocusedChoice(Other);
               }}
               onBlur={(e) => {
                 // Blurring will clear the other selection if the input is empty.
@@ -165,7 +165,7 @@ export default function ChooseCore<C, M extends Boolean>({
                   other.update(undefined);
                 }
                 setFocusedChoice((focused) =>
-                  focused === "other" ? undefined : focused
+                  focused === Other ? undefined : focused
                 );
               }}
             />
