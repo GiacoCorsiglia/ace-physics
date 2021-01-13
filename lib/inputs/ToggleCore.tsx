@@ -41,7 +41,7 @@ export default function ToggleCore<C>({
     >
       {choices.map(([choiceId, choiceLabel]) => (
         <label
-          htmlFor={`${choiceId}-${choiceId}`}
+          htmlFor={`${uniqueId}-${choiceId}`}
           className={cx(
             styles.toggleChoice,
             selected === choiceId && styles.selected,
