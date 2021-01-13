@@ -67,10 +67,16 @@ export const page = <S extends TutorialSchema>(
     section: Constructor<c.SectionConfig<S>>;
     /** Creates a sequence of sections in the page.  */
     sequence: Constructor<c.SequenceConfig<S>>;
+    /** Creates a hint */
+    hint: (c: c.HintConfig<S>) => c.HintConfig<S>;
   }) => c.PageConfig<S>
 ) => {
   // This factory exists only to facilitate TypeScript typing.
-  const config = factory({ section: c.section, sequence: c.sequence });
+  const config = factory({
+    section: c.section,
+    sequence: c.sequence,
+    hint: c.hint,
+  });
 
   const Component: TutorialRoute = () => (
     <BodyPage config={config as c.PageConfig<TutorialSchema>} />

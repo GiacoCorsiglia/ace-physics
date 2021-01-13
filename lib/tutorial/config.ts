@@ -163,7 +163,7 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly noLabel?: true;
   /** Configuration  */
-  readonly hints?: Array<HintConfig<S> | Array<HintConfig<S>>>;
+  readonly hints?: readonly (HintConfig<S> | readonly HintConfig<S>[])[];
   /**
    * Configuration for the section's continue button.
    */
@@ -210,12 +210,32 @@ export const sequence = <S extends TutorialSchema>(
 /**
  * Configuration for a hint.
  */
-interface HintConfig<S extends TutorialSchema> {
+export interface HintConfig<S extends TutorialSchema> {
+  /**
+   * The internal name of the hint.
+   */
   readonly name: keyof S["properties"]["hints"]["properties"];
+  /**
+   * The contents of the hint, which will only be revealed when the hint button
+   * is clicked.
+   */
   readonly body:
     | Html
-    | ((models: Models<S>, state: TutorialState<S>) => Html)
+    | ((
+        models: Models<S>["responses"]["properties"],
+        state: TutorialState<S>
+      ) => Html)
     | "disable";
+  /**
+   * The hint button's label.
+   */
   readonly label?: Html | ((state: TutorialState<S>) => Html);
-  readonly when?: (state: TutorialState<S>) => boolean;
+  /**
+   * Conditional logic dictating when the hint button should be revealed.
+   */
+  readonly when?: When<S>;
 }
+
+export const hint = <S extends TutorialSchema>(
+  c: HintConfig<S>
+): HintConfig<S> => c;

@@ -1,3 +1,4 @@
+import { Help } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { Button } from "@/inputs";
@@ -7,7 +8,7 @@ import { cx } from "linaria";
 import { useEffect, useRef } from "react";
 import { SectionConfig } from "../config";
 import { CommitAction } from "../section-logic";
-import { tracked, useRootModel } from "../state-tree";
+import { tracked, useRootModel, useStore } from "../state-tree";
 
 export default tracked(function Section(
   {
@@ -26,10 +27,30 @@ export default tracked(function Section(
   const rootModel = useRootModel();
   const models = rootModel.properties.responses.properties;
 
+  // Begin tracking accessed models.
   const modelsTracker = tracker(models, false);
+
+  // Body.
   const body = config.body;
   const bodyHtml =
     body instanceof Function ? body(modelsTracker.proxy, state) : body;
+
+  // Revealed hints.
+  const revealedHintsHtml =
+    config.hints &&
+    config.hints
+      .flat()
+      .filter(
+        ({ name, body }) =>
+          state.hints?.[name]?.status === "revealed" && body !== "disable"
+      )
+      .map(({ name, body }) => (
+        <Help key={name}>
+          {body instanceof Function ? body(modelsTracker.proxy, state) : body}
+        </Help>
+      ));
+
+  // End tracking accessed models.
   const affected = modelsTracker.resetTracking();
 
   let isComplete = [...affected].every((key) =>
@@ -64,15 +85,25 @@ export default tracked(function Section(
       )}
       ref={el}
     >
-      <Content>{bodyHtml}</Content>
+      <Content>
+        {bodyHtml}
+
+        <div className="margin-top">{revealedHintsHtml}</div>
+      </Content>
 
       <Content>
         <div className={styles.continue}>
           {status !== "committed" && (
-            <Button disabled={!isComplete} onClick={() => commit(config)}>
+            <Button
+              className={styles.button}
+              disabled={!isComplete}
+              onClick={() => commit(config)}
+            >
               {continueLabelHtml || "Move on"} <ArrowDownIcon />
             </Button>
           )}
+
+          <SectionHintButtons config={config} />
         </div>
 
         <p
@@ -84,5 +115,50 @@ export default tracked(function Section(
         </p>
       </Content>
     </section>
+  );
+});
+
+const SectionHintButtons = tracked(function SectionHintButtons(
+  { config }: { config: SectionConfig },
+  state
+) {
+  const store = useStore();
+
+  if (!config.hints) {
+    return null;
+  }
+
+  return (
+    <>
+      {config.hints.map((hintConfigs) => {
+        const arr = Array.isArray(hintConfigs) ? hintConfigs : [hintConfigs];
+
+        for (const { name, when, label } of arr) {
+          if (state.hints?.[name]?.status === "revealed") {
+            // Don't show the help button if the hint has already been revealed.
+            continue;
+          }
+          // Otherwise show the first one that is eligible.
+          if (!when || when(state.responses || {}, state)) {
+            return (
+              <Button
+                key={name}
+                className={styles.button}
+                kind="tertiary"
+                onClick={() =>
+                  store.transaction((set) =>
+                    set(["hints", name, "status"], "revealed")
+                  )
+                }
+              >
+                {label || "Hmm…"}
+              </Button>
+            );
+          }
+        }
+
+        return null;
+      })}
+    </>
   );
 });
