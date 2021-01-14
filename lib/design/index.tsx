@@ -10,6 +10,7 @@ import {
 } from "@primer/octicons-react";
 import * as s from "common/schema";
 import { AnswersSchema } from "common/tutorials";
+import { cx } from "linaria";
 import {
   Children as ReactChildren,
   createContext,
@@ -62,7 +63,7 @@ export function Prose({
 }
 
 export function Help({ children }: Children) {
-  return <div className={styles.help}>{children}</div>;
+  return <div className={cx(styles.help, styles.boxAnimateIn)}>{children}</div>;
 }
 
 export function Info({ children }: Children) {

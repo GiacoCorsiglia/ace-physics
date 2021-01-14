@@ -184,3 +184,7 @@
 .info {
   @include box($light-blue);
 }
+
+.boxAnimateIn {
+  animation: section-animate-in 150ms ease-in-out;
+}
