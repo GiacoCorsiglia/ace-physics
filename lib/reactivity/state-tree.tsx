@@ -1,5 +1,5 @@
 import { Immutable, Path, TypeAtPath } from "@/helpers";
-import { Html, useForceUpdate } from "@/helpers/frontend";
+import { Html, JsxElement, useForceUpdate } from "@/helpers/frontend";
 import React, {
   createContext,
   memo,
@@ -134,10 +134,7 @@ export const stateTree = <T extends object>(displayName: string) => {
   };
 
   const tracked = <P extends {}>(
-    component: (
-      props: P,
-      state: Immutable<T>
-    ) => React.ReactElement<any, any> | null
+    component: (props: P, state: Immutable<T>) => JsxElement
   ) => {
     const memoized = memo((props: P) =>
       useTracked((state) => component(props, state))
