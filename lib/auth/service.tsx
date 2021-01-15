@@ -21,20 +21,21 @@ const LoggedIn = (learner: Learner) =>
     isForCredit: learner.institution !== "NONE" && learner.course !== "NONE",
   } as const);
 
-const { useValue, Root } = stateTree<AuthState>("Auth");
+const { useStore, useValue, Root } = stateTree<AuthState>("Auth");
 
 export const AuthProvider = ({ children }: { children?: Html }) => (
   <Root initial={Initial}>{children}</Root>
 );
 
 export const useAuth = () => {
+  const store = useStore();
   const [state, setState] = useValue([]);
 
   const login = useCallback(
     async (
       learnerId: string
     ): Promise<"success" | "not-found" | "error" | "already-logged-in"> => {
-      if (state.status === "LoggedIn") {
+      if (store.state.status === "LoggedIn") {
         console.log("auth: already logged in");
         return "already-logged-in";
       }
@@ -62,7 +63,7 @@ export const useAuth = () => {
       console.error("auth: login error");
       return "error";
     },
-    [state, setState]
+    [store, setState]
   );
 
   const logout = useCallback(() => {
@@ -72,7 +73,8 @@ export const useAuth = () => {
   }, [setState]);
 
   useEffect(() => {
-    if (state.status !== "Initial") {
+    // Have to use `store.state` here so it's always the most up-to-date.
+    if (store.state.status !== "Initial") {
       return;
     }
 
@@ -84,7 +86,7 @@ export const useAuth = () => {
     } else {
       login(learnerId);
     }
-  });
+  }, [store, setState, login]);
 
   return { auth: state, login, logout };
 };
