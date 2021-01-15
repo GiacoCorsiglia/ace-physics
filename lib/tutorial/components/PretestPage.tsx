@@ -1,9 +1,15 @@
 import { htmlTitle } from "@/helpers";
 import Head from "next/head";
-import { PretestConfig } from "../config";
+import { PretestConfig, TutorialConfig } from "../config";
 import PretestSection from "./PretestSection";
 
-export default function PretestPage({ config }: { config: PretestConfig }) {
+export default function PretestPage({
+  config,
+  tutorialConfig,
+}: {
+  config: PretestConfig;
+  tutorialConfig: TutorialConfig;
+}) {
   return (
     <>
       <Head>

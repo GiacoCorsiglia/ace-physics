@@ -32,7 +32,7 @@ export const intro = <S extends TutorialSchema>(
   const Component: TutorialRoute = () => (
     <IntroPage config={config} tutorialConfig={tutorialConfig} />
   );
-  Component.displayName = `TutorialIntro`;
+  Component.displayName = `TutorialRoute:Intro`;
   Component.layout = layout(tutorialConfig);
 
   return Component;
@@ -50,8 +50,10 @@ export const pretest = <S extends TutorialSchema>(
 ) => {
   const config = factory({ section: id });
 
-  const Component: TutorialRoute = () => <PretestPage config={config} />;
-  Component.displayName = `TutorialPretest`;
+  const Component: TutorialRoute = () => (
+    <PretestPage config={config} tutorialConfig={tutorialConfig} />
+  );
+  Component.displayName = `TutorialRoute:Pretest`;
   Component.layout = layout(tutorialConfig);
 
   return Component;
@@ -79,9 +81,12 @@ export const page = <S extends TutorialSchema>(
   });
 
   const Component: TutorialRoute = () => (
-    <BodyPage config={config as c.PageConfig<TutorialSchema>} />
+    <BodyPage
+      config={config as c.PageConfig<TutorialSchema>}
+      tutorialConfig={tutorialConfig}
+    />
   );
-  Component.displayName = `TutorialPage:${config.name}`;
+  Component.displayName = `TutorialRoute:Page:${config.name}`;
   Component.layout = layout(tutorialConfig);
 
   return Component;
@@ -96,7 +101,7 @@ export const feedback = <S extends TutorialSchema>(
   tutorialConfig: c.TutorialConfig<S>
 ) => {
   const Component: TutorialRoute = () => <FeedbackPage />;
-  Component.displayName = `TutorialFeedback`;
+  Component.displayName = `TutorialRoute:Feedback`;
   Component.layout = layout(tutorialConfig);
 
   return Component;

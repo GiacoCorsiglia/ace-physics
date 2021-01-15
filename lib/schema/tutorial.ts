@@ -60,6 +60,7 @@ const TutorialFeedback = f.object({
 });
 
 const PageStatus = f.object({
+  status: f.cases("revealed", "completed"),
   answersRevealed: f.boolean(),
 });
 

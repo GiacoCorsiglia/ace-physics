@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { PageConfig, SectionConfig, sequence } from "../config";
+import { NodeConfig, SectionConfig, sequence } from "../config";
 import { isMarkedVisible, nextSectionToReveal } from "../section-logic";
 import { useStore } from "../state-tree";
 import Sequence from "./Sequence";
 
-export default function SectionTree({ config }: { config: PageConfig }) {
+export default function SectionTree({
+  sections,
+  complete,
+}: {
+  sections: readonly NodeConfig[];
+  complete: () => void;
+}) {
   const store = useStore();
 
-  const rootSequence = useMemo(
-    () =>
-      sequence({
-        sections: config.sections,
-      }),
-    [config]
-  );
+  const rootSequence = useMemo(() => sequence({ sections }), [sections]);
 
   // Reveal the very first section if none are already marked visible.
   // (Presumably this is the first time someone views the page.)
@@ -29,7 +29,7 @@ export default function SectionTree({ config }: { config: PageConfig }) {
         set(["sections", firstSection.name, "status"], "revealed");
       });
     }
-  }, [store, config, rootSequence]);
+  }, [store, rootSequence]);
 
   const commit = useCallback(
     (section: SectionConfig) => {
@@ -41,11 +41,11 @@ export default function SectionTree({ config }: { config: PageConfig }) {
         if (nextSection) {
           set(["sections", nextSection.name, "status"], "revealed");
         } else {
-          // TODO: Page completed!
+          complete();
         }
       });
     },
-    [store, rootSequence]
+    [store, rootSequence, complete]
   );
 
   return <Sequence config={rootSequence} first={true} commit={commit} />;
