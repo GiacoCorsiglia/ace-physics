@@ -15,7 +15,17 @@ export interface Store<T extends object> {
     path: P | string,
     listener: (newValue: TypeAtPath<T, P>, source: Source | undefined) => void
   ): () => void;
+
+  onTransaction(watcher: Watcher<T>): () => void;
 }
+
+type Watcher<T> = (
+  updates: Update<Immutable<T>>[],
+  finalState: Immutable<T>,
+  transactionSource: Source | undefined
+) => void;
+
+type Update<T> = readonly [Path<T>, any];
 
 type Setter<T> = <P extends Path<T>>(
   path: P,
@@ -34,6 +44,8 @@ export const store = <T extends object>(initial: T): Store<T> => {
   type Listener = (newValue: any, source: Source | undefined) => void;
 
   const subscriptions = new Map<string, Set<Listener>>();
+
+  const transactionWatchers = new Set<Watcher<T>>();
 
   let timeout: number | null = null;
   const enqueueSubscriptionCleanup = () => {
@@ -60,10 +72,12 @@ export const store = <T extends object>(initial: T): Store<T> => {
       let transactionState = currentState;
 
       // Keep track of which paths were directly set.
+      const updates: [Path<Immutable<T>>, any][] = [];
       const setPaths = new Set<string>();
 
       // Fire the action with the setter, which mutates transactionState.
       action((path, newValue) => {
+        updates.push([path, newValue]);
         const newState = set(transactionState, path, newValue);
         if (newState !== transactionState) {
           // Only record the change if...something actually changed.
@@ -110,6 +124,10 @@ export const store = <T extends object>(initial: T): Store<T> => {
         });
       });
 
+      transactionWatchers.forEach((watcher) =>
+        watcher(updates, transactionState, source)
+      );
+
       // Finally, return the new state.
       return currentState;
     },
@@ -128,6 +146,11 @@ export const store = <T extends object>(initial: T): Store<T> => {
         subscriptions.get(str)?.delete(listener);
         enqueueSubscriptionCleanup();
       };
+    },
+
+    onTransaction(watcher) {
+      transactionWatchers.add(watcher);
+      return () => transactionWatchers.delete(watcher);
     },
   };
 };
