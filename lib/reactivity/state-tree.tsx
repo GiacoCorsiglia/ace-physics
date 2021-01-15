@@ -10,6 +10,7 @@ import React, {
   useState,
 } from "react";
 import { unstable_batchedUpdates } from "react-dom";
+import { useDevTools } from "./dev-tools";
 import { get } from "./immutable";
 import { Store, store } from "./store";
 import { Tracker, tracker } from "./tracker";
@@ -48,6 +49,8 @@ export const stateTree = <T extends object>(displayName: string) => {
         store: s,
       };
     }
+
+    useDevTools(ctx.current.store, displayName);
 
     useEffect(() => {
       if (onChange) {

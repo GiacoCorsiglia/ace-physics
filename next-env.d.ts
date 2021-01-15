@@ -39,3 +39,8 @@ declare module "*.svg" {
   // const src: string;
   export default ReactComponent;
 }
+
+// Redux Dev Tools
+interface Window {
+  __REDUX_DEVTOOLS_EXTENSION__?: any;
+}
