@@ -55,10 +55,6 @@ export const tutorialSchema = <
   });
 };
 
-const TutorialFeedback = f.object({
-  // TODO
-});
-
 const PageStatus = f.object({
   status: f.cases("revealed", "completed"),
   answersRevealed: f.boolean(),
@@ -85,3 +81,20 @@ const statuses = <Names extends readonly string[], F extends f.Field>(
       names.map((name) => [name, field])
     ) as PropertiesFromNames<Names, F>
   );
+
+const TutorialFeedback = f.object({
+  workedAlone: f.chooseOne(["alone", "partner", "in class"]),
+  confidence: f.chooseOne(["much less", "less", "same", "more", "much more"]),
+  confidenceExplain: f.string(),
+  easyOrChallenging: f.chooseOne([
+    "easy/useful",
+    "easy/frustrating",
+    "challenging/useful",
+    "challenging/frustrating",
+  ]),
+  easyOrChallengingExplain: f.string(),
+  usedCourseMaterials: f.chooseOne(["no", "a bit", "repeatedly"]),
+  usedOtherMaterials: f.chooseOne(["no", "a bit", "repeatedly"]),
+  usedMaterialsOther: f.string(),
+  technicalDifficulties: f.string(),
+});
