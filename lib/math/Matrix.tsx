@@ -156,7 +156,7 @@ export function fieldToMatrix(
         true
       );
     } else {
-      const input = cloneElement(inputEl, { field: subModel });
+      const input = cloneElement(inputEl, { model: subModel });
       return asRow ? input : [input];
     }
   });
