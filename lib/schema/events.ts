@@ -47,13 +47,13 @@ const SectionCommitted = t.exact({
   ...EventBase,
 });
 
-const PartRevealed = t.exact({
+const PageRevealed = t.exact({
   kind: t.literal("part.revealed"),
   part: t.string(),
   ...EventBase,
 });
 
-const PartCompleted = t.exact({
+const PageCompleted = t.exact({
   kind: t.literal("part.completed"),
   part: t.string(),
   ...EventBase,
@@ -69,6 +69,7 @@ const SessionEnded = t.exact({
   ...EventBase,
 });
 
+export type Event = t.Infer<typeof Event>;
 export const Event = t.union(
   FieldUpdated,
   FieldRevealed,
@@ -77,8 +78,8 @@ export const Event = t.union(
   SectionCompleted,
   SectionUncompleted,
   SectionCommitted,
-  PartRevealed,
-  PartCompleted,
+  PageRevealed,
+  PageCompleted,
   SessionStarted,
   SessionEnded
 );
