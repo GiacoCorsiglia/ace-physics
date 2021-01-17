@@ -2,14 +2,14 @@ import { Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
-import { Button } from "@/inputs";
+import { Button, DisableInputs } from "@/inputs";
 import { isSet } from "@/reactivity";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
 import Head from "next/head";
 import { PretestConfig, TutorialConfig } from "../config";
-import { tracked, useRootModel } from "../state-tree";
+import { tracked, useRootModel, useTracked } from "../state-tree";
 import PretestSection from "./PretestSection";
 
 export default function PretestPage({
@@ -19,6 +19,18 @@ export default function PretestPage({
   config: PretestConfig;
   tutorialConfig: TutorialConfig;
 }) {
+  const isDisabled = useTracked((state) => {
+    const sections = state.sections || {};
+    for (const sectionName in sections) {
+      if (sections.hasOwnProperty(sectionName)) {
+        if (sections[sectionName]?.status === "committed") {
+          return true;
+        }
+      }
+    }
+    return false;
+  });
+
   return (
     <>
       <Head>
@@ -53,10 +65,12 @@ export default function PretestPage({
         </Prose>
       </Content>
 
-      {/* This config should be stable so we can use the index as the key. */}
-      {config.sections.map((section, i) => (
-        <PretestSection key={i} config={section} />
-      ))}
+      <DisableInputs when={isDisabled}>
+        {/* This config should be stable so we can use the index as the key. */}
+        {config.sections.map((section, i) => (
+          <PretestSection key={i} config={section} />
+        ))}
+      </DisableInputs>
 
       <ContinueSection tutorialConfig={tutorialConfig} />
     </>
