@@ -15,7 +15,9 @@ export default function Integer({
   model: Model<NumberField>;
   label?: React.ReactNode;
 } & JSX.IntrinsicElements["input"]) {
-  const [value, setValue] = useModel(model);
+  const [value, setValue] = useModel(model, (newValue) => {
+    setRaw(newValue !== undefined ? newValue.toString() : "");
+  });
 
   const id = `integer-${useUniqueId()}`;
 
