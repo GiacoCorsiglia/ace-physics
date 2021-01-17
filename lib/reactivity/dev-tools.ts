@@ -1,10 +1,13 @@
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { Store } from "./store";
 
 // https://medium.com/@zalmoxis/redux-devtools-without-redux-or-how-to-have-a-predictable-state-with-any-architecture-61c5f5a7716f
 
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 export const useDevTools = (store: Store<any>, displayName: string) => {
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const hasDevTools =
       process.env.NODE_ENV === "development" &&
       typeof window !== "undefined" &&
