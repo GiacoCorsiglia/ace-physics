@@ -114,6 +114,7 @@ export default function Login() {
           }}
         >
           <input
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             aria-label="Your six-digit account code"
             className={cx(styles.loginInput, inputStyles.textInput)}

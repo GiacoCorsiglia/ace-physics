@@ -66,6 +66,7 @@ export default function Generate() {
             setIds(result.value.learners.map((l) => l.learnerId));
           }}
         >
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className={inputStyles.label}>Institution:</label>
           <Select
             options={institutions}
@@ -74,6 +75,7 @@ export default function Generate() {
             isDisabled={status !== "initial"}
           />
 
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label className={inputStyles.label}>Course:</label>
           <Select
             options={courses}

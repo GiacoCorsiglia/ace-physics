@@ -25,24 +25,19 @@ describe("Proxy Track", () => {
     expect(t.resetTracking()).toStrictEqual(new Set(["top/0/next", "other"]));
   });
 
-  it("it handles leaf after assignment", () => {
+  it("handles leaf after assignment", () => {
     const object = proxy.top[0];
     object.next;
     expect(t.resetTracking()).toStrictEqual(new Set(["top/0/next"]));
   });
 
-  it("it handles leaf after assignment?", () => {
-    const object = proxy.top;
-    object[0].next;
-    expect(t.resetTracking()).toStrictEqual(new Set(["top/0/next"]));
-  });
-  it("it handles leaf after assignment2?", () => {
+  it("handles leaf after assignment, take 2", () => {
     const object = proxy.top;
     object[0].next;
     expect(t.resetTracking()).toStrictEqual(new Set(["top/0/next"]));
   });
 
-  it("it handles Object.keys()", () => {
+  it("handles Object.keys()", () => {
     const object = proxy.top[0];
     Object.keys(object);
     object.next; // Shouldn't be triggered anymore.

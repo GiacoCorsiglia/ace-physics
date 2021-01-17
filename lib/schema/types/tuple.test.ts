@@ -13,6 +13,7 @@ describe("tuple schema", () => {
     expect(decoded.value).toStrictEqual([0, ["", "b"], false]);
   });
 
+  // eslint-disable-next-line jest/expect-expect
   it("rejects empty values", () => {
     const decoded = decode(type, [null, null, undefined]);
     assertFailure(decoded);

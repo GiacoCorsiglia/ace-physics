@@ -9,24 +9,27 @@
     // ESLint Rules: https://eslint.org/docs/rules/
     // TypeScript-ESLint Rules: https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
 
+    // Upgrade react-hooks rules to errors:
+    "react-hooks/exhaustive-deps": "error",
+
     // Possible errors.
     "eqeqeq": "error",
-    "getter-return": "warn",
-    "no-compare-neg-zero": "warn",
+    "getter-return": "error",
+    "no-compare-neg-zero": "error",
     "no-cond-assign": "warn",
-    "no-constant-condition": "warn",
-    "no-empty-character-class": "warn",
+    "no-constant-condition": "error",
+    "no-empty-character-class": "error",
     "no-invalid-regexp": "error",
-    "no-misleading-character-class": "warn",
-    "no-setter-return": "warn",
-    "no-sparse-arrays": "warn",
+    "no-misleading-character-class": "error",
+    "no-setter-return": "error",
+    "no-sparse-arrays": "error",
     "no-template-curly-in-string": "warn",
     "no-unsafe-finally": "error",
     "no-unsafe-negation": "error",
-    "no-unused-labels": "warn",
+    "no-unused-labels": "error",
     "use-isnan": "error",
     "no-param-reassign": [
-      "error",
+      "warn",
       {
         "props": true,
         // React `props` are cloned so this is fine:
@@ -49,7 +52,12 @@
     "@typescript-eslint/prefer-function-type": "warn",
     "@typescript-eslint/unified-signatures": "warn"
   },
-  "ignorePatterns": ["*.config.js"],
+  "ignorePatterns": [
+    "*.config.js",
+    "tutorials/**/*",
+    "backend/**/*",
+    "common/**/*"
+  ],
   "env": {
     "browser": true,
     "es2021": true,
