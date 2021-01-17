@@ -1,3 +1,4 @@
+import { Immutable } from "@/helpers";
 import { Html, useUniqueSymbol } from "@/helpers/frontend";
 import type * as f from "@/schema/fields";
 import type { Infer } from "@/schema/types";
@@ -12,7 +13,7 @@ import {
 import { get } from "./immutable";
 import { model, Model } from "./model";
 import { stateTree } from "./state-tree";
-import { Store } from "./store";
+import { Store, Updates } from "./store";
 
 export interface ModelContext<P extends f.Properties = f.Properties> {
   readonly useStore: () => Store<Infer<f.ObjectField<P>["type"]>>;
@@ -45,7 +46,7 @@ export const modelStateTree = <P extends f.Properties>(
   }: {
     initial: T;
     overrideRootField?: f.ObjectField<P>;
-    onChange?: (newState: T) => void;
+    onChange?: (newState: Immutable<T>, updates: Updates<T>) => void;
     children?: Html;
   }) => {
     const ctx = useRef<ModelContext<P>>();

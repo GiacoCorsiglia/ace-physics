@@ -20,12 +20,13 @@ export interface Store<T extends object> {
 }
 
 type Watcher<T> = (
-  updates: Update<Immutable<T>>[],
   finalState: Immutable<T>,
+  updates: Updates<T>,
   transactionSource: Source | undefined
 ) => void;
 
-type Update<T> = readonly [Path<T>, any];
+type Update<T> = readonly [Path<Immutable<T>>, any];
+export type Updates<T> = readonly Update<T>[];
 
 type Setter<T> = <P extends Path<T>>(
   path: P,
@@ -72,7 +73,7 @@ export const store = <T extends object>(initial: T): Store<T> => {
       let transactionState = currentState;
 
       // Keep track of which paths were directly set.
-      const updates: [Path<Immutable<T>>, any][] = [];
+      const updates: Update<T>[] = [];
       const setPaths = new Set<string>();
 
       // Fire the action with the setter, which mutates transactionState.
@@ -125,7 +126,7 @@ export const store = <T extends object>(initial: T): Store<T> => {
       });
 
       transactionWatchers.forEach((watcher) =>
-        watcher(updates, transactionState, source)
+        watcher(transactionState, updates, source)
       );
 
       // Finally, return the new state.

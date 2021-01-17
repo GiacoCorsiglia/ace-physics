@@ -27,7 +27,7 @@ export const useDevTools = (store: Store<any>, displayName: string) => {
     const thisSource = Symbol();
 
     const unsubscribeFromStore = store.onTransaction(
-      (updates, finalState, updateSource) => {
+      (finalState, updates, updateSource) => {
         if (updateSource === thisSource) {
           return;
         }

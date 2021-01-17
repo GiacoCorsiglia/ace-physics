@@ -12,7 +12,7 @@ import React, {
 import { unstable_batchedUpdates } from "react-dom";
 import { useDevTools } from "./dev-tools";
 import { get } from "./immutable";
-import { Store, store } from "./store";
+import { Store, store, Updates } from "./store";
 import { Tracker, tracker } from "./tracker";
 
 export const stateTree = <T extends object>(displayName: string) => {
@@ -30,7 +30,7 @@ export const stateTree = <T extends object>(displayName: string) => {
     children,
   }: {
     initial: T;
-    onChange?: (newValue: T) => void;
+    onChange?: (newState: Immutable<T>, updates: Updates<T>) => void;
     children?: Html;
   }) => {
     const ctx = useRef<Context>();
@@ -54,7 +54,7 @@ export const stateTree = <T extends object>(displayName: string) => {
 
     useEffect(() => {
       if (onChange) {
-        return ctx.current!.store.subscribe([], onChange);
+        return ctx.current!.store.onTransaction(onChange);
       }
     }, [onChange]);
 
