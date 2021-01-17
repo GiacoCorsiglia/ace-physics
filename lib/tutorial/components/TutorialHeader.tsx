@@ -89,6 +89,20 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
             label="Introduction"
           />
 
+          {config.pretest && (
+            <TutorialPartsItem
+              active={router.pathname.endsWith(
+                `/${config.link}/before-you-start`
+              )}
+              link={urls.join(
+                `/${urls.Tutorials.path}`,
+                config.link,
+                "before-you-start"
+              )}
+              label="Before You Start"
+            />
+          )}
+
           {config.pages.map((page) => (
             <TutorialPartsItem
               key={page.link}

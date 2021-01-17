@@ -1,21 +1,25 @@
-import { memo } from "react";
+import { Content } from "@/design/layout";
+import styles from "@/design/structure.module.scss";
 import { PretestSectionConfig } from "../config";
-import { useRootModel, useTracked } from "../state-tree";
+import { tracked, useRootModel } from "../state-tree";
 
-export default memo(function PretestSection({
-  config,
-}: {
-  config: PretestSectionConfig;
-}) {
-  return useTracked(function C(state) {
-    const rootModel = useRootModel();
-    const models = rootModel.properties.pretest.properties;
+export default tracked(function PretestSection(
+  {
+    config,
+  }: {
+    config: PretestSectionConfig;
+  },
+  state
+) {
+  const rootModel = useRootModel();
+  const models = rootModel.properties.pretest.properties;
 
-    const body =
-      config.body instanceof Function
-        ? config.body(models, state)
-        : config.body;
+  const body =
+    config.body instanceof Function ? config.body(models, state) : config.body;
 
-    return <>{body}</>;
-  });
+  return (
+    <Content as="section" className={styles.section}>
+      {body}
+    </Content>
+  );
 });
