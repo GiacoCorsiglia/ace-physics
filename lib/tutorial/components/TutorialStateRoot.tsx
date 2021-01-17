@@ -2,6 +2,7 @@ import { getTutorial, updateTutorial } from "@/api/client";
 import { Prose } from "@/design";
 import { Content } from "@/design/layout";
 import { JsxElement } from "@/helpers/frontend";
+import { Updates } from "@/reactivity";
 import { Learner } from "@/schema/db";
 import { TutorialState } from "@/schema/tutorial";
 import { decode } from "@/schema/types";
@@ -170,7 +171,7 @@ export function TutorialStateRoot({
   const latestTutorialState = useRef<any>();
 
   const onChange = useCallback(
-    (newTutorialState: any) => {
+    (newTutorialState: any, _: Updates<TutorialState>) => {
       version.current++;
       latestTutorialState.current = newTutorialState;
       if (setSavedStatusRef.current) {
@@ -202,6 +203,7 @@ export function TutorialStateRoot({
         save(latestTutorialState.current);
       }
       e.preventDefault();
+      // eslint-disable-next-line no-param-reassign
       e.returnValue = "Your work has not been saved yet.";
     };
 
