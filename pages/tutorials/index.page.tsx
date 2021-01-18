@@ -44,7 +44,7 @@ export default function TutorialsIndex() {
               It’s all about eigenvalues, eigenstates, and measurement.
             </TutorialLink>
 
-            <TutorialLink
+            {/* <TutorialLink
               label="Visualizing a Vector in a Different Basis — Full"
               url={urls.Tutorials.QuantumBasis}
             >
@@ -54,9 +54,9 @@ export default function TutorialsIndex() {
               This “Full” version connects these concepts with quantum
               probabilities, and investigates the reasons one might change
               basis.
-            </TutorialLink>
+            </TutorialLink> */}
 
-            <TutorialLink
+            {/* <TutorialLink
               label="Visualizing a Vector in a Different Basis — Lite"
               url={urls.Tutorials.QuantumBasisLite}
             >
@@ -65,44 +65,44 @@ export default function TutorialsIndex() {
               <br />
               The “Lite” version doesn’t discuss the connection with quantum
               probabilities or reasons for changing basis, but takes less time.
-            </TutorialLink>
+            </TutorialLink> */}
 
-            <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
+            {/* <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
               Investigate the uniquely <em>quantum</em> effect of entanglement,
               and apply it to cryptography.
-            </TutorialLink>
+            </TutorialLink> */}
 
-            <TutorialLink
+            {/* <TutorialLink
               label="Probability Amplitude: From Vectors to Functions"
               url={urls.Tutorials.VectorsToFunctions}
             >
               Bridging between discrete vectors (such as those describing a
               particle’s spin state) and continuous wave functions (which might
               model a particle’s position state).
-            </TutorialLink>
+            </TutorialLink> */}
 
-            <TutorialLink
+            {/* <TutorialLink
               label="Energy and Position"
               url={urls.Tutorials.EnergyAndPosition}
             >
               Explore the connection between the energy and position
               representations of a quantum state.
-            </TutorialLink>
+            </TutorialLink> */}
 
-            <TutorialLink
+            {/* <TutorialLink
               label="Time Dependence"
               url={urls.Tutorials.TimeDependence}
             >
               Visualize the time evolution of position space wave functions.
-            </TutorialLink>
+            </TutorialLink> */}
 
-            <TutorialLink
+            {/* <TutorialLink
               label="Reflecting on Transmission"
               url={urls.Tutorials.ReflectingOnTransmission}
             >
               Explore the phenomena of reflection and transmission from 1D
               potential barriers.
-            </TutorialLink>
+            </TutorialLink> */}
           </ul>
         </nav>
       </Content>
