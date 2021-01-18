@@ -268,17 +268,40 @@ $padding-left-sidebar: 2.5rem; // For the hanging numbers in the list
   }
 
   li {
-    counter-increment: tutorial-parts-counter;
     position: relative;
+
+    &:not(.skipCounter) {
+      counter-increment: tutorial-parts-counter;
+    }
   }
 
-  li:not(.active)::before {
-    content: counter(tutorial-parts-counter) ". ";
-    position: absolute;
-    right: 100%;
-    padding-right: 0.4rem;
-    opacity: $counter-opacity;
-    pointer-events: none;
+  li:not(.active) {
+    &::before {
+      position: absolute;
+      opacity: $counter-opacity;
+      pointer-events: none;
+    }
+
+    &.skipCounter::before {
+      content: "";
+      top: 0.45rem;
+      right: calc(100% + 0.35rem);
+      font-weight: $bold;
+      display: block;
+      width: $text-small;
+      height: $text-small;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' %3e%3ccircle stroke='%23333' stroke-width='1.5' r='3' cx='8' cy='8' fill='none' /%3e%3c/svg%3e");
+    }
+
+    &.skipCounter:hover::before {
+      // This includes the $blue variable.
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' %3e%3ccircle stroke='%232684ff' stroke-width='1.5' r='3' cx='8' cy='8' fill='none' /%3e%3c/svg%3e");
+    }
+    &:not(.skipCounter)::before {
+      content: counter(tutorial-parts-counter) ". ";
+      right: 100%;
+      padding-right: 0.4rem;
+    }
   }
 
   li.active::before {

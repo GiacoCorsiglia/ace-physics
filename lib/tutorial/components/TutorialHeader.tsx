@@ -87,6 +87,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
             active={router.pathname.endsWith(`/${config.link}`)}
             link={urls.join(`/${urls.Tutorials.path}`, config.link)}
             label="Introduction"
+            skipCounter
           />
 
           {config.pretest && (
@@ -100,6 +101,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
                 "before-you-start"
               )}
               label="Before You Start"
+              skipCounter
             />
           )}
 
@@ -115,6 +117,13 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
               label={page.label}
             />
           ))}
+
+          <TutorialPartsItem
+            active={router.pathname.endsWith(`/${config.link}/feedback`)}
+            link={urls.join(`/${urls.Tutorials.path}`, config.link, "feedback")}
+            label="Feedback"
+            skipCounter
+          />
         </ol>
 
         {config.info}
@@ -129,15 +138,19 @@ function TutorialPartsItem({
   active,
   link,
   label,
+  skipCounter,
 }: {
   active: boolean;
   link: string;
   label: React.ReactNode;
+  skipCounter?: boolean;
 }) {
   return (
-    <li className={classes([styles.active, active])}>
+    <li
+      className={cx(active && styles.active, skipCounter && styles.skipCounter)}
+    >
       {active ? (
-        <span className={classes(styles.part, "prose")}>{label}</span>
+        <span className={cx(styles.part, "prose")}>{label}</span>
       ) : (
         <Link href={link}>
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
