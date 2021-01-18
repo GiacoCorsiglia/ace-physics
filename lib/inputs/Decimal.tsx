@@ -1,7 +1,7 @@
 import { Model, useModel } from "@/reactivity";
 import { NumberField } from "@/schema/fields";
 import { classes, useUniqueId } from "@/util";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
 
@@ -10,18 +10,34 @@ const decimalPattern = /^[+-]?((\d+(\.\d*)?)|(\.\d+))$/;
 export default function Decimal({
   model,
   label,
+  initialValue,
   ...props
 }: {
   model: Model<NumberField>;
   label?: React.ReactNode;
+  initialValue?: number;
 } & JSX.IntrinsicElements["input"]) {
   const [value, setValue] = useModel(model, (newValue) => {
     setRaw(newValue !== undefined ? newValue.toString() : "");
   });
 
+  useEffect(() => {
+    if (initialValue !== undefined) {
+      setValue((prevValue) =>
+        prevValue === undefined ? initialValue : prevValue
+      );
+    }
+  }, [initialValue, setValue]);
+
   const id = `decimal-${useUniqueId()}`;
 
-  const [raw, setRaw] = useState(value !== undefined ? value.toString() : "");
+  const [raw, setRaw] = useState(
+    value !== undefined
+      ? value.toString()
+      : initialValue !== undefined
+      ? initialValue.toString()
+      : ""
+  );
 
   props.disabled = useDisabled(props);
 
