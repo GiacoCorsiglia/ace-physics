@@ -9,6 +9,12 @@
 // Declare environment variables.
 declare namespace NodeJS {
   interface ProcessEnv {
+    // Private.
+    readonly ACE_AWS_ACCESS_KEY: string;
+    readonly ACE_AWS_SECRET_KEY: string;
+    readonly ACE_AWS_REGION: string;
+    readonly ACE_TABLE_NAME: string;
+    // Public.
     readonly NEXT_PUBLIC_ACE_API: "yes" | "no" | undefined;
     readonly NEXT_PUBLIC_ACE_ENV: "production" | "staging" | "development";
   }

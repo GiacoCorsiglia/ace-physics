@@ -2,27 +2,35 @@ import { isObject } from "@/helpers";
 import { asyncResult } from "@/helpers/result";
 import { Learner, Tutorial } from "@/schema/db";
 import { decode, Infer, Type } from "@/schema/types";
-import type AWS from "aws-sdk";
-import DynamoDB from "aws-sdk/clients/dynamodb";
+import AWS from "aws-sdk";
+
+if (process.env.NODE_ENV === "development") {
+  AWS.config.update({
+    region: "local",
+  });
+} else {
+  AWS.config.update({
+    region: process.env.ACE_AWS_REGION,
+    accessKeyId: process.env.ACE_AWS_ACCESS_KEY,
+    secretAccessKey: process.env.ACE_AWS_SECRET_KEY,
+  });
+}
 
 // Table Name.
 
 export const TableName =
   process.env.NODE_ENV === "development"
     ? require("./ddb.json").TableName
-    : "TODO";
+    : process.env.ACE_TABLE_NAME;
 
 // Client.
 
-let _client: DynamoDB.DocumentClient;
+let _client: AWS.DynamoDB.DocumentClient;
 export const client = () =>
   _client ||
-  (_client = new DynamoDB.DocumentClient(
+  (_client = new AWS.DynamoDB.DocumentClient(
     process.env.NODE_ENV === "development"
-      ? {
-          region: process.env.AWS_REGION || "us-east-1",
-          endpoint: "http://localhost:8000",
-        }
+      ? { endpoint: "http://localhost:8000" }
       : undefined
   ));
 
