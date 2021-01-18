@@ -31,6 +31,11 @@ export const Generate = {
   link: "/generate",
 };
 
+const SpinLab1 = {
+  path: "spin-lab-1",
+  link: "/tutorials/spin-lab-1",
+};
+
 const QuantumMouse = {
   path: "quantum-mouse",
   link: "/tutorials/quantum-mouse",
@@ -74,6 +79,7 @@ const TimeDependence = {
 export const Tutorials = {
   path: "tutorials",
   link: "/tutorials",
+  SpinLab1,
   QuantumBasis,
   QuantumBasisLite,
   QuantumMouse,

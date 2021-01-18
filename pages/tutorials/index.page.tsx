@@ -37,6 +37,11 @@ export default function TutorialsIndex() {
 
         <nav>
           <ul>
+            <TutorialLink label="Spin Lab 1" url={urls.Tutorials.SpinLab1}>
+              Investigate the phenomenon of “spin,” which is fundamentally
+              quantum mechanical in nature.
+            </TutorialLink>
+
             <TutorialLink
               label="Quantum Mouse Lab"
               url={urls.Tutorials.QuantumMouse}
