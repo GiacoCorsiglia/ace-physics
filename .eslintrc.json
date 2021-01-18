@@ -1,0 +1,76 @@
+{
+  "extends": [
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jest/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "jsx-a11y", "react-hooks", "jest"],
+  "rules": {
+    // ESLint Rules: https://eslint.org/docs/rules/
+    // TypeScript-ESLint Rules: https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
+
+    // Upgrade react-hooks rules to errors:
+    "react-hooks/exhaustive-deps": "error",
+
+    // Possible errors.
+    "eqeqeq": "error",
+    "getter-return": "error",
+    "no-compare-neg-zero": "error",
+    "no-cond-assign": "warn",
+    "no-constant-condition": "error",
+    "no-empty-character-class": "error",
+    "no-invalid-regexp": "error",
+    "no-misleading-character-class": "error",
+    "no-setter-return": "error",
+    "no-sparse-arrays": "error",
+    "no-template-curly-in-string": "warn",
+    "no-unsafe-finally": "error",
+    "no-unsafe-negation": "error",
+    "no-unused-labels": "error",
+    "use-isnan": "error",
+    "no-param-reassign": [
+      "warn",
+      {
+        "props": true,
+        // React `props` are cloned so this is fine:
+        "ignorePropertyModificationsFor": ["props"]
+      }
+    ],
+    "@typescript-eslint/no-implied-eval": "error",
+    "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+    "@typescript-eslint/switch-exhaustiveness-check": "error",
+
+    // Style.
+    "dot-notation": "warn",
+    "func-style": ["warn", "declaration", { "allowArrowFunctions": true }],
+    "no-var": "warn",
+    "prefer-arrow-callback": ["warn", { "allowNamedFunctions": true }],
+    "prefer-const": "warn",
+    "@typescript-eslint/consistent-type-assertions": "warn",
+    "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
+    "@typescript-eslint/prefer-as-const": "warn",
+    "@typescript-eslint/prefer-function-type": "warn",
+    "@typescript-eslint/unified-signatures": "warn"
+  },
+  "ignorePatterns": [
+    "*.config.js",
+    "tutorials/**/*",
+    "backend/**/*",
+    "common/**/*"
+  ],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "warnOnUnsupportedTypeScriptVersion": true
+  }
+}

@@ -1,5 +1,5 @@
 import type { DocumentClient } from "aws-sdk/clients/dynamodb";
-import { writeFileSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 import * as db from "../src/db";
 
@@ -16,7 +16,7 @@ run();
 async function run() {
   console.log("Fetching latest data...");
 
-  const items = [];
+  const items: any[] = [];
   await scan();
 
   console.log(`Fetched ${items.length} items.`);
@@ -28,7 +28,12 @@ async function run() {
     .replace(/\..+$/, "")
     .replace(/:/g, "-");
   const file = `data-${now}.json`;
-  const filepath = join(__dirname, "data", file);
+  const dir = join(__dirname, "data");
+  const filepath = join(dir, file);
+
+  if (!existsSync(dir)) {
+    mkdirSync(dir);
+  }
 
   writeFileSync(filepath, JSON.stringify(items));
 
@@ -48,7 +53,7 @@ async function run() {
       process.exit(1);
     }
 
-    items.push(...res.value.Items);
+    items.push(...res.value.Items!);
     if (res.value.LastEvaluatedKey) {
       await scan(res.value.LastEvaluatedKey);
     }

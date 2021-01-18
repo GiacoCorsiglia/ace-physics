@@ -1,10 +1,2 @@
-# Dependencies.
-/node_modules
-
-# Production.
-/build/**/*
-!/build/package.json
-/.aws-sam
-
 # Downloaded data
 /scripts/data

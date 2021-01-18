@@ -43,7 +43,7 @@ rl.question(
 );
 
 async function run() {
-  const items = [];
+  const items: any[] = [];
   await scan();
 
   const chunkSize = 25; // This is determined by DynamoDB
@@ -86,7 +86,7 @@ async function run() {
       return;
     }
 
-    items.push(...res.value.Items);
+    items.push(...res.value.Items!);
     if (res.value.LastEvaluatedKey) {
       await scan(res.value.LastEvaluatedKey);
     }
