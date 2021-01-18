@@ -1,3 +1,5 @@
+import { Setter } from "@/reactivity";
+import { TutorialState } from "@/schema/tutorial";
 import { useCallback, useEffect, useMemo } from "react";
 import { NodeConfig, SectionConfig, sequence } from "../config";
 import { isMarkedVisible, nextSectionToReveal } from "../section-logic";
@@ -26,7 +28,7 @@ export default function SectionTree({
 
     if (firstSection) {
       store.transaction((set) => {
-        set(["sections", firstSection.name, "status"], "revealed");
+        revealSection(set, firstSection);
       });
     }
   }, [store, rootSequence]);
@@ -39,7 +41,7 @@ export default function SectionTree({
         const nextSection = nextSectionToReveal(newState, rootSequence);
 
         if (nextSection) {
-          set(["sections", nextSection.name, "status"], "revealed");
+          revealSection(set, nextSection);
         } else {
           complete();
         }
@@ -50,3 +52,8 @@ export default function SectionTree({
 
   return <Sequence config={rootSequence} first={true} commit={commit} />;
 }
+
+const revealSection = (set: Setter<TutorialState>, section: SectionConfig) => {
+  set(["sections", section.name, "status"], "revealed");
+  set(["sections", section.name, "revealedAt"], Date.now());
+};

@@ -69,6 +69,10 @@ export const page = <S extends TutorialSchema>(
     section: Constructor<c.SectionConfig<S>>;
     /** Creates a sequence of sections in the page.  */
     sequence: Constructor<c.SequenceConfig<S>>;
+    /** Creates a sequence of sections in the page.  */
+    oneOf: <C extends { readonly [k: string]: c.NodeConfig<S> }>(
+      c: Omit<c.OneOfConfig<S, C>, "kind">
+    ) => c.OneOfConfig<S, C>;
     /** Creates a hint */
     hint: (c: c.HintConfig<S>) => c.HintConfig<S>;
   }) => c.PageConfig<S>
@@ -77,6 +81,7 @@ export const page = <S extends TutorialSchema>(
   const config = factory({
     section: c.section,
     sequence: c.sequence,
+    oneOf: c.oneOf,
     hint: c.hint,
   });
 

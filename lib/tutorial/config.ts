@@ -129,12 +129,15 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
  */
 export type NodeConfig<S extends TutorialSchema = TutorialSchema> =
   | SectionConfig<S>
-  | SequenceConfig<S>;
+  | SequenceConfig<S>
+  | OneOfConfig<S>;
 
-type When<S extends TutorialSchema> = (
+type LogicFunction<S extends TutorialSchema, R> = (
   responses: NonNullable<TutorialState<S>["responses"]>,
   state: TutorialState<S>
-) => boolean;
+) => R;
+
+type When<S extends TutorialSchema> = LogicFunction<S, boolean>;
 
 /**
  * Configuration for a section of a body page.
@@ -199,6 +202,37 @@ export interface SequenceConfig<S extends TutorialSchema = TutorialSchema> {
   readonly sections: readonly NodeConfig<S>[];
 }
 
+/**
+ * Configuration for a group of sections, of which only one will ever be
+ * displayed.  Which is displayed is determined by the conditional logic in the
+ * `which` function.
+ */
+export interface OneOfConfig<
+  S extends TutorialSchema = TutorialSchema,
+  C extends { readonly [k: string]: NodeConfig<S> } = {
+    readonly [k: string]: NodeConfig<S>;
+  }
+> {
+  readonly kind: "oneOf";
+  /**
+   * Conditional logic dictating when the oneOf should be revealed.
+   */
+  readonly when?: When<S>;
+  /**
+   * Logic Determining which of the nested sections should be revealed.  Return
+   * `null` to skip this group of sections entirely.
+   */
+  readonly which: (
+    responses: NonNullable<TutorialState<S>["responses"]>,
+    state: TutorialState<S>
+  ) => keyof C | null;
+  /**
+   * The sections inside this sequence.  The keys in this object should match
+   * the strings returned by the `which` function.
+   */
+  readonly sections: C;
+}
+
 export const section = <S extends TutorialSchema>(
   c: Omit<SectionConfig<S>, "kind">
 ): SectionConfig<S> => ({ kind: "section", ...c });
@@ -206,6 +240,13 @@ export const section = <S extends TutorialSchema>(
 export const sequence = <S extends TutorialSchema>(
   c: Omit<SequenceConfig<S>, "kind">
 ): SequenceConfig<S> => ({ kind: "sequence", ...c });
+
+export const oneOf = <
+  S extends TutorialSchema,
+  C extends { readonly [k: string]: NodeConfig<S> }
+>(
+  c: Omit<OneOfConfig<S, C>, "kind">
+): OneOfConfig<S, C> => ({ kind: "oneOf", ...c });
 
 /**
  * Configuration for a hint.

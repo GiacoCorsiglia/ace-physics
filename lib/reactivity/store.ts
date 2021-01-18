@@ -28,7 +28,7 @@ type Watcher<T> = (
 type Update<T> = readonly [Path<Immutable<T>>, any];
 export type Updates<T> = readonly Update<T>[];
 
-type Setter<T> = <P extends Path<T>>(
+export type Setter<T> = <P extends Path<T>>(
   path: P,
   newValue:
     | TypeAtPath<T, P>

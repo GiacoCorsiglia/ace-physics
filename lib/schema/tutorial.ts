@@ -62,6 +62,9 @@ const PageStatus = f.object({
 
 const SectionStatus = f.object({
   status: f.cases("hidden", "revealed", "committed"),
+  // Storing this allows us to sort revealed sections in the order they where
+  // revealed, if relevant.
+  revealedAt: f.number(),
 });
 
 const HintStatus = f.object({

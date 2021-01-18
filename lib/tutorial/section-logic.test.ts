@@ -1,5 +1,5 @@
 import { TutorialState } from "@/schema/tutorial";
-import { SectionConfig, SequenceConfig } from "./config";
+import { OneOfConfig, SectionConfig, SequenceConfig } from "./config";
 import { isMarkedVisible, nextSectionToReveal, nodeKey } from "./section-logic";
 
 describe("nodeKey", () => {
@@ -20,6 +20,15 @@ describe("nodeKey", () => {
     sections: [section1, { kind: "sequence", sections: [section2] }],
   };
 
+  const oneOf1: OneOfConfig = {
+    kind: "oneOf",
+    which: () => null,
+    sections: {
+      a: section1,
+      b: sequence1,
+    },
+  };
+
   it("produces key for section", () => {
     expect(nodeKey(section1)).toBe(section1.name);
   });
@@ -27,6 +36,12 @@ describe("nodeKey", () => {
   it("produces key for nested sequences", () => {
     expect(nodeKey(sequence1)).toBe(
       "sequence(sectionName1,sequence(sectionName2))"
+    );
+  });
+
+  it("produces key for nested oneOf", () => {
+    expect(nodeKey(oneOf1)).toBe(
+      "oneOf(sectionName1,sequence(sectionName1,sequence(sectionName2)))"
     );
   });
 });
@@ -47,6 +62,15 @@ describe("isMarkedVisible", () => {
   const sequence1: SequenceConfig = {
     kind: "sequence",
     sections: [section1, { kind: "sequence", sections: [section2] }],
+  };
+
+  const oneOf1: OneOfConfig = {
+    kind: "oneOf",
+    which: () => null,
+    sections: {
+      a: section1,
+      b: sequence1,
+    },
   };
 
   it("marks revealed section as visible", () => {
@@ -95,6 +119,24 @@ describe("isMarkedVisible", () => {
     };
     expect(isMarkedVisible(state, sequence1)).toBe(true);
   });
+
+  it("marks oneOf with no visible nested sections as not visible", () => {
+    expect(isMarkedVisible({}, oneOf1)).toBe(false);
+  });
+
+  it("marks oneOf with directly nested visible section as visible", () => {
+    const state: TutorialState = {
+      sections: { section1: { status: "revealed" } },
+    };
+    expect(isMarkedVisible(state, oneOf1)).toBe(true);
+  });
+
+  it("marks oneOf with deeply nested visible section as visible", () => {
+    const state: TutorialState = {
+      sections: { section2: { status: "revealed" } },
+    };
+    expect(isMarkedVisible(state, oneOf1)).toBe(true);
+  });
 });
 
 describe("nextVisibleSection", () => {
@@ -107,6 +149,13 @@ describe("nextVisibleSection", () => {
   const section2: SectionConfig = {
     kind: "section",
     name: "section2",
+    body() {},
+  };
+
+  const section3: SectionConfig = {
+    kind: "section",
+    name: "section3",
+    when: (r) => !!r.showSection3,
     body() {},
   };
 
@@ -154,7 +203,7 @@ describe("nextVisibleSection", () => {
     };
     const state = { responses: {} };
     nextSectionToReveal(state, sequence1);
-    expect(when).toHaveBeenCalledTimes(1);
+    expect(when).toHaveBeenCalled();
     expect(when).toHaveBeenLastCalledWith(state.responses, state);
 
     // For sequence.
@@ -165,7 +214,25 @@ describe("nextVisibleSection", () => {
       sections: [{ kind: "sequence", sections: [section1], when }],
     };
     nextSectionToReveal(state, sequence2);
-    expect(when).toHaveBeenCalledTimes(1);
+    expect(when).toHaveBeenCalled();
+    expect(when).toHaveBeenLastCalledWith(state.responses, state);
+
+    // For oneOf.
+    when.mockReset();
+
+    const sequence3: SequenceConfig = {
+      kind: "sequence",
+      sections: [
+        {
+          kind: "oneOf",
+          sections: { a: section1 },
+          when,
+          which: () => null,
+        },
+      ],
+    };
+    nextSectionToReveal(state, sequence3);
+    expect(when).toHaveBeenCalled();
     expect(when).toHaveBeenLastCalledWith(state.responses, state);
   });
 
@@ -233,13 +300,6 @@ describe("nextVisibleSection", () => {
     };
     expect(nextSectionToReveal(state, sequence)).toBe(section1);
   });
-
-  const section3: SectionConfig = {
-    kind: "section",
-    name: "section3",
-    when: (r) => !!r.showSection3,
-    body() {},
-  };
 
   it("passes over section with condition if when() fails", () => {
     const sequence: SequenceConfig = {
@@ -428,5 +488,195 @@ describe("nextVisibleSection", () => {
       },
     };
     expect(nextSectionToReveal(state, sequence)).toBe(section2);
+  });
+
+  it("chooses section based on returned key from which() for oneOf", () => {
+    const oneOf: OneOfConfig = {
+      kind: "oneOf",
+      which: () => "b",
+      sections: {
+        a: section1,
+        b: section2,
+      },
+    };
+
+    const state: TutorialState = {};
+    expect(nextSectionToReveal(state, oneOf)).toBe(section2);
+  });
+
+  it("returns null when which() returns null for oneOf", () => {
+    const oneOf: OneOfConfig = {
+      kind: "oneOf",
+      which: () => null,
+      sections: {
+        a: section1,
+        b: section2,
+      },
+    };
+
+    const state: TutorialState = {};
+    expect(nextSectionToReveal(state, oneOf)).toBe(null);
+  });
+
+  it("calls which() with responses, state for oneOf", () => {
+    // For section.
+    const which = jest.fn();
+    const state = { responses: {} };
+
+    const sequence: SequenceConfig = {
+      kind: "sequence",
+      sections: [
+        {
+          kind: "oneOf",
+          sections: { a: section1 },
+          which,
+        },
+      ],
+    };
+    nextSectionToReveal(state, sequence);
+    expect(which).toHaveBeenCalled();
+    expect(which).toHaveBeenLastCalledWith(state.responses, state);
+  });
+
+  it("chooses first section in sequence regardless of presence of oneOf", () => {
+    // This checks that the oneOf doesn't mess up firstUncommittedNodeIndex().
+    const sequence: SequenceConfig = {
+      kind: "sequence",
+      sections: [
+        section1,
+        {
+          kind: "oneOf",
+          sections: {
+            a: { kind: "section", name: "A", body() {} },
+          },
+          which: (r) => null,
+        },
+        section2,
+      ],
+    };
+
+    expect(nextSectionToReveal({}, sequence)).toBe(section1);
+  });
+
+  it("chooses nested oneOf section according to which(), regardless of whether other sections in the oneOf are committed", () => {
+    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+
+    const sequence: SequenceConfig = {
+      kind: "sequence",
+      sections: [
+        section1,
+        {
+          kind: "oneOf",
+          sections: {
+            a: sectionA,
+            b: sectionB,
+          },
+          which: (r) => (r.which as any) || null,
+        },
+        section2,
+      ],
+    };
+
+    const state1 = {
+      sections: {
+        section1: { status: "committed" },
+      },
+      responses: { which: "a" },
+    } as const;
+    expect(nextSectionToReveal(state1, sequence)).toBe(sectionA);
+
+    const state2 = {
+      sections: {
+        section1: { status: "committed" },
+      },
+      responses: { which: "b" },
+    } as const;
+    expect(nextSectionToReveal(state2, sequence)).toBe(sectionB);
+
+    const state3 = {
+      sections: {
+        section1: { status: "committed" },
+        A: { status: "committed" },
+      },
+      responses: { which: "b" },
+    } as const;
+    expect(nextSectionToReveal(state3, sequence)).toBe(sectionB);
+  });
+
+  it("chooses section after oneOf if current oneOf node determined by which() is committed", () => {
+    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+
+    const sequence: SequenceConfig = {
+      kind: "sequence",
+      sections: [
+        section1,
+        {
+          kind: "oneOf",
+          sections: {
+            a: sectionA,
+            b: sectionB,
+          },
+          which: (r) => (r.which as any) || null,
+        },
+        section2,
+      ],
+    };
+
+    const state1 = {
+      sections: {
+        section1: { status: "committed" },
+        A: { status: "committed" },
+      },
+      responses: { which: "a" },
+    } as const;
+    expect(nextSectionToReveal(state1, sequence)).toBe(section2);
+  });
+
+  it("chooses section after oneOf if which() is null but any oneOf node is committed", () => {
+    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+
+    const sequence: SequenceConfig = {
+      kind: "sequence",
+      sections: [
+        section1,
+        {
+          kind: "oneOf",
+          sections: {
+            a: sectionA,
+            b: sectionB,
+          },
+          which: (r) => (r.which as any) || null,
+        },
+        section2,
+      ],
+    };
+
+    const state1 = {
+      sections: {
+        section1: { status: "committed" },
+        A: { status: "committed" },
+      },
+    } as const;
+    expect(nextSectionToReveal(state1, sequence)).toBe(section2);
+
+    const state2 = {
+      sections: {
+        section1: { status: "committed" },
+        B: { status: "committed" },
+      },
+    } as const;
+    expect(nextSectionToReveal(state2, sequence)).toBe(section2);
+
+    const state3 = {
+      sections: {
+        section1: { status: "committed" },
+        A: { status: "committed" },
+        B: { status: "committed" },
+      },
+    } as const;
+    expect(nextSectionToReveal(state3, sequence)).toBe(section2);
   });
 });
