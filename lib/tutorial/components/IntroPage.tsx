@@ -44,15 +44,15 @@ export default function IntroPage({
           it’s about helping you to think about challenging ideas.
         </p>
 
-        <p>And it won’t be graded (except for participation credit).</p>
+        <p>And it won’t be graded (except maybe for participation credit).</p>
 
         <p>
           <strong>
-            Take your time.If you get stuck, try the hints, and then give it
+            Take your time. If you get stuck, try the hints, and then give it
             your best guess.
           </strong>{" "}
-          There might be some follow-up questions that clear things up for
-          you.Go back and change your answers if you want.Or—feel confident, and
+          There might be some follow-up questions that clear things up for you.
+          Go back and change your answers if you want. Or—feel confident, and
           don’t!
         </p>
 
@@ -60,7 +60,7 @@ export default function IntroPage({
           <strong>
             Learning doesn’t stop once you’ve submitted your answers.
           </strong>{" "}
-          We hope this activity helps you learn something today.If it does,
+          We hope this activity helps you learn something today. If it does,
           it’ll be thanks to you, not us.
         </p>
 
