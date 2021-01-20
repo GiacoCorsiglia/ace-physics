@@ -36,12 +36,12 @@ export default page(setup, ({ section }) => ({
                 capital letter (X, Y, Z).
               </em>
             </p>
-          </Prose>
 
-          <img
-            src={repeatedMeasurementsSetupImg}
-            alt="Experimental setup described in the above text"
-          />
+            <img
+              src={repeatedMeasurementsSetupImg}
+              alt="Experimental setup described in the above text"
+            />
+          </Prose>
         </>
       ),
       continue: { label: "I set up the new experiment" },
