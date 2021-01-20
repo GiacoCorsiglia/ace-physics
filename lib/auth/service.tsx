@@ -94,6 +94,9 @@ export const useAuth = () => {
 const localStorageKey = "ace-physics-learnerId";
 
 const forgetLearnerId = () => {
+  if (typeof window === "undefined") {
+    return;
+  }
   try {
     localStorage.removeItem(localStorageKey);
   } catch (e) {
@@ -102,6 +105,9 @@ const forgetLearnerId = () => {
 };
 
 export const rememberLearnerId = (learnerId: string) => {
+  if (typeof window === "undefined") {
+    return;
+  }
   try {
     localStorage.setItem(localStorageKey, learnerId);
   } catch (e) {
@@ -110,6 +116,9 @@ export const rememberLearnerId = (learnerId: string) => {
 };
 
 export const rememberedLearnerId = () => {
+  if (typeof window === "undefined") {
+    return null;
+  }
   try {
     return localStorage.getItem(localStorageKey);
   } catch (e) {
