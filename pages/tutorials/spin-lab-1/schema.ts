@@ -17,8 +17,7 @@ export default tutorialSchema({
     "spinAlongOtherAxes",
     "determiningAnUnknownState",
     "anotherUnknownState",
-    "filteringSpin",
-    "challenge",
+    "rotatingSpin",
   ],
   pretest: {},
   sections: [
@@ -49,26 +48,23 @@ export default tutorialSchema({
 
     // anotherUnknownState.
     "anotherUnknownStateIntro",
+    "anotherUnknownStateStrategy",
     "unknown1Table",
     "unknown1Ket",
-    "unknown1Measurements",
     "unknown1Ambiguity",
     "unknown1Randomness",
 
-    // filteringSpin.
-    "filteringSpinIntro",
-
-    // challenge.
-    "challengeIntro",
+    // rotatingSpin.
+    "rotatingSpinIntro",
   ],
   responses: {
     predictSingleOutcome: f.chooseOne(["yes", "no"]),
     predictExactNumbers: f.chooseOne(["yes", "no"]),
     probSpinUp: f.number(),
     probSpinDown: f.number(),
-    smallVariationFrom5050: f.chooseOne(["funny", "fluke"]),
-    mediumVariationFrom5050: f.chooseOne(["funny", "fluke"]),
-    largeVariationFrom5050: f.chooseOne(["funny", "fluke"]),
+    smallVariationFrom5050: f.chooseOne(["funny", "in-between", "fluke"]),
+    mediumVariationFrom5050: f.chooseOne(["funny", "in-between", "fluke"]),
+    largeVariationFrom5050: f.chooseOne(["funny", "in-between", "fluke"]),
     variationFrom5050Explain: f.string(),
     quantitativeStdDev: f.string(),
 
@@ -91,17 +87,17 @@ export default tutorialSchema({
     unknown2Measurements: f.string(),
     javaSimExploration: f.string(),
 
+    anotherUnknownStateStrategy: f.string(),
     unknown1Table: f.object({
       up: f.object({ x: f.number(), y: f.number(), z: f.number() }),
       down: f.object({ x: f.number(), y: f.number(), z: f.number() }),
     }),
     unknown1Ket: f.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
-    unknown1Measurements: f.string(),
     unknown1Ambiguity: f.string(),
     unknown1TotallyRandom: f.chooseOne(["yes", "no"]),
     unknown1Undetermined: f.chooseOne(["yes", "no"]),
     unknown1FromThermalSource: f.chooseOne(["yes", "no"]),
     unknown1RandomnessExplain: f.string(),
   },
-  hints: ["outInTableIsSimNecessary"],
+  hints: ["tenThousandSpins", "outInTableIsSimNecessary"],
 });

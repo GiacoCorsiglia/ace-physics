@@ -2,22 +2,35 @@ import { Prose } from "@/design";
 import { Decimal, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
-  name: "determiningAnUnknownState",
+  name: "anotherUnknownState",
   label: "Determining an Unknown State",
   sections: [
     section({
-      name: "determiningAnUnknownStateIntro",
+      name: "anotherUnknownStateIntro",
       body: (
         <>
           <Prose>
             <p>
-              Back in the HTML sim, now choose <strong>Unknown 1</strong> (click
-              the 1 under the start button.) Then, hit <strong>Reset</strong>
+              Again, refresh the tab with the sim, or{" "}
+              <a
+                href="https://tinyurl.com/spin3220"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                open a new sim
+              </a>{" "}
+              to start from scratch.
             </p>
+
+            <p>
+              Now choose <strong>Unknown 1</strong> (click the “1” under the
+              “Start” button.) Then, hit <strong>Reset</strong>.
+            </p>
+
+            {/* They should start from scratch here. */}
 
             <p>
               Important: make sure you selected <strong>Unknown 1</strong>, NOT
@@ -25,13 +38,28 @@ export default page(setup, ({ section }) => ({
             </p>
 
             <p>
-              This causes the atoms to leave the gun in a different quantum
+              This causes the atoms to leave the source in a different quantum
               state, which we call <M t="\ket{\phi}" />.
             </p>
           </Prose>
         </>
       ),
       continue: { label: "Another mystery, I see how it is" },
+    }),
+
+    section({
+      name: "anotherUnknownStateStrategy",
+      body: (m) => (
+        <TextArea
+          model={m.anotherUnknownStateStrategy}
+          label={
+            <Prose>
+              We’re going to ask you to figure out what <M t="\ket{\phi}" /> is.
+              What’s your strategy?
+            </Prose>
+          }
+        />
+      ),
     }),
 
     section({
@@ -43,8 +71,9 @@ export default page(setup, ({ section }) => ({
         return (
           <>
             <Prose>
-              Fill in this probability table for <M t="\ket{\phi}" />, making
-              all possible measurements using x, y, and z-oriented S-Gs.
+              One good strategy is to make all possible measurements using x, y,
+              and z-oriented S-Gs. Here’s a table for you to record your
+              results.
             </Prose>
 
             <table className="table">
@@ -101,6 +130,9 @@ export default page(setup, ({ section }) => ({
       },
     }),
 
+    // Add feedback for probability table.  Check 100% correctness.  Also
+    // special case for .25 vs .5 (probability table not amplitude table).
+
     section({
       name: "unknown1Ket",
       body: (m) => (
@@ -129,21 +161,6 @@ export default page(setup, ({ section }) => ({
     }),
 
     section({
-      name: "unknown1Measurements",
-      body: (m) => (
-        <TextArea
-          model={m.unknown1Measurements}
-          label={
-            <Prose>
-              What measurements did you make to conclude your answer to part B
-              above? (Why?)
-            </Prose>
-          }
-        />
-      ),
-    }),
-
-    section({
       name: "unknown1Ambiguity",
       body: (m) => (
         <TextArea
@@ -155,6 +172,9 @@ export default page(setup, ({ section }) => ({
       ),
     }),
 
+    //  We haven't tried to analyze your text, but here's what we would say:
+    // |Phi> is definitely spin up in Y, but you can always multiply any quantum state by an "overall phase," like -1.  So our solution is unambiguous, up to an (irrelevant) overall phase.
+
     section({
       name: "unknown1Randomness",
       body: (m) => (
@@ -165,11 +185,11 @@ export default page(setup, ({ section }) => ({
               <Prose>
                 Given everything you have learned on this page, would you say it
                 is fair to say that this page’s state <M t="\ket{\phi}" />{" "}
-                coming out of the gun is “totally random in every way”?
+                coming out of the source is “random”?
               </Prose>
             }
             choices={[
-              ["yes", "Yes, it is “totally random in every way”"],
+              ["yes", "Yes, it is “random”"],
               ["no", "No, it isn’t"],
             ]}
           />
@@ -183,8 +203,8 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
             choices={[
-              ["yes", "Yes, it seems “undetermined” to me"],
-              ["no", "No, I wouldn't be comfortable"],
+              ["yes", "Yes, it seems “undetermined”"],
+              ["no", "No. It is determined (up to overall phase)"],
             ]}
           />
 
@@ -197,8 +217,8 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
             choices={[
-              ["yes", "Yes, I do"],
-              ["no", "No, I don’t"],
+              ["yes", "Yes"],
+              ["no", "No"],
             ]}
           />
 
@@ -209,5 +229,8 @@ export default page(setup, ({ section }) => ({
         </>
       ),
     }),
+
+    // Check all three answers (if any wrong: we suggest you talk to an instructor).
+    // if all right: We agree with your answers, haven't checked discussion
   ],
 }));

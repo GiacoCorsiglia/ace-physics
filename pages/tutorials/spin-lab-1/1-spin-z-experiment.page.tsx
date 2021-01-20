@@ -5,11 +5,10 @@ import M from "@/math";
 import { page } from "@/tutorial";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
-import React from "react";
 import spinZSetupImg from "./assets/spin-z-setup.png";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "spinZExperiment",
   label: "A Spin-Z Experiment",
   sections: [
@@ -45,8 +44,8 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             <p>
-              Measure the spin projection <M t="S_z" /> along the z-axis. Each
-              atom is measured to have spin up or spin down (in the
+              In the sim, measure the spin projection <M t="S_z" /> along the
+              z-axis. Each atom is measured to have spin up or spin down (in the
               z-direction), denoted by the arrows and by the <M t="\ket{+}" />{" "}
               and
               <M t="\ket{-}" /> symbols. The measured spin values for these
@@ -54,11 +53,11 @@ export default page(setup, ({ section }) => ({
             </p>
 
             <p>
-              Run the experiment by selecting Do 1 (ctrl-1) under the Control
-              menu, which sends one atom through the apparatus. Do this
-              repeatedly so you can see the inherent randomness in the
-              measurement process. Then run the experiment continuously by
-              pressing the (Go) icon.
+              Run the experiment by clicking the green <strong>1</strong> button
+              above the “Start” button, which sends one atom through the
+              apparatus. Do this repeatedly so you can see the inherent
+              randomness in the measurement process. Then run the experiment
+              continuously by pressing the “Start” button.
             </p>
 
             <img
@@ -119,7 +118,9 @@ export default page(setup, ({ section }) => ({
             label={<Prose>And for spin-down?</Prose>}
           />
 
-          <Prose>How confident are you in your answers?</Prose>
+          <Prose>
+            <em>To think about:</em> How confident are you in your answers?
+          </Prose>
         </>
       ),
     }),
@@ -138,13 +139,14 @@ export default page(setup, ({ section }) => ({
             label={
               <Prose>
                 Would you argue that something funny is going on (perhaps the
-                initial state has been prepared in configuration that is NOT
-                “50/50” after all?) Or would you simply call it statistical
+                initial state has been prepared in a configuration that is NOT
+                “50/50” after all?) Or would you simply call it a statistical
                 fluke?
               </Prose>
             }
             choices={[
               ["funny", "Something funny"],
+              ["in-between", "On the edge"],
               ["fluke", "Just a fluke"],
             ]}
           />
@@ -154,6 +156,7 @@ export default page(setup, ({ section }) => ({
             label={<Prose>What if it came out 4,800 “spin up”?</Prose>}
             choices={[
               ["funny", "Something funny"],
+              ["in-between", "On the edge"],
               ["fluke", "Just a fluke"],
             ]}
           />
@@ -163,6 +166,7 @@ export default page(setup, ({ section }) => ({
             label={<Prose>How about 4,000?</Prose>}
             choices={[
               ["funny", "Something funny"],
+              ["in-between", "On the edge"],
               ["fluke", "Just a fluke"],
             ]}
           />
@@ -173,6 +177,20 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "tenThousandSpins",
+          label: "I need a hint",
+          body: (
+            <Prose>
+              If you're not sure how to answer these questions, just make your
+              best guess and move on! The next section should help you quantify
+              your answers, and you can come back to edit this section if you
+              want.
+            </Prose>
+          ),
+        }),
+      ],
     }),
 
     section({
@@ -180,11 +198,17 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            You may recall (perhaps from labs): when flipping a “fair” coin{" "}
-            <M t="N" /> times,I expect to get on average <M t="N/2" /> heads,
-            with a standard deviation <M t="\sigma" /> of order{" "}
-            <M t="\sqrt{N}" />. Use this to quantitatively revisit your answers
-            to the previous question.
+            <p>
+              You may recall (perhaps from labs): when flipping a “fair” coin
+              <M t="N" /> times, I expect to get on average <M t="N/2" /> heads,
+              with a standard deviation <M t="\sigma" /> of order
+              <M t="\sqrt{N}" />.
+            </p>
+
+            <p>
+              Use this to quantitatively revisit your answers to the previous
+              question. (Feel free to go back and edit your responses.)
+            </p>
           </Prose>
 
           <TextArea

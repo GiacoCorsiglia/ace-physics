@@ -3,7 +3,6 @@ import { Decimal } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
 import { css, cx } from "linaria";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
@@ -11,7 +10,7 @@ export default page(setup, ({ section, hint }) => ({
   label: "A Spin-Z Experiment",
   sections: [
     section({
-      name: "repeatedMeasurementsIntro",
+      name: "spinAlongOtherAxesIntro",
       body: (
         <>
           <Prose>
@@ -20,7 +19,7 @@ export default page(setup, ({ section, hint }) => ({
               <M t="Y" />, or <M t="Z" />, oriented along the usual
               <M t="xyz" />
               -axes of a Cartesian coordinate system. (We ignore the fourth
-              option <M t="\hat{n}" /> for now). When a direction other than
+              option <M t="\theta" /> for now). When a direction other than
               <M t="Z" /> is chosen, we use a subscript to distinguish the
               output states (e.g., <M t="\ket{-}_y" />
               ).
@@ -35,19 +34,18 @@ export default page(setup, ({ section, hint }) => ({
             <p>
               <strong>
                 Your task is to measure the probabilities
-                <M t="P_{\text{out}} = |\braket{\text{out}|\text{in}}|^2" />{" "}
-                corresponding to each pair of input and output states (there are
-                36!).
+                <M t="P = |\braket{\text{out}|\text{in}}|^2" /> corresponding to
+                each pair of input and output states (there are 36!).
               </strong>{" "}
               This is the probability that an atom leaving the first analyzer
-              also makes it through the second analyzer to the detector. (Not
-              the total probability for getting from the oven to the detector.)
+              also makes it through the second analyzer to the chosen detector.
+              (Not the total probability for getting from the oven to the
+              detector.)
             </p>
 
             <p>
               For example, the previous page (page 2, which had both analyzers
-              along the z-axis) above gave the result{" "}
-              <M t="|\braket{+|+}|^2 = 1" />.
+              along the z-axis) gave the result <M t="|\braket{+|+}|^2 = 1" />.
             </p>
           </Prose>
         </>
@@ -67,6 +65,13 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
+
+    // Show screenshots with right and wrong detectors (X - Z) or (Z-X) If
+    // wrong: remember our notation out-in.  Be careful of which is out and
+    // which is in.
+
+    // Show screenshots: which detector are you using for the probabilities.
+    //
 
     section({
       name: "outInTable",
@@ -106,11 +111,12 @@ export default page(setup, ({ section, hint }) => ({
                 <span
                   className={css`
                     color: green;
+                    font-weight: bold;
                   `}
                 >
                   green
                 </span>
-                ).
+                ) with the corresponding probability.
               </p>
 
               <p>
@@ -119,7 +125,11 @@ export default page(setup, ({ section, hint }) => ({
               </p>
 
               <p>
-                Then, <strong>fill in the rest of the table</strong>.
+                Then, <strong>fill in the rest of the table</strong> by
+                inputting the appropriate probability value in each cell.
+                (Reminder: probabilities are numbers between <M t="0" /> and
+                <M t="1" />
+                .)
               </p>
             </Prose>
 
@@ -152,6 +162,7 @@ export default page(setup, ({ section, hint }) => ({
                                 col === "upX" &&
                                 css`
                                   border-color: green;
+                                  box-shadow: green 0 0 1px 1px;
                                 `
                             )}
                             initialValue={
@@ -184,5 +195,7 @@ export default page(setup, ({ section, hint }) => ({
         }),
       ],
     }),
+
+    // Check entire table.  Heads up, there is at least one mistake somewhere in your table.
   ],
 }));

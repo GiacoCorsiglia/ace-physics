@@ -30,12 +30,8 @@ export default tutorialSetup({
       label: "Another Unknown State",
     },
     {
-      link: "6-filtering-spin",
-      label: "Filtering Spin",
-    },
-    {
-      link: "7-challenge",
-      label: "Challenge",
+      link: "6-rotating-spin",
+      label: "Rotating Spin Challenge",
     },
   ],
 });

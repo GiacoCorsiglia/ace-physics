@@ -1,8 +1,7 @@
 import { Help, Prose } from "@/design";
-import { Decimal, Text, TextArea } from "@/inputs";
+import { Decimal, FieldGroup, Text, TextArea } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
-import React from "react";
 import repeatedMeasurementsSetupImg from "./assets/repeated-measurements-setup.png";
 import setup from "./setup";
 
@@ -24,10 +23,17 @@ export default page(setup, ({ section }) => ({
             <p>
               <em>
                 Find icons near the top to add elements to your work space. To
-                break a connecting line, hover your mouse near the left end of a
-                line until the mouse icon becomes a double-headed arrow, then
-                click. To add a line, click &amp; drag that new icon from start
-                to end points.
+                break an existing line, click just left of where the line
+                originates. To add a line, click and drag to an empty space, let
+                go, then select the new element that you want. (We’re not using
+                magnets yet.)
+              </em>
+            </p>
+
+            <p>
+              <em>
+                To change the spin component you are measuring, click on the
+                capital letter (X, Y, Z).
               </em>
             </p>
           </Prose>
@@ -60,17 +66,16 @@ export default page(setup, ({ section }) => ({
       name: "probUpUp",
       body: (m) => (
         <>
-          <Decimal
-            model={m.probUpUp}
-            label={
-              <Prose>
-                What is the probability that an atom entering the second
-                analyzer (state <M t="\ket{\text{𝑖𝑛}} = \ket{+}" />) exits the
-                spin up port (state <M t="\ket{\text{out}} = \ket{+}" />) of the
-                second analyzer?
-              </Prose>
-            }
-          />
+          <Prose>
+            What is the probability that an atom entering the second analyzer
+            <br /> (state <M t="\ket{\text{𝑖𝑛}} = \ket{+}" />) exits the spin up
+            port (state <M t="\ket{\text{out}} = \ket{+}" />) of the second
+            analyzer?
+          </Prose>
+
+          <FieldGroup grid className="margin-top-1">
+            <Decimal model={m.probUpUp} label="Probability =" />
+          </FieldGroup>
 
           <Help>
             <Prose>
@@ -85,6 +90,13 @@ export default page(setup, ({ section }) => ({
       ),
     }),
 
+    // Feedback here:
+    // .5 for first => clarify what probability we're talking about.
+    // 0 for first => (might be swapped) look at your experiment again; clarify again
+    // No matter what, clarify experiment and tell them to run it again.
+    // 100 => Probabilities are numbers between 0 and 1.
+    // Adjust "we haven't checked any of your answers" button.
+
     section({
       name: "probUpDown",
       body: (m) => (
@@ -95,18 +107,19 @@ export default page(setup, ({ section }) => ({
             )?
           </Prose>
 
-          <Text
-            model={m.probUpDownDirac}
-            label={
-              <Prose>Write it in symbolic notation like we did above:</Prose>
-            }
-            maxWidth
-          />
+          <Prose>
+            Write it <strong>in symbolic notation</strong> like we did above:
+          </Prose>
 
-          <Decimal
-            model={m.probUpDown}
-            label={<Prose>Also give the numerical result:</Prose>}
-          />
+          <FieldGroup grid className="margin-top-1">
+            <Text model={m.probUpDownDirac} label="Probability =" maxWidth />
+          </FieldGroup>
+
+          <Prose>Also give the numerical result:</Prose>
+
+          <FieldGroup grid className="margin-top-1">
+            <Decimal model={m.probUpDown} label="Probability =" />
+          </FieldGroup>
         </>
       ),
     }),

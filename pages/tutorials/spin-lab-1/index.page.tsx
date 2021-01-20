@@ -5,8 +5,8 @@ import setup from "./setup";
 export default intro(setup, () => ({
   body: (
     <Prose>
-      Investigate the phenomenon of “spin,” which is fundamentally quantum
-      mechanical in nature.
+      In this lab, we’ll investigate the phenomenon of “spin,” which is
+      fundamentally quantum mechanical in nature.
     </Prose>
   ),
 }));
