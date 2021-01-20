@@ -20,6 +20,22 @@ const layout = (tutorialConfig: c.TutorialConfig) => (Route: TutorialRoute) => (
   <TutorialRoot config={tutorialConfig} routeElement={<Route />} />
 );
 
+// This is a hack, but the page files have to export components, and we want
+// to actually evaluate the configs in tests.
+const exposeConfigForTests = (
+  Component: any,
+  tutorialConfig: c.TutorialConfig,
+  config: any
+) => {
+  if (process.env.NODE_ENV === "test") {
+    // eslint-disable-next-line no-param-reassign
+    Component.tutorialConfig = tutorialConfig;
+    // eslint-disable-next-line no-param-reassign
+    Component.config = config;
+  }
+  return Component;
+};
+
 /**
  * Creates the introduction page for the given tutorial setup.
  */
@@ -34,6 +50,8 @@ export const intro = <S extends TutorialSchema>(
   );
   Component.displayName = `TutorialRoute:Intro`;
   Component.layout = layout(tutorialConfig);
+
+  exposeConfigForTests(Component, tutorialConfig, config);
 
   return Component;
 };
@@ -55,6 +73,8 @@ export const pretest = <S extends TutorialSchema>(
   );
   Component.displayName = `TutorialRoute:Pretest`;
   Component.layout = layout(tutorialConfig);
+
+  exposeConfigForTests(Component, tutorialConfig, config);
 
   return Component;
 };
@@ -94,6 +114,8 @@ export const page = <S extends TutorialSchema>(
   Component.displayName = `TutorialRoute:Page:${config.name}`;
   Component.layout = layout(tutorialConfig);
 
+  exposeConfigForTests(Component, tutorialConfig, config);
+
   return Component;
 };
 
@@ -108,6 +130,8 @@ export const feedback = <S extends TutorialSchema>(
   const Component: TutorialRoute = () => <FeedbackPage />;
   Component.displayName = `TutorialRoute:Feedback`;
   Component.layout = layout(tutorialConfig);
+
+  exposeConfigForTests(Component, tutorialConfig, {});
 
   return Component;
 };

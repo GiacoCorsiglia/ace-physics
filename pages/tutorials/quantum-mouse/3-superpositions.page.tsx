@@ -7,7 +7,7 @@ import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, oneOf, hint }) => ({
-  name: "what-is-a-quantum-mouse",
+  name: "superpositions",
   label: "Superpositions",
   sections: [
     section({
