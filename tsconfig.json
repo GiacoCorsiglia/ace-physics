@@ -24,6 +24,5 @@
       "@/*": ["./lib/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "tutorials", "backend"]
+  "exclude": ["node_modules", "tutorials", "scripts"]
 }
