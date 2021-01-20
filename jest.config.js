@@ -11,9 +11,9 @@ const config = (module.exports = {
   transform: {
     "^.+\\.(ts|tsx)$": "babel-jest",
 
-    // TODO: Fake asset imports.
-    // SEE: https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/jest/fileTransform.js
-    // "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js",
+    //Fake asset imports.
+    "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)":
+      "<rootDir>/lib/__mocks__/file-transform.js",
   },
   transformIgnorePatterns: [
     "[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$",
@@ -28,7 +28,7 @@ const config = (module.exports = {
     : undefined,
   moduleNameMapper: {
     // Fake CSS Modules.
-    "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+    "\\.(css|less|sass|scss)$": "<rootDir>/lib/__mocks__/css-module-mock.js",
     // Support for tsconfig paths.
     ...Object.fromEntries(
       Object.entries(tsconfig.compilerOptions.paths || {}).map(([k, [v]]) => [
