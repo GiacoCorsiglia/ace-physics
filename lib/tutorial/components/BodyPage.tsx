@@ -55,21 +55,19 @@ export default function BodyPage({
 
       <SectionTree sections={config.sections} complete={complete} />
 
-      <ContinueToNextPage
-        pageName={config.name}
-        tutorialConfig={tutorialConfig}
-      />
+      <ContinueToNextPage config={config} tutorialConfig={tutorialConfig} />
     </>
   );
 }
 
 function ContinueToNextPage({
-  pageName,
+  config,
   tutorialConfig,
 }: {
-  pageName: string;
+  config: PageConfig;
   tutorialConfig: TutorialConfig;
 }) {
+  const pageName = config.name;
   const [status] = useValue(["pages", pageName, "status"]);
   const router = useRouter();
 
@@ -107,9 +105,23 @@ function ContinueToNextPage({
     >
       <Prose>
         Nice job finishing this page!{" "}
-        <strong className="text-blue">
-          We haven't checked any of your answers,
-        </strong>{" "}
+        {(() => {
+          switch (config.answersChecked) {
+            case undefined:
+            case "none":
+              return (
+                <strong className="text-blue">
+                  We haven't checked any of your answers,
+                </strong>
+              );
+            case "some":
+              return (
+                <strong className="text-blue">
+                  We only checked some of of your answers,
+                </strong>
+              );
+          }
+        })()}{" "}
         so you may want to check in with an instructor.
       </Prose>
 

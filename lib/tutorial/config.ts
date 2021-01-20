@@ -119,6 +119,11 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly label: Label;
   /**
+   * Whether any answers on the page where checked.  We assume none were checked
+   * by default.
+   */
+  readonly answersChecked?: "none" | "some";
+  /**
    * The sections (or nested sequences of sections) in the page.
    */
   readonly sections: readonly NodeConfig<S>[];
