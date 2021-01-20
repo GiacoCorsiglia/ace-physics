@@ -117,17 +117,31 @@ export const useModel = <F extends f.Field>(
   const onExternalUpdateRef = useRef(onExternalUpdate);
   onExternalUpdateRef.current = onExternalUpdate;
 
-  useEffect(
-    () =>
-      store.subscribe(model.path as any, (newValue, updateSource) => {
+  // Subscribe immediately so there's no race condition between subscribing
+  // and the state being changed in some async callback elsewhere (including
+  // in other effects in this component).
+  const unsubscribe = useRef<() => void>();
+  const subscriptionModel = useRef<Model>();
+  if (subscriptionModel.current !== model) {
+    if (unsubscribe.current) {
+      // unsubscribe from old subscription.
+      unsubscribe.current();
+    }
+
+    subscriptionModel.current = model;
+    unsubscribe.current = store.subscribe(
+      model.path as any,
+      (newValue, updateSource) => {
         setTuple([newValue, setValue]);
 
         if (updateSource !== source && onExternalUpdateRef.current) {
           onExternalUpdateRef.current(newValue);
         }
-      }),
-    [model, store, setValue, source]
-  );
+      }
+    );
+  }
+  // Unsubscribe from the latest subscription on unmount.
+  useEffect(() => () => unsubscribe.current && unsubscribe.current(), []);
 
   return tuple;
 };

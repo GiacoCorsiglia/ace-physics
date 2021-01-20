@@ -83,14 +83,24 @@ export const stateTree = <T extends object>(displayName: string) => {
       () => [get(store.state, path), setValue] as const
     );
 
-    useEffect(
-      () =>
-        store.subscribe(path as Path<T>, (newValue) =>
-          setTuple([newValue as TypeAtPath<Immutable<T>, P>, setValue])
-        ),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [store, path.join("/")]
-    );
+    // Subscribe immediately so there's no race condition between subscribing
+    // and the state being changed in some async callback elsewhere (including
+    // in other effects in this component).
+    const unsubscribe = useRef<() => void>();
+    const subscriptionPath = useRef<string>();
+    if (subscriptionPath.current !== path.join("/")) {
+      if (unsubscribe.current) {
+        // unsubscribe from old subscription.
+        unsubscribe.current();
+      }
+
+      subscriptionPath.current = path.join("/");
+      unsubscribe.current = store.subscribe(path as Path<T>, (newValue) =>
+        setTuple([newValue as TypeAtPath<Immutable<T>, P>, setValue])
+      );
+    }
+    // Unsubscribe from the latest subscription on unmount.
+    useEffect(() => () => unsubscribe.current && unsubscribe.current(), []);
 
     return tuple;
   };

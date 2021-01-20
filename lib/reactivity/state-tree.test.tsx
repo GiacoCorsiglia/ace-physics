@@ -93,6 +93,44 @@ describe("state tree", () => {
       expect(renderCount).toBe(2);
     });
 
+    it("works for root value", () => {
+      let renderCount = 0;
+      const { result } = rh(
+        () => [useStore(), useValue([]), renderCount++] as const
+      );
+
+      expect(renderCount).toBe(1);
+      expect(result.current[1][0]).toMatchObject(initial);
+
+      act(() => {
+        result.current[0].transaction((set) =>
+          set(["top1", "nested"], "updated1")
+        );
+      });
+
+      expect(renderCount).toBe(2);
+      expect(result.current[1][0].top1.nested).toBe("updated1");
+
+      act(() => {
+        result.current[0].transaction((set) =>
+          set([], { top1: { nested: "updated2" }, top2: "updated-top-2" })
+        );
+      });
+
+      expect(renderCount).toBe(3);
+      expect(result.current[1][0].top1.nested).toBe("updated2");
+
+      act(() => {
+        result.current[1][1]({
+          top1: { nested: "updated3" },
+          top2: "updated-top-3",
+        });
+      });
+
+      expect(renderCount).toBe(4);
+      expect(result.current[1][0].top1.nested).toBe("updated3");
+    });
+
     it("does not trigger rerender when irrelevant values change", () => {
       let renderCount = 0;
       const { result } = rh(
