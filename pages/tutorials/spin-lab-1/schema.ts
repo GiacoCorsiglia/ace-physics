@@ -19,7 +19,14 @@ export default tutorialSchema({
     "anotherUnknownState",
     "rotatingSpin",
   ],
-  pretest: {},
+  pretest: {
+    predictForSingleElectron: f.chooseOne(["yes", "no"]),
+    predictForSingleElectronExplain: f.string(),
+    readingDetectorA: f.number(),
+    readingDetectorB: f.number(),
+    readingsExplain: f.string(),
+    xSpinAtDetectorA: f.string(),
+  },
   sections: [
     // spinZExperiment.
     "spinZIntro",

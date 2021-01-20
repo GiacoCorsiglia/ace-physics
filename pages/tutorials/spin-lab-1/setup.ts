@@ -7,7 +7,7 @@ export default tutorialSetup({
   edition: "Main",
   link: "spin-lab-1",
   label: "Spin Lab 1: Measurement & Probability",
-  pretest: false,
+  pretest: true,
   pages: [
     {
       link: "1-spin-z-experiment",
