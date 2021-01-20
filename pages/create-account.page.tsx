@@ -10,7 +10,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const withNext = (a: string, _: string) => a;
+const withNext = (link: string, next: string) =>
+  link + (next ? `?next=${encodeURIComponent(next)}` : "");
 
 export default function CreateAccount() {
   const router = useRouter();
@@ -22,8 +23,10 @@ export default function CreateAccount() {
 
   const [newId, setNewId] = useState("");
 
-  // TODO
-  const next = "/";
+  const nextParam = router.query.next;
+  const next = decodeURIComponent(
+    typeof nextParam === "string" ? nextParam : ""
+  );
 
   useEffect(() => {
     // Can't create an account if you're already logged in!

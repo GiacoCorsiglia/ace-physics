@@ -4,7 +4,9 @@ import { Content } from "@/design/layout";
 import * as globalParams from "@/globalParams";
 import { JsxElement } from "@/helpers/frontend";
 import { Button } from "@/inputs";
-import { ArrowRightIcon } from "@primer/octicons-react";
+import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
+import { css } from "linaria";
+import { useRouter } from "next/router";
 import { TutorialConfig } from "../config";
 import styles from "./shared.module.scss";
 import TutorialHeader from "./TutorialHeader";
@@ -72,11 +74,23 @@ export default function TutorialRoot({
 }
 
 function LoggedOut() {
+  const router = useRouter();
+
   return (
-    <Content className="text-center margin-top">
+    <Content
+      className={css`
+        text-align: center;
+        margin-top: calc(2rem + 10vh);
+      `}
+    >
+      <LockIcon size="medium" />
+
       <Prose>You must be logged in to see this page.</Prose>
 
-      <Button link="/login" className="margin-top">
+      <Button
+        link={`/login?next=${encodeURIComponent(router.asPath)}`}
+        className="margin-top"
+      >
         Log in <ArrowRightIcon />
       </Button>
     </Content>

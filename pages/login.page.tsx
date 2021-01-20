@@ -14,14 +14,17 @@ import React, { useMemo, useState } from "react";
 const inputPattern = /^\d{0,3}( |-|,)?\d{0,3}$/;
 const idPattern = /^\d{3}( |-|,)?\d{3}$/;
 
-const withNext = (a: string, _: string) => a;
+const withNext = (link: string, next: string) =>
+  link + (next ? `?next=${encodeURIComponent(next)}` : "");
 
 export default function Login() {
   const { auth, login, logout } = useAuth();
   const router = useRouter();
 
-  // TODO
-  const next = "/";
+  const nextParam = router.query.next;
+  const next = decodeURIComponent(
+    typeof nextParam === "string" ? nextParam : ""
+  );
 
   const wasLoggedOut = useMemo(() => router.query.logout === "yes", [router]);
 
@@ -62,7 +65,7 @@ export default function Login() {
             )}
           </Prose>
 
-          <div className={styles.loggedInButton}>
+          <div className={styles.loggedInButtons}>
             <Button kind="tertiary" onClick={() => logout()}>
               Log out
             </Button>
