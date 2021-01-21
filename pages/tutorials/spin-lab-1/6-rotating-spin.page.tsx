@@ -13,7 +13,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             <p>
-              One last time, refresh the tab with the sim, or{" "}
+              One last time,{" "}
               <a
                 href="https://tinyurl.com/spin3220"
                 target="_blank"

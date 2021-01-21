@@ -16,7 +16,7 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
         <>
           <Prose>
             <p>
-              Again, refresh the tab with the sim, or{" "}
+              Again,{" "}
               <a
                 href="https://tinyurl.com/spin3220"
                 target="_blank"
@@ -249,9 +249,10 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
             ) : (
               <Info>
                 <Prose>
-                  We disagree. <M t="\ket{\phi} = \ket{+}_y" /> because it will
-                  exit the “up” port of a Y-oriented Stern-Gerlach apparatus
-                  100% of the time.
+                  If all particles are 100% certain to exit just one particular
+                  port of, say, a Y-oriented Stern-Gerlach apparatus, what can
+                  we say (for sure!) about the entering state? Maybe try a
+                  different response above?
                 </Prose>
               </Info>
             ),

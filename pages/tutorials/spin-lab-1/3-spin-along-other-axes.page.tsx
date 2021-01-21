@@ -32,7 +32,8 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             <p>
               If we can also use the spin down port of the first analyzer as
               input to the second analyzer, there are six possible input states
-              and six possible output states for the second analyzer.
+              and six possible output states for the second analyzer. (The six
+              states are: up or down, in each of the X, Y, and Z directions.)
             </p>
 
             <p>
@@ -75,7 +76,9 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       body: (m) => (
         <ChooseOne
           model={m.setupForUpZDownXCheck}
-          label={<Prose>Which of these matches your sim’s setup?</Prose>}
+          label={
+            <Prose>Which of these reasonably matches your sim’s setup?</Prose>
+          }
           choices={[
             [
               "z-x",

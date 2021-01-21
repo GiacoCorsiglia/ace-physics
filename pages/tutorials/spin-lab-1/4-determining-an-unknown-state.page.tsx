@@ -15,13 +15,12 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>
             <p>
-              Refresh the tab with the sim, or{" "}
               <a
                 href="https://tinyurl.com/spin3220"
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                open a new sim
+                Open a new sim
               </a>{" "}
               to start from scratch.
             </p>
@@ -38,8 +37,8 @@ export default page(setup, ({ section, oneOf }) => ({
 
             <p>
               This causes the atoms to leave the source in a definite quantum
-              state, which we call <M t="\ket{\psi}" />. Your task is to
-              conclude what <M t="\ket{\psi}" /> is, in terms of the z-basis.
+              state, which we call <M t="\ket{\psi_1}" />. Your task is to
+              conclude what <M t="\ket{\psi_1}" /> is, in terms of the z-basis.
             </p>
           </Prose>
         </>
@@ -56,8 +55,8 @@ export default page(setup, ({ section, oneOf }) => ({
               Any general quantum state can always be written in the form
               <M t="a\ket{+} + b\ket{-}" />, where <M t="a" /> and
               <M t="b" /> are just (possibly complex) numbers. Run the sim and
-              use the results to write <M t="\ket{\psi}" /> in this form:
-              <M display t="\ket{\psi} = a\ket{+} + b\ket{-}" />
+              use the results to write <M t="\ket{\psi_1}" /> in this form:
+              <M display t="\ket{\psi_1} = a\ket{+} + b\ket{-}" />
             </p>
 
             <p>Record your results here:</p>
