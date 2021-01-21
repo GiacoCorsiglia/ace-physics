@@ -85,7 +85,9 @@ export default function IntroPage({
           link={urls.join(
             `/${urls.Tutorials.path}`,
             tutorialConfig.link,
-            tutorialConfig.pages[0].link
+            tutorialConfig.pretest
+              ? "before-you-start"
+              : tutorialConfig.pages[0].link
           )}
         >
           Let’s get going <ArrowRightIcon />
