@@ -117,7 +117,7 @@ function ContinueToNextPage({
             case "some":
               return (
                 <strong className="text-blue">
-                  We only checked some of of your answers,
+                  We only checked some of your answers,
                 </strong>
               );
           }
