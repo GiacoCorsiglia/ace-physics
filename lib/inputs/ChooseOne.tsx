@@ -21,7 +21,7 @@ export default function ChooseOne<Cs extends Choices>({
   allowOther?: boolean;
   label?: Html;
   disabled?: boolean;
-  answer: Choice<Cs>;
+  answer?: Choice<Cs>;
   explanation?: Html;
 }) {
   const [value, setValue] = useModel(model);
