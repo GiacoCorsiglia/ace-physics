@@ -2,12 +2,20 @@ import { Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
-import { FieldGroup, TextArea, Toggle } from "@/inputs";
+import { Button, FieldGroup, TextArea, Toggle } from "@/inputs";
+import * as urls from "@/urls";
+import { ArrowRightIcon } from "@primer/octicons-react";
+import { cx } from "linaria";
 import Head from "next/head";
 import React from "react";
+import { TutorialConfig } from "../config";
 import { useRootModel } from "../state-tree";
 
-export default function FeedbackPage() {
+export default function FeedbackPage({
+  tutorialConfig,
+}: {
+  tutorialConfig: TutorialConfig;
+}) {
   const rootModel = useRootModel();
   const m = rootModel.properties.feedback.properties;
 
@@ -115,6 +123,18 @@ export default function FeedbackPage() {
               </Prose>
             }
           />
+        </section>
+
+        <section className={cx(styles.section, "text-right")}>
+          <Button
+            link={urls.join(
+              urls.Tutorials.link,
+              tutorialConfig.link,
+              "finished"
+            )}
+          >
+            I’m done <ArrowRightIcon />
+          </Button>
         </section>
       </Content>
     </>

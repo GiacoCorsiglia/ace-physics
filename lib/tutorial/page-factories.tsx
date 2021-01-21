@@ -127,7 +127,9 @@ type Constructor<T> = (c: Omit<T, "kind">) => T;
 export const feedback = <S extends TutorialSchema>(
   tutorialConfig: c.TutorialConfig<S>
 ) => {
-  const Component: TutorialRoute = () => <FeedbackPage />;
+  const Component: TutorialRoute = () => (
+    <FeedbackPage tutorialConfig={tutorialConfig} />
+  );
   Component.displayName = `TutorialRoute:Feedback`;
   Component.layout = layout(tutorialConfig);
 
