@@ -1,12 +1,13 @@
-import { Prose } from "@/design";
+import { Help, Info, Prose } from "@/design";
 import { FieldGroup, Text, TextArea } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, oneOf }) => ({
   name: "determiningAnUnknownState",
   label: "Determining an Unknown State",
+  answersChecked: "some",
   sections: [
     section({
       name: "determiningAnUnknownStateIntro",
@@ -94,8 +95,35 @@ export default page(setup, ({ section }) => ({
       ),
     }),
 
-    // If not correct (a =0, b=1), we get a different answer.  Are you sure you
-    // were running unknown 2?  Please check with an instructor.
-    // Also indicate if correct
+    oneOf({
+      which: (r) =>
+        r.unknown2CoefficientA === "0" &&
+        ["1", "-1", "i", "-i"].includes(r.unknown2CoefficientB || "")
+          ? "unknown2CoefficientsCorrect"
+          : "unknown2CoefficientsIncorrect",
+      sections: {
+        unknown2CoefficientsIncorrect: section({
+          name: "unknown2CoefficientsIncorrect",
+          body: (
+            <Info>
+              <Prose>
+                We get a different answer for <M t="a" /> and <M t="b" />. Are
+                you sure you were using Unknown 2 in the sim? Please check with
+                an instructor.
+              </Prose>
+            </Info>
+          ),
+        }),
+
+        unknown2CoefficientsCorrect: section({
+          name: "unknown2CoefficientsCorrect",
+          body: (
+            <Help>
+              <Prose>Nice work, we agree with your coefficients!</Prose>
+            </Help>
+          ),
+        }),
+      },
+    }),
   ],
 }));

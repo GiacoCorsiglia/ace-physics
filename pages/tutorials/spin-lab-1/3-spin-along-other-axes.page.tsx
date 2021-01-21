@@ -1,13 +1,17 @@
-import { Prose } from "@/design";
-import { Decimal } from "@/inputs";
+import { Help, Info, Prose } from "@/design";
+import { deepEqual } from "@/helpers";
+import { ChooseOne, Decimal } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
 import { css, cx } from "linaria";
+import xzImg from "./assets/x-z.png";
+import zxImg from "./assets/z-x.png";
 import setup from "./setup";
 
-export default page(setup, ({ section, hint }) => ({
+export default page(setup, ({ section, hint, oneOf }) => ({
   name: "spinAlongOtherAxes",
   label: "A Spin-Z Experiment",
+  answersChecked: "all",
   sections: [
     section({
       name: "spinAlongOtherAxesIntro",
@@ -59,19 +63,98 @@ export default page(setup, ({ section, hint }) => ({
         <>
           <Prose>
             As a warm-up, discuss with your group the S-G ("Stern-Gerlach")
-            setup that will let you correctly determine{" "}
-            <M t="|\braket{+|+}_x|^2" />.
+            setup that will let you correctly determine
+            <M t="|\braket{+|+}_x|^2" />. Set up the sim accordingly.
           </Prose>
         </>
       ),
     }),
 
-    // Show screenshots with right and wrong detectors (X - Z) or (Z-X) If
-    // wrong: remember our notation out-in.  Be careful of which is out and
-    // which is in.
+    section({
+      name: "setupForUpZDownXCheck",
+      body: (m) => (
+        <ChooseOne
+          model={m.setupForUpZDownXCheck}
+          label={<Prose>Which of these matches your sim’s setup?</Prose>}
+          choices={[
+            [
+              "z-x",
+              <img
+                className="img"
+                src={zxImg}
+                alt="Z S-G first, X S-G second"
+              />,
+            ],
+            [
+              "x-z",
+              <img
+                className="img"
+                src={xzImg}
+                alt="X S-G first, Z S-G second"
+              />,
+            ],
+            ["none", "None of the above"],
+          ]}
+          allowOther={false}
+        />
+      ),
+    }),
 
-    // Show screenshots: which detector are you using for the probabilities.
-    //
+    oneOf({
+      which: (r) => {
+        switch (r.setupForUpZDownXCheck?.selected) {
+          case "x-z":
+            return "setupForUpZDownXCorrect";
+          case "z-x":
+            return "setupForUpZDownXReversed";
+          case "none":
+            return "setupForUpZDownXIncorrect";
+          case undefined:
+            return null;
+        }
+      },
+      sections: {
+        setupForUpZDownXIncorrect: section({
+          name: "setupForUpZDownXIncorrect",
+          body: (
+            <Info>
+              <Prose>
+                We think one of those two choices will work. Take another look,
+                or discuss with an instructor before moving on.
+              </Prose>
+            </Info>
+          ),
+        }),
+        setupForUpZDownXReversed: section({
+          name: "setupForUpZDownXReversed",
+          body: (
+            <Info>
+              <Prose>
+                <p>
+                  Your goal is to determine <M t="|\braket{+|+}_x|^2" />. The
+                  template formula we use for probabilities is
+                  <M t="P = |\braket{\text{out}|\text{in}}|^2" />.
+                </p>
+
+                <p>
+                  In this setup, which analyzer should come last: the one
+                  corresponding with <M t="\ket{\text{in}}" />, or the one
+                  corresponding with <M t="\ket{\text{out}}" />?
+                </p>
+              </Prose>
+            </Info>
+          ),
+        }),
+        setupForUpZDownXCorrect: section({
+          name: "setupForUpZDownXCorrect",
+          body: (
+            <Help>
+              <Prose>Excellent, looks good to us!</Prose>
+            </Help>
+          ),
+        }),
+      },
+    }),
 
     section({
       name: "outInTable",
@@ -154,7 +237,7 @@ export default page(setup, ({ section, hint }) => ({
                       <th>{bra(row)}</th>
 
                       {states.map((col) => (
-                        <td>
+                        <td key={col}>
                           <Decimal
                             model={rowModel.properties[col]}
                             className={cx(
@@ -196,6 +279,36 @@ export default page(setup, ({ section, hint }) => ({
       ],
     }),
 
-    // Check entire table.  Heads up, there is at least one mistake somewhere in your table.
+    section({
+      name: "outInTableFeedback",
+      body: (m, { responses }) => (
+        <>
+          {deepEqual(responses?.outInTable, correctTable) ? (
+            <Help>Excellent work!</Help>
+          ) : (
+            <Info>
+              <Prose>
+                <p>
+                  Heads up, there’s at least one mistake somewhere in your
+                  table.
+                </p>
+
+                <p>This message will update when your table is 100% correct.</p>
+              </Prose>
+            </Info>
+          )}
+        </>
+      ),
+    }),
   ],
 }));
+
+// prettier-ignore
+const correctTable = {
+  upZ:   { upZ: 1,   downZ: 0,   upX: 0.5, downX: 0.5, upY: 0.5, downY: 0.5 },
+  downZ: { upZ: 0,   downZ: 1,   upX: 0.5, downX: 0.5, upY: 0.5, downY: 0.5 },
+  upX:   { upZ: 0.5, downZ: 0.5, upX: 1,   downX: 0,   upY: 0.5, downY: 0.5 },
+  downX: { upZ: 0.5, downZ: 0.5, upX: 0,   downX: 1,   upY: 0.5, downY: 0.5 },
+  upY:   { upZ: 0.5, downZ: 0.5, upX: 0.5, downX: 0.5, upY: 1,   downY: 0 },
+  downY: { upZ: 0.5, downZ: 0.5, upX: 0.5, downX: 0.5, upY: 0,   downY: 1 },
+};

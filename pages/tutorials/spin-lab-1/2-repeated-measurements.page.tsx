@@ -1,13 +1,14 @@
-import { Help, Prose } from "@/design";
+import { Help, Info, Prose } from "@/design";
 import { Decimal, FieldGroup, Text, TextArea } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
 import repeatedMeasurementsSetupImg from "./assets/repeated-measurements-setup.png";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, oneOf }) => ({
   name: "repeatedMeasurements",
   label: "A Spin-Z Experiment",
+  answersChecked: "some",
   sections: [
     section({
       name: "repeatedMeasurementsIntro",
@@ -22,11 +23,10 @@ export default page(setup, ({ section }) => ({
 
             <p>
               <em>
-                Find icons near the top to add elements to your work space. To
-                break an existing line, click just left of where the line
-                originates. To add a line, click and drag to an empty space, let
-                go, then select the new element that you want. (We’re not using
-                magnets yet.)
+                To break an existing line, click just left of where the line
+                originates. To add a line to a new element, click and drag to an
+                empty space, let go, then select the new element that you want.
+                (We’re not using magnets yet.)
               </em>
             </p>
 
@@ -90,12 +90,56 @@ export default page(setup, ({ section }) => ({
       ),
     }),
 
-    // Feedback here:
-    // .5 for first => clarify what probability we're talking about.
-    // 0 for first => (might be swapped) look at your experiment again; clarify again
-    // No matter what, clarify experiment and tell them to run it again.
-    // 100 => Probabilities are numbers between 0 and 1.
-    // Adjust "we haven't checked any of your answers" button.
+    oneOf({
+      which: (r) => {
+        if (!r.probUpUp) {
+          return null;
+        } else if (r.probUpUp > 1 || r.probUpUp < 0) {
+          return "probUpUpOver1";
+        } else if (r.probUpUp !== 1) {
+          return "probUpUpIncorrect";
+        }
+        return null;
+      },
+      sections: {
+        probUpUpOver1: section({
+          name: "probUpUpOver1",
+          body: (
+            <Info>
+              <Prose>
+                <p>
+                  Reminder: Probabilities are numbers between <M t="0" /> and
+                  <M t="1" />. (We usually don’t write them as percentages.)
+                </p>
+
+                <p>Change your answer above before moving on.</p>
+              </Prose>
+            </Info>
+          ),
+        }),
+
+        probUpUpIncorrect: section({
+          name: "probUpUpIncorrect",
+          body: (
+            <Info>
+              <Prose>
+                <p>
+                  You may want to take another look at your experiment and
+                  reconsider that probability.
+                </p>
+
+                <p>
+                  To clarify: we’re asking,{" "}
+                  <em>of the atoms entering the second analyzer</em>, what is
+                  the probability that it ends up at the topmost counter in the
+                  image above.
+                </p>
+              </Prose>
+            </Info>
+          ),
+        }),
+      },
+    }),
 
     section({
       name: "probUpDown",

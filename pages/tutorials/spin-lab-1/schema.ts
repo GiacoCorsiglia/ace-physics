@@ -39,27 +39,41 @@ export default tutorialSchema({
     "repeatedMeasurementsIntro",
     "repeatedMeasurementsRun",
     "probUpUp",
+    "probUpUpOver1",
+    "probUpUpIncorrect",
     "probUpDown",
     "repeatedMeasurementsConclusions",
 
     // spinAlongOtherAxes.
     "spinAlongOtherAxesIntro",
     "setupForUpZDownX",
+    "setupForUpZDownXCheck",
+    "setupForUpZDownXReversed",
+    "setupForUpZDownXIncorrect",
+    "setupForUpZDownXCorrect",
     "outInTable",
+    "outInTableFeedback",
 
     // determiningAnUnknownState.
     "determiningAnUnknownStateIntro",
     "unknown2Coefficients",
     "unknown2Measurements",
-    "javaSimExploration",
+    "unknown2CoefficientsIncorrect",
+    "unknown2CoefficientsCorrect",
 
     // anotherUnknownState.
     "anotherUnknownStateIntro",
     "anotherUnknownStateStrategy",
     "unknown1Table",
+    "unknown1TableFeedback",
     "unknown1Ket",
+    "unknown1KetClarified",
+    "unknown1KetFeedback",
     "unknown1Ambiguity",
+    "unknown1AmbiguityFeedback",
     "unknown1Randomness",
+    "unknown1RandomnessCorrect",
+    "unknown1RandomnessIncorrect",
 
     // rotatingSpin.
     "rotatingSpinIntro",
@@ -80,6 +94,7 @@ export default tutorialSchema({
     probUpDownDirac: f.string(),
     repeatedMeasurementsConclusions: f.string(),
 
+    setupForUpZDownXCheck: f.chooseOne(["z-x", "x-z", "none"]),
     outInTable: f.object({
       upZ: OutInTableRow,
       downZ: OutInTableRow,
@@ -100,6 +115,7 @@ export default tutorialSchema({
       down: f.object({ x: f.number(), y: f.number(), z: f.number() }),
     }),
     unknown1Ket: f.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    unknown1KetClarified: f.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
     unknown1Ambiguity: f.string(),
     unknown1TotallyRandom: f.chooseOne(["yes", "no"]),
     unknown1Undetermined: f.chooseOne(["yes", "no"]),

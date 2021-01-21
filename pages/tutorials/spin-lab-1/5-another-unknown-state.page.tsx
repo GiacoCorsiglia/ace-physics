@@ -1,12 +1,14 @@
-import { Prose } from "@/design";
+import { Help, Info, Prose } from "@/design";
+import { deepEqual } from "@/helpers";
 import { Decimal, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, sequence, oneOf }) => ({
   name: "anotherUnknownState",
   label: "Determining an Unknown State",
+  answersChecked: "some",
   sections: [
     section({
       name: "anotherUnknownStateIntro",
@@ -29,8 +31,6 @@ export default page(setup, ({ section }) => ({
               Now choose <strong>Unknown 1</strong> (click the “1” under the
               “Start” button.) Then, hit <strong>Reset</strong>.
             </p>
-
-            {/* They should start from scratch here. */}
 
             <p>
               Important: make sure you selected <strong>Unknown 1</strong>, NOT
@@ -130,8 +130,22 @@ export default page(setup, ({ section }) => ({
       },
     }),
 
-    // Add feedback for probability table.  Check 100% correctness.  Also
-    // special case for .25 vs .5 (probability table not amplitude table).
+    section({
+      name: "unknown1TableFeedback",
+      body: (_, { responses }) =>
+        deepEqual(correctUnknown1Table, responses?.unknown1Table) ? (
+          <Help>
+            <Prose>Nice, your table looks great.</Prose>
+          </Help>
+        ) : (
+          <Info>
+            <Prose>
+              Heads up, there’s at least one mistake in your table. This message
+              will update when it’s 100% correct.
+            </Prose>
+          </Info>
+        ),
+    }),
 
     section({
       name: "unknown1Ket",
@@ -160,6 +174,91 @@ export default page(setup, ({ section }) => ({
       ),
     }),
 
+    sequence({
+      when: (r) => r.unknown1Ket?.selected !== "+y",
+      sections: [
+        section({
+          name: "unknown1KetClarified",
+          body: (m) => (
+            <>
+              <Prose>
+                We disagree with your previous answer. Try again—we’ve added
+                some clarifying descriptions in the dropdown below.
+              </Prose>
+
+              <FieldGroup grid className="margin-top-1">
+                <Select
+                  model={m.unknown1KetClarified}
+                  label={<M t="\ket{\phi} = " />}
+                  choices={[
+                    [
+                      "+z",
+                      <>
+                        <M t="\ket{+}" /> (Spin up along <M t="Z" />)
+                      </>,
+                    ],
+                    [
+                      "-z",
+                      <>
+                        <M t="\ket{-}" /> (Spin down along <M t="Z" />)
+                      </>,
+                    ],
+                    [
+                      "+x",
+                      <>
+                        <M t="\ket{+}_x" /> (Spin up along <M t="X" />)
+                      </>,
+                    ],
+                    [
+                      "-x",
+                      <>
+                        <M t="\ket{-}_x" /> (Spin down along <M t="X" />)
+                      </>,
+                    ],
+                    [
+                      "+y",
+                      <>
+                        <M t="\ket{+}_y" /> (Spin up along <M t="Y" />)
+                      </>,
+                    ],
+                    [
+                      "-y",
+                      <>
+                        <M t="\ket{-}_y" /> (Spin down along <M t="Y" />)
+                      </>,
+                    ],
+                  ]}
+                  allowOther={false}
+                />
+              </FieldGroup>
+            </>
+          ),
+        }),
+
+        section({
+          name: "unknown1KetFeedback",
+          body: (_, { responses }) =>
+            responses?.unknown1KetClarified?.selected === "+y" ? (
+              <Help>
+                <Prose>
+                  Nice! We agree, <M t="\ket{\phi} = \ket{+}_y" /> because it
+                  will exit the “up” port of a Y-oriented Stern-Gerlach
+                  apparatus 100% of the time.
+                </Prose>
+              </Help>
+            ) : (
+              <Info>
+                <Prose>
+                  We disagree. <M t="\ket{\phi} = \ket{+}_y" /> because it will
+                  exit the “up” port of a Y-oriented Stern-Gerlach apparatus
+                  100% of the time.
+                </Prose>
+              </Info>
+            ),
+        }),
+      ],
+    }),
+
     section({
       name: "unknown1Ambiguity",
       body: (m) => (
@@ -172,8 +271,20 @@ export default page(setup, ({ section }) => ({
       ),
     }),
 
-    //  We haven't tried to analyze your text, but here's what we would say:
-    // |Phi> is definitely spin up in Y, but you can always multiply any quantum state by an "overall phase," like -1.  So our solution is unambiguous, up to an (irrelevant) overall phase.
+    section({
+      name: "unknown1AmbiguityFeedback",
+      body: (
+        <Help>
+          <Prose>
+            We haven't tried to analyze your text, but here's what we would say:
+            <M t="\ket{\phi}" /> is definitely spin up along <M t="Y" />, but
+            you can always multiply any quantum state by an “overall phase,”
+            like <M t="-1" />. So our solution is unambiguous, up to an
+            (irrelevant) overall phase.
+          </Prose>
+        </Help>
+      ),
+    }),
 
     section({
       name: "unknown1Randomness",
@@ -230,7 +341,42 @@ export default page(setup, ({ section }) => ({
       ),
     }),
 
-    // Check all three answers (if any wrong: we suggest you talk to an instructor).
-    // if all right: We agree with your answers, haven't checked discussion
+    oneOf({
+      which: (r) =>
+        r.unknown1TotallyRandom?.selected === "no" &&
+        r.unknown1Undetermined?.selected === "no" &&
+        r.unknown1FromThermalSource?.selected === "no"
+          ? "unknown1RandomnessCorrect"
+          : "unknown1RandomnessIncorrect",
+      sections: {
+        unknown1RandomnessCorrect: section({
+          name: "unknown1RandomnessCorrect",
+          body: (
+            <Help>
+              <Prose>
+                We agree with your answers, although we haven't checked your
+                explanation.
+              </Prose>
+            </Help>
+          ),
+        }),
+        unknown1RandomnessIncorrect: section({
+          name: "unknown1RandomnessIncorrect",
+          body: (
+            <Info>
+              <Prose>
+                We disagree with at least one of your answers; we suggest you
+                talk to an instructor.
+              </Prose>
+            </Info>
+          ),
+        }),
+      },
+    }),
   ],
 }));
+
+const correctUnknown1Table = {
+  up: { x: 0.5, y: 1, z: 0.5 },
+  down: { x: 0.5, y: 0, z: 0.5 },
+};
