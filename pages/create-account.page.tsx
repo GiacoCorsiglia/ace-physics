@@ -23,9 +23,9 @@ export default function CreateAccount() {
 
   const [newId, setNewId] = useState("");
 
-  const nextParam = router.query.next;
+  const nextParam = router.query.next || "/";
   const next = decodeURIComponent(
-    typeof nextParam === "string" ? nextParam : ""
+    typeof nextParam === "string" ? nextParam : "/"
   );
 
   useEffect(() => {

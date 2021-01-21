@@ -21,14 +21,12 @@ export default function Login() {
   const { auth, login, logout } = useAuth();
   const router = useRouter();
 
-  const nextParam = router.query.next;
+  const nextParam = router.query.next || "/";
   const next = decodeURIComponent(
-    typeof nextParam === "string" ? nextParam : ""
+    typeof nextParam === "string" ? nextParam : "/"
   );
 
   const wasLoggedOut = useMemo(() => router.query.logout === "yes", [router]);
-
-  // const next = useNext();
 
   const [id, setId] = useState(() => {
     const saved = rememberedLearnerId();
