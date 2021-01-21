@@ -110,19 +110,32 @@ function ContinueToNextPage({
             case undefined:
             case "none":
               return (
-                <strong className="text-blue">
-                  We haven't checked any of your answers,
-                </strong>
+                <>
+                  <strong className="text-blue">
+                    We haven't checked any of your answers,
+                  </strong>{" "}
+                  so you may want to check in with an instructor.
+                </>
               );
             case "some":
               return (
-                <strong className="text-blue">
-                  We only checked some of your answers,
-                </strong>
+                <>
+                  <strong className="text-blue">
+                    We only checked some of your answers,
+                  </strong>{" "}
+                  so you may want to check in with an instructor.
+                </>
+              );
+            case "all":
+              return (
+                <>
+                  We checked all your answers, but we encourage you to keep
+                  thinking about these ideas, and to discuss any lingering
+                  questions with your peers or instructor.
+                </>
               );
           }
-        })()}{" "}
-        so you may want to check in with an instructor.
+        })()}
       </Prose>
 
       <div className="text-right">
