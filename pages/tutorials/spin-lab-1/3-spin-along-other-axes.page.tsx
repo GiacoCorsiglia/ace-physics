@@ -216,8 +216,9 @@ export default page(setup, ({ section, hint, oneOf }) => ({
 
               <p>
                 Then, <strong>fill in the rest of the table</strong> by
-                inputting the appropriate probability value in each cell.
-                (Reminder: probabilities are numbers between <M t="0" /> and
+                inputting the appropriate <strong>probability value</strong> in
+                each cell. (Reminder: probabilities are numbers between{" "}
+                <M t="0" /> and
                 <M t="1" />
                 .)
               </p>
