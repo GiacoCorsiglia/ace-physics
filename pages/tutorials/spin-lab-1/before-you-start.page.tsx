@@ -17,6 +17,8 @@ export default pretest(setup, ({ section }) => ({
               <Prose>
                 <img
                   src={pretest1}
+                  height={832}
+                  width={324}
                   alt="Experimental setup with with a beam of electrons passing through a Stern-Gerlach apparatus oriented along the Z-axis."
                   style={{ maxWidth: "300px" }}
                 />
@@ -49,7 +51,12 @@ export default pretest(setup, ({ section }) => ({
             the top port and continue to the next analyzer (as depicted below).
           </p>
 
-          <img src={pretest2} alt="" />
+          <img
+            src={pretest2}
+            width={766}
+            height={190}
+            alt="A chain of 3 S-G analyzers.  Z, X, then Z again.  500 particles emerge from the upper port of the first Z analyzer and enter the X analyzer.  Some number of particles then emerge from the lower port of the X analyzer and enter the last Z analyzer.  Detector A detects particles emerging from the upper port of the last Z analyzer; Detector B detects particles emerging from the lower port."
+          />
         </Prose>
       ),
     }),

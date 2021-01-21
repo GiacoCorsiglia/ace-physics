@@ -39,6 +39,8 @@ export default page(setup, ({ section, oneOf }) => ({
 
             <img
               src={repeatedMeasurementsSetupImg}
+              width={665}
+              height={268}
               alt="Experimental setup described in the above text"
             />
           </Prose>

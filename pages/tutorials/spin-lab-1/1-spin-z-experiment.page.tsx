@@ -62,6 +62,8 @@ export default page(setup, ({ section, hint }) => ({
 
             <img
               src={spinZSetupImg}
+              width={493}
+              height={204}
               alt="Experimental setup described in the above text"
             />
           </Prose>

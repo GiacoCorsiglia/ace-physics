@@ -82,6 +82,8 @@ export default page(setup, ({ section, hint, oneOf }) => ({
               <img
                 className="img"
                 src={zxImg}
+                width={665}
+                height={267}
                 alt="Z S-G first, X S-G second"
               />,
             ],
@@ -90,6 +92,8 @@ export default page(setup, ({ section, hint, oneOf }) => ({
               <img
                 className="img"
                 src={xzImg}
+                width={664}
+                height={264}
                 alt="X S-G first, Z S-G second"
               />,
             ],
