@@ -140,8 +140,20 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
         ) : (
           <Info>
             <Prose>
-              Heads up, there’s at least one mistake in your table. This message
-              will update when it’s 100% correct.
+              <p>
+                Heads up, there’s at least one mistake in your table. This
+                message will update when it’s 100% correct.
+              </p>
+
+              {Object.values(responses?.unknown1Table || {})
+                .flatMap((o) => Object.values(o || {}))
+                .some((v) => (v === undefined ? false : v > 1)) && (
+                <p>
+                  We noticed at least one of the numbers in your table is
+                  greater than 1. To be clear: we’re asking for probabilities,
+                  not percentages and not raw totals from the sim.
+                </p>
+              )}
             </Prose>
           </Info>
         ),
@@ -182,8 +194,8 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
           body: (m) => (
             <>
               <Prose>
-                We disagree with your previous answer. Try again—we’ve added
-                some clarifying descriptions in the dropdown below.
+                We’ve added some clarifying descriptions in the dropdown
+                below—we suggest you give this question another go.
               </Prose>
 
               <FieldGroup grid className="margin-top-1">
@@ -277,11 +289,17 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
       body: (
         <Help>
           <Prose>
-            We haven't tried to analyze your text, but here's what we would say:
-            <M t="\ket{\phi}" /> is definitely spin up along <M t="Y" />, but
-            you can always multiply any quantum state by an “overall phase,”
-            like <M t="-1" />. So our solution is unambiguous, up to an
-            (irrelevant) overall phase.
+            <p>
+              We haven't tried to analyze your text, but here's what we would
+              say:
+            </p>
+
+            <p>
+              <M t="\ket{\phi}" /> is statistically very likely to be spin up
+              along <M t="Y" />, but you can always multiply any quantum state
+              by an “overall phase,” like <M t="-1" />. So our solution is
+              unambiguous, up to an (irrelevant) overall phase.
+            </p>
           </Prose>
         </Help>
       ),

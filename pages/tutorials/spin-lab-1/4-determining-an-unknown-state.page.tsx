@@ -97,7 +97,7 @@ export default page(setup, ({ section, oneOf }) => ({
     oneOf({
       which: (r) =>
         r.unknown2CoefficientA === "0" &&
-        ["1", "-1", "i", "-i"].includes(r.unknown2CoefficientB || "")
+        ["1", "-1", "i", "-i"].includes(r.unknown2CoefficientB?.trim() || "")
           ? "unknown2CoefficientsCorrect"
           : "unknown2CoefficientsIncorrect",
       sections: {
@@ -116,9 +116,20 @@ export default page(setup, ({ section, oneOf }) => ({
 
         unknown2CoefficientsCorrect: section({
           name: "unknown2CoefficientsCorrect",
-          body: (
+          body: (_, { responses }) => (
             <Help>
-              <Prose>Nice work, we agree with your coefficients!</Prose>
+              <Prose>
+                <p>Nice work, we agree with your coefficients!</p>
+
+                {responses?.unknown2CoefficientB?.trim() === "-1" && (
+                  <p>
+                    We would have gone with the simpler answer of{" "}
+                    <M t="b = 1" /> as opposed to <M t="b = -1" />. (You can
+                    always multiply a state by a minus sign without affecting
+                    the physics.)
+                  </p>
+                )}
+              </Prose>
             </Help>
           ),
         }),
