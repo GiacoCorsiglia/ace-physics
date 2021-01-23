@@ -44,6 +44,13 @@ export default page(setup, ({ section }) => ({
               down” in the X-direction).
             </p>
 
+            <p>
+              Note: your final beam doesn’t have to include all of the particles
+              that originated at the source. You just need to create one beam
+              where all the particles <em>in that beam</em> are definitely in
+              the state <M t="\ket{-}_x" />.
+            </p>
+
             <p>Demonstrate with the sim that you have created such a beam!</p>
           </Prose>
         </>
