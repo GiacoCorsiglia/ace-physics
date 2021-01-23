@@ -155,10 +155,21 @@ body {
       }
     }
 
+    & button.link,
+    button.link#{&} {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      font-size: $text-normal;
+      background: none;
+      border: none;
+    }
+
     & img,
     img#{&} {
       display: block;
       margin-top: 1rem;
+      margin-bottom: 1rem;
       max-width: 100%;
       height: auto;
       margin-left: auto;
