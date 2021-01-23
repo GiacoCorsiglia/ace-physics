@@ -122,5 +122,5 @@ export default tutorialSchema({
     unknown1FromThermalSource: f.chooseOne(["yes", "no"]),
     unknown1RandomnessExplain: f.string(),
   },
-  hints: ["tenThousandSpins", "outInTableIsSimNecessary"],
+  hints: ["howToUseSim", "tenThousandSpins", "outInTableIsSimNecessary"],
 });

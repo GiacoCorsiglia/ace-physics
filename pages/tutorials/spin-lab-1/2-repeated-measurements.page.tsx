@@ -2,10 +2,13 @@ import { Help, Info, Prose } from "@/design";
 import { Decimal, FieldGroup, Text, TextArea } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
+import { useState } from "react";
+import addAnalyzerCounterImg from "./assets/add-analyzer-counter.gif";
+import createBreakConnections from "./assets/create-break-connections.gif";
 import repeatedMeasurementsSetupImg from "./assets/repeated-measurements-setup.png";
 import setup from "./setup";
 
-export default page(setup, ({ section, oneOf }) => ({
+export default page(setup, ({ section, oneOf, hint }) => ({
   name: "repeatedMeasurements",
   label: "A Spin-Z Experiment",
   answersChecked: "some",
@@ -21,22 +24,6 @@ export default page(setup, ({ section, oneOf }) => ({
               below. You need an extra analyzer and counter.
             </p>
 
-            <p>
-              <em>
-                To break an existing line, click just left of where the line
-                originates. To add a line to a new element, click and drag to an
-                empty space, let go, then select the new element that you want.
-                (We’re not using magnets yet.)
-              </em>
-            </p>
-
-            <p>
-              <em>
-                To change the spin component you are measuring, click on the
-                capital letter (X, Y, Z).
-              </em>
-            </p>
-
             <img
               src={repeatedMeasurementsSetupImg}
               width={665}
@@ -47,6 +34,13 @@ export default page(setup, ({ section, oneOf }) => ({
         </>
       ),
       continue: { label: "I set up the new experiment" },
+      hints: [
+        hint({
+          name: "howToUseSim",
+          body: <HowToUseTheSim />,
+          label: "How do I edit the sim?",
+        }),
+      ],
     }),
 
     section({
@@ -188,3 +182,69 @@ export default page(setup, ({ section, oneOf }) => ({
     }),
   ],
 }));
+
+function HowToUseTheSim() {
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <Prose>
+      {!visible && (
+        <p>
+          <button
+            className="link"
+            type="button"
+            onClick={() => setVisible(true)}
+          >
+            Show steps for editing the sim
+          </button>
+        </p>
+      )}
+
+      {visible && (
+        <ul>
+          <li>
+            To break an existing line, click just left of where the line
+            originates.
+          </li>
+          <li>
+            Click and drag between two unconnected elements to connect them.
+            <img
+              src={createBreakConnections}
+              width={945}
+              height={522}
+              alt="Steps for breaking and creating a line, as described above."
+            />
+          </li>
+
+          <li>
+            To add a line to a new element, click and drag to an empty space,
+            let go, then select the new element that you want.
+          </li>
+
+          <li>
+            To change the spin component you are measuring, click on the capital
+            letter (X, Y, Z).
+            <img
+              src={addAnalyzerCounterImg}
+              width={945}
+              height={522}
+              alt="Steps for adding an analyzer and counter, as described above."
+            />
+          </li>
+        </ul>
+      )}
+
+      {visible && (
+        <p className="text-right">
+          <button
+            className="link"
+            type="button"
+            onClick={() => setVisible(false)}
+          >
+            Hide these steps
+          </button>
+        </p>
+      )}
+    </Prose>
+  );
+}
