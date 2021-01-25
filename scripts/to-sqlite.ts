@@ -1,11 +1,13 @@
-import * as apiTypes from "common/apiTypes";
-import * as s from "common/schema";
+import * as ddb from "@/api/db";
+import * as apiTypes from "@/schema/api";
+import * as f from "@/schema/fields";
+import { TutorialFeedback } from "@/schema/tutorial";
+import { tutorialSchemas } from "@pages/tutorials/schemas";
 import { names, tutorialFeedback } from "common/tutorials";
 import { existsSync, readdirSync, readFileSync, unlinkSync } from "fs";
 import { join } from "path";
 import { Database, open } from "sqlite";
 import sqlite3 from "sqlite3";
-import * as ddb from "../src/db";
 
 sqlite3.verbose();
 
@@ -61,8 +63,8 @@ async function setup(db: Database) {
         learnerId INTEGER NOT NULL,
         createdAt TEXT  NOT NULL,
         updatedAt TEXT NOT NULL,
-        updateTimestamps JSON NOT NULL,
         tutorial TEXT NOT NULL,
+        edition TEXT NOT NULL,
         FOREIGN KEY(learnerId) REFERENCES Learners(learnerId)
       )
   `);
@@ -70,46 +72,56 @@ async function setup(db: Database) {
   await db.exec(`
       CREATE TABLE TutorialFeedback(
         tutorialId NOT NULL,
-        ${schemaToColumnsDef(tutorialFeedback)},
+        ${schemaToColumnsDef(TutorialFeedback)},
         FOREIGN KEY(tutorialId) REFERENCES Tutorials(tutorialId)
       )
   `);
 
   return Promise.all(
-    Object.entries(names).map(([name, schema]) => {
-      return db.exec(`
-        CREATE TABLE Tutorial_${name}(
-          tutorialId NOT NULL,
-          ${schemaToColumnsDef(schema)},
-          FOREIGN KEY(tutorialId) REFERENCES Tutorials(tutorialId)
-        )
-      `);
+    [...tutorialSchemas.entries()].map(([name, schema]) => {
+      return Promise.all([
+        db.exec(`
+          CREATE TABLE Responses_${name}(
+            tutorialId NOT NULL,
+            ${schemaToColumnsDef(schema.properties.responses)},
+            FOREIGN KEY(tutorialId) REFERENCES Tutorials(tutorialId)
+          )
+        `),
+
+        db.exec(`
+          CREATE TABLE Pretest_${name}(
+            tutorialId NOT NULL,
+            ${schemaToColumnsDef(schema)},
+            FOREIGN KEY(tutorialId) REFERENCES Tutorials(tutorialId)
+          )
+        `),
+
+        // TODO: events, sections, etc.
+      ]);
     })
   );
 }
 
 const pathSeparator = "$";
 
-function schemaToColumnsDef(schema: s.RecordSchema<s.Properties>) {
+function schemaToColumnsDef(schema: f.ObjectField<f.Properties>) {
   return schemaToColumns(schema)
     .map((c) => c.join(" "))
     .join(",");
 }
 
 function schemaToColumns(
-  rootSchema: s.RecordSchema<s.Properties>,
+  rootSchema: f.ObjectField<f.Properties>,
   prefix: string = ""
 ): [string, string][] {
+  // eslint-disable-next-line no-param-reassign
   prefix = prefix ? `${prefix}${pathSeparator}` : "";
 
   return Object.entries(rootSchema.properties).reduce(
     (columns, [key, schema]) => {
       const column = `${prefix}${key}`;
 
-      if (key === "tutorialFeedback") {
-        // These all go in their own table
-        return columns;
-      } else if (s.isRecordSchema(schema)) {
+      if (schema.kind === "object") {
         return columns.concat(schemaToColumns(schema, column));
       } else {
         return columns.concat([[column, schemaToColumnType(schema)]]);
@@ -119,16 +131,21 @@ function schemaToColumns(
   );
 }
 
-function schemaToColumnType(schema: s.Schema): string {
-  if (s.isStringSchema(schema)) {
-    return "TEXT";
-  } else if (s.isNumberSchema(schema)) {
-    return "REAL";
-  } else if (s.isBooleanSchema(schema)) {
-    return "BOOLEAN";
-  } else {
-    // Otherwise we'll just insert it as JSON
-    return "JSON";
+function schemaToColumnType(schema: f.Field): string {
+  switch (schema.kind) {
+    case "string":
+    case "cases":
+      return "TEXT";
+    case "number":
+      return "REAL";
+    case "boolean":
+      return "BOOLEAN";
+    case "object":
+    case "array":
+    case "tuple":
+    case "chooseOne":
+    case "chooseAll":
+      return "JSON";
   }
 }
 
@@ -178,7 +195,7 @@ async function insertTutorials(db: Database, tutorials: Item[]) {
       ddb.deleteKey(tut, "learnerId", "tutorial");
 
       const decoded = apiTypes.Tutorial.decode(tut);
-      if (s.isFailure(decoded)) {
+      if (f.isFailure(decoded)) {
         console.error("Invalid tutorial", decoded.errors);
         return;
       }
@@ -234,7 +251,7 @@ function insertTutorialData(
   db: Database,
   tableName: string,
   tutorialId: number,
-  schema: s.RecordSchema<s.Properties>,
+  schema: f.ObjectField<f.Properties>,
   data: Record<string, any>
 ) {
   const bindings: Record<string, string | number | boolean | null> = {};
@@ -243,8 +260,8 @@ function insertTutorialData(
   function bind(
     data: Record<string, any>,
     parentSchema:
-      | s.RecordSchema<s.Properties>
-      | s.CompleteRecordSchema<s.Properties>,
+      | f.ObjectField<f.Properties>
+      | f.CompleteRecordSchema<f.Properties>,
     prefix: string = ""
   ) {
     prefix = prefix ? `${prefix}${pathSeparator}` : "";
@@ -259,12 +276,12 @@ function insertTutorialData(
         return;
       }
 
-      if (s.isRecordSchema(subSchema) || s.isCompleteRecordSchema(subSchema)) {
+      if (f.isRecordSchema(subSchema) || f.isCompleteRecordSchema(subSchema)) {
         bind(datum, subSchema, bindingKey);
       } else if (
-        s.isTupleSchema(subSchema) ||
-        s.isArraySchema(subSchema) ||
-        s.isChoiceSchema(subSchema)
+        f.isTupleSchema(subSchema) ||
+        f.isArraySchema(subSchema) ||
+        f.isChoiceSchema(subSchema)
       ) {
         bindings[bindingKey] = JSON.stringify(datum);
       } else {

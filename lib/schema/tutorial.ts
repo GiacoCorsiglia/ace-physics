@@ -85,7 +85,7 @@ const statuses = <Names extends readonly string[], F extends f.Field>(
     ) as PropertiesFromNames<Names, F>
   );
 
-const TutorialFeedback = f.object({
+export const TutorialFeedback = f.object({
   workedAlone: f.chooseOne(["alone", "partner", "in class"]),
   confidence: f.chooseOne(["much less", "less", "same", "more", "much more"]),
   confidenceExplain: f.string(),
