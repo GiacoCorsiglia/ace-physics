@@ -15,8 +15,9 @@ declare namespace NodeJS {
     readonly ACE_AWS_REGION: string;
     readonly ACE_TABLE_NAME: string;
     // Public.
-    readonly NEXT_PUBLIC_ACE_API: "yes" | "no" | undefined;
     readonly NEXT_PUBLIC_ACE_ENV: "production" | "staging" | "development";
+    // Public, for local.
+    readonly NEXT_PUBLIC_LOCAL_API: "yes" | "no" | undefined;
   }
 }
 
