@@ -52,12 +52,7 @@
     "@typescript-eslint/prefer-function-type": "warn",
     "@typescript-eslint/unified-signatures": "warn"
   },
-  "ignorePatterns": [
-    "*.config.js",
-    "tutorials/**/*",
-    "scripts/**/*",
-    "common/**/*"
-  ],
+  "ignorePatterns": ["*.config.js", "tutorials/**/*", "common/**/*"],
   "env": {
     "browser": true,
     "es2021": true,
