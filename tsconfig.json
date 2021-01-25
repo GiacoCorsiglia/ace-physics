@@ -25,5 +25,11 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "tutorials"]
+  "exclude": [
+    "node_modules",
+    "tutorials",
+    "scripts/purge-data.ts",
+    "scripts/to-sqlite.ts",
+    "scripts/data"
+  ]
 }
