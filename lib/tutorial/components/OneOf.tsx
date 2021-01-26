@@ -1,3 +1,4 @@
+import * as globalParams from "@/global-params";
 import React from "react";
 import { OneOfConfig } from "../config";
 import {
@@ -25,7 +26,9 @@ export default function OneOf({
   // revealed section is always at the bottom.
   const visibleNodes = useTracked((state) =>
     Object.values(config.sections)
-      .filter((node) => isMarkedVisible(state, node))
+      .filter((node) =>
+        globalParams.showAllSections ? true : isMarkedVisible(state, node)
+      )
       // This array was just created, so we can use the in-place sort.
       .sort(
         (nodeA, nodeB) => revealedAt(state, nodeA) - revealedAt(state, nodeB)

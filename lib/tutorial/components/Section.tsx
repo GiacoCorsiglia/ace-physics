@@ -1,13 +1,14 @@
 import { Help } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
+import * as globalParams from "@/global-params";
 import { Button } from "@/inputs";
 import { isSet, tracker } from "@/reactivity";
-import { ArrowDownIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
-import { useEffect, useRef } from "react";
+import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
+import { css, cx } from "linaria";
+import React, { useEffect, useRef } from "react";
 import { SectionConfig } from "../config";
-import { CommitAction } from "../section-logic";
+import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
 
 export default tracked(function Section(
@@ -85,6 +86,20 @@ export default tracked(function Section(
       )}
       ref={el}
     >
+      {globalParams.showAllSections && (
+        <Content
+          className={css`
+            position: relative;
+          `}
+        >
+          {isMarkedVisible(state, config) ? (
+            <EyeIcon className={styles.sectionDevNoticeVisible} />
+          ) : (
+            <EyeClosedIcon className={styles.sectionDevNoticeHidden} />
+          )}
+        </Content>
+      )}
+
       <Content>
         {bodyHtml}
 

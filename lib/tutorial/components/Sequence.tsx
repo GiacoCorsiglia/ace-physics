@@ -1,3 +1,4 @@
+import * as globalParams from "@/global-params";
 import React from "react";
 import { SequenceConfig } from "../config";
 import { CommitAction, isMarkedVisible, nodeKey } from "../section-logic";
@@ -14,7 +15,9 @@ export default function Sequence({
   commit: CommitAction;
 }) {
   const visibleNodes = useTracked((state) =>
-    config.sections.filter((node) => isMarkedVisible(state, node))
+    config.sections.filter((node) =>
+      globalParams.showAllSections ? true : isMarkedVisible(state, node)
+    )
   );
 
   const nodeComponents = visibleNodes.map((node, i) => (
