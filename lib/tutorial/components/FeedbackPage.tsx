@@ -2,7 +2,7 @@ import { Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
-import { Button, FieldGroup, TextArea, Toggle } from "@/inputs";
+import { Button, TextArea, Toggle } from "@/inputs";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
@@ -88,29 +88,6 @@ export default function FeedbackPage({
             model={m.easyOrChallengingExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
-        </section>
-
-        <section className={styles.section}>
-          <Prose>While working through this tutorial, I…</Prose>
-
-          <FieldGroup grid className="margin-top-1">
-            <Toggle
-              model={m.usedCourseMaterials}
-              choices={materialsChoices}
-              label="Referred to course materials:"
-            />
-
-            <Toggle
-              model={m.usedOtherMaterials}
-              choices={materialsChoices}
-              label="Referred to other online resources:"
-            />
-
-            <TextArea
-              model={m.usedMaterialsOther}
-              label="Referred to other resources:"
-            />
-          </FieldGroup>
         </section>
 
         <section className={styles.section}>
