@@ -1,0 +1,75 @@
+import * as f from "@/schema/fields";
+import { tutorialSchema } from "@/schema/tutorial";
+
+const AnalyzerChoice = f.chooseOne(["X", "Y", "Z"]);
+const AnalyzerComboChoice = f.chooseAll([
+  "XX",
+  "XY",
+  "XZ",
+  "YX",
+  "YY",
+  "YZ",
+  "ZX",
+  "ZY",
+  "ZZ",
+]);
+
+export default tutorialSchema({
+  pages: [
+    "threeAnalyzers",
+    "aGivenState",
+    "gettingUsedToDiracNotation",
+    "challenge",
+  ],
+  pretest: {},
+  sections: [
+    "threeAnalyzersIntro",
+    "averageMinsMaxes",
+    "setupForMaxA",
+    "overMaxA",
+    "setupForOtherMinsMaxes",
+    "moreThanOneCombo",
+    "psi2IfDetectorB50",
+    "setupsIfDetectorB50",
+    "setupsWhereABSame",
+
+    "aGivenStateIntro",
+    "predictionForPsi1Z",
+    "experimentForPsi1Z",
+    "predictionForPsi1X",
+    "predictionForPsi1Y",
+    "reflectPsi1",
+  ],
+  responses: {
+    averageMinA: f.number(),
+    averageMaxA: f.number(),
+    averageMinB: f.number(),
+    averageMaxB: f.number(),
+    maxAi: AnalyzerChoice,
+    maxAii: AnalyzerChoice,
+    maxAExplain: f.string(),
+    overMaxA: f.chooseOne(["yes", "no"]),
+    overMaxAExplain: f.string(),
+    minAi: AnalyzerChoice,
+    minAii: AnalyzerChoice,
+    maxBi: AnalyzerChoice,
+    maxBii: AnalyzerChoice,
+    minBi: AnalyzerChoice,
+    minBii: AnalyzerChoice,
+    moreThanOneCombo: f.chooseOne(["yes", "no"]),
+    moreThanOneComboExplain: f.string(),
+    psi2IfDetectorB50: f.chooseAll(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    setupsIfDetectorB50: AnalyzerComboChoice,
+    setupsWhereABSame: AnalyzerComboChoice,
+    setupsWhereABSameExplain: f.string(),
+
+    psi1ProbUpZ: f.number(),
+    psi1ProbDownZ: f.number(),
+    psi1ProbUpX: f.number(),
+    psi1ProbDownX: f.number(),
+    psi1ProbUpY: f.number(),
+    psi1ProbDownY: f.number(),
+    reflectPsi1: f.string(),
+  },
+  hints: [],
+});

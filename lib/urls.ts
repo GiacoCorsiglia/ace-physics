@@ -36,6 +36,11 @@ const SpinLab1 = {
   link: "/tutorials/spin-lab-1",
 };
 
+const SpinLab2 = {
+  path: "spin-lab-2",
+  link: "/tutorials/spin-lab-2",
+};
+
 const QuantumMouse = {
   path: "quantum-mouse",
   link: "/tutorials/quantum-mouse",
@@ -80,6 +85,7 @@ export const Tutorials = {
   path: "tutorials",
   link: "/tutorials",
   SpinLab1,
+  SpinLab2,
   QuantumBasis,
   QuantumBasisLite,
   QuantumMouse,

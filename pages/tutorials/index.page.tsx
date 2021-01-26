@@ -42,12 +42,16 @@ export default function TutorialsIndex() {
               quantum mechanical in nature.
             </TutorialLink>
 
-            <TutorialLink
+            <TutorialLink label="Spin Lab 2" url={urls.Tutorials.SpinLab2}>
+              Continue exploring spin, and practice with Dirac Notation.
+            </TutorialLink>
+
+            {/* <TutorialLink
               label="Quantum Mouse Lab"
               url={urls.Tutorials.QuantumMouse}
             >
               It’s all about eigenvalues, eigenstates, and measurement.
-            </TutorialLink>
+            </TutorialLink> */}
 
             {/* <TutorialLink
               label="Visualizing a Vector in a Different Basis — Full"
