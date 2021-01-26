@@ -1,4 +1,4 @@
-import * as globalParams from "@/globalParams";
+import * as globalParams from "@/global-params";
 import { Field, isSet } from "@/state";
 import { Children, classes, OptionalChildren, scrollTo } from "@/util";
 import {

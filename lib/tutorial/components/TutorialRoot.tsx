@@ -1,7 +1,7 @@
 import { useAuth } from "@/auth";
 import { Prose } from "@/design";
 import { Content } from "@/design/layout";
-import * as globalParams from "@/globalParams";
+import * as globalParams from "@/global-params";
 import { JsxElement } from "@/helpers/frontend";
 import { Button } from "@/inputs";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
