@@ -69,7 +69,7 @@ export default tracked(function Section(
   const el = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (first) {
+    if (first || globalParams.showAllSections) {
       // The first section on each page doesn't need to scroll into view.
       return;
     }
@@ -81,7 +81,7 @@ export default tracked(function Section(
       className={cx(
         styles.section,
         first && styles.sectionFirst,
-        !first && styles.sectionAnimateIn,
+        !first && !globalParams.showAllSections && styles.sectionAnimateIn,
         config.noLabel && styles.noSectionLabel
       )}
       ref={el}
