@@ -1,4 +1,4 @@
-import { Prose } from "@/design";
+import { Prose, Reminder } from "@/design";
 import {
   ChooseAll,
   FieldGroup,
@@ -46,9 +46,9 @@ export default page(setup, ({ section, hint }) => ({
       body: (m) => (
         <>
           <Prose>
-            On average (after many repeated trials), what is the maximum and
-            minimum number of particles that can be detected in Detector A?
-            Detector B?
+            <strong>On average</strong> (after many repeated trials), what is
+            the maximum and minimum number of particles that can be detected in
+            Detector A? Detector B?
           </Prose>
 
           <table className="table">
@@ -132,8 +132,9 @@ export default page(setup, ({ section, hint }) => ({
             model={m.overMaxA}
             label={
               <Prose>
-                Is it possible that on some given run, Detector A might measure
-                a value <em>greater</em> than the maximum you claimed above?
+                Is it possible that on some given run (<em>not</em> on average),
+                Detector A might measure a value <em>greater</em> than the
+                maximum you claimed above?
               </Prose>
             }
             choices={[
@@ -280,6 +281,26 @@ export default page(setup, ({ section, hint }) => ({
             ]}
             allowOther={false}
           />
+
+          <Reminder>
+            <Prose>
+              <p>Here’s the experimental setup again:</p>
+
+              <img
+                src={threeAnalyzersImg}
+                width={648}
+                height={151}
+                alt="Three chained Stern-Gerlach analyzers."
+              />
+
+              <p>
+                Many experimental runs are made with the source producing{" "}
+                <strong>200 particles</strong> for each run. The third analyzer
+                is a Z-direction spin analyzer, and the first two are X, Y, or Z
+                analyzers (they could both be the same kind).
+              </p>
+            </Prose>
+          </Reminder>
         </>
       ),
     }),
@@ -292,8 +313,12 @@ export default page(setup, ({ section, hint }) => ({
             model={m.setupsIfDetectorB50}
             label={
               <Prose>
-                What combinations of the first two analyzers could produce this
-                result?
+                <p>
+                  What combination(s) of the first two analyzers could produce
+                  this result (that Detector B detects 50 particles on average)?
+                </p>
+
+                <p>Check ALL that apply.</p>
               </Prose>
             }
             choices={analyzerComboChoices}
@@ -311,9 +336,13 @@ export default page(setup, ({ section, hint }) => ({
             model={m.setupsWhereABSame}
             label={
               <Prose>
-                Choose AT LEAST TWO combinations of the first two analyzers for
-                which Detectors A and B record the same number of particles on
-                average.
+                <p>
+                  What combination(s) of the first two analyzers will cause
+                  Detectors A and B to record <strong>the same number</strong>{" "}
+                  of particles on average.
+                </p>
+
+                <p>Check ALL that apply.</p>
               </Prose>
             }
             choices={analyzerComboChoices}

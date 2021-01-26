@@ -122,8 +122,9 @@ export default page(setup, ({ section, hint }) => ({
             </p>
 
             <p>
-              <strong>Predict/calculate</strong> the probabilities for measuring
-              spin-up and -down along the X-direction:
+              <strong>Without the sim, predict/calculate</strong> the
+              probabilities for measuring spin-up and -down along the
+              X-direction:
             </p>
           </Prose>
 
@@ -160,8 +161,9 @@ export default page(setup, ({ section, hint }) => ({
             </p>
 
             <p>
-              <strong>Predict/calculate</strong> the probabilities for measuring
-              spin-up and -down along the Y-direction:
+              <strong>Without the sim, predict/calculate</strong> the
+              probabilities for measuring spin-up and -down along the
+              Y-direction:
             </p>
           </Prose>
 
