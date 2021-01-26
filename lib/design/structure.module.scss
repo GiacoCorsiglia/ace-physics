@@ -116,7 +116,7 @@
 }
 
 .reminder {
-  @include box(hsl(0, 0, 95%), $labeled: true);
+  @include box(hsl(0deg, 0%, 95%), $labeled: true);
   opacity: 0.75;
 }
 
