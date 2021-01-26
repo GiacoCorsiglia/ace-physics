@@ -326,13 +326,13 @@ function SelectMenuList(props: any) {
 }
 
 function applyDefaultStyles(
-  inputs: StylesConfig | undefined,
-  defaults: StylesConfig
+  inputs: StylesConfig<any, any> | undefined,
+  defaults: StylesConfig<any, any>
 ) {
-  const outputs: StylesConfig = { ...inputs };
+  const outputs: StylesConfig<any, any> = { ...inputs };
 
   for (const [k, defaultStyles] of Object.entries(defaults)) {
-    const property = k as keyof StylesConfig;
+    const property = k as keyof StylesConfig<any, any>;
 
     const inputStyles = inputs && inputs[property];
     outputs[property] =

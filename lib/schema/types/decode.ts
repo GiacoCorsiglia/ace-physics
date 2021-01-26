@@ -1,4 +1,4 @@
-import { failure, Result, success } from "@/helpers/result";
+import { failure, Failure, Result, success } from "@/helpers/result";
 import type { Infer, Type } from ".";
 import { decodeAny } from "./any";
 import { decodeArray } from "./array";
@@ -20,6 +20,7 @@ export const decode = <T extends Type>(
   context?: Context
 ): Decoded<Infer<T>> => {
   if (!context) {
+    // eslint-disable-next-line no-param-reassign
     context = [{ index: null, type }];
   }
 
@@ -73,7 +74,10 @@ interface Context
 
 export const decodeFailure = <T>(
   errors: DecodeError | readonly DecodeError[]
-) => failure(Array.isArray(errors) ? errors : [errors]);
+): Failure<readonly DecodeError[]> =>
+  failure(
+    (Array.isArray(errors) ? errors : [errors]) as readonly DecodeError[]
+  );
 
 export const decodeSuccess = success;
 
