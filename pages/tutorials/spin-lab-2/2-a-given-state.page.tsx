@@ -9,7 +9,7 @@ import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
   name: "aGivenState",
-  label: "Three Analyzers",
+  label: "A Given State",
   sections: [
     section({
       name: "aGivenStateIntro",
