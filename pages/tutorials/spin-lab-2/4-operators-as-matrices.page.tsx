@@ -227,7 +227,7 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "pTimesV",
+      name: "qTimesV",
       body: (m, { responses }) => (
         <>
           <Reminder>
@@ -275,10 +275,10 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "generalRuleP",
+      name: "generalRuleQ",
       body: (m) => (
         <TextArea
-          model={m.generalRuleP}
+          model={m.generalRuleQ}
           label={
             <Prose>
               <p>

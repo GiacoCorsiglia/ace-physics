@@ -12,7 +12,7 @@ export default page(setup, ({ section, hint }) => ({
   label: "Challenge — Only if You Have Time",
   sections: [
     section({
-      name: "operatorsAsMatricesIntro",
+      name: "challengeIntro",
       body: (m) => {
         const spinUpRow =
           m.challengeProbabilityTable.properties.spinUp.properties;
