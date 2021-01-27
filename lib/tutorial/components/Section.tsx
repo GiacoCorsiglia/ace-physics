@@ -15,10 +15,12 @@ export default tracked(function Section(
   {
     config,
     first,
+    enumerateDefault,
     commit,
   }: {
     config: SectionConfig;
     first: boolean;
+    enumerateDefault: boolean;
     commit: CommitAction;
   },
   state
@@ -76,16 +78,23 @@ export default tracked(function Section(
     el.current?.scrollIntoView({ behavior: "smooth" });
   }, [first]);
 
+  const enumerate =
+    config.enumerate === undefined
+      ? !first && config.when === undefined && enumerateDefault
+      : config.enumerate;
+
   return (
     <section
       className={cx(
         styles.section,
         first && styles.sectionFirst,
         !first && !globalParams.showAllSections && styles.sectionAnimateIn,
-        config.noLabel && styles.noSectionLabel
+        enumerate && styles.sectionEnumerated
       )}
       ref={el}
     >
+      {enumerate && <Content className={styles.enumerated} />}
+
       {globalParams.showAllSections && (
         <Content
           className={css`

@@ -8,10 +8,12 @@ import SectionTreeNode from "./SectionTreeNode";
 export default function Sequence({
   config,
   first,
+  enumerateSections,
   commit,
 }: {
   config: SequenceConfig;
   first: boolean;
+  enumerateSections: boolean;
   commit: CommitAction;
 }) {
   const visibleNodes = useTracked((state) =>
@@ -25,6 +27,7 @@ export default function Sequence({
       key={nodeKey(node)}
       node={node}
       first={first && i === 0}
+      enumerateSections={enumerateSections}
       commit={commit}
     />
   ));

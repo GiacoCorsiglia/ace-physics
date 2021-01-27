@@ -289,6 +289,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
 
     section({
       name: "outInTableFeedback",
+      enumerate: false,
       body: (m, { responses }) => (
         <>
           {deepEqual(responses?.outInTable, correctTable) ? (

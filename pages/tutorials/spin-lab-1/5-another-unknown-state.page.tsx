@@ -132,6 +132,7 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
 
     section({
       name: "unknown1TableFeedback",
+      enumerate: false,
       body: (_, { responses }) =>
         deepEqual(correctUnknown1Table, responses?.unknown1Table) ? (
           <Help>

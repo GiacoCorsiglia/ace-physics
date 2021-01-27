@@ -50,7 +50,14 @@ export default function SectionTree({
     [store, rootSequence, complete]
   );
 
-  return <Sequence config={rootSequence} first={true} commit={commit} />;
+  return (
+    <Sequence
+      config={rootSequence}
+      first={true}
+      enumerateSections={true}
+      commit={commit}
+    />
+  );
 }
 
 const revealSection = (set: Setter<TutorialState>, section: SectionConfig) => {

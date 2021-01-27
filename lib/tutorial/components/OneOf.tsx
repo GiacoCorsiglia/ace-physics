@@ -13,10 +13,12 @@ import SectionTreeNode from "./SectionTreeNode";
 export default function OneOf({
   config,
   first,
+  enumerateSections,
   commit,
 }: {
   config: OneOfConfig;
   first: boolean;
+  enumerateSections: boolean;
   commit: CommitAction;
 }) {
   // *Normally*, at most one subNode will be visible at a time, but we'll be
@@ -40,6 +42,7 @@ export default function OneOf({
       key={nodeKey(node)}
       node={node}
       first={first && i === 0}
+      enumerateSections={enumerateSections}
       commit={commit}
     />
   ));

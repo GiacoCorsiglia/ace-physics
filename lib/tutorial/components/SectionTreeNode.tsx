@@ -8,18 +8,43 @@ import Sequence from "./Sequence";
 export default function SectionTreeNode({
   node,
   first,
+  enumerateSections,
   commit,
 }: {
   node: NodeConfig;
   first: boolean;
+  enumerateSections: boolean;
   commit: CommitAction;
 }) {
   switch (node.kind) {
     case "section":
-      return <Section config={node} first={first} commit={commit} />;
+      return (
+        <Section
+          config={node}
+          first={first}
+          enumerateDefault={enumerateSections}
+          commit={commit}
+        />
+      );
     case "sequence":
-      return <Sequence config={node} first={first} commit={commit} />;
+      // Conditional Sections should not be enumerated.
+      return (
+        <Sequence
+          config={node}
+          first={first}
+          enumerateSections={false}
+          commit={commit}
+        />
+      );
     case "oneOf":
-      return <OneOf config={node} first={first} commit={commit} />;
+      // Conditional Sections should not be enumerated.
+      return (
+        <OneOf
+          config={node}
+          first={first}
+          enumerateSections={false}
+          commit={commit}
+        />
+      );
   }
 }
