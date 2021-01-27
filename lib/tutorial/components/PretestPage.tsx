@@ -3,7 +3,9 @@ import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
 import { Button, DisableInputs } from "@/inputs";
-import { isSet } from "@/reactivity";
+import { isSet, Model, tracker } from "@/reactivity";
+import { Tracker } from "@/reactivity/tracker";
+import { TutorialSchema } from "@/schema/tutorial";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
@@ -30,6 +32,12 @@ export default function PretestPage({
     }
     return false;
   });
+
+  const rootModel = useRootModel();
+  const models = rootModel.properties.pretest.properties;
+
+  // Begin tracking accessed models.
+  const modelsTracker = tracker(models, false);
 
   return (
     <>
@@ -68,11 +76,18 @@ export default function PretestPage({
       <DisableInputs when={isDisabled}>
         {/* This config should be stable so we can use the index as the key. */}
         {config.sections.map((section, i) => (
-          <PretestSection key={i} config={section} />
+          <PretestSection
+            key={i}
+            config={section}
+            modelsTracker={modelsTracker}
+          />
         ))}
       </DisableInputs>
 
-      <ContinueSection tutorialConfig={tutorialConfig} />
+      <ContinueSection
+        tutorialConfig={tutorialConfig}
+        modelsTracker={modelsTracker}
+      />
     </>
   );
 }
@@ -80,13 +95,21 @@ export default function PretestPage({
 const ContinueSection = tracked(function ContinueSection(
   {
     tutorialConfig,
+    modelsTracker,
   }: {
     tutorialConfig: TutorialConfig;
+    modelsTracker: Tracker<
+      Model<TutorialSchema>["properties"]["pretest"]["properties"]
+    >;
   },
   state
 ) {
-  const model = useRootModel().properties.pretest;
-  const isComplete = isSet(model, state.pretest);
+  const models = useRootModel().properties.pretest.properties;
+  // Never reset, so it captures everything used on every render.
+  const accessed = modelsTracker.currentAccessed;
+  const isComplete = [...accessed].every((key) =>
+    isSet(models[key], state.pretest?.[key])
+  );
 
   return (
     <Content as="section" className={cx(styles.section, "text-right")}>
