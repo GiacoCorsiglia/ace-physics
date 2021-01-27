@@ -48,6 +48,25 @@ export default function FeedbackPage({
 
         <section className={styles.section}>
           <Toggle
+            model={m.easyOrChallenging}
+            choices={[
+              ["easy/useful", "Easy but useful"],
+              ["easy/frustrating", "Easy but frustrating"],
+              ["challenging/useful", "Challenging but useful"],
+              ["challenging/frustrating", "Challenging and frustrating"],
+            ]}
+            layout="grid"
+            label={<Prose>I thought that this tutorial was mostly…</Prose>}
+          />
+
+          <TextArea
+            model={m.easyOrChallengingExplain}
+            label={<Prose>Optional: What makes you feel that way?</Prose>}
+          />
+        </section>
+
+        <section className={styles.section}>
+          <Toggle
             model={m.confidence}
             choices={[
               ["much less", "Much less confident"],
@@ -67,25 +86,6 @@ export default function FeedbackPage({
 
           <TextArea
             model={m.confidenceExplain}
-            label={<Prose>Optional: What makes you feel that way?</Prose>}
-          />
-        </section>
-
-        <section className={styles.section}>
-          <Toggle
-            model={m.easyOrChallenging}
-            choices={[
-              ["easy/useful", "Easy but useful"],
-              ["easy/frustrating", "Easy but frustrating"],
-              ["challenging/useful", "Challenging but useful"],
-              ["challenging/frustrating", "Challenging and frustrating"],
-            ]}
-            layout="grid"
-            label={<Prose>I thought that this tutorial was mostly…</Prose>}
-          />
-
-          <TextArea
-            model={m.easyOrChallengingExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
         </section>
