@@ -3,6 +3,7 @@ import { isObject } from "@/helpers";
 export interface Tracker<T extends object> {
   readonly original: T;
   readonly proxy: T;
+  readonly currentAccessed: Set<string>;
   resetTracking(): Set<string>;
   track<T>(func: () => T): [T, Set<string>];
 }
@@ -68,6 +69,10 @@ export const tracker = <T extends object>(
 
   const tracker: Tracker<T> = {
     original,
+
+    get currentAccessed() {
+      return accessed;
+    },
 
     proxy: proxify(original),
 
