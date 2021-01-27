@@ -33,7 +33,7 @@ export default page(setup, ({ section, hint }) => ({
           </p>
         </Prose>
       ),
-      continue: { label: "Yup, I totally knew that" },
+      continue: { label: "Got it" },
     }),
 
     section({

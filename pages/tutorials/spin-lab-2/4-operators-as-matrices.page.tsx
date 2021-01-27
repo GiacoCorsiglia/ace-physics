@@ -362,7 +362,14 @@ function PlotVectors({
       />
 
       {/* Operated: */}
-      {x !== undefined && <Tick x={x} label={x} color="blue" />}
+      {x !== undefined && (
+        <Tick
+          x={x}
+          label={x}
+          color="blue"
+          labelPosition={x < 0 && y && y < 0 ? "above" : "below"}
+        />
+      )}
 
       {y !== undefined && <Tick y={y} label={y} color="blue" />}
 

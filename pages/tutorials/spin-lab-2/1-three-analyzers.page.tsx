@@ -224,6 +224,17 @@ export default page(setup, ({ section, hint }) => ({
               </tr>
             </tbody>
           </table>
+
+          <Reminder>
+            <Prose>
+              <img
+                src={threeAnalyzersImg}
+                width={648}
+                height={151}
+                alt="Three chained Stern-Gerlach analyzers."
+              />
+            </Prose>
+          </Reminder>
         </>
       ),
     }),
@@ -324,6 +335,17 @@ export default page(setup, ({ section, hint }) => ({
             choices={analyzerComboChoices}
             allowOther={false}
           />
+
+          <Reminder>
+            <Prose>
+              <img
+                src={threeAnalyzersImg}
+                width={648}
+                height={151}
+                alt="Three chained Stern-Gerlach analyzers."
+              />
+            </Prose>
+          </Reminder>
         </>
       ),
     }),
@@ -355,6 +377,17 @@ export default page(setup, ({ section, hint }) => ({
               <Prose>Explain why these combinations produce this result:</Prose>
             }
           />
+
+          <Reminder>
+            <Prose>
+              <img
+                src={threeAnalyzersImg}
+                width={648}
+                height={151}
+                alt="Three chained Stern-Gerlach analyzers."
+              />
+            </Prose>
+          </Reminder>
         </>
       ),
     }),

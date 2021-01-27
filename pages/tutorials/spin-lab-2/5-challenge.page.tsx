@@ -182,7 +182,10 @@ export default page(setup, ({ section, hint }) => ({
           </>
         );
       },
-      continue: { label: "I did it! (Or, skip this—that’s OK too)" },
+      continue: {
+        label: "I did it! (Or, skip this—that’s OK too)",
+        allowed: () => true,
+      },
     }),
   ],
 }));
