@@ -1,11 +1,11 @@
 import { useAuth } from "@/auth";
 import { Prose } from "@/design";
 import { Content } from "@/design/layout";
-import * as globalParams from "@/globalParams";
+import * as globalParams from "@/global-params";
 import { JsxElement } from "@/helpers/frontend";
 import { Button } from "@/inputs";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
-import { css } from "linaria";
+import { css, cx } from "linaria";
 import { useRouter } from "next/router";
 import { TutorialConfig } from "../config";
 import styles from "./shared.module.scss";
@@ -29,7 +29,14 @@ export default function TutorialRoot({
       {/* <TutorialSidebar /> */}
 
       <main className={styles.tutorialMain}>
-        <div className={styles.tutorialContent}>
+        <div
+          className={cx(
+            styles.tutorialContent,
+            css`
+              counter-reset: section;
+            `
+          )}
+        >
           {(() => {
             switch (auth.status) {
               case "Initial":

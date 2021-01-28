@@ -101,6 +101,28 @@ export const norm = (...ns: (number | undefined)[]): number | undefined => {
   return squared === undefined ? undefined : Math.sqrt(squared);
 };
 
+export function normalize<Ns extends readonly number[]>(
+  ns: Ns
+): {
+  [i in keyof Ns]: number;
+};
+export function normalize<Ns extends readonly (number | undefined)[]>(
+  ns: Ns
+): {
+  [i in keyof Ns]: number | undefined;
+};
+export function normalize<Ns extends readonly (number | undefined)[]>(
+  ns: Ns
+): {
+  [i in keyof Ns]: number | undefined;
+} {
+  const norm_ = norm(...ns);
+  if (norm_ === undefined) {
+    return ns.map((_) => undefined) as any;
+  }
+  return ns.map((n) => (n === undefined ? undefined : n / norm_)) as any;
+}
+
 export const roundToNearest = (number: number, nearest: number): number =>
   nearest * Math.round(number / nearest);
 

@@ -9,11 +9,15 @@ const enabled =
 
 const previewMode = enabled && params.get("preview") !== null;
 
+/** @deprecated */
 export const unconditionalMoveOn = enabled && params.get("amo") !== null;
+
 export const showAllSections =
   enabled && (previewMode || params.get("show") !== null);
+
+const mockLocalApi =
+  process.env.NEXT_PUBLIC_ACE_ENV === "development" &&
+  process.env.NEXT_PUBLIC_LOCAL_API !== "yes";
+
 export const mockApi =
-  enabled &&
-  (process.env.NEXT_PUBLIC_ACE_API !== "yes" ||
-    previewMode ||
-    params.get("api") === "no");
+  enabled && (mockLocalApi || previewMode || params.get("api") === "no");

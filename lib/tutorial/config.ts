@@ -96,6 +96,10 @@ export interface PretestSectionConfig<
   S extends TutorialSchema = TutorialSchema
 > {
   /**
+   * Controls the numbered/lettered label for the section.
+   */
+  readonly enumerate?: boolean;
+  /**
    * The contents of this section.
    */
   readonly body:
@@ -167,9 +171,9 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly when?: When<S>;
   /**
-   * Disables the numbered/lettered label for the section.
+   * Controls the numbered/lettered label for the section.
    */
-  readonly noLabel?: true;
+  readonly enumerate?: boolean;
   /** Configuration  */
   readonly hints?: readonly (HintConfig<S> | readonly HintConfig<S>[])[];
   /**

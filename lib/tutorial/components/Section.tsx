@@ -1,23 +1,26 @@
 import { Help } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
+import * as globalParams from "@/global-params";
 import { Button } from "@/inputs";
 import { isSet, tracker } from "@/reactivity";
-import { ArrowDownIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
-import { useEffect, useRef } from "react";
+import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
+import { css, cx } from "linaria";
+import React, { useEffect, useRef } from "react";
 import { SectionConfig } from "../config";
-import { CommitAction } from "../section-logic";
+import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
 
 export default tracked(function Section(
   {
     config,
     first,
+    enumerateDefault,
     commit,
   }: {
     config: SectionConfig;
     first: boolean;
+    enumerateDefault: boolean;
     commit: CommitAction;
   },
   state
@@ -68,23 +71,44 @@ export default tracked(function Section(
   const el = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (first) {
+    if (first || globalParams.showAllSections) {
       // The first section on each page doesn't need to scroll into view.
       return;
     }
     el.current?.scrollIntoView({ behavior: "smooth" });
   }, [first]);
 
+  const enumerate =
+    config.enumerate === undefined
+      ? !first && config.when === undefined && enumerateDefault
+      : config.enumerate;
+
   return (
     <section
       className={cx(
         styles.section,
         first && styles.sectionFirst,
-        !first && styles.sectionAnimateIn,
-        config.noLabel && styles.noSectionLabel
+        !first && !globalParams.showAllSections && styles.sectionAnimateIn,
+        enumerate && styles.sectionEnumerated
       )}
       ref={el}
     >
+      {enumerate && <Content className={styles.enumerated} />}
+
+      {globalParams.showAllSections && (
+        <Content
+          className={css`
+            position: relative;
+          `}
+        >
+          {isMarkedVisible(state, config) ? (
+            <EyeIcon className={styles.sectionDevNoticeVisible} />
+          ) : (
+            <EyeClosedIcon className={styles.sectionDevNoticeHidden} />
+          )}
+        </Content>
+      )}
+
       <Content>
         {bodyHtml}
 

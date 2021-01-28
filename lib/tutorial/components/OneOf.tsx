@@ -1,3 +1,4 @@
+import * as globalParams from "@/global-params";
 import React from "react";
 import { OneOfConfig } from "../config";
 import {
@@ -12,10 +13,12 @@ import SectionTreeNode from "./SectionTreeNode";
 export default function OneOf({
   config,
   first,
+  enumerateSections,
   commit,
 }: {
   config: OneOfConfig;
   first: boolean;
+  enumerateSections: boolean;
   commit: CommitAction;
 }) {
   // *Normally*, at most one subNode will be visible at a time, but we'll be
@@ -25,7 +28,9 @@ export default function OneOf({
   // revealed section is always at the bottom.
   const visibleNodes = useTracked((state) =>
     Object.values(config.sections)
-      .filter((node) => isMarkedVisible(state, node))
+      .filter((node) =>
+        globalParams.showAllSections ? true : isMarkedVisible(state, node)
+      )
       // This array was just created, so we can use the in-place sort.
       .sort(
         (nodeA, nodeB) => revealedAt(state, nodeA) - revealedAt(state, nodeB)
@@ -37,6 +42,7 @@ export default function OneOf({
       key={nodeKey(node)}
       node={node}
       first={first && i === 0}
+      enumerateSections={enumerateSections}
       commit={commit}
     />
   ));

@@ -17,6 +17,8 @@ const nonPageFiles = new Set([
   "before-you-start.page.tsx",
   "schema.ts",
   "setup.ts",
+  "shared.ts",
+  "shared.tsx",
 ]);
 
 const findAllSections = (nodes: readonly NodeConfig[]): SectionConfig[] =>

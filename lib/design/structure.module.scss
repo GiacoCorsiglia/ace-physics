@@ -46,10 +46,6 @@
   }
 }
 
-.labeledSections {
-  counter-reset: section;
-}
-
 .section {
   position: relative;
   margin-top: 6rem;
@@ -66,17 +62,7 @@
     animation: section-animate-in 300ms ease-in-out;
   }
 
-  .labeledSections &:not(.sectionFirst):not(.noSectionLabel) {
-    &::before {
-      counter-increment: section;
-      content: counter(section, upper-alpha) ".";
-      position: absolute;
-      top: 0;
-      left: -2rem;
-      font-weight: bold;
-      opacity: $opacity-faded;
-    }
-
+  &.sectionEnumerated {
     .sectionDevNoticeVisible,
     .sectionDevNoticeHidden {
       top: 2.3rem;
@@ -116,7 +102,7 @@
 }
 
 .reminder {
-  @include box(hsl(0, 0, 95%), $labeled: true);
+  @include box(hsl(0deg, 0%, 95%), $labeled: true);
   opacity: 0.75;
 }
 
@@ -187,4 +173,18 @@
 
 .boxAnimateIn {
   animation: section-animate-in 150ms ease-in-out;
+}
+
+.enumerated {
+  position: relative;
+
+  &::before {
+    counter-increment: section;
+    content: counter(section, upper-alpha) ".";
+    position: absolute;
+    top: 0;
+    left: -2rem;
+    font-weight: bold;
+    opacity: $opacity-faded;
+  }
 }

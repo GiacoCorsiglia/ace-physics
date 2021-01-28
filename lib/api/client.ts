@@ -1,4 +1,4 @@
-import * as globalParams from "@/globalParams";
+import * as globalParams from "@/global-params";
 import { asyncResult, failure, Result, success } from "@/helpers/result";
 import * as apiTypes from "@/schema/api";
 import {
