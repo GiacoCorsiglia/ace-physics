@@ -2,6 +2,11 @@ import Document, { Head, Html, Main, NextScript } from "next/document";
 
 export default class AceDocument extends Document {
   render() {
+    const favicon =
+      process.env.NEXT_PUBLIC_ACE_ENV === "staging"
+        ? "/favicon-beta.ico"
+        : "/favicon.ico";
+
     return (
       <Html>
         <Head>
@@ -29,6 +34,9 @@ export default class AceDocument extends Document {
               __html: `document.getElementById("ace-font").onload=function(){this.media="all"}`,
             }}
           />
+
+          {/* Favicon. */}
+          <link rel="shortcut icon" type="image/x-icon" href={favicon} />
         </Head>
 
         <body>
