@@ -46,12 +46,12 @@ export default function TutorialsIndex() {
               Continue exploring spin, and practice with Dirac Notation.
             </TutorialLink>
 
-            {/* <TutorialLink
+            <TutorialLink
               label="Quantum Mouse Lab"
               url={urls.Tutorials.QuantumMouse}
             >
               It’s all about eigenvalues, eigenstates, and measurement.
-            </TutorialLink> */}
+            </TutorialLink>
 
             {/* <TutorialLink
               label="Visualizing a Vector in a Different Basis — Full"

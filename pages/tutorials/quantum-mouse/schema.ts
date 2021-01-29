@@ -80,7 +80,6 @@ export default tutorialSchema({
     "thinkingDeeper",
 
     "matrixRepresentationIntro",
-    "moodVectors",
     "eyeSizeVectors",
     "moodEigenequations",
     "moodMatrix",
@@ -157,7 +156,7 @@ export default tutorialSchema({
       "classical student",
     ]),
     surpriseResults: f.string(),
-    thinkingDeeperAgreement: f.boolean(),
+    thinkingDeeperAgreement: f.chooseOne(["agree", "disagree"]),
     thinkingDeeperExplain: f.string(),
 
     // Matrix Representation.
@@ -174,7 +173,7 @@ export default tutorialSchema({
 
     // Expectation Value.
     weightedAverage: f.number(),
-    expValueMeasurability: f.chooseOne(["Yes", "No"]),
+    expValueMeasurability: f.chooseOne(["yes", "no"]),
     expValueMeasurabilityExplain: f.string(),
     naiveAvg: f.string(),
   },
@@ -198,6 +197,7 @@ export default tutorialSchema({
     "smallEyeProb",
     "finalMood",
     "thinkingDeeper",
+    "weightedAverage",
     "expValueMeasurability",
     "naiveAvg",
   ],
