@@ -3,7 +3,9 @@ import Document, { Head, Html, Main, NextScript } from "next/document";
 export default class AceDocument extends Document {
   render() {
     const favicon =
-      process.env.NEXT_PUBLIC_ACE_ENV === "staging"
+      process.env.NEXT_PUBLIC_ACE_ENV === "development"
+        ? "/favicon-dev.ico"
+        : process.env.NEXT_PUBLIC_ACE_ENV === "staging"
         ? "/favicon-beta.ico"
         : "/favicon.ico";
 
