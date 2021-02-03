@@ -29,7 +29,7 @@ export async function run(tutorial: string, page: string) {
     "Don't forget to add this to",
     join("pages/tutorials", tutorial, "setup.ts")
   );
-  console.log(`{\n  link: ${page},\n  label: "TODO",\n}`);
+  console.log(`{\n  link: "${page}",\n  label: "TODO",\n}`);
 }
 
 const template = (page: string) => `import { Prose } from "@/design";
