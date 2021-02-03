@@ -45,26 +45,23 @@ async function run(): Promise<void> {
       case "--beta":
         return "beta";
       default:
-        return "invalid";
+        return "none";
     }
   })();
 
-  if (env === "invalid") {
-    throw error("Invalid environment:", envArg);
+  if (env !== "none") {
+    const envFile = `.env.${env}`;
+    const envPath = path.join(__dirname, envFile);
+
+    if (!fs.existsSync(envPath)) {
+      throw error("Missing environment file:", env);
+    }
+
+    dotenv.config({ path: envPath });
+
+    process.env.ACE_ENV = env.split("-")[0];
+    console.info("⚙️ Loaded environment:", envFile);
   }
-
-  const envFile = `.env.${env}`;
-  const envPath = path.join(__dirname, envFile);
-
-  if (!fs.existsSync(envPath)) {
-    throw error("Missing environment file:", env);
-  }
-
-  dotenv.config({ path: envPath });
-
-  process.env.ACE_ENV = env.split("-")[0];
-  console.info("⚙️ Loaded environment:", envFile);
-
   // Load script.
 
   const scriptFile = script.endsWith(".ts") ? script : `${script}.ts`;
@@ -72,7 +69,7 @@ async function run(): Promise<void> {
   const command = await import(`./${scriptFile}`);
   console.info("➡️ Running command:", scriptFile, "\n");
 
-  const commandArgs = args.slice(2);
+  const commandArgs = args.slice(env === "none" ? 1 : 2);
 
   if (commandArgs.length !== command.run.length) {
     throw error(
