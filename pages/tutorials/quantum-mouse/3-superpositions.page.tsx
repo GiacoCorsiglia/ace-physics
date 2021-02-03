@@ -9,6 +9,7 @@ import setup from "./setup";
 export default page(setup, ({ section, oneOf, hint }) => ({
   name: "superpositions",
   label: "Superpositions",
+  answersChecked: "some",
   sections: [
     section({
       name: "superpositionsIntro",

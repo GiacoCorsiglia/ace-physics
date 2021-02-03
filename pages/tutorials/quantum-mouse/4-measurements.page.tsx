@@ -16,6 +16,7 @@ import setup from "./setup";
 export default page(setup, ({ section, oneOf, hint }) => ({
   name: "measurements",
   label: "Measurements",
+  answersChecked: "some",
   sections: [
     section({
       name: "measurementsIntro",

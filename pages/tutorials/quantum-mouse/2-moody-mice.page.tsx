@@ -8,6 +8,7 @@ import setup from "./setup";
 export default page(setup, ({ section, sequence, hint }) => ({
   name: "moody-mice",
   label: "Moody Mice",
+  answersChecked: "some",
   sections: [
     section({
       name: "moodIntro",
@@ -229,7 +230,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
               <Prose>
                 <p>
                   <M t="\ket{\smiley}" /> and <M t="\ket{\frownie}" /> are
-                  orthogonal, so there inner product (
+                  orthogonal, so their inner product (
                   <M t="\braket{\smiley|\frownie}" prespace={false} />) is zero.
                 </p>
 

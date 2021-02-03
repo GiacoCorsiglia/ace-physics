@@ -8,6 +8,7 @@ import setup from "./setup";
 export default page(setup, ({ section, sequence, hint }) => ({
   name: "more-measurements",
   label: "More Measurements",
+  answersChecked: "some",
   sections: [
     section({
       name: "moreMeasurementsIntro",
@@ -96,7 +97,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
           body: (
             <Prose>
               By “ambiguity,” we mean how certain or uncertain are we about the
-              state. Your answer may be different for different operators.
+              state.
             </Prose>
           ),
         }),
@@ -145,7 +146,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
               You’ll need to know the state the mouse is in at the start of the
               measurement, and the state that corresponds with{" "}
               <M t="\hat{S} = 1" />. It looks like:
-              <M t="|\braket{\text{something}}{\text{something else}}|^2" />
+              <M t="|\braket{\text{something}|\text{something else}}|^2" />
             </Prose>
           ),
         }),
@@ -220,7 +221,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
               Recall the equation for probability looks like:
               <M
                 display
-                t="|\braket{\text{something}}{\text{something else}}|^2"
+                t="|\braket{\text{something}|\text{something else}}|^2"
               />
               Think about what state you‘re starting with at this point in the
               “chain.” The answer might surprise you!
@@ -299,7 +300,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
 
                 <p>
                   Measuring the mouse’s eye size destroys the information about
-                  it’s mood. After measuring eye size, we can no longer be
+                  its mood. After measuring eye size, we can no longer be
                   certain that the mouse is “unhappy.” Eye size and mood are
                   examples of “incompatible” quantum observables.
                 </p>

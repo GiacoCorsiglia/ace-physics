@@ -9,6 +9,7 @@ import setup from "./setup";
 export default page(setup, ({ section, sequence, hint }) => ({
   name: "matrix-representation",
   label: "Matrix Representation",
+  answersChecked: "some",
   sections: [
     section({
       name: "matrixRepresentationIntro",
@@ -133,6 +134,26 @@ export default page(setup, ({ section, sequence, hint }) => ({
               label={<M t="\hat{M}\ket{\frownie} =" />}
             />
           </FieldGroup>
+
+          <Prose className="text-center">
+            <span className="text-small opacity-faded">
+              You can copy-paste these:
+            </span>
+            <span
+              role="img"
+              aria-label="happy face"
+              style={{ marginLeft: "1rem" }}
+            >
+              😁
+            </span>
+            <span
+              role="img"
+              aria-label="sad face"
+              style={{ marginLeft: "1rem" }}
+            >
+              😭
+            </span>
+          </Prose>
         </>
       ),
     }),

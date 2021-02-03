@@ -105,6 +105,7 @@ export default tutorialSchema({
       "orthogonal",
       "90deg",
       "0 inner product",
+      "normalized",
     ]),
 
     // Moody Mice?

@@ -4,7 +4,7 @@ import M from "@/math/M";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
-export default page(setup, ({ section, sequence, hint }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "expectation-values",
   label: {
     title: "Introducing the Expectation Value",

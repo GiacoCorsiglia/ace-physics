@@ -4,9 +4,9 @@ import { page } from "@/tutorial";
 import React from "react";
 import setup from "./setup";
 
-export default page(setup, ({ section, sequence, hint }) => ({
+export default page(setup, ({ section }) => ({
   name: "challenge",
-  label: "Challenge",
+  label: "Challenge — If You Have Time",
   sections: [
     section({
       name: "challengeIntro",
