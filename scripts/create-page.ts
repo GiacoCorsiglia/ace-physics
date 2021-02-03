@@ -62,7 +62,7 @@ export default page(setup, ({ section }) => ({
       ),
     }),
   ],
-})`;
+}));`;
 
 const camelCase = (s: string) =>
   s
