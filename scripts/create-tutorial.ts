@@ -1,0 +1,102 @@
+import * as fs from "fs";
+import { join } from "path";
+import { promisify } from "util";
+
+const tutorialsDir = join(__dirname, "../pages/tutorials");
+
+export async function run(name: string) {
+  const dir = join(tutorialsDir, name);
+
+  if (fs.existsSync(dir)) {
+    throw new Error(`Tutorial ${name} already exists.`);
+  }
+
+  console.log("Creating directory:", join("pages/tutorials", name));
+  fs.mkdirSync(dir);
+
+  const files: Record<string, (name: string) => string> = {
+    "schema.ts": schema,
+    "setup.ts": setup,
+    "index.page.tsx": introPage,
+    "feedback.page.tsx": feedbackPage,
+  };
+  console.log("Creating files...\n ", Object.keys(files).join("\n "));
+  const writeFile = promisify(fs.writeFile);
+  await Promise.all(
+    Object.entries(files).map(([file, contents]) =>
+      writeFile(join(dir, file), contents(name))
+    )
+  );
+  console.log("Done.");
+
+  const pascal = pascalCase(name);
+  console.log("Don't forget to add these lines to pages/tutorials/schemas.ts:");
+  console.log(`import ${pascal} from "./${name}/schema";`);
+  console.log(`["${pascal}", ${pascal}]`);
+}
+
+const schema = () => `import * as f from "@/schema/fields";
+import { tutorialSchema } from "@/schema/tutorial";
+
+export default tutorialSchema({
+  pages: [
+    // Pages here.
+  ],
+  pretest: {
+    // Pretest fields here.
+  },
+  sections: [
+    // Sections here.
+  ],
+  responses: {
+    // Responses here.
+    field1: f.string(), // Remove or rename this one.
+  },
+  hints: [
+    // Hints here.
+  ],
+});
+`;
+
+const setup = (name: string) => `import { tutorialSetup } from "@/tutorial";
+import schema from "./schema";
+
+export default tutorialSetup({
+  schema,
+  name: "${pascalCase(name)}",
+  edition: "Main",
+  link: "${name}",
+  label: "TODO",
+  pretest: false,
+  pages: [
+    {
+      link: "1-TODO",
+      label: "TODO",
+    },
+  ],
+});
+`;
+
+const introPage = () => `import { Prose } from "@/design";
+import { intro } from "@/tutorial";
+import setup from "./setup";
+
+export default intro(setup, () => ({
+  body: (
+    <Prose>
+      TODO
+    </Prose>
+  ),
+}));
+`;
+
+const feedbackPage = () => `import { feedback } from "@/tutorial";
+import setup from "./setup";
+
+export default feedback(setup);
+`;
+
+const pascalCase = (s: string) =>
+  s
+    .replace(/(\w)(\w*)/g, (_, g1, g2) => g1.toUpperCase() + g2.toLowerCase())
+    .replace(/-/g, "");
