@@ -7,7 +7,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "expectation-values",
   label: {
-    title: "Introducing the Expectation Value",
+    title: "Challenge: Introducing the Expectation Value",
     html: (
       <>
         Introducing the <em>Expectation Value</em>

@@ -6,7 +6,7 @@ import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "challenge",
-  label: "Challenge — If You Have Time",
+  label: "Bonus Challenge — If You Have Time",
   sections: [
     section({
       name: "challengeIntro",

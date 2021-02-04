@@ -35,11 +35,11 @@ export default tutorialSetup({
     },
     {
       link: "7-expectation-values",
-      label: "Expectation Values",
+      label: "Challenge: Expectation Values",
     },
     {
       link: "8-challenge",
-      label: "Challenge",
+      label: "Bonus Challenge",
     },
   ],
 });
