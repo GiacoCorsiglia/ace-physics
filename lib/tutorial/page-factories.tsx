@@ -1,5 +1,6 @@
 import { JsxElement } from "@/helpers/frontend";
 import { TutorialSchema } from "@/schema/tutorial";
+import { cloneElement } from "react";
 import BodyPage from "./components/BodyPage";
 import FeedbackPage from "./components/FeedbackPage";
 import IntroPage from "./components/IntroPage";
@@ -9,32 +10,41 @@ import * as c from "./config";
 
 const id = (x: any) => x;
 
-interface TutorialRoute {
-  (): JsxElement;
-  // These are optional because it makes initializing them easier.
-  displayName?: string;
-  layout?: ReturnType<typeof layout>;
+interface TutorialRouteProperties<C> {
+  element: JsxElement;
+  displayName: string;
+  config: C;
+  tutorialConfig: c.TutorialConfig;
 }
 
-const layout = (tutorialConfig: c.TutorialConfig) => (Route: TutorialRoute) => (
-  <TutorialRoot config={tutorialConfig} routeElement={<Route />} />
-);
+interface TutorialRoute<C> extends TutorialRouteProperties<C> {
+  (): JsxElement;
+  layout: (Self: () => JsxElement) => JsxElement;
+}
 
-// This is a hack, but the page files have to export components, and we want
-// to actually evaluate the configs in tests.
-const exposeConfigForTests = (
-  Component: any,
-  tutorialConfig: c.TutorialConfig,
-  config: any
-) => {
-  if (process.env.NODE_ENV === "test") {
-    // eslint-disable-next-line no-param-reassign
-    Component.tutorialConfig = tutorialConfig;
-    // eslint-disable-next-line no-param-reassign
-    Component.config = config;
-  }
+const routeComponent = <C,>(properties: TutorialRouteProperties<C>) => {
+  const Component: TutorialRoute<C> = (() => properties.element) as any;
+
+  Object.entries(properties).forEach(([key, value]) => {
+    (Component as any)[key] = value;
+  });
+
+  Component.layout = (Self: () => JsxElement) => (
+    <TutorialRoot config={properties.tutorialConfig} routeElement={<Self />} />
+  );
+
   return Component;
 };
+
+export const withSetup = <C,>(
+  route: TutorialRoute<C>,
+  tutorialConfig: c.TutorialConfig
+) =>
+  routeComponent({
+    ...route,
+    tutorialConfig,
+    element: cloneElement(route.element!, { tutorialConfig }),
+  });
 
 /**
  * Creates the introduction page for the given tutorial setup.
@@ -44,16 +54,12 @@ export const intro = <S extends TutorialSchema>(
   factory: () => c.IntroConfig<S>
 ) => {
   const config = factory();
-
-  const Component: TutorialRoute = () => (
-    <IntroPage config={config} tutorialConfig={tutorialConfig} />
-  );
-  Component.displayName = `TutorialRoute:Intro`;
-  Component.layout = layout(tutorialConfig);
-
-  exposeConfigForTests(Component, tutorialConfig, config);
-
-  return Component;
+  return routeComponent({
+    element: <IntroPage config={config} tutorialConfig={tutorialConfig} />,
+    displayName: `TutorialRoute:Intro`,
+    config,
+    tutorialConfig,
+  });
 };
 
 /**
@@ -67,16 +73,12 @@ export const pretest = <S extends TutorialSchema>(
   }) => c.PretestConfig<S>
 ) => {
   const config = factory({ section: id });
-
-  const Component: TutorialRoute = () => (
-    <PretestPage config={config} tutorialConfig={tutorialConfig} />
-  );
-  Component.displayName = `TutorialRoute:Pretest`;
-  Component.layout = layout(tutorialConfig);
-
-  exposeConfigForTests(Component, tutorialConfig, config);
-
-  return Component;
+  return routeComponent({
+    element: <PretestPage config={config} tutorialConfig={tutorialConfig} />,
+    displayName: `TutorialRoute:Pretest`,
+    config,
+    tutorialConfig,
+  });
 };
 
 /**
@@ -104,19 +106,17 @@ export const page = <S extends TutorialSchema>(
     oneOf: c.oneOf,
     hint: c.hint,
   });
-
-  const Component: TutorialRoute = () => (
-    <BodyPage
-      config={config as c.PageConfig<TutorialSchema>}
-      tutorialConfig={tutorialConfig}
-    />
-  );
-  Component.displayName = `TutorialRoute:Page:${config.name}`;
-  Component.layout = layout(tutorialConfig);
-
-  exposeConfigForTests(Component, tutorialConfig, config);
-
-  return Component;
+  return routeComponent({
+    element: (
+      <BodyPage
+        config={config as c.PageConfig<TutorialSchema>}
+        tutorialConfig={tutorialConfig}
+      />
+    ),
+    displayName: `TutorialRoute:Page:${config.name}`,
+    config,
+    tutorialConfig,
+  });
 };
 
 type Constructor<T> = (c: Omit<T, "kind">) => T;
@@ -127,13 +127,10 @@ type Constructor<T> = (c: Omit<T, "kind">) => T;
 export const feedback = <S extends TutorialSchema>(
   tutorialConfig: c.TutorialConfig<S>
 ) => {
-  const Component: TutorialRoute = () => (
-    <FeedbackPage tutorialConfig={tutorialConfig} />
-  );
-  Component.displayName = `TutorialRoute:Feedback`;
-  Component.layout = layout(tutorialConfig);
-
-  exposeConfigForTests(Component, tutorialConfig, {});
-
-  return Component;
+  return routeComponent({
+    element: <FeedbackPage tutorialConfig={tutorialConfig} />,
+    displayName: `TutorialRoute:Feedback`,
+    config: {},
+    tutorialConfig,
+  });
 };

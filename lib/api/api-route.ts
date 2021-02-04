@@ -69,6 +69,10 @@ export const apiRoute = <T extends Type>(
       });
     }
 
+    if (res_.statusCode === 500) {
+      console.error(res_.body);
+    }
+
     res.status(res_.statusCode).json(res_.body);
   };
 };

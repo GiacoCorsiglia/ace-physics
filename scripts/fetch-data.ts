@@ -1,15 +1,11 @@
-const { init } = require("./aws-readonly.env");
-init();
-
 import * as db from "@/api/db";
 import type { DocumentClient } from "aws-sdk/clients/dynamodb";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 
-const client = db.client();
+export async function run() {
+  const client = db.client();
 
-run();
-async function run() {
   console.log("Fetching latest data...");
 
   const items: any[] = [];
@@ -23,7 +19,7 @@ async function run() {
     .replace("T", "_")
     .replace(/\..+$/, "")
     .replace(/:/g, "-");
-  const file = `data-${now}.json`;
+  const file = `${process.env.ACE_ENV}-data-${now}.json`;
   const dir = join(__dirname, "data");
   const filepath = join(dir, file);
 

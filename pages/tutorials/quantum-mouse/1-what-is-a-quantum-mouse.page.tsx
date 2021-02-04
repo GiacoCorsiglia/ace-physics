@@ -17,6 +17,7 @@ export default page(setup, ({ section, hint }) => ({
       </>
     ),
   },
+  answersChecked: "some",
   sections: [
     section({
       name: "whatIsAQuantumMouseIntro",
@@ -208,7 +209,7 @@ export default page(setup, ({ section, hint }) => ({
         r.sizeEigenvectors?.selected !== "kets",
       body: (
         <Prose>
-          You might want to take another look a the first two questions on this
+          You might want to take another look at the first two questions on this
           page. Here’s what eigen-equations look like:
           <M
             display
@@ -244,8 +245,8 @@ export default page(setup, ({ section, hint }) => ({
       body: (m) => (
         <>
           <Prose>
-            We said that the vectors <M t="\ket{\smalleye}" /> and{" "}
-            <M t="\ket{\wideye}" /> are <em>orthonormal</em>.
+            We said that the the pair of vectors <M t="\ket{\smalleye}" /> and{" "}
+            <M t="\ket{\wideye}" /> is <em>orthonormal</em>.
           </Prose>
 
           <ChooseAll
@@ -257,11 +258,15 @@ export default page(setup, ({ section, hint }) => ({
                 "0 inner product",
                 "Their inner product (like their dot product) is equal to 0",
               ],
+              [
+                "normalized",
+                "The inner product of either vector WITH ITSELF is equal to 1",
+              ],
             ]}
             label={
               <Prose>
-                If two vectors are orthonormal, this also means… (Check all that
-                apply)
+                If a pair of vectors is orthonormal, this also means… (Check ALL
+                that apply)
               </Prose>
             }
           />

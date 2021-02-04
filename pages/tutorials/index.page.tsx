@@ -46,35 +46,35 @@ export default function TutorialsIndex() {
               Continue exploring spin, and practice with Dirac Notation.
             </TutorialLink>
 
-            {/* <TutorialLink
+            <TutorialLink
               label="Quantum Mouse Lab"
               url={urls.Tutorials.QuantumMouse}
             >
               It’s all about eigenvalues, eigenstates, and measurement.
-            </TutorialLink> */}
+            </TutorialLink>
 
-            {/* <TutorialLink
-              label="Visualizing a Vector in a Different Basis — Full"
+            <TutorialLink
+              label="Visualizing a Vector in a Different Basis — Main Edition"
               url={urls.Tutorials.QuantumBasis}
             >
               Connecting quantum state vectors with the 2D vectors you’re used
               to.
               <br />
-              This “Full” version connects these concepts with quantum
+              The “Main” edition connects these concepts with quantum
               probabilities, and investigates the reasons one might change
               basis.
-            </TutorialLink> */}
+            </TutorialLink>
 
-            {/* <TutorialLink
-              label="Visualizing a Vector in a Different Basis — Lite"
+            <TutorialLink
+              label="Visualizing a Vector in a Different Basis — Lite Edition"
               url={urls.Tutorials.QuantumBasisLite}
             >
               Connecting quantum state vectors with the 2D vectors you’re used
               to.
               <br />
-              The “Lite” version doesn’t discuss the connection with quantum
+              The “Lite” edition doesn’t discuss the connection with quantum
               probabilities or reasons for changing basis, but takes less time.
-            </TutorialLink> */}
+            </TutorialLink>
 
             {/* <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
               Investigate the uniquely <em>quantum</em> effect of entanglement,

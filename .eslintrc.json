@@ -9,7 +9,7 @@
     // ESLint Rules: https://eslint.org/docs/rules/
     // TypeScript-ESLint Rules: https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
 
-    // Upgrade react-hooks rules to errors:
+    // Upgrade react-hooks rules to errors so they fail builds.
     "react-hooks/exhaustive-deps": "error",
 
     // Possible errors.
@@ -52,7 +52,14 @@
     "@typescript-eslint/prefer-function-type": "warn",
     "@typescript-eslint/unified-signatures": "warn"
   },
-  "ignorePatterns": ["*.config.js", "tutorials/**/*", "common/**/*"],
+  "ignorePatterns": [
+    "**/*.js",
+    "tutorials/**/*",
+    "common/**/*",
+    "scripts/data/**/*",
+    "scripts/purge-data.ts",
+    "scripts/to-sqlite.ts"
+  ],
   "env": {
     "browser": true,
     "es2021": true,

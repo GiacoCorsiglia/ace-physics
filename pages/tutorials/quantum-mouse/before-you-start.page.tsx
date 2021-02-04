@@ -1,6 +1,6 @@
 import { Prose } from "@/design";
 import { Decimal, FieldGroup, Text, TextArea } from "@/inputs";
-import M, { fieldToMatrix, Matrix } from "@/math";
+import M, { Matrix, modelToMatrix } from "@/math";
 import { pretest } from "@/tutorial";
 import setup from "./setup";
 
@@ -82,10 +82,9 @@ export default pretest(setup, ({ section }) => ({
           <Matrix
             className="margin-top"
             labelTex="\hat{A}"
-            matrix={fieldToMatrix(
-              m.A,
-              <Decimal model={m.A.elements[0].elements[0]} />
-            )}
+            matrix={modelToMatrix(m.A, (c) => (
+              <Decimal model={c} />
+            ))}
           />
         </>
       ),

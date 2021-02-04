@@ -1,27 +1,22 @@
-import {
-  Continue,
-  Help,
-  HelpButton,
-  Info,
-  Prose,
-  Reminder,
-  Section,
-} from "@/design";
-import { Column, Columns, Content } from "@/design/layout";
-import { Button, Choice, Select, TextArea, Toggle } from "@/inputs";
+import { Help, Info, Prose, Reminder } from "@/design";
+import { Column, Columns } from "@/design/layout";
+import { Button, ChooseOne, Select, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { Axes, Plot, Rotate, Tick, Vector } from "@/plots";
-import { isSet, needsHelp, useFields } from "@/state";
-import { QuantumBasis } from "common/tutorials";
-import { ContinueToNextPart, Part } from "tutorials/shared";
+import { useModel } from "@/reactivity";
+import { page } from "@/tutorial";
+import React from "react";
+import setup, { ResponseModels, Responses } from "./setup";
 
-export default function RelatingDifferentBases() {
-  const f = useFields(QuantumBasis);
-
-  return (
-    <Part label="Relating Different Bases">
-      <Content>
-        <Section first>
+export default page(setup, ({ section, hint }) => ({
+  name: "relatingBases",
+  label: "Relating Different Bases",
+  answersChecked: "some",
+  sections: [
+    section({
+      name: "relatingBasesIntro",
+      body: (
+        <Prose>
           <Reminder>
             <M
               display
@@ -64,11 +59,14 @@ export default function RelatingDifferentBases() {
               <em>as you found on the previous page.</em>
             </p>
           </Prose>
+        </Prose>
+      ),
+    }),
 
-          <Continue commit={f.relatingBasesIntroCommit} />
-        </Section>
-
-        <Section commits={[f.relatingBasesIntroCommit]}>
+    section({
+      name: "uAndKGraph",
+      body: (m, { responses }) => (
+        <>
           <Prose>
             <p>
               Now let’s create a single 2D graph showing both <M t="\ket{u}" />{" "}
@@ -89,30 +87,42 @@ export default function RelatingDifferentBases() {
 
           <Columns className="margin-top">
             <Column>
-              <PlotUAndK />
+              <PlotUAndK graph={responses?.uAndKGraph} />
             </Column>
 
             <Column>
-              <PlotOptions />
+              <PlotOptions graphModel={m.uAndKGraph} />
             </Column>
           </Columns>
+        </>
+      ),
+      continue: {
+        allowed: ({ responses }, allowed) =>
+          allowed && responses?.uAndKGraph?.k?.selected === "v1v2",
+      },
+    }),
 
-          <Continue
-            commit={f.uAndKGraphCommit}
-            allowed={
-              isSet(f.uAndKGraph) && f.uAndKGraph.value?.k?.selected === "v1v2"
-            }
-          />
-        </Section>
-
-        <Section commits={f.uAndKGraphCommit}>
+    section({
+      name: "uAndKRelationship",
+      body: (m) => (
+        <>
           <Help>
             <Prose>Your graph looks good!</Prose>
           </Help>
 
-          <Choice
-            field={f.uAndKRelationship}
-            choices={uAndKRelationship}
+          <ChooseOne
+            model={m.uAndKRelationship}
+            choices={[
+              ["same", "They’re the same vector."],
+              [
+                "different-bases",
+                "They can’t be the same vector because they’re in different bases, even though they overlap on the graph.",
+              ],
+              [
+                "different-coefficients",
+                "They aren’t the same vector because they have different coefficients, even though they overlap on the graph.",
+              ],
+            ]}
             label={
               <Prose>
                 Based on the graph, what is the relationship between{" "}
@@ -121,28 +131,36 @@ export default function RelatingDifferentBases() {
               </Prose>
             }
           />
+        </>
+      ),
+      hints: [
+        hint({
+          name: "uAndKRelationship",
+          body: (
+            <Prose>
+              Other than the different labels, could you distinguish between the
+              two vectors?
+            </Prose>
+          ),
+        }),
+      ],
+    }),
 
-          {needsHelp(f.uAndKRelationshipHelp) && (
-            <Help>
-              <Prose>
-                Other than the different labels, could you distinguish between
-                the two vectors?
-              </Prose>
-            </Help>
-          )}
+    section({
+      name: "newNameNecessary",
+      body: (m) => (
+        <>
+          <ChooseOne
+            model={m.newNameNecessary}
+            choices={[
+              ["yes", "Yes, it was necessary."],
+              ["no", "No, it wasn’t necessary."],
+              [
+                "no but useful",
 
-          <Continue
-            commit={f.uAndKRelationshipCommit}
-            allowed={isSet(f.uAndKRelationship)}
-          >
-            <HelpButton help={f.uAndKRelationshipHelp} />
-          </Continue>
-        </Section>
-
-        <Section commits={[f.uAndKRelationshipCommit]}>
-          <Choice
-            field={f.newNameNecessary}
-            choices={newNameNecessaryChoices}
+                "It wasn’t necessary, but it was still useful to do this.",
+              ],
+            ]}
             label={
               <Prose>
                 Earlier we had a state <M t="\ket{u}" /> initially written in
@@ -154,23 +172,22 @@ export default function RelatingDifferentBases() {
           />
 
           <TextArea
-            model={f.newNameNecessaryExplain}
-            label={<Prose>Explain</Prose>}
+            model={m.newNameNecessaryExplain}
+            label={<Prose>Explain:</Prose>}
           />
+        </>
+      ),
+      continue: { label: "Let’s check in" },
+    }),
 
-          <Continue
-            label="Let’s check in"
-            commit={f.newNameNecessaryCommit}
-            allowed={
-              isSet(f.newNameNecessary) && isSet(f.newNameNecessaryExplain)
-            }
-          />
-        </Section>
-
-        <Section commits={f.newNameNecessaryCommit}>
-          {f.uAndKRelationship.value?.selected === "same" && (
+    section({
+      name: "uVsKFeedback",
+      enumerate: false,
+      body: (_, { responses }) => (
+        <>
+          {responses?.uAndKRelationship?.selected === "same" && (
             <>
-              {f.newNameNecessary.value?.selected === "no" && (
+              {responses?.newNameNecessary?.selected === "no" && (
                 <Help>
                   <Prose>
                     <p>We agree with your answers!</p>
@@ -186,8 +203,8 @@ export default function RelatingDifferentBases() {
                 </Help>
               )}
 
-              {(f.newNameNecessary.value?.selected === "yes" ||
-                f.newNameNecessary.value?.selected === "no but useful") && (
+              {(responses?.newNameNecessary?.selected === "yes" ||
+                responses?.newNameNecessary?.selected === "no but useful") && (
                 <Info>
                   <Prose>
                     <p>
@@ -216,7 +233,7 @@ export default function RelatingDifferentBases() {
             </>
           )}
 
-          {f.uAndKRelationship.value?.selected !== "same" && (
+          {responses?.uAndKRelationship?.selected !== "same" && (
             <Info>
               <Prose>
                 <p>
@@ -238,51 +255,54 @@ export default function RelatingDifferentBases() {
               </Prose>
             </Info>
           )}
+        </>
+      ),
+    }),
 
-          <Continue commit={f.uVsKFeedbackCommit} />
-        </Section>
+    section({
+      name: "meaningOfCoB",
+      body: (m) => (
+        <TextArea
+          model={m.meaningOfCoB}
+          label={
+            <Prose>
+              Using the analogy we’ve created to 2-D spatial vectors, explain
+              what changing the basis means for a given quantum state (in this
+              case <M t="\ket{u}" />
+              ).
+            </Prose>
+          }
+        />
+      ),
+    }),
 
-        <Section commits={f.uVsKFeedbackCommit}>
+    section({
+      name: "equalityAllowed",
+      body: (m) => (
+        <Toggle
+          model={m.equalityAllowed}
+          choices={[
+            ["allowed", "Yes, that’s allowed"],
+            ["not allowed", "No, they’re in different bases"],
+          ]}
+          label={
+            <Prose>
+              Let’s bring this back to the physics context. Can we write
+              <br />
+              <M t="\ket{\psi} = a \ket{+} + b \ket{-} = c \ket{+}_x + d \ket{-}_x" />
+              ?
+            </Prose>
+          }
+        />
+      ),
+    }),
+
+    section({
+      name: "whyNoSubscriptNeeded",
+      body: (m) => (
+        <>
           <TextArea
-            model={f.meaningOfCoB}
-            label={
-              <Prose>
-                Using the analogy we’ve created to 2-D spatial vectors, explain
-                what changing the basis means for a given quantum state (in this
-                case <M t="\ket{u}" />
-                ).
-              </Prose>
-            }
-          />
-
-          <Continue
-            commit={f.meaningOfCoBCommit}
-            allowed={isSet(f.meaningOfCoB)}
-          />
-        </Section>
-
-        <Section commits={f.meaningOfCoBCommit}>
-          <Toggle
-            model={f.equalityAllowed}
-            choices={equalityAllowedChoices}
-            label={
-              <Prose>
-                Let’s bring this back to the physics context. Can we write{" "}
-                <M t="\ket{\psi} = a \ket{+} + b \ket{-} = c \ket{+}_x + d \ket{-}_x" />
-                ?
-              </Prose>
-            }
-          />
-
-          <Continue
-            commit={f.equalityAllowedCommit}
-            allowed={isSet(f.equalityAllowed)}
-          />
-        </Section>
-
-        <Section commits={f.equalityAllowedCommit}>
-          <TextArea
-            model={f.whyNoSubscriptNeeded}
+            model={m.whyNoSubscriptNeeded}
             label={
               <Prose>
                 Why do we not need an <M t="x" /> subscript on{" "}
@@ -295,16 +315,17 @@ export default function RelatingDifferentBases() {
             Make sure your answer here agrees with your response to the previous
             question.
           </Prose>
+        </>
+      ),
+      continue: { label: "Let’s check in" },
+    }),
 
-          <Continue
-            commit={f.whyNoSubscriptNeededCommit}
-            allowed={isSet(f.whyNoSubscriptNeeded)}
-            label="Let’s check in"
-          />
-        </Section>
-
-        <Section commits={f.whyNoSubscriptNeededCommit}>
-          {f.equalityAllowed.value?.selected === "allowed" && (
+    section({
+      name: "equalityAllowedFeedback",
+      enumerate: false,
+      body: (_, { responses }) => (
+        <>
+          {responses?.equalityAllowed?.selected === "allowed" && (
             <Help>
               <Prose>
                 <p>
@@ -320,7 +341,7 @@ export default function RelatingDifferentBases() {
             </Help>
           )}
 
-          {f.equalityAllowed.value?.selected === "not allowed" && (
+          {responses?.equalityAllowed?.selected === "not allowed" && (
             <Info>
               <Prose>
                 <p>That equation is allowed.</p>
@@ -339,23 +360,18 @@ export default function RelatingDifferentBases() {
               </Prose>
             </Info>
           )}
+        </>
+      ),
+    }),
+  ],
+}));
 
-          <Continue commit={f.equalityAllowedFeedbackCommit} />
-        </Section>
+function PlotUAndK({ graph }: { graph: Responses["uAndKGraph"] }) {
+  // eslint-disable-next-line no-param-reassign
+  graph = graph || {};
 
-        <Section commits={f.equalityAllowedFeedbackCommit}>
-          <ContinueToNextPart commit={f.relatingBasesFinalCommit} />
-        </Section>
-      </Content>
-    </Part>
-  );
-}
-
-function PlotUAndK() {
-  const graph = useFields(QuantumBasis).uAndKGraph.properties;
-
-  const v1v2Choice = graph.v1v2.value?.selected;
-  const kChoice = graph.k.value?.selected;
+  const v1v2Choice = graph.v1v2?.selected;
+  const kChoice = graph.k?.selected;
 
   const xLabel =
     v1v2Choice === "labels" ? "\\vb{i}, {\\color{green} \\vb{v_1}}" : "\\vb{i}";
@@ -375,9 +391,9 @@ function PlotUAndK() {
 
   return (
     <Plot>
-      {graph.ij.value === true && <Axes xLabel={xLabel} yLabel={yLabel} />}
+      {graph.ij === true && <Axes xLabel={xLabel} yLabel={yLabel} />}
 
-      {graph.u.value === true && (
+      {graph.u === true && (
         <>
           <Tick x={uX} label="\frac{1}{\sqrt{5}}" color="blue" />
 
@@ -396,7 +412,7 @@ function PlotUAndK() {
         </>
       )}
 
-      {v1v2Choice === "vectors" && !graph.v1v2Axes.value && (
+      {v1v2Choice === "vectors" && !graph.v1v2Axes && (
         <>
           <Vector x={v1X} y={v1Y} label="\ket{v_1}" color="green" />
 
@@ -404,7 +420,7 @@ function PlotUAndK() {
         </>
       )}
 
-      {graph.v1v2Axes.value === true && (
+      {graph.v1v2Axes === true && (
         <Rotate degrees={30}>
           <Axes xLabel="\vb{v_1}" yLabel="\vb{v_2}" color="darkgreen" />
 
@@ -431,42 +447,60 @@ function PlotUAndK() {
   );
 }
 
-function PlotOptions() {
-  const graph = useFields(QuantumBasis).uAndKGraph.properties;
+function PlotOptions({
+  graphModel,
+}: {
+  graphModel: ResponseModels["uAndKGraph"];
+}) {
+  const [graph, setGraph] = useModel(graphModel);
 
   return (
     <>
       <Button
         kind="secondary"
-        onClick={() => graph.ij.set(true)}
-        disabled={graph.ij.value === true}
+        onClick={() => setGraph((prev) => ({ ...prev, ij: true }))}
+        disabled={graph?.ij === true}
       >
         Add <M t="\ket{i}" /> and <M t="\ket{j}" /> axes
       </Button>
 
-      {graph.ij.value === true && (
+      {graph?.ij === true && (
         <Button
           className="margin-top-1"
           kind="secondary"
-          onClick={() => graph.u.set(true)}
-          disabled={graph.u.value === true}
+          onClick={() => setGraph((prev) => ({ ...prev, u: true }))}
+          disabled={graph?.u === true}
         >
           Add <M t="\ket{u}" /> from before
         </Button>
       )}
 
-      {graph.u.value === true && (
+      {graph?.u === true && (
         <Select
           className="margin-top-1"
-          model={graph.v1v2}
-          choices={finalGraphV1V2Choices}
+          model={graphModel.properties.v1v2}
+          choices={[
+            [
+              "labels",
+              <>
+                Add <M t="\vb{v_1}" /> and <M t="\vb{v_2}" /> labels to the
+                horizontal and vertical axes.
+              </>,
+            ],
+            [
+              "vectors",
+              <>
+                Add the <M t="\ket{v_1}" /> and <M t="\ket{v_2}" /> vectors.
+              </>,
+            ],
+          ]}
           placeholder="What next?"
           allowOther={false}
-          isDisabled={graph.v1v2Axes.value === true}
+          isDisabled={graph?.v1v2Axes === true}
         />
       )}
 
-      {graph.v1v2.value?.selected === "labels" && (
+      {graph?.v1v2?.selected === "labels" && (
         <Help>
           <Prose>
             Does this make sense? Should the <M t="\ket{i}" /> and{" "}
@@ -475,22 +509,37 @@ function PlotOptions() {
         </Help>
       )}
 
-      {graph.v1v2.value?.selected === "vectors" && (
+      {graph?.v1v2?.selected === "vectors" && (
         <Button
           className="margin-top-1"
           kind="secondary"
-          onClick={() => graph.v1v2Axes.set(true)}
-          disabled={graph.v1v2Axes.value === true}
+          onClick={() => setGraph((prev) => ({ ...prev, v1v2Axes: true }))}
+          disabled={graph?.v1v2Axes === true}
         >
           Extend the vectors into axes
         </Button>
       )}
 
-      {graph.v1v2Axes.value === true && (
+      {graph?.v1v2Axes === true && (
         <Select
           className="margin-top-1"
-          model={graph.k}
-          choices={finalGraphKChoices}
+          model={graphModel.properties.k}
+          choices={[
+            [
+              "v1v2",
+              <>
+                Plot <M t="(a, b)" /> against the <M t="\vb{v_1}" /> and{" "}
+                <M t="\vb{v_2}" /> axes.
+              </>,
+            ],
+            [
+              "ij",
+              <>
+                Plot <M t="(a, b)" /> against the <M t="\vb{i}" /> and{" "}
+                <M t="\vb{j}" /> axes.
+              </>,
+            ],
+          ]}
           allowOther={false}
           placeholder={
             <>
@@ -500,7 +549,7 @@ function PlotOptions() {
         />
       )}
 
-      {graph.k.value?.selected === "ij" && (
+      {graph?.k?.selected === "ij" && (
         <Help>
           <Prose>
             <p>
@@ -520,72 +569,3 @@ function PlotOptions() {
     </>
   );
 }
-
-const finalGraphV1V2Choices = [
-  {
-    value: "labels",
-    label: (
-      <>
-        Add <M t="\vb{v_1}" /> and <M t="\vb{v_2}" /> labels to the horizontal
-        and vertical axes.
-      </>
-    ),
-  },
-  {
-    value: "vectors",
-    label: (
-      <>
-        Add the <M t="\ket{v_1}" /> and <M t="\ket{v_2}" /> vectors.
-      </>
-    ),
-  },
-] as const;
-
-const finalGraphKChoices = [
-  {
-    value: "v1v2",
-    label: (
-      <>
-        Plot <M t="(a, b)" /> against the <M t="\vb{v_1}" /> and{" "}
-        <M t="\vb{v_2}" /> axes.
-      </>
-    ),
-  },
-  {
-    value: "ij",
-    label: (
-      <>
-        Plot <M t="(a, b)" /> against the <M t="\vb{i}" /> and <M t="\vb{j}" />{" "}
-        axes.
-      </>
-    ),
-  },
-] as const;
-
-const uAndKRelationship = [
-  { value: "same", label: "They’re the same vector." },
-  {
-    value: "different-bases",
-    label:
-      "They can’t be the same vector because they’re in different bases, even though they overlap on the graph.",
-  },
-  {
-    value: "different-coefficients",
-    label:
-      "They aren’t the same vector because they have different coefficients, even though they overlap on the graph.",
-  },
-] as const;
-
-const newNameNecessaryChoices = [
-  { value: "yes", label: "Yes, it was necessary." },
-  { value: "no", label: "No, it wasn’t necessary." },
-  {
-    value: "no but useful",
-    label: "It wasn’t necessary, but it was still useful to do this.",
-  },
-] as const;
-
-const equalityAllowedChoices = [
-  { value: "allowed", label: "Yes, that’s allowed" },
-  { value: "not allowed", label: "No, they’re in different bases" },
-] as const;

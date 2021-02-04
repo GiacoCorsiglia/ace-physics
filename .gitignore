@@ -39,7 +39,8 @@ yarn-error.log*
 **/*.tsbuildinfo
 
 # Script environment.
-/scripts/*.env.ts
+/scripts/*.env.*
+!/scripts/.env.example
 
 # Downloaded data
 /scripts/data

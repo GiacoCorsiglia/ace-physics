@@ -1,19 +1,20 @@
+import { Html } from "@/helpers/frontend";
 import { Model } from "@/reactivity";
-import { TupleField } from "@/schema/fields";
+import { Field, TupleField } from "@/schema/fields";
 import { classes } from "@/util";
 import { cloneElement } from "react";
 import M from ".";
 import styles from "./Matrix.module.scss";
 
 type MatrixContentProps =
-  | { matrix: React.ReactNode[][]; column?: never; row?: never }
-  | { matrix?: never; column: React.ReactNode[]; row?: never }
-  | { matrix?: never; column?: never; row: React.ReactNode[] };
+  | { matrix: readonly (readonly Html[])[]; column?: never; row?: never }
+  | { matrix?: never; column: readonly Html[]; row?: never }
+  | { matrix?: never; column?: never; row: readonly Html[] };
 
 export interface MatrixDisplayProps {
   labelTex?: string;
   subscriptTex?: string;
-  label?: React.ReactNode;
+  label?: Html;
   commas?: boolean;
   className?: string;
 }
@@ -141,6 +142,28 @@ export default function Matrix({
   );
 }
 
+export const modelToRow = <Es extends readonly Field[]>(
+  model: Model<TupleField<Es>>,
+  component: (componentModel: Model<Es[number]>, i: number) => Html
+): readonly Html[] => model.elements.map(component);
+
+export const modelToColumn = modelToRow;
+
+export const modelToMatrix = <Es extends readonly Field[]>(
+  model: Model<TupleField<readonly TupleField<Es>[]>>,
+  component: (
+    componentModel: Model<Es[number]>,
+    row: number,
+    column: number
+  ) => Html
+): readonly (readonly Html[])[] =>
+  model.elements.map((rowModel, row) =>
+    (rowModel.elements as any[]).map((componentModel, column) =>
+      component(componentModel, row, column)
+    )
+  );
+
+/** @deprecated */
 export function fieldToMatrix(
   tupleModel: Model<TupleField<any>>,
   inputEl: React.ReactElement,
