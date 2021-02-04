@@ -1,10 +1,10 @@
+import type { Infer as InferType } from "@/schema/types";
 import { ArrayField } from "./array";
 import { CasesField } from "./cases";
 import { Choice, Choices, ChooseAllField, ChooseOneField } from "./choose";
 import { ObjectField, Properties } from "./object";
 import { BooleanField, NumberField, StringField } from "./primitives";
 import { TupleField } from "./tuple";
-
 /**
  * A Field is a slot for user input.  The different kinds of Field represent
  * different structures for storing user input.
@@ -45,3 +45,4 @@ export type {
   StringField,
   TupleField,
 };
+export type Infer<F extends Field> = InferType<F["type"]>;
