@@ -14,30 +14,22 @@ export type ResponseModels = Model<
 export default tutorialSetup({
   schema,
   name: "QuantumBasis",
-  edition: "Main",
-  link: "quantum-basis",
-  label: "Visualizing a Vector in a Different Basis — Main Edition",
+  edition: "Lite",
+  link: "quantum-basis-lite",
+  label: "Visualizing a Vector in a Different Basis — Lite Edition",
   pretest: true,
   pages: [
     {
-      link: "1-probability-and-projection",
-      label: "Probability & Projection",
-    },
-    {
-      link: "2-defining-basis",
+      link: "1-defining-basis",
       label: "Defining Basis",
     },
     {
-      link: "3-changing-basis",
+      link: "2-changing-basis",
       label: "Changing Basis",
     },
     {
-      link: "4-relating-bases",
+      link: "3-relating-bases",
       label: "Relating Different Bases",
-    },
-    {
-      link: "5-wrap-up",
-      label: "Wrap Up",
     },
   ],
 });
