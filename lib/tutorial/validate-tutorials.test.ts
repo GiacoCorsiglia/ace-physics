@@ -127,15 +127,20 @@ fs.readdirSync(tutorialsDir)
         );
       });
 
-      it("schema pages match page config names; no repeated page names", () => {
-        const schemaPages = Object.keys(
-          schema.properties.pages.properties
-        ).sort();
-        const pageConfigNames = [...pageConfigs.values()]
-          .map((c) => c.name)
-          .sort();
+      it("no repeated page names", () => {
+        const pageConfigNames = [...pageConfigs.values()].map((c) => c.name);
+        const uniques = [...new Set(pageConfigNames)];
+        expect(pageConfigNames).toStrictEqual(uniques);
+      });
 
-        expect(pageConfigNames).toStrictEqual(schemaPages);
+      it("schema pages match page config names", () => {
+        const schemaPages = new Set(
+          Object.keys(schema.properties.pages.properties)
+        );
+        const pageConfigNames = [...pageConfigs.values()].map((c) => c.name);
+        pageConfigNames.forEach((name) => {
+          expect(schemaPages).toContain(name);
+        });
       });
 
       const allSections = [...pageConfigs.values()].flatMap((page) =>
