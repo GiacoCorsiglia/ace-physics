@@ -110,6 +110,7 @@ module.exports = withPlugins(
             stripPrefix: ["webpack://_N_E/"],
             urlPrefix: `~/_next`,
             release: COMMIT_SHA,
+            environment: process.env.NEXT_PUBLIC_ACE_ENV,
           })
         );
       }
