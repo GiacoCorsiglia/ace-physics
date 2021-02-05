@@ -133,16 +133,16 @@ export function TutorialStateRoot({
         setSavedStatus("error");
         console.error("tutorial: failed to save", result.error);
         if (result.error.type === "CONNECTION") {
-          window.alert(
-            "Sorry, but we couldn’t save your changes.\n" +
-              "This might be due to trouble with your internet connection."
-          );
+          // window.alert(
+          //   "Sorry, but we couldn’t save your changes.\n" +
+          //     "This might be due to trouble with your internet connection."
+          // );
         } else {
-          window.alert(
-            "Sorry, but we couldn’t save your changes.\n" +
-              "This seems to be an error on our end.\n" +
-              "Try refreshing, or try again later."
-          );
+          // window.alert(
+          //   "Sorry, but we couldn’t save your changes.\n" +
+          //     "This seems to be an error on our end.\n" +
+          //     "Try refreshing, or try again later."
+          // );
         }
       } else {
         if (version.current === newVersion) {
@@ -162,7 +162,7 @@ export function TutorialStateRoot({
     () =>
       debounce(save, 5 * 1000, {
         maxWait: 60 * 1000,
-        leading: true,
+        leading: false,
         trailing: true,
       }),
     [save]
@@ -279,7 +279,7 @@ function SavedStatus({
       return (
         <div className={cx(styles.savedStatus, styles.savedStatusError)}>
           <AlertIcon />
-          SAVING FAILED!
+          Saving failed
         </div>
       );
   }

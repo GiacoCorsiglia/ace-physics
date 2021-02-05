@@ -1,6 +1,9 @@
 import { decode, Infer, Type } from "@/schema/types";
+import { init } from "@/sentry";
 import { NextApiRequest, NextApiResponse } from "next";
 import * as response from "./response";
+
+init();
 
 interface Request<T> {
   body: T;

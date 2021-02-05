@@ -1,4 +1,7 @@
+import { init } from "@/sentry";
 import { NextApiRequest, NextApiResponse } from "next";
+
+init();
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
