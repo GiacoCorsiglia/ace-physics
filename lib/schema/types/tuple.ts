@@ -46,13 +46,26 @@ export const decodeTuple: Decoder<TupleType<readonly Type[]>> = (
   }
 
   const elements = type.elements;
+  let trailingOptionalElementsCount = 0;
+  for (let i = elements.length - 1; i >= 0; i--) {
+    const el = elements[i];
+    if (el.kind === "optional" || el.kind === "undefined") {
+      trailingOptionalElementsCount++;
+    } else {
+      break;
+    }
+  }
 
-  if (value.length !== elements.length) {
+  const maxLength = elements.length;
+  const requiredLength = maxLength - trailingOptionalElementsCount;
+  const receivedLength = value.length;
+
+  if (receivedLength < requiredLength || receivedLength > maxLength) {
     return decodeFailure(
       decodeError(
         value,
         context,
-        `wrong length for tuple: expected (${elements.length}), received (${value.length}) `
+        `wrong length for tuple: expected at least (${requiredLength}), at most (${maxLength}), received (${value.length}) `
       )
     );
   }
@@ -60,7 +73,7 @@ export const decodeTuple: Decoder<TupleType<readonly Type[]>> = (
   const newTuple: any[] = [...value];
   const errors: DecodeError[] = [];
 
-  for (let i = 0; i < value.length; i++) {
+  for (let i = 0; i < receivedLength; i++) {
     const decoded = decode(
       elements[i],
       value[i],
