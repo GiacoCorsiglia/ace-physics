@@ -15,7 +15,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState
+  useState,
 } from "react";
 import { TutorialConfig } from "../config";
 import { Root } from "../state-tree";
@@ -162,7 +162,7 @@ export function TutorialStateRoot({
     () =>
       debounce(save, 5 * 1000, {
         maxWait: 60 * 1000,
-        leading: true,
+        leading: false,
         trailing: true,
       }),
     [save]
