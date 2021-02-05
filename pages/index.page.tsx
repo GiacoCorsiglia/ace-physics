@@ -37,14 +37,6 @@ export default function Index() {
         <Button className="margin-top" link={urls.Tutorials.link}>
           Take me to the online tutorials <ArrowRightIcon />
         </Button>
-
-        <Button
-          onClick={() => {
-            throw new Error("Test client errors");
-          }}
-        >
-          Break things
-        </Button>
       </Content>
     </Page>
   );
