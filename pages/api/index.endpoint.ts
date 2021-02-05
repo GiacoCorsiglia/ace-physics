@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 init();
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
-  throw new Error("Test server error.");
+  console.error("Test server error.");
 
   if (req.method === "GET") {
     res.status(200).json({ ok: true });
