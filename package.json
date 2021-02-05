@@ -18,6 +18,10 @@
   },
   "dependencies": {
     "@primer/octicons-react": "^11.1.0",
+    "@sentry/browser": "^6.1.0",
+    "@sentry/integrations": "^6.1.0",
+    "@sentry/node": "^6.1.0",
+    "@sentry/webpack-plugin": "^1.14.0",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",

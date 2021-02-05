@@ -1,6 +1,17 @@
 const path = require("path");
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 
+const SentryWebpackPlugin = require("@sentry/webpack-plugin");
+const {
+  NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
+  SENTRY_ORG,
+  SENTRY_PROJECT,
+  SENTRY_AUTH_TOKEN,
+  NODE_ENV,
+  VERCEL_GITHUB_COMMIT_SHA: COMMIT_SHA,
+} = process.env;
+process.env.SENTRY_DSN = SENTRY_DSN;
+
 const withPlugins = (plugins, config) => (...args) =>
   plugins.reduce((c, plugin) => plugin(c), config(...args));
 
@@ -37,7 +48,16 @@ module.exports = withPlugins(
     sassOptions: {
       includePaths: [path.join(__dirname, "lib/design/css")],
     },
-    webpack(config) {
+
+    // For Sentry.
+    productionBrowserSourceMaps: true,
+    env: {
+      // Make the COMMIT_SHA available to the client so that Sentry events can
+      // be marked for the release they belong to.
+      NEXT_PUBLIC_COMMIT_SHA: COMMIT_SHA,
+    },
+
+    webpack(config, options) {
       const cssX = /(^|\/)css-loader($|\/)/;
       forEachRule(config.module.rules, (rule) => {
         if (cssX.test(rule.loader) && rule.options && rule.options.modules) {
@@ -51,6 +71,51 @@ module.exports = withPlugins(
         test: /\.svg$/,
         use: ["@svgr/webpack"],
       });
+
+      //////////////////////////////////////////////////////////////////////////
+      // Sentry config.
+      // See: https://github.com/vercel/next.js/tree/canary/examples/with-sentry
+      //////////////////////////////////////////////////////////////////////////
+      if (!options.isServer) {
+        config.resolve.alias["@sentry/node"] = "@sentry/browser";
+      }
+
+      // Define an environment variable so source code can check whether or not
+      // it's running on the server so we can correctly initialize Sentry
+      config.plugins.push(
+        new options.webpack.DefinePlugin({
+          "process.env.NEXT_IS_SERVER": JSON.stringify(
+            options.isServer.toString()
+          ),
+        })
+      );
+
+      // When all the Sentry configuration env variables are available/configured
+      // The Sentry webpack plugin gets pushed to the webpack plugins to build
+      // and upload the source maps to sentry.
+      // This is an alternative to manually uploading the source maps
+      // Note: This is disabled in development mode.
+      if (
+        SENTRY_DSN &&
+        SENTRY_ORG &&
+        SENTRY_PROJECT &&
+        SENTRY_AUTH_TOKEN &&
+        COMMIT_SHA &&
+        NODE_ENV === "production"
+      ) {
+        config.plugins.push(
+          new SentryWebpackPlugin({
+            include: ".next",
+            ignore: ["node_modules"],
+            stripPrefix: ["webpack://_N_E/"],
+            urlPrefix: `~/_next`,
+            release: COMMIT_SHA,
+          })
+        );
+      }
+      //////////////////////////////////////////////////////////////////////////
+      // End Sentry config.
+      //////////////////////////////////////////////////////////////////////////
 
       return config;
     },
