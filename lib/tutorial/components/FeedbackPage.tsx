@@ -30,7 +30,14 @@ export default function FeedbackPage({
           <h1 className="prose">Please Share Your Feedback</h1>
 
           <Prose>
-            <em>We need your help to make these tutorials better!</em>
+            <p>
+              <em>We need your help to make these tutorials better!</em>
+            </p>
+
+            <p>
+              This feedback is anonymized. Feel free to be (respectfully)
+              critical.
+            </p>
           </Prose>
         </section>
 
@@ -44,6 +51,58 @@ export default function FeedbackPage({
               ["partner", "Outside of class, with friends"],
             ]}
           />
+        </section>
+
+        <section className={styles.section}>
+          <Prose>
+            Today’s tutorial occasionally “checked your answers” and either told
+            you that things looked good, or asked you to think some more or
+            answer follow-up questions.
+          </Prose>
+
+          <TextArea
+            model={m.answerCheckingChangeApproach}
+            label={
+              <Prose>
+                Did the (occasional) “answer checking” change the way you
+                approached the tutorial? (Did you rely on it?) Please explain.
+              </Prose>
+            }
+          />
+        </section>
+
+        <section className={styles.section}>
+          <TextArea
+            model={m.answerCheckingPreferenceOpenEnded}
+            label={
+              <Prose>
+                <p>
+                  Assume that our goal is to help you figure out,{" "}
+                  <strong>for yourself</strong>, why “right” answers are “right”
+                  and “wrong” answers are “wrong.”
+                </p>
+
+                <p>
+                  How would you prefer that happen? How can this tutorial
+                  software help?
+                </p>
+              </Prose>
+            }
+          />
+
+          <Prose className="opacity-faded">
+            <p>
+              We take your feedback to heart. But, we can’t get to everything,
+              and may have other reasons for not directly implementing your
+              suggestions.
+            </p>
+
+            <p>
+              We’re <strong>always</strong> happy to talk with you about these
+              tutorials or about general questions or issues you may be having.
+              Reach out any time!
+            </p>
+          </Prose>
         </section>
 
         <section className={styles.section}>
