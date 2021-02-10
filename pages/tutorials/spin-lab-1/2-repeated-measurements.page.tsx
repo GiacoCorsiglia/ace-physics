@@ -10,7 +10,7 @@ import setup from "./setup";
 
 export default page(setup, ({ section, oneOf, hint }) => ({
   name: "repeatedMeasurements",
-  label: "A Spin-Z Experiment",
+  label: "Repeated Measurements",
   answersChecked: "some",
   sections: [
     section({
