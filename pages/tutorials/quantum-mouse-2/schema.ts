@@ -10,7 +10,15 @@ export default tutorialSchema({
     "interpretingOperatorsInQuantumMechanics",
   ],
   pretest: {
-    // Pretest fields here.
+    SzTimesPsi: f.string(),
+    interpretSzTimesPsi: f.chooseOne([
+      "experimental value",
+      "resulting state",
+      "mathematical relation",
+    ]),
+    possibleCMeasurementResults: f.string(),
+    doAAndCCommute: f.chooseOne(["yes", "no"]),
+    doAAndCCommuteExplain: f.string(),
   },
   sections: [
     "measurementAndCommutationIntro",
