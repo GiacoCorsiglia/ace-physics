@@ -23,18 +23,12 @@ export default page(setup, ({ section }) => ({
 
           <p>
             Measuring <M t="\hat{N}" /> gives only two possible results, 50 dB
-            (for noisy mice), or 10 dB (quiet).
+            (for noisy mice), or 10 dB (for quiet mice).
           </p>
 
           <p>
             Assume <M t="\hat{N}" />
             ’s eigenvectors are <em>complete and orthonormal</em>.
-          </p>
-
-          <p>
-            After observing many mice, you conclude that all happy mice are
-            noisy (and vice versa), and likewise, all sad mice are quiet (and
-            vice versa).
           </p>
         </Prose>
       ),
@@ -45,8 +39,17 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            Invent your own “ket” notation for (normalized) noise eigenstates,
-            represent them (in the happy basis)
+            <p>
+              After observing many mice, you conclude that{" "}
+              <strong>all happy mice are noisy</strong> (and vice versa), and
+              likewise, <strong>all sad mice are quiet</strong> (and vice
+              versa).
+            </p>
+
+            <p>
+              Invent your own “ket” notation for (normalized) noise eigenstates,
+              represent them in the happy basis.
+            </p>
           </Prose>
 
           <div
@@ -166,7 +169,7 @@ export default page(setup, ({ section }) => ({
           />
 
           <Toggle
-            model={m.simultaneousEigenstatesNM}
+            model={m.simultaneousEigenstatesNS}
             label={
               <Prose>
                 For <M t="\hat{N}" />

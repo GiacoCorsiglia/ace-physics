@@ -9,7 +9,7 @@ import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "backToSpins",
-  label: "Back to Spins",
+  label: "Bonus: Back to Spins — If You Have Time",
   answersChecked: "none",
   sections: [
     section({

@@ -66,7 +66,10 @@ export default tutorialSchema({
     canKnowEyeSizeHappinessSimultaneousExplain: f.string(),
 
     expValS: f.number(),
+    expValSUnits: f.chooseOne(["none", "mm", "eV"]),
     uncertaintyS: f.number(),
+    uncertaintySUnits: f.chooseOne(["none", "mm", "eV"]),
+
     signExpValM: f.chooseOne(["negative", "positive", "zero"]),
     signExpValMExplain: f.string(),
     smallestMagnitudeExpValM: f.number(),

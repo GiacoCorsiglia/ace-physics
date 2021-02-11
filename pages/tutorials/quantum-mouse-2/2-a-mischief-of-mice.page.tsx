@@ -1,7 +1,8 @@
 import { Prose, Reminder } from "@/design";
-import { Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
+import { Decimal, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
+import { css } from "linaria";
 import React from "react";
 import setup from "./setup";
 
@@ -15,18 +16,28 @@ export default page(setup, ({ section }) => ({
       body: (
         <>
           <Reminder>
-            <M
-              display
-              t="
+            <Prose>
+              Small-eyed mice: &nbsp;{" "}
+              <M t="\hat{S}\ket{\smalleye} = 1 \unit{mm} \ket{\smalleye}" />{" "}
+              <br />
+              Wide-eyed mice: &nbsp;{" "}
+              <M t="\hat{S}\ket{\wideye} = 2 \unit{mm} \ket{\wideye}" /> <br />
+              Happy mice: &nbsp; <M t="\hat{M}\ket{\smiley}=\ket{\smiley}" />
+              <br />
+              Sad mice: &nbsp; <M t="\hat{M}\ket{\frownie}= -\ket{\frownie}" />
+              <M
+                display
+                t="
                 \hat{M} \doteq \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
                 \and
                 \hat{S} \doteq \frac{1}{5} \begin{pmatrix} 6 & 2 \\ 2 & 9 \end{pmatrix} \unit{mm}
-              "
-            />
+                "
+              />
+            </Prose>
           </Reminder>
 
           <Prose>
-            Suppose you have a mischief (i.e an ensemble) of “big eyed” mice,
+            Suppose you have a mischief (i.e., an ensemble) of “big eyed” mice,
             all in the state:
             <M
               display
@@ -46,14 +57,48 @@ export default page(setup, ({ section }) => ({
             What is <M t="\Delta\hat{S}" />?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <div
+            className={css`
+              display: grid;
+              margin-top: 1rem;
+              grid-template-columns: auto auto 1fr;
+              gap: 1rem;
+              align-items: center;
+
+              label {
+                text-align: right;
+                padding: 0.5rem 0;
+                margin-bottom: 0 !important;
+              }
+            `}
+          >
             <Decimal model={m.expValS} label={<M t="\expval{\hat{S}} = " />} />
+
+            <Select
+              model={m.expValSUnits}
+              placeholder="Units"
+              choices={[
+                ["none", "Dimensionless"],
+                ["mm", "mm"],
+                ["eV", "eV"],
+              ]}
+            />
 
             <Decimal
               model={m.uncertaintyS}
               label={<M t="\Delta\hat{S} = " />}
             />
-          </FieldGroup>
+
+            <Select
+              model={m.uncertaintySUnits}
+              placeholder="Units"
+              choices={[
+                ["none", "Dimensionless"],
+                ["mm", "mm"],
+                ["eV", "eV"],
+              ]}
+            />
+          </div>
 
           <Prose>
             (Do you need to do any nasty matrix algebra, or can you figure this
@@ -187,9 +232,7 @@ export default page(setup, ({ section }) => ({
           <Prose>
             Now, go ahead and{" "}
             <strong>
-              compute
-              <M t="\expval{\hat{M}}" />
-              and <M t="\Delta\hat{M}" />
+              compute <M t="\expval{\hat{M}}" /> and <M t="\Delta\hat{M}" />
             </strong>
             . (And of course check—are your answers within the bounds and
             expectations above?)

@@ -7,7 +7,8 @@ import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "interpretingOperatorsInQuantumMechanics",
-  label: "Interpreting Operators in Quantum Mechanics",
+  label:
+    "Bonus: Interpreting Operators in Quantum Mechanics — If You Have Time",
   answersChecked: "none",
   sections: [
     section({
@@ -17,6 +18,9 @@ export default page(setup, ({ section }) => ({
           On the previous page, you acted <M t="\hat{S_z}" /> on{" "}
           <M t="\ket{+}_x" /> to discover:
           <M display t="\hat{S_z} \ket{+}_x = \frac{\hbar}{2} \ket{-}_x" />
+          If you came to a different conclusion on the previous page, take a
+          moment right now to check that it’s mathematically equivalent to this
+          expression.
         </Prose>
       ),
     }),
@@ -28,7 +32,7 @@ export default page(setup, ({ section }) => ({
           model={m.SzTimesPlusXIsEigenequation}
           label={
             <Prose>
-              <p>Is this equation an “eigen-equation?”</p>
+              <p>Is the equation above an “eigen-equation?”</p>
             </Prose>
           }
           choices={[
@@ -105,7 +109,7 @@ export default page(setup, ({ section }) => ({
             }
             choices={[
               ["yes", "Yes, the state can be predicted"],
-              ["no", "No, it cant’t"],
+              ["no", "No, it can’t"],
             ]}
           />
         </>
@@ -182,8 +186,8 @@ export default page(setup, ({ section }) => ({
           label={
             <Prose>
               <p>
-                We <strong>strongly disagree</strong> with any claim that{" "}
-                <M t="\hat{O}\ket{\psi}" /> means “a measurement of{" "}
+                We <strong>strongly disagree</strong> with the claim that{" "}
+                <M t="\hat{O}\ket{\psi}" /> literally means “a measurement of{" "}
                 <M t="\hat{O}" /> on state <M t="\ket{\psi}" />
                 .” So we’d be most inclined to agree with Student C above.
               </p>

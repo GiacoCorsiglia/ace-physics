@@ -33,11 +33,11 @@ export default tutorialSetup({
     },
     {
       link: "4-back-to-spins",
-      label: "Back to Spins",
+      label: "Bonus: Back to Spins",
     },
     {
       link: "5-interpreting-operators-in-quantum-mechanics",
-      label: "Interpreting Operators in Quantum Mechanics",
+      label: "Bonus: Interpreting Operators in Quantum Mechanics",
     },
   ],
 });
