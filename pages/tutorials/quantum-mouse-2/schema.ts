@@ -1,0 +1,126 @@
+import * as f from "@/schema/fields";
+import { tutorialSchema } from "@/schema/tutorial";
+
+export default tutorialSchema({
+  pages: [
+    "measurementAndCommutation",
+    "aMischiefOfMice",
+    "quietAsAMouse",
+    "backToSpins",
+    "interpretingOperatorsInQuantumMechanics",
+  ],
+  pretest: {
+    SzTimesPsi: f.string(),
+    interpretSzTimesPsi: f.chooseOne([
+      "experimental value",
+      "resulting state",
+      "mathematical relation",
+    ]),
+    possibleCMeasurementResults: f.string(),
+    doAAndCCommute: f.chooseOne(["yes", "no"]),
+    doAAndCCommuteExplain: f.string(),
+  },
+  sections: [
+    "measurementAndCommutationIntro",
+    "eyeSizeMeasAffectsHappinessPredict",
+    "mAndSCompatibility",
+    "canKnowEyeSizeHappinessSimultaneous",
+
+    "aMischiefOfMiceIntro",
+    "expValUncertaintyS",
+    "signExpValM",
+    "extremaMagnitudeExpValM",
+    "extremaUncertaintyM",
+    "expValUncertaintyM",
+
+    "quietAsAMouseIntro",
+    "representationNStates",
+    "representationNOperator",
+    "doNAndMCommute",
+    "simultaneousEigenstatesNMS",
+    "quietMiceExpValUncertaintyNM",
+    "quietMiceCanUncertaintySBeZero",
+
+    "backToSpinsIntro",
+    "interpretSzEigenequation",
+    "SzTimesArbitraryKetKindOfObject",
+    "SzTimesPlusX",
+    "SzTimesPlusXIsKindOfObject",
+    "SzTimesPlusXIsNormalized",
+
+    "interpretingOperatorsInQuantumMechanicsIntro",
+    "SzTimesPlusXIsEigenequation",
+    "doesSzTimesPlusXConnectToMeasurement",
+    "canPredictSz",
+    "SzTimesArbitraryKet",
+    "studentInterpretationsOfSzTimesPsi",
+    "whyOperatorTimesStateIsNotMeasurement",
+  ],
+  responses: {
+    eyeSizeMeasAffectsHappinessPredict: f.chooseOne(["yes", "no"]),
+    eyeSizeMeasAffectsHappinessPredictExplain: f.string(),
+    mAndSCommute: f.chooseOne(["yes", "no"]),
+    mAndSSimultaneousEigenvectors: f.chooseOne(["yes", "no"]),
+    mAndSCommuteAffectsChainedMeasurements: f.string(),
+    canKnowEyeSizeHappinessSimultaneous: f.chooseOne(["yes", "no"]),
+    canKnowEyeSizeHappinessSimultaneousExplain: f.string(),
+
+    expValS: f.number(),
+    expValSUnits: f.chooseOne(["none", "mm", "eV"]),
+    uncertaintyS: f.number(),
+    uncertaintySUnits: f.chooseOne(["none", "mm", "eV"]),
+
+    signExpValM: f.chooseOne(["negative", "positive", "zero"]),
+    signExpValMExplain: f.string(),
+    smallestMagnitudeExpValM: f.number(),
+    largestMagnitudeExpValM: f.number(),
+    smallestUncertaintyM: f.number(),
+    largestUncertaintyM: f.number(),
+    expValM: f.number(),
+    uncertaintyM: f.number(),
+
+    notationNoisyState: f.string(),
+    notationQuietState: f.string(),
+    noisyStateHappinessBasis: f.string(),
+    quietStateHappinessBasis: f.string(),
+    representationNOperator: f.tuple(
+      f.tuple(f.number(), f.number()),
+      f.tuple(f.number(), f.number())
+    ),
+    doNAndMCommute: f.chooseOne(["yes", "no"]),
+    simultaneousEigenstatesNM: f.chooseOne(["yes", "no"]),
+    simultaneousEigenstatesNS: f.chooseOne(["yes", "no"]),
+    simultaneousEigenstatesNMSExplain: f.string(),
+    quietMiceExpValN: f.number(),
+    quietMiceUncertaintyN: f.number(),
+    quietMiceExpValM: f.number(),
+    quietMiceUncertaintyM: f.number(),
+    quietMiceCanUncertaintySBeZero: f.chooseOne(["yes", "no"]),
+    quietMiceCanUncertaintySBeZeroExplain: f.string(),
+
+    interpretSz: f.string(),
+    interpretPlusZ: f.string(),
+    interpretHBarOver2: f.string(),
+    SzTimesArbitraryKetKindOfObject: f.chooseOne([
+      "bra",
+      "ket",
+      "operator",
+      "number",
+    ]),
+    SzTimesPlusXKindOfObject: f.chooseOne(["bra", "ket", "operator", "number"]),
+    SzTimesPlusXIsNormalized: f.chooseOne(["yes", "no"]),
+
+    SzTimesPlusXIsEigenequation: f.chooseOne(["yes", "no"]),
+    doesSzTimesPlusXConnectToMeasurement: f.chooseOne(["yes", "no"]),
+    doesSzTimesPlusXConnectToMeasurementExplain: f.string(),
+    canPredictSzForPlusX: f.chooseOne(["yes", "no"]),
+    canPredictFinalState: f.chooseOne(["yes", "no"]),
+    SzTimesArbitraryKet: f.string(),
+    studentInterpretationsOfSzTimesPsi: f.string(),
+    whyOperatorTimesStateIsNotMeasurement: f.string(),
+  },
+  hints: [
+    // Hints here.
+    "eyeSizeMeasAffectsHappinessPredict",
+  ],
+});

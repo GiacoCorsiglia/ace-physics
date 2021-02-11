@@ -46,6 +46,11 @@ const QuantumMouse = {
   link: "/tutorials/quantum-mouse",
 };
 
+const QuantumMouse2 = {
+  path: "quantum-mouse-2",
+  link: "/tutorials/quantum-mouse-2",
+};
+
 const QuantumBasis = {
   path: "quantum-basis",
   link: "/tutorials/quantum-basis",
@@ -89,6 +94,7 @@ export const Tutorials = {
   QuantumBasis,
   QuantumBasisLite,
   QuantumMouse,
+  QuantumMouse2,
   EPR,
   VectorsToFunctions,
   EnergyAndPosition,

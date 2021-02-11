@@ -43,6 +43,11 @@ const t = String.raw;
 
 export const macros = {
   "\\e": t`{\rm e}`,
+  "\\and": t`\text{ and }`,
+  // Units:
+  "\\unit": t`\,\text{#1}`,
+  "\\expval": t`\langle#1\rangle`,
+
   // Some exports from the physics package:
   "\\vu": t`\mathbf{\hat{#1}}`,
   "\\vb": t`\mathbf{#1}`,

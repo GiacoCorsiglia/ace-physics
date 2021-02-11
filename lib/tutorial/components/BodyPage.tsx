@@ -1,11 +1,11 @@
-import { Prose } from "@/design";
+import { Info, Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
 import { Button } from "@/inputs";
 import * as urls from "@/urls";
-import { ArrowRightIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
+import { ArrowRightIcon, CommentDiscussionIcon } from "@primer/octicons-react";
+import { css, cx } from "linaria";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
@@ -37,6 +37,12 @@ export default function BodyPage({
     });
   }, [store, config]);
 
+  const router = useRouter();
+  const currentPath = router.pathname.split("/");
+  const currentLink = currentPath[currentPath.length - 1];
+  const index = tutorialConfig.pages.findIndex((p) => p.link === currentLink);
+  const isFirstPage = index === 0;
+
   return (
     <>
       <Head>
@@ -51,6 +57,33 @@ export default function BodyPage({
         <h1 className="prose">
           {typeof config.label === "string" ? config.label : config.label.html}
         </h1>
+
+        {isFirstPage && (
+          <Info>
+            <div
+              className={css`
+                display: flex;
+                align-items: center;
+
+                > * + * {
+                  margin-left: 1.5rem !important;
+                }
+              `}
+            >
+              <CommentDiscussionIcon size="large" />
+
+              <Prose noMargin>
+                {tutorialConfig.pretest ? "From now on, we" : "We"} encourage
+                you to{" "}
+                <strong>
+                  discuss all of your answers with your peers immediately before
+                  moving on
+                </strong>{" "}
+                (if you’re working with a group today).
+              </Prose>
+            </div>
+          </Info>
+        )}
       </Content>
 
       <SectionTree sections={config.sections} complete={complete} />

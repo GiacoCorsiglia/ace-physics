@@ -10,7 +10,7 @@ import setup from "./setup";
 
 export default page(setup, ({ section, hint, oneOf }) => ({
   name: "spinAlongOtherAxes",
-  label: "A Spin-Z Experiment",
+  label: "Spin Along Other Axes",
   answersChecked: "all",
   sections: [
     section({

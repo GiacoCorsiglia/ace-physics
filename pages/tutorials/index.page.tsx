@@ -76,6 +76,14 @@ export default function TutorialsIndex() {
               probabilities or reasons for changing basis, but takes less time.
             </TutorialLink>
 
+            <TutorialLink
+              label="Quantum Mouse Lab 2"
+              url={urls.Tutorials.QuantumMouse2}
+            >
+              Continue to explore eigenvalues, eigenstates, operators, and
+              measurement.
+            </TutorialLink>
+
             {/* <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
               Investigate the uniquely <em>quantum</em> effect of entanglement,
               and apply it to cryptography.

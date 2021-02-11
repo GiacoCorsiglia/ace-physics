@@ -1,4 +1,4 @@
-import { Prose } from "@/design";
+import { Info, Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
@@ -7,8 +7,8 @@ import { isSet, Model, tracker } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
 import * as urls from "@/urls";
-import { ArrowRightIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
+import { AlertIcon, ArrowRightIcon } from "@primer/octicons-react";
+import { css, cx } from "linaria";
 import Head from "next/head";
 import { PretestConfig, TutorialConfig } from "../config";
 import { tracked, useRootModel, useTracked } from "../state-tree";
@@ -57,7 +57,36 @@ export default function PretestPage({
             Actually, we expect you may not. Today's tutorial will talk about a
             lot of these concepts!
           </p>
+        </Prose>
 
+        <Info>
+          <div
+            className={css`
+              display: flex;
+              align-items: center;
+
+              & > * + * {
+                margin-left: 1.5rem;
+              }
+            `}
+          >
+            <AlertIcon size="large" />
+
+            <Prose noMargin>
+              <p
+                className={css`
+                  font-size: 1.5rem;
+                  font-weight: bold;
+                `}
+              >
+                Work on this page alone and don’t discuss your answers until
+                you’ve moved on to the next page.
+              </p>
+            </Prose>
+          </div>
+        </Info>
+
+        <Prose>
           <p>
             <strong className="text-blue">
               Don‘t spend more than 5 minutes
@@ -70,6 +99,8 @@ export default function PretestPage({
             every question with your best guess, and then move on to the
             tutorial.
           </p>
+
+          <p>Thanks :)</p>
         </Prose>
       </Content>
 
@@ -112,17 +143,27 @@ const ContinueSection = tracked(function ContinueSection(
   );
 
   return (
-    <Content as="section" className={cx(styles.section, "text-right")}>
-      <Button
-        link={urls.join(
-          urls.Tutorials.link,
-          tutorialConfig.link,
-          tutorialConfig.pages[0]?.link
-        )}
-        disabled={!isComplete}
-      >
-        Submit and move on <ArrowRightIcon />
-      </Button>
+    <Content as="section" className={styles.section}>
+      <div className="text-right">
+        <Button
+          link={urls.join(
+            urls.Tutorials.link,
+            tutorialConfig.link,
+            tutorialConfig.pages[0]?.link
+          )}
+          disabled={!isComplete}
+        >
+          Submit and move on <ArrowRightIcon />
+        </Button>
+      </div>
+
+      <Info>
+        <Prose>
+          <strong>
+            Don’t discuss your answers until you’ve moved on to the next page.
+          </strong>
+        </Prose>
+      </Info>
     </Content>
   );
 });
