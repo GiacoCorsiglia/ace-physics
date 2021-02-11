@@ -182,5 +182,66 @@ fs.readdirSync(tutorialsDir)
           expect(page.displayName).toMatch("Page");
         });
       });
+
+      it("no repeated models", () => {
+        // const identifier = /^[A-Za-z_][0-9A-Za-z_$]*$/;
+        const modelsArgX = /^\s*\(?([A-Za-z_$][0-9A-Za-z_$]*)(?:,|\s|=>)/;
+
+        const allAccessedModels: string[] = [];
+        const allRepeatedModels: string[] = [];
+
+        allSections.forEach((section) => {
+          const body = section.body;
+          if (!(body instanceof Function)) {
+            return;
+          }
+          if (body.length < 1) {
+            return;
+          }
+          const code = body.toString();
+
+          const modelsArgMatch = code.match(modelsArgX);
+          const modelsArg = modelsArgMatch ? modelsArgMatch[1] : null;
+          if (modelsArg === null) {
+            // We've already checked the arity, so we should be able to find the
+            // name of the models arg with this pattern.
+            throw new Error("Broken test");
+          }
+
+          // Check for things like:
+          // m.modelName
+          // m.modelName.properties
+          // m.modelName.properties.subModelName.elements[0]
+          // As well as:
+          // m.modelName /* ignore-repeated-model */
+          const modelAccessX = new RegExp(
+            `[^0-9A-Za-z_$]?${modelsArg}((?:\\.[A-Za-z_$][0-9A-Za-z_$]*|\\[[0-9]+\\])+)(\\s*/\\*\\s*ignore-repeated-model\\s*\\*/)?`,
+            "g"
+          );
+          const matches = [...code.matchAll(modelAccessX)];
+          matches.forEach((match) => {
+            const model = match[1].slice(1); // Drop the first dot
+            if (match[2]) {
+              allRepeatedModels.push(model);
+            } else {
+              allAccessedModels.push(model);
+            }
+          });
+        });
+
+        const allAccessedSet = new Set(allAccessedModels);
+        const uniques = [...new Set(allAccessedModels)];
+        expect(allAccessedModels).toStrictEqual(uniques);
+
+        // Also make sure we don't have any that were flagged as "repeated"
+        // but actually weren't.
+        allRepeatedModels.forEach((repeatedModel) => {
+          if (!allAccessedSet.has(repeatedModel)) {
+            throw new Error(
+              `Model "${repeatedModel}" was flagged as repeated, but it wasn't actually repeated`
+            );
+          }
+        });
+      });
     });
   });
