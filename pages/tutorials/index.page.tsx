@@ -78,7 +78,7 @@ export default function TutorialsIndex() {
 
             <TutorialLink
               label="Quantum Mouse Lab 2"
-              url={urls.Tutorials.QuantumMouse}
+              url={urls.Tutorials.QuantumMouse2}
             >
               Continue to explore eigenvalues, eigenstates, operators, and
               measurement.
