@@ -113,13 +113,13 @@ export default function TutorialsIndex() {
               Visualize the time evolution of position space wave functions.
             </TutorialLink> */}
 
-            {/* <TutorialLink
+            <TutorialLink
               label="Reflecting on Transmission"
-              url={urls.Tutorials.ReflectingOnTransmission}
+              url={urls.Tutorials.ReflectionTransmission}
             >
               Explore the phenomena of reflection and transmission from 1D
               potential barriers.
-            </TutorialLink> */}
+            </TutorialLink>
           </ul>
         </nav>
       </Content>

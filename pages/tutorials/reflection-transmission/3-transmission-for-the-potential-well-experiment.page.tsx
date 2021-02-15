@@ -1,0 +1,131 @@
+import { Prose, Reminder } from "@/design";
+import { TextArea, Toggle } from "@/inputs";
+import M from "@/math";
+import { page } from "@/tutorial";
+import React from "react";
+import { SymmetricWellPotential } from "./figures";
+import setup from "./setup";
+
+export default page(setup, ({ section, hint }) => ({
+  name: "transmissionForThePotentialWellExperiment",
+  label: "Transmission for the Potential Well: Experiment",
+  answersChecked: "none",
+  sections: [
+    section({
+      name: "transmissionForThePotentialWellExperimentIntro",
+      body: (
+        <>
+          <Prose>Here’s the symmetric potential well from part 1.</Prose>
+
+          <SymmetricWellPotential />
+
+          <Reminder>
+            <M
+              display
+              t="
+          V(x) =
+          \begin{cases}
+            0 & |x| > a \\
+            -V_0 & |x| < a
+          \end{cases}
+          "
+            />
+          </Reminder>
+
+          <Prose>
+            Consider the transmission coefficient <M t="T" /> for this system.
+          </Prose>
+        </>
+      ),
+      continue: { label: "I’m considering…" },
+    }),
+
+    section({
+      name: "wellPredictionsForT",
+      body: (m) => (
+        <TextArea
+          model={m.wellPredictionsForT}
+          label={
+            <Prose>
+              Using physical arguments, but without carrying out calculations
+              what can you predict qualitatively about <M t="T" />? Don't use
+              the sim yet either!
+            </Prose>
+          }
+          minRows={3}
+        />
+      ),
+      hints: [
+        hint({
+          name: "wellPredictionsForT",
+          body: (
+            <Prose>
+              Consider different depths and widths of the well, and different
+              energies <M t="E" />. Consider “up” bumps instead of wells, too.
+            </Prose>
+          ),
+        }),
+      ],
+    }),
+
+    section({
+      name: "wellSimTestPredictions",
+      body: (m) => (
+        <TextArea
+          model={m.wellSimTestPredictions}
+          label={
+            <Prose>
+              Use the{" "}
+              <a
+                href="https://phet.colorado.edu/sims/cheerpj/quantum-tunneling/latest/quantum-tunneling.html?simulation=quantum-tunneling"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                sim
+              </a>{" "}
+              to confirm (or challenge) some of your predictions/ideas. Indicate
+              anything you tested that surprised you:
+            </Prose>
+          }
+        />
+      ),
+    }),
+
+    section({
+      name: "wavelengthAfterTunneling",
+      body: (m) => (
+        <TextArea
+          model={m.wavelengthAfterTunneling}
+          label={
+            <Prose>
+              What happened to the wavelength of a plane wave after tunneling
+              through a barrier?
+            </Prose>
+          }
+        />
+      ),
+    }),
+
+    section({
+      name: "energyAfterTunneling",
+      body: (m) => (
+        <>
+          <Toggle
+            model={m.energyAfterTunneling}
+            label={<Prose>Is energy lost after tunneling?</Prose>}
+            choices={[
+              ["lost", "Yes"],
+              ["not lost", "No"],
+              ["depends", "It depends"],
+            ]}
+          />
+
+          <TextArea
+            model={m.energyAfterTunnelingExplain}
+            label={<Prose>Explain:</Prose>}
+          />
+        </>
+      ),
+    }),
+  ],
+}));
