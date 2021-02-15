@@ -11,14 +11,11 @@ import {
 
 const tutorialsDir = path.join(__dirname, "../../pages/tutorials");
 
+const pageSuffix = /\.page\.tsx$/;
 const nonPageFiles = new Set([
   "index.page.tsx",
   "feedback.page.tsx",
   "before-you-start.page.tsx",
-  "schema.ts",
-  "setup.ts",
-  "shared.ts",
-  "shared.tsx",
 ]);
 
 const findAllSections = (nodes: readonly NodeConfig[]): SectionConfig[] =>
@@ -40,6 +37,7 @@ fs.readdirSync(tutorialsDir)
     const files = fs.readdirSync(dir);
     const pages = files.filter(
       (f) =>
+        pageSuffix.test(f) &&
         !f.startsWith(".") && // No hidden files
         !nonPageFiles.has(f) && // No non-page files
         !fs.lstatSync(path.join(dir, f)).isDirectory() // no sub-directories
@@ -63,10 +61,7 @@ fs.readdirSync(tutorialsDir)
       const setup: TutorialConfig = importDefault("setup.ts");
       const schema: TutorialSchema = importDefault("schema.ts");
       const pages = new Map(
-        [...t.pages].map((p) => [
-          p.replace(/\.page\.tsx$/, ""),
-          importDefault(p),
-        ])
+        [...t.pages].map((p) => [p.replace(pageSuffix, ""), importDefault(p)])
       );
       const pageConfigs: Map<string, PageConfig> = new Map(
         [...pages.entries()].map(([p, f]) => [p, f.config])
