@@ -2,7 +2,7 @@ import { Html } from "@/helpers/frontend";
 import { Model, useModel } from "@/reactivity";
 import { Choice, Choices, ChooseAllField } from "@/schema/fields";
 import React, { useState } from "react";
-import { ChoicesConfig } from "./choices";
+import { ChoicesConfig, validateChoices } from "./choices";
 import ChooseAnswer from "./ChooseAnswer";
 import ChooseCore from "./ChooseCore";
 import { useDisabled } from "./DisableInputs";
@@ -24,6 +24,8 @@ export default function ChooseAll<Cs extends Choices>({
   answer?: Choice<Cs>[];
   explanation?: Html;
 }) {
+  validateChoices(choices);
+
   const [value, setValue] = useModel(model);
   const [otherInput, setOtherInput] = useState(value?.other || "");
   // eslint-disable-next-line no-param-reassign

@@ -2,7 +2,7 @@ import { Html } from "@/helpers/frontend";
 import { Model, useModel } from "@/reactivity";
 import { Choice, Choices, ChooseOneField } from "@/schema/fields";
 import React from "react";
-import { ChoicesConfig } from "./choices";
+import { ChoicesConfig, validateChoices } from "./choices";
 import ChooseAnswer from "./ChooseAnswer";
 import { useDisabled } from "./DisableInputs";
 import ToggleCore, { ToggleCoreProps } from "./ToggleCore";
@@ -21,6 +21,8 @@ export default function Toggle<Cs extends Choices>({
   answer?: Choice<Cs>;
   explanation?: Html;
 } & ToggleCoreProps) {
+  validateChoices(choices);
+
   const [value, setValue] = useModel(model);
   // eslint-disable-next-line no-param-reassign
   disabled = useDisabled(disabled);
