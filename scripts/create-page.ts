@@ -4,9 +4,12 @@ import { join } from "path";
 const tutorialsDir = join(__dirname, "../pages/tutorials");
 
 export async function run(tutorial: string, page: string) {
-  if (!/^\d\-/.test(page)) {
+  const numberMatch = page.match(/^(\d+)\-/);
+  if (numberMatch === null) {
     throw new Error("Page names should start with a number");
   }
+  const number = numberMatch[1];
+  const numberPrefix = `${number}-`;
 
   const dir = join(tutorialsDir, tutorial);
 
@@ -20,8 +23,17 @@ export async function run(tutorial: string, page: string) {
     throw new Error(`Page "${page}" already exists in "${tutorial}".`);
   }
 
+  const files = fs.readdirSync(dir);
+  if (
+    files.some((f) => f.startsWith(numberPrefix) && f.endsWith(".page.tsx"))
+  ) {
+    throw new Error(
+      `A page numbered "${number}" already exists in "${tutorial}".`
+    );
+  }
+
   console.log("Creating page", join("pages/tutorials", tutorial, page));
-  const pageWithoutNumber = page.slice(2);
+  const pageWithoutNumber = page.slice(numberPrefix.length);
   fs.writeFileSync(path, template(pageWithoutNumber));
 
   console.log("Done.");
