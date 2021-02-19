@@ -228,7 +228,9 @@ export default page(setup, ({ section }) => ({
           {responses?.canKnowEyeSizeHappinessSimultaneous?.selected ===
             "no" && (
             <TextArea
-              model={m.canKnowEyeSizeHappinessSimultaneousExplain}
+              model={
+                m.canKnowEyeSizeHappinessSimultaneousExplain /* ignore-repeated-model */
+              }
               label={<Prose>Explain why not.</Prose>}
             />
           )}

@@ -10,7 +10,7 @@ import { cx } from "linaria";
 import { useState } from "react";
 import ReactSelect, { components, StylesConfig } from "react-select";
 import Creatable from "react-select/creatable";
-import { ChoicesConfig } from "./choices";
+import { ChoicesConfig, validateChoices } from "./choices";
 import ChoiceAnswer from "./ChooseAnswer";
 import { useDisabled } from "./DisableInputs";
 import styles from "./inputs.module.scss";
@@ -36,6 +36,8 @@ export default function Select<Cs extends FieldChoices>({
     readonly label: Html;
   }>
 >) {
+  validateChoices(originalChoices);
+
   const [value, setValue] = useModel(model);
 
   const id = `select-${useUniqueId()}`;

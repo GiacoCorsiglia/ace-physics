@@ -132,7 +132,9 @@ export default page(setup, ({ section }) => ({
 
               <Histogram pm={responses?.probabilityAmplitude} />
 
-              <HistogramLabelControl pm={m.probabilityAmplitude} />
+              <HistogramLabelControl
+                pm={m.probabilityAmplitude /* ignore-repeated-model */}
+              />
             </Column>
 
             <Column>
@@ -142,7 +144,9 @@ export default page(setup, ({ section }) => ({
 
               <Histogram pm={responses?.probability} />
 
-              <HistogramLabelControl pm={m.probability} />
+              <HistogramLabelControl
+                pm={m.probability /* ignore-repeated-model */}
+              />
             </Column>
           </Columns>
 

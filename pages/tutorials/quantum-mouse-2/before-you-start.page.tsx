@@ -54,7 +54,7 @@ export default pretest(setup, ({ section }) => ({
               </>,
             ],
             [
-              "experimental value",
+              "mathematical relation",
               <>
                 Neither the value nor the state. It’s only a mathematical
                 relation.
