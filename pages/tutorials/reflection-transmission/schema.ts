@@ -77,9 +77,9 @@ export default tutorialSchema({
     variationsInPhysicsFromSim: f.string(),
   },
   hints: [
+    // Hints here.
     "qualitativePredictionsForT",
     "simPatterns",
-    "wellPredictionsForT",
     "tVersusEGraph",
   ],
 });
