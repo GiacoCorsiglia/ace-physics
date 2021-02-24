@@ -11,6 +11,10 @@ init();
 type Props = AppProps & { err: any };
 
 export default function AceApp({ Component, pageProps, err }: Props) {
+  if (Component.name === "TestPage") {
+    return <Component />;
+  }
+
   if (err) {
     // https://github.com/vercel/next.js/blob/canary/examples/with-sentry/pages/_app.js
     // eslint-disable-next-line no-param-reassign
