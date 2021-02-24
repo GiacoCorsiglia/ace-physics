@@ -8,6 +8,7 @@
     "types": "tsc --noEmit",
     "lint": "eslint . --ext js,jsx,ts,tsx",
     "dev": "next dev",
+    "debug": "NODE_OPTIONS='--inspect' next dev",
     "build": "yarn run lint --quiet && yarn run validate && next build",
     "start": "next start",
     "script": "ts-node -r tsconfig-paths/register --transpile-only --script-mode scripts/run.ts",
