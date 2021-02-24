@@ -8,9 +8,11 @@ export interface Children<T = Html> {
   children?: T;
 }
 
-export type Props<T extends React.Component> = T extends React.Component<
-  infer P
->
+export type Props<
+  T extends React.Component | React.FunctionComponent
+> = T extends React.Component<infer P>
+  ? P
+  : T extends React.FunctionComponent<infer P>
   ? P
   : never;
 
