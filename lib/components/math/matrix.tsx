@@ -1,10 +1,9 @@
 import { Html } from "@/helpers/frontend";
 import { Model } from "@/reactivity";
 import { Field, TupleField } from "@/schema/fields";
-import { classes } from "@/util";
-import { cloneElement } from "react";
-import M from ".";
-import styles from "./Matrix.module.scss";
+import { css, cx } from "linaria";
+import { styled } from "linaria/lib/react";
+import { M } from "./m";
 
 type MatrixContentProps =
   | { matrix: readonly (readonly Html[])[]; column?: never; row?: never }
@@ -19,7 +18,40 @@ export interface MatrixDisplayProps {
   className?: string;
 }
 
-export default function Matrix({
+const delimiterWidth = "0.56rem"; // About 9px
+const commaWidth = "0.65rem";
+const MatrixComponent = styled.div`
+  position: relative;
+`;
+
+const parenCss = css`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: ${delimiterWidth};
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  svg:nth-child(2) {
+    flex-grow: 1;
+  }
+`;
+
+const leftParenCss = css`
+  left: 0;
+`;
+
+const rightParenCss = css`
+  right: 0;
+`;
+
+const Matrix = ({
   matrix,
   column,
   row,
@@ -28,11 +60,20 @@ export default function Matrix({
   label,
   commas,
   className,
-}: MatrixDisplayProps & MatrixContentProps) {
+}: MatrixDisplayProps & MatrixContentProps) => {
   const cols = column ? 1 : row ? row.length : matrix ? matrix[0].length : 1;
 
   return (
-    <div className={classes(styles.root, className)}>
+    <div
+      className={cx(
+        css`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        `,
+        className
+      )}
+    >
       {label}
 
       {labelTex && (
@@ -44,12 +85,27 @@ export default function Matrix({
       )}
 
       <div
-        className={classes(styles.matrix, [styles.withCommas, commas])}
+        className={cx(
+          css`
+            display: grid;
+            position: relative;
+            padding: 1rem calc(${delimiterWidth} + 0.25rem);
+            gap: 1rem;
+
+            &:not(:only-child) {
+              margin-left: 1rem;
+            }
+          `,
+          commas &&
+            css`
+              column-gap: calc(1rem + ${commaWidth});
+            `
+        )}
         style={{
           gridTemplateColumns: `repeat(${cols}, 1fr)`,
         }}
       >
-        <div className={styles.left}>
+        <div className={cx(parenCss, leftParenCss)}>
           <svg width="552" height="1810" viewBox="0 0 552 1810">
             <path
               fill="currentColor"
@@ -58,7 +114,6 @@ export default function Matrix({
           </svg>
 
           <svg
-            className={styles.mid}
             width="552"
             height="621"
             viewBox="0 0 552 621"
@@ -81,29 +136,27 @@ export default function Matrix({
         {matrix &&
           matrix.map((row, i) =>
             row.map((el, j) => (
-              <div className={styles.component} key={`${i},${j}`}>
+              <MatrixComponent key={`${i},${j}`}>
                 {el}
                 {commas && j < row.length - 1 && <Comma />}
-              </div>
+              </MatrixComponent>
             ))
           )}
 
         {row &&
           row.map((el, i) => (
-            <div className={styles.component} key={i}>
+            <MatrixComponent key={i}>
               {el}
               {commas && i < row.length - 1 && <Comma />}
-            </div>
+            </MatrixComponent>
           ))}
 
         {column &&
           column.map((el, i) => (
-            <div className={styles.component} key={i}>
-              {el}
-            </div>
+            <MatrixComponent key={i}>{el}</MatrixComponent>
           ))}
 
-        <div className={styles.right}>
+        <div className={cx(parenCss, rightParenCss)}>
           <svg width="552" height="1810" viewBox="0 0 552 1810">
             <path
               fill="currentColor"
@@ -112,7 +165,6 @@ export default function Matrix({
           </svg>
 
           <svg
-            className={styles.mid}
             width="552"
             height="621"
             viewBox="0 0 552 621"
@@ -133,23 +185,29 @@ export default function Matrix({
         </div>
 
         {subscriptTex && (
-          <span className={styles.subscript}>
+          <span
+            className={css`
+              position: absolute;
+              right: -0.8rem;
+              bottom: -0.8rem;
+            `}
+          >
             <M t={subscriptTex} />
           </span>
         )}
       </div>
     </div>
   );
-}
+};
 
-export const modelToRow = <Es extends readonly Field[]>(
+const modelToRow = <Es extends readonly Field[]>(
   model: Model<TupleField<Es>>,
   component: (componentModel: Model<Es[number]>, i: number) => Html
 ): readonly Html[] => model.elements.map(component);
 
-export const modelToColumn = modelToRow;
+const modelToColumn = modelToRow;
 
-export const modelToMatrix = <Es extends readonly Field[]>(
+const modelToMatrix = <Es extends readonly Field[]>(
   model: Model<TupleField<readonly TupleField<Es>[]>>,
   component: (
     componentModel: Model<Es[number]>,
@@ -163,37 +221,23 @@ export const modelToMatrix = <Es extends readonly Field[]>(
     )
   );
 
-/** @deprecated */
-export function fieldToMatrix(
-  tupleModel: Model<TupleField<any>>,
-  inputEl: React.ReactElement,
-  asRow?: typeof fieldToMatrix["Row"],
-  internal: boolean = false
-): React.ReactElement[][] {
-  const matrix = tupleModel.elements.map((subModel: Model) => {
-    if (subModel.field.kind === "tuple") {
-      return fieldToMatrix(
-        subModel as Model<TupleField<any>>,
-        inputEl,
-        fieldToMatrix.Row,
-        true
-      );
-    } else {
-      const input = cloneElement(inputEl, { model: subModel });
-      return asRow ? input : [input];
-    }
-  });
-  if (asRow && !internal) {
-    return [matrix];
-  }
-  return matrix;
-}
-fieldToMatrix.Row = Symbol("MatrixRow");
+const exported = Object.assign(Matrix, {
+  modelToRow,
+  modelToColumn,
+  modelToMatrix,
+});
+export { exported as Matrix };
 
-function Comma() {
+const Comma = () => {
   return (
     <svg
-      className={styles.comma}
+      className={css`
+        position: absolute;
+        bottom: -0.25rem;
+        right: calc(-${commaWidth} - 0.1rem);
+        width: ${commaWidth};
+        height: auto;
+      `}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 -121 278 315"
     >
@@ -205,4 +249,4 @@ function Comma() {
       ></path>
     </svg>
   );
-}
+};

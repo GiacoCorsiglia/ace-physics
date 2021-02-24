@@ -1,7 +1,8 @@
+import { useIsomorphicLayoutEffect } from "@/helpers/frontend";
 import { result } from "@/helpers/result";
 import type { KatexOptions, ParseError } from "katex";
 import "katex/dist/katex.css";
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { macros } from "./macros";
 
 // https://katex.org/docs/options.html
@@ -16,7 +17,7 @@ const options: KatexOptions = {
   },
 };
 
-export interface PropTypes {
+export interface MPropTypes {
   t: string;
   display?: boolean;
   prespace?: boolean;
@@ -24,13 +25,13 @@ export interface PropTypes {
   color?: string;
 }
 
-export default function M({
+export const M = ({
   t: tex,
   display = false,
   prespace = true,
   postspace = false,
   color,
-}: PropTypes) {
+}: PropTypes) => {
   prespace = prespace && !display;
   postspace = postspace && !display;
 
@@ -38,9 +39,9 @@ export default function M({
 
   // With simple `useEffect()`, rendering of the math was delayed too much,
   // especially when `tex` was altered during the lifetime of the component.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     // This dynamic import defers the loading of KaTeX until we actually need to
-    // render math, thanks to the automatic code splitting from CRA. The KaTeX
+    // render math, thanks to the automatic code splitting from Next. The KaTeX
     // stylesheet is always loaded with the rest of our CSS, however; we import
     // it at the top of this file.
     import("katex").then((KaTeX) => {
@@ -61,11 +62,12 @@ export default function M({
         // KaTeX could always just blow it.  In that case, presumably users will
         // get more out of the raw LaTeX code than a generic "Math Rendering
         // Failed" error message, even though it may break the layout.
+        const escapedTex = tex
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
         setHtml({
-          __html: `${prespace ? " " : ""}${tex
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")}${postspace ? " " : ""}`,
+          __html: `${prespace ? " " : ""}${escapedTex}${postspace ? " " : ""}`,
         });
       } else {
         // Hey, it worked!
@@ -76,13 +78,11 @@ export default function M({
     });
   }, [tex, prespace, postspace, display]);
 
-  const style = useMemo(
-    () => ({
-      display: display ? "block" : undefined, // "inline" is the default.
-      color,
-    }),
-    [display, color]
+  return (
+    <span
+      className={display ? "display-math" : undefined}
+      style={color ? { color } : undefined}
+      dangerouslySetInnerHTML={html}
+    />
   );
-
-  return <span style={style} dangerouslySetInnerHTML={html} />;
-}
+};

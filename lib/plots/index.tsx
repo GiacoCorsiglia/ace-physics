@@ -1,4 +1,4 @@
-import M, { PropTypes as MPropTypes } from "@/math";
+import { M, MPropTypes } from "@/components";
 import { Children, range, useUniqueId } from "@/util";
 import { createContext, memo, useContext, useMemo } from "react";
 import styles from "./plots.module.scss";
