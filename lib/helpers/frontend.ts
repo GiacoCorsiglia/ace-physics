@@ -16,6 +16,9 @@ export type Props<
   ? P
   : never;
 
+export const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 export const useToggle = <E extends Element = HTMLElement>(
   initial: boolean = false
 ) => {
