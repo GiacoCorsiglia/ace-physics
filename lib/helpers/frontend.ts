@@ -1,4 +1,10 @@
-import { useEffect, useReducer, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 
 export type Html = React.ReactNode;
 export type Component<P = {}> = React.FunctionComponent<P>;
@@ -69,3 +75,19 @@ export const useUniqueSymbol = () => {
 
 const tickReducer = (x: number) => x + 1;
 export const useForceUpdate = () => useReducer(tickReducer, 0)[1];
+
+export const useSyncedState = <T, V>(
+  prop: T,
+  fromProp: (prop: T) => V,
+  skipSync: (prop: T, state: V, propAsState: V) => boolean
+) => {
+  const propAsState = fromProp(prop);
+  const tuple = useState(propAsState);
+  const [state, setState] = tuple;
+
+  if (state !== propAsState && !skipSync(prop, state, propAsState)) {
+    setState(propAsState);
+  }
+
+  return tuple;
+};
