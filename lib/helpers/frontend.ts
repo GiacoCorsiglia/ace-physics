@@ -16,6 +16,11 @@ export type Props<
   ? P
   : never;
 
+export const isReactElement = (o: any): o is React.ReactElement =>
+  !!o &&
+  (typeof o.type === "string" || typeof o.type === "function") &&
+  !!o.props;
+
 export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
