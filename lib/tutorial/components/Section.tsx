@@ -1,8 +1,8 @@
+import { Button } from "@/components";
 import { Help } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
-import { Button } from "@/inputs";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
 import { css, cx } from "linaria";
@@ -119,6 +119,7 @@ export default tracked(function Section(
         <div className={styles.continue}>
           {status !== "committed" && (
             <Button
+              color="green"
               className={styles.button}
               disabled={!isComplete}
               onClick={() => commit(config)}
@@ -168,7 +169,7 @@ const SectionHintButtons = tracked(function SectionHintButtons(
               <Button
                 key={name}
                 className={styles.button}
-                kind="tertiary"
+                color="yellow"
                 onClick={() =>
                   store.transaction((set) =>
                     set(["hints", name, "status"], "revealed")

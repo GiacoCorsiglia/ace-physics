@@ -1,8 +1,8 @@
+import { Button, DisableInputs } from "@/components";
 import { Info, Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
-import { Button, DisableInputs } from "@/inputs";
 import { isSet, Model, tracker } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
@@ -146,6 +146,7 @@ const ContinueSection = tracked(function ContinueSection(
     <Content as="section" className={styles.section}>
       <div className="text-right">
         <Button
+          color="green"
           link={urls.join(
             urls.Tutorials.link,
             tutorialConfig.link,

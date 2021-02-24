@@ -1,7 +1,7 @@
 import { UserMenu } from "@/auth";
+import { Button } from "@/components";
 import { Prose } from "@/design";
 import { Content, Header, Page } from "@/design/layout";
-import { Button } from "@/inputs";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -34,7 +34,7 @@ export default function Index() {
           </p>
         </Prose>
 
-        <Button className="margin-top" link={urls.Tutorials.link}>
+        <Button color="green" className="margin-top" link={urls.Tutorials.link}>
           Take me to the online tutorials <ArrowRightIcon />
         </Button>
       </Content>

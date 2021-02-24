@@ -1,9 +1,9 @@
 import { createLearner } from "@/api/client";
 import { formatId, rememberLearnerId, useAuth } from "@/auth";
 import styles from "@/auth/account.module.scss";
+import { Button } from "@/components";
 import { Prose } from "@/design";
 import { Content, Page } from "@/design/layout";
-import { Button } from "@/inputs";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
@@ -123,6 +123,7 @@ export default function CreateAccount() {
         {(status === "success" || status === "saved") && (
           <div className="text-center margin-top">
             <Button
+              color="green"
               onClick={() => setStatus("saved")}
               disabled={status === "saved"}
             >
@@ -139,7 +140,7 @@ export default function CreateAccount() {
             </Prose>
 
             <div className="text-center margin-top">
-              <Button link={withNext(urls.Login.link, next)}>
+              <Button color="green" link={withNext(urls.Login.link, next)}>
                 Go log in <ArrowRightIcon />
               </Button>
             </div>

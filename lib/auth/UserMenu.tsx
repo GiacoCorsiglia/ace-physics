@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
+import { Button } from "@/components";
 import { Prose } from "@/design";
-import { Button } from "@/inputs";
 import { Login } from "@/urls";
 import { classes, useToggle } from "@/util";
 import { PersonIcon } from "@primer/octicons-react";
@@ -18,6 +16,7 @@ export default function UserMenu() {
 
   return (
     <>
+      {/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         className={classes(styles.toggle, [styles.toggled, toggled])}
         onClick={() => setToggled((o) => !o)}
@@ -47,12 +46,12 @@ export default function UserMenu() {
             </Prose>
 
             <Button
+              color="blue"
               className="margin-top-1"
               onClick={() => {
                 logout();
                 router.push(`${Login.link}?logout=yes`);
               }}
-              kind="secondary"
             >
               Log out
             </Button>
@@ -60,7 +59,7 @@ export default function UserMenu() {
         )}
 
         {!auth.isLoggedIn && (
-          <Button link={Login.link} kind="secondary">
+          <Button color="blue" link={Login.link}>
             Log in
           </Button>
         )}

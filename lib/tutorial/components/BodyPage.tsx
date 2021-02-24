@@ -1,8 +1,8 @@
+import { Button } from "@/components";
 import { Info, Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
-import { Button } from "@/inputs";
 import * as urls from "@/urls";
 import { ArrowRightIcon, CommentDiscussionIcon } from "@primer/octicons-react";
 import { css, cx } from "linaria";
@@ -172,7 +172,7 @@ function ContinueToNextPage({
       </Prose>
 
       <div className="text-right">
-        <Button link={fullLink}>
+        <Button color="green" link={fullLink}>
           Move on to the next page <ArrowRightIcon />
         </Button>
       </div>

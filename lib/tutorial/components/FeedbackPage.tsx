@@ -1,8 +1,8 @@
+import { Button, TextBox, Toggle } from "@/components";
 import { Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import { htmlTitle } from "@/helpers";
-import { Button, TextArea, Toggle } from "@/inputs";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
@@ -118,7 +118,7 @@ export default function FeedbackPage({
             label={<Prose>I thought that this tutorial was mostly…</Prose>}
           />
 
-          <TextArea
+          <TextBox
             model={m.easyOrChallengingExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
@@ -143,14 +143,14 @@ export default function FeedbackPage({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.confidenceExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
         </section>
 
         <section className={styles.section}>
-          <TextArea
+          <TextBox
             model={m.technicalDifficulties}
             label={
               <Prose>
@@ -163,6 +163,7 @@ export default function FeedbackPage({
 
         <section className={cx(styles.section, "text-right")}>
           <Button
+            color="green"
             link={urls.join(
               urls.Tutorials.link,
               tutorialConfig.link,

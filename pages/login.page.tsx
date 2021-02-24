@@ -1,8 +1,8 @@
 import { formatId, rememberedLearnerId, unformatId, useAuth } from "@/auth";
 import styles from "@/auth/account.module.scss";
+import { Button } from "@/components";
 import { Prose } from "@/design";
 import { Content, Page } from "@/design/layout";
-import { Button } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
@@ -134,7 +134,11 @@ export default function Login() {
             }}
           />
 
-          <Button type="submit" disabled={!isIdValid || status === "loading"}>
+          <Button
+            color="green"
+            type="submit"
+            disabled={!isIdValid || status === "loading"}
+          >
             {status === "loading" ? (
               <>Loading…</>
             ) : (

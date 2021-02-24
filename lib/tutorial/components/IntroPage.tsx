@@ -1,7 +1,7 @@
+import { Button } from "@/components";
 import { Prose } from "@/design";
 import { Content } from "@/design/layout";
 import { htmlTitle } from "@/helpers";
-import { Button } from "@/inputs";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -82,6 +82,7 @@ export default function IntroPage({
 
       <div className="text-right margin-top">
         <Button
+          color="green"
           link={urls.join(
             `/${urls.Tutorials.path}`,
             tutorialConfig.link,

@@ -1,7 +1,7 @@
 import * as api from "@/api/client";
+import { Button } from "@/components";
 import { Prose } from "@/design";
 import { Content, Page } from "@/design/layout";
-import { Button } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import { classes } from "@/util";
 import {
@@ -110,7 +110,11 @@ export default function Generate() {
             </p>
           )}
 
-          <Button type="submit" disabled={!ready || status !== "initial"}>
+          <Button
+            color="green"
+            type="submit"
+            disabled={!ready || status !== "initial"}
+          >
             {status === "loading" ? (
               <>Generating…</>
             ) : (
