@@ -1,5 +1,5 @@
+import { borderRadius, colors, fonts, spacing } from "@/design";
 import { Html, isReactElement } from "@/helpers/frontend";
-import { borderRadius, colors, fonts, spacing } from "@/new-design";
 import { Model, useModel } from "@/reactivity";
 import { ArrayField, Field } from "@/schema/fields";
 import { PlusIcon, XIcon } from "@primer/octicons-react";
