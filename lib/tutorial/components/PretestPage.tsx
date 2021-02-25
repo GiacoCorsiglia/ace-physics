@@ -141,14 +141,13 @@ const ContinueSection = tracked(function ContinueSection(
   const models = useRootModel().properties.pretest.properties;
   // Never reset, so it captures everything used on every render.
   const accessed = modelsTracker.currentAccessed;
-
-  const modelStatuses = [...accessed].map(
-    (key) => [key, isSet(models[key], state.pretest?.[key])] as const
+  const optional = new Set(config.continue?.optional);
+  const defaultIsContinueAllowed = [...accessed].every(
+    (key) => optional.has(key) || isSet(models[key], state.pretest?.[key])
   );
-  const defaultIsContinueAllowed = modelStatuses.every(([_, isSet]) => isSet);
   const allowedFn = config.continue?.allowed;
   const isContinueAllowed = allowedFn
-    ? allowedFn(state, defaultIsContinueAllowed, modelStatuses)
+    ? allowedFn(state, defaultIsContinueAllowed)
     : defaultIsContinueAllowed;
 
   return (

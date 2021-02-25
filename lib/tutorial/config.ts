@@ -2,12 +2,6 @@ import type { Html } from "@/helpers/frontend";
 import type { Model } from "@/reactivity";
 import type { TutorialSchema, TutorialState } from "@/schema/tutorial";
 
-type IsSetEntries<T> = T extends undefined
-  ? never
-  : readonly {
-      [K in keyof T]-?: readonly [modelKey: K, isSet: boolean];
-    }[keyof T][];
-
 type Models<S extends TutorialSchema> = Model<S>["properties"];
 
 type Label =
@@ -98,6 +92,10 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly continue?: {
     /**
+     * List of optional fields.
+     */
+    readonly optional?: readonly (keyof S["properties"]["pretest"]["properties"])[];
+    /**
      * Conditional logic dictating when the continue button should be enabled.
      * By default, the button will only be enabled when all models used in the
      * pretest body are set.
@@ -105,11 +103,7 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
      * @param allowed The original determination of whether the button should be
      * enabled based on the default logic.
      */
-    readonly allowed?: (
-      state: TutorialState<S>,
-      allowed: boolean,
-      modelStatuses: IsSetEntries<TutorialState<S>["pretest"]>
-    ) => boolean;
+    readonly allowed?: (state: TutorialState<S>, allowed: boolean) => boolean;
   };
 }
 

@@ -6,13 +6,10 @@ import setup from "./setup";
 
 export default pretest(setup, ({ section }) => ({
   continue: {
-    allowed: (_a, _b, modelStatuses) =>
-      modelStatuses.every(
-        ([key, isSet]) =>
-          isSet ||
-          key === "whatHappensToSpinInMagneticFieldExplain" ||
-          key === "orientationOfSpinExitingMagneticFieldExplain"
-      ),
+    optional: [
+      "whatHappensToSpinInMagneticFieldExplain",
+      "orientationOfSpinExitingMagneticFieldExplain",
+    ],
   },
   sections: [
     section({

@@ -55,7 +55,12 @@ export const intro = <S extends TutorialSchema>(
 ) => {
   const config = factory();
   return routeComponent({
-    element: <IntroPage config={config} tutorialConfig={tutorialConfig} />,
+    element: (
+      <IntroPage
+        config={config as c.IntroConfig<TutorialSchema>}
+        tutorialConfig={tutorialConfig}
+      />
+    ),
     displayName: `TutorialRoute:Intro`,
     config,
     tutorialConfig,
@@ -74,7 +79,12 @@ export const pretest = <S extends TutorialSchema>(
 ) => {
   const config = factory({ section: id });
   return routeComponent({
-    element: <PretestPage config={config} tutorialConfig={tutorialConfig} />,
+    element: (
+      <PretestPage
+        config={config as c.PretestConfig<TutorialSchema>}
+        tutorialConfig={tutorialConfig}
+      />
+    ),
     displayName: `TutorialRoute:Pretest`,
     config,
     tutorialConfig,
