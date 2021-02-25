@@ -5,6 +5,7 @@ import QuantumMouse from "./quantum-mouse/schema";
 import ReflectionTransmission from "./reflection-transmission/schema";
 import SpinLab1 from "./spin-lab-1/schema";
 import SpinLab2 from "./spin-lab-2/schema";
+import SpinsAndMagneticFields from "./spins-and-magnetic-fields/schema";
 
 export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["QuantumBasis", QuantumBasis],
@@ -13,4 +14,5 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["ReflectionTransmission", ReflectionTransmission],
   ["SpinLab1", SpinLab1],
   ["SpinLab2", SpinLab2],
+  ["SpinsAndMagneticFields", SpinsAndMagneticFields],
 ]);
