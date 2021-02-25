@@ -2,6 +2,12 @@ import type { Html } from "@/helpers/frontend";
 import type { Model } from "@/reactivity";
 import type { TutorialSchema, TutorialState } from "@/schema/tutorial";
 
+type IsSetEntries<T> = T extends undefined
+  ? never
+  : readonly {
+      [K in keyof T]-?: readonly [modelKey: K, isSet: boolean];
+    }[keyof T][];
+
 type Models<S extends TutorialSchema> = Model<S>["properties"];
 
 type Label =
@@ -87,6 +93,24 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
    * The sections in the pretest.
    */
   readonly sections: readonly PretestSectionConfig<S>[];
+  /**
+   * Settings for the "Submit and move on" button.
+   */
+  readonly continue?: {
+    /**
+     * Conditional logic dictating when the continue button should be enabled.
+     * By default, the button will only be enabled when all models used in the
+     * pretest body are set.
+     * @param state The current TutorialState.
+     * @param allowed The original determination of whether the button should be
+     * enabled based on the default logic.
+     */
+    readonly allowed?: (
+      state: TutorialState<S>,
+      allowed: boolean,
+      modelStatuses: IsSetEntries<TutorialState<S>["pretest"]>
+    ) => boolean;
+  };
 }
 
 /**
