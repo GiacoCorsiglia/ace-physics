@@ -3,7 +3,6 @@ import { FieldGroup, Integer, TextArea } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({

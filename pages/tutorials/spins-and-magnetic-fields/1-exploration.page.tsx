@@ -5,7 +5,6 @@ import M from "@/math";
 import { page } from "@/tutorial";
 import { LinkExternalIcon, PencilIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
-import React from "react";
 import { HowToUseTheSim } from "../spin-lab-1/shared";
 import experimentalSetupImg from "./assets/experimental-setup.png";
 import setup from "./setup";

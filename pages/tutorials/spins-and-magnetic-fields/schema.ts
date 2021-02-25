@@ -13,12 +13,16 @@ export default tutorialSchema({
       "rotates around z",
       "rotates towards z",
       "flips",
+      "other",
     ]),
+    whatHappensToSpinInMagneticFieldExplain: f.string(),
     orientationOfSpinExitingMagneticField: f.chooseOne([
       "return to original",
       "sticks with final orientation",
       "continues rotating",
+      "other",
     ]),
+    orientationOfSpinExitingMagneticFieldExplain: f.string(),
   },
   sections: [
     "explorationIntro",
