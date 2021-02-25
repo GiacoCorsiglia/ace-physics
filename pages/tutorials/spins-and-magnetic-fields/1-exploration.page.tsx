@@ -1,9 +1,9 @@
-import { Prose } from "@/design";
+import { Info, Prose } from "@/design";
 import { TextArea } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import M from "@/math";
 import { page } from "@/tutorial";
-import { LinkExternalIcon } from "@primer/octicons-react";
+import { LinkExternalIcon, PencilIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
 import React from "react";
 import { HowToUseTheSim } from "../spin-lab-1/shared";
@@ -58,8 +58,9 @@ export default page(setup, ({ section, hint }) => ({
             <p>
               There is one element we haven’t investigated yet:{" "}
               <strong>a magnet</strong>. To get one to appear, break an existing
-              line (click its left end). Start a NEW line and stop in empty
-              space. Some options appear—<strong>add a magnet!</strong>
+              line (click on the output port where the line starts). Start a{" "}
+              <em>new</em> line and stop in empty space. Some options appear—
+              <strong>add a magnet!</strong>
             </p>
 
             <p>
@@ -113,6 +114,13 @@ export default page(setup, ({ section, hint }) => ({
               thoughtful about your initial investigations and data collection.
               Look for interesting patterns.
             </p>
+
+            <Info>
+              <Prose>
+                <PencilIcon /> &nbsp; Keep notes with your data on a piece of
+                paper!
+              </Prose>
+            </Info>
 
             <p>
               Hint: Make sure you click the “Reset” button in your sim between
