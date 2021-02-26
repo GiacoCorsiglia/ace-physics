@@ -70,6 +70,34 @@ describe("transaction", () => {
 
     expect(s.state).toBe(newState);
   });
+
+  it("supports nested transactions", () => {
+    const orig = { a: 0, b: 0, c: 0 };
+    const s = store(orig);
+
+    s.transaction((set1) => {
+      set1(["a"], 1);
+      set1(["c"], 1);
+
+      s.transaction((set2) => {
+        set2(["a"], (prevA) => {
+          // Nested set calls should follow parent transaction state.
+          expect(prevA).toBe(1);
+          return 2;
+        });
+        set2(["b"], 1);
+      });
+
+      set1(["b"], (prevB) => {
+        // Parent calls should follow nested state when nested transactions have
+        // been completed.
+        expect(prevB).toBe(1);
+        return 2;
+      });
+    });
+
+    expect(s.state).toMatchObject({ a: 2, b: 2, c: 1 });
+  });
 });
 
 describe("subscriptions", () => {

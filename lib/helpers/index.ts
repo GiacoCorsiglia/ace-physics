@@ -1,6 +1,13 @@
 export * from "./deep-equal";
 
-export const htmlTitle = (title: string) => `${title} | ACEPhysics.net`;
+const subDomain =
+  process.env.NEXT_PUBLIC_ACE_ENV === "development"
+    ? "local."
+    : process.env.NEXT_PUBLIC_ACE_ENV === "staging"
+    ? "beta."
+    : "";
+export const htmlTitle = (title: string) =>
+  `${title} | ${subDomain}ACEPhysics.net`;
 
 export const isObject = (value: unknown): value is object =>
   value !== null && typeof value === "object";
