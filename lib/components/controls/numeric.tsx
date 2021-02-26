@@ -1,9 +1,12 @@
 import { useSyncedState } from "@/helpers/frontend";
-import { Input, InputProps } from "./input";
+import { InputControl, InputControlProps } from "./input";
 
-export type NumericInputProps = Omit<InputProps, "value" | "type" | "onChange">;
+export type NumericInputControlProps = Omit<
+  InputControlProps,
+  "value" | "type" | "onChange"
+>;
 
-export const NumericInput = ({
+export const NumericInputControl = ({
   type,
   value,
   onChange,
@@ -12,7 +15,7 @@ export const NumericInput = ({
   type: "integer" | "decimal";
   value: number | undefined;
   onChange: (newValue: number | undefined) => void;
-} & NumericInputProps) => {
+} & NumericInputControlProps) => {
   const implementation = type === "integer" ? integer : decimal;
 
   const [raw, setRaw] = useSyncedState(
@@ -24,7 +27,7 @@ export const NumericInput = ({
   );
 
   return (
-    <Input
+    <InputControl
       {...props}
       placeholder={
         props.placeholder !== undefined ? props.placeholder : "Number"

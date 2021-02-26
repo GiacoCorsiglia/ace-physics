@@ -1,7 +1,7 @@
 import { spacing } from "@/design";
 import { styled } from "linaria/react";
 
-export const InputLabel = styled.label`
+export const ControlLabel = styled.label`
   display: block;
 `;
 
@@ -22,7 +22,7 @@ export const LabelsLeft = styled.div<AlignProp>`
       grid-column: 2;
     }
 
-    > ${InputLabel} {
+    > ${ControlLabel} {
       grid-column: 1;
       text-align: right;
       padding: ${spacing.$50} 0;
@@ -49,7 +49,7 @@ export const LabelsRight = styled.div<AlignProp>`
       grid-column: 1;
     }
 
-    > ${InputLabel} {
+    > ${ControlLabel} {
       grid-column: 2;
       padding: ${spacing.$50} 0;
     }

@@ -3,16 +3,16 @@ import { Html, useUniqueId } from "@/helpers/frontend";
 import { styled } from "linaria/lib/react";
 import { useRef } from "react";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
-import { InputLabel } from "./labels";
+import { ControlLabel } from "./labels";
 
 const styles: any = {};
 
-export interface ChooseInputProps {
+export interface ChooseControlProps {
   label?: Html;
   disabled?: boolean;
 }
 
-export const ChooseInput = <C, M extends Boolean>({
+export const ChooseControl = <C, M extends Boolean>({
   multi,
   choices,
   selected,
@@ -35,7 +35,7 @@ export const ChooseInput = <C, M extends Boolean>({
         inputValue: string;
         setInputValue: (o: string) => void;
       };
-} & ChooseInputProps) => {
+} & ChooseControlProps) => {
   validateChoices(choices);
 
   const chooseId = `choose-${useUniqueId()}`;
@@ -56,9 +56,9 @@ export const ChooseInput = <C, M extends Boolean>({
   return (
     <>
       {label && (
-        <InputLabel as="div" id={labelId}>
+        <ControlLabel as="div" id={labelId}>
           {label}
-        </InputLabel>
+        </ControlLabel>
       )}
 
       <div role="group" aria-labelledby={label ? labelId : undefined}>

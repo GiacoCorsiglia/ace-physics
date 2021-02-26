@@ -15,15 +15,15 @@ import {
   default as ChooseAnswer,
 } from "../inputs/ChooseAnswer";
 import { ChoicesConfig } from "./choice-helpers";
-import { ChooseInput, ChooseInputProps } from "./choose";
-import { NumericInput, NumericInputProps } from "./numeric";
+import { ChooseControl, ChooseControlProps } from "./choose";
+import { NumericInputControl, NumericInputControlProps } from "./numeric";
 import {
-  MultiLineTextInput,
-  MultiLineTextInputProps,
-  TextInput,
-  TextInputProps,
+  TextAreaControl,
+  TextAreaControlProps,
+  TextInputControl,
+  TextInputControlProps,
 } from "./text";
-import { ToggleInput, ToggleInputProps } from "./toggle";
+import { ToggleControl, ToggleControlProps } from "./toggle";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Text.
@@ -34,9 +34,9 @@ export const TextBox = ({
   ...props
 }: {
   model: Model<StringField>;
-} & MultiLineTextInputProps) => {
+} & TextAreaControlProps) => {
   const [value, setValue] = useModel(model);
-  return <MultiLineTextInput {...props} value={value} onChange={setValue} />;
+  return <TextAreaControl {...props} value={value} onChange={setValue} />;
 };
 
 export const TextLine = ({
@@ -44,9 +44,9 @@ export const TextLine = ({
   ...props
 }: {
   model: Model<StringField>;
-} & TextInputProps) => {
+} & TextInputControlProps) => {
   const [value, setValue] = useModel(model);
-  return <TextInput {...props} value={value} onChange={setValue} />;
+  return <TextInputControl {...props} value={value} onChange={setValue} />;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,10 +58,15 @@ export const Integer = ({
   ...props
 }: {
   model: Model<NumberField>;
-} & NumericInputProps) => {
+} & NumericInputControlProps) => {
   const [value, setValue] = useModel(model);
   return (
-    <NumericInput {...props} type="integer" value={value} onChange={setValue} />
+    <NumericInputControl
+      {...props}
+      type="integer"
+      value={value}
+      onChange={setValue}
+    />
   );
 };
 
@@ -70,10 +75,15 @@ export const Decimal = ({
   ...props
 }: {
   model: Model<NumberField>;
-} & NumericInputProps) => {
+} & NumericInputControlProps) => {
   const [value, setValue] = useModel(model);
   return (
-    <NumericInput {...props} type="decimal" value={value} onChange={setValue} />
+    <NumericInputControl
+      {...props}
+      type="decimal"
+      value={value}
+      onChange={setValue}
+    />
   );
 };
 
@@ -92,7 +102,7 @@ export const ChooseOne = <Cs extends Choices>({
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>;
   explanation?: Html;
-} & ChooseInputProps) => {
+} & ChooseControlProps) => {
   const [value, setValue] = useModel(model);
   const [otherInput, setOtherInput] = useState(value?.other || "");
 
@@ -101,7 +111,7 @@ export const ChooseOne = <Cs extends Choices>({
 
   return (
     <>
-      <ChooseInput
+      <ChooseControl
         {...props}
         multi={false}
         choices={choices}
@@ -163,7 +173,7 @@ export const ChooseAll = <Cs extends Choices>({
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>[];
   explanation?: Html;
-} & ChooseInputProps) => {
+} & ChooseControlProps) => {
   const [value, setValue] = useModel(model);
   const [otherInput, setOtherInput] = useState(value?.other || "");
 
@@ -172,7 +182,7 @@ export const ChooseAll = <Cs extends Choices>({
 
   return (
     <>
-      <ChooseInput
+      <ChooseControl
         {...props}
         multi={true}
         choices={choices}
@@ -234,11 +244,11 @@ export const Toggle = <Cs extends Choices>({
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>;
   explanation?: Html;
-} & ToggleInputProps) => {
+} & ToggleControlProps) => {
   const [value, setValue] = useModel(model);
   return (
     <>
-      <ToggleInput
+      <ToggleControl
         {...props}
         selected={value?.selected}
         choices={choices}
@@ -281,10 +291,10 @@ export const BooleanToggle = ({
   model: Model<BooleanField>;
   yes?: Html;
   no?: Html;
-} & ToggleInputProps) => {
+} & ToggleControlProps) => {
   const [value, setValue] = useModel(model);
   return (
-    <ToggleInput
+    <ToggleControl
       {...props}
       selected={value}
       choices={[

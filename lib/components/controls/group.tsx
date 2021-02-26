@@ -2,7 +2,8 @@ import { borderRadius, colors, shadows, spacing } from "@/design";
 import { styled } from "linaria/lib/react";
 import { buttonCss } from "./buttons";
 
-const InputGroup = styled.div`
+// Not that kind of control group :P
+const ControlGroup = styled.div`
   position: relative;
   display: flex;
   background: ${colors.neutral.$50};
@@ -39,7 +40,7 @@ const InputGroup = styled.div`
   }
 `;
 
-const InputGroupText = styled.div`
+const ControlGroupText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +51,7 @@ const InputGroupText = styled.div`
   border-radius: ${borderRadius};
 `;
 
-const exportedInputGroup = Object.assign(InputGroup, {
-  Text: InputGroupText,
+const exportedControlGroup = Object.assign(ControlGroup, {
+  Text: ControlGroupText,
 });
-export { exportedInputGroup as InputGroup };
+export { exportedControlGroup as ControlGroup };

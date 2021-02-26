@@ -1,21 +1,24 @@
 import { Html, useUniqueId } from "@/helpers/frontend";
 import { css, cx } from "linaria";
 import React, { useEffect, useRef } from "react";
-import { Input, inputCss, InputProps } from "./input";
-import { InputLabel } from "./labels";
+import { InputControl, InputControlProps, inputCss } from "./input";
+import { ControlLabel } from "./labels";
 
-export type TextInputProps = Omit<InputProps, "type" | "value" | "onChange">;
+export type TextInputControlProps = Omit<
+  InputControlProps,
+  "type" | "value" | "onChange"
+>;
 
-export const TextInput = ({
+export const TextInputControl = ({
   value,
   onChange,
   ...props
 }: {
   value: string | undefined;
   onChange: (newValue: string) => void;
-} & TextInputProps) => {
+} & TextInputControlProps) => {
   return (
-    <Input
+    <InputControl
       {...props}
       type="text"
       value={value || ""}
@@ -25,13 +28,13 @@ export const TextInput = ({
   );
 };
 
-export type MultiLineTextInputProps = {
+export type TextAreaControlProps = {
   label?: Html;
   minRows?: number;
   maxRows?: number;
 } & Omit<JSX.IntrinsicElements["textarea"], "value" | "onChange" | "ref">;
 
-export const MultiLineTextInput = ({
+export const TextAreaControl = ({
   value,
   onChange,
   label,
@@ -41,7 +44,7 @@ export const MultiLineTextInput = ({
 }: {
   value: string | undefined;
   onChange: (newValue: string) => void;
-} & MultiLineTextInputProps) => {
+} & TextAreaControlProps) => {
   const id = `textarea-${useUniqueId()}`;
 
   const stylesRef = useRef<{
@@ -94,7 +97,7 @@ export const MultiLineTextInput = ({
 
   return (
     <>
-      {label && <InputLabel htmlFor={id}>{label}</InputLabel>}
+      {label && <ControlLabel htmlFor={id}>{label}</ControlLabel>}
 
       <textarea
         {...props}

@@ -4,35 +4,34 @@ import { useUniqueId } from "@/util";
 import { css, cx } from "linaria";
 import { forwardRef } from "react";
 import { useDisabled } from "./disabled";
-import { InputLabel } from "./labels";
+import { ControlLabel } from "./labels";
 
-export type InputProps = { label?: Html } & Omit<
+export type InputControlProps = { label?: Html } & Omit<
   JSX.IntrinsicElements["input"],
   "ref"
 >;
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, id, ...props },
-  ref
-) {
-  const autoId = `input-${useUniqueId()}`;
-  const inputId = id ?? autoId;
+export const InputControl = forwardRef<HTMLInputElement, InputControlProps>(
+  function InputControl({ label, id, ...props }, ref) {
+    const autoId = `input-${useUniqueId()}`;
+    const inputId = id ?? autoId;
 
-  props.disabled = useDisabled(props);
+    props.disabled = useDisabled(props);
 
-  return (
-    <>
-      {label && <InputLabel htmlFor={inputId}>{label}</InputLabel>}
+    return (
+      <>
+        {label && <ControlLabel htmlFor={inputId}>{label}</ControlLabel>}
 
-      <input
-        {...props}
-        className={cx(inputCss, inputWidthCss, props.className)}
-        id={inputId}
-        ref={ref}
-      />
-    </>
-  );
-});
+        <input
+          {...props}
+          className={cx(inputCss, inputWidthCss, props.className)}
+          id={inputId}
+          ref={ref}
+        />
+      </>
+    );
+  }
+);
 
 const inputWidthCss = css`
   width: 100%; // inputs are stupid.

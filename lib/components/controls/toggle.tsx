@@ -2,15 +2,15 @@ import { borderRadius, colors, spacing } from "@/design";
 import { Html, useUniqueId } from "@/helpers/frontend";
 import { css, cx } from "linaria";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
-import { InputLabel } from "./labels";
+import { ControlLabel } from "./labels";
 
-export interface ToggleInputProps {
+export interface ToggleControlProps {
   label?: Html;
   layout?: "horizontal" | "vertical" | "grid";
   disabled?: boolean;
 }
 
-export const ToggleInput = <C,>({
+export const ToggleControl = <C,>({
   selected,
   choices,
   onSelect,
@@ -23,7 +23,7 @@ export const ToggleInput = <C,>({
   choices: ChoicesConfigUnion<C>;
   onSelect: (choice: C) => void;
   onDeselect: (choice: C) => void;
-} & ToggleInputProps) => {
+} & ToggleControlProps) => {
   validateChoices(choices);
 
   const toggleId = `toggle-${useUniqueId()}`;
@@ -185,9 +185,9 @@ export const ToggleInput = <C,>({
   return (
     <>
       {label && (
-        <InputLabel as="div" id={labelId}>
+        <ControlLabel as="div" id={labelId}>
           {label}
-        </InputLabel>
+        </ControlLabel>
       )}
 
       {needsWrapper ? <div>{choicesEl}</div> : choicesEl}

@@ -3,7 +3,7 @@ import { createContext, useContext } from "react";
 
 const Context = createContext(false);
 
-export const DisableInputs = ({
+export const DisableControls = ({
   when,
   children,
 }: {

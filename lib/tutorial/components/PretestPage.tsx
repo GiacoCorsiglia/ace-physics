@@ -1,4 +1,4 @@
-import { Button, DisableInputs } from "@/components";
+import { Button, DisableControls } from "@/components";
 import { Info, Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
@@ -104,7 +104,7 @@ export default function PretestPage({
         </Prose>
       </Content>
 
-      <DisableInputs when={isDisabled}>
+      <DisableControls when={isDisabled}>
         {/* This config should be stable so we can use the index as the key. */}
         {config.sections.map((section, i) => (
           <PretestSection
@@ -113,7 +113,7 @@ export default function PretestPage({
             modelsTracker={modelsTracker}
           />
         ))}
-      </DisableInputs>
+      </DisableControls>
 
       <ContinueSection
         config={config}

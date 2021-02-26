@@ -1,20 +1,20 @@
 import {
   Agree,
   Button,
-  ChooseInput,
+  ChooseControl,
   Content,
+  ControlGroup,
   Disagree,
   Hint,
   Horizontal,
   Info,
-  Input,
-  InputGroup,
+  InputControl,
   M,
   Matrix,
-  MultiLineTextInput,
   Prose,
   Reminder,
-  ToggleInput,
+  TextAreaControl,
+  ToggleControl,
   Vertical,
 } from "@/components";
 import { LabelsRight } from "@/components/controls/labels";
@@ -31,7 +31,7 @@ export default function TestPage() {
       <Content>
         <Vertical>
           <LabelsRight>
-            <ToggleInput
+            <ToggleControl
               label={<Prose>What is the answer?</Prose>}
               choices={
                 [
@@ -44,7 +44,7 @@ export default function TestPage() {
               onDeselect={() => {}}
             />
 
-            <MultiLineTextInput
+            <TextAreaControl
               label={<Prose>Explain your thoughts.</Prose>}
               value={string}
               onChange={setString}
@@ -55,27 +55,27 @@ export default function TestPage() {
 
       <Content>
         <Vertical>
-          <Input placeholder="Placeholder" />
+          <InputControl placeholder="Placeholder" />
 
-          <Input placeholder="Placeholder" disabled />
+          <InputControl placeholder="Placeholder" disabled />
 
-          <InputGroup>
-            <InputGroup.Text>
+          <ControlGroup>
+            <ControlGroup.Text>
               <M t="a = " />
-            </InputGroup.Text>
+            </ControlGroup.Text>
 
-            <Input placeholder="Coefficient" />
+            <InputControl placeholder="Coefficient" />
 
-            <InputGroup.Text>
+            <ControlGroup.Text>
               <M t="b =" />
-            </InputGroup.Text>
+            </ControlGroup.Text>
 
-            <Input placeholder="Coefficient" />
+            <InputControl placeholder="Coefficient" />
 
             <Button color="green">Submit</Button>
-          </InputGroup>
+          </ControlGroup>
 
-          <ChooseInput
+          <ChooseControl
             multi={false}
             choices={
               [
@@ -89,7 +89,7 @@ export default function TestPage() {
             other={false}
           />
 
-          <ChooseInput
+          <ChooseControl
             multi={false}
             choices={
               [
