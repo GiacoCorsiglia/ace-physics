@@ -9,6 +9,7 @@
     "lint": "eslint . --ext js,jsx,ts,tsx",
     "dev": "next dev",
     "debug": "NODE_OPTIONS='--inspect' next dev",
+    "chrome-debug": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222",
     "build": "yarn run lint --quiet && yarn run validate && next build",
     "start": "next start",
     "script": "ts-node -r tsconfig-paths/register --transpile-only --script-mode scripts/run.ts",

@@ -116,6 +116,7 @@ export default function PretestPage({
       </DisableInputs>
 
       <ContinueSection
+        config={config}
         tutorialConfig={tutorialConfig}
         modelsTracker={modelsTracker}
       />
@@ -125,9 +126,11 @@ export default function PretestPage({
 
 const ContinueSection = tracked(function ContinueSection(
   {
+    config,
     tutorialConfig,
     modelsTracker,
   }: {
+    config: PretestConfig;
     tutorialConfig: TutorialConfig;
     modelsTracker: Tracker<
       Model<TutorialSchema>["properties"]["pretest"]["properties"]
@@ -138,9 +141,14 @@ const ContinueSection = tracked(function ContinueSection(
   const models = useRootModel().properties.pretest.properties;
   // Never reset, so it captures everything used on every render.
   const accessed = modelsTracker.currentAccessed;
-  const isComplete = [...accessed].every((key) =>
-    isSet(models[key], state.pretest?.[key])
+  const optional = new Set(config.continue?.optional);
+  const defaultIsContinueAllowed = [...accessed].every(
+    (key) => optional.has(key) || isSet(models[key], state.pretest?.[key])
   );
+  const allowedFn = config.continue?.allowed;
+  const isContinueAllowed = allowedFn
+    ? allowedFn(state, defaultIsContinueAllowed)
+    : defaultIsContinueAllowed;
 
   return (
     <Content as="section" className={styles.section}>
@@ -152,7 +160,7 @@ const ContinueSection = tracked(function ContinueSection(
             tutorialConfig.link,
             tutorialConfig.pages[0]?.link
           )}
-          disabled={!isComplete}
+          disabled={!isContinueAllowed}
         >
           Submit and move on <ArrowRightIcon />
         </Button>

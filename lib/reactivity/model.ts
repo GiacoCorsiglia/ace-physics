@@ -110,6 +110,11 @@ export const isSet = <F extends f.Field>(
   model: Model<F>,
   value: Infer<F["type"]> | undefined
 ): boolean => {
+  // Guard since this function is used dynamically.
+  if (model === undefined) {
+    return true; // Vacuously true.
+  }
+
   if (value === undefined) {
     return false;
   }

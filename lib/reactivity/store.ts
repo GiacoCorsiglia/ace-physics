@@ -63,40 +63,69 @@ export const store = <T extends object>(initial: T): Store<T> => {
     });
   };
 
+  interface Transaction {
+    transactionState: Immutable<T>;
+    updates: Update<T>[];
+    setPaths: Set<string>;
+  }
+  const transactionStack: Transaction[] = [];
+
   return {
     get state() {
       return currentState;
     },
 
     transaction(action, source) {
-      // Stash the current state at the beginning of the transaction.
-      let transactionState = currentState;
+      const parent: Transaction | undefined =
+        transactionStack[transactionStack.length - 1];
 
-      // Keep track of which paths were directly set.
-      const updates: Update<T>[] = [];
-      const setPaths = new Set<string>();
+      const startingState = parent ? parent.transactionState : currentState;
+
+      const self: Transaction = {
+        transactionState: startingState,
+        updates: [],
+        setPaths: new Set(),
+      };
+
+      // We need to push even though we pop below, for nested transactions.
+      transactionStack.push(self);
 
       // Fire the action with the setter, which mutates transactionState.
       action((path, newValue) => {
-        updates.push([path, newValue]);
-        const newState = set(transactionState, path, newValue);
-        if (newState !== transactionState) {
+        self.updates.push([path, newValue]);
+        const newState = set(self.transactionState, path, newValue);
+        if (newState !== self.transactionState) {
           // Only record the change if...something actually changed.
-          transactionState = newState;
-          setPaths.add(pathString(path));
+          self.transactionState = newState;
+          self.setPaths.add(pathString(path));
         }
         return newState;
       }, currentState);
 
       // TODO: Consider making transactions cancelable.  This would be the spot.
 
-      // Now flush the changes, updating the actual state.
-      currentState = transactionState;
+      // Now remove `self` from the transactionStack.
+      transactionStack.pop();
+
+      if (parent) {
+        // We're in a nested transaction; don't flush yet.  Instead, pass our
+        // changes up the stack.  Note the `currentState` isn't updated yet.
+        parent.transactionState = self.transactionState;
+        self.setPaths.forEach((p) => parent.setPaths.add(p));
+        parent.updates.push(...self.updates);
+        return self.transactionState;
+      }
+
+      // Otherwise, we were in the topmost transaction.
+
+      // So, flush the changes, updating the actual state.  Update before firing
+      // listeners in case they themselves depend on the `store.state`.
+      currentState = self.transactionState;
 
       // Then fire the appropriate listeners.
       subscriptions.forEach((listeners, listenerPath) => {
         let needsToFire = false;
-        setPaths.forEach((setPath) => {
+        self.setPaths.forEach((setPath) => {
           // This will fire listeners for all parent objects/arrays of a
           // property that was set directly.
           const childWasSet = setPath.startsWith(listenerPath);
@@ -126,10 +155,10 @@ export const store = <T extends object>(initial: T): Store<T> => {
       });
 
       transactionWatchers.forEach((watcher) =>
-        watcher(transactionState, updates, source)
+        watcher(currentState, self.updates, source)
       );
 
-      // Finally, return the new state.
+      // Finally return the latest state.
       return currentState;
     },
 

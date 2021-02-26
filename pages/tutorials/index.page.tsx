@@ -84,6 +84,14 @@ export default function TutorialsIndex() {
               measurement.
             </TutorialLink>
 
+            <TutorialLink
+              label="Spins & Magnetic Fields"
+              url={urls.Tutorials.SpinsAndMagneticFields}
+            >
+              What happens when a spin-½ particle passes through a region with a
+              magnetic field?
+            </TutorialLink>
+
             {/* <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
               Investigate the uniquely <em>quantum</em> effect of entanglement,
               and apply it to cryptography.

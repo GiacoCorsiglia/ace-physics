@@ -87,6 +87,24 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
    * The sections in the pretest.
    */
   readonly sections: readonly PretestSectionConfig<S>[];
+  /**
+   * Settings for the "Submit and move on" button.
+   */
+  readonly continue?: {
+    /**
+     * List of optional fields.
+     */
+    readonly optional?: readonly (keyof S["properties"]["pretest"]["properties"])[];
+    /**
+     * Conditional logic dictating when the continue button should be enabled.
+     * By default, the button will only be enabled when all models used in the
+     * pretest body are set.
+     * @param state The current TutorialState.
+     * @param allowed The original determination of whether the button should be
+     * enabled based on the default logic.
+     */
+    readonly allowed?: (state: TutorialState<S>, allowed: boolean) => boolean;
+  };
 }
 
 /**

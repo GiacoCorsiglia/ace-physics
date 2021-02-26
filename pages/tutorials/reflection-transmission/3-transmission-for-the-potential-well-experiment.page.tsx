@@ -47,25 +47,24 @@ export default page(setup, ({ section, hint }) => ({
           model={m.wellPredictionsForT}
           label={
             <Prose>
-              Using physical arguments, but without carrying out calculations
-              what can you predict qualitatively about <M t="T" />? Don't use
-              the sim yet either!
+              <p>
+                Using physical arguments, but without carrying out calculations
+                what can you predict qualitatively about <M t="T" />? Don't use
+                the sim yet either!
+              </p>
+
+              <p>
+                <em>
+                  Consider different depths and widths of the well, and
+                  different energies <M t="E" />. Consider “up” bumps instead of
+                  wells, too.
+                </em>
+              </p>
             </Prose>
           }
           minRows={3}
         />
       ),
-      hints: [
-        hint({
-          name: "wellPredictionsForT",
-          body: (
-            <Prose>
-              Consider different depths and widths of the well, and different
-              energies <M t="E" />. Consider “up” bumps instead of wells, too.
-            </Prose>
-          ),
-        }),
-      ],
     }),
 
     section({
@@ -98,8 +97,18 @@ export default page(setup, ({ section, hint }) => ({
           model={m.wavelengthAfterTunneling}
           label={
             <Prose>
-              What happened to the wavelength of a plane wave after tunneling
-              through a barrier?
+              <p>
+                Suppose <M t="E \leq -V_0" />, meaning the “dip” is actually a
+                “bump.” This situation is referred to as{" "}
+                <strong>
+                  <em>tunneling.</em>
+                </strong>
+              </p>
+
+              <p>
+                What happens to the wavelength of a plane wave after tunneling
+                through a barrier?
+              </p>
             </Prose>
           }
         />

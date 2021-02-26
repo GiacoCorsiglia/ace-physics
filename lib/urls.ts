@@ -51,6 +51,11 @@ const QuantumMouse2 = {
   link: "/tutorials/quantum-mouse-2",
 };
 
+const SpinsAndMagneticFields = {
+  path: "spins-and-magnetic-fields",
+  link: "/tutorials/spins-and-magnetic-fields",
+};
+
 const QuantumBasis = {
   path: "quantum-basis",
   link: "/tutorials/quantum-basis",
@@ -95,6 +100,7 @@ export const Tutorials = {
   QuantumBasisLite,
   QuantumMouse,
   QuantumMouse2,
+  SpinsAndMagneticFields,
   EPR,
   VectorsToFunctions,
   EnergyAndPosition,

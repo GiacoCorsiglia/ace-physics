@@ -5,11 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "name": "Attach to Chrome",
+      "port": 9222,
       "request": "attach",
-      "name": "Attach to Next.js",
-      "skipFiles": ["<node_internals>/**"],
-      "port": 9229
+      "type": "pwa-chrome",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Launch Chrome",
+      "request": "launch",
+      "type": "pwa-chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }
