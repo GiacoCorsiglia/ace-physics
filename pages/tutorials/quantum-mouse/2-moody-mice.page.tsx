@@ -1,5 +1,5 @@
 import { Help, Prose } from "@/design";
-import { arraysEqual } from "@/helpers";
+import { arraysEqual } from "@/helpers/frontend";
 import { ChooseAll, FieldGroup, Select, TextArea } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";

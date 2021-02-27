@@ -1,0 +1,108 @@
+import {
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
+
+const subDomain =
+  process.env.NEXT_PUBLIC_ACE_ENV === "development"
+    ? "local."
+    : process.env.NEXT_PUBLIC_ACE_ENV === "staging"
+    ? "beta."
+    : "";
+export const htmlTitle = (title: string) =>
+  `${title} | ${subDomain}ACEPhysics.net`;
+
+export type Html = React.ReactNode;
+export type Component<P = {}> = React.FunctionComponent<P>;
+export type JsxElement = React.ReactElement<any, any> | null;
+
+export type Props<
+  T extends React.Component | React.FunctionComponent
+> = T extends React.Component<infer P>
+  ? P
+  : T extends React.FunctionComponent<infer P>
+  ? P
+  : never;
+
+export const isReactElement = (o: any): o is React.ReactElement =>
+  !!o &&
+  (typeof o.type === "string" || typeof o.type === "function") &&
+  !!o.props;
+
+export const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+export const useToggle = <E extends Element = HTMLElement>(
+  initial: boolean = false
+) => {
+  const ref = useRef<E>(null);
+  const [toggled, setToggled] = useState(initial);
+
+  useEffect(() => {
+    if (!toggled) {
+      return;
+    }
+
+    const clickHandler = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setToggled(false);
+      }
+    };
+
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
+  }, [toggled]);
+
+  return [toggled, setToggled, ref] as const;
+};
+
+let uniqueId = 0;
+/**
+ * Creates a unique ID that's self-contained to the lifetime of this component
+ * but otherwise doesn't matter.
+ */
+export const useUniqueId = () => {
+  const idRef = useRef<number>();
+  idRef.current || (idRef.current = ++uniqueId);
+  console.log({
+    server: typeof window === "undefined",
+    uniqueId,
+    id: idRef.current,
+  });
+  return idRef.current;
+};
+
+export const resetUniqueIds = () => {
+  uniqueId = 0;
+};
+
+/**
+ * Creates a unique Symbol that's self-contained to the lifetime of this
+ * component but otherwise doesn't matter.
+ */
+export const useUniqueSymbol = () => {
+  const symbol = useRef<symbol>();
+  return symbol.current || (symbol.current = Symbol());
+};
+
+const tickReducer = (x: number) => x + 1;
+export const useForceUpdate = () => useReducer(tickReducer, 0)[1];
+
+export const useSyncedState = <T, V>(
+  prop: T,
+  fromProp: (prop: T) => V,
+  skipSync: (prop: T, state: V, propAsState: V) => boolean
+) => {
+  const propAsState = fromProp(prop);
+  const tuple = useState(propAsState);
+  const [state, setState] = tuple;
+
+  if (state !== propAsState && !skipSync(prop, state, propAsState)) {
+    setState(propAsState);
+  }
+
+  return tuple;
+};

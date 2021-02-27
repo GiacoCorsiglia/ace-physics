@@ -1,5 +1,5 @@
 import { Answer, Prose } from "@/design";
-import { arraysEqual } from "@/util";
+import { arraysEqual } from "@/helpers/frontend";
 import React from "react";
 import { ChoicesConfigUnion } from "./choices";
 

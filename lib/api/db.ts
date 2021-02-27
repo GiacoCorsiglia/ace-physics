@@ -1,5 +1,4 @@
-import { isObject } from "@/helpers";
-import { asyncResult } from "@/helpers/result";
+import { asyncResult, isObject } from "@/helpers/backend";
 import { Learner, Tutorial } from "@/schema/db";
 import { decode, Infer, Type } from "@/schema/types";
 import AWS from "aws-sdk";

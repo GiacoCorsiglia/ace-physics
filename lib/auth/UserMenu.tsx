@@ -1,8 +1,9 @@
 import { Button } from "@/components";
 import { Prose } from "@/design";
+import { useToggle } from "@/helpers/frontend";
 import { Login } from "@/urls";
-import { classes, useToggle } from "@/util";
 import { PersonIcon } from "@primer/octicons-react";
+import { cx } from "linaria";
 import { useRouter } from "next/router";
 import { formatId } from "./helpers";
 import { useAuth } from "./service";
@@ -18,14 +19,14 @@ export default function UserMenu() {
     <>
       {/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
-        className={classes(styles.toggle, [styles.toggled, toggled])}
+        className={cx(styles.popup, toggled && styles.toggled)}
         onClick={() => setToggled((o) => !o)}
       >
         <PersonIcon aria-label="My Account Menu" />
       </div>
 
       <div
-        className={classes(styles.popup, [styles.toggled, toggled])}
+        className={cx(styles.popup, toggled && styles.toggled)}
         ref={menuElRef}
       >
         {auth.isLoggedIn && (

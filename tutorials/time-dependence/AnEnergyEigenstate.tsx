@@ -5,10 +5,10 @@ import inputStyles from "@/inputs/inputs.module.scss";
 import { choices } from "@/inputs/Select";
 import M from "@/math";
 import { Field, isSet } from "@/state";
-import { classes } from "@/util";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { ChoiceSchema, StringSchema } from "common/schema";
 import { TimeDependence } from "common/tutorials";
+import { cx } from "linaria";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function AnEnergyEigenstate() {
@@ -31,7 +31,7 @@ const sections = sectionComponents(TimeDependence, [
 
       <div className="text-center margin-top-1">
         <a
-          className={classes(inputStyles.secondary, inputStyles.iconLast)}
+          className={cx(inputStyles.secondary, inputStyles.iconLast)}
           href="https://www.st-andrews.ac.uk/physics/quvis/simulations_html5/sims/TimeDevelopment/TimeDevelopment.html"
           target="_blank"
           rel="noreferrer noopener"

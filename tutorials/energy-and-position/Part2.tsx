@@ -1,11 +1,11 @@
 import { Continue, Help, HelpButton, Prose, Reminder, Section } from "@/design";
 import { Content } from "@/design/layout";
+import { range } from "@/helpers/frontend";
 import { Choice, TextArea, Toggle } from "@/inputs";
 import { choices } from "@/inputs/Select";
 import M from "@/math";
 import { Axes, Bar, DragHandle, GridLine, Plot, Tick } from "@/plots";
 import { isSet, needsHelp } from "@/state";
-import { range } from "@/util";
 import { EnergyAndPosition } from "common/tutorials";
 import { Fragment } from "react";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";

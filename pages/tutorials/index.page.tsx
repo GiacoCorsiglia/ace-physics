@@ -1,8 +1,8 @@
 import { UserMenu } from "@/auth";
 import { Prose } from "@/design";
 import { Content, Header, Page } from "@/design/layout";
+import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";
-import { Children } from "@/util";
 import { ChevronRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
 import styles from "tutorials/tutorials.module.scss";
@@ -139,7 +139,11 @@ function TutorialLink({
   label,
   url,
   children,
-}: { label: React.ReactNode; url: urls.URL } & Children) {
+}: {
+  label: React.ReactNode;
+  url: urls.URL;
+  children?: Html;
+}) {
   return (
     <li>
       <Link href={url.link}>

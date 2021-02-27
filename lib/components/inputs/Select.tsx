@@ -1,11 +1,10 @@
-import { Html } from "@/helpers/frontend";
+import { Html, Props, useUniqueId } from "@/helpers/frontend";
 import { Model, useModel } from "@/reactivity";
 import {
   Choice,
   Choices as FieldChoices,
   ChooseOneField,
 } from "@/schema/fields";
-import { Props, useUniqueId } from "@/util";
 import { cx } from "linaria";
 import { useState } from "react";
 import ReactSelect, { components, StylesConfig } from "react-select";

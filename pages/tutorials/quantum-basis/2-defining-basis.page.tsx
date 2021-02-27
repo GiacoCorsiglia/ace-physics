@@ -1,6 +1,6 @@
 import { Help, Info, Prose } from "@/design";
 import { Column, Columns } from "@/design/layout";
-import { approxEquals } from "@/helpers";
+import { approxEquals } from "@/helpers/frontend";
 import { Decimal, Select, TextArea, Toggle } from "@/inputs";
 import M, { Matrix } from "@/math";
 import { modelToColumn } from "@/math/Matrix";

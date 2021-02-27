@@ -1,4 +1,4 @@
-import { normalize } from "@/helpers";
+import { normalize } from "@/helpers/frontend";
 import { css } from "linaria";
 
 export const uUnnormalized = [-3, 4] as const;

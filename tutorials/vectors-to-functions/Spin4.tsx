@@ -1,12 +1,12 @@
 import { Continue, Help, HelpButton, Prose, Section } from "@/design";
 import { Content } from "@/design/layout";
+import { range } from "@/helpers/frontend";
 import { Decimal, FieldGroup, Text, TextArea, Toggle } from "@/inputs";
 import Select, { choices } from "@/inputs/Select";
 import M from "@/math";
 import VariableLengthColumn from "@/math/VariableLengthColumn";
 import { Axes, Bar, DragHandle, Grid, Indicator, Plot, Tick } from "@/plots";
 import { Field, isSet, needsHelp } from "@/state";
-import { range } from "@/util";
 import { VectorsToFunctions } from "common/tutorials";
 import { Fragment } from "react";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";

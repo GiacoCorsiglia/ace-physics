@@ -1,4 +1,5 @@
 import { Help, Prose, Reminder } from "@/design";
+import { approxEquals } from "@/helpers/frontend";
 import {
   ChooseOne,
   Decimal,
@@ -9,7 +10,6 @@ import {
 } from "@/inputs";
 import M from "@/math/M";
 import { page } from "@/tutorial";
-import { approxEquals } from "@/util";
 import React from "react";
 import setup from "./setup";
 

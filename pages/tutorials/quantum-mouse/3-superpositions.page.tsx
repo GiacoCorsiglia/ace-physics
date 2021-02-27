@@ -1,8 +1,8 @@
 import { Help, Prose, Reminder } from "@/design";
+import { approxEquals, norm } from "@/helpers/frontend";
 import { ChooseAll, Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
-import { approxEquals, norm } from "@/util";
 import React from "react";
 import setup from "./setup";
 

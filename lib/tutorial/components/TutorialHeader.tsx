@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { UserMenu } from "@/auth";
 import { Header } from "@/design/layout";
+import { useToggle } from "@/helpers/frontend";
 import * as urls from "@/urls";
-import { classes, useToggle } from "@/util";
 import { ArrowLeftIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
   return (
     <Header>
       <div
-        className={classes(styles.sidebarToggle, [styles.toggled, toggled])}
+        className={cx(styles.sidebarToggle, toggled && styles.toggled)}
         onClick={() => setToggled((t) => !t)}
       >
         <svg viewBox="0 0 120 100" width="1em" height="1em">
@@ -47,7 +47,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
       <Link href={urls.Tutorials.link}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a
-          className={classes(
+          className={cx(
             styles.otherTutorialsLink,
             styles.otherTutorialsLinkFixed
           )}

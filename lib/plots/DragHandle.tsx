@@ -1,6 +1,7 @@
+import { roundToNearest } from "@/helpers/frontend";
 import { Model, useModel } from "@/reactivity";
 import { NumberField } from "@/schema/fields";
-import { classes, roundToNearest } from "@/util";
+import { cx } from "linaria";
 import { useState } from "react";
 import { usePlot } from ".";
 import styles from "./plots.module.scss";
@@ -154,10 +155,7 @@ export default function DragHandle({
   return (
     <g
       onMouseDown={!disabled ? mouseDown : undefined}
-      className={classes(
-        [styles.dragHandleDisabled, disabled],
-        styles.dragHandle
-      )}
+      className={cx(styles.dragHandle, disabled && styles.dragHandleDisabled)}
     >
       <rect
         x={x - area / 2}

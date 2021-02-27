@@ -1,7 +1,7 @@
 import { Button } from "@/components";
 import { Prose } from "@/design";
 import { Content } from "@/design/layout";
-import { htmlTitle } from "@/helpers";
+import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";

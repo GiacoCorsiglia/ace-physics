@@ -2,7 +2,7 @@ import { Button, DisableControls } from "@/components";
 import { Info, Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
-import { htmlTitle } from "@/helpers";
+import { htmlTitle } from "@/helpers/frontend";
 import { isSet, Model, tracker } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";

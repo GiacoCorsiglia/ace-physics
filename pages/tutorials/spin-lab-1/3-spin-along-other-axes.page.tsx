@@ -1,5 +1,5 @@
 import { Help, Info, Prose } from "@/design";
-import { deepEqual } from "@/helpers";
+import { deepEqual } from "@/helpers/frontend";
 import { ChooseOne, Decimal } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";

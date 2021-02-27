@@ -1,4 +1,4 @@
-import type { Immutable, Path, TypeAtPath } from "@/helpers";
+import type { Immutable, Path, TypeAtPath } from "@/helpers/frontend";
 import { get, set } from "./immutable";
 
 type Source = string | symbol;

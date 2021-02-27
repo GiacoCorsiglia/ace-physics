@@ -3,13 +3,13 @@ import { Button } from "@/components";
 import { Prose } from "@/design";
 import { Content, Page } from "@/design/layout";
 import inputStyles from "@/inputs/inputs.module.scss";
-import { classes } from "@/util";
 import {
   ArrowRightIcon,
   CheckCircleIcon,
   ClippyIcon,
-  DownloadIcon,
+  DownloadIcon
 } from "@primer/octicons-react";
+import { cx } from "linaria";
 import { useState } from "react";
 import Select from "react-select";
 
@@ -39,10 +39,10 @@ export default function Generate() {
       <Content as="main">
         <Prose>
           <h1>Generate New Account Codes</h1>
-        </Prose>
+        </Prose
 
         <form
-          className={classes(inputStyles.labelsLeft, "margin-top")}
+          className={cx(inputStyles.labelsLeft, "margin-top")}
           onSubmit={async (e) => {
             e.preventDefault();
             if (!ready) {
@@ -88,7 +88,7 @@ export default function Generate() {
             Number:
           </label>
           <input
-            className={classes(inputStyles.numberInput)}
+            className={inputStyles.numberInput}
             disabled={status !== "initial"}
             id="number"
             type="text"

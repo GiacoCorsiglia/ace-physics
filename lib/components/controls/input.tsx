@@ -1,6 +1,5 @@
 import { borderRadius, colors, shadows, spacing } from "@/design";
-import { Html } from "@/helpers/frontend";
-import { useUniqueId } from "@/util";
+import { Html, useUniqueId } from "@/helpers/frontend";
 import { css, cx } from "linaria";
 import { forwardRef } from "react";
 import { useDisabled } from "./disabled";

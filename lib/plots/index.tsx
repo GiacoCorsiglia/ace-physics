@@ -1,5 +1,5 @@
 import { M, MPropTypes } from "@/components";
-import { Children, range, useUniqueId } from "@/util";
+import { Html, range, useUniqueId } from "@/helpers/frontend";
 import { createContext, memo, useContext, useMemo } from "react";
 import styles from "./plots.module.scss";
 import {
@@ -88,7 +88,8 @@ export function Plot({
     | "center";
   /** */
   padding?: number | readonly [x: number, y: number];
-} & Children) {
+  children?: Html;
+}) {
   const [xScale, yScale] = typeof scale === "number" ? [scale, scale] : scale;
   const [xPadding, yPadding] =
     typeof padding === "number" ? [padding, padding] : padding;
@@ -507,7 +508,13 @@ export function Tick({
   );
 }
 
-export function Rotate({ degrees, children }: { degrees: number } & Children) {
+export function Rotate({
+  degrees,
+  children,
+}: {
+  degrees: number;
+  children?: Html;
+}) {
   return <g transform={`rotate(-${degrees} 0 0)`}>{children}</g>;
 }
 

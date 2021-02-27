@@ -2,7 +2,7 @@ import { Button } from "@/components";
 import { Info, Prose } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
-import { htmlTitle } from "@/helpers";
+import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon, CommentDiscussionIcon } from "@primer/octicons-react";
 import { css, cx } from "linaria";
