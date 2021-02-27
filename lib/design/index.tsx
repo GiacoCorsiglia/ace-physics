@@ -10,9 +10,9 @@ export const borderRadius = "0.5rem";
 ////////////////////////////////////////////////////////////////////////////////
 
 import { Button } from "@/components";
+import { Html, scrollTo } from "@/helpers/frontend";
 import { Field, isSet } from "@/state";
 import Section from "@/tutorial/components/Section";
-import { Children, classes, OptionalChildren, scrollTo } from "@/util";
 import { ChecklistIcon } from "@primer/octicons-react";
 import { Commit } from "aws-sdk/clients/codecommit";
 import { AnswersSchema } from "common/tutorials";
@@ -24,6 +24,13 @@ import React, {
 } from "react";
 import { Content } from "./layout";
 import styles from "./structure.module.scss";
+
+/** @deprecated */
+interface Children {
+  children?: Html;
+}
+/** @deprecated */
+interface OptionalChildren extends Children {}
 
 function containerFor(children: React.ReactNode) {
   // This could be accomplished with map but the types got weird and this avoids
@@ -60,7 +67,7 @@ export function Prose({
 }: { className?: string; noMargin?: boolean } & OptionalChildren) {
   const Container = containerFor(children);
   return (
-    <Container className={classes("prose", className, ["no-margin", noMargin])}>
+    <Container className={cx("prose", className, noMargin && "no-margin")}>
       {children}
     </Container>
   );
@@ -140,12 +147,13 @@ export function Answer({
     return null;
   }
 
-  props.className = classes(
+  props.className = cx(
     props.className,
     styles.answer,
-    [styles.undetermined, correct === undefined || correct === "undetermined"],
-    [styles.correct, correct === true],
-    [styles.incorrect, correct === false]
+    (correct === undefined || correct === "undetermined") &&
+      styles.undetermined,
+    correct === true && styles.correct,
+    correct === false && styles.incorrect
   );
 
   return (

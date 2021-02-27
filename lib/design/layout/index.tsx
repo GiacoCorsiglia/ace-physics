@@ -1,8 +1,9 @@
-import { Children, classes } from "@/util";
+import { Html } from "@/helpers/frontend";
+import { cx } from "linaria";
 import Head from "next/head";
 import styles from "./layout.module.scss";
 
-export function Page({ title, children }: { title?: string } & Children) {
+export function Page({ title, children }: { title?: string; children?: Html }) {
   return (
     <>
       {title && (
@@ -32,10 +33,10 @@ export function Content<A extends keyof JSX.IntrinsicElements = "div">({
   return (
     <As
       {...props}
-      className={classes(
+      className={cx(
         styles.center,
-        [styles.oneColumn, !columns],
-        [styles.twoColumn, columns],
+        !columns && styles.oneColumn,
+        columns && styles.twoColumn,
         props.className
       )}
     />
@@ -59,7 +60,7 @@ export function Columns<A extends keyof JSX.IntrinsicElements = "div">({
   as?: A;
 }) {
   const As = as as any;
-  return <As {...props} className={classes(styles.columns, props.className)} />;
+  return <As {...props} className={cx(styles.columns, props.className)} />;
 }
 
 export function Flex<A extends keyof JSX.IntrinsicElements = "div">({
@@ -69,5 +70,5 @@ export function Flex<A extends keyof JSX.IntrinsicElements = "div">({
   as?: A;
 }) {
   const As = as as any;
-  return <As {...props} className={classes(styles.flex, props.className)} />;
+  return <As {...props} className={cx(styles.flex, props.className)} />;
 }
