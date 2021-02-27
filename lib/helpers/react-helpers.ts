@@ -69,6 +69,10 @@ export const useUniqueId = () => {
   return idRef.current || (idRef.current = ++uniqueId);
 };
 
+/**
+ * Resets the unique ID counter. Used for SSR.
+ * SEE: https://github.com/downshift-js/downshift#faq
+ */
 export const resetUniqueIds = () => {
   uniqueId = 0;
 };
