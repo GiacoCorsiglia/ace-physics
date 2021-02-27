@@ -180,7 +180,7 @@ const ColumnVectorButton = styled.button`
     transition-duration: 150ms;
   }
 
-  :global(.octicon) {
+  & :global(.octicon) {
     display: block !important;
     height: ${fonts.ui.fontSize};
     width: auto;
