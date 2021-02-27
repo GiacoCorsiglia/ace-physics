@@ -66,13 +66,7 @@ let uniqueId = 0;
  */
 export const useUniqueId = () => {
   const idRef = useRef<number>();
-  idRef.current || (idRef.current = ++uniqueId);
-  console.log({
-    server: typeof window === "undefined",
-    uniqueId,
-    id: idRef.current,
-  });
-  return idRef.current;
+  return idRef.current || (idRef.current = ++uniqueId);
 };
 
 export const resetUniqueIds = () => {
