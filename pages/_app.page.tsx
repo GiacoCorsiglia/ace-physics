@@ -2,7 +2,7 @@ import { AuthProvider } from "@/auth";
 import { Footer } from "@/design/Footer";
 import footerStyles from "@/design/Footer.module.scss";
 import "@/design/global.css";
-import { JsxElement } from "@/helpers/frontend";
+import { JsxElement, resetUniqueIds } from "@/helpers/frontend";
 import { init } from "@/sentry";
 import type { AppProps } from "next/app";
 
@@ -11,6 +11,13 @@ init();
 type Props = AppProps & { err: any };
 
 export default function AceApp({ Component, pageProps, err }: Props) {
+  if (typeof window === "undefined") {
+    // If rendering on the server, reset this at the start of every render. This
+    // way we can avoid mismatching unique ids between the server and client.
+    // SEE: https://github.com/downshift-js/downshift#faq
+    resetUniqueIds();
+  }
+
   if (Component.name === "TestPage") {
     return <Component />;
   }
