@@ -15,6 +15,9 @@ const subDomain =
 export const htmlTitle = (title: string) =>
   `${title} | ${subDomain}ACEPhysics.net`;
 
+export type Css = React.CSSProperties & {
+  [key: string]: string | number | Css;
+};
 export type Html = React.ReactNode;
 export type Component<P = {}> = React.FunctionComponent<P>;
 export type JsxElement = React.ReactElement<any, any> | null;
