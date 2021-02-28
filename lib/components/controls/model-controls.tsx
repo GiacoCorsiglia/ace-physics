@@ -9,13 +9,10 @@ import type {
   NumberField,
   StringField,
 } from "@/schema/fields";
-import React, { useState } from "react";
-import {
-  default as ChoiceAnswer,
-  default as ChooseAnswer,
-} from "../inputs/ChooseAnswer";
-import { ChoicesConfig } from "./choice-helpers";
+import { useState } from "react";
+import { ChoiceAnswer, ChoicesConfig } from "./choice-helpers";
 import { ChooseControl, ChooseControlProps } from "./choose";
+import { DropdownControl, DropdownControlProps } from "./dropdown";
 import { NumericInputControl, NumericInputControlProps } from "./numeric";
 import {
   TextAreaControl,
@@ -151,7 +148,7 @@ export const ChooseOne = <Cs extends Choices>({
       />
 
       <ChoiceAnswer
-        isMulti={false}
+        multi={false}
         selected={value?.selected}
         other={value?.other}
         choices={choices}
@@ -217,8 +214,8 @@ export const ChooseAll = <Cs extends Choices>({
         }
       />
 
-      <ChooseAnswer
-        isMulti={true}
+      <ChoiceAnswer
+        multi={true}
         selected={value?.selected}
         other={value?.other}
         choices={choices}
@@ -254,7 +251,7 @@ export const Toggle = <Cs extends Choices>({
         choices={choices}
         onSelect={(newValue) =>
           setValue({
-            selected: newValue as any,
+            selected: newValue,
             other: value?.other,
           })
         }
@@ -270,8 +267,8 @@ export const Toggle = <Cs extends Choices>({
         }
       />
 
-      <ChooseAnswer
-        isMulti={false}
+      <ChoiceAnswer
+        multi={false}
         selected={value?.selected}
         other={value?.other}
         choices={choices}
@@ -307,5 +304,48 @@ export const BooleanToggle = ({
         setValue((oldValue) => (oldValue === newValue ? undefined : oldValue))
       }
     />
+  );
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Dropdown.
+////////////////////////////////////////////////////////////////////////////////
+
+export const Dropdown = <Cs extends Choices>({
+  model,
+  choices,
+  answer,
+  explanation,
+  ...props
+}: {
+  model: Model<ChooseOneField<Cs, any>>;
+  choices: ChoicesConfig<Cs>;
+  answer?: Choice<Cs>;
+  explanation?: Html;
+} & DropdownControlProps) => {
+  const [value, setValue] = useModel(model);
+  return (
+    <>
+      <DropdownControl
+        {...props}
+        selected={value?.selected}
+        choices={choices}
+        onChange={(newValue) =>
+          setValue({
+            selected: newValue,
+            other: value?.other,
+          })
+        }
+      />
+
+      <ChoiceAnswer
+        multi={false}
+        selected={value?.selected}
+        other={value?.other}
+        choices={choices}
+        answer={answer}
+        explanation={explanation}
+      />
+    </>
   );
 };

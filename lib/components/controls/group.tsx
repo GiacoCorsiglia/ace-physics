@@ -12,7 +12,8 @@ const ControlGroup = styled.div`
   /* box-shadow: ${shadows.input.neutral}; */
   transition: box-shadow 75ms ease-in-out;
 
-  input {
+  input,
+  > .ace-control {
     position: relative; // For focus state's z-index
     flex: 1 1 auto;
     width: 1%;

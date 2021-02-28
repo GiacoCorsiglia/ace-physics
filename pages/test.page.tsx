@@ -17,17 +17,78 @@ import {
   ToggleControl,
   Vertical,
 } from "@/components";
+import { DropdownControl } from "@/components/controls/dropdown";
 import { LabelsRight } from "@/components/controls/labels";
 import { ArrowDownIcon } from "@primer/octicons-react";
 import React, { useState } from "react";
 
 export default function TestPage() {
   const [selected, setSelected] = useState<"a" | "b">();
+  const [selected2, setSelected2] = useState<
+    "a" | "b" | "c" | "d" | "e" | "f" | "g"
+  >();
   const [decimal, setDecimal] = useState<number>();
   const [string, setString] = useState("");
 
   return (
     <Vertical>
+      <Content>
+        <Vertical>
+          <DropdownControl
+            choices={
+              [
+                ["a", <M t="\ket{+}" />],
+                ["b", "Choice B"],
+                ["c", "Choice C"],
+                ["d", "Choice D"],
+                ["e", "Choice E"],
+                ["f", "Choice F"],
+                ["g", "Choice G"],
+              ] as const
+            }
+            selected={selected2}
+            onChange={setSelected2}
+          />
+
+          <DropdownControl
+            choices={
+              [
+                ["a", <M t="\ket{+}" />],
+                ["b", "Choice B"],
+                ["c", "Choice C"],
+                ["d", "Choice D"],
+                ["e", "Choice E"],
+                ["f", "Choice F"],
+                ["g", "Choice G"],
+              ] as const
+            }
+            selected={selected2}
+            onChange={setSelected2}
+            disabled
+          />
+
+          <ControlGroup>
+            <ControlGroup.Text>Test = </ControlGroup.Text>
+
+            <DropdownControl
+              choices={
+                [
+                  ["a", <M t="\ket{+}" />],
+                  ["b", "Choice B"],
+                  ["c", "Choice C"],
+                  ["d", "Choice D"],
+                  ["e", "Choice E"],
+                  ["f", "Choice F"],
+                  ["g", "Choice G"],
+                ] as const
+              }
+              selected={selected2}
+              onChange={setSelected2}
+            />
+          </ControlGroup>
+        </Vertical>
+      </Content>
+
       <Content>
         <Vertical>
           <LabelsRight>
@@ -334,6 +395,43 @@ export default function TestPage() {
             />
           </p>
         </Prose>
+      </Content>
+
+      <Content>
+        <Vertical>
+          <DropdownControl
+            choices={
+              [
+                ["a", <M t="\ket{+}" />],
+                ["b", "Choice B"],
+                ["c", "Choice C"],
+                ["d", "Choice D"],
+                ["e", "Choice E"],
+                ["f", "Choice F"],
+                ["g", "Choice G"],
+              ] as const
+            }
+            selected={selected2}
+            onChange={setSelected2}
+          />
+
+          <DropdownControl
+            choices={
+              [
+                ["a", <M t="\ket{+}" />],
+                ["b", "Choice B"],
+                ["c", "Choice C"],
+                ["d", "Choice D"],
+                ["e", "Choice E"],
+                ["f", "Choice F"],
+                ["g", "Choice G"],
+              ] as const
+            }
+            selected={selected2}
+            onChange={setSelected2}
+            disabled
+          />
+        </Vertical>
       </Content>
     </Vertical>
   );
