@@ -57,10 +57,16 @@ export const Vertical = styled.div`
 
 interface HorizontalProps {
   align?: React.CSSProperties["alignItems"];
+  justify?: React.CSSProperties["justifyContent"];
 }
 export const Horizontal = styled.div<HorizontalProps>`
   display: flex;
   align-items: ${(props) => props.align || "center"};
+  justify-content: ${(props) => props.justify || "flex-start"};
+
+  > * {
+    flex-grow: ${(props) => (props.justify === "stretch" ? "1" : "0")};
+  }
 
   > * + * {
     margin-left: ${spacing.$100};
