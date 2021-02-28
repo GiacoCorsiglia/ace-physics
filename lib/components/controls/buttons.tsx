@@ -152,6 +152,13 @@ const colorCss = (color: colors.Color) => ({
     //   0 2px 10px 7px ${colors.alpha(color.$300, 0.65)},
     //   0 0 0 3px ${colors.alpha(color.$500, 0.75)}`,
   },
+
+  "&:disabled": {
+    background: color.$300,
+    borderColor: color.$300,
+    // boxShadow: `${base},
+    //   0px 2px 9px 4px ${colors.alpha(color.$300, 0.65)}`,
+  },
 });
 
 const greenCss = css`
