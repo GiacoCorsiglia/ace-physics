@@ -1,6 +1,5 @@
 import { borderRadius, colors, shadows, spacing } from "@/design";
 import { styled } from "linaria/react";
-import { Callout } from "./callouts";
 
 const textWidth = spacing.$4000;
 // It turns out calc() doesn't behave well in media queries (at least not in
@@ -30,7 +29,7 @@ export const Content = styled.div`
     border-width: 1px;
     border-radius: ${borderRadius};
 
-    ${Callout} {
+    .ace-callout {
       margin-left: -${spacing.$150};
       margin-right: -${spacing.$150};
     }

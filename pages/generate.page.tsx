@@ -1,12 +1,11 @@
 import * as api from "@/api/client";
 import {
   Button,
+  Callout,
   Content,
   DropdownControl,
-  GreenCallout,
   Horizontal,
   LabelsLeft,
-  NeutralCallout,
   NumericInputControl,
   Prose,
   Vertical,
@@ -128,7 +127,7 @@ export default function Generate() {
           )}
 
           {status === "success" && ids && (
-            <GreenCallout>
+            <Callout color="green">
               <Vertical>
                 <Prose>
                   <p>
@@ -208,20 +207,20 @@ export default function Generate() {
                   </Button>
                 </Horizontal>
               </Vertical>
-            </GreenCallout>
+            </Callout>
           )}
 
           {status === "success" && ids && (
-            <NeutralCallout
+            <Callout
               as="pre"
-              className="margin-top-1"
+              color="neutral"
               style={{
                 fontFamily: "monospace",
                 background: colors.neutral.$50,
               }}
             >
               {ids.join("\n")}
-            </NeutralCallout>
+            </Callout>
           )}
         </Vertical>
       </Content>

@@ -1,18 +1,14 @@
 import {
-  Agree,
   Button,
+  Callout,
   ChooseControl,
   Content,
   ControlGroup,
-  Disagree,
-  Hint,
   Horizontal,
-  Info,
   InputControl,
   M,
   Matrix,
   Prose,
-  Reminder,
   TextAreaControl,
   ToggleControl,
   Vertical,
@@ -165,7 +161,7 @@ export default function TestPage() {
             disabled
           />
 
-          <Horizontal>
+          <Horizontal justify="stretch">
             <Button color="green" iconRight={<ArrowDownIcon />}>
               Let’s get going
             </Button>
@@ -183,25 +179,25 @@ export default function TestPage() {
 
           <Prose>This is some more prose.</Prose>
 
-          <Reminder>
+          <Callout color="neutral" title="Reminder">
             <Prose>This is a reminder.</Prose>
-          </Reminder>
+          </Callout>
 
-          <Info>
+          <Callout color="blue">
             <Prose>This is some info.</Prose>
-          </Info>
+          </Callout>
 
-          <Hint>
+          <Callout color="yellow">
             <Prose>This is a hint.</Prose>
-          </Hint>
+          </Callout>
 
-          <Agree>
+          <Callout color="green">
             <Prose>This is correct!</Prose>
-          </Agree>
+          </Callout>
 
-          <Disagree>
+          <Callout color="red">
             <Prose>This is incorrect.</Prose>
-          </Disagree>
+          </Callout>
 
           <Button color="green" iconRight={<ArrowDownIcon />}>
             Let’s get going
