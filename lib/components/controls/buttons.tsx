@@ -1,5 +1,6 @@
 import { borderRadius, colors, fonts, spacing } from "@/design";
 import { Html } from "@/helpers/frontend";
+import { LinkExternalIcon } from "@primer/octicons-react";
 import { css, cx } from "linaria";
 import Link from "next/link";
 import { forwardRef } from "react";
@@ -8,14 +9,27 @@ import { useDisabled } from "./disabled";
 type ButtonProps = {
   color: "green" | "blue" | "yellow";
   link?: string;
+  openNewTab?: boolean;
   iconLeft?: Html;
   iconRight?: Html;
 } & JSX.IntrinsicElements["button"] &
   JSX.IntrinsicElements["a"]; // forwardRef doesn't work with generics.
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ color, link, children, iconLeft, iconRight, ...props }, ref) => {
+  (
+    { color, link, openNewTab, children, iconLeft, iconRight, ...props },
+    ref
+  ) => {
     props.disabled = useDisabled(props);
+
+    const isExternalLink =
+      !!link && (link.startsWith("http:") || link.startsWith("https:"));
+    if (isExternalLink) {
+      // Default to opening external links in a new tab, unless explicitly set.
+      openNewTab = openNewTab ?? true;
+      // Also default to the external link icon.
+      iconRight = iconRight ?? <LinkExternalIcon />;
+    }
 
     const childrenWithIcons = (
       <>
@@ -35,18 +49,36 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       color === "yellow" && yellowCss
     );
 
-    return !props.disabled && link ? (
-      <Link href={link}>
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/anchor-has-content */}
-        <a {...(props as JSX.IntrinsicElements["a"])} ref={ref as any}>
+    if (!link || props.disabled) {
+      return (
+        <button {...props} type={props.type || "button"} ref={ref as any}>
+          {childrenWithIcons}
+        </button>
+      );
+    }
+
+    if (isExternalLink || openNewTab) {
+      return (
+        <a
+          {...(props as JSX.IntrinsicElements["a"])}
+          href={link}
+          target={openNewTab ? "_blank" : undefined}
+          rel={openNewTab ? "noreferrer noopener" : undefined}
+          ref={ref as any}
+        >
           {childrenWithIcons}
         </a>
-      </Link>
-    ) : (
-      <button {...props} type={props.type || "button"} ref={ref as any}>
-        {childrenWithIcons}
-      </button>
-    );
+      );
+    } else {
+      return (
+        <Link href={link}>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/anchor-has-content */}
+          <a {...(props as JSX.IntrinsicElements["a"])} ref={ref as any}>
+            {childrenWithIcons}
+          </a>
+        </Link>
+      );
+    }
   }
 );
 
