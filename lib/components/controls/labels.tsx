@@ -1,4 +1,5 @@
 import { spacing } from "@/design";
+import type { Css } from "@/helpers/frontend";
 import { styled } from "linaria/react";
 
 export const ControlLabel = styled.label`
@@ -6,7 +7,7 @@ export const ControlLabel = styled.label`
 `;
 
 interface AlignProp {
-  align?: React.CSSProperties["alignItems"];
+  align?: Css["alignItems"];
 }
 
 export const LabelsLeft = styled.div<AlignProp>`
