@@ -30,7 +30,7 @@ export const M = ({
   prespace = true,
   postspace = false,
   color,
-}: PropTypes) => {
+}: MPropTypes) => {
   prespace = prespace && !display;
   postspace = postspace && !display;
 
