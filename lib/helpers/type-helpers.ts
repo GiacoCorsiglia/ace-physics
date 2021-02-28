@@ -7,7 +7,9 @@ export type Writeable<T> = T extends readonly (infer V)[]
 export const castWriteable = <T>(o: T): Writeable<T> => o as Writeable<T>;
 
 export type Path<O> = readonly [] | Path_<O>;
-type Path_<O> = O extends object
+type Path_<O> = O extends Function
+  ? readonly []
+  : O extends object
   ? {
       [K in keyof O]-?:
         | readonly [K]
