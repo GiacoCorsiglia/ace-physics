@@ -1,6 +1,6 @@
-import { Html, useUniqueId } from "@/helpers/frontend";
+import { combineRefs, Html, useUniqueId } from "@/helpers/frontend";
 import { css, cx } from "linaria";
-import React, { useEffect, useRef } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import { InputControl, InputControlProps, inputCss } from "./input";
 import { ControlLabel } from "./labels";
 
@@ -9,14 +9,13 @@ export type TextInputControlProps = Omit<
   "type" | "value" | "onChange"
 >;
 
-export const TextInputControl = ({
-  value,
-  onChange,
-  ...props
-}: {
-  value: string | undefined;
-  onChange: (newValue: string) => void;
-} & TextInputControlProps) => {
+export const TextInputControl = forwardRef<
+  HTMLInputElement,
+  {
+    value: string | undefined;
+    onChange: (newValue: string) => void;
+  } & TextInputControlProps
+>(function TextInputControl({ value, onChange, ...props }, ref) {
   return (
     <InputControl
       {...props}
@@ -24,9 +23,10 @@ export const TextInputControl = ({
       value={value || ""}
       onChange={(e) => onChange(e.target.value)}
       placeholder={props.placeholder ?? "Type here"}
+      ref={ref}
     />
   );
-};
+});
 
 export type TextAreaControlProps = {
   label?: Html;
@@ -34,17 +34,16 @@ export type TextAreaControlProps = {
   maxRows?: number;
 } & Omit<JSX.IntrinsicElements["textarea"], "value" | "onChange" | "ref">;
 
-export const TextAreaControl = ({
-  value,
-  onChange,
-  label,
-  minRows = 2,
-  maxRows = 8,
-  ...props
-}: {
-  value: string | undefined;
-  onChange: (newValue: string) => void;
-} & TextAreaControlProps) => {
+export const TextBoxControl = forwardRef<
+  HTMLTextAreaElement,
+  {
+    value: string | undefined;
+    onChange: (newValue: string) => void;
+  } & TextAreaControlProps
+>(function TextAreaControl(
+  { value, onChange, label, minRows = 2, maxRows = 8, ...props },
+  forwardedRef
+) {
   const id = `textarea-${useUniqueId()}`;
 
   const stylesRef = useRef<{
@@ -101,7 +100,7 @@ export const TextAreaControl = ({
 
       <textarea
         {...props}
-        ref={textareaRef}
+        ref={combineRefs(textareaRef, forwardedRef)}
         value={value || ""}
         onChange={(e) => onChange(e.target.value)}
         id={id}
@@ -111,7 +110,7 @@ export const TextAreaControl = ({
       />
     </>
   );
-};
+});
 
 const textAreaCss = css`
   width: 100%;

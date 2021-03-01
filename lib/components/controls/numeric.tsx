@@ -1,4 +1,5 @@
 import { useSyncedState } from "@/helpers/frontend";
+import { forwardRef } from "react";
 import { InputControl, InputControlProps } from "./input";
 
 export type NumericInputControlProps = Omit<
@@ -6,16 +7,14 @@ export type NumericInputControlProps = Omit<
   "value" | "type" | "onChange"
 >;
 
-export const NumericInputControl = ({
-  type,
-  value,
-  onChange,
-  ...props
-}: {
-  type: "integer" | "decimal";
-  value: number | undefined;
-  onChange: (newValue: number | undefined) => void;
-} & NumericInputControlProps) => {
+export const NumericInputControl = forwardRef<
+  HTMLInputElement,
+  {
+    type: "integer" | "decimal";
+    value: number | undefined;
+    onChange: (newValue: number | undefined) => void;
+  } & NumericInputControlProps
+>(function NumericInputControl({ type, value, onChange, ...props }, ref) {
   const implementation = type === "integer" ? integer : decimal;
 
   const [raw, setRaw] = useSyncedState(
@@ -29,6 +28,7 @@ export const NumericInputControl = ({
   return (
     <InputControl
       {...props}
+      ref={ref}
       placeholder={
         props.placeholder !== undefined ? props.placeholder : "Number"
       }
@@ -60,7 +60,7 @@ export const NumericInputControl = ({
       }}
     />
   );
-};
+});
 
 // Implementations.
 
