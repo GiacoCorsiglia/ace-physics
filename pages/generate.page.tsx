@@ -79,7 +79,7 @@ export default function Generate() {
               <DropdownControl
                 label="Institution:"
                 choices={institutions}
-                selected={institution}
+                value={institution}
                 onChange={setInstitution}
                 disabled={status !== "initial"}
               />
@@ -87,7 +87,7 @@ export default function Generate() {
               <DropdownControl
                 label="Course:"
                 choices={courses}
-                selected={course}
+                value={course}
                 onChange={setCourse}
                 disabled={status !== "initial"}
               />

@@ -29,7 +29,7 @@ export interface DropdownControlProps {
 
 export const DropdownControl = <C,>({
   choices,
-  selected,
+  value,
   onChange,
   label,
   placeholder,
@@ -37,7 +37,7 @@ export const DropdownControl = <C,>({
   className,
 }: {
   choices: ChoicesConfigUnion<C>;
-  selected: C | undefined;
+  value: C | undefined;
   onChange: (value: C | undefined) => void;
 } & DropdownControlProps) => {
   validateChoices(choices);
@@ -49,7 +49,7 @@ export const DropdownControl = <C,>({
 
   disabled = useDisabled(disabled);
 
-  const selectedChoice = choices.find(([id]) => id === selected);
+  const selectedChoice = choices.find(([id]) => id === value);
 
   const ds = useSelect({
     id: `dropdown-${uniqueId}`,
@@ -172,7 +172,7 @@ export const DropdownControl = <C,>({
                 className: cx(
                   menuItemCss,
                   index === ds.highlightedIndex && menuItemHighlightedCss,
-                  choiceId === selected && menuItemSelectedCss
+                  choiceId === value && menuItemSelectedCss
                 ),
                 disabled,
               });
