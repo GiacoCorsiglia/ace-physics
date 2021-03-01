@@ -15,7 +15,7 @@ const blockLevelElements = new Set([
   "p",
 ]);
 
-export function Prose(props: JSX.IntrinsicElements["p"]) {
+export const Prose = (props: JSX.IntrinsicElements["p"]) => {
   // If there is no block level element in the children, wrap them in <p>.
   // Otherwise, just wrap everything in a <div>.  (The prop types for "p" and
   // "div" are identical.)
@@ -25,10 +25,10 @@ export function Prose(props: JSX.IntrinsicElements["p"]) {
       Container = "div";
     }
   });
-  return <Container {...props} className={cx(prose, props.className)} />;
-}
+  return <Container {...props} className={cx(proseCss, props.className)} />;
+};
 
-export const prose = css`
+const proseCss = css`
   ${fonts.body}; // Set default font style.
 
   // text-align: justify;
