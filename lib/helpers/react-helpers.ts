@@ -35,6 +35,19 @@ export const isReactElement = (o: any): o is React.ReactElement =>
   (typeof o.type === "string" || typeof o.type === "function") &&
   !!o.props;
 
+export const combineRefs = <T>(...refs: React.Ref<T>[]): React.Ref<T> => (
+  node: T | null
+): void => {
+  // https://stackoverflow.com/questions/62238716/using-ref-current-in-react-forwardref
+  refs.forEach((ref) => {
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      (ref as React.MutableRefObject<T | null>).current = node;
+    }
+  });
+};
+
 export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
