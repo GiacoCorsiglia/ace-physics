@@ -9,7 +9,7 @@ import {
   M,
   Matrix,
   Prose,
-  TextAreaControl,
+  TextBoxControl,
   ToggleControl,
   Vertical,
 } from "@/components";
@@ -25,6 +25,7 @@ export default function TestPage() {
   >();
   const [decimal, setDecimal] = useState<number>();
   const [string, setString] = useState("");
+  const [other, setOther] = useState<string>();
 
   return (
     <Vertical>
@@ -42,7 +43,7 @@ export default function TestPage() {
                 ["g", "Choice G"],
               ] as const
             }
-            selected={selected2}
+            value={selected2}
             onChange={setSelected2}
           />
 
@@ -58,7 +59,7 @@ export default function TestPage() {
                 ["g", "Choice G"],
               ] as const
             }
-            selected={selected2}
+            value={selected2}
             onChange={setSelected2}
             disabled
           />
@@ -78,7 +79,7 @@ export default function TestPage() {
                   ["g", "Choice G"],
                 ] as const
               }
-              selected={selected2}
+              value={selected2}
               onChange={setSelected2}
             />
           </ControlGroup>
@@ -101,7 +102,7 @@ export default function TestPage() {
               onDeselect={() => {}}
             />
 
-            <TextAreaControl
+            <TextBoxControl
               label={<Prose>Explain your thoughts.</Prose>}
               value={string}
               onChange={setString}
@@ -140,10 +141,13 @@ export default function TestPage() {
                 ["b", "Choice B"],
               ] as const
             }
-            selected={selected}
-            onSelect={setSelected}
-            onDeselect={() => {}}
-            other={false}
+            value={selected}
+            onChange={setSelected}
+            other={{
+              value: decimal,
+              onChange: (v) => setDecimal(v),
+              inputType: "decimal",
+            }}
           />
 
           <ChooseControl
@@ -154,10 +158,13 @@ export default function TestPage() {
                 ["b", "Choice B"],
               ] as const
             }
-            selected={selected}
-            onSelect={setSelected}
-            onDeselect={() => {}}
-            other={false}
+            value={selected}
+            onChange={setSelected}
+            other={{
+              value: decimal,
+              onChange: (v) => setDecimal(v),
+              inputType: "decimal",
+            }}
             disabled
           />
 
@@ -407,7 +414,7 @@ export default function TestPage() {
                 ["g", "Choice G"],
               ] as const
             }
-            selected={selected2}
+            value={selected2}
             onChange={setSelected2}
           />
 
@@ -423,7 +430,7 @@ export default function TestPage() {
                 ["g", "Choice G"],
               ] as const
             }
-            selected={selected2}
+            value={selected2}
             onChange={setSelected2}
             disabled
           />

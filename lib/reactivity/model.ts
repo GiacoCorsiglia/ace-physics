@@ -33,7 +33,9 @@ export interface Model<F extends f.Field = f.Field> {
   readonly other: F extends
     | f.ChooseOneField<any, infer O>
     | f.ChooseAllField<any, infer O>
-    ? Model<O>
+    ? O extends f.OtherChoiceField
+      ? Model<O>
+      : undefined
     : never;
 }
 

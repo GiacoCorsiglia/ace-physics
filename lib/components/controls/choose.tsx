@@ -1,55 +1,125 @@
 import { borderRadius, colors, spacing } from "@/design";
-import { Html, useUniqueId } from "@/helpers/frontend";
+import { Html, useSyncedState, useUniqueId } from "@/helpers/frontend";
+import { css } from "linaria";
 import { styled } from "linaria/lib/react";
 import { useRef } from "react";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
 import { ControlLabel } from "./labels";
+import { NumericInputControl } from "./numeric";
+import { TextBoxControl, TextInputControl } from "./text";
 
-const styles: any = {};
+// NOTE: React doesn't seem to fire onChange for radio buttons when they switch
+// from true->false.  The code below tries to handle that case anyway, but
+// doesn't rely on it either.
 
 export interface ChooseControlProps {
   label?: Html;
   disabled?: boolean;
 }
 
-export const ChooseControl = <C, M extends Boolean>({
+type Value<C, M extends boolean> =
+  | (M extends true ? readonly C[] : C)
+  | undefined;
+
+type ChangeHandler<C, M extends boolean> = (
+  dispatch: (oldValue: Value<C, M>) => Value<C, M>
+) => void;
+
+export const ChooseControl = <
+  C,
+  M extends boolean,
+  O extends string | number | undefined = undefined
+>({
   multi,
   choices,
-  selected,
-  onSelect,
-  onDeselect,
+  value,
+  onChange,
   other,
   label,
   disabled = false,
 }: {
   multi: M;
   choices: ChoicesConfigUnion<C>;
-  selected: (M extends true ? readonly C[] : C) | undefined;
-  onSelect: (value: C) => void;
-  onDeselect: (value: C) => void;
-  other:
-    | false
-    | {
-        isSelected: boolean;
-        update: (inputValue: string | undefined) => void;
-        inputValue: string;
-        setInputValue: (o: string) => void;
-      };
+  value: Value<C, M>;
+  onChange: ChangeHandler<C, M>;
+  other?: {
+    /** "Other" is "selected" if and only if it is not undefined */
+    value: O | undefined;
+    /** Will pass `undefined` whenever "other" is deselected. */
+    onChange: (otherValue: O | undefined) => void;
+    inputType?: string extends O
+      ? "text-line" | "text-box"
+      : number extends O
+      ? "integer" | "decimal"
+      : never;
+  };
 } & ChooseControlProps) => {
   validateChoices(choices);
 
   const chooseId = `choose-${useUniqueId()}`;
   const labelId = `${chooseId}_legend`;
 
-  const otherInputRef = useRef<HTMLInputElement>(null);
+  const [otherInputValue, setOtherInputValue] = useSyncedState(
+    other?.value,
+    (prop) => prop,
+    // Alway Skip the sync if it isn't selected
+    (prop) => !other || other.value === undefined || !prop
+  );
+
+  const otherInputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
   const isSelected = (choiceId: C) => {
     if (multi) {
-      return (
-        selected !== undefined && (selected as readonly C[]).includes(choiceId)
-      );
+      return value !== undefined && (value as readonly C[]).includes(choiceId);
     } else {
-      return selected === choiceId;
+      return value === choiceId;
+    }
+  };
+
+  const emitOtherChange = (isSelected: boolean, value: O | undefined) => {
+    if (!other) {
+      // Why are we here?.
+      return;
+    }
+
+    if (isSelected && !multi) {
+      // Deselect all the non-other choices when other is selected (if this
+      // isn't a multi-select).
+      onChange(() => undefined);
+    }
+
+    // Clear the external other value when de-selecting other.  The local value
+    // is still preserved.
+    other?.onChange(isSelected ? value : undefined);
+  };
+
+  const handleCheckedChange = (choiceId: C, isChecked: boolean) => {
+    if (multi) {
+      // Multi-selects are simpler because each checkbox is independent of all
+      // the others.
+      (onChange as ChangeHandler<C, true>)((oldValue) => {
+        const valueWithoutThisChoice = oldValue?.filter((v) => v !== choiceId);
+        if (isChecked) {
+          return [...(valueWithoutThisChoice || []), choiceId];
+        } else {
+          return valueWithoutThisChoice;
+        }
+      });
+    } else {
+      (onChange as ChangeHandler<C, false>)((oldValue) => {
+        if (isChecked) {
+          if (other) {
+            emitOtherChange(false, otherInputValue);
+          }
+
+          return choiceId;
+        } else if (oldValue === choiceId) {
+          // Explicitly deselect if necessary
+          return undefined;
+        } else {
+          return oldValue;
+        }
+      });
     }
   };
 
@@ -72,15 +142,14 @@ export const ChooseControl = <C, M extends Boolean>({
           >
             <ChoiceRadioBox>
               <input
-                className={styles.choiceRadio}
-                disabled={disabled}
                 type={multi ? "checkbox" : "radio"}
+                disabled={disabled}
                 value={`${chooseId}-${choiceId}`}
                 name={`${chooseId}-${choiceId}`}
                 id={`${chooseId}-${choiceId}`}
                 checked={isSelected(choiceId)}
                 onChange={(e) =>
-                  e.target.checked ? onSelect(choiceId) : onDeselect(choiceId)
+                  handleCheckedChange(choiceId, e.target.checked)
                 }
               />
             </ChoiceRadioBox>
@@ -90,67 +159,112 @@ export const ChooseControl = <C, M extends Boolean>({
         ))}
 
         {other && (
-          <div
-            data-selected={other.isSelected || undefined}
+          <Choice
+            as="div"
+            data-selected={!!other.value || undefined}
             data-disabled={disabled || undefined}
-            className={styles.choiceChoice}
           >
             <label
-              className={styles.choiceOtherLabel}
+              className={css`
+                display: flex;
+                align-items: center;
+                align-self: stretch;
+              `}
               htmlFor={`${chooseId}-other`}
             >
-              <div className={styles.choiceRadioBox}>
+              <ChoiceRadioBox>
                 <input
-                  className={styles.choiceRadio}
                   disabled={disabled}
                   type={multi ? "checkbox" : "radio"}
                   value="other"
                   name={chooseId}
                   id={`${chooseId}-other`}
-                  checked={other.isSelected}
+                  checked={!!other.value}
                   onChange={(e) => {
+                    emitOtherChange(e.target.checked, otherInputValue);
                     if (e.target.checked) {
-                      // The ref won't be null!
-                      const input = otherInputRef.current as HTMLInputElement;
-                      other.update(input.value);
-                      input.focus();
-                    } else {
-                      other.update(undefined);
+                      otherInputRef.current?.focus();
                     }
                   }}
                 />
-              </div>
+              </ChoiceRadioBox>
 
-              <div className={styles.choiceOtherLabelText}>Other:</div>
+              <div
+                className={css`
+                  padding-top: ${spacing.$50};
+                  padding-bottom: ${spacing.$50};
+                  padding-left: ${spacing.$75};
+                  padding-right: ${spacing.$25};
+                `}
+              >
+                Other:
+              </div>
             </label>
 
-            <input
-              type="text"
-              className={styles.choiceOtherInput}
-              disabled={disabled}
-              placeholder="Click to input another answer"
-              ref={otherInputRef}
-              value={other.inputValue}
-              onChange={(e) => {
-                const value = e.target.value;
-                other.setInputValue(value);
-                other.update(value || undefined);
-              }}
-              onFocus={(e) => {
-                // Focusing will reselect other (if the field is not empty), but it
-                // will never deselect.
-                if (e.target.value) {
-                  other.update(e.target.value);
+            {(() => {
+              const inputProps: JSX.IntrinsicElements["input"] = {
+                disabled,
+                placeholder: "Click to input another answer",
+                onFocus(e) {
+                  // Focusing will reselect other (if the field is not empty), but it
+                  // will never deselect.
+                  if (e.target.value) {
+                    emitOtherChange(true, otherInputValue);
+                  }
+                },
+                onBlur(e) {
+                  // Blurring will clear the other selection if the input is
+                  // empty (including if it's just whitespace).
+                  if (!e.target.value.trim()) {
+                    emitOtherChange(false, undefined);
+                  }
+                },
+              };
+
+              const handleOtherInputChange = (
+                newValue: string | number | undefined
+              ) => {
+                setOtherInputValue(newValue as O);
+                if (typeof newValue === "string" && !newValue) {
+                  newValue = undefined;
                 }
-              }}
-              onBlur={(e) => {
-                // Blurring will clear the other selection if the input is empty.
-                if (!e.target.value.trim()) {
-                  other.update(undefined);
-                }
-              }}
-            />
-          </div>
+                emitOtherChange(newValue !== undefined, newValue as O);
+              };
+
+              switch (other.inputType) {
+                case "integer":
+                case "decimal":
+                  return (
+                    <NumericInputControl
+                      {...inputProps}
+                      type={other.inputType as "integer" | "decimal"}
+                      ref={otherInputRef as any}
+                      value={otherInputValue as number}
+                      onChange={handleOtherInputChange}
+                    />
+                  );
+                case "text-box":
+                  return (
+                    <TextBoxControl
+                      {...(inputProps as JSX.IntrinsicElements["textarea"])}
+                      ref={otherInputRef as any}
+                      value={otherInputValue as string}
+                      onChange={handleOtherInputChange}
+                    />
+                  );
+                case "text-line":
+                case undefined:
+                  return (
+                    <TextInputControl
+                      {...inputProps}
+                      ref={otherInputRef as any}
+                      value={otherInputValue as string}
+                      onChange={handleOtherInputChange}
+                    />
+                  );
+              }
+            })()}
+          </Choice>
         )}
       </div>
     </>

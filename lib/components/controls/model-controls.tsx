@@ -7,16 +7,16 @@ import type {
   ChooseAllField,
   ChooseOneField,
   NumberField,
+  OtherChoiceField,
   StringField,
 } from "@/schema/fields";
-import { useState } from "react";
 import { ChoiceAnswer, ChoicesConfig } from "./choice-helpers";
 import { ChooseControl, ChooseControlProps } from "./choose";
 import { DropdownControl, DropdownControlProps } from "./dropdown";
 import { NumericInputControl, NumericInputControlProps } from "./numeric";
 import {
-  TextAreaControl,
   TextAreaControlProps,
+  TextBoxControl,
   TextInputControl,
   TextInputControlProps,
 } from "./text";
@@ -33,7 +33,7 @@ export const TextBox = ({
   model: Model<StringField>;
 } & TextAreaControlProps) => {
   const [value, setValue] = useModel(model);
-  return <TextAreaControl {...props} value={value} onChange={setValue} />;
+  return <TextBoxControl {...props} value={value} onChange={setValue} />;
 };
 
 export const TextLine = ({
@@ -88,60 +88,62 @@ export const Decimal = ({
 // Choose.
 ////////////////////////////////////////////////////////////////////////////////
 
-export const ChooseOne = <Cs extends Choices>({
+type ChooseValueWithOther =
+  | undefined
+  | {
+      other?: string | number | undefined;
+    };
+
+export const ChooseOne = <
+  Cs extends Choices,
+  O extends OtherChoiceField | undefined
+>({
   model,
   choices,
   answer,
   explanation,
   ...props
 }: {
-  model: Model<ChooseOneField<Cs>>;
+  model: Model<ChooseOneField<Cs, O>>;
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>;
   explanation?: Html;
 } & ChooseControlProps) => {
   const [value, setValue] = useModel(model);
-  const [otherInput, setOtherInput] = useState(value?.other || "");
-
-  // TODO:
-  const allowOther = false;
-
   return (
     <>
       <ChooseControl
         {...props}
         multi={false}
         choices={choices}
-        selected={value?.selected}
-        onSelect={(selected) =>
-          setValue((oldValue) => ({
-            selected,
-            other: allowOther ? oldValue?.other : undefined,
-          }))
-        }
-        onDeselect={(deselected) =>
-          setValue((oldValue) =>
-            oldValue?.other === deselected
+        value={value?.selected}
+        onChange={(dispatch) => {
+          setValue((oldValue) => {
+            const selected = dispatch(oldValue?.selected);
+            return model.other
               ? {
-                  selected: undefined,
-                  other: allowOther ? oldValue?.other : undefined,
+                  selected,
+                  // This is a Choose One field, so we need to deselect "other"
+                  // if one of the provided choices was chosen.
+                  other:
+                    selected !== undefined
+                      ? undefined
+                      : (oldValue as ChooseValueWithOther)?.other,
                 }
-              : oldValue
-          )
-        }
+              : { selected };
+          });
+        }}
         other={
-          allowOther && {
-            isSelected:
-              value?.selected === undefined && value?.other !== undefined,
-            inputValue: otherInput,
-            setInputValue: setOtherInput,
-            update: (inputValue) =>
+          model.other && {
+            value: (value as ChooseValueWithOther)?.other,
+            onChange: (otherValue) =>
               setValue((oldValue) => ({
+                // This is a Choose One field, so selecting "other" must
+                // deselect on the provided choices, but otherwise we shouldn't
+                // clear selected if "other" was deselected.
                 selected:
-                  // Don't clear selected if the input is empty or other is
-                  // deselected.
-                  inputValue !== undefined ? undefined : oldValue?.selected,
-                other: inputValue,
+                  otherValue !== undefined ? undefined : oldValue?.selected,
+                other: otherValue,
               })),
           }
         }
@@ -150,7 +152,7 @@ export const ChooseOne = <Cs extends Choices>({
       <ChoiceAnswer
         multi={false}
         selected={value?.selected}
-        other={value?.other}
+        other={(value as ChooseValueWithOther)?.other}
         choices={choices}
         answer={answer}
         explanation={explanation}
@@ -159,56 +161,51 @@ export const ChooseOne = <Cs extends Choices>({
   );
 };
 
-export const ChooseAll = <Cs extends Choices>({
+export const ChooseAll = <
+  Cs extends Choices,
+  O extends OtherChoiceField | undefined
+>({
   model,
   choices,
   answer,
   explanation,
   ...props
 }: {
-  model: Model<ChooseAllField<Cs>>;
+  model: Model<ChooseAllField<Cs, O>>;
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>[];
   explanation?: Html;
 } & ChooseControlProps) => {
   const [value, setValue] = useModel(model);
-  const [otherInput, setOtherInput] = useState(value?.other || "");
-
-  // TODO:
-  const allowOther = false;
-
   return (
     <>
       <ChooseControl
         {...props}
         multi={true}
         choices={choices}
-        selected={value?.selected}
-        onSelect={(selected) =>
-          setValue((oldValue) => ({
-            selected: [...(value?.selected || []), selected],
-            other: allowOther ? oldValue?.other : undefined,
-          }))
-        }
-        onDeselect={(deselected) =>
-          setValue((oldValue) => ({
-            selected: oldValue?.selected?.filter((v) => v !== deselected),
-            other: allowOther ? oldValue?.other : undefined,
-          }))
-        }
+        value={value?.selected}
+        onChange={(dispatch) => {
+          setValue((oldValue) => {
+            const selected = dispatch(oldValue?.selected);
+            return model.other
+              ? {
+                  selected,
+                  // This is a Choose All field, so (de)selecting choices has no
+                  // effect on "other".
+                  other: (oldValue as ChooseValueWithOther)?.other,
+                }
+              : { selected };
+          });
+        }}
         other={
-          allowOther && {
-            isSelected:
-              value?.selected === undefined && value?.other !== undefined,
-            inputValue: otherInput,
-            setInputValue: setOtherInput,
-            update: (inputValue) =>
+          model.other && {
+            value: (value as ChooseValueWithOther)?.other,
+            onChange: (otherValue) =>
               setValue((oldValue) => ({
-                selected:
-                  // Don't clear selected if the input is empty or other is
-                  // deselected.
-                  inputValue !== undefined ? undefined : oldValue?.selected,
-                other: inputValue,
+                // This is a Choose All field, so (de)selecting "other" has no
+                // effect on the provided choices.
+                selected: oldValue?.selected,
+                other: otherValue,
               })),
           }
         }
@@ -217,7 +214,7 @@ export const ChooseAll = <Cs extends Choices>({
       <ChoiceAnswer
         multi={true}
         selected={value?.selected}
-        other={value?.other}
+        other={(value as ChooseValueWithOther)?.other}
         choices={choices}
         answer={answer}
         explanation={explanation}
@@ -237,7 +234,7 @@ export const Toggle = <Cs extends Choices>({
   explanation,
   ...props
 }: {
-  model: Model<ChooseOneField<Cs, any>>;
+  model: Model<ChooseOneField<Cs, undefined>>;
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>;
   explanation?: Html;
@@ -249,20 +246,10 @@ export const Toggle = <Cs extends Choices>({
         {...props}
         selected={value?.selected}
         choices={choices}
-        onSelect={(newValue) =>
-          setValue({
-            selected: newValue,
-            other: value?.other,
-          })
-        }
+        onSelect={(newValue) => setValue({ selected: newValue })}
         onDeselect={(newValue) =>
           setValue((oldValue) =>
-            oldValue?.selected === newValue
-              ? {
-                  selected: undefined,
-                  other: oldValue?.other,
-                }
-              : oldValue
+            oldValue?.selected === newValue ? { selected: undefined } : oldValue
           )
         }
       />
@@ -270,7 +257,7 @@ export const Toggle = <Cs extends Choices>({
       <ChoiceAnswer
         multi={false}
         selected={value?.selected}
-        other={value?.other}
+        other={undefined}
         choices={choices}
         answer={answer}
         explanation={explanation}
@@ -318,7 +305,7 @@ export const Dropdown = <Cs extends Choices>({
   explanation,
   ...props
 }: {
-  model: Model<ChooseOneField<Cs, any>>;
+  model: Model<ChooseOneField<Cs, undefined>>;
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>;
   explanation?: Html;
@@ -328,20 +315,15 @@ export const Dropdown = <Cs extends Choices>({
     <>
       <DropdownControl
         {...props}
-        selected={value?.selected}
+        value={value?.selected}
         choices={choices}
-        onChange={(newValue) =>
-          setValue({
-            selected: newValue,
-            other: value?.other,
-          })
-        }
+        onChange={(newValue) => setValue({ selected: newValue })}
       />
 
       <ChoiceAnswer
         multi={false}
         selected={value?.selected}
-        other={value?.other}
+        other={undefined}
         choices={choices}
         answer={answer}
         explanation={explanation}

@@ -1,7 +1,13 @@
 import type { Infer as InferType } from "@/schema/types";
 import { ArrayField } from "./array";
 import { CasesField } from "./cases";
-import { Choice, Choices, ChooseAllField, ChooseOneField } from "./choose";
+import {
+  Choice,
+  Choices,
+  ChooseAllField,
+  ChooseOneField,
+  OtherChoiceField,
+} from "./choose";
 import { ObjectField, Properties } from "./object";
 import { BooleanField, NumberField, StringField } from "./primitives";
 import { TupleField } from "./tuple";
@@ -18,8 +24,8 @@ export type Field =
   | ArrayField<any>
   | BooleanField
   | CasesField<readonly [string, ...string[]]>
-  | ChooseAllField<Choices, StringField>
-  | ChooseOneField<Choices, StringField>
+  | ChooseAllField<Choices, OtherChoiceField | undefined>
+  | ChooseOneField<Choices, OtherChoiceField | undefined>
   | NumberField
   | ObjectField<any>
   | StringField
@@ -38,6 +44,7 @@ export type {
   Choice,
   Choices,
   ChooseAllField,
+  OtherChoiceField,
   ChooseOneField,
   NumberField,
   ObjectField,
