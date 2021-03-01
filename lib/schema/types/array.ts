@@ -13,7 +13,7 @@ import {
  * matching the Type given in the `elements` property.
  */
 export interface ArrayType<E extends Type> {
-  readonly _: Infer<E>[];
+  readonly _: readonly Infer<E>[];
   readonly kind: "array";
   /**
    * The allowed Type of the array's elements.
