@@ -22,7 +22,7 @@ type Value<C, M extends boolean> =
   | undefined;
 
 type ChangeHandler<C, M extends boolean> = (
-  dispatch: (oldValue: Value<C, M>) => Value<C, M>
+  reducer: (oldValue: Value<C, M>) => Value<C, M>
 ) => void;
 
 export const ChooseControl = <

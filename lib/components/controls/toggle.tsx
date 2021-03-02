@@ -11,18 +11,16 @@ export interface ToggleControlProps {
 }
 
 export const ToggleControl = <C,>({
-  selected,
   choices,
-  onSelect,
-  onDeselect,
+  value,
+  onChange,
   label,
   layout = "horizontal",
   disabled = false,
 }: {
-  selected: C | undefined;
   choices: ChoicesConfigUnion<C>;
-  onSelect: (choice: C) => void;
-  onDeselect: (choice: C) => void;
+  value: C | undefined;
+  onChange: (reducer: (oldValue: C | undefined) => C | undefined) => void;
 } & ToggleControlProps) => {
   validateChoices(choices);
 
@@ -58,7 +56,7 @@ export const ToggleControl = <C,>({
         <label
           key={choiceId + ""}
           htmlFor={`${toggleId}-${choiceId}`}
-          data-selected={selected === choiceId || undefined}
+          data-selected={value === choiceId || undefined}
           data-disabled={disabled || undefined}
           className={cx(
             css`
@@ -171,9 +169,17 @@ export const ToggleControl = <C,>({
             value={choiceId + ""}
             name={choiceId + ""}
             id={`${toggleId}-${choiceId}`}
-            checked={selected === choiceId}
+            checked={value === choiceId}
             onChange={(e) =>
-              e.target.checked ? onSelect(choiceId) : onDeselect(choiceId)
+              onChange((oldValue) => {
+                if (e.target.checked) {
+                  return choiceId;
+                } else if (oldValue === choiceId) {
+                  return undefined;
+                } else {
+                  return oldValue;
+                }
+              })
             }
           />
           {choiceLabel}

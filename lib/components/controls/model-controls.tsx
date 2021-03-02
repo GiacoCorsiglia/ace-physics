@@ -117,9 +117,9 @@ export const ChooseOne = <
         multi={false}
         choices={choices}
         value={value?.selected}
-        onChange={(dispatch) => {
+        onChange={(reducer) => {
           setValue((oldValue) => {
-            const selected = dispatch(oldValue?.selected);
+            const selected = reducer(oldValue?.selected);
             return model.other
               ? {
                   selected,
@@ -184,9 +184,9 @@ export const ChooseAll = <
         multi={true}
         choices={choices}
         value={value?.selected}
-        onChange={(dispatch) => {
+        onChange={(reducer) => {
           setValue((oldValue) => {
-            const selected = dispatch(oldValue?.selected);
+            const selected = reducer(oldValue?.selected);
             return model.other
               ? {
                   selected,
@@ -244,13 +244,10 @@ export const Toggle = <Cs extends Choices>({
     <>
       <ToggleControl
         {...props}
-        selected={value?.selected}
+        value={value?.selected}
         choices={choices}
-        onSelect={(newValue) => setValue({ selected: newValue })}
-        onDeselect={(newValue) =>
-          setValue((oldValue) =>
-            oldValue?.selected === newValue ? { selected: undefined } : oldValue
-          )
+        onChange={(reducer) =>
+          setValue((oldValue) => ({ selected: reducer(oldValue?.selected) }))
         }
       />
 
@@ -280,16 +277,13 @@ export const BooleanToggle = ({
   return (
     <ToggleControl
       {...props}
-      selected={value}
+      value={value}
       choices={[
         // I think True/False or Yes/No is better than the reversed order.
         [true, yes],
         [false, no],
       ]}
-      onSelect={setValue}
-      onDeselect={(newValue) =>
-        setValue((oldValue) => (oldValue === newValue ? undefined : oldValue))
-      }
+      onChange={setValue}
     />
   );
 };

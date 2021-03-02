@@ -97,9 +97,8 @@ export default function TestPage() {
                   ["b", "Choice B"],
                 ] as const
               }
-              selected={selected}
-              onSelect={setSelected}
-              onDeselect={() => {}}
+              value={selected}
+              onChange={setSelected}
             />
 
             <TextBoxControl
