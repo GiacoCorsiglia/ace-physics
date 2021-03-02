@@ -9,6 +9,20 @@ describe("Prose", () => {
     expect(screen.queryByText("This is a test")).toBeInTheDocument();
   });
 
+  it("passes props to container", () => {
+    const { container } = render(
+      <Prose className="test-class" id="test-id">
+        This is a test
+      </Prose>
+    );
+    const element = container.firstElementChild!;
+    expect(element).toHaveAttribute("id", "test-id");
+    expect(element).toHaveAttribute(
+      "class",
+      expect.stringContaining("test-class")
+    );
+  });
+
   it("Wraps children with <p> if children is text", () => {
     const { container } = render(<Prose>This is a test</Prose>);
     expect(container.childElementCount).toBe(1);
