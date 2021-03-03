@@ -58,7 +58,9 @@ fs.readdirSync(tutorialsDir)
 
     // eslint-disable-next-line jest/valid-title
     describe(t.name, () => {
-      const setup: TutorialConfig = importDefault("setup.ts");
+      const setup: TutorialConfig = importDefault(
+        t.files.has("setup.tsx") ? "setup.tsx" : "setup.ts"
+      );
       const schema: TutorialSchema = importDefault("schema.ts");
       const pages = new Map(
         [...t.pages].map((p) => [p.replace(pageSuffix, ""), importDefault(p)])
