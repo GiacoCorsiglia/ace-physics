@@ -8,7 +8,7 @@ import setup from "./setup";
 export default page(setup, ({ section, sequence, hint }) => ({
   name: "moody-mice",
   label: "Moody Mice",
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "moodIntro",

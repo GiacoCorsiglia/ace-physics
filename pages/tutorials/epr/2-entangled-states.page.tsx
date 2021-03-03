@@ -9,7 +9,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "entangledStates",
   label: "Entangled States",
-  answersChecked: "all",
+  answers: "provided",
   sections: [
     section({
       name: "entangledStatesIntro",

@@ -6,9 +6,9 @@ import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
-  name: "marbles",
+  name: "classicalMarbleScenario",
   label: "Classical Marble Scenario",
-  answersChecked: "all",
+  answers: "provided",
   sections: [
     section({
       name: "marblesIntro",

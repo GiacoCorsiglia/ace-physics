@@ -5,7 +5,7 @@ const PretestAnswer = f.chooseOne(["+hbar/2", "-hbar/2", "either", "not sure"]);
 
 export default tutorialSchema({
   pages: [
-    "marbles",
+    "classicalMarbleScenario",
     "entangledStates",
     "investigatingCorrelation",
     "quantumCryptography",

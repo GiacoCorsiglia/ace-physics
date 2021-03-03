@@ -1,26 +1,21 @@
 import * as globalParams from "@/global-params";
-import { Field, isSet } from "@/state";
-import { Children, classes, OptionalChildren, scrollTo } from "@/util";
+import { Field } from "@/state";
+import { Children, classes, OptionalChildren } from "@/util";
 import {
   ArrowDownIcon,
   ArrowRightIcon,
-  ChecklistIcon,
   EyeClosedIcon,
   EyeIcon,
 } from "@primer/octicons-react";
 import * as s from "common/schema";
-import { AnswersSchema } from "common/tutorials";
 import { cx } from "linaria";
-import {
-  Children as ReactChildren,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-} from "react";
-import { Button, TextArea } from "../inputs";
+import { Children as ReactChildren, useEffect, useRef } from "react";
+import { Button } from "../inputs";
 import { Content } from "./layout";
 import styles from "./structure.module.scss";
+
+// To keep imports working for now.
+export { Answer } from "./answers";
 
 function containerFor(children: React.ReactNode) {
   // This could be accomplished with map but the types got weird and this avoids
@@ -261,124 +256,5 @@ function RevealedSection({
     >
       {children}
     </section>
-  );
-}
-
-const AnswerVisibilityContext = createContext(false);
-AnswerVisibilityContext.displayName = "AnswerVisibilityContext";
-
-/** @deprecated */
-export function AnswerVisibility({
-  field,
-  children,
-}: { field: Field<AnswersSchema> } & Children) {
-  const visible = field.value?.visibility === true;
-
-  return (
-    <AnswerVisibilityContext.Provider value={visible}>
-      {visible && (
-        <Content>
-          <Section first>
-            <Answer>
-              <Prose>
-                Scroll down to see our answers to the questions below. They’ll
-                be in boxes like this one.
-              </Prose>
-            </Answer>
-          </Section>
-        </Content>
-      )}
-
-      {children}
-    </AnswerVisibilityContext.Provider>
-  );
-}
-
-/** @deprecated */
-export function Answer({
-  correct,
-  children,
-  ...props
-}: { correct?: boolean | "undetermined" } & JSX.IntrinsicElements["div"]) {
-  if (!useContext(AnswerVisibilityContext)) {
-    return null;
-  }
-
-  props.className = classes(
-    props.className,
-    styles.answer,
-    [styles.undetermined, correct === undefined || correct === "undetermined"],
-    [styles.correct, correct === true],
-    [styles.incorrect, correct === false]
-  );
-
-  return (
-    <div {...props}>
-      <span className={styles.answerLabel}>Our Answer:</span>
-      {children}
-    </div>
-  );
-}
-
-/** @deprecated */
-export function RevealAnswersSection({
-  commits,
-  field,
-}: {
-  commits: Commit | Commit[];
-  field: Field<AnswersSchema>;
-}) {
-  const visible = field.value?.visibility === true;
-
-  return (
-    <Section commits={commits} noLabel>
-      {!visible ? (
-        <>
-          <Prose className="text-center">
-            Alright! You’re done with this page. There’s only one thing left to
-            do…
-          </Prose>
-
-          <div className="text-center margin-top">
-            <Button
-              onClick={() => {
-                field.properties.visibility.set(true);
-                scrollTo(0, 600);
-              }}
-              kind="tertiary"
-              iconFirst
-            >
-              <ChecklistIcon />
-              Show me the answers
-            </Button>
-          </div>
-
-          <Prose className="text-center">
-            Clicking this button will scroll you to the top of the page.
-          </Prose>
-        </>
-      ) : (
-        <>
-          <TextArea
-            // TODO:
-            // @ts-ignore
-            model={field.properties.reflection}
-            minRows={4}
-            label={
-              <Prose>
-                Now that you’ve seen our answers, briefly comment on where they
-                agree or disagree with yours, and why. Summarize what you feel
-                like you’ve learned, and/or what you’re feeling confused about.
-              </Prose>
-            }
-          />
-
-          <Continue
-            commit={field.properties.commit}
-            allowed={isSet(field.properties.reflection)}
-          />
-        </>
-      )}
-    </Section>
   );
 }

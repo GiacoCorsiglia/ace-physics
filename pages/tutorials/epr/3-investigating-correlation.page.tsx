@@ -7,7 +7,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "investigatingCorrelation",
   label: "Investigating Correlation",
-  answersChecked: "none",
+  answers: "provided",
   sections: [
     section({
       name: "investigatingCorrelationIntro",

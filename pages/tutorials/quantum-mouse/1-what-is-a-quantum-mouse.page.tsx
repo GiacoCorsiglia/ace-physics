@@ -17,7 +17,7 @@ export default page(setup, ({ section, hint }) => ({
       </>
     ),
   },
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "whatIsAQuantumMouseIntro",

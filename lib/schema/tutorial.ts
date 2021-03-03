@@ -56,8 +56,15 @@ export const tutorialSchema = <
 };
 
 const PageStatus = f.object({
-  status: f.cases("revealed", "completed"),
-  answersRevealed: f.boolean(),
+  status: f.cases(
+    "revealed",
+    "answersPrompted",
+    "answersRevealed",
+    "completed"
+  ),
+  answers: f.object({
+    reflection: f.string(),
+  }),
 });
 
 const SectionStatus = f.object({

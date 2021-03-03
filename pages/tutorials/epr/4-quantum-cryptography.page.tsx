@@ -8,7 +8,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "quantumCryptography",
   label: "Quantum Cryptography",
-  answersChecked: "none",
+  answers: "provided",
   sections: [
     section({
       name: "quantumCryptographyIntro",

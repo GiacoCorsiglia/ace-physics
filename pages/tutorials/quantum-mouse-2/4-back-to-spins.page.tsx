@@ -10,7 +10,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "backToSpins",
   label: "Bonus: Back to Spins — If You Have Time",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "backToSpinsIntro",

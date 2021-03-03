@@ -144,7 +144,7 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
    * Whether any answers on the page where checked.  We assume none were checked
    * by default.
    */
-  readonly answersChecked?: "none" | "some" | "all";
+  readonly answers?: "none" | "checked-some" | "checked-all" | "provided";
   /**
    * The sections (or nested sequences of sections) in the page.
    */

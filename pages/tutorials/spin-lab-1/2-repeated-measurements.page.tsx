@@ -10,7 +10,7 @@ import { HowToUseTheSim } from "./shared";
 export default page(setup, ({ section, oneOf, hint }) => ({
   name: "repeatedMeasurements",
   label: "Repeated Measurements",
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "repeatedMeasurementsIntro",

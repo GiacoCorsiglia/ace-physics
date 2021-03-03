@@ -11,8 +11,8 @@ import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "eavesdroppingDetection",
-  label: "TODO",
-  answersChecked: "none",
+  label: "Eavesdropping Detection",
+  answers: "provided",
   sections: [
     section({
       name: "eavesdroppingDetectionIntro",

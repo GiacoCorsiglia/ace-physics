@@ -12,7 +12,7 @@ import setup, { Responses } from "./setup";
 export default page(setup, ({ section, sequence, oneOf, hint }) => ({
   name: "definingBasis",
   label: "Defining Basis",
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "definingBasisIntro",

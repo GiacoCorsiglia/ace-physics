@@ -1,16 +1,24 @@
 import { Info, Prose } from "@/design";
+import { Answer, AnswerVisibility } from "@/design/answers";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
+import * as globalParams from "@/global-params";
 import { htmlTitle } from "@/helpers";
-import { Button } from "@/inputs";
+import { useScrollIntoView } from "@/helpers/frontend";
+import { Button, TextArea } from "@/inputs";
 import * as urls from "@/urls";
-import { ArrowRightIcon, CommentDiscussionIcon } from "@primer/octicons-react";
+import {
+  ArrowDownIcon,
+  ArrowRightIcon,
+  ChecklistIcon,
+  CommentDiscussionIcon,
+} from "@primer/octicons-react";
 import { css, cx } from "linaria";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { PageConfig, TutorialConfig } from "../config";
-import { useStore, useValue } from "../state-tree";
+import { useRootModel, useValue } from "../state-tree";
 import SectionTree from "./SectionTree";
 
 export default function BodyPage({
@@ -20,22 +28,25 @@ export default function BodyPage({
   config: PageConfig;
   tutorialConfig: TutorialConfig;
 }) {
-  const store = useStore();
+  const [status, setStatus] = useValue(["pages", config.name, "status"]);
 
   // Mark this page as revealed if it wasn't already.
   useEffect(() => {
-    store.transaction((set) => {
-      set(["pages", config.name, "status"], (oldStatus) =>
-        !oldStatus ? "revealed" : oldStatus
-      );
-    });
-  }, [store, config]);
+    setStatus((oldStatus) => (!oldStatus ? "revealed" : oldStatus));
+  }, [setStatus]);
 
   const complete = useCallback(() => {
-    store.transaction((set) => {
-      set(["pages", config.name, "status"], "completed");
+    setStatus((oldStatus) => {
+      if (
+        config.answers === "provided" &&
+        (!oldStatus || oldStatus === "revealed")
+      ) {
+        return "answersPrompted";
+      }
+
+      return "completed";
     });
-  }, [store, config]);
+  }, [config, setStatus]);
 
   const router = useRouter();
   const currentPath = router.pathname.split("/");
@@ -43,8 +54,12 @@ export default function BodyPage({
   const index = tutorialConfig.pages.findIndex((p) => p.link === currentLink);
   const isFirstPage = index === 0;
 
+  const answersRevealed =
+    config.answers === "provided" &&
+    (status === "answersRevealed" || status === "completed");
+
   return (
-    <>
+    <AnswerVisibility visible={answersRevealed}>
       <Head>
         <title>
           {htmlTitle(
@@ -84,12 +99,25 @@ export default function BodyPage({
             </div>
           </Info>
         )}
+
+        {answersRevealed && (
+          <Answer>
+            <Prose>
+              Scroll down to see our answers to the questions below. They’ll be
+              in boxes like this one.
+            </Prose>
+          </Answer>
+        )}
       </Content>
 
       <SectionTree sections={config.sections} complete={complete} />
 
+      {config.answers === "provided" && (
+        <RevealAnswersSection config={config} complete={complete} />
+      )}
+
       <ContinueToNextPage config={config} tutorialConfig={tutorialConfig} />
-    </>
+    </AnswerVisibility>
   );
 }
 
@@ -103,6 +131,8 @@ function ContinueToNextPage({
   const pageName = config.name;
   const [status] = useValue(["pages", pageName, "status"]);
   const router = useRouter();
+
+  const scrollRef = useScrollIntoView();
 
   if (status !== "completed") {
     return null;
@@ -135,11 +165,12 @@ function ContinueToNextPage({
         styles.sectionAnimateIn,
         styles.noSectionLabel
       )}
+      ref={scrollRef}
     >
       <Prose>
         Nice job finishing this page!{" "}
         {(() => {
-          switch (config.answersChecked) {
+          switch (config.answers) {
             case undefined:
             case "none":
               return (
@@ -150,7 +181,7 @@ function ContinueToNextPage({
                   so you may want to check in with an instructor.
                 </>
               );
-            case "some":
+            case "checked-some":
               return (
                 <>
                   <strong className="text-blue">
@@ -159,12 +190,22 @@ function ContinueToNextPage({
                   so you may want to check in with an instructor.
                 </>
               );
-            case "all":
+            case "checked-all":
               return (
                 <>
                   We checked all your answers, but we encourage you to keep
                   thinking about these ideas, and to discuss any lingering
                   questions with your peers or instructor.
+                </>
+              );
+            case "provided":
+              return (
+                <>
+                  <strong className="text-blue">
+                    Learning doesn’t stop once you’ve seen the answers.
+                  </strong>{" "}
+                  We encourage you to keep thinking about these ideas, and to
+                  discuss any lingering questions with your peers or instructor.
                 </>
               );
           }
@@ -179,3 +220,96 @@ function ContinueToNextPage({
     </Content>
   );
 }
+
+const RevealAnswersSection = ({
+  config,
+  complete,
+}: {
+  config: PageConfig;
+  complete: () => void;
+}) => {
+  const models = useRootModel();
+  const model =
+    models.properties.pages.properties[config.name].properties.answers;
+
+  const [status, setStatus] = useValue(["pages", config.name, "status"]);
+  const visible =
+    status === "answersPrompted" ||
+    status === "answersRevealed" ||
+    status === "completed";
+
+  const scrollRef = useScrollIntoView();
+
+  if (!visible) {
+    return null;
+  }
+
+  return (
+    <Content
+      as="section"
+      className={cx(
+        styles.section,
+        !globalParams.showAllSections && styles.sectionAnimateIn
+      )}
+      ref={scrollRef}
+    >
+      {status === "answersPrompted" ? (
+        <>
+          <Prose className="text-center">
+            Alright! You’re done with this page. There’s only one thing left to
+            do…
+          </Prose>
+
+          <div className="text-center margin-top">
+            <Button
+              onClick={() => {
+                setStatus("answersRevealed");
+                window.scroll({
+                  behavior: "smooth",
+                  left: 0,
+                  top: 0,
+                });
+              }}
+              kind="tertiary"
+              iconFirst
+            >
+              <ChecklistIcon />
+              Show me the answers
+            </Button>
+          </div>
+
+          <Prose className="text-center">
+            Clicking this button will scroll you to the top of the page.
+          </Prose>
+        </>
+      ) : (
+        <>
+          <TextArea
+            model={model.properties.reflection}
+            minRows={4}
+            label={
+              <Prose>
+                Now that you’ve seen our answers, briefly comment on where they
+                agree or disagree with yours, and why. Summarize what you feel
+                like you’ve learned, and/or what you’re feeling confused about.
+              </Prose>
+            }
+          />
+
+          {status !== "completed" && (
+            <div className="text-right margin-top">
+              <Button
+                onClick={() => {
+                  complete();
+                }}
+              >
+                Move on
+                <ArrowDownIcon />
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+    </Content>
+  );
+};
