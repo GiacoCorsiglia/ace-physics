@@ -16,5 +16,5 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["SpinLab1", SpinLab1],
   ["SpinLab2", SpinLab2],
   ["SpinsAndMagneticFields", SpinsAndMagneticFields],
-  ["Epr", EPR],
+  ["EPR", EPR],
 ]);
