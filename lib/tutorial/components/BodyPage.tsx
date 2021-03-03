@@ -238,11 +238,16 @@ const RevealAnswersSection = ({
     status === "answersRevealed" ||
     status === "completed";
 
-  const scrollRef = useScrollIntoView();
+  const scrollRef = useScrollIntoView(!globalParams.showAllSections);
 
-  if (!visible) {
+  if (!visible && !globalParams.showAllSections) {
     return null;
   }
+
+  const showReflection = status === "answersRevealed" || status === "completed";
+  const showPrompt =
+    status === "answersPrompted" ||
+    (globalParams.showAllSections && !showReflection);
 
   return (
     <Content
@@ -253,7 +258,7 @@ const RevealAnswersSection = ({
       )}
       ref={scrollRef}
     >
-      {status === "answersPrompted" ? (
+      {showPrompt && (
         <>
           <Prose className="text-center">
             Alright! You’re done with this page. There’s only one thing left to
@@ -282,7 +287,9 @@ const RevealAnswersSection = ({
             Clicking this button will scroll you to the top of the page.
           </Prose>
         </>
-      ) : (
+      )}
+
+      {showReflection && (
         <>
           <TextArea
             model={model.properties.reflection}
