@@ -92,10 +92,10 @@ export default function TutorialsIndex() {
               magnetic field?
             </TutorialLink>
 
-            {/* <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
+            <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
               Investigate the uniquely <em>quantum</em> effect of entanglement,
               and apply it to cryptography.
-            </TutorialLink> */}
+            </TutorialLink>
 
             {/* <TutorialLink
               label="Probability Amplitude: From Vectors to Functions"
