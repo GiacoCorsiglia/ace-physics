@@ -76,7 +76,7 @@ export default function ChooseCore<C, M extends Boolean>({
                 disabled={disabled}
                 type={isMulti ? "checkbox" : "radio"}
                 value={choiceId + ""}
-                name={choiceId + ""}
+                name={uniqueId + ""}
                 id={`${uniqueId}-${choiceId}`}
                 checked={isSelected(choiceId)}
                 onChange={(e) =>
