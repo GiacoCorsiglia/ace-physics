@@ -8,7 +8,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "refiningYourHypothesis",
   label: "Refining Your Hypothesis",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "refiningYourHypothesisIntro",

@@ -10,7 +10,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "quietAsAMouse",
   label: "Quiet as a Mouse",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "quietAsAMouseIntro",

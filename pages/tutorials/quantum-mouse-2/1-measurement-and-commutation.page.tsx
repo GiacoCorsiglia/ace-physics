@@ -12,7 +12,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "measurementAndCommutation",
   label: "Measurement & Commutation",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "measurementAndCommutationIntro",

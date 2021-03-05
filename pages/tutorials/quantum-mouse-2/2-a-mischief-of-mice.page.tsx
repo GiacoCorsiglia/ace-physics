@@ -9,7 +9,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "aMischiefOfMice",
   label: "A Mischief of Mice",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "aMischiefOfMiceIntro",

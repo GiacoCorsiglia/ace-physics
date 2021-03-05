@@ -8,7 +8,7 @@ import setup from "./setup";
 export default page(setup, ({ section, sequence, oneOf }) => ({
   name: "anotherUnknownState",
   label: "Another Unknown State",
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "anotherUnknownStateIntro",

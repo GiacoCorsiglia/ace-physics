@@ -53,7 +53,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "${camelCase(page)}",
   label: "TODO",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "${`${camelCase(page)}Intro`}",

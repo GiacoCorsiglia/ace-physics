@@ -11,7 +11,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint, oneOf }) => ({
   name: "spinAlongOtherAxes",
   label: "Spin Along Other Axes",
-  answersChecked: "all",
+  answers: "checked-all",
   sections: [
     section({
       name: "spinAlongOtherAxesIntro",

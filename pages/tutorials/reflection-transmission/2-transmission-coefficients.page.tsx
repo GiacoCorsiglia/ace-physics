@@ -12,7 +12,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "transmissionCoefficients",
   label: "Transmission Coefficients",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "transmissionCoefficientsIntro",

@@ -7,7 +7,7 @@ import setup from "./setup";
 export default page(setup, ({ section, oneOf }) => ({
   name: "determiningAnUnknownState",
   label: "Determining an Unknown State",
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "determiningAnUnknownStateIntro",

@@ -1,4 +1,5 @@
 import { TutorialSchema } from "@/schema/tutorial";
+import EPR from "./epr/schema";
 import QuantumBasis from "./quantum-basis/schema";
 import QuantumMouse2 from "./quantum-mouse-2/schema";
 import QuantumMouse from "./quantum-mouse/schema";
@@ -15,4 +16,5 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["SpinLab1", SpinLab1],
   ["SpinLab2", SpinLab2],
   ["SpinsAndMagneticFields", SpinsAndMagneticFields],
+  ["EPR", EPR],
 ]);

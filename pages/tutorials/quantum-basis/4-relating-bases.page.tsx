@@ -11,7 +11,7 @@ import setup, { ResponseModels, Responses } from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "relatingBases",
   label: "Relating Different Bases",
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "relatingBasesIntro",

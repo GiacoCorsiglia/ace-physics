@@ -67,8 +67,8 @@ const QuantumBasisLite = {
 };
 
 const EPR = {
-  path: "EPR",
-  link: "/tutorials/EPR",
+  path: "epr",
+  link: "/tutorials/epr",
 };
 
 const VectorsToFunctions = {
