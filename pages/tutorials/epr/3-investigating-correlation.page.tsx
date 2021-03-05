@@ -16,8 +16,13 @@ export default page(setup, ({ section }) => ({
           <p>Here are some definitions for this page:</p>
 
           <ul>
-            <li>“Measures a 0” means “spin down“</li>
-            <li>“Measuring a 1” means “spin up”</li>
+            <li>
+              “Measures a <strong>0</strong>” means “<strong>spin up</strong>”
+            </li>
+            <li>
+              “Measuring a <strong>1</strong>” means “<strong>spin down</strong>
+              ”
+            </li>
             <li>“SG” means “Stern-Gerlach device“</li>
           </ul>
 
@@ -33,7 +38,8 @@ export default page(setup, ({ section }) => ({
 
           <p>
             Assume Alice and Bob (the two observers) always choose either X or Z
-            SG orientations to measure.
+            SG orientations to measure. (That is, they each independently choose
+            their axis randomly, with 50-50 odds of choosing X or Z.)
           </p>
         </Prose>
       ),
@@ -88,7 +94,7 @@ export default page(setup, ({ section }) => ({
               </p>
 
               <p>
-                Hint: Bob <em>randomly</em> (with 50/50 odds) orients his SG
+                Recall: Bob <em>randomly</em> (with 50/50 odds) orients his SG
                 either along the X or Z axis.
               </p>
             </Prose>

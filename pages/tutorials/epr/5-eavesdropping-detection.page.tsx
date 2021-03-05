@@ -21,20 +21,40 @@ export default page(setup, ({ section }) => ({
           <EavesdroppingProtectionSvg className="svg-img" />
 
           <Prose>
+            <p>Now there is a third party, Eve.</p>
+
             <p>
-              Now there is a third party, Eve, who intercepts every particle
-              sent to Bob with her own SG, which she randomly orients along the
-              X or Z direction. She does NOT know the SG orientations of Alice
-              or Bob at the time she measures.
+              <strong>
+                Eve intercepts every particle sent to Bob with her own SG, which
+                she randomly orients along the X or Z direction.
+              </strong>{" "}
+              She does NOT know the SG orientations of Alice or Bob at the time
+              she measures.
             </p>
 
             <p>
-              Eve immediately generates a replacement particle to send to Bob in
-              place of the one she intercepted. If Eve measures a 1 along the Z
-              axis, she produces and sends a particle to Bob that is in the{" "}
-              <M t="\ket{\uparrow_B}_Z" /> state. If Eve measures a 0 along the
-              X axis, she produces and sends to Bob a particle in the{" "}
-              <M t="\ket{\downarrow_B}_X" /> state, etc.
+              <strong>
+                Eve immediately generates a replacement particle to send to Bob
+                in place of the one she intercepts. The replacement particle is
+                always in the state matching Eve's own measurement result.
+              </strong>
+            </p>
+
+            <p>
+              For example, if Eve measures a 1 along the Z axis, she produces
+              and sends a particle to Bob that is in the{" "}
+              <M t="\ket{\downarrow_B}_Z" /> state. If Eve measures a 0 along
+              the X axis, she produces and sends to Bob a particle in the{" "}
+              <M t="\ket{\uparrow_B}_X" /> state, etc.
+            </p>
+
+            <p>
+              <strong>
+                Unsuspecting Bob always receives a particle and makes a
+                measurement. Eve doesn’t know what axis Bob measures along, but
+                she always knows exactly what state Bob's particle is in before
+                his measurement.
+              </strong>
             </p>
 
             <p>
@@ -45,14 +65,19 @@ export default page(setup, ({ section }) => ({
                   However, Alice and Bob have NOT yet shared what results they
                   got.
                 </em>
-              </strong>
+              </strong>{" "}
+              (By “publicly,” we mean that Eve knows too. She is listening in on
+              Alice and Bob's phone conversations!)
             </p>
 
             <p>
-              Since Alice and Bob discard all measurements for which their SGs
-              are not oriented in the same direction (both in the Z direction,
-              or both X), we ignore such mismatched cases for the remainder of
-              this tutorial.
+              Since{" "}
+              <strong>
+                Alice and Bob discard all measurements for which their SGs are
+                not oriented in the same direction
+              </strong>{" "}
+              (both in the Z direction, or both X), we ignore such mismatched
+              cases for the remainder of this tutorial.
             </p>
           </Prose>
 
@@ -351,8 +376,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             What is the overall likelihood that Bob will detect interference for
-            a bit in the key (if he compares many bits with Alice) due to
-            eavesdropping by Eve?
+            a bit in the key due to eavesdropping by Eve?
           </Prose>
 
           <Percent
@@ -375,8 +399,8 @@ export default page(setup, ({ section }) => ({
             placeholder="Optional: type your response here"
             label={
               <Prose>
-                To think about: If we “check”, say, 100 bits with Eve present,
-                what are the odds that Bob FAILS to notice the eavesdropper?
+                To think about: If we “check” 100 bits with Eve present, what
+                are the odds that Bob FAILS to notice the eavesdropper?
               </Prose>
             }
           />

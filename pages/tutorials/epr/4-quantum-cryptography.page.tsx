@@ -17,8 +17,14 @@ export default page(setup, ({ section }) => ({
           <Reminder>
             <Prose>
               <ul>
-                <li>“Measures a 0” means “spin down“</li>
-                <li>“Measuring a 1” means “spin up”</li>
+                <li>
+                  “Measuring a <strong>0</strong>” means “
+                  <strong>spin up</strong>”
+                </li>
+                <li>
+                  “Measuring a <strong>1</strong>” means “
+                  <strong>spin down</strong>”
+                </li>
                 <li>“SG” means “Stern-Gerlach device“</li>
               </ul>
 
@@ -31,8 +37,8 @@ export default page(setup, ({ section }) => ({
 
           <Prose>
             <p>
-              Again, Assume Alice and Bob (the two observers) always choose
-              either X or Z SG orientations to measure.
+              Again, assume the two observers, Alice and Bob, always (randomly)
+              choose either X or Z SG orientations to measure.
             </p>
           </Prose>
         </>
