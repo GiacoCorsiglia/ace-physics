@@ -9,7 +9,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "symmetricPotentialWell",
   label: "The Symmetric Potential Well",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "symmetricPotentialWellIntro",

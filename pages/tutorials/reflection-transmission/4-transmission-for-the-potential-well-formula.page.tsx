@@ -9,7 +9,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "transmissionForThePotentialWellFormula",
   label: "Transmission for the Potential Well: Formula",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "transmissionForThePotentialWellFormulaIntro",

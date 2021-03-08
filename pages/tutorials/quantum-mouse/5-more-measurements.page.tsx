@@ -8,7 +8,7 @@ import setup from "./setup";
 export default page(setup, ({ section, sequence, hint }) => ({
   name: "more-measurements",
   label: "More Measurements",
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "moreMeasurementsIntro",

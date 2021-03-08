@@ -120,3 +120,21 @@ export const useSyncedState = <T, V>(
 
   return tuple;
 };
+
+export const useScrollIntoView = (when = true): React.RefObject<any> => {
+  // We return `RefObject<any>` because the variance for ref generics isn't what
+  // it should be.
+  const el = useRef<HTMLElement>(null);
+  const alreadyScrolled = useRef(false);
+
+  useEffect(() => {
+    const condition = when === undefined || when;
+    if (!condition || !el.current || alreadyScrolled.current) {
+      return;
+    }
+    alreadyScrolled.current = true;
+    el.current.scrollIntoView({ behavior: "smooth" });
+  });
+
+  return el;
+};

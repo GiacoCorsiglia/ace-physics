@@ -1,3 +1,4 @@
+export { Answer } from "./answers"; // TODO: To keep imports working for now.
 export * as colors from "./colors";
 export * as fonts from "./fonts";
 export * as shadows from "./shadows";
@@ -10,18 +11,19 @@ export const borderRadius = "0.5rem";
 ////////////////////////////////////////////////////////////////////////////////
 
 import { Button } from "@/components";
-import { Html, scrollTo } from "@/helpers/frontend";
-import { Field, isSet } from "@/state";
-import Section from "@/tutorial/components/Section";
-import { ChecklistIcon } from "@primer/octicons-react";
-import { Commit } from "aws-sdk/clients/codecommit";
-import { AnswersSchema } from "common/tutorials";
+import * as globalParams from "@/global-params";
+import { Html } from "@/helpers/frontend";
+import { Field } from "@/state";
+import { Children, classes, OptionalChildren } from "@/util";
+import {
+  ArrowDownIcon,
+  ArrowRightIcon,
+  EyeClosedIcon,
+  EyeIcon,
+} from "@primer/octicons-react";
+import * as s from "common/schema";
 import { cx } from "linaria";
-import React, {
-  Children as ReactChildren,
-  createContext,
-  useContext,
-} from "react";
+import { Children as ReactChildren, useEffect, useRef } from "react";
 import { Content } from "./layout";
 import styles from "./structure.module.scss";
 
@@ -107,122 +109,175 @@ export function Hint({ children }: Children) {
   return <em>Hint: {children}</em>;
 }
 
-const AnswerVisibilityContext = createContext(false);
-AnswerVisibilityContext.displayName = "AnswerVisibilityContext";
+/** @deprecated */
+type ContinueProps =
+  | { link: string; commit?: never }
+  | { link?: never; commit: Field<s.BooleanSchema> }
+  | { link: string; commit: Field<s.BooleanSchema> };
 
 /** @deprecated */
-export function AnswerVisibility({
-  field,
+export function Continue({
+  label = "Move on",
+  link,
+  commit,
+  onClick,
+  allowed = true,
   children,
-}: { field: Field<AnswersSchema> } & Children) {
-  const visible = field.value?.visibility === true;
+}: {
+  onClick?: () => void;
+  label?: React.ReactNode;
+  allowed?: boolean;
+} & ContinueProps &
+  OptionalChildren) {
+  const done = !link && commit && commit.value === true;
+
+  if (globalParams.unconditionalMoveOn) {
+    allowed = true;
+  }
 
   return (
-    <AnswerVisibilityContext.Provider value={visible}>
-      {visible && (
-        <Content>
-          <Section first>
-            <Answer>
-              <Prose>
-                Scroll down to see our answers to the questions below. They’ll
-                be in boxes like this one.
-              </Prose>
-            </Answer>
-          </Section>
-        </Content>
-      )}
+    <Content>
+      <div className={classes(styles.continue, [styles.done, done])}>
+        {!done && (
+          <Button
+            className={styles.button}
+            link={link}
+            onClick={
+              (commit || onClick) &&
+              (() => {
+                if (commit) {
+                  commit.set(true);
+                }
+                if (onClick) {
+                  onClick();
+                }
+              })
+            }
+            disabled={!allowed}
+          >
+            {label} {link ? <ArrowRightIcon /> : <ArrowDownIcon />}
+          </Button>
+        )}
 
-      {children}
-    </AnswerVisibilityContext.Provider>
+        {children}
+      </div>
+
+      <p
+        className={styles.continueNotAllowedMessage}
+        // Use visibility so the layout doesn't jump around.
+        style={{ visibility: allowed ? "hidden" : "visible" }}
+      >
+        Please respond to every question before moving on.
+      </p>
+    </Content>
   );
 }
 
 /** @deprecated */
-export function Answer({
-  correct,
+export function HelpButton({
+  help,
   children,
-  ...props
-}: { correct?: boolean | "undetermined" } & JSX.IntrinsicElements["div"]) {
-  if (!useContext(AnswerVisibilityContext)) {
+}: { help: Field<s.BooleanSchema> } & OptionalChildren) {
+  if (help.value === true) {
     return null;
   }
 
-  props.className = cx(
-    props.className,
-    styles.answer,
-    (correct === undefined || correct === "undetermined") &&
-      styles.undetermined,
-    correct === true && styles.correct,
-    correct === false && styles.incorrect
-  );
-
   return (
-    <div {...props}>
-      <span className={styles.answerLabel}>Our Answer:</span>
-      {children}
-    </div>
+    <Button
+      className={styles.button}
+      kind="tertiary"
+      onClick={() => help.set(true)}
+    >
+      {children || "Hmm…"}
+    </Button>
   );
 }
 
 /** @deprecated */
-export function RevealAnswersSection({
+type Commit = Field<s.BooleanSchema> | undefined | false;
+
+/** @deprecated */
+function isSectionVisible(commits: Commit | Commit[]): boolean {
+  if (!commits) {
+    // This includes undefined or false.  If the commit has that value it's
+    // a falsy value in the list, which we should ignore just show the section.
+    // This allows us to write (bool && commit) in the list.
+    return true;
+  }
+  if (Array.isArray(commits)) {
+    // If it's an array of commits, just check every one individually.  Defaults
+    // to `true`.
+    return commits.every(isSectionVisible);
+  }
+  // The important case here is `commits.value`.  If that is `true`, then the
+  // commit is `true` which probably means the previous "move on" button was
+  // clicked, so we should show this section now.  If it's `false` (or, more
+  // likely, `undefined`) then we aren't ready to show this section yet.
+  return commits.value === true;
+}
+
+/** @deprecated */
+export function Section({
   commits,
-  field,
+  first = false,
+  noScroll = false,
+  noLabel = false,
+  children,
 }: {
-  commits: Commit | Commit[];
-  field: Field<AnswersSchema>;
-}) {
-  const visible = field.value?.visibility === true;
+  commits?: Commit | Commit[];
+  first?: boolean;
+  noScroll?: boolean;
+  noLabel?: boolean;
+} & Children) {
+  if (globalParams.showAllSections) {
+    // Skip the other options
+    // Also don't scroll all over the page.
+    noScroll = true;
+  } else if (!isSectionVisible(commits)) {
+    return null;
+  }
 
   return (
-    <Section commits={commits} noLabel>
-      {!visible ? (
-        <>
-          <Prose className="text-center">
-            Alright! You’re done with this page. There’s only one thing left to
-            do…
-          </Prose>
+    <RevealedSection first={first} noScroll={noScroll} noLabel={noLabel}>
+      {globalParams.showAllSections &&
+        (isSectionVisible(commits) ? (
+          <EyeIcon className={styles.sectionDevNoticeVisible} />
+        ) : (
+          <EyeClosedIcon className={styles.sectionDevNoticeHidden} />
+        ))}
+      {children}
+    </RevealedSection>
+  );
+}
 
-          <div className="text-center margin-top">
-            <Button
-              onClick={() => {
-                field.properties.visibility.set(true);
-                scrollTo(0, 600);
-              }}
-              kind="tertiary"
-              iconFirst
-            >
-              <ChecklistIcon />
-              Show me the answers
-            </Button>
-          </div>
+/** @deprecated */
+function RevealedSection({
+  first,
+  noScroll,
+  noLabel,
+  children,
+}: { first: boolean; noScroll: boolean; noLabel: boolean } & Children) {
+  const el = useRef<HTMLElement>(null);
 
-          <Prose className="text-center">
-            Clicking this button will scroll you to the top of the page.
-          </Prose>
-        </>
-      ) : (
-        <>
-          <TextArea
-            // TODO:
-            // @ts-ignore
-            model={field.properties.reflection}
-            minRows={4}
-            label={
-              <Prose>
-                Now that you’ve seen our answers, briefly comment on where they
-                agree or disagree with yours, and why. Summarize what you feel
-                like you’ve learned, and/or what you’re feeling confused about.
-              </Prose>
-            }
-          />
+  useEffect(() => {
+    if (first || noScroll) {
+      // The first section of each part doesn't need to scroll into view.
+      return;
+    }
+    el.current?.scrollIntoView({ behavior: "smooth" });
+  }, [first, noScroll]);
 
-          <Continue
-            commit={field.properties.commit}
-            allowed={isSet(field.properties.reflection)}
-          />
-        </>
+  return (
+    <section
+      ref={el}
+      className={classes(
+        styles.section,
+        [styles.sectionFirst, first],
+        [styles.noSectionLabel, noLabel],
+        [styles.sectionAnimateIn, !first && !noScroll]
       )}
-    </Section>
+    >
+      {children}
+    </section>
   );
 }

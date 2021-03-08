@@ -100,7 +100,7 @@ export const store = <T extends object>(initial: T): Store<T> => {
           self.setPaths.add(pathString(path));
         }
         return newState;
-      }, currentState);
+      }, startingState);
 
       // TODO: Consider making transactions cancelable.  This would be the spot.
 

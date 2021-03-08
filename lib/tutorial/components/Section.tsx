@@ -3,10 +3,10 @@ import { Help } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
+import { useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
 import { css, cx } from "linaria";
-import React, { useEffect, useRef } from "react";
 import { SectionConfig } from "../config";
 import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
@@ -68,15 +68,7 @@ export default tracked(function Section(
   const continueLabelHtml =
     continueLabel instanceof Function ? continueLabel(state) : continueLabel;
 
-  const el = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    if (first || globalParams.showAllSections) {
-      // The first section on each page doesn't need to scroll into view.
-      return;
-    }
-    el.current?.scrollIntoView({ behavior: "smooth" });
-  }, [first]);
+  const scrollRef = useScrollIntoView(!first && !globalParams.showAllSections);
 
   const enumerate =
     config.enumerate === undefined
@@ -91,7 +83,7 @@ export default tracked(function Section(
         !first && !globalParams.showAllSections && styles.sectionAnimateIn,
         enumerate && styles.sectionEnumerated
       )}
-      ref={el}
+      ref={scrollRef}
     >
       {enumerate && <Content className={styles.enumerated} />}
 

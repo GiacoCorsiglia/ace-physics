@@ -79,7 +79,9 @@ describe("transaction", () => {
       set1(["a"], 1);
       set1(["c"], 1);
 
-      s.transaction((set2) => {
+      s.transaction((set2, nestedTransactionState) => {
+        expect(nestedTransactionState.a).toBe(1);
+
         set2(["a"], (prevA) => {
           // Nested set calls should follow parent transaction state.
           expect(prevA).toBe(1);

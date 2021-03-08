@@ -12,7 +12,7 @@ import setup, { Responses } from "./setup";
 export default page(setup, ({ section, oneOf, hint }) => ({
   name: "changingBasis",
   label: "TODO",
-  answersChecked: "some",
+  answers: "checked-some",
   sections: [
     section({
       name: "changingBasisIntro",

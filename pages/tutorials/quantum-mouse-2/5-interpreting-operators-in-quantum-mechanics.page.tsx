@@ -9,7 +9,7 @@ export default page(setup, ({ section }) => ({
   name: "interpretingOperatorsInQuantumMechanics",
   label:
     "Bonus: Interpreting Operators in Quantum Mechanics — If You Have Time",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "interpretingOperatorsInQuantumMechanicsIntro",

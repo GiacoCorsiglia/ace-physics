@@ -10,7 +10,7 @@ import setup, { ResponseModels, Responses } from "./setup";
 export default page(setup, ({ section }) => ({
   name: "probabilityAndProjection",
   label: "Probability & Projection",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "probabilityAndProjectionIntro",

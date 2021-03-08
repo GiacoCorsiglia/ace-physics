@@ -15,7 +15,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "summary",
   label: "Summary",
-  answersChecked: "none",
+  answers: "none",
   sections: [
     section({
       name: "summaryIntro",
