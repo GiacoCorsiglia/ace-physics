@@ -167,7 +167,7 @@ export const ToggleControl = <C,>({
               pointer-events: none;
             `}
             value={choiceId + ""}
-            name={choiceId + ""}
+            name={toggleId}
             id={`${toggleId}-${choiceId}`}
             checked={value === choiceId}
             onChange={(e) =>

@@ -43,7 +43,10 @@ export const ChooseControl = <
   value: Value<C, M>;
   onChange: ChangeHandler<C, M>;
   other?: {
-    /** "Other" is "selected" if and only if it is not undefined */
+    /**
+     * "Other" is "selected" if and only if it is not undefined [and, for a
+     * "choose one" field, the `value` is undefined].
+     */
     value: O | undefined;
     /** Will pass `undefined` whenever "other" is deselected. */
     onChange: (otherValue: O | undefined) => void;
@@ -59,10 +62,17 @@ export const ChooseControl = <
   const chooseId = `choose-${useUniqueId()}`;
   const labelId = `${chooseId}_legend`;
 
+  // For a single-select ("choose one"), ignore the "other" choice if any of the
+  // given choices is selected.  This could probably be handled in a stricter
+  // fashion (i.e., "make impossible states impossible"), but I think this keeps
+  // things simpler.
+  const isOtherSelected: boolean =
+    !!other && other.value !== undefined && (multi || value === undefined);
+
   const [otherInputValue, setOtherInputValue] = useSyncedState(
     other?.value,
     (prop) => prop,
-    // Alway Skip the sync if it isn't selected
+    // Alway skip the sync if the passed value is undefined.
     (prop) => !other || other.value === undefined || !prop
   );
 
@@ -161,7 +171,7 @@ export const ChooseControl = <
         {other && (
           <Choice
             as="div"
-            data-selected={!!other.value || undefined}
+            data-selected={isOtherSelected || undefined}
             data-disabled={disabled || undefined}
           >
             <label
@@ -179,7 +189,7 @@ export const ChooseControl = <
                   value="other"
                   name={chooseId}
                   id={`${chooseId}-other`}
-                  checked={!!other.value}
+                  checked={isOtherSelected}
                   onChange={(e) => {
                     emitOtherChange(e.target.checked, otherInputValue);
                     if (e.target.checked) {
@@ -195,15 +205,20 @@ export const ChooseControl = <
                   padding-bottom: ${spacing.$50};
                   padding-left: ${spacing.$75};
                   padding-right: ${spacing.$25};
+
+                  &::after {
+                    content: ":";
+                  }
                 `}
               >
-                Other:
+                Other
               </div>
             </label>
 
             {(() => {
               const inputProps: JSX.IntrinsicElements["input"] = {
                 disabled,
+                "aria-label": "Input your other answer here",
                 placeholder: "Click to input another answer",
                 onFocus(e) {
                   // Focusing will reselect other (if the field is not empty), but it
