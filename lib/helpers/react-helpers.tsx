@@ -1,4 +1,6 @@
+import { cx } from "linaria";
 import {
+  forwardRef,
   useEffect,
   useLayoutEffect,
   useReducer,
@@ -35,7 +37,7 @@ export const isReactElement = (o: any): o is React.ReactElement =>
   (typeof o.type === "string" || typeof o.type === "function") &&
   !!o.props;
 
-export const combineRefs = <T>(...refs: React.Ref<T>[]): React.Ref<T> => (
+export const combineRefs = <T,>(...refs: React.Ref<T>[]): React.Ref<T> => (
   node: T | null
 ): void => {
   // https://stackoverflow.com/questions/62238716/using-ref-current-in-react-forwardref
@@ -137,4 +139,23 @@ export const useScrollIntoView = (when = true): React.RefObject<any> => {
   });
 
   return el;
+};
+
+export const withStyles = <P extends {}, T extends keyof JSX.IntrinsicElements>(
+  tag: T,
+  classes: (props: P) => readonly (string | false | void | null | 0)[]
+) => {
+  const component = forwardRef((props: any, ref) => {
+    const As = props.as || tag;
+    props.className = cx(props.className, ...classes(props));
+    return <As {...props} ref={ref} />;
+  });
+
+  const upperTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+  component.displayName = `Styled${upperTag}`;
+
+  type Props<A extends keyof JSX.IntrinsicElements> = P &
+    JSX.IntrinsicElements[A];
+
+  return component;
 };

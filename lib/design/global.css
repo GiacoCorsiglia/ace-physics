@@ -107,8 +107,8 @@ html:focus-within {
  * Essentials.
  ******************************************************************************/
 body {
-  /* Sync this with colors.neutral.$200: */
-  background: hsl(39, 68.6%, 90%);
+  /* Sync this with colors.neutral.$100: */
+  background: hsl(40, 67.7%, 93.9%);
   /* Sync this with colors.neutral.$900: */
   color: hsl(29, 88.2%, 10%);
   /* Sync this with fonts.body: */

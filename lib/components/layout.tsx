@@ -1,4 +1,4 @@
-import { borderRadius, colors, shadows, spacing } from "@/design";
+import { colors, shadows, spacing } from "@/design";
 import { styled } from "linaria/react";
 
 const textWidth = spacing.$4000;
@@ -18,7 +18,7 @@ export const Content = styled.div`
   padding-bottom: ${spacing.$300};
   background: ${colors.neutral.$100};
   border-style: solid;
-  border-color: ${colors.neutral.$300};
+  border-color: ${colors.neutral.$200};
   /* box-shadow: ${shadows.large.neutral}; */
 
   @media (min-width: ${maxContentWidth}) {
@@ -27,7 +27,7 @@ export const Content = styled.div`
     padding-left: ${spacing.$400};
     padding-right: ${spacing.$400};
     border-width: 1px;
-    border-radius: ${borderRadius};
+    border-radius: 0.5rem;
 
     .ace-callout {
       margin-left: -${spacing.$150};

@@ -4,7 +4,7 @@ export * as fonts from "./fonts";
 export * as shadows from "./shadows";
 export * as spacing from "./spacing";
 
-export const borderRadius = "0.5rem";
+export const borderRadius = "0.25rem";
 
 ////////////////////////////////////////////////////////////////////////////////
 // DEPRECATED:
