@@ -97,14 +97,14 @@ export default function TutorialsIndex() {
               and apply it to cryptography.
             </TutorialLink>
 
-            {/* <TutorialLink
+            <TutorialLink
               label="Probability Amplitude: From Vectors to Functions"
               url={urls.Tutorials.VectorsToFunctions}
             >
               Bridging between discrete vectors (such as those describing a
               particle’s spin state) and continuous wave functions (which might
               model a particle’s position state).
-            </TutorialLink> */}
+            </TutorialLink>
 
             {/* <TutorialLink
               label="Energy and Position"

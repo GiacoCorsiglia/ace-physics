@@ -64,6 +64,9 @@ export default tracked(function Section(
     isComplete = continueAllowed(state, isComplete);
   }
 
+  const continueVisible = config.continue?.visible;
+  const isContinueVisible = continueVisible ? continueVisible(state) : true;
+
   const continueLabel = config.continue?.label;
   const continueLabelHtml =
     continueLabel instanceof Function ? continueLabel(state) : continueLabel;
@@ -109,7 +112,7 @@ export default tracked(function Section(
 
       <Content>
         <div className={styles.continue}>
-          {status !== "committed" && (
+          {isContinueVisible && status !== "committed" && (
             <Button
               color="green"
               className={styles.button}
