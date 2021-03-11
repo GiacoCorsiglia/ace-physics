@@ -31,7 +31,7 @@ export const VariableLengthColumn = <E extends Field>({
   // React key for the element, but as infrequently as possible.
   const spliceVersion = useRef(0);
 
-  const extraRows = (v: any[], desiredLength = minRows) =>
+  const extraRows = (v: readonly any[], desiredLength = minRows) =>
     Array(Math.max(desiredLength - v.length, 0)).fill(undefined);
 
   const addRow = () =>
