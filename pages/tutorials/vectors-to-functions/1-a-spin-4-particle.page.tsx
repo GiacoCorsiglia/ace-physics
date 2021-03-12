@@ -1,5 +1,5 @@
-import { Prose } from "@/design";
-import { range } from "@/helpers";
+import { Help, Info, Prose } from "@/design";
+import { deepEqual, range } from "@/helpers";
 import { Decimal, FieldGroup, Select, Text, TextArea, Toggle } from "@/inputs";
 import M, { VariableLengthColumn } from "@/math";
 import { Axes, Bar, DragHandle, Grid, Indicator, Plot, Tick } from "@/plots";
@@ -11,7 +11,7 @@ import styles from "./styles.module.scss";
 export default page(setup, ({ section, hint }) => ({
   name: "aSpin4Particle",
   label: "A Spin 4 Particle",
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "aSpin4ParticleIntro",
@@ -114,6 +114,45 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
+
+    section({
+      name: "spin4ComponentsFeedback",
+      enumerate: false,
+      body: (_, { responses }) => {
+        const answer = range(-4, 5).map((n) => 16 - n ** 2);
+        const columnCorrect = deepEqual(answer, responses?.spin4Column);
+        const histogramCorrect = deepEqual(answer, responses?.spin4BarHeights);
+
+        if (columnCorrect && histogramCorrect) {
+          return <Help>Nice work! Now let’s focus in on notation.</Help>;
+        } else if (!columnCorrect && histogramCorrect) {
+          return (
+            <Info>
+              Heads up. There’s at least one mistake in you column vector, but
+              your histogram looks good. (This message will change if you adjust
+              your answers above.)
+            </Info>
+          );
+        } else if (columnCorrect && !histogramCorrect) {
+          return (
+            <Info>
+              Heads up. There’s at least one mistake in you histogram, but your
+              column vector looks good. (This message will change if you adjust
+              your answers above.)
+            </Info>
+          );
+        } else {
+          return (
+            <Info>
+              Heads up. There’s at least one mistake in both your histogram and
+              your column vector. (This message will change if you adjust your
+              answers above.)
+            </Info>
+          );
+        }
+      },
+    }),
+
     section({
       name: "diracLabels",
       body: (m, { responses }) => (
@@ -223,6 +262,29 @@ export default page(setup, ({ section, hint }) => ({
             />
           </>
         );
+      },
+    }),
+
+    section({
+      name: "diracLabelsFeedback",
+      enumerate: false,
+      body: (_, { responses }) => {
+        const allCorrect =
+          responses?.minus3DiracSelect?.selected === "<-3|psi>" &&
+          responses?.minus1DiracSelect?.selected === "<-1|psi>" &&
+          responses?.plus4DiracSelect?.selected === "<4|psi>";
+
+        if (allCorrect) {
+          return <Help>Looks good to us!</Help>;
+        } else {
+          return (
+            <Info>
+              Heads up. There’s a mistake in at least one of your choices for
+              Dirac Notation. (This message will update if you adjust your
+              answers above.)
+            </Info>
+          );
+        }
       },
     }),
 

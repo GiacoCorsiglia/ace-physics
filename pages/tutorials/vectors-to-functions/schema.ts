@@ -27,8 +27,10 @@ export default tutorialSchema({
     "aSpin4ParticleIntro",
     "spin4Colum",
     "spin4Histogram",
+    "spin4ComponentsFeedback",
     "diracLabels",
     "diracLabelSelects",
+    "diracLabelsFeedback",
     "spin4Normalization",
     "spin4Prob",
 
