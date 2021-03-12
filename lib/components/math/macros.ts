@@ -1,42 +1,4 @@
-import { css, cx } from "linaria";
-
-const spacing = (padding: string, verticalShift?: string) => ({
-  paddingLeft: padding,
-  paddingRight: padding,
-
-  "& > *": verticalShift
-    ? {
-        position: "relative",
-        top: verticalShift,
-      }
-    : ({} as {}),
-});
-
-const circled = css`
-  box-shadow: inset 0 0 0 1px currentColor;
-  border-radius: 100%;
-`;
-
-const smalleye = cx(
-  circled,
-  css`
-    ${spacing("0.45em", "-0.3em")}
-  `
-);
-
-const wideye = cx(
-  circled,
-  css`
-    ${spacing("0.3em")}
-  `
-);
-
-const smiley = cx(
-  circled,
-  css`
-    ${spacing("0.18em", "0.05em")}
-  `
-);
+import styles from "./macros.module.scss";
 
 // This removes the need for double backslashes in the macro definitions below.
 const t = String.raw;
@@ -56,8 +18,8 @@ export const macros = {
   "\\prescript": t`{}_{#1}^{#2}{#3}`,
   "\\brasub": t`{}_{#1}\!`,
   // From the quantum mouse tutorial:
-  "\\smalleye": t`\htmlClass{${smalleye}}{\tiny \bull}`,
-  "\\wideye": t`\htmlClass{${wideye}}{\large \ast}`,
-  "\\smiley": t`\htmlClass{${smiley}}{\mathbf{\footnotesize \ddot \smile}}`,
-  "\\frownie": t`\htmlClass{${smiley}}{\mathbf{\footnotesize \ddot \frown}}`,
+  "\\smalleye": t`\htmlClass{${styles.smalleye}}{\tiny \bull}`,
+  "\\wideye": t`\htmlClass{${styles.wideye}}{\large \ast}`,
+  "\\smiley": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \smile}}`,
+  "\\frownie": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \frown}}`,
 };

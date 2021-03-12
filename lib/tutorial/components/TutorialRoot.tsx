@@ -5,7 +5,6 @@ import { Content } from "@/design/layout";
 import * as globalParams from "@/global-params";
 import { JsxElement } from "@/helpers/frontend";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
-import { css, cx } from "linaria";
 import { useRouter } from "next/router";
 import { TutorialConfig } from "../config";
 import styles from "./shared.module.scss";
@@ -29,14 +28,7 @@ export default function TutorialRoot({
       {/* <TutorialSidebar /> */}
 
       <main className={styles.tutorialMain}>
-        <div
-          className={cx(
-            styles.tutorialContent,
-            css`
-              counter-reset: section;
-            `
-          )}
-        >
+        <div className={styles.tutorialContent}>
           {(() => {
             switch (auth.status) {
               case "Initial":
@@ -84,12 +76,7 @@ function LoggedOut() {
   const router = useRouter();
 
   return (
-    <Content
-      className={css`
-        text-align: center;
-        margin-top: calc(2rem + 10vh);
-      `}
-    >
+    <Content className={styles.loggedOut}>
       <LockIcon size="medium" />
 
       <Prose>You must be logged in to see this page.</Prose>

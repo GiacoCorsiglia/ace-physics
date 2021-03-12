@@ -3,10 +3,9 @@ import { Help } from "@/design";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
-import { useScrollIntoView } from "@/helpers/frontend";
+import { cx, useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
-import { css, cx } from "linaria";
 import { SectionConfig } from "../config";
 import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
@@ -91,11 +90,7 @@ export default tracked(function Section(
       {enumerate && <Content className={styles.enumerated} />}
 
       {globalParams.showAllSections && (
-        <Content
-          className={css`
-            position: relative;
-          `}
-        >
+        <Content className={styles.sectionDevNoticeContainer}>
           {isMarkedVisible(state, config) ? (
             <EyeIcon className={styles.sectionDevNoticeVisible} />
           ) : (

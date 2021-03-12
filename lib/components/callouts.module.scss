@@ -1,0 +1,59 @@
+@use "fonts";
+@use "colors";
+@use "spacing";
+@use "borders";
+
+.callout {
+  padding: spacing.$space-100 spacing.$space-150;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: borders.$radius;
+  transition: {
+    property: background-color, border-color, color;
+    duration: 150ms;
+  }
+}
+
+@mixin callout($color) {
+  background-color: colors.shade($color, 100);
+  border-color: colors.shade($color, 200);
+  color: colors.shade($color, 900);
+  /* box-shadow: ${shadows.light.green}; */
+
+  .calloutTitle {
+    color: colors.shade($color, 500);
+  }
+}
+
+.green {
+  @include callout(colors.$green);
+}
+
+.blue {
+  @include callout(colors.$blue);
+}
+
+.yellow {
+  @include callout(colors.$yellow);
+}
+
+.red {
+  @include callout(colors.$red);
+}
+
+.neutral {
+  border-color: colors.$neutral-300;
+  color: colors.$neutral-700;
+
+  .calloutTitle {
+    color: colors.$neutral-500;
+  }
+}
+
+.calloutTitle {
+  @include fonts.smallest;
+  // Small caps would be nice but then we need to load more fonts.
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: spacing.$space-50;
+}

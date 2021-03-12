@@ -1,10 +1,10 @@
 import { Info, Prose } from "@/design";
+import { cx } from "@/helpers/frontend";
 import { Decimal, FieldGroup, TextArea } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import M from "@/math";
 import { page } from "@/tutorial";
 import { LinkExternalIcon, PencilIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({

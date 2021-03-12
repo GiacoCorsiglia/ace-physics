@@ -1,0 +1,39 @@
+@use "colors";
+@use "spacing";
+@use "borders";
+
+input.input {
+  width: 100%; // inputs are stupid.
+}
+
+.input {
+  display: block;
+  padding: spacing.$space-50 spacing.$space-75;
+  background: colors.$neutral-50;
+  color: colors.$neutral-900;
+  border: 1px solid colors.$neutral-400;
+  border-radius: borders.$radius;
+  line-height: inherit;
+  /* box-shadow: ${shadows.input.neutral}; */
+  transition: {
+    property: box-shadow, border-color;
+    duration: 75ms;
+  }
+
+  &::placeholder {
+    color: colors.$neutral-600;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: colors.$blue-500;
+    box-shadow: 0 0 0 1px colors.$blue-500,
+      0 1px 6px colors.alpha(colors.$blue-500, 0.3);
+  }
+
+  &:disabled {
+    background: colors.$neutral-200;
+    border-color: colors.$neutral-300;
+    color: colors.$neutral-700;
+  }
+}

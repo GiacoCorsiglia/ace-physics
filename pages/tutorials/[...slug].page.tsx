@@ -8,12 +8,12 @@ import {
   CheckCircleFillIcon,
 } from "@primer/octicons-react";
 import * as fs from "fs";
-import { css } from "linaria";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { join } from "path";
 import React from "react";
 import { promisify } from "util";
+import styles from "./[...slug].page.module.scss";
 
 export const getStaticProps: GetStaticProps = async () => {
   return { props: {} };
@@ -52,13 +52,7 @@ export default function FinishedPage() {
         <UserMenu />
       </Header>
 
-      <Content
-        as="main"
-        className={css`
-          text-align: center;
-          margin-top: calc(2rem + 10vh);
-        `}
-      >
+      <Content as="main" className={styles.content}>
         <Prose>
           <p>
             <CheckCircleFillIcon
@@ -76,15 +70,7 @@ export default function FinishedPage() {
           </p>
         </Prose>
 
-        <div
-          className={css`
-            margin-top: 2rem;
-
-            & > * + * {
-              margin-left: 1rem;
-            }
-          `}
-        >
+        <div className={styles.buttons}>
           <Button onClick={() => router.back()} iconFirst kind="tertiary">
             <ArrowLeftIcon /> Go back
           </Button>

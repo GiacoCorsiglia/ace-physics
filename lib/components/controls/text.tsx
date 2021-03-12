@@ -1,8 +1,8 @@
-import { combineRefs, Html, useUniqueId } from "@/helpers/frontend";
-import { css, cx } from "linaria";
-import React, { forwardRef, useEffect, useRef } from "react";
-import { InputControl, InputControlProps, inputCss } from "./input";
+import { combineRefs, cx, Html, useUniqueId } from "@/helpers/frontend";
+import { forwardRef, useEffect, useRef } from "react";
+import { InputControl, InputControlProps } from "./input";
 import { ControlLabel } from "./labels";
+import styles from "./text.module.scss";
 
 export type TextInputControlProps = Omit<
   InputControlProps,
@@ -104,23 +104,10 @@ export const TextBoxControl = forwardRef<
         value={value || ""}
         onChange={(e) => onChange(e.target.value)}
         id={id}
-        className={cx(inputCss, textAreaCss, props.className)}
+        className={cx(styles.textArea, props.className)}
         placeholder={props.placeholder ?? "Type your response here"}
         rows={rowsRef.current}
       />
     </>
   );
 });
-
-const textAreaCss = css`
-  width: 100%;
-  resize: vertical;
-  min-height: 3rem;
-  // FireFox made the textarea too tall by default; apparently it tries to leave
-  // room for a horizontal scroll bar, which we shouldn't ever have.  This rule
-  // targets Firefox only.
-  // https://stackoverflow.com/a/22700700
-  @-moz-document url-prefix() {
-    overflow-x: hidden;
-  }
-`;

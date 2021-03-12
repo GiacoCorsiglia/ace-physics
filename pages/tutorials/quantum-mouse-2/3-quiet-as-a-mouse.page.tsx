@@ -3,9 +3,9 @@ import { Html } from "@/helpers/frontend";
 import { Decimal, FieldGroup, Text, TextArea, Toggle } from "@/inputs";
 import M, { Matrix, modelToMatrix } from "@/math";
 import { page } from "@/tutorial";
-import { css } from "linaria";
 import React from "react";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section }) => ({
   name: "quietAsAMouse",
@@ -52,15 +52,7 @@ export default page(setup, ({ section }) => ({
             </p>
           </Prose>
 
-          <div
-            className={css`
-              display: grid;
-              margin-top: 1rem;
-              grid-template-columns: auto auto auto 1fr;
-              grid-gap: 1rem;
-              align-items: center;
-            `}
-          >
+          <div className={styles.basisGrid}>
             <p>Noisy ket:</p>
             <KetLabel>
               <Text model={m.notationNoisyState} maxWidth />
@@ -251,16 +243,7 @@ export default page(setup, ({ section }) => ({
 
 function KetLabel({ children }: { children: Html }) {
   return (
-    <div
-      className={css`
-        display: flex;
-        align-items: center;
-
-        & > * + * {
-          margin-left: 0.3rem;
-        }
-      `}
-    >
+    <div className={styles.ketLabel}>
       <M t="\Large|" />
       {children}
       <M t="\Large\rangle" />

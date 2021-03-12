@@ -1,8 +1,8 @@
 import { Prose } from "@/design";
+import { cx } from "@/helpers/frontend";
 import { FieldGroup, Select, TextArea } from "@/inputs";
 import M from "@/math/M";
 import { page } from "@/tutorial";
-import { css, cx } from "linaria";
 import React from "react";
 import {
   BarrierPotential,
@@ -11,6 +11,7 @@ import {
   WellPotential,
 } from "./figures";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section }) => ({
   name: "summary",
@@ -23,7 +24,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Consider these potentials…</Prose>
 
-          <div className={cx(tableStyles, maxWidth)}>
+          <div className={cx(styles.table, styles.maxWidth)}>
             <div>
               <b>Well</b>
               <WellPotential />
@@ -37,7 +38,7 @@ export default page(setup, ({ section }) => ({
 
           <Prose>…and these reflection/transmission graphs:</Prose>
 
-          <div className={tableStyles}>
+          <div className={styles.tableStyles}>
             <div>
               <b>T/R #1</b>
               <TransmissionReflectionBarrier />
@@ -158,32 +159,3 @@ export default page(setup, ({ section }) => ({
     }),
   ],
 }));
-
-const tableStyles = css`
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-
-  display: flex;
-  justify-content: space-around;
-
-  text-align: center;
-
-  > :first-child {
-    margin-right: 1rem;
-  }
-
-  svg {
-    display: block;
-    margin-top: 0 !important;
-  }
-
-  p {
-    font-weight: $bold;
-  }
-`;
-
-const maxWidth = css`
-  svg {
-    max-width: 16rem;
-  }
-`;

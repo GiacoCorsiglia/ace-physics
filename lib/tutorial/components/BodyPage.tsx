@@ -4,7 +4,7 @@ import { Answer, AnswerVisibility } from "@/design/answers";
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
-import { htmlTitle, useScrollIntoView } from "@/helpers/frontend";
+import { cx, htmlTitle, useScrollIntoView } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import {
   ArrowDownIcon,
@@ -12,7 +12,6 @@ import {
   ChecklistIcon,
   CommentDiscussionIcon,
 } from "@primer/octicons-react";
-import { css, cx } from "linaria";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
@@ -74,16 +73,7 @@ export default function BodyPage({
 
         {isFirstPage && (
           <Info>
-            <div
-              className={css`
-                display: flex;
-                align-items: center;
-
-                > * + * {
-                  margin-left: 1.5rem !important;
-                }
-              `}
-            >
+            <div className={styles.noticeContainer}>
               <CommentDiscussionIcon size="large" />
 
               <Prose noMargin>

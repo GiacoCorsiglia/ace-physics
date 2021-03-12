@@ -1,0 +1,119 @@
+@use "sass:color";
+@use "sass:map";
+
+$white: hsl(0, 0%, 100%);
+
+$neutral-50: hsl(43, 63.6%, 97.8%);
+$neutral-100: hsl(40, 67.7%, 93.9%);
+$neutral-200: hsl(37, 47.5%, 88%);
+$neutral-300: hsl(36, 34.8%, 82%);
+$neutral-400: hsl(32, 24.6%, 72.9%);
+$neutral-500: hsl(32, 17.8%, 58%);
+$neutral-600: hsl(29, 14.3%, 48%);
+$neutral-700: hsl(29, 21.5%, 32%);
+$neutral-800: hsl(30, 27.9%, 16.9%);
+$neutral-900: hsl(29, 49%, 10%);
+$neutral: (
+  50: $neutral-50,
+  100: $neutral-100,
+  200: $neutral-200,
+  300: $neutral-300,
+  400: $neutral-400,
+  500: $neutral-500,
+  600: $neutral-600,
+  700: $neutral-700,
+  800: $neutral-800,
+  900: $neutral-900,
+);
+
+$green-100: hsl(92, 72.7%, 87.1%);
+$green-200: hsl(98, 64.7%, 80%);
+$green-300: hsl(109, 60.8%, 72%);
+$green-400: hsl(119, 50%, 56.1%);
+$green-500: hsl(124, 71.1%, 38%);
+$green-600: hsl(124, 77.5%, 27.8%);
+$green-700: hsl(124, 87%, 18%);
+$green-800: hsl(124, 96.1%, 10%);
+$green-900: hsl(126, 88.6%, 6.9%);
+$green: (
+  100: $green-100,
+  200: $green-200,
+  300: $green-300,
+  400: $green-400,
+  500: $green-500,
+  600: $green-600,
+  700: $green-700,
+  800: $green-800,
+  900: $green-900,
+);
+
+$blue-100: hsl(224, 60%, 95.1%);
+$blue-200: hsl(220, 78.3%, 91%);
+$blue-300: hsl(217, 80.2%, 84.1%);
+$blue-400: hsl(221, 84.5%, 72.2%);
+$blue-500: hsl(221, 85.4%, 59.8%);
+$blue-600: hsl(222, 68.8%, 51%);
+$blue-700: hsl(221, 90.4%, 36.9%);
+$blue-800: hsl(218, 91.5%, 23.1%);
+$blue-900: hsl(217, 95.7%, 9%);
+$blue: (
+  100: $blue-100,
+  200: $blue-200,
+  300: $blue-300,
+  400: $blue-400,
+  500: $blue-500,
+  600: $blue-600,
+  700: $blue-700,
+  800: $blue-800,
+  900: $blue-900,
+);
+
+$yellow-100: hsl(39, 100%, 88%);
+$yellow-200: hsl(40, 100%, 80%);
+$yellow-300: hsl(40, 95.9%, 71%);
+$yellow-400: hsl(39, 97%, 61%);
+$yellow-500: hsl(39, 99.2%, 52%);
+$yellow-600: hsl(38, 100%, 43.9%);
+$yellow-700: hsl(38, 98.9%, 36.1%);
+$yellow-800: hsl(35, 100%, 25.1%);
+$yellow-900: hsl(42, 100%, 8%);
+$yellow: (
+  100: $yellow-100,
+  200: $yellow-200,
+  300: $yellow-300,
+  400: $yellow-400,
+  500: $yellow-500,
+  600: $yellow-600,
+  700: $yellow-700,
+  800: $yellow-800,
+  900: $yellow-900,
+);
+
+$red-100: hsl(14, 92.2%, 90%);
+$red-200: hsl(11, 88.9%, 85.9%);
+$red-300: hsl(11, 88.3%, 73.1%);
+$red-400: hsl(11, 81.3%, 62.2%);
+$red-500: hsl(11, 66.3%, 50%);
+$red-600: hsl(11, 70.3%, 41%);
+$red-700: hsl(11, 88.2%, 30%);
+$red-800: hsl(10, 100%, 18%);
+$red-900: hsl(0, 100%, 9%);
+$red: (
+  100: $red-100,
+  200: $red-200,
+  300: $red-300,
+  400: $red-400,
+  500: $red-500,
+  600: $red-600,
+  700: $red-700,
+  800: $red-800,
+  900: $red-900,
+);
+
+@function alpha($color, $alpha) {
+  @return color.change($color, $alpha: $alpha);
+}
+
+@function shade($color, $shade) {
+  @return map.get($color, $shade);
+}

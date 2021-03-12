@@ -1,5 +1,4 @@
-import { Html } from "@/helpers/frontend";
-import { cx } from "linaria";
+import { cx, Html } from "@/helpers/frontend";
 import Head from "next/head";
 import { forwardRef } from "react";
 import styles from "./layout.module.scss";

@@ -2,10 +2,9 @@ import { Prose, Reminder } from "@/design";
 import { Decimal, Text } from "@/inputs";
 import M from "@/math/M";
 import { page } from "@/tutorial";
-import { css } from "linaria";
 import React from "react";
 import setup from "./setup";
-import { equationCss } from "./shared";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section, hint }) => ({
   name: "challenge",
@@ -93,7 +92,7 @@ export default page(setup, ({ section, hint }) => ({
               </h4>
             </Prose>
 
-            <div className={equationCss}>
+            <div className={styles.equation}>
               <M t="\ket{\psi_3} =" />
               <Text
                 model={m.challengeConclusion.elements[0]}
@@ -131,13 +130,7 @@ export default page(setup, ({ section, hint }) => ({
                 </tr>
               </thead>
 
-              <tbody
-                className={css`
-                  & input {
-                    min-width: 100%;
-                  }
-                `}
-              >
+              <tbody className={styles.expandInputsInTable}>
                 <tr>
                   <th>Spin up</th>
                   <td>

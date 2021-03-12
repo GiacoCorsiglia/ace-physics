@@ -2,10 +2,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { UserMenu } from "@/auth";
 import { Header } from "@/design/layout";
-import { useToggle } from "@/helpers/frontend";
+import { cx, useToggle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowLeftIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";

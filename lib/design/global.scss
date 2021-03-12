@@ -1,3 +1,6 @@
+@use "colors";
+@use "fonts";
+
 /******************************************************************************
  * Reset.
  * Mostly from: http://meyerweb.com/eric/tools/css/reset/
@@ -98,24 +101,13 @@ html:focus-within {
   margin: 0 !important;
 }
 
-/* Our display math class. */
-.display-math {
-  display: block;
-}
-
 /******************************************************************************
  * Essentials.
  ******************************************************************************/
 body {
-  /* Sync this with colors.neutral.$100: */
-  background: hsl(40, 67.7%, 93.9%);
-  /* Sync this with colors.neutral.$900: */
-  color: hsl(29, 88.2%, 10%);
-  /* Sync this with fonts.body: */
-  font-family: "Bitter", serif;
-  font-weight: 400;
-  font-size: 1.125rem;
-  line-height: 2rem;
+  background: colors.$neutral-100;
+  color: colors.$neutral-900;
+  @include fonts.body;
 }
 
 /******************************************************************************

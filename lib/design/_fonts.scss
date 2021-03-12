@@ -1,0 +1,59 @@
+@function _px-to-rem($px) {
+  $base-size: 16; // This is 1rem in px (for normal browsers)
+  @return $px / $base-size * 1rem;
+}
+
+// Families.
+$sans: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue,
+  helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+$serif: "Bitter", serif;
+
+// Weights.
+$regular: 400;
+$bold: 700;
+$ui-regular: normal;
+$ui-bold: bold;
+
+@mixin _text-style($family, $weight, $size, $line-height) {
+  font: {
+    family: $family;
+    weight: $weight;
+    size: _px-to-rem($size);
+  }
+  line-height: _px-to-rem($line-height);
+}
+
+@mixin heading1 {
+  @include _text-style($serif, $bold, 48, 56);
+}
+@mixin heading2 {
+  @include _text-style($serif, $bold, 36, 44);
+}
+@mixin heading3 {
+  @include _text-style($serif, $bold, 30, 36);
+}
+@mixin heading4 {
+  @include _text-style($serif, $bold, 24, 32);
+}
+@mixin heading5 {
+  @include _text-style($serif, $bold, 20, 28);
+}
+@mixin heading6 {
+  @include _text-style($serif, $bold, 18, 24);
+}
+@mixin body {
+  @include _text-style($serif, $regular, 18, 32);
+}
+@mixin small {
+  @include _text-style($serif, $regular, 16, 24);
+}
+@mixin smallest {
+  @include _text-style($serif, $regular, 14, 20);
+}
+
+@mixin ui {
+  @include _text-style($sans, $ui-regular, 18, 24);
+}
+@mixin ui-small {
+  @include _text-style($sans, $ui-regular, 14, 16);
+}

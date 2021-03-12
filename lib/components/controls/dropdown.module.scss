@@ -1,0 +1,128 @@
+@use "colors";
+@use "helpers";
+@use "borders";
+@use "spacing";
+
+.container {
+  position: relative;
+  background: colors.$neutral-50;
+  border: 1px solid colors.$neutral-400;
+  border-radius: borders.$radius;
+  color: colors.$neutral-500;
+
+  &:focus-within {
+    border-color: colors.$blue-500;
+    box-shadow: 0 0 0 1px colors.$blue-500,
+      0 1px 6px colors.alpha(colors.$blue-500, 0.3);
+    color: colors.$neutral-700;
+  }
+}
+.selectedPlaceholder {
+  color: colors.$neutral-900;
+}
+
+.toggleButton {
+  display: flex;
+  width: 100%; // Stupid buttons.
+  align-items: stretch;
+  text-align: left;
+  padding: spacing.$space-50 spacing.$space-75; // Needs to be the thing with the padding.
+  border-radius: inherit;
+
+  transition: border-color 75ms, color 75ms, box-shadow 75ms;
+
+  &:focus,
+  &.toggleButtonOpen {
+    outline: none;
+  }
+
+  &:hover {
+    color: colors.$neutral-700;
+  }
+
+  &:disabled {
+    background: colors.$neutral-200;
+    border-color: colors.$neutral-300;
+    color: colors.$neutral-400;
+
+    > .selectedPlaceholder {
+      color: colors.$neutral-700;
+    }
+  }
+
+  > span {
+    display: block;
+    padding-right: spacing.$space-75;
+  }
+}
+
+.buttonIconContainer {
+  margin-left: auto;
+  padding-left: spacing.$space-75;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid colors.$neutral-400;
+
+  svg {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+.invertedIcon {
+  transform: rotateZ(180deg);
+}
+
+.menuClosed {
+  @include helpers.visibly-hidden;
+}
+
+.menuOpenedBelowCss {
+  top: calc(100% + #{spacing.$space-25});
+}
+
+.menuOpenedAbove {
+  bottom: calc(100% + #{spacing.$space-25});
+}
+
+.menuOpen {
+  position: absolute;
+  z-index: 10000;
+  width: 100%;
+
+  background: colors.$neutral-50;
+  color: colors.$neutral-900;
+  border: 1px solid colors.$neutral-400;
+
+  padding: spacing.$space-50 0;
+  max-height: 15rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+
+  // Match the border-radius if we're in a control group or something.
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: borders.$radius;
+  border-bottom-left-radius: borders.$radius;
+
+  // box-shadow: shadows.inputFocused;
+  outline: none;
+}
+
+.menuItem {
+  padding: spacing.$space-50 spacing.$space-75;
+
+  transition: background-color 75ms, color 75ms;
+
+  &:not(.menuItemSelected).menuItemHighlighted {
+    background-color: colors.$blue-200;
+  }
+
+  &.menuItemSelected {
+    background-color: colors.$blue-500;
+    color: colors.$white;
+  }
+}

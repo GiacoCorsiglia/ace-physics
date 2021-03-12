@@ -1,9 +1,9 @@
 import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
+import { cx } from "@/helpers/frontend";
 import { Model } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
-import { cx } from "linaria";
 import { PretestSectionConfig } from "../config";
 import { tracked } from "../state-tree";
 

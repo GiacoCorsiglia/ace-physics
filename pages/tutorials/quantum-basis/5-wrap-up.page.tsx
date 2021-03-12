@@ -2,10 +2,10 @@ import { Prose } from "@/design";
 import { TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
-import { css } from "linaria";
 import React from "react";
 import Car from "./assets/car.svg";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section }) => ({
   name: "wrapUp",
@@ -28,17 +28,7 @@ export default page(setup, ({ section }) => ({
             down a hill.
           </Prose>
 
-          <Car
-            className={css`
-              display: block;
-              margin: 1rem auto 0;
-              width: 100%;
-              max-width: 266px;
-              height: auto;
-              border: 1px solid #b3b3b3;
-              border-radius: 3px;
-            `}
-          />
+          <Car className={styles.carFigure} />
         </>
       ),
     }),

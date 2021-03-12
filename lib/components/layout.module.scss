@@ -1,0 +1,85 @@
+@use "colors";
+@use "borders";
+@use "spacing";
+
+$text-width: spacing.$space-4000;
+// It turns out calc() doesn't behave well in media queries (at least not in
+// Chrome) so we just hardcode these as pixel values assuming 1rem = 16px.
+// $minContentWidth: spacing.$space-75 + spacing.$space-4000 + spacing.$space-75;
+$min-content-width: 664px;
+// $maxContentWidth: 1px + spacing.$space-400} + $text-width + spacing.$space-400 + 1px;
+$max-content-width: 770px;
+
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: spacing.$space-300;
+  padding-bottom: spacing.$space-300;
+  background: colors.$neutral-100;
+  border-style: solid;
+  border-color: colors.$neutral-200;
+  /* box-shadow: ${shadows.large.neutral}; */
+
+  @media (min-width: $max-content-width) {
+    box-sizing: content-box;
+    max-width: $text-width;
+    padding-left: spacing.$space-400;
+    padding-right: spacing.$space-400;
+    border-width: 1px;
+    border-radius: 0.5rem;
+
+    --callout-horizontal-margins: #{- spacing.$space-150};
+  }
+
+  @media (min-width: $min-content-width) and (max-width: $max-content-width - 1px) {
+    padding-left: calc((100vw - #{$text-width}) / 2);
+    padding-right: calc((100vw - #{$text-width}) / 2);
+    border-width: 1px 0;
+  }
+
+  @media (max-width: $min-content-width - 1px) {
+    padding-left: spacing.$space-75;
+    padding-right: spacing.$space-75;
+    border-width: 1px 0;
+  }
+}
+
+.vertical {
+  > * + * {
+    margin-top: spacing.$space-100;
+  }
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  > * + * {
+    margin-left: spacing.$space-100;
+  }
+
+  &.alignStart {
+    align-items: flex-start;
+  }
+  &.alignEnd {
+    align-items: flex-start;
+  }
+  &.alignStretch {
+    align-items: center;
+  }
+
+  &.justifyEnd {
+    justify-content: flex-end;
+  }
+  &.justifyCenter {
+    justify-content: center;
+  }
+  &.justifyStretch {
+    justify-content: stretch;
+
+    > * {
+      flex-grow: 1;
+    }
+  }
+}

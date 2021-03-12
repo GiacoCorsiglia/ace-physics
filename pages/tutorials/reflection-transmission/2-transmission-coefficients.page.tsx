@@ -1,10 +1,10 @@
 import { Prose } from "@/design";
+import { cx } from "@/helpers/frontend";
 import { TextArea } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import M from "@/math";
 import { page } from "@/tutorial";
 import { LinkExternalIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import React from "react";
 import { StepPotential } from "./figures";
 import setup from "./setup";

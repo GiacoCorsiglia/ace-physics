@@ -1,9 +1,8 @@
-import { Html } from "@/helpers/frontend";
+import { cx, Html, styled } from "@/helpers/frontend";
 import { Model } from "@/reactivity";
 import { Field, TupleField } from "@/schema/fields";
-import { css, cx } from "linaria";
-import { styled } from "linaria/lib/react";
 import { M } from "./m";
+import styles from "./matrix.module.scss";
 
 type MatrixContentProps =
   | { matrix: readonly (readonly Html[])[]; column?: never; row?: never }
@@ -18,39 +17,6 @@ export interface MatrixDisplayProps {
   className?: string;
 }
 
-const delimiterWidth = "0.56rem"; // About 9px
-const commaWidth = "0.65rem";
-const MatrixComponent = styled.div`
-  position: relative;
-`;
-
-const parenCss = css`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: ${delimiterWidth};
-
-  svg {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  svg:nth-child(2) {
-    flex-grow: 1;
-  }
-`;
-
-const leftParenCss = css`
-  left: 0;
-`;
-
-const rightParenCss = css`
-  right: 0;
-`;
-
 const Matrix = ({
   matrix,
   column,
@@ -64,16 +30,7 @@ const Matrix = ({
   const cols = column ? 1 : row ? row.length : matrix ? matrix[0].length : 1;
 
   return (
-    <div
-      className={cx(
-        css`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        `,
-        className
-      )}
-    >
+    <div className={cx(styles.root, className)}>
       {label}
 
       {labelTex && (
@@ -85,27 +42,12 @@ const Matrix = ({
       )}
 
       <div
-        className={cx(
-          css`
-            display: grid;
-            position: relative;
-            padding: 1rem calc(${delimiterWidth} + 0.25rem);
-            gap: 1rem;
-
-            &:not(:only-child) {
-              margin-left: 1rem;
-            }
-          `,
-          commas &&
-            css`
-              column-gap: calc(1rem + ${commaWidth});
-            `
-        )}
+        className={cx(styles.matrix, commas && styles.withCommas)}
         style={{
           gridTemplateColumns: `repeat(${cols}, 1fr)`,
         }}
       >
-        <div className={cx(parenCss, leftParenCss)}>
+        <div className={styles.leftParen}>
           <svg width="552" height="1810" viewBox="0 0 552 1810">
             <path
               fill="currentColor"
@@ -156,7 +98,7 @@ const Matrix = ({
             <MatrixComponent key={i}>{el}</MatrixComponent>
           ))}
 
-        <div className={cx(parenCss, rightParenCss)}>
+        <div className={styles.rightParen}>
           <svg width="552" height="1810" viewBox="0 0 552 1810">
             <path
               fill="currentColor"
@@ -185,13 +127,7 @@ const Matrix = ({
         </div>
 
         {subscriptTex && (
-          <span
-            className={css`
-              position: absolute;
-              right: -0.8rem;
-              bottom: -0.8rem;
-            `}
-          >
+          <span className={styles.subscript}>
             <M t={subscriptTex} />
           </span>
         )}
@@ -228,16 +164,12 @@ const exported = Object.assign(Matrix, {
 });
 export { exported as Matrix };
 
+const MatrixComponent = styled.div(styles.matrixComponent);
+
 const Comma = () => {
   return (
     <svg
-      className={css`
-        position: absolute;
-        bottom: -0.25rem;
-        right: calc(-${commaWidth} - 0.1rem);
-        width: ${commaWidth};
-        height: auto;
-      `}
+      className={styles.comma}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 -121 278 315"
     >

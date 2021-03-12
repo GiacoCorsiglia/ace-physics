@@ -1,7 +1,7 @@
 import { AuthProvider } from "@/auth";
 import { Footer } from "@/design/Footer";
 import footerStyles from "@/design/Footer.module.scss";
-import "@/design/global.css";
+import "@/design/global.scss";
 import { JsxElement, resetUniqueIds } from "@/helpers/frontend";
 import { init } from "@/sentry";
 import type { AppProps } from "next/app";

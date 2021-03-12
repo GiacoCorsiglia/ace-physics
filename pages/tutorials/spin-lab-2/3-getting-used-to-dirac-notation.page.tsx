@@ -5,7 +5,7 @@ import M, { fieldToMatrix, Matrix } from "@/math";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
-import { equationCss } from "./shared";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section, hint }) => ({
   name: "gettingUsedToDiracNotation",
@@ -92,7 +92,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <div className={equationCss}>
+          <div className={styles.equation}>
             <M t="\ket{u} = " />
             <Decimal model={m.uNormalized.elements[0]} />
             <M t="\ket{x} + " />
@@ -100,7 +100,7 @@ export default page(setup, ({ section, hint }) => ({
             <M t="\ket{y}" />
           </div>
 
-          <div className={equationCss}>
+          <div className={styles.equation}>
             <M t="\ket{v} = " />
             <Decimal model={m.vNormalized.elements[0]} />
             <M t="\ket{x} + " />

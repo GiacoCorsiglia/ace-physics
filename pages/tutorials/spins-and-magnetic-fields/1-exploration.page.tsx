@@ -1,10 +1,10 @@
 import { Info, Prose } from "@/design";
+import { cx } from "@/helpers/frontend";
 import { TextArea } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import M from "@/math";
 import { page } from "@/tutorial";
 import { LinkExternalIcon, PencilIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import { HowToUseTheSim } from "../spin-lab-1/shared";
 import experimentalSetupImg from "./assets/experimental-setup.png";
 import setup from "./setup";

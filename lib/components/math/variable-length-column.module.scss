@@ -1,0 +1,84 @@
+@use "spacing";
+@use "fonts";
+@use "borders";
+@use "colors";
+
+.columnVectorRow {
+  display: flex;
+  align-items: center;
+
+  input {
+    max-width: 10rem;
+  }
+}
+
+.columnVectorButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  @include fonts.ui;
+  border-radius: borders.$radius;
+  border-width: 1px;
+  border-style: solid;
+  border-color: colors.$neutral-400;
+  background: none;
+  color: inherit;
+  opacity: 0.5;
+  transition: opacity 75ms ease-in-out, color 75ms ease-in-out;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    opacity: 0.25;
+  }
+
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    opacity: 1;
+    color: colors.$blue-500;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    transition-duration: 150ms;
+  }
+
+  & :global(.octicon) {
+    display: block !important;
+    height: 1em;
+    width: auto;
+  }
+}
+
+.removeRowButton {
+  composes: columnVectorButton;
+  margin-left: spacing.$space-50;
+  padding: 0 spacing.$space-25;
+}
+
+.addRowButton {
+  composes: columnVectorButton;
+  width: 100%;
+  padding: 0 spacing.$space-100;
+
+  span {
+    @include fonts.ui-small;
+    padding-left: spacing.$space-50;
+    position: relative;
+    top: -0.1rem;
+  }
+}
+
+.addRowMessage {
+  margin-top: spacing.$space-25;
+  @include fonts.smallest;
+  text-align: center;
+  color: colors.$neutral-700;
+}

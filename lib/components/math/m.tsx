@@ -2,6 +2,7 @@ import { result, useIsomorphicLayoutEffect } from "@/helpers/frontend";
 import type { KatexOptions, ParseError } from "katex";
 import "katex/dist/katex.css";
 import { useState } from "react";
+import styles from "./m.module.scss";
 import { macros } from "./macros";
 
 // https://katex.org/docs/options.html
@@ -79,7 +80,7 @@ export const M = ({
 
   return (
     <span
-      className={display ? "display-math" : undefined}
+      className={display ? styles.displayMath : undefined}
       style={color ? { color } : undefined}
       dangerouslySetInnerHTML={html}
     />

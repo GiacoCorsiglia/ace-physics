@@ -2,9 +2,9 @@ import { Prose, Reminder } from "@/design";
 import { Decimal, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
-import { css } from "linaria";
 import React from "react";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section }) => ({
   name: "aMischiefOfMice",
@@ -57,21 +57,7 @@ export default page(setup, ({ section }) => ({
             What is <M t="\Delta\hat{S}" />?
           </Prose>
 
-          <div
-            className={css`
-              display: grid;
-              margin-top: 1rem;
-              grid-template-columns: auto auto 1fr;
-              gap: 1rem;
-              align-items: center;
-
-              label {
-                text-align: right;
-                padding: 0.5rem 0;
-                margin-bottom: 0 !important;
-              }
-            `}
-          >
+          <div className={styles.unitsGrid}>
             <Decimal model={m.expValS} label={<M t="\expval{\hat{S}} = " />} />
 
             <Select

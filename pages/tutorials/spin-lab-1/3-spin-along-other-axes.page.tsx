@@ -1,12 +1,12 @@
 import { Help, Info, Prose } from "@/design";
-import { deepEqual } from "@/helpers/frontend";
+import { cx, deepEqual } from "@/helpers/frontend";
 import { ChooseOne, Decimal } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
-import { css, cx } from "linaria";
 import xzImg from "./assets/x-z.png";
 import zxImg from "./assets/z-x.png";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section, hint, oneOf }) => ({
   name: "spinAlongOtherAxes",
@@ -198,15 +198,8 @@ export default page(setup, ({ section, hint, oneOf }) => ({
               <p>
                 Use the sim to run your S-G setup, and fill in the corresponding
                 box in the table below (outlined in{" "}
-                <span
-                  className={css`
-                    color: green;
-                    font-weight: bold;
-                  `}
-                >
-                  green
-                </span>
-                ) with the corresponding probability.
+                <span className={styles.green}>green</span>) with the
+                corresponding probability.
               </p>
 
               <p>
@@ -251,10 +244,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
                             className={cx(
                               row === "upZ" &&
                                 col === "upX" &&
-                                css`
-                                  border-color: green;
-                                  box-shadow: green 0 0 1px 1px;
-                                `
+                                styles.greenBorder
                             )}
                             initialValue={
                               row === "upZ" && col === "upZ" ? 1 : undefined

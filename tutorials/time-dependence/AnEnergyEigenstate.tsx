@@ -1,5 +1,6 @@
 import { Continue, Prose, Section } from "@/design";
 import { Content } from "@/design/layout";
+import { cx } from "@/helpers/frontend";
 import { Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import { choices } from "@/inputs/Select";
@@ -8,7 +9,6 @@ import { Field, isSet } from "@/state";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { ChoiceSchema, StringSchema } from "common/schema";
 import { TimeDependence } from "common/tutorials";
-import { cx } from "linaria";
 import { ContinueToNextPart, Part, sectionComponents } from "tutorials/shared";
 
 export default function AnEnergyEigenstate() {

@@ -38,9 +38,16 @@
 }
 
 .tutorialContent {
+  counter-reset: section;
+
   @include above-sidebar-visible {
     grid-column: 2;
   }
+}
+
+.loggedOut {
+  text-align: center;
+  margin-top: calc(2rem + 10vh);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

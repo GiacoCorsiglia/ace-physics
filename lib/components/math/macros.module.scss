@@ -1,0 +1,33 @@
+.circled {
+  box-shadow: inset 0 0 0 1px currentColor;
+  border-radius: 100%;
+}
+
+@mixin spacing($padding, $vertical-shift: null) {
+  padding: {
+    left: $padding;
+    right: $padding;
+  }
+
+  @if $vertical-shift {
+    > * {
+      position: relative;
+      top: $vertical-shift;
+    }
+  }
+}
+
+.smalleye {
+  composes: circled;
+  @include spacing(0.45em, -0.3em);
+}
+
+.wideye {
+  composes: circled;
+  @include spacing(0.3em);
+}
+
+.smiley {
+  composes: circled;
+  @include spacing(0.18em, 0.05em);
+}

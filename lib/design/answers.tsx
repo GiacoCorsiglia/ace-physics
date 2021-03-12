@@ -1,5 +1,4 @@
-import { Html } from "@/helpers/frontend";
-import { cx } from "linaria";
+import { cx, Html } from "@/helpers/frontend";
 import { createContext, useContext } from "react";
 import styles from "./structure.module.scss";
 

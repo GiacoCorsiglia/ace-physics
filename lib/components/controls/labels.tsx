@@ -1,63 +1,21 @@
-import { spacing } from "@/design";
-import type { Css } from "@/helpers/frontend";
-import { styled } from "linaria/react";
+import { styled } from "@/helpers/frontend";
+import styles from "./labels.module.scss";
 
-export const ControlLabel = styled.label`
-  display: block;
-`;
-
+export const ControlLabel = styled.label(styles.controlLabel);
 interface AlignProp {
-  align?: Css["alignItems"];
+  align?: "start" | "center" | "end";
 }
 
-export const LabelsLeft = styled.div<AlignProp>`
-  display: grid;
+export const LabelsLeft = styled.div<AlignProp>(({ align = "start" }) => [
+  styles.labelsLeft,
+  align === "start" && styles.alignStart,
+  align === "center" && styles.alignCenter,
+  align === "end" && styles.alignEnd,
+]);
 
-  @media (min-width: 512px) {
-    grid-template-columns: auto 1fr;
-    align-items: ${(props) => props.align || "start"};
-    row-gap: ${spacing.$100};
-    column-gap: ${spacing.$100};
-
-    > * {
-      grid-column: 2;
-    }
-
-    > ${ControlLabel} {
-      grid-column: 1;
-      text-align: right;
-      padding: ${spacing.$50} 0;
-    }
-  }
-
-  @media (max-width: 511px) {
-    grid-template-columns: 1fr;
-    row-gap: ${spacing.$100};
-  }
-`;
-
-export const LabelsRight = styled.div<AlignProp>`
-  display: grid;
-
-  @media (min-width: 512px) {
-    grid-template-columns: 1fr auto;
-    grid-auto-flow: dense; // Make the first field go before the first label.
-    align-items: ${(props) => props.align || "center"};
-    row-gap: ${spacing.$100};
-    column-gap: ${spacing.$100};
-
-    > * {
-      grid-column: 1;
-    }
-
-    > ${ControlLabel} {
-      grid-column: 2;
-      padding: ${spacing.$50} 0;
-    }
-  }
-
-  @media (max-width: 511px) {
-    grid-template-columns: 1fr;
-    row-gap: ${spacing.$100};
-  }
-`;
+export const LabelsRight = styled.div<AlignProp>(({ align = "center" }) => [
+  styles.labelsRight,
+  align === "start" && styles.alignStart,
+  align === "center" && styles.alignCenter,
+  align === "end" && styles.alignEnd,
+]);

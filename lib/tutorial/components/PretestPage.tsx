@@ -1,17 +1,16 @@
 import { Button, DisableControls } from "@/components";
 import { Info, Prose } from "@/design";
 import { Content } from "@/design/layout";
-import styles from "@/design/structure.module.scss";
-import { htmlTitle } from "@/helpers/frontend";
+import { cx, htmlTitle } from "@/helpers/frontend";
 import { isSet, Model, tracker } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
 import * as urls from "@/urls";
 import { AlertIcon, ArrowRightIcon } from "@primer/octicons-react";
-import { css, cx } from "linaria";
 import Head from "next/head";
 import { PretestConfig, TutorialConfig } from "../config";
 import { tracked, useRootModel, useTracked } from "../state-tree";
+import styles from "./PretestPage.module.scss";
 import PretestSection from "./PretestSection";
 
 export default function PretestPage({
@@ -60,25 +59,11 @@ export default function PretestPage({
         </Prose>
 
         <Info>
-          <div
-            className={css`
-              display: flex;
-              align-items: center;
-
-              & > * + * {
-                margin-left: 1.5rem;
-              }
-            `}
-          >
+          <div className={styles.noticeContainer}>
             <AlertIcon size="large" />
 
             <Prose noMargin>
-              <p
-                className={css`
-                  font-size: 1.5rem;
-                  font-weight: bold;
-                `}
-              >
+              <p className={styles.noticeText}>
                 Work on this page alone and don’t discuss your answers until
                 you’ve moved on to the next page.
               </p>

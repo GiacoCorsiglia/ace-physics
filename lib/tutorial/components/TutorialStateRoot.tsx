@@ -1,14 +1,13 @@
 import { getTutorial, updateTutorial } from "@/api/client";
 import { Prose } from "@/design";
 import { Content } from "@/design/layout";
-import { JsxElement } from "@/helpers/frontend";
+import { cx, JsxElement } from "@/helpers/frontend";
 import { Updates } from "@/reactivity";
 import { Learner } from "@/schema/db";
 import { TutorialState } from "@/schema/tutorial";
 import { decode } from "@/schema/types";
 import EllipsisCircleIcon from "@/svgs/ellipsis-circle.svg";
 import { AlertIcon, CheckCircleIcon, SyncIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import debounce from "lodash.debounce";
 import React, {
   useCallback,

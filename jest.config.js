@@ -11,7 +11,7 @@ const config = (module.exports = {
   transform: {
     "^.+\\.(ts|tsx)$": "babel-jest",
 
-    //Fake asset imports.
+    // Fake asset imports.
     "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)":
       "<rootDir>/lib/__mocks__/file-transform.js",
   },

@@ -9,9 +9,9 @@ import {
 } from "@/inputs";
 import M from "@/math/M";
 import { page } from "@/tutorial";
-import { css } from "linaria";
 import threeAnalyzersImg from "./assets/three-analyzers.png";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section, hint }) => ({
   name: "threeAnalyzers",
@@ -60,13 +60,7 @@ export default page(setup, ({ section, hint }) => ({
               </tr>
             </thead>
 
-            <tbody
-              className={css`
-                & input {
-                  min-width: 100%;
-                }
-              `}
-            >
+            <tbody className={styles.expandInputsInTable}>
               <tr>
                 <th>Maximum</th>
                 <td>
@@ -104,13 +98,13 @@ export default page(setup, ({ section, hint }) => ({
           <FieldGroup grid className="margin-top-1">
             <Select
               model={m.maxAi}
-              label={<b className={green}>Analyzer i:</b>}
+              label={<b className={styles.green}>Analyzer i:</b>}
               choices={analyzerChoices}
               allowOther={false}
             />
             <Select
               model={m.maxAii}
-              label={<b className={blue}>Analyzer ii:</b>}
+              label={<b className={styles.blue}>Analyzer ii:</b>}
               choices={analyzerChoices}
               allowOther={false}
             />
@@ -174,7 +168,7 @@ export default page(setup, ({ section, hint }) => ({
 
             <tbody>
               <tr>
-                <th className={green}>Analyzer&nbsp;i</th>
+                <th className={styles.green}>Analyzer&nbsp;i</th>
                 <td>
                   <Select
                     model={m.minAi}
@@ -199,7 +193,7 @@ export default page(setup, ({ section, hint }) => ({
               </tr>
 
               <tr>
-                <th className={blue}>Analyzer&nbsp;ii</th>
+                <th className={styles.blue}>Analyzer&nbsp;ii</th>
                 <td>
                   <Select
                     model={m.minAii}
@@ -394,13 +388,6 @@ export default page(setup, ({ section, hint }) => ({
   ],
 }));
 
-const green = css`
-  color: green;
-`;
-const blue = css`
-  color: blue;
-`;
-
 const analyzerChoices = [
   ["X", "X"],
   ["Y", "Y"],
@@ -409,13 +396,13 @@ const analyzerChoices = [
 
 //prettier-ignore
 const analyzerComboChoices = [
-  ["XX", <><b className={green}>X</b> then <b className={blue}>X</b></>],
-  ["XY", <><b className={green}>X</b> then <b className={blue}>Y</b></>],
-  ["XZ", <><b className={green}>X</b> then <b className={blue}>Z</b></>],
-  ["YX", <><b className={green}>Y</b> then <b className={blue}>X</b></>],
-  ["YY", <><b className={green}>Y</b> then <b className={blue}>Y</b></>],
-  ["YZ", <><b className={green}>Y</b> then <b className={blue}>Z</b></>],
-  ["ZX", <><b className={green}>Z</b> then <b className={blue}>X</b></>],
-  ["ZY", <><b className={green}>Z</b> then <b className={blue}>Y</b></>],
-  ["ZZ", <><b className={green}>Z</b> then <b className={blue}>Z</b></>],
+  ["XX", <><b className={styles.green}>X</b> then <b className={styles.blue}>X</b></>],
+  ["XY", <><b className={styles.green}>X</b> then <b className={styles.blue}>Y</b></>],
+  ["XZ", <><b className={styles.green}>X</b> then <b className={styles.blue}>Z</b></>],
+  ["YX", <><b className={styles.green}>Y</b> then <b className={styles.blue}>X</b></>],
+  ["YY", <><b className={styles.green}>Y</b> then <b className={styles.blue}>Y</b></>],
+  ["YZ", <><b className={styles.green}>Y</b> then <b className={styles.blue}>Z</b></>],
+  ["ZX", <><b className={styles.green}>Z</b> then <b className={styles.blue}>X</b></>],
+  ["ZY", <><b className={styles.green}>Z</b> then <b className={styles.blue}>Y</b></>],
+  ["ZZ", <><b className={styles.green}>Z</b> then <b className={styles.blue}>Z</b></>],
 ] as const;

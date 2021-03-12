@@ -1,0 +1,12 @@
+.content {
+  text-align: center;
+  margin-top: calc(2rem + 10vh);
+}
+
+.buttons {
+  margin-top: 2rem;
+
+  & > * + * {
+    margin-left: 1rem;
+  }
+}

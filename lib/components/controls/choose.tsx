@@ -1,9 +1,7 @@
-import { borderRadius, colors, spacing } from "@/design";
-import { Html, useSyncedState, useUniqueId } from "@/helpers/frontend";
-import { css } from "linaria";
-import { styled } from "linaria/lib/react";
+import { Html, styled, useSyncedState, useUniqueId } from "@/helpers/frontend";
 import { useRef } from "react";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
+import styles from "./choose.module.scss";
 import { ControlLabel } from "./labels";
 import { NumericInputControl } from "./numeric";
 import { TextBoxControl, TextInputControl } from "./text";
@@ -145,8 +143,8 @@ export const ChooseControl = <
         {choices.map(([choiceId, choiceLabel]) => (
           <Choice
             as="label"
-            data-selected={isSelected(choiceId) || undefined}
-            data-disabled={disabled || undefined}
+            selected={isSelected(choiceId)}
+            disabled={disabled}
             key={choiceId + ""}
             htmlFor={`${chooseId}-${choiceId}`}
           >
@@ -169,19 +167,8 @@ export const ChooseControl = <
         ))}
 
         {other && (
-          <Choice
-            as="div"
-            data-selected={isOtherSelected || undefined}
-            data-disabled={disabled || undefined}
-          >
-            <label
-              className={css`
-                display: flex;
-                align-items: center;
-                align-self: stretch;
-              `}
-              htmlFor={`${chooseId}-other`}
-            >
+          <Choice as="div" selected={isOtherSelected} disabled={disabled}>
+            <label className={styles.otherLabeL} htmlFor={`${chooseId}-other`}>
               <ChoiceRadioBox>
                 <input
                   disabled={disabled}
@@ -199,20 +186,7 @@ export const ChooseControl = <
                 />
               </ChoiceRadioBox>
 
-              <div
-                className={css`
-                  padding-top: ${spacing.$50};
-                  padding-bottom: ${spacing.$50};
-                  padding-left: ${spacing.$75};
-                  padding-right: ${spacing.$25};
-
-                  &::after {
-                    content: ":";
-                  }
-                `}
-              >
-                Other
-              </div>
+              <div className={styles.otherLabelText}>Other</div>
             </label>
 
             {(() => {
@@ -286,74 +260,13 @@ export const ChooseControl = <
   );
 };
 
-const ChoiceRadioBox = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0 ${spacing.$100};
-  border-right: 1px solid ${colors.neutral.$300};
-  align-self: stretch;
-  background-color: ${colors.neutral.$50};
-  transition: border-color 75ms ease-in-out, background-color 75ms ease-in-out;
-`;
-
-const ChoiceLabel = styled.div`
-  padding: ${spacing.$50} ${spacing.$75};
-  color: ${colors.neutral.$800};
-`;
-
-const Choice = styled.label`
-  display: flex;
-  align-items: center;
-  border: 1px solid ${colors.neutral.$400};
-  background-color: ${colors.neutral.$50};
-
-  transition: border-color 75ms ease-in-out;
-
-  & + & {
-    margin-top: -1px;
-  }
-
-  &:first-child {
-    border-top-left-radius: ${borderRadius};
-    border-top-right-radius: ${borderRadius};
-
-    ${ChoiceRadioBox} {
-      border-top-left-radius: ${borderRadius};
-    }
-  }
-
-  &:last-child {
-    border-bottom-left-radius: ${borderRadius};
-    border-bottom-right-radius: ${borderRadius};
-
-    ${ChoiceRadioBox} {
-      border-bottom-left-radius: ${borderRadius};
-    }
-  }
-
-  &:focus-within,
-  &:not([data-disabled]):hover,
-  &[data-selected] {
-    position: relative;
-    z-index: 2;
-    border-color: ${colors.neutral.$500};
-
-    ${ChoiceRadioBox} {
-      background-color: ${colors.blue.$200};
-      border-color: ${colors.neutral.$500};
-    }
-  }
-
-  &:not([data-selected]):not(:focus-within)[data-disabled] {
-    border-color: ${colors.neutral.$300};
-
-    ${ChoiceLabel} {
-      color: ${colors.neutral.$700};
-    }
-
-    ${ChoiceRadioBox} {
-      background-color: ${colors.neutral.$200};
-      border-color: ${colors.neutral.$300};
-    }
-  }
-`;
+const Choice = styled.label<{
+  selected: boolean;
+  disabled: boolean;
+}>(({ selected, disabled }) => [
+  styles.choice,
+  selected && styles.selected,
+  disabled && styles.disabled,
+]);
+const ChoiceRadioBox = styled.div(styles.choiceRadioBox);
+const ChoiceLabel = styled.div(styles.choiceLabel);

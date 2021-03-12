@@ -12,7 +12,7 @@ export const borderRadius = "0.25rem";
 
 import { Button } from "@/components";
 import * as globalParams from "@/global-params";
-import { Html } from "@/helpers/frontend";
+import { cx, Html } from "@/helpers/frontend";
 import { Field } from "@/state";
 import {
   ArrowDownIcon,
@@ -21,7 +21,6 @@ import {
   EyeIcon,
 } from "@primer/octicons-react";
 import * as s from "common/schema";
-import { cx } from "linaria";
 import { Children as ReactChildren, useEffect, useRef } from "react";
 import { Content } from "./layout";
 import styles from "./structure.module.scss";

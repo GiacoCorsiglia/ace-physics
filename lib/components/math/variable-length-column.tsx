@@ -1,12 +1,11 @@
-import { borderRadius, colors, fonts, spacing } from "@/design";
-import { Html, isReactElement } from "@/helpers/frontend";
+import { Html, isReactElement, styled } from "@/helpers/frontend";
 import { Model, useModel } from "@/reactivity";
 import { ArrayField, Field } from "@/schema/fields";
 import { PlusIcon, XIcon } from "@primer/octicons-react";
-import { styled } from "linaria/react";
 import { cloneElement, useRef } from "react";
 import { VisiblyHidden } from "../style-helpers";
 import { Matrix, MatrixDisplayProps } from "./matrix";
+import styles from "./variable-length-column.module.scss";
 
 export const VariableLengthColumn = <E extends Field>({
   model,
@@ -133,80 +132,7 @@ export const VariableLengthColumn = <E extends Field>({
   return <Matrix column={column} {...matrixProps} />;
 };
 
-const ColumnVectorRow = styled.div`
-  display: flex;
-  align-items: center;
-
-  input {
-    max-width: 10rem;
-  }
-`;
-
-const ColumnVectorButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 2rem;
-  ${fonts.ui};
-  border-radius: ${borderRadius};
-  border-width: 1px;
-  border-style: solid;
-  border-color: ${colors.neutral.$400};
-  background: none;
-  color: inherit;
-  opacity: 0.5;
-  transition: opacity 75ms ease-in-out, color 75ms ease-in-out;
-
-  &:not(:disabled) {
-    cursor: pointer;
-  }
-
-  &:disabled {
-    opacity: 0.25;
-  }
-
-  &:hover:not(:disabled),
-  &:focus:not(:disabled) {
-    opacity: 1;
-    color: ${colors.blue.$500};
-  }
-
-  &:active,
-  &:focus {
-    outline: none;
-  }
-
-  &:active {
-    transition-duration: 150ms;
-  }
-
-  & :global(.octicon) {
-    display: block !important;
-    height: ${fonts.ui.fontSize};
-    width: auto;
-  }
-`;
-
-const RemoveRowButton = styled(ColumnVectorButton)`
-  margin-left: ${spacing.$50};
-  padding: 0 ${spacing.$25};
-`;
-
-const AddRowButton = styled(ColumnVectorButton)`
-  width: 100%;
-  padding: 0 ${spacing.$100};
-
-  span {
-    ${fonts.uiSmall};
-    padding-left: ${spacing.$50};
-    position: relative;
-    top: -0.1rem;
-  }
-`;
-
-const AddRowMessage = styled.p`
-  margin-top: ${spacing.$25};
-  ${fonts.smallest};
-  text-align: center;
-  color: ${colors.neutral.$700};
-`;
+const ColumnVectorRow = styled.div(styles.columnVectorRow);
+const RemoveRowButton = styled.button(styles.removeRowButton);
+const AddRowButton = styled.button(styles.addRowButton);
+const AddRowMessage = styled.p(styles.addRowMessage);

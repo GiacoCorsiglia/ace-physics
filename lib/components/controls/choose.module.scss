@@ -1,0 +1,92 @@
+@use "spacing";
+@use "colors";
+@use "borders";
+
+.choice {
+  display: flex;
+  align-items: center;
+  border: 1px solid colors.$neutral-400;
+  background-color: colors.$neutral-50;
+
+  transition: border-color 75ms ease-in-out;
+
+  & + & {
+    margin-top: -1px;
+  }
+
+  &:first-child {
+    border-top-left-radius: borders.$radius;
+    border-top-right-radius: borders.$radius;
+
+    .choiceRadioBox {
+      border-top-left-radius: borders.$radius;
+    }
+  }
+
+  &:last-child {
+    border-bottom-left-radius: borders.$radius;
+    border-bottom-right-radius: borders.$radius;
+
+    .choiceRadioBox {
+      border-bottom-left-radius: borders.$radius;
+    }
+  }
+
+  &:focus-within,
+  &:not(.disabled):hover,
+  &.selected {
+    position: relative;
+    z-index: 2;
+    border-color: colors.$neutral-500;
+
+    .choiceRadioBox {
+      background-color: colors.$blue-200;
+      border-color: colors.$neutral-500;
+    }
+  }
+
+  &:not(.selected):not(:focus-within).disabled {
+    border-color: colors.$neutral-300;
+
+    .choiceLabel {
+      color: colors.$neutral-700;
+    }
+
+    .choiceRadioBox {
+      background-color: colors.$neutral-200;
+      border-color: colors.$neutral-300;
+    }
+  }
+}
+
+.choiceRadioBox {
+  display: flex;
+  align-items: center;
+  padding: 0 spacing.$space-100;
+  border-right: 1px solid colors.$neutral-300;
+  align-self: stretch;
+  background-color: colors.$neutral-50;
+  transition: border-color 75ms ease-in-out, background-color 75ms ease-in-out;
+}
+
+.choiceLabel {
+  padding: spacing.$space-50 spacing.$space-75;
+  color: colors.$neutral-800;
+}
+
+.otherLabeL {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+}
+
+.otherLabelText {
+  padding-top: spacing.$space-50;
+  padding-bottom: spacing.$space-50;
+  padding-left: spacing.$space-75;
+  padding-right: spacing.$space-25;
+
+  &::after {
+    content: ":";
+  }
+}

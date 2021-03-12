@@ -1,10 +1,10 @@
 import { Prose } from "@/design";
+import { cx } from "@/helpers/frontend";
 import { Decimal, TextArea, Toggle } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import M from "@/math";
 import { page } from "@/tutorial";
 import { LinkExternalIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import spinZSetupImg from "./assets/spin-z-setup.png";
 import setup from "./setup";
 

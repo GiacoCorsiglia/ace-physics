@@ -1,9 +1,8 @@
 import { Button } from "@/components";
 import { Prose } from "@/design";
-import { useToggle } from "@/helpers/frontend";
+import { cx, useToggle } from "@/helpers/frontend";
 import { Login } from "@/urls";
 import { PersonIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import { useRouter } from "next/router";
 import { formatId } from "./helpers";
 import { useAuth } from "./service";

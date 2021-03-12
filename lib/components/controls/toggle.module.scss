@@ -1,0 +1,121 @@
+@use "colors";
+@use "spacing";
+@use "borders";
+
+.horizontal {
+  display: flex;
+}
+
+.vertical {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.grid {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.choice {
+  display: block;
+  background: colors.$neutral-50;
+  color: colors.$neutral-900;
+  border: 1px solid colors.$neutral-400;
+  padding: spacing.$space-50 spacing.$space-100;
+  text-align: center;
+  transition: background-color 75ms ease-in-out, border-color 75ms ease-in-out,
+    box-shadow 75ms ease-in-out, color 75ms ease-in-out;
+
+  // TODO:
+  :global(table) & {
+    flex-grow: 1;
+  }
+
+  &:not(.disabled):not(.selected):hover,
+  &:focus-within {
+    border-color: colors.$neutral-500;
+    background-color: colors.$blue-200;
+  }
+
+  &:not(.disabled):active,
+  &.selected {
+    background-color: colors.$blue-500;
+    color: colors.$white;
+    border-color: colors.$blue-500;
+    position: relative;
+    z-index: 2;
+  }
+
+  &:not(.selected).disabled {
+    color: colors.$neutral-700;
+    background-color: colors.$neutral-200;
+    border-color: colors.$neutral-300;
+  }
+
+  &.selected:focus-within {
+    box-shadow: 0 0 0 2px colors.$blue-400;
+  }
+
+  .horizontal & {
+    margin-left: -1px;
+
+    &:first-child {
+      margin-left: 0;
+      border-top-left-radius: borders.$radius;
+      border-bottom-left-radius: borders.$radius;
+    }
+
+    &:last-child {
+      border-top-right-radius: borders.$radius;
+      border-bottom-right-radius: borders.$radius;
+    }
+  }
+
+  .vertical & {
+    margin-top: -1px;
+
+    &:first-child {
+      margin-top: 0;
+      border-top-left-radius: borders.$radius;
+      border-top-right-radius: borders.$radius;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: borders.$radius;
+      border-bottom-right-radius: borders.$radius;
+    }
+  }
+
+  .grid & {
+    &:nth-child(2n) {
+      margin-left: -1px;
+    }
+
+    &:not(:first-child):not(:nth-child(2)) {
+      margin-top: -1px;
+    }
+
+    &:first-child {
+      border-top-left-radius: borders.$radius;
+    }
+
+    &:nth-child(2) {
+      border-top-right-radius: borders.$radius;
+    }
+
+    &:nth-last-child(2) {
+      border-bottom-left-radius: borders.$radius;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: borders.$radius;
+    }
+  }
+}
+
+.radio {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}

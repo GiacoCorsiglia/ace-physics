@@ -1,0 +1,94 @@
+@use "spacing";
+@use "colors";
+@use "borders";
+@use "fonts";
+
+.button {
+  z-index: var(--button-z-index);
+
+  padding: spacing.$space-75 spacing.$space-200;
+  border-radius: borders.$radius;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  color: colors.$white;
+
+  @include fonts.ui;
+
+  transition-property: box-shadow;
+  transition-duration: 100ms;
+  transition-timing-function: ease-in-out;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    /* transform: translateY(1px); */
+  }
+
+  // Icons.
+  svg {
+    width: 1em;
+    height: auto;
+  }
+}
+
+.iconFirst {
+  svg {
+    margin-left: -0.3rem;
+    margin-right: 0.6rem;
+  }
+}
+
+.iconLast {
+  svg {
+    margin-left: 0.6rem;
+    margin-right: -0.3rem;
+  }
+}
+
+@mixin button($color) {
+  background: colors.shade($color, 500);
+  border-color: colors.shade($color, 600);
+  // boxShadow: base,
+
+  &:hover {
+    background: colors.shade($color, 600);
+    border-color: colors.shade($color, 700);
+    // boxShadow: `${base},
+    //   0px 2px 9px 4px ${colors.alpha(colors.shade($color, 300), 0.65)}`,
+  }
+
+  &:active {
+    background: colors.shade($color, 700);
+    border-color: colors.shade($color, 700);
+    // boxShadow: `${base},
+    //   0px 1px 6px 4px ${colors.alpha(colors.shade($color, 300), 0.75)}`,
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px colors.shade($color, 600),
+      0 1px 6px colors.alpha(colors.shade($color, 600), 0.3);
+    // boxShadow: `${base},
+    //   0 2px 10px 7px ${colors.alpha(colors.shade($color, 300), 0.65)},
+    //   0 0 0 3px ${colors.alpha(colors.shade($color, 500), 0.75)}`,
+  }
+
+  &:disabled {
+    background: colors.shade($color, 300);
+    border-color: colors.shade($color, 300);
+    // boxShadow: `${base},
+    //   0px 2px 9px 4px ${colors.alpha(color.$300, 0.65)}`,
+  }
+}
+
+.green {
+  @include button(colors.$green);
+}
+.blue {
+  @include button(colors.$blue);
+}
+.yellow {
+  @include button(colors.$yellow);
+}

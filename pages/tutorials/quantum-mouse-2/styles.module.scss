@@ -1,0 +1,30 @@
+.basisGrid {
+  display: grid;
+  margin-top: 1rem;
+  grid-template-columns: auto auto auto 1fr;
+  grid-gap: 1rem;
+  align-items: center;
+}
+
+.unitsGrid {
+  display: grid;
+  margin-top: 1rem;
+  grid-template-columns: auto auto 1fr;
+  gap: 1rem;
+  align-items: center;
+
+  label {
+    text-align: right;
+    padding: 0.5rem 0;
+    margin-bottom: 0 !important;
+  }
+}
+
+.ketLabel {
+  display: flex;
+  align-items: center;
+
+  & > * + * {
+    margin-left: 0.3rem;
+  }
+}

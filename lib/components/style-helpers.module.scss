@@ -1,0 +1,5 @@
+@use "helpers";
+
+.visiblyHidden {
+  @include helpers.visibly-hidden;
+}

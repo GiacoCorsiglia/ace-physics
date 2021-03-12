@@ -1,17 +1,16 @@
-import { borderRadius, colors, shadows, spacing } from "@/design";
 import {
   castWriteable,
+  cx,
   Html,
   useIsomorphicLayoutEffect,
   useUniqueId,
 } from "@/helpers/frontend";
 import { ChevronDownIcon } from "@primer/octicons-react";
 import { useSelect } from "downshift";
-import { css, cx } from "linaria";
 import { useRef, useState } from "react";
-import { visiblyHiddenStyles } from "../style-helpers";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
 import { useDisabled } from "./disabled";
+import styles from "./dropdown.module.scss";
 import { ControlLabel } from "./labels";
 
 export interface DropdownControlProps {
@@ -120,31 +119,30 @@ export const DropdownControl = <C,>({
       )}
 
       <div
-        className={cx(containerCss, "ace-control", className)}
+        className={cx(styles.container, "ace-control", className)}
         ref={containerRef}
       >
         <button
           {...ds.getToggleButtonProps({
             disabled,
-            className: cx(toggleButtonCss, ds.isOpen && toggleButtonOpenCss),
+            className: cx(
+              styles.toggleButton,
+              ds.isOpen && styles.toggleButtonOpen
+            ),
             onKeyDown,
           })}
         >
           {!selectedChoice && <span>{placeholder ?? "Select…"}</span>}
 
           {selectedChoice && (
-            <span className={selectedPlaceholderCss}>{selectedChoice[1]}</span>
+            <span className={styles.selectedPlaceholder}>
+              {selectedChoice[1]}
+            </span>
           )}
 
-          <div className={buttonIconContainerCss}>
+          <div className={styles.buttonIconContainer}>
             <ChevronDownIcon
-              className={cx(
-                ds.isOpen &&
-                  openAbove &&
-                  css`
-                    transform: rotateZ(180deg);
-                  `
-              )}
+              className={cx(ds.isOpen && openAbove && styles.invertedIcon)}
             />
           </div>
         </button>
@@ -154,10 +152,10 @@ export const DropdownControl = <C,>({
             disabled,
             ref: menuRef,
             className: cx(
-              !ds.isOpen && menuClosedCss,
-              ds.isOpen && menuOpenCss,
-              ds.isOpen && openAbove && menuOpenedAboveCss,
-              ds.isOpen && !openAbove && menuOpenedBelowCss
+              !ds.isOpen && styles.menuClosed,
+              ds.isOpen && styles.menuOpen,
+              ds.isOpen && openAbove && styles.menuOpenedAbove,
+              ds.isOpen && !openAbove && styles.menuOpenedBelow
             ),
             onKeyDown,
           })}
@@ -170,9 +168,9 @@ export const DropdownControl = <C,>({
                 index,
                 key: choiceId + "",
                 className: cx(
-                  menuItemCss,
-                  index === ds.highlightedIndex && menuItemHighlightedCss,
-                  choiceId === value && menuItemSelectedCss
+                  styles.menuItem,
+                  index === ds.highlightedIndex && styles.menuItemHighlighted,
+                  choiceId === value && styles.menuItemSelected
                 ),
                 disabled,
               });
@@ -183,131 +181,3 @@ export const DropdownControl = <C,>({
     </>
   );
 };
-
-const containerCss = css`
-  position: relative;
-  background: ${colors.neutral.$50};
-  border: 1px solid ${colors.neutral.$400};
-  border-radius: ${borderRadius};
-  color: ${colors.neutral.$500};
-
-  &:focus-within {
-    border-color: ${colors.blue.$500};
-    box-shadow: 0 0 0 1px ${colors.blue.$500},
-      0 1px 6px ${colors.alpha(colors.blue.$500, 0.3)};
-    color: ${colors.neutral.$700};
-  }
-`;
-
-const selectedPlaceholderCss = css`
-  color: ${colors.neutral.$900};
-`;
-
-const toggleButtonOpenCss = css``;
-const toggleButtonCss = css`
-  display: flex;
-  width: 100%; // Stupid buttons.
-  align-items: stretch;
-  text-align: left;
-  padding: ${spacing.$50} ${spacing.$75}; // Needs to be the thing with the padding.
-  border-radius: inherit;
-
-  transition: border-color 75ms, color 75ms, box-shadow 75ms;
-
-  &:focus,
-  &.${toggleButtonOpenCss} {
-    outline: none;
-  }
-
-  &:hover {
-    color: ${colors.neutral.$700};
-  }
-
-  &:disabled {
-    background: ${colors.neutral.$200};
-    border-color: ${colors.neutral.$300};
-    color: ${colors.neutral.$400};
-
-    > .${selectedPlaceholderCss} {
-      color: ${colors.neutral.$700};
-    }
-  }
-
-  > span {
-    display: block;
-    padding-right: ${spacing.$75};
-  }
-`;
-
-const buttonIconContainerCss = css`
-  margin-left: auto;
-  padding-left: ${spacing.$75};
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid ${colors.neutral.$400};
-
-  svg {
-    width: 1em;
-    height: 1em;
-  }
-
-  &:hover {
-  }
-`;
-
-const menuClosedCss = css`
-  ${visiblyHiddenStyles}
-`;
-
-const menuOpenedBelowCss = css`
-  top: calc(100% + ${spacing.$25});
-`;
-
-const menuOpenedAboveCss = css`
-  bottom: calc(100% + ${spacing.$25});
-`;
-
-const menuOpenCss = css`
-  position: absolute;
-  z-index: 10000;
-  width: 100%;
-
-  background: ${colors.neutral.$50};
-  color: ${colors.neutral.$900};
-  border: 1px solid ${colors.neutral.$400};
-
-  padding: ${spacing.$50} 0;
-  max-height: 15rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  overscroll-behavior: contain;
-
-  // Match the border-radius if we're in a control group or something.
-  border-top-left-radius: inherit;
-  border-top-right-radius: inherit;
-  border-bottom-right-radius: ${borderRadius};
-  border-bottom-left-radius: ${borderRadius};
-
-  box-shadow: ${shadows.inputFocused};
-  outline: none;
-`;
-
-const menuItemHighlightedCss = css``;
-const menuItemSelectedCss = css``;
-
-const menuItemCss = css`
-  padding: ${spacing.$50} ${spacing.$75};
-
-  transition: background-color 75ms, color 75ms;
-
-  &:not(.${menuItemSelectedCss}).${menuItemHighlightedCss} {
-    background-color: ${colors.blue.$200};
-  }
-
-  &.${menuItemSelectedCss} {
-    background-color: ${colors.blue.$500};
-    color: ${colors.white};
-  }
-`;

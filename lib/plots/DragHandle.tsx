@@ -1,7 +1,6 @@
-import { roundToNearest } from "@/helpers/frontend";
+import { cx, roundToNearest } from "@/helpers/frontend";
 import { Model, useModel } from "@/reactivity";
 import { NumberField } from "@/schema/fields";
-import { cx } from "linaria";
 import { useState } from "react";
 import { usePlot } from ".";
 import styles from "./plots.module.scss";
