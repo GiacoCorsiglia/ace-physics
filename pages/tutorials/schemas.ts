@@ -8,6 +8,7 @@ import ReflectionTransmission from "./reflection-transmission/schema";
 import SpinLab1 from "./spin-lab-1/schema";
 import SpinLab2 from "./spin-lab-2/schema";
 import SpinsAndMagneticFields from "./spins-and-magnetic-fields/schema";
+import TimeDependence from "./time-dependence/schema";
 import VectorsToFunctions from "./vectors-to-functions/schema";
 
 export const tutorialSchemas = new Map<string, TutorialSchema>([
@@ -20,5 +21,6 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["SpinLab1", SpinLab1],
   ["SpinLab2", SpinLab2],
   ["SpinsAndMagneticFields", SpinsAndMagneticFields],
+  ["TimeDependence", TimeDependence],
   ["VectorsToFunctions", VectorsToFunctions],
 ]);
