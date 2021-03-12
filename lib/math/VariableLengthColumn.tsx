@@ -51,7 +51,7 @@ export default function VariableLengthColumn({
             return oldValue;
           }
 
-          const newValue = oldValue || [];
+          const newValue = oldValue ? [...oldValue] : [];
           newValue.splice(i, 1);
           spliceVersion.current++;
           return newValue;
