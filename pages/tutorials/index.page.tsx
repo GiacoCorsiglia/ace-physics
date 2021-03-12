@@ -106,13 +106,13 @@ export default function TutorialsIndex() {
               model a particle’s position state).
             </TutorialLink>
 
-            {/* <TutorialLink
-              label="Energy and Position"
+            <TutorialLink
+              label="Energy & Position"
               url={urls.Tutorials.EnergyAndPosition}
             >
               Explore the connection between the energy and position
               representations of a quantum state.
-            </TutorialLink> */}
+            </TutorialLink>
 
             {/* <TutorialLink
               label="Time Dependence"
