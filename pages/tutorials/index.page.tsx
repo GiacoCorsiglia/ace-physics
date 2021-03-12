@@ -114,12 +114,12 @@ export default function TutorialsIndex() {
               representations of a quantum state.
             </TutorialLink>
 
-            {/* <TutorialLink
+            <TutorialLink
               label="Time Dependence"
               url={urls.Tutorials.TimeDependence}
             >
               Visualize the time evolution of position space wave functions.
-            </TutorialLink> */}
+            </TutorialLink>
 
             <TutorialLink
               label="Reflecting on Transmission"

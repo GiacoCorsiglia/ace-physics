@@ -1,0 +1,112 @@
+import * as f from "@/schema/fields";
+import { tutorialSchema } from "@/schema/tutorial";
+
+const TableRow = f.object({
+  phaseDifference: f.chooseOne(["0", "pi/2", "pi", "-pi/2"]),
+  equationProbAmp: f.chooseOne([
+    "ψ1 + ψ2",
+    "-iψ1 + ψ2",
+    "-ψ1 + ψ2",
+    "iψ1 + ψ2",
+  ]),
+  equationProbDens: f.chooseOne([
+    "ψ1^2 + ψ2^2 + ψ1ψ2",
+    "ψ1^2 + ψ2^2",
+    "ψ1^2 + ψ2^2 - ψ1ψ2",
+  ]),
+  graphProbDens: f.chooseOne(["t000", "t025", "t050"]),
+});
+
+export default tutorialSchema({
+  pages: [
+    "timeEvolutionInfiniteSquareWellPotential",
+    "anEnergyEigenstate",
+    "aSuperpositionOfEigenstates",
+    "timeEvolution",
+  ],
+  pretest: {
+    firstExcitedProbRightHalfChanges: f.chooseOne(["true", "false"]),
+    firstExcitedProbE2Changes: f.chooseOne(["true", "false"]),
+    superpositionProbRightHalfChanges: f.chooseOne(["true", "false"]),
+    superpositionProbE2Changes: f.chooseOne(["true", "false"]),
+  },
+  sections: [
+    "timeEvolutionInfiniteSquareWellPotentialIntro",
+    "groundStateSketch",
+    "timeEvolvedGroundState",
+    "timeEvolutionDescription",
+    "probDensPlot",
+    "difTimePlot",
+    "wholeFunctionTimeDependencePlot",
+
+    "anEnergyEigenstateIntro",
+    "simSetup",
+    "prevGraphComparison",
+    "simGraphComparison",
+    "rotationPeriods",
+    "comparePeriodicPsi2",
+    "verifyRotationPeriod2",
+    "studentStatementsOnTimeEvolution",
+
+    "aSuperpositionOfEigenstatesIntro",
+    "meaningOfRedLineInSim",
+    "explainTimeDependenceOfProbDens",
+    "behaviorOfProbDensAtMidpoint",
+    "table",
+    "symmetry",
+    "explainSymmetryWhenPerp",
+    "periodOfProbDens",
+
+    "timeEvolutionIntro",
+    "incorrectStatementsWrapUp",
+    "explainWhyGraphIncorrect",
+    "connectSimWithCorrectDescription",
+  ],
+  responses: {
+    timeEvolvedGroundState: f.string(),
+    timeEvolutionDescription: f.string(),
+    probDensRelationshipToProbAmp: f.string(),
+    exp3PiOver2: f.string(),
+    difTimePlotAxisX: f.string(),
+    difTimePlotAxisY: f.string(),
+    wholeFunctionTimeDependencePlot: f.string(),
+
+    prevGraphComparison: f.string(),
+    simGraphComparison: f.string(),
+    rotationPeriod1: f.number(),
+    rotationPeriod2: f.number(),
+    comparePeriodicPsi2: f.chooseOne(["same", "different"]),
+    comparePeriodicPsi2Difference: f.string(),
+    verifyRotationPeriod2: f.string(),
+    agreementStudentA: f.chooseOne(["agree", "disagree"]),
+    explainStudentA: f.string(),
+    agreementStudentB: f.chooseOne(["agree", "disagree"]),
+    explainStudentB: f.string(),
+    agreementStudentC: f.chooseOne(["agree", "disagree"]),
+    explainStudentC: f.string(),
+    agreementStudentD: f.chooseOne(["agree", "disagree"]),
+    explainStudentD: f.string(),
+
+    meaningOfRedLineInSim: f.string(),
+    explainTimeDependenceOfProbDens: f.string(),
+    behaviorOfProbDensAtMidpoint: f.string(),
+    table: f.object({
+      t000: TableRow,
+      t025: TableRow,
+      t050: TableRow,
+      t075: TableRow,
+    }),
+    samePlaneSymmetry: f.chooseOne(["symmetric", "asymmetric"]),
+    perpPlaneSymmetry: f.chooseOne(["symmetric", "asymmetric"]),
+    explainSymmetryWhenPerp: f.string(),
+    periodOfProbDens: f.number(),
+
+    explainWhyIncorrectStudentA: f.string(),
+    explainWhyIncorrectStudentB: f.string(),
+    explainWhyGraphIncorrect: f.string(),
+    connectSimWithCorrectDescription: f.string(),
+  },
+  hints: [
+    // Hints here.
+  ],
+});
