@@ -211,6 +211,12 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
      * enabled based on the default logic.
      */
     readonly allowed?: (state: TutorialState<S>, allowed: boolean) => boolean;
+    /**
+     * Conditional logic dictating when the continue button should be visible.
+     * By default, it is always visible (even if it is disabled).
+     * @param state The current TutorialState.
+     */
+    readonly visible?: (state: TutorialState<S>) => boolean;
   };
 }
 

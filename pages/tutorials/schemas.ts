@@ -7,14 +7,16 @@ import ReflectionTransmission from "./reflection-transmission/schema";
 import SpinLab1 from "./spin-lab-1/schema";
 import SpinLab2 from "./spin-lab-2/schema";
 import SpinsAndMagneticFields from "./spins-and-magnetic-fields/schema";
+import VectorsToFunctions from "./vectors-to-functions/schema";
 
 export const tutorialSchemas = new Map<string, TutorialSchema>([
+  ["EPR", EPR],
   ["QuantumBasis", QuantumBasis],
-  ["QuantumMouse2", QuantumMouse2],
   ["QuantumMouse", QuantumMouse],
+  ["QuantumMouse2", QuantumMouse2],
   ["ReflectionTransmission", ReflectionTransmission],
   ["SpinLab1", SpinLab1],
   ["SpinLab2", SpinLab2],
   ["SpinsAndMagneticFields", SpinsAndMagneticFields],
-  ["EPR", EPR],
+  ["VectorsToFunctions", VectorsToFunctions],
 ]);
