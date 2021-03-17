@@ -304,7 +304,11 @@ export default page(setup, ({ section, hint }) => ({
         <>
           <ChooseOne
             model={m.psiBDifferentFromPsiA}
-            label={<Prose>Which of the following do you agree?</Prose>}
+            label={
+              <Prose>
+                With which of the following statements do you agree?
+              </Prose>
+            }
             choices={[
               [
                 "same",

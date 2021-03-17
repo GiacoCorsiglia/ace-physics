@@ -1,4 +1,4 @@
-import { Prose, Reminder } from "@/design";
+import { Help, Info, Prose, Reminder } from "@/design";
 import { TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { Axes, Curve, Plot, Tick } from "@/plots";
@@ -11,7 +11,7 @@ const psiB = (x: number) =>
   (1 / Math.sqrt(2)) * Math.sin(2 * x) +
   (1 / Math.sqrt(6)) * Math.sin(4 * x);
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint, oneOf }) => ({
   name: "positionRepresentationB",
   label: {
     html: (
@@ -66,9 +66,17 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            Use Zoom’s “annotate” feature to very roughly sketch the probability
-            density associated with <M t="\psi_B(x)" />. (Someone in your group
-            should share their screen again.)
+            <p>
+              <strong>
+                Very roughly sketch the probability density associated with{" "}
+                <M t="\psi_B(x)" />.
+              </strong>
+            </p>
+
+            <p>
+              Like before: if you’re working with others in Zoom, use Zoom’s
+              “annotate” feature, otherwise sketch on paper.
+            </p>
           </Prose>
 
           <Plot
@@ -148,21 +156,119 @@ export default page(setup, ({ section }) => ({
 
     section({
       name: "psiBDifferentFromPsiAReflect",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
+          <Prose>
+            <p>
+              Previously, we asked you if the second particle (in state{" "}
+              <M t="\ket{\psi_B}" />) was in the SAME state as{" "}
+              <M t="\ket{\psi_A}" />, or if was it in a DIFFERENT state.
+            </p>
+
+            {responses?.psiBDifferentFromPsiA?.selected !== undefined && (
+              <>
+                <p>You said:</p>
+
+                <blockquote>
+                  The second particle is in{" "}
+                  {responses.psiBDifferentFromPsiA.selected === "same"
+                    ? "the SAME state as"
+                    : "a DIFFERENT state from"}{" "}
+                  <M t="\ket{\psi_A}" />.
+                </blockquote>
+              </>
+            )}
+
+            {!!responses?.psiBDistinguishableFromPsiA && (
+              <>
+                <p>
+                  We also asked if/how you could distinguish the two particles,
+                  and you said:
+                </p>
+
+                <blockquote>
+                  {responses.psiBDistinguishableFromPsiA
+                    .split("\n")
+                    .map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                </blockquote>
+              </>
+            )}
+          </Prose>
+
+          <Toggle
+            model={m.psiBDifferentFromPsiAModified}
+            label={
+              <Prose>Are your answers modified in any way at this point?</Prose>
+            }
+            choices={[
+              ["modified", "Yes, my answers have changed"],
+              ["unmodified", "No, my answers are the same"],
+            ]}
+          />
+
           <TextArea
             model={m.psiBDifferentFromPsiAReflect}
-            label={
-              <Prose>
-                Previously, we asked you if the second particle (in state{" "}
-                <M t="\ket{\psi_B}" />) was in the SAME state as{" "}
-                <M t="\ket{\psi_A}" />, or if was it in a DIFFERENT state. Is
-                your answer modified in any way at this point?
-              </Prose>
-            }
+            label={<Prose>Explain:</Prose>}
           />
         </>
       ),
+    }),
+
+    oneOf({
+      which: (r) => {
+        const originalAnswer = r.psiBDifferentFromPsiA?.selected;
+        const modifiedAnswer = r.psiBDifferentFromPsiAModified?.selected;
+        if (originalAnswer === undefined || modifiedAnswer === undefined) {
+          // Nothing to compare against, so we can't do anything.
+          return null;
+        }
+
+        const correctOriginally = originalAnswer === "different";
+        const modified = modifiedAnswer === "modified";
+        const correctNow =
+          (correctOriginally && !modified) || (!correctOriginally && modified);
+
+        return correctNow
+          ? "psiBDifferentFromPsiAModifiedCorrect"
+          : "psiBDifferentFromPsiAModifiedIncorrect";
+      },
+      sections: {
+        psiBDifferentFromPsiAModifiedIncorrect: section({
+          name: "psiBDifferentFromPsiAModifiedIncorrect",
+          body: (
+            <Info>
+              <Prose>
+                <p>We disagree.</p>
+
+                <p>
+                  <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> have
+                  different wave function representations (i.e., the graph on
+                  this page looks different from the graph on the previous
+                  page). Therefore, they are different states.
+                </p>
+              </Prose>
+            </Info>
+          ),
+        }),
+        psiBDifferentFromPsiAModifiedCorrect: section({
+          name: "psiBDifferentFromPsiAModifiedCorrect",
+          body: (
+            <Help>
+              <Prose>
+                <p>We agree.</p>
+
+                <p>
+                  <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> are
+                  different states. One way to tell is to notice that their wave
+                  function representations look different.
+                </p>
+              </Prose>
+            </Help>
+          ),
+        }),
+      },
     }),
   ],
 }));

@@ -86,16 +86,29 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
       hints: [
-        hint({
-          name: "isPsiAEnergyEigenstate",
-          body: (
-            <Prose>
-              Does <M t="\ket{\psi_A}" /> satisfy the{" "}
-              <em>energy eigenequation</em>,{" "}
-              <M t="\hat{H}\ket{\psi_A} \stackrel{?}{=} E \ket{\psi_A}" />?
-            </Prose>
-          ),
-        }),
+        [
+          hint({
+            name: "isPsiAEnergyEigenstate",
+            body: (
+              <Prose>
+                Does <M t="\ket{\psi_A}" /> satisfy the{" "}
+                <em>energy eigenequation</em>,{" "}
+                <M t="\hat{H}\ket{\psi_A} \stackrel{?}{=} E \ket{\psi_A}" />?
+              </Prose>
+            ),
+          }),
+          hint({
+            name: "isPsiAEnergyEigenstate2",
+            label: "I’m still not sure",
+            body: (
+              <Prose>
+                If you are in an eigenstate of energy, then you must know with
+                100% confidence exactly what energy you will get if you measure
+                it!
+              </Prose>
+            ),
+          }),
+        ],
       ],
     }),
 

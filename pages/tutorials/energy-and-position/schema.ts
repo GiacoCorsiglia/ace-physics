@@ -47,6 +47,8 @@ export default tutorialSchema({
     "compareGraphs",
     "psiBExpVal",
     "psiBDifferentFromPsiAReflect",
+    "psiBDifferentFromPsiAModifiedIncorrect",
+    "psiBDifferentFromPsiAModifiedCorrect",
 
     "comparingRepresentationsIntro",
     "sameStateDifRep",
@@ -77,8 +79,6 @@ export default tutorialSchema({
     psiBDistinguishableFromPsiA: f.string(),
 
     infoFromGraph: f.string(),
-    MostProbLoc: f.string(),
-    LeastProbLoc: f.string(),
     studentInterpretationsProbDens: f.string(),
     correctInterpretationProbDens: f.string(),
     psiAExpVal: f.chooseOne(["left", "center", "right"]),
@@ -95,8 +95,8 @@ export default tutorialSchema({
     compareGraphs: f.string(),
     psiBExpVal: f.chooseOne(["left", "center", "right"]),
     psiBExpValExplain: f.string(),
+    psiBDifferentFromPsiAModified: f.chooseOne(["modified", "unmodified"]),
     psiBDifferentFromPsiAReflect: f.string(),
-
     sameStateDifRep: f.string(),
     inferFromHistRep: f.string(),
     inferFromFuncRep: f.string(),
@@ -108,7 +108,9 @@ export default tutorialSchema({
   },
   hints: [
     "isPsiAEnergyEigenstate",
+    "isPsiAEnergyEigenstate2",
     "psiBHistogramTechDifficulties",
+    "positionRepresentationAIntro",
     "sameStateDifRep",
   ],
 });

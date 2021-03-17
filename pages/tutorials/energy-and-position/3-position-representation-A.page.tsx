@@ -11,7 +11,7 @@ const psiA = (x: number) =>
   (1 / Math.sqrt(2)) * Math.sin(2 * x) +
   (1 / Math.sqrt(6)) * Math.sin(4 * x);
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "positionRepresentationA",
   label: {
     html: (
@@ -59,7 +59,28 @@ export default page(setup, ({ section }) => ({
           </Plot>
         </>
       ),
-      continue: { label: "Looks good" },
+      hints: [
+        hint({
+          name: "positionRepresentationAIntro",
+          label: "Wait…what?",
+          body: (
+            <Prose>
+              <p>
+                Any quantum state describing a particle that has a position can
+                be represented as a function like this. For right now, you don’t
+                need to worry about how we converted between the energy
+                representation and the position representation.
+              </p>
+
+              <p>
+                On this page, we’re going to explore what this graph is telling
+                us.
+              </p>
+            </Prose>
+          ),
+        }),
+      ],
+      continue: { label: "OK, let’s explore" },
     }),
 
     section({
@@ -90,12 +111,21 @@ export default page(setup, ({ section }) => ({
             </p>
 
             <p>
-              Someone in your group should share their screen. Then,{" "}
               <strong>
-                use Zoom’s “annotate” feature to very roughly sketch the
-                probability density associated with <M t="\psi_A(x)" />
+                Very roughly sketch the probability density associated with{" "}
+                <M t="\psi_A(x)" />.
               </strong>
-              .
+            </p>
+
+            <p>
+              <em>If you’re working with others in Zoom:</em> Someone in your
+              group should share their screen. Then,{" "}
+              <strong>use Zoom’s “annotate” feature to sketch</strong>.
+            </p>
+
+            <p>
+              <em>Otherwise:</em> <strong>Sketch on paper</strong> (start by
+              copying these axes).
             </p>
           </Prose>
 
@@ -129,6 +159,7 @@ export default page(setup, ({ section }) => ({
           </Prose>
         </>
       ),
+      continue: { label: "I’m done sketching" },
     }),
 
     /*We might just have to do something where we give them the probability
