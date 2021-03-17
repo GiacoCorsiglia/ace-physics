@@ -5,7 +5,7 @@ import * as urls from "@/urls";
 import { Children } from "@/util";
 import { ChevronRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
-import styles from "tutorials/tutorials.module.scss";
+import styles from "./index.module.scss";
 
 export default function TutorialsIndex() {
   return (
