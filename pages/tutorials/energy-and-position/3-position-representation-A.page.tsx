@@ -266,5 +266,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
+
+    // GUIDANCE: What does an eigenstate of position look like?
   ],
 }));

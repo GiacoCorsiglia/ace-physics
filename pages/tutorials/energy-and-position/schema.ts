@@ -110,6 +110,7 @@ export default tutorialSchema({
     "isPsiAEnergyEigenstate",
     "isPsiAEnergyEigenstate2",
     "psiBHistogramTechDifficulties",
+    "psiBDifferentFromPsiA",
     "positionRepresentationAIntro",
     "sameStateDifRep",
   ],

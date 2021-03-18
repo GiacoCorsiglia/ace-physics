@@ -338,6 +338,17 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "psiBDifferentFromPsiA",
+          body: (
+            <Prose>
+              It’s OK if you’re unsure about this one! We’ll come back to this
+              question later on, so just give your best guess for now.
+            </Prose>
+          ),
+        }),
+      ],
     }),
   ],
 }));
