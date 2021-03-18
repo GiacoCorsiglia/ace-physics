@@ -1,5 +1,6 @@
 import { cx, Html, useUniqueId } from "@/helpers/frontend";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
+import { useDisabled } from "./disabled";
 import { ControlLabel } from "./labels";
 import styles from "./toggle.module.scss";
 
@@ -22,6 +23,8 @@ export const ToggleControl = <C,>({
   onChange: (reducer: (oldValue: C | undefined) => C | undefined) => void;
 } & ToggleControlProps) => {
   validateChoices(choices);
+
+  disabled = useDisabled(disabled);
 
   const toggleId = `toggle-${useUniqueId()}`;
   // Use an underscore to not overlap with `{${toggleId}-${choice}}`.

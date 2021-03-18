@@ -1,60 +1,70 @@
 @use "spacing";
-@use "colors";
-@use "borders";
+@use "controls";
 
 .choice {
+  position: relative; // For the z-index below.
   display: flex;
   align-items: center;
-  border: 1px solid colors.$neutral-400;
-  background-color: colors.$neutral-50;
+  border: controls.$border-width solid controls.$border-color;
+  color: controls.$text-color;
+  background-color: controls.$background-color;
 
-  transition: border-color 75ms ease-in-out;
+  transition: {
+    property: border-color;
+    duration: controls.$transition-duration;
+  }
 
   & + & {
-    margin-top: -1px;
+    margin-top: calc(-1 * #{controls.$border-width});
   }
 
   &:first-child {
-    border-top-left-radius: borders.$radius;
-    border-top-right-radius: borders.$radius;
+    border-top-left-radius: controls.$border-radius;
+    border-top-right-radius: controls.$border-radius;
 
     .choiceRadioBox {
-      border-top-left-radius: borders.$radius;
+      border-top-left-radius: controls.$border-radius;
     }
   }
 
   &:last-child {
-    border-bottom-left-radius: borders.$radius;
-    border-bottom-right-radius: borders.$radius;
+    border-bottom-left-radius: controls.$border-radius;
+    border-bottom-right-radius: controls.$border-radius;
 
     .choiceRadioBox {
-      border-bottom-left-radius: borders.$radius;
+      border-bottom-left-radius: controls.$border-radius;
     }
   }
 
-  &:focus-within,
+  &:focus-within {
+    z-index: 3;
+    border-color: controls.$hover-border-color;
+  }
+
   &:not(.disabled):hover,
   &.selected {
-    position: relative;
     z-index: 2;
-    border-color: colors.$neutral-500;
+    border-color: controls.$hover-border-color;
 
     .choiceRadioBox {
-      background-color: colors.$blue-200;
-      border-color: colors.$neutral-500;
+      background-color: controls.$choice-hover-background-color;
+      border-right-color: controls.$hover-border-color;
     }
   }
 
-  &:not(.selected):not(:focus-within).disabled {
-    border-color: colors.$neutral-300;
-
-    .choiceLabel {
-      color: colors.$neutral-700;
-    }
+  &.disabled {
+    border-color: controls.$disabled-border-color;
+    color: controls.$disabled-text-color;
+    background-color: controls.$disabled-background-color;
 
     .choiceRadioBox {
-      background-color: colors.$neutral-200;
-      border-color: colors.$neutral-300;
+      border-color: controls.$disabled-border-color;
+    }
+  }
+
+  &:not(.selected).disabled {
+    .choiceRadioBox {
+      background-color: controls.$disabled-background-color;
     }
   }
 }
@@ -63,30 +73,51 @@
   display: flex;
   align-items: center;
   padding: 0 spacing.$space-100;
-  border-right: 1px solid colors.$neutral-300;
+  border-right: controls.$border-width solid controls.$border-color;
   align-self: stretch;
-  background-color: colors.$neutral-50;
-  transition: border-color 75ms ease-in-out, background-color 75ms ease-in-out;
+  transition: {
+    property: border-color, background-color, box-shadow;
+    duration: controls.$transition-duration;
+  }
+
+  &:focus-within {
+    @include controls.disable-control-borders;
+    margin-right: 1px; // Make up for the shrunk border
+
+    border-color: controls.$focus-border-color;
+    box-shadow: controls.$focus-box-shadow;
+  }
+
+  :focus {
+    outline: none;
+  }
 }
 
 .choiceLabel {
-  padding: spacing.$space-50 spacing.$space-75;
-  color: colors.$neutral-800;
+  padding: controls.$padding-y controls.$padding-x;
 }
 
 .otherLabeL {
   display: flex;
-  align-items: center;
+  align-items: top;
   align-self: stretch;
 }
 
 .otherLabelText {
-  padding-top: spacing.$space-50;
-  padding-bottom: spacing.$space-50;
-  padding-left: spacing.$space-75;
-  padding-right: spacing.$space-25;
+  padding: {
+    top: controls.$padding-y;
+    bottom: controls.$padding-y;
+    left: controls.$padding-x;
+    right: spacing.$space-25;
+  }
 
   &::after {
     content: ":";
+    letter-spacing: 0.25px;
   }
+}
+
+.otherInput {
+  @include controls.disable-control-borders;
+  #{controls.$var-border-radius}: 0 0 controls.$default-border-radius 0;
 }

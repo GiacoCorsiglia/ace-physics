@@ -1,6 +1,4 @@
-@use "colors";
-@use "spacing";
-@use "borders";
+@use "controls";
 
 .horizontal {
   display: flex;
@@ -19,13 +17,15 @@
 
 .choice {
   display: block;
-  background: colors.$neutral-50;
-  color: colors.$neutral-900;
-  border: 1px solid colors.$neutral-400;
-  padding: spacing.$space-50 spacing.$space-100;
+  background: controls.$background-color;
+  color: controls.$text-color;
+  border: controls.$border-width solid controls.$border-color;
+  padding: controls.$padding-y controls.$padding-x;
   text-align: center;
-  transition: background-color 75ms ease-in-out, border-color 75ms ease-in-out,
-    box-shadow 75ms ease-in-out, color 75ms ease-in-out;
+  transition: {
+    property: controls.$transition-property, background-color, color;
+    duration: controls.$transition-duration;
+  }
 
   // TODO:
   :global(table) & {
@@ -34,27 +34,27 @@
 
   &:not(.disabled):not(.selected):hover,
   &:focus-within {
-    border-color: colors.$neutral-500;
-    background-color: colors.$blue-200;
+    border-color: controls.$hover-border-color;
+    background-color: controls.$choice-hover-background-color;
   }
 
   &:not(.disabled):active,
   &.selected {
-    background-color: colors.$blue-500;
-    color: colors.$white;
-    border-color: colors.$blue-500;
+    background-color: controls.$choice-selected-background-color;
+    color: controls.$choice-selected-text-color;
+    border-color: controls.$choice-selected-background-color;
     position: relative;
     z-index: 2;
   }
 
   &:not(.selected).disabled {
-    color: colors.$neutral-700;
-    background-color: colors.$neutral-200;
-    border-color: colors.$neutral-300;
+    color: controls.$disabled-text-color;
+    background-color: controls.$disabled-background-color;
+    border-color: controls.$disabled-border-color;
   }
 
   &.selected:focus-within {
-    box-shadow: 0 0 0 2px colors.$blue-400;
+    box-shadow: controls.$choice-selected-focus-shadow;
   }
 
   .horizontal & {
@@ -62,13 +62,13 @@
 
     &:first-child {
       margin-left: 0;
-      border-top-left-radius: borders.$radius;
-      border-bottom-left-radius: borders.$radius;
+      border-top-left-radius: controls.$border-radius;
+      border-bottom-left-radius: controls.$border-radius;
     }
 
     &:last-child {
-      border-top-right-radius: borders.$radius;
-      border-bottom-right-radius: borders.$radius;
+      border-top-right-radius: controls.$border-radius;
+      border-bottom-right-radius: controls.$border-radius;
     }
   }
 
@@ -77,13 +77,13 @@
 
     &:first-child {
       margin-top: 0;
-      border-top-left-radius: borders.$radius;
-      border-top-right-radius: borders.$radius;
+      border-top-left-radius: controls.$border-radius;
+      border-top-right-radius: controls.$border-radius;
     }
 
     &:last-child {
-      border-bottom-left-radius: borders.$radius;
-      border-bottom-right-radius: borders.$radius;
+      border-bottom-left-radius: controls.$border-radius;
+      border-bottom-right-radius: controls.$border-radius;
     }
   }
 
@@ -97,19 +97,19 @@
     }
 
     &:first-child {
-      border-top-left-radius: borders.$radius;
+      border-top-left-radius: controls.$border-radius;
     }
 
     &:nth-child(2) {
-      border-top-right-radius: borders.$radius;
+      border-top-right-radius: controls.$border-radius;
     }
 
     &:nth-last-child(2) {
-      border-bottom-left-radius: borders.$radius;
+      border-bottom-left-radius: controls.$border-radius;
     }
 
     &:last-child {
-      border-bottom-right-radius: borders.$radius;
+      border-bottom-right-radius: controls.$border-radius;
     }
   }
 }

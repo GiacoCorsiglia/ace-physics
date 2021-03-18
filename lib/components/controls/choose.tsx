@@ -2,6 +2,7 @@ import { Html, styled, useSyncedState, useUniqueId } from "@/helpers/frontend";
 import { useRef } from "react";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
 import styles from "./choose.module.scss";
+import { useDisabled } from "./disabled";
 import { ControlLabel } from "./labels";
 import { NumericInputControl } from "./numeric";
 import { TextBoxControl, TextInputControl } from "./text";
@@ -56,6 +57,8 @@ export const ChooseControl = <
   };
 } & ChooseControlProps) => {
   validateChoices(choices);
+
+  disabled = useDisabled(disabled);
 
   const chooseId = `choose-${useUniqueId()}`;
   const labelId = `${chooseId}_legend`;
@@ -194,6 +197,7 @@ export const ChooseControl = <
                 disabled,
                 "aria-label": "Input your other answer here",
                 placeholder: "Click to input another answer",
+                className: styles.otherInput,
                 onFocus(e) {
                   // Focusing will reselect other (if the field is not empty), but it
                   // will never deselect.

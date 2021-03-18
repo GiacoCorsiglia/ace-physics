@@ -4,17 +4,19 @@ import {
   ChooseControl,
   Content,
   ControlGroup,
+  DisableControls,
   Horizontal,
   InputControl,
   M,
   Matrix,
+  NumericInputControl,
   Prose,
   TextBoxControl,
+  TextInputControl,
   ToggleControl,
   Vertical,
 } from "@/components";
 import { DropdownControl } from "@/components/controls/dropdown";
-import { LabelsRight } from "@/components/controls/labels";
 import { ArrowDownIcon } from "@primer/octicons-react";
 import React, { useState } from "react";
 
@@ -25,155 +27,104 @@ export default function TestPage() {
   >();
   const [decimal, setDecimal] = useState<number>();
   const [string, setString] = useState("");
-  const [other, setOther] = useState<string>();
+
+  const choices = [
+    ["a", "Choice A"],
+    ["b", "Choice B"],
+  ] as const;
+  const choices2 = [
+    ["a", <M t="\ket{+}" />],
+    ["b", "Choice B"],
+    ["c", "Choice C"],
+    ["d", "Choice D"],
+    ["e", "Choice E"],
+    ["f", "Choice F"],
+    ["g", "Choice G"],
+  ] as const;
+
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <Vertical>
       <Content>
         <Vertical>
-          <DropdownControl
-            choices={
-              [
-                ["a", <M t="\ket{+}" />],
-                ["b", "Choice B"],
-                ["c", "Choice C"],
-                ["d", "Choice D"],
-                ["e", "Choice E"],
-                ["f", "Choice F"],
-                ["g", "Choice G"],
-              ] as const
-            }
-            value={selected2}
-            onChange={setSelected2}
-          />
+          <Button color="green" onClick={() => setDisabled((d) => !d)}>
+            {disabled ? "Enable" : "Disable"} Controls
+          </Button>
 
-          <DropdownControl
-            choices={
-              [
-                ["a", <M t="\ket{+}" />],
-                ["b", "Choice B"],
-                ["c", "Choice C"],
-                ["d", "Choice D"],
-                ["e", "Choice E"],
-                ["f", "Choice F"],
-                ["g", "Choice G"],
-              ] as const
-            }
-            value={selected2}
-            onChange={setSelected2}
-            disabled
-          />
-
-          <ControlGroup>
-            <ControlGroup.Text>Test = </ControlGroup.Text>
-
-            <DropdownControl
-              choices={
-                [
-                  ["a", <M t="\ket{+}" />],
-                  ["b", "Choice B"],
-                  ["c", "Choice C"],
-                  ["d", "Choice D"],
-                  ["e", "Choice E"],
-                  ["f", "Choice F"],
-                  ["g", "Choice G"],
-                ] as const
-              }
-              value={selected2}
-              onChange={setSelected2}
+          <DisableControls when={disabled}>
+            <InputControl
+              placeholder="Placeholder"
+              label={<Prose>Input:</Prose>}
             />
-          </ControlGroup>
-        </Vertical>
-      </Content>
 
-      <Content>
-        <Vertical>
-          <LabelsRight>
+            <TextInputControl
+              label={<Prose>Text Input:</Prose>}
+              value={string}
+              onChange={setString}
+            />
+
+            <TextBoxControl
+              label={<Prose>Text Box:</Prose>}
+              value={string}
+              onChange={setString}
+            />
+
             <ToggleControl
-              label={<Prose>What is the answer?</Prose>}
-              choices={
-                [
-                  ["a", "Choice A"],
-                  ["b", "Choice B"],
-                ] as const
-              }
+              label={<Prose>Toggle:</Prose>}
+              choices={choices}
               value={selected}
               onChange={setSelected}
             />
 
-            <TextBoxControl
-              label={<Prose>Explain your thoughts.</Prose>}
-              value={string}
-              onChange={setString}
+            <DropdownControl
+              choices={choices2}
+              value={selected2}
+              onChange={setSelected2}
+              label={<Prose>Dropdown:</Prose>}
             />
-          </LabelsRight>
-        </Vertical>
-      </Content>
 
-      <Content>
-        <Vertical>
-          <InputControl placeholder="Placeholder" />
+            <Prose>Control Group:</Prose>
 
-          <InputControl placeholder="Placeholder" disabled />
+            <ControlGroup>
+              <NumericInputControl
+                type="decimal"
+                value={decimal}
+                onChange={setDecimal}
+                label={<M t="a = " />}
+              />
 
-          <ControlGroup>
-            <ControlGroup.Text>
-              <M t="a = " />
-            </ControlGroup.Text>
+              <DropdownControl
+                choices={choices2}
+                value={selected2}
+                onChange={setSelected2}
+                label={<M t="b =" />}
+              />
 
-            <InputControl placeholder="Coefficient" />
+              <Button color="green">Submit</Button>
+            </ControlGroup>
 
-            <ControlGroup.Text>
-              <M t="b =" />
-            </ControlGroup.Text>
+            <ChooseControl
+              multi={false}
+              label={<Prose>Choice:</Prose>}
+              choices={choices}
+              value={selected}
+              onChange={setSelected}
+              other={{
+                value: string,
+                onChange: (v) => setString(v),
+                inputType: "text-box",
+              }}
+            />
 
-            <InputControl placeholder="Coefficient" />
-
-            <Button color="green">Submit</Button>
-          </ControlGroup>
-
-          <ChooseControl
-            multi={false}
-            choices={
-              [
-                ["a", "Choice A"],
-                ["b", "Choice B"],
-              ] as const
-            }
-            value={selected}
-            onChange={setSelected}
-            other={{
-              value: decimal,
-              onChange: (v) => setDecimal(v),
-              inputType: "decimal",
-            }}
-          />
-
-          <ChooseControl
-            multi={false}
-            choices={
-              [
-                ["a", "Choice A"],
-                ["b", "Choice B"],
-              ] as const
-            }
-            value={selected}
-            onChange={setSelected}
-            other={{
-              value: decimal,
-              onChange: (v) => setDecimal(v),
-              inputType: "decimal",
-            }}
-            disabled
-          />
-
-          <Horizontal justify="stretch">
-            <Button color="green" iconRight={<ArrowDownIcon />}>
-              Let’s get going
-            </Button>
-            <Button color="blue">Log out</Button>
-            <Button color="yellow">Hmm…</Button>
-          </Horizontal>
+            <Horizontal justify="stretch">
+              <Button color="green" iconRight={<ArrowDownIcon />}>
+                Let’s get going
+              </Button>
+              <Button color="blue">Log out</Button>
+              <Button color="yellow">Hmm…</Button>
+            </Horizontal>
+          </DisableControls>
         </Vertical>
       </Content>
 

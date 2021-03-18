@@ -119,7 +119,7 @@ export const DropdownControl = <C,>({
       )}
 
       <div
-        className={cx(styles.container, "ace-control", className)}
+        className={cx(styles.container, disabled && styles.disabled, className)}
         ref={containerRef}
       >
         <button
@@ -132,12 +132,14 @@ export const DropdownControl = <C,>({
             onKeyDown,
           })}
         >
-          {!selectedChoice && <span>{placeholder ?? "Select…"}</span>}
+          {!selectedChoice && (
+            <span className={styles.placeholder}>
+              {placeholder ?? "Select…"}
+            </span>
+          )}
 
           {selectedChoice && (
-            <span className={styles.selectedPlaceholder}>
-              {selectedChoice[1]}
-            </span>
+            <span className={styles.selectedLabel}>{selectedChoice[1]}</span>
           )}
 
           <div className={styles.buttonIconContainer}>

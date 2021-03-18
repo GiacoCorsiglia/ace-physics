@@ -56,8 +56,9 @@ a {
   text-decoration-skip-ink: auto;
 }
 /* prettier-ignore */
-input, button, textarea, select,optgroup {
+input, button, textarea, select, optgroup {
   font: inherit;
+  line-height: inherit;
   margin: 0;
 }
 button {

@@ -1,5 +1,6 @@
 import { combineRefs, cx, Html, useUniqueId } from "@/helpers/frontend";
 import { forwardRef, useEffect, useRef } from "react";
+import { useDisabled } from "./disabled";
 import { InputControl, InputControlProps } from "./input";
 import { ControlLabel } from "./labels";
 import styles from "./text.module.scss";
@@ -45,6 +46,8 @@ export const TextBoxControl = forwardRef<
   forwardedRef
 ) {
   const id = `textarea-${useUniqueId()}`;
+
+  const disabled = useDisabled(props);
 
   const stylesRef = useRef<{
     lineHeight: number;
@@ -107,6 +110,7 @@ export const TextBoxControl = forwardRef<
         className={cx(styles.textArea, props.className)}
         placeholder={props.placeholder ?? "Type your response here"}
         rows={rowsRef.current}
+        disabled={disabled}
       />
     </>
   );

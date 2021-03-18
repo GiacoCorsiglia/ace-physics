@@ -1,39 +1,48 @@
-@use "colors";
-@use "spacing";
-@use "borders";
+@use "controls";
 
 input.input {
   width: 100%; // inputs are stupid.
 }
 
 .input {
+  composes: controlGroupControl from "./group.module.scss";
+
   display: block;
-  padding: spacing.$space-50 spacing.$space-75;
-  background: colors.$neutral-50;
-  color: colors.$neutral-900;
-  border: 1px solid colors.$neutral-400;
-  border-radius: borders.$radius;
-  line-height: inherit;
-  /* box-shadow: ${shadows.input.neutral}; */
+  padding: controls.$padding-y controls.$padding-x;
+  background: controls.$background-color;
+  color: controls.$text-color;
+  border: controls.$border-width solid controls.$border-color;
+  border-radius: controls.$border-radius;
+  box-shadow: controls.$box-shadow;
+
   transition: {
-    property: box-shadow, border-color;
-    duration: 75ms;
+    property: controls.$transition-property;
+    duration: controls.$transition-duration;
+  }
+
+  &:hover {
+    border-color: controls.$hover-border-color;
+    box-shadow: controls.$hover-box-shadow;
   }
 
   &::placeholder {
-    color: colors.$neutral-600;
+    opacity: 1; // Reset.
+    color: controls.$placeholder-color;
   }
 
   &:focus {
     outline: none;
-    border-color: colors.$blue-500;
-    box-shadow: 0 0 0 1px colors.$blue-500,
-      0 1px 6px colors.alpha(colors.$blue-500, 0.3);
+    border-color: controls.$focus-border-color;
+    box-shadow: controls.$focus-box-shadow;
   }
 
   &:disabled {
-    background: colors.$neutral-200;
-    border-color: colors.$neutral-300;
-    color: colors.$neutral-700;
+    background: controls.$disabled-background-color;
+    border-color: controls.$disabled-border-color;
+    color: controls.$disabled-text-color;
+
+    &::placeholder {
+      color: controls.$disabled-placeholder-color;
+    }
   }
 }

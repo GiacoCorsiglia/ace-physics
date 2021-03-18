@@ -2,12 +2,15 @@
 @use "colors";
 @use "borders";
 @use "fonts";
+@use "controls";
 
 .button {
+  composes: controlGroupButton from "./group.module.scss";
+
   z-index: var(--button-z-index);
 
-  padding: spacing.$space-75 spacing.$space-200;
-  border-radius: borders.$radius;
+  padding: controls.$spacing-y spacing.$space-200;
+  border-radius: controls.$border-radius;
   border-style: solid;
   border-width: 1px;
   cursor: pointer;

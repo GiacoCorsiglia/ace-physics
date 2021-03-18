@@ -1,53 +1,53 @@
 @use "colors";
-@use "spacing";
-@use "borders";
+@use "controls";
 
 .controlGroup {
   position: relative;
   display: flex;
-  background: colors.$neutral-50;
-  border-radius: borders.$radius;
+  background: controls.$background-color;
+  border-radius: controls.$border-radius;
   align-items: stretch;
   /* box-shadow: ${shadows.input.neutral}; */
   transition: box-shadow 75ms ease-in-out;
 
-  input,
-  // TODO: avoid this global hack!
-  > :global(.ace-control) {
-    position: relative; // For focus state's z-index
+  // All of our inputs must implement this class.
+  > .controlGroupControl {
     flex: 1 1 auto;
     width: 1%;
     min-width: 0; // https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
   }
 
-  > * {
-    --button-z-index: 2; // Makes the colored borders look better like this:
+  > .controlGroupButton {
+    position: relative;
+    z-index: 2; // Makes the colored borders look better like this:
   }
 
   > :focus,
   > :focus-within {
+    position: relative;
     z-index: 3;
   }
 
-  > :not(:first-child) {
+  > :not(.controlGroupControl):not(.controlGroupButton) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: controls.$padding-y controls.$padding-x;
+    background: colors.$neutral-100;
+    color: colors.$neutral-900;
+    border: controls.$border-width solid controls.$border-color;
+    border-radius: controls.$border-radius;
+  }
+
+  // Specificity hack since we have two chained :not()s above.
+  > :not(:first-child):not(:first-child) {
     margin-left: -1px; // Overlap adjacent borders.
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  > :not(:last-child) {
+  > :not(:last-child):not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
-}
-
-.controlGroupText {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: spacing.$space-50 spacing.$space-75;
-  background: colors.$neutral-100;
-  color: colors.$neutral-900;
-  border: 1px solid colors.$neutral-400;
-  border-radius: borders.$radius;
 }
