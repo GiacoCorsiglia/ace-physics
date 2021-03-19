@@ -17,7 +17,7 @@ import {
   Vertical,
 } from "@/components";
 import { DropdownControl } from "@/components/controls/dropdown";
-import { ArrowDownIcon } from "@primer/octicons-react";
+import { AlertIcon, ArrowDownIcon } from "@primer/octicons-react";
 import React, { useState } from "react";
 
 export default function TestPage() {
@@ -45,7 +45,7 @@ export default function TestPage() {
   const [disabled, setDisabled] = useState(false);
 
   return (
-    <Vertical>
+    <Vertical spacing={300}>
       <Content>
         <Vertical>
           <Button color="green" onClick={() => setDisabled((d) => !d)}>
@@ -140,7 +140,11 @@ export default function TestPage() {
             <Prose>This is a reminder.</Prose>
           </Callout>
 
-          <Callout color="blue">
+          <Callout
+            color="blue"
+            title="Heads up"
+            iconLeft={<AlertIcon size="large" />}
+          >
             <Prose>This is some info.</Prose>
           </Callout>
 
