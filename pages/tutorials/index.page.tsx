@@ -1,6 +1,4 @@
-import { UserMenu } from "@/auth";
-import { Prose } from "@/design";
-import { Content, Header, Page } from "@/design/layout";
+import { Content, Page, Prose } from "@/components";
 import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ChevronRightIcon } from "@primer/octicons-react";
@@ -10,11 +8,11 @@ import styles from "./index.module.scss";
 export default function TutorialsIndex() {
   return (
     <Page title="Tutorials">
-      <Header>
+      {/* <Header>
         <UserMenu />
-      </Header>
+      </Header> */}
 
-      <Content as="main">
+      <Content as="main" className={styles.content}>
         <Prose>
           <h1>
             <em>Tutorials</em> about Quantum Mechanics
@@ -155,7 +153,7 @@ function TutorialLink({
             <ChevronRightIcon />
           </div>
 
-          <Prose className="no-margin">{children}</Prose>
+          <Prose textStyle="small">{children}</Prose>
         </a>
       </Link>
     </li>
