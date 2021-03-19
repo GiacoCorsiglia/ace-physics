@@ -1,8 +1,11 @@
 import { result } from "@/helpers/result";
 import type { KatexOptions, ParseError } from "katex";
 import "katex/dist/katex.css";
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { macros } from "./macros";
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 // https://katex.org/docs/options.html
 const options: KatexOptions = {
@@ -38,7 +41,7 @@ export default function M({
 
   // With simple `useEffect()`, rendering of the math was delayed too much,
   // especially when `tex` was altered during the lifetime of the component.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     // This dynamic import defers the loading of KaTeX until we actually need to
     // render math, thanks to the automatic code splitting from CRA. The KaTeX
     // stylesheet is always loaded with the rest of our CSS, however; we import

@@ -5,7 +5,7 @@ import * as urls from "@/urls";
 import { Children } from "@/util";
 import { ChevronRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
-import styles from "tutorials/tutorials.module.scss";
+import styles from "./index.module.scss";
 
 export default function TutorialsIndex() {
   return (
@@ -106,20 +106,20 @@ export default function TutorialsIndex() {
               model a particle’s position state).
             </TutorialLink>
 
-            {/* <TutorialLink
-              label="Energy and Position"
+            <TutorialLink
+              label="Energy & Position"
               url={urls.Tutorials.EnergyAndPosition}
             >
               Explore the connection between the energy and position
               representations of a quantum state.
-            </TutorialLink> */}
+            </TutorialLink>
 
-            {/* <TutorialLink
+            <TutorialLink
               label="Time Dependence"
               url={urls.Tutorials.TimeDependence}
             >
               Visualize the time evolution of position space wave functions.
-            </TutorialLink> */}
+            </TutorialLink>
 
             <TutorialLink
               label="Reflecting on Transmission"
