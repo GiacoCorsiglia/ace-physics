@@ -1,5 +1,5 @@
 import { cx } from "@/helpers/frontend";
-import { Children } from "react";
+import { Children, forwardRef } from "react";
 import styles from "./typography.module.scss";
 
 const blockLevelElements = new Set([
@@ -15,15 +15,32 @@ const blockLevelElements = new Set([
   "p",
 ]);
 
-export const Prose = (props: JSX.IntrinsicElements["p"]) => {
-  // If there is no block level element in the children, wrap them in <p>.
-  // Otherwise, just wrap everything in a <div>.  (The prop types for "p" and
-  // "div" are identical.)
-  let Container: "p" | "div" = "p";
-  Children.forEach(props.children, (child) => {
-    if (child && blockLevelElements.has((child as any).type)) {
-      Container = "div";
-    }
-  });
-  return <Container {...props} className={cx(styles.prose, props.className)} />;
-};
+type ProseProps = {
+  textStyle?: "body" | "small";
+} & JSX.IntrinsicElements["p"];
+
+export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
+  function Prose({ textStyle = "body", ...props }, ref) {
+    // If there is no block level element in the children, wrap them in <p>.
+    // Otherwise, just wrap everything in a <div>.  (The prop types for "p" and
+    // "div" are identical.)
+    let Container: "p" | "div" = "p";
+    Children.forEach(props.children, (child) => {
+      if (child && blockLevelElements.has((child as any).type)) {
+        Container = "div";
+      }
+    });
+    return (
+      <Container
+        {...props}
+        className={cx(
+          styles.prose,
+          textStyle === "body" && styles.body,
+          textStyle === "small" && styles.small,
+          props.className
+        )}
+        ref={ref}
+      />
+    );
+  }
+);
