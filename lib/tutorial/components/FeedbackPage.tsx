@@ -53,7 +53,7 @@ export default function FeedbackPage({
           />
         </section>
 
-        {/* <section className={styles.section}>
+        <section className={styles.section}>
           <Prose>
             Today’s tutorial occasionally “checked your answers” and either told
             you that things looked good, or asked you to think some more or
@@ -69,9 +69,9 @@ export default function FeedbackPage({
               </Prose>
             }
           />
-        </section> */}
+        </section>
 
-        {/* <section className={styles.section}>
+        <section className={styles.section}>
           <TextArea
             model={m.answerCheckingPreferenceOpenEnded}
             label={
@@ -103,7 +103,7 @@ export default function FeedbackPage({
               Reach out any time!
             </p>
           </Prose>
-        </section> */}
+        </section>
 
         <section className={styles.section}>
           <Toggle
