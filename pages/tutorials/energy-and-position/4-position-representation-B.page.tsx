@@ -21,7 +21,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
     ),
     title: "Representing B in the Position Basis",
   },
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "positionRepresentationBIntro",
@@ -240,8 +240,6 @@ export default page(setup, ({ section, hint, oneOf }) => ({
           body: (
             <Info>
               <Prose>
-                <p>We disagree.</p>
-
                 <p>
                   <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> have
                   different wave function representations (i.e., the graph on

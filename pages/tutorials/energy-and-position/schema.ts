@@ -30,7 +30,10 @@ export default tutorialSchema({
     "normalizationMeaning",
     "psiBDifference",
     "psiBMeasurements",
+    "psiBvsPsiAExpectationIncorrect",
     "psiBHistogram",
+    "psiBHistogramCorrect",
+    "psiBHistogramIncorrect",
     "psiBDifferentFromPsiA",
 
     "positionRepresentationAIntro",
@@ -40,6 +43,10 @@ export default tutorialSchema({
     "interpretProbDens",
     "psiAExpVal",
     "psiAPosEigenstate",
+    "whatDoesAPosEigenstateLookLike",
+    "whatDoesAPosEigenstateLookLikeCorrect",
+    "whatDoesAPosEigenstateLookLikeIncorrect",
+    "psiAPosEigenstateCorrect",
 
     "positionRepresentationBIntro",
     "probDensB",
@@ -88,6 +95,11 @@ export default tutorialSchema({
       "not position eigenstate",
     ]),
     psiAPosEigenstateExplain: f.string(),
+    whatDoesAPosEigenstateLookLike: f.chooseOne([
+      "any f(x)",
+      "bump",
+      "delta function",
+    ]),
 
     probabilityDensity: f.string(),
     mostLikelyLocation: f.string(),
