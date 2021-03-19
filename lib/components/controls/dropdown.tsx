@@ -96,6 +96,15 @@ export const DropdownControl = <C,>({
     menu.style.height = "";
     menu.style.clip = "";
     menu.style.clipPath = "";
+
+    const selectedLi = menu.querySelector<HTMLLIElement>(
+      `.${styles.menuItemSelected}`
+    );
+    if (selectedLi) {
+      // TODO: I can't figure out how to get this to scroll far enough for the
+      // last element in FireFox, but at least this makes the top visible.
+      menu.scrollTop = selectedLi.offsetTop + selectedLi.offsetHeight;
+    }
   }, [ds.isOpen]);
 
   // Allow pressing delete to clear the selected value.

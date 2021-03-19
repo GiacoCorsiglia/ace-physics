@@ -118,7 +118,10 @@
   color: controls.$text-color;
   border: controls.$default-border-width solid controls.$border-color;
 
-  padding: controls.$padding-y 0;
+  // In principle we have this padding, but it doesn't work in FireFox when the
+  // menu has to scroll, so we use margin on the <li>s instead (see below).
+  // https://stackoverflow.com/questions/29986977/firefox-ignores-padding-when-using-overflowscroll
+  // padding: controls.$padding-y 0;
   max-height: 15rem;
   overflow-y: auto;
   overflow-x: hidden;
@@ -147,5 +150,14 @@
   &.menuItemSelected {
     background-color: controls.$choice-selected-background-color;
     color: controls.$choice-selected-text-color;
+  }
+
+  // Fake padding to fix a Firefox bug (see above).
+  &:first-child {
+    margin-top: controls.$padding-y;
+  }
+
+  &:last-child {
+    margin-bottom: controls.$padding-y;
   }
 }
