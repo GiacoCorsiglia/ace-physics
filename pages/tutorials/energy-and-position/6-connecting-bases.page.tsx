@@ -87,10 +87,10 @@ export default page(setup, ({ section }) => ({
             model={m.posQuestionsEnergyBasis}
             label={
               <Prose>
-                Given all the results above, could you <em>easily</em> answer
-                any “position related” questions (e.g. probabilities of position
-                measurements, or expectation values of position) if you were
-                only given the energy representation for this state?
+                Given all the results above, could you answer any “position
+                related” questions (e.g. probabilities of position measurements,
+                or expectation values of position) if you were only given the
+                energy representation for this state?
               </Prose>
             }
           />

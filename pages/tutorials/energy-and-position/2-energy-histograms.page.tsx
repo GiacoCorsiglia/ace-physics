@@ -1,9 +1,10 @@
-import { Prose, Reminder } from "@/design";
+import { Help, Info, Prose, Reminder } from "@/design";
 import { range } from "@/helpers";
 import { ChooseOne, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { Axes, Bar, DragHandle, GridLine, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
+import { approxEquals } from "@/util";
 import React, { Fragment } from "react";
 import setup from "./setup";
 
@@ -15,10 +16,10 @@ const graph = {
   barWidth: 0.7,
 } as const;
 
-export default page(setup, ({ section, hint }) => ({
+export default page(setup, ({ section, hint, oneOf }) => ({
   name: "energyHistograms",
   label: "Energy Histograms",
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "energyHistogramsIntro",
@@ -174,6 +175,20 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
+      name: "psiBvsPsiAExpectationIncorrect",
+      when: (r) => r.psiBvsPsiAExpectation?.selected === "different",
+      body: (
+        <Info>
+          <Prose>
+            Despite the flipped sign on the coefficient for <M t="\ket{E_2}" />,{" "}
+            <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> have the same
+            expectation value for energy.
+          </Prose>
+        </Info>
+      ),
+    }),
+
+    section({
       name: "psiBHistogram",
       body: (m, { responses }) => {
         const tupleModel = m.psiBBarHeights;
@@ -296,6 +311,50 @@ export default page(setup, ({ section, hint }) => ({
           ),
         }),
       ],
+      continue: {
+        allowed: ({ hints }, allowed) =>
+          allowed ||
+          hints?.psiBHistogramTechDifficulties?.status === "revealed",
+      },
+    }),
+
+    oneOf({
+      which: (r) => {
+        if (
+          r.psiBBarHeights === undefined ||
+          r.psiBBarHeights.some((h) => h === undefined)
+        ) {
+          return null;
+        }
+        const correct = approxEquals(r.psiBBarHeights, [
+          Math.sqrt(2 / 6),
+          Math.sqrt(3 / 6),
+          0,
+          Math.sqrt(1 / 6),
+        ]);
+        return correct ? "psiBHistogramCorrect" : "psiBHistogramIncorrect";
+      },
+      sections: {
+        psiBHistogramCorrect: section({
+          name: "psiBHistogramCorrect",
+          body: (
+            <Help>
+              <Prose>Your histogram looks good to us!</Prose>
+            </Help>
+          ),
+        }),
+
+        psiBHistogramIncorrect: section({
+          name: "psiBHistogramIncorrect",
+          body: (
+            <Info>
+              <Prose>
+                Heads up, there’s at least one error in your histogram.
+              </Prose>
+            </Info>
+          ),
+        }),
+      },
     }),
 
     section({
@@ -338,6 +397,17 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "psiBDifferentFromPsiA",
+          body: (
+            <Prose>
+              It’s OK if you’re unsure about this one! We’ll come back to this
+              question later on, so just give your best guess for now.
+            </Prose>
+          ),
+        }),
+      ],
     }),
   ],
 }));
