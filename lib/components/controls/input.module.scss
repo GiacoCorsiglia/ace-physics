@@ -40,6 +40,7 @@ input.input {
     background: controls.$disabled-background-color;
     border-color: controls.$disabled-border-color;
     color: controls.$disabled-text-color;
+    box-shadow: controls.$disabled-box-shadow;
 
     &::placeholder {
       color: controls.$disabled-placeholder-color;

@@ -8,31 +8,50 @@ $padding-x: spacing.$space-75;
 $var-border-width: --control-border-width;
 $default-border-width: 1px;
 $border-width: var(#{$var-border-width}, #{$default-border-width});
-@mixin disable-control-borders {
-  #{$var-border-width}: 0px;
-}
 
 $var-border-radius: --control-border-radius;
 $default-border-radius: borders.$radius;
-$border-radius: var(--control-border-radius, #{$default-border-radius});
+$border-radius: var(#{$var-border-radius}, #{$default-border-radius});
+
+$var-box-shadow: --control-box-shadow;
+$empty-box-shadow: 0 0 0 transparent;
+$default-box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05),
+  0px 2px 8px colors.alpha(colors.$neutral-900, 0.04);
+$box-shadow: var(#{$var-box-shadow}, #{$default-box-shadow});
+
+@mixin disable-control-borders {
+  #{$var-border-width}: 0px;
+  #{$var-box-shadow}: $empty-box-shadow;
+}
+@mixin disable-control-shadows {
+  #{$var-box-shadow}: $empty-box-shadow;
+}
 
 $border-color: colors.$neutral-400;
 $background-color: colors.$neutral-50;
 $text-color: colors.$neutral-900;
 $placeholder-color: colors.$neutral-400;
-$box-shadow: none;
 
 $hover-border-color: colors.$neutral-500;
-$hover-box-shadow: none;
+$default-hover-box-shadow: 0px 2px 4px colors.alpha(colors.$neutral-900, 0.05),
+  0px 4px 8px colors.alpha(colors.$neutral-900, 0.04);
+$hover-box-shadow: var(#{$var-box-shadow}, #{$default-hover-box-shadow});
 
 $focus-border-color: colors.$blue-500;
-$focus-box-shadow: 0 0 0 calc(2px - #{$border-width}) colors.$blue-500,
-  0 1px 6px colors.alpha(colors.$blue-500, 0.3);
+$default-focus-box-shadow: 0px 2px 4px colors.alpha(colors.$blue-900, 0.05),
+  0px 4px 8px colors.alpha(colors.$blue-900, 0.04);
+$focus-box-shadow:
+  // Border:
+  0 0 0 calc(2px - #{$border-width}) colors.$blue-500,
+  0 1px 6px colors.alpha(colors.$blue-500, 0.3),
+  // ActualShadow:
+  var(#{$var-box-shadow}, #{$default-focus-box-shadow});
 
 $disabled-border-color: colors.$neutral-300;
 $disabled-background-color: colors.$neutral-200;
 $disabled-text-color: colors.$neutral-700;
 $disabled-placeholder-color: colors.$neutral-600;
+$disabled-box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05);
 
 $transition-property: box-shadow, border-color;
 $transition-duration: 75ms;

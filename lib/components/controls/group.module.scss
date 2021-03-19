@@ -7,8 +7,10 @@
   background: controls.$background-color;
   border-radius: controls.$border-radius;
   align-items: stretch;
-  /* box-shadow: ${shadows.input.neutral}; */
   transition: box-shadow 75ms ease-in-out;
+
+  box-shadow: controls.$default-box-shadow;
+  @include controls.disable-control-shadows;
 
   // All of our inputs must implement this class.
   > .controlGroupControl {

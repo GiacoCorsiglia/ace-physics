@@ -1,4 +1,10 @@
-import { Html, styled, useSyncedState, useUniqueId } from "@/helpers/frontend";
+import {
+  cx,
+  Html,
+  styled,
+  useSyncedState,
+  useUniqueId,
+} from "@/helpers/frontend";
 import { useRef } from "react";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
 import styles from "./choose.module.scss";
@@ -142,7 +148,11 @@ export const ChooseControl = <
         </ControlLabel>
       )}
 
-      <div role="group" aria-labelledby={label ? labelId : undefined}>
+      <div
+        role="group"
+        aria-labelledby={label ? labelId : undefined}
+        className={cx(styles.container, disabled && styles.disabled)}
+      >
         {choices.map(([choiceId, choiceLabel]) => (
           <Choice
             as="label"

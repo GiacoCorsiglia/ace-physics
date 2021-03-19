@@ -1,5 +1,6 @@
 @use "helpers";
 @use "spacing";
+@use "colors";
 @use "controls";
 
 .container {
@@ -9,6 +10,11 @@
   background: controls.$background-color;
   border: controls.$border-width solid controls.$border-color;
   border-radius: controls.$border-radius;
+  box-shadow: controls.$box-shadow;
+
+  &.disabled {
+    box-shadow: controls.$disabled-box-shadow;
+  }
 
   .buttonIconContainer {
     color: controls.$border-color;
@@ -16,6 +22,7 @@
 
   &:not(.disabled):hover {
     border-color: controls.$hover-border-color;
+    box-shadow: controls.$hover-box-shadow;
 
     .buttonIconContainer {
       color: controls.$hover-border-color;
@@ -117,6 +124,9 @@
   background: controls.$background-color;
   color: controls.$text-color;
   border: controls.$default-border-width solid controls.$border-color;
+  box-shadow: 0px 0 4px colors.alpha(colors.$neutral-900, 0.15),
+    0px 4px 12px 1px colors.alpha(colors.$neutral-900, 0.1),
+    0px 8px 32px 2px colors.alpha(colors.$neutral-900, 0.15);
 
   // In principle we have this padding, but it doesn't work in FireFox when the
   // menu has to scroll, so we use margin on the <li>s instead (see below).

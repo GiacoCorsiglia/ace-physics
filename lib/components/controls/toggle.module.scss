@@ -1,7 +1,16 @@
+@use "colors";
 @use "controls";
 
+.container {
+  box-shadow: controls.$box-shadow;
+
+  &.disabled {
+    box-shadow: controls.$disabled-box-shadow;
+  }
+}
+
 .horizontal {
-  display: flex;
+  display: inline-flex;
 }
 
 .vertical {
@@ -40,11 +49,16 @@
 
   &:not(.disabled):active,
   &.selected {
+    position: relative;
+    z-index: 2;
     background-color: controls.$choice-selected-background-color;
     color: controls.$choice-selected-text-color;
     border-color: controls.$choice-selected-background-color;
-    position: relative;
-    z-index: 2;
+    box-shadow: var(
+      #{controls.$var-box-shadow},
+      0px 2px 4px #{colors.alpha(colors.$blue-900, 0.09)},
+      0px 4px 8px #{colors.alpha(colors.$blue-900, 0.07)}
+    );
   }
 
   &:not(.selected).disabled {

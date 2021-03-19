@@ -1,6 +1,20 @@
 @use "spacing";
 @use "controls";
 
+.container {
+  box-shadow: controls.$box-shadow;
+  border-radius: controls.$border-radius;
+
+  &:hover,
+  &:focus-within {
+    box-shadow: controls.$hover-box-shadow;
+  }
+
+  &.disabled {
+    box-shadow: controls.$disabled-box-shadow;
+  }
+}
+
 .choice {
   position: relative; // For the z-index below.
   display: flex;

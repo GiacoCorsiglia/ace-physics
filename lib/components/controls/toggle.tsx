@@ -32,52 +32,6 @@ export const ToggleControl = <C,>({
 
   const needsWrapper = layout === "vertical" || layout === "grid";
 
-  const choicesEl = (
-    <div
-      className={cx(
-        layout === "horizontal" && styles.horizontal,
-        layout === "vertical" && styles.vertical,
-        layout === "grid" && styles.grid
-      )}
-      role="group"
-      aria-labelledby={label ? labelId : undefined}
-    >
-      {choices.map(([choiceId, choiceLabel]) => (
-        <label
-          key={choiceId + ""}
-          htmlFor={`${toggleId}-${choiceId}`}
-          className={cx(
-            styles.choice,
-            value === choiceId && styles.selected,
-            disabled && styles.disabled
-          )}
-        >
-          <input
-            type="radio"
-            disabled={disabled}
-            className={styles.radio}
-            value={choiceId + ""}
-            name={toggleId}
-            id={`${toggleId}-${choiceId}`}
-            checked={value === choiceId}
-            onChange={(e) =>
-              onChange((oldValue) => {
-                if (e.target.checked) {
-                  return choiceId;
-                } else if (oldValue === choiceId) {
-                  return undefined;
-                } else {
-                  return oldValue;
-                }
-              })
-            }
-          />
-          {choiceLabel}
-        </label>
-      ))}
-    </div>
-  );
-
   return (
     <>
       {label && (
@@ -86,7 +40,54 @@ export const ToggleControl = <C,>({
         </ControlLabel>
       )}
 
-      {needsWrapper ? <div>{choicesEl}</div> : choicesEl}
+      {/* The actual container is displayed inline-flex or -grid, so wrap with a block-level element. */}
+      <div>
+        <div
+          className={cx(
+            styles.container,
+            disabled && styles.disabled,
+            layout === "horizontal" && styles.horizontal,
+            layout === "vertical" && styles.vertical,
+            layout === "grid" && styles.grid
+          )}
+          role="group"
+          aria-labelledby={label ? labelId : undefined}
+        >
+          {choices.map(([choiceId, choiceLabel]) => (
+            <label
+              key={choiceId + ""}
+              htmlFor={`${toggleId}-${choiceId}`}
+              className={cx(
+                styles.choice,
+                value === choiceId && styles.selected,
+                disabled && styles.disabled
+              )}
+            >
+              <input
+                type="radio"
+                disabled={disabled}
+                className={styles.radio}
+                value={choiceId + ""}
+                name={toggleId}
+                id={`${toggleId}-${choiceId}`}
+                checked={value === choiceId}
+                onChange={(e) =>
+                  onChange((oldValue) => {
+                    if (e.target.checked) {
+                      return choiceId;
+                    } else if (oldValue === choiceId) {
+                      return undefined;
+                    } else {
+                      return oldValue;
+                    }
+                  })
+                }
+              />
+              {choiceLabel}
+            </label>
+          ))}
+        </div>
+      </div>
     </>
   );
 };
