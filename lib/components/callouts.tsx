@@ -8,8 +8,13 @@ export const Callout = forwardRef<
     color: "green" | "blue" | "yellow" | "red" | "neutral";
     title?: Html;
     as?: keyof JSX.IntrinsicElements;
-  } & JSX.IntrinsicElements["aside"]
->(function Callout({ as = "aside", color, children, title, ...props }, ref) {
+    iconLeft?: Html;
+    iconRight?: Html;
+  } & Omit<JSX.IntrinsicElements["aside"], "title">
+>(function Callout(
+  { as = "aside", color, children, title, iconLeft, iconRight, ...props },
+  ref
+) {
   const As = as as "aside";
   return (
     <As
@@ -17,6 +22,7 @@ export const Callout = forwardRef<
       className={cx(
         props.className,
         styles.callout,
+        (iconLeft || iconRight) && styles.hasIcon,
         color === "green" && styles.green,
         color === "blue" && styles.blue,
         color === "yellow" && styles.yellow,
@@ -25,9 +31,12 @@ export const Callout = forwardRef<
       )}
       ref={ref}
     >
-      {title && <CalloutTitle>{title}</CalloutTitle>}
-
-      {children}
+      {iconLeft}
+      <div className={styles.content}>
+        {title && <CalloutTitle>{title}</CalloutTitle>}
+        {children}
+      </div>
+      {iconRight}
     </As>
   );
 });

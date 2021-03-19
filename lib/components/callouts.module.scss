@@ -12,6 +12,19 @@
     property: background-color, border-color, color;
     duration: 150ms;
   }
+
+  &.hasIcon {
+    display: flex;
+    align-items: center;
+
+    > * + * {
+      margin-left: spacing.$space-150;
+    }
+  }
+}
+
+.content {
+  flex-grow: 1;
 }
 
 @mixin callout($color) {
