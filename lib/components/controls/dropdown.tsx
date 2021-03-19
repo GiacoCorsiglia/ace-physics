@@ -103,7 +103,7 @@ export const DropdownControl = <C,>({
     if (selectedLi) {
       // TODO: I can't figure out how to get this to scroll far enough for the
       // last element in FireFox, but at least this makes the top visible.
-      menu.scrollTop = selectedLi.offsetTop + selectedLi.offsetHeight;
+      menu.scrollTop = selectedLi.offsetTop;
     }
   }, [ds.isOpen]);
 
