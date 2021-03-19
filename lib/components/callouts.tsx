@@ -1,4 +1,4 @@
-import { cx, Html, styled } from "@/helpers/frontend";
+import { cx, Html } from "@/helpers/frontend";
 import { forwardRef } from "react";
 import styles from "./callouts.module.scss";
 
@@ -31,17 +31,16 @@ export const Callout = forwardRef<
       )}
       ref={ref}
     >
-      {iconLeft}
+      {iconLeft && <div className={styles.iconContainer}>{iconLeft}</div>}
       <div className={styles.content}>
-        {title && <CalloutTitle>{title}</CalloutTitle>}
+        {title && <p className={styles.calloutTitle}>{title}</p>}
         {children}
       </div>
-      {iconRight}
+      {iconRight && <div className={styles.iconContainer}>{iconRight}</div>}
     </As>
   );
 });
 
-const CalloutTitle = styled.p(styles.calloutTitle);
 // Semantic versions.
 // export const Info = BlueCallout;
 // export const Hint = YellowCallout;
