@@ -3,13 +3,14 @@ import styles from "./layout.module.scss";
 
 export const Content = styled.div(styles.content);
 
-export const Vertical = styled.div(styles.vertical);
+export const Vertical = styled.div<{
+  spacing?: 100 | 300;
+}>(({ spacing }) => [styles.vertical, spacing === 300 && styles.vertical300]);
 
-interface HorizontalProps {
+export const Horizontal = styled.div<{
   align?: "start" | "end" | "center" | "stretch";
   justify?: "start" | "end" | "center" | "stretch";
-}
-export const Horizontal = styled.div<HorizontalProps>(({ align, justify }) => [
+}>(({ align, justify }) => [
   styles.horizontal,
   align === "start" && styles.alignStart,
   align === "end" && styles.alignEnd,
