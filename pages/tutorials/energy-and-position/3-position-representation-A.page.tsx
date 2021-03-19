@@ -1,8 +1,9 @@
-import { Prose, Reminder, Vocabulary } from "@/design";
-import { TextArea, Toggle } from "@/inputs";
+import { Help, Info, Prose, Reminder, Vocabulary } from "@/design";
+import { ChooseOne, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { Axes, Curve, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
+import { sequence } from "@/tutorial/config";
 import React from "react";
 import setup from "./setup";
 
@@ -11,7 +12,7 @@ const psiA = (x: number) =>
   (1 / Math.sqrt(2)) * Math.sin(2 * x) +
   (1 / Math.sqrt(6)) * Math.sin(4 * x);
 
-export default page(setup, ({ section, hint }) => ({
+export default page(setup, ({ section, hint, oneOf }) => ({
   name: "positionRepresentationA",
   label: {
     html: (
@@ -21,7 +22,7 @@ export default page(setup, ({ section, hint }) => ({
     ),
     title: "Representing A in the Position Basis",
   },
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "positionRepresentationAIntro",
@@ -91,7 +92,8 @@ export default page(setup, ({ section, hint }) => ({
             model={m.infoFromGraph}
             label={
               <Prose>
-                What information can you infer about this state from the graph?
+                What information can you readily infer about this state from the
+                graph? (What does the graph tell you about the particle?)
               </Prose>
             }
           />
@@ -267,6 +269,132 @@ export default page(setup, ({ section, hint }) => ({
       ),
     }),
 
-    // GUIDANCE: What does an eigenstate of position look like?
+    oneOf({
+      which: (r) => {
+        if (!r.psiAPosEigenstate) {
+          return null;
+        }
+        return r.psiAPosEigenstate.selected === "not position eigenstate"
+          ? "correct"
+          : "incorrect";
+      },
+      sections: {
+        incorrect: sequence({
+          sections: [
+            section({
+              name: "whatDoesAPosEigenstateLookLike",
+              body: (m) => (
+                <ChooseOne
+                  model={m.whatDoesAPosEigenstateLookLike}
+                  label={
+                    <Prose>
+                      <p>
+                        An eigenstate of position describes a particle that has
+                        100% probability of being measured at exactly one
+                        position (one value of <M t="x" />
+                        ).
+                      </p>
+
+                      <p>What does an eigenstate of position look like?</p>
+                    </Prose>
+                  }
+                  choices={[
+                    [
+                      "any f(x)",
+                      <>
+                        Any state written in the position basis (i.e., any state
+                        written as a function of <M t="x" />
+                        ).
+                      </>,
+                    ],
+                    [
+                      "bump",
+                      <>
+                        A function with a max at a specific <M t="x" /> value.
+                      </>,
+                    ],
+                    [
+                      "delta function",
+                      <>
+                        A function that spikes (delta function) at exactly one
+                        value of <M t="x" />, and is zero everywhere else.
+                      </>,
+                    ],
+                  ]}
+                  allowOther={false}
+                />
+              ),
+            }),
+
+            oneOf({
+              which: (r) => {
+                const selected = r.whatDoesAPosEigenstateLookLike?.selected;
+                if (selected === undefined) {
+                  return null;
+                }
+                return selected === "delta function" ? "agree" : "disagree";
+              },
+              sections: {
+                agree: section({
+                  name: "whatDoesAPosEigenstateLookLikeCorrect",
+                  body: (
+                    <Help>
+                      <Prose>
+                        Agreed! An eigenstate of position is a delta function
+                        when written in the position basis. Therefore{" "}
+                        <M t="\ket{\psi_A}" /> is <strong>not</strong> an
+                        eigenstate of position (because <M t="\psi_A(x)" /> is
+                        not a delta function).
+                      </Prose>
+                    </Help>
+                  ),
+                }),
+
+                disagree: section({
+                  name: "whatDoesAPosEigenstateLookLikeIncorrect",
+                  body: (
+                    <Info>
+                      <Prose>
+                        <p>
+                          An eigenstate of position is a delta function when
+                          written in the position basis (i.e., as a function of{" "}
+                          <M t="x" />
+                          ).
+                        </p>
+
+                        <p>
+                          Therefore <M t="\ket{\psi_A}" /> is{" "}
+                          <strong>not</strong> an eigenstate of position
+                          (because <M t="\psi_A(x)" /> is not a delta function).
+                          A particle in state <M t="\ket{\psi_A}" /> could be
+                          measured to be at multiple different positions.
+                        </p>
+                      </Prose>
+                    </Info>
+                  ),
+                }),
+              },
+            }),
+          ],
+        }),
+
+        correct: section({
+          name: "psiAPosEigenstateCorrect",
+          body: (
+            <Help>
+              <Prose>
+                <p>
+                  We agree! <M t="\psi_A(x)" /> is <strong>not</strong> an
+                  eigenstate of position, because it describes a particle{" "}
+                  <em>without</em> a definite position. A particle in state{" "}
+                  <M t="\ket{\psi_A}" /> could be measured to be at multiple
+                  different positions.
+                </p>
+              </Prose>
+            </Help>
+          ),
+        }),
+      },
+    }),
   ],
 }));
