@@ -1,0 +1,36 @@
+@use "fonts";
+@use "spacing";
+@use "colors";
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+
+  th,
+  td {
+    border: 1px solid colors.$neutral-200;
+    padding: spacing.$space-50;
+    vertical-align: middle;
+    // word-break: break-all;
+  }
+
+  thead td,
+  th {
+    font-weight: fonts.$bold;
+  }
+
+  &:not(.text-left):not(.text-right) {
+    th,
+    td {
+      text-align: center;
+    }
+  }
+
+  &.tight,
+  .tight {
+    td,
+    th {
+      padding: 0;
+    }
+  }
+}
