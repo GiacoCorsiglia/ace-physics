@@ -328,7 +328,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
         }
         const correct = approxEquals(r.psiBBarHeights, [
           Math.sqrt(2 / 6),
-          Math.sqrt(3 / 6),
+          -Math.sqrt(3 / 6),
           0,
           Math.sqrt(1 / 6),
         ]);
