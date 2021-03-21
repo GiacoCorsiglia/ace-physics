@@ -1,6 +1,6 @@
 import { AuthProvider } from "@/auth";
-import { Footer } from "@/design/Footer";
-import footerStyles from "@/design/Footer.module.scss";
+import { Footer } from "@/components/footer";
+import footerStyles from "@/components/footer.module.scss";
 import "@/design/global.scss";
 import { JsxElement, resetUniqueIds } from "@/helpers/frontend";
 import { init } from "@/sentry";
@@ -18,9 +18,9 @@ export default function AceApp({ Component, pageProps, err }: Props) {
     resetUniqueIds();
   }
 
-  if (Component.name === "TestPage") {
-    return <Component />;
-  }
+  // if (Component.name === "TestPage") {
+  //   return <Component />;
+  // }
 
   if (err) {
     // https://github.com/vercel/next.js/blob/canary/examples/with-sentry/pages/_app.js

@@ -2,14 +2,15 @@ import * as urls from "@/urls";
 import Link from "next/link";
 import styles from "./Footer.module.scss";
 
-export function Footer() {
+export const Footer = () => {
   return (
     <footer className={styles.footer}>
       <hr />
 
       <p>
-        &copy; {new Date().getFullYear()} Giaco Corsiglia, Benjamin P.
-        Schermerhorn, Steven Pollock, Gina Passante, and Homeyra Sadaghiani
+        &copy; {new Date().getFullYear()}&nbsp;Giaco&nbsp;Corsiglia,
+        Benjamin&nbsp;P.&nbsp;Schermerhorn, Steven&nbsp;Pollock,
+        Gina&nbsp;Passante, and Homeyra&nbsp;Sadaghiani
       </p>
 
       <p>
@@ -25,4 +26,4 @@ export function Footer() {
       </p>
     </footer>
   );
-}
+};
