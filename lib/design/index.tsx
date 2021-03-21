@@ -1,10 +1,4 @@
 export { Answer } from "./answers"; // TODO: To keep imports working for now.
-export * as colors from "./colors";
-export * as fonts from "./fonts";
-export * as shadows from "./shadows";
-export * as spacing from "./spacing";
-
-export const borderRadius = "0.25rem";
 
 ////////////////////////////////////////////////////////////////////////////////
 // DEPRECATED:
