@@ -1,4 +1,5 @@
-import { forwardRef, ReactElement } from "react";
+import isPropValid from "@emotion/is-prop-valid";
+import { createElement, forwardRef, ReactElement } from "react";
 
 // Class name concatenation.
 type ClassName = string | false | void | null | 0;
@@ -39,7 +40,17 @@ const styledConstructor = (tag: Tag) => (...classes: any[]): any => {
   const component = forwardRef((props: any, ref) => {
     const As = props.as || tag;
     const cs = classesFn ? classesFn(props) : classes;
-    return <As {...props} ref={ref} className={cx(props.className, ...cs)} />;
+
+    const newProps: any = {};
+    for (const key in props) {
+      if (key !== "as" && isPropValid(key)) {
+        newProps[key] = props[key];
+      }
+    }
+    newProps.ref = ref;
+    newProps.className = cx(props.className, ...cs);
+
+    return createElement(As, newProps);
   });
 
   component.displayName = `styled.${tag}${devDisplayName(classes)}`;
