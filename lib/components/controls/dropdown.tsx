@@ -163,6 +163,7 @@ export const DropdownControl = <C,>({
             disabled,
             ref: menuRef,
             className: cx(
+              styles.menu,
               !ds.isOpen && styles.menuClosed,
               ds.isOpen && styles.menuOpen,
               ds.isOpen && openAbove && styles.menuOpenedAbove,

@@ -107,8 +107,17 @@
   transform: rotateZ(180deg);
 }
 
+.menu {
+  transition: {
+    property: opacity;
+    duration: 100ms;
+  }
+}
+
 .menuClosed {
   @include helpers.visibly-hidden;
+  opacity: 0;
+  transition-timing-function: ease-in;
 }
 
 .menuOpenedBelow {
@@ -147,6 +156,9 @@
 
   // box-shadow: shadows.inputFocused;
   outline: none;
+
+  opacity: 1;
+  transition-timing-function: ease-out;
 }
 
 .menuItem {
