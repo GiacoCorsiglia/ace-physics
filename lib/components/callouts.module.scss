@@ -59,6 +59,8 @@
 }
 
 .neutral {
+  background-color: colors.$neutral-200;
+  box-shadow: 0 1px 4px colors.alpha(colors.$neutral-800, 0.05);
   border-color: colors.$neutral-300;
   color: colors.$neutral-700;
 
@@ -71,6 +73,6 @@
   @include fonts.smallest;
   // Small caps would be nice but then we need to load more fonts.
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.035em;
   margin-bottom: spacing.$space-50;
 }
