@@ -46,96 +46,94 @@ export default function TestPage() {
   const [disabled, setDisabled] = useState(false);
 
   return (
-    <Vertical spacing={300}>
+    <Vertical space={300}>
       <Content>
-        <Vertical>
-          <Button color="green" onClick={() => setDisabled((d) => !d)}>
-            {disabled ? "Enable" : "Disable"} Controls
-          </Button>
+        <Button color="green" onClick={() => setDisabled((d) => !d)}>
+          {disabled ? "Enable" : "Disable"} Controls
+        </Button>
 
-          <DisableControls when={disabled}>
-            <InputControl
-              placeholder="Placeholder"
-              label={<Prose>Input:</Prose>}
-            />
+        <DisableControls when={disabled}>
+          <InputControl
+            placeholder="Placeholder"
+            label={<Prose>Input:</Prose>}
+          />
 
-            <TextInputControl
-              label={<Prose>Text Input:</Prose>}
-              value={string}
-              onChange={setString}
-            />
+          <TextInputControl
+            label={<Prose>Text Input:</Prose>}
+            value={string}
+            onChange={setString}
+          />
 
-            <TextBoxControl
-              label={<Prose>Text Box:</Prose>}
-              value={string}
-              onChange={setString}
-            />
+          <TextBoxControl
+            label={<Prose>Text Box:</Prose>}
+            value={string}
+            onChange={setString}
+          />
 
-            <ToggleControl
-              label={<Prose>Toggle:</Prose>}
-              choices={choices}
-              value={selected}
-              onChange={setSelected}
-            />
+          <ToggleControl
+            label={<Prose>Toggle:</Prose>}
+            choices={choices}
+            value={selected}
+            onChange={setSelected}
+          />
 
-            <DropdownControl
-              choices={choices2}
-              value={selected2}
-              onChange={setSelected2}
-              label={<Prose>Dropdown:</Prose>}
-            />
+          <DropdownControl
+            choices={choices2}
+            value={selected2}
+            onChange={setSelected2}
+            label={<Prose>Dropdown:</Prose>}
+          />
 
-            <Prose>Control Group:</Prose>
-
-            <ControlGroup>
-              <NumericInputControl
-                type="decimal"
-                value={decimal}
-                onChange={setDecimal}
-                label={<M t="a = " />}
-              />
-
-              <DropdownControl
-                choices={choices2}
-                value={selected2}
-                onChange={setSelected2}
-                label={<M t="b =" />}
-              />
-
-              <Button color="green">Submit</Button>
-            </ControlGroup>
-
-            <ChooseControl
-              multi={false}
-              label={<Prose>Choice:</Prose>}
-              choices={choices}
-              value={selected}
-              onChange={setSelected}
-              other={{
-                value: string,
-                onChange: (v) => setString(v),
-                inputType: "text-box",
-              }}
-            />
-
-            <Horizontal justify="stretch">
-              <Button color="green" iconRight={<ArrowDownIcon />}>
-                Let’s get going
-              </Button>
-              <Button color="blue">Log out</Button>
-              <Button color="yellow">Hmm…</Button>
-            </Horizontal>
-          </DisableControls>
+          <Prose>Control Group:</Prose>
 
           <ControlGroup>
             <NumericInputControl
               type="decimal"
               value={decimal}
               onChange={setDecimal}
+              label={<M t="a = " />}
             />
-            <ControlGroup.Text>%</ControlGroup.Text>
+
+            <DropdownControl
+              choices={choices2}
+              value={selected2}
+              onChange={setSelected2}
+              label={<M t="b =" />}
+            />
+
+            <Button color="green">Submit</Button>
           </ControlGroup>
-        </Vertical>
+
+          <ChooseControl
+            multi={false}
+            label={<Prose>Choice:</Prose>}
+            choices={choices}
+            value={selected}
+            onChange={setSelected}
+            other={{
+              value: string,
+              onChange: (v) => setString(v),
+              inputType: "text-box",
+            }}
+          />
+
+          <Horizontal justify="stretch">
+            <Button color="green" iconRight={<ArrowDownIcon />}>
+              Let’s get going
+            </Button>
+            <Button color="blue">Log out</Button>
+            <Button color="yellow">Hmm…</Button>
+          </Horizontal>
+        </DisableControls>
+
+        <ControlGroup>
+          <NumericInputControl
+            type="decimal"
+            value={decimal}
+            onChange={setDecimal}
+          />
+          <ControlGroup.Text>%</ControlGroup.Text>
+        </ControlGroup>
       </Content>
 
       <Content>
@@ -203,44 +201,52 @@ export default function TestPage() {
             </tr>
           </tbody>
         </Table>
+
+        <Horizontal justify="end">
+          <Button
+            color="green"
+            disabled
+            disabledExplanation="Please respond to every question before moving on"
+          >
+            Move on
+          </Button>
+        </Horizontal>
       </Content>
 
       <Content>
-        <Vertical>
-          <Prose>This is some prose.</Prose>
+        <Prose>This is some prose.</Prose>
 
-          <Matrix column={[<div>One</div>, <div>Two</div>]} />
+        <Matrix column={[<div>One</div>, <div>Two</div>]} />
 
-          <Prose>This is some more prose.</Prose>
+        <Prose>This is some more prose.</Prose>
 
-          <Callout color="neutral" title="Reminder">
-            <Prose>This is a reminder.</Prose>
-          </Callout>
+        <Callout color="neutral" title="Reminder">
+          <Prose>This is a reminder.</Prose>
+        </Callout>
 
-          <Callout
-            color="blue"
-            title="Heads up"
-            iconLeft={<AlertIcon size="large" />}
-          >
-            <Prose>This is some info.</Prose>
-          </Callout>
+        <Callout
+          color="blue"
+          title="Heads up"
+          iconLeft={<AlertIcon size="large" />}
+        >
+          <Prose>This is some info.</Prose>
+        </Callout>
 
-          <Callout color="yellow">
-            <Prose>This is a hint.</Prose>
-          </Callout>
+        <Callout color="yellow">
+          <Prose>This is a hint.</Prose>
+        </Callout>
 
-          <Callout color="green">
-            <Prose>This is correct!</Prose>
-          </Callout>
+        <Callout color="green">
+          <Prose>This is correct!</Prose>
+        </Callout>
 
-          <Callout color="red">
-            <Prose>This is incorrect.</Prose>
-          </Callout>
+        <Callout color="red">
+          <Prose>This is incorrect.</Prose>
+        </Callout>
 
-          <Button color="green" iconRight={<ArrowDownIcon />}>
-            Let’s get going
-          </Button>
-        </Vertical>
+        <Button color="green" iconRight={<ArrowDownIcon />}>
+          Let’s get going
+        </Button>
       </Content>
 
       <Content>
@@ -432,40 +438,38 @@ export default function TestPage() {
       </Content>
 
       <Content>
-        <Vertical>
-          <DropdownControl
-            choices={
-              [
-                ["a", <M t="\ket{+}" />],
-                ["b", "Choice B"],
-                ["c", "Choice C"],
-                ["d", "Choice D"],
-                ["e", "Choice E"],
-                ["f", "Choice F"],
-                ["g", "Choice G"],
-              ] as const
-            }
-            value={selected2}
-            onChange={setSelected2}
-          />
+        <DropdownControl
+          choices={
+            [
+              ["a", <M t="\ket{+}" />],
+              ["b", "Choice B"],
+              ["c", "Choice C"],
+              ["d", "Choice D"],
+              ["e", "Choice E"],
+              ["f", "Choice F"],
+              ["g", "Choice G"],
+            ] as const
+          }
+          value={selected2}
+          onChange={setSelected2}
+        />
 
-          <DropdownControl
-            choices={
-              [
-                ["a", <M t="\ket{+}" />],
-                ["b", "Choice B"],
-                ["c", "Choice C"],
-                ["d", "Choice D"],
-                ["e", "Choice E"],
-                ["f", "Choice F"],
-                ["g", "Choice G"],
-              ] as const
-            }
-            value={selected2}
-            onChange={setSelected2}
-            disabled
-          />
-        </Vertical>
+        <DropdownControl
+          choices={
+            [
+              ["a", <M t="\ket{+}" />],
+              ["b", "Choice B"],
+              ["c", "Choice C"],
+              ["d", "Choice D"],
+              ["e", "Choice E"],
+              ["f", "Choice F"],
+              ["g", "Choice G"],
+            ] as const
+          }
+          value={selected2}
+          onChange={setSelected2}
+          disabled
+        />
       </Content>
     </Vertical>
   );
