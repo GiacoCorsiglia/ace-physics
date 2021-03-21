@@ -5,6 +5,13 @@
 $padding-y: spacing.$space-50;
 $padding-x: spacing.$space-75;
 
+$var-width: --control-width;
+$var-max-width: --control-max-width;
+@mixin full-width {
+  #{$var-width}: 100%;
+  #{$var-max-width}: none;
+}
+
 $var-border-width: --control-border-width;
 $default-border-width: 1px;
 $border-width: var(#{$var-border-width}, #{$default-border-width});
@@ -19,6 +26,9 @@ $default-box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05),
   0px 2px 8px colors.alpha(colors.$neutral-900, 0.04);
 $box-shadow: var(#{$var-box-shadow}, #{$default-box-shadow});
 
+@mixin disable-control-border-radius {
+  #{$var-border-radius}: 0px;
+}
 @mixin disable-control-borders {
   #{$var-border-width}: 0px;
   #{$var-box-shadow}: $empty-box-shadow;
@@ -27,12 +37,17 @@ $box-shadow: var(#{$var-box-shadow}, #{$default-box-shadow});
   #{$var-box-shadow}: $empty-box-shadow;
 }
 
-$border-color: colors.$neutral-400;
+$var-border-color: --control-border-color;
+$border-color: var(#{$var-border-color}, #{colors.$neutral-400});
 $background-color: colors.$neutral-50;
 $text-color: colors.$neutral-900;
 $placeholder-color: colors.$neutral-400;
 
-$hover-border-color: colors.$neutral-500;
+$var-hover-border-color: --control-hover-border-color;
+$hover-border-color: var(
+  #{$var-hover-border-color},
+  var(#{$var-border-color}, #{colors.$neutral-500})
+);
 $default-hover-box-shadow: 0px 2px 4px colors.alpha(colors.$neutral-900, 0.05),
   0px 4px 8px colors.alpha(colors.$neutral-900, 0.04);
 $hover-box-shadow: var(#{$var-box-shadow}, #{$default-hover-box-shadow});

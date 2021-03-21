@@ -2,15 +2,25 @@
 @use "controls";
 
 .controlGroup {
+  composes: tableControl from "../tables.module.scss";
+
   position: relative;
-  display: flex;
+  display: inline-flex;
   background: controls.$background-color;
   border-radius: controls.$border-radius;
   align-items: stretch;
-  transition: box-shadow 75ms ease-in-out;
+  transition: box-shadow 75ms;
+  box-shadow: controls.$box-shadow;
 
-  box-shadow: controls.$default-box-shadow;
-  @include controls.disable-control-shadows;
+  &:hover {
+    box-shadow: controls.$hover-box-shadow;
+  }
+
+  * {
+    @include controls.disable-control-shadows;
+    // Re-enable control borders.
+    #{controls.$var-border-width}: #{controls.$default-border-width};
+  }
 
   // All of our inputs must implement this class.
   > .controlGroupControl {
@@ -22,6 +32,11 @@
   > .controlGroupButton {
     position: relative;
     z-index: 2; // Makes the colored borders look better like this:
+  }
+
+  > :hover {
+    position: relative;
+    z-index: 2;
   }
 
   > :focus,

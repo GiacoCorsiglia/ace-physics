@@ -6,6 +6,7 @@ input.input {
 
 .input {
   composes: controlGroupControl from "./group.module.scss";
+  composes: tableControl from "../tables.module.scss";
 
   display: block;
   padding: controls.$padding-y controls.$padding-x;
@@ -14,6 +15,7 @@ input.input {
   border: controls.$border-width solid controls.$border-color;
   border-radius: controls.$border-radius;
   box-shadow: controls.$box-shadow;
+  text-overflow: ellipsis;
 
   transition: {
     property: controls.$transition-property;
@@ -46,4 +48,8 @@ input.input {
       color: controls.$disabled-placeholder-color;
     }
   }
+}
+
+.maxWidth {
+  max-width: var(#{controls.$var-max-width}, 8rem);
 }

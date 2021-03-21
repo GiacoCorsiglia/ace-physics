@@ -5,12 +5,15 @@
 
 .container {
   composes: controlGroupControl from "./group.module.scss";
+  composes: tableControl from "../tables.module.scss";
 
   position: relative;
   background: controls.$background-color;
   border: controls.$border-width solid controls.$border-color;
   border-radius: controls.$border-radius;
   box-shadow: controls.$box-shadow;
+  // Reset text alignment.
+  text-align: left;
 
   &.disabled {
     box-shadow: controls.$disabled-box-shadow;

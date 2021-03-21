@@ -4,13 +4,13 @@ import { useDisabled } from "./disabled";
 import styles from "./input.module.scss";
 import { ControlLabel } from "./labels";
 
-export type InputControlProps = { label?: Html } & Omit<
-  JSX.IntrinsicElements["input"],
-  "ref"
->;
+export type InputControlProps = {
+  label?: Html;
+  maxWidth?: boolean;
+} & Omit<JSX.IntrinsicElements["input"], "ref">;
 
 export const InputControl = forwardRef<HTMLInputElement, InputControlProps>(
-  function InputControl({ label, id, ...props }, ref) {
+  function InputControl({ label, maxWidth, id, ...props }, ref) {
     const autoId = `input-${useUniqueId()}`;
     const inputId = id ?? autoId;
 
@@ -22,7 +22,11 @@ export const InputControl = forwardRef<HTMLInputElement, InputControlProps>(
 
         <input
           {...props}
-          className={cx(styles.input, props.className)}
+          className={cx(
+            styles.input,
+            maxWidth && styles.maxWidth,
+            props.className
+          )}
           id={inputId}
           ref={ref}
         />

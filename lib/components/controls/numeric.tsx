@@ -58,6 +58,7 @@ export const NumericInputControl = forwardRef<
         }
         // Otherwise ignore/block additional input, but don't delete anything.
       }}
+      maxWidth={props.maxWidth ?? true}
     />
   );
 });

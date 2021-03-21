@@ -30,8 +30,6 @@ export const ToggleControl = <C,>({
   // Use an underscore to not overlap with `{${toggleId}-${choice}}`.
   const labelId = `${toggleId}_legend`;
 
-  const needsWrapper = layout === "vertical" || layout === "grid";
-
   return (
     <>
       {label && (
@@ -41,7 +39,7 @@ export const ToggleControl = <C,>({
       )}
 
       {/* The actual container is displayed inline-flex or -grid, so wrap with a block-level element. */}
-      <div>
+      <div className={styles.root}>
         <div
           className={cx(
             styles.container,
