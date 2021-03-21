@@ -131,7 +131,8 @@
 .menuOpen {
   position: absolute;
   z-index: 10000;
-  width: 100%;
+  left: calc(-1 * #{controls.$border-width});
+  right: calc(-1 * #{controls.$border-width});
 
   background: controls.$background-color;
   color: controls.$text-color;
