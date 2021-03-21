@@ -1,5 +1,7 @@
 @use "colors";
 @use "fonts";
+// Include global utility classes as well.
+@use "global-utilities";
 
 /******************************************************************************
  * Reset.

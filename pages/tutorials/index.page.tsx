@@ -153,7 +153,7 @@ function TutorialLink({
             <ChevronRightIcon />
           </div>
 
-          <Prose textStyle="small">{children}</Prose>
+          <Prose size="small">{children}</Prose>
         </a>
       </Link>
     </li>

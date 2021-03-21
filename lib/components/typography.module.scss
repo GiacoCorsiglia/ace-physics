@@ -2,15 +2,6 @@
 @use "spacing";
 @use "colors";
 
-// Set default font style.
-.body {
-  @include fonts.body;
-}
-
-.small {
-  @include fonts.small;
-}
-
 .prose {
   // text-align: justify;
   hyphens: auto;
