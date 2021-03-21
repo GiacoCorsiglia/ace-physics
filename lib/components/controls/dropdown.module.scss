@@ -120,12 +120,14 @@
   transition-timing-function: ease-in;
 }
 
+$menu-spacing: spacing.$space-50;
+
 .menuOpenedBelow {
-  top: calc(100% + #{spacing.$space-25});
+  top: calc(100% + #{$menu-spacing});
 }
 
 .menuOpenedAbove {
-  bottom: calc(100% + #{spacing.$space-25});
+  bottom: calc(100% + #{$menu-spacing});
 }
 
 .menuOpen {
@@ -134,6 +136,7 @@
   left: calc(-1 * #{controls.$border-width});
   right: calc(-1 * #{controls.$border-width});
 
+  outline: none;
   background: controls.$background-color;
   color: controls.$text-color;
   border: controls.$default-border-width solid controls.$border-color;
@@ -154,9 +157,6 @@
   border-top-right-radius: inherit;
   border-bottom-right-radius: controls.$default-border-radius;
   border-bottom-left-radius: controls.$default-border-radius;
-
-  // box-shadow: shadows.inputFocused;
-  outline: none;
 
   opacity: 1;
   transition-timing-function: ease-out;
