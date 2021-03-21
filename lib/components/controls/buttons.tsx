@@ -11,12 +11,22 @@ type ButtonProps = {
   openNewTab?: boolean;
   iconLeft?: Html;
   iconRight?: Html;
+  disabledExplanation?: Html;
 } & JSX.IntrinsicElements["button"] &
   JSX.IntrinsicElements["a"]; // forwardRef doesn't work with generics.
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
-    { color, link, openNewTab, children, iconLeft, iconRight, ...props },
+    {
+      color,
+      link,
+      openNewTab,
+      children,
+      iconLeft,
+      iconRight,
+      disabledExplanation,
+      ...props
+    },
     ref
   ) {
     props.disabled = useDisabled(props);
@@ -35,6 +45,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {iconLeft}
         {children}
         {iconRight}
+        {props.disabled && disabledExplanation && (
+          <span className={styles.disabledExplanation}>
+            {caret}
+            {disabledExplanation}
+          </span>
+        )}
       </>
     );
 
@@ -54,9 +70,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           {childrenWithIcons}
         </button>
       );
-    }
-
-    if (isExternalLink || openNewTab) {
+    } else if (isExternalLink || openNewTab) {
       return (
         <a
           {...(props as JSX.IntrinsicElements["a"])}
@@ -79,4 +93,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       );
     }
   }
+);
+
+// Thanks, GitHub.
+// https://github.com/primer/components/blob/main/src/Caret.tsx
+
+const size = 8;
+const a = [-size, 0];
+const b = [0, size];
+const c = [size, 0];
+const triangle = `M${a}L${b}L${c}L${a}Z`;
+const line = `M${a}L${b}L${c}`;
+const caret = (
+  <svg width={size * 2} height={size * 2} className={styles.svgCaret}>
+    <g transform={`translate(${[size, size * 2]}) rotate(180)`}>
+      <path d={triangle} className={styles.svgTriangle} />
+      <path d={line} fill="none" className={styles.svgLine} />
+    </g>
+  </svg>
 );

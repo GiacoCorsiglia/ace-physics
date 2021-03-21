@@ -7,6 +7,7 @@
 .button {
   composes: controlGroupButton from "./group.module.scss";
 
+  position: relative;
   z-index: var(--button-z-index);
 
   padding: spacing.$space-75 spacing.$space-200;
@@ -35,7 +36,7 @@
   }
 
   // Icons.
-  svg {
+  :global(.octicon) {
     width: 1em;
     height: auto;
   }
@@ -94,6 +95,22 @@
     border-color: colors.shade($color, 300);
     box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.18);
   }
+
+  .disabledExplanation {
+    background: colors.shade($color, 100);
+    border: 1px solid colors.shade($color, 300);
+    box-shadow: 0px 2px 6px 1px colors.alpha($shadow-color, 0.1);
+    color: colors.shade($color, 900);
+  }
+
+  .svgTriangle {
+    fill: colors.shade($color, 100);
+  }
+
+  .svgLine {
+    stroke-width: 1px;
+    stroke: colors.shade($color, 300);
+  }
 }
 
 .green {
@@ -104,4 +121,44 @@
 }
 .yellow {
   @include button(colors.$yellow);
+}
+
+.disabledExplanation {
+  @include fonts.ui-small;
+  position: absolute;
+  top: calc(100% + #{spacing.$space-75});
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(3px);
+  margin: 0 auto;
+  min-width: 13rem;
+  padding: spacing.$space-75 spacing.$space-50;
+  border-radius: borders.$radius;
+
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+
+  transition: {
+    property: opacity, visibility, transform;
+    duration: 150ms;
+    timing-function: ease-in;
+  }
+
+  .button:hover &,
+  .button:focus & {
+    visibility: visible;
+    opacity: 1;
+    transition-timing-function: ease-out;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.svgCaret {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 100%;
 }
