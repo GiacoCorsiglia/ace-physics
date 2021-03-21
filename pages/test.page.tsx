@@ -5,18 +5,19 @@ import {
   Content,
   ControlGroup,
   DisableControls,
+  DropdownControl,
   Horizontal,
   InputControl,
   M,
   Matrix,
   NumericInputControl,
   Prose,
+  Table,
   TextBoxControl,
   TextInputControl,
   ToggleControl,
   Vertical,
 } from "@/components";
-import { DropdownControl } from "@/components/controls/dropdown";
 import { AlertIcon, ArrowDownIcon } from "@primer/octicons-react";
 import React, { useState } from "react";
 
@@ -125,7 +126,83 @@ export default function TestPage() {
               <Button color="yellow">Hmm…</Button>
             </Horizontal>
           </DisableControls>
+
+          <ControlGroup>
+            <NumericInputControl
+              type="decimal"
+              value={decimal}
+              onChange={setDecimal}
+            />
+            <ControlGroup.Text>%</ControlGroup.Text>
+          </ControlGroup>
         </Vertical>
+      </Content>
+
+      <Content>
+        <Table columns={[0.5, 1, 1.5, 1]}>
+          <thead>
+            <tr>
+              <td>Col 1</td>
+              <td>Col 2</td>
+              <td>Col 3</td>
+              <td>Col 4</td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <th>Row</th>
+              <td>
+                <ControlGroup>
+                  <NumericInputControl
+                    type="decimal"
+                    value={decimal}
+                    onChange={setDecimal}
+                  />
+                  <ControlGroup.Text>%</ControlGroup.Text>
+                </ControlGroup>
+              </td>
+              <td>
+                <ToggleControl
+                  choices={choices}
+                  value={selected}
+                  onChange={setSelected}
+                />
+              </td>
+              <td>
+                <DropdownControl
+                  choices={choices2}
+                  value={selected2}
+                  onChange={setSelected2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Row</th>
+              <td>
+                <NumericInputControl
+                  type="decimal"
+                  value={decimal}
+                  onChange={setDecimal}
+                />
+              </td>
+              <td>
+                <ToggleControl
+                  choices={choices}
+                  value={selected}
+                  onChange={setSelected}
+                />
+              </td>
+              <td>
+                <DropdownControl
+                  choices={choices2}
+                  value={selected2}
+                  onChange={setSelected2}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </Table>
       </Content>
 
       <Content>
