@@ -1,11 +1,23 @@
 import { styled } from "@/helpers/frontend";
 import styles from "./layout.module.scss";
 
-export const Content = styled.div(styles.content);
+type VerticalSpacing = 100 | 300;
+
+export const Content = styled.div<{
+  vertical?: VerticalSpacing | false;
+}>(({ vertical = 100 }) => [
+  styles.content,
+  vertical === 100 && styles.vertical100,
+  vertical === 300 && styles.vertical300,
+]);
 
 export const Vertical = styled.div<{
-  spacing?: 100 | 300;
-}>(({ spacing }) => [styles.vertical, spacing === 300 && styles.vertical300]);
+  space?: VerticalSpacing;
+}>(({ space = 100 }) => [
+  styles.vertical, // Leave this here to set the displayName
+  space === 100 && styles.vertical100,
+  space === 300 && styles.vertical300,
+]);
 
 export const Horizontal = styled.div<{
   align?: "start" | "end" | "center" | "stretch";
@@ -18,4 +30,14 @@ export const Horizontal = styled.div<{
   justify === "center" && styles.justifyCenter,
   justify === "end" && styles.justifyEnd,
   justify === "stretch" && styles.justifyStretch,
+]);
+
+export const Columns = styled.div(styles.columns);
+
+export const Column = styled.div<{
+  vertical?: VerticalSpacing | false;
+}>(({ vertical = 100 }) => [
+  styles.column, // Leave this here to set the displayName
+  vertical === 100 && styles.vertical100,
+  vertical === 300 && styles.vertical300,
 ]);
