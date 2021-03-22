@@ -1,6 +1,6 @@
 import * as urls from "@/urls";
 import Link from "next/link";
-import styles from "./Footer.module.scss";
+import styles from "./footer.module.scss";
 
 export const Footer = () => {
   return (
