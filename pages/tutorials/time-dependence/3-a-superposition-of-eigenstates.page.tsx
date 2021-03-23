@@ -1,18 +1,20 @@
-import { Prose } from "@/design";
+import { Help, Info, Prose } from "@/design";
+import { deepEqual } from "@/helpers";
 import { Decimal, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
+import { approxEquals } from "@/util";
 import React, { Fragment } from "react";
 import type { StylesConfig } from "react-select";
 import tableGraph1 from "./assets/table-graph-1.png";
 import tableGraph2 from "./assets/table-graph-2.png";
 import tableGraph3 from "./assets/table-graph-3.png";
-import setup from "./setup";
+import setup, { Responses } from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, oneOf }) => ({
   name: "aSuperpositionOfEigenstates",
   label: "A Superposition of Eigenstates",
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "aSuperpositionOfEigenstatesIntro",
@@ -50,8 +52,19 @@ export default page(setup, ({ section }) => ({
             model={m.explainTimeDependenceOfProbDens}
             label={
               <Prose>
-                Using the top right graph, explain why the <M t="|\psi_A|^2" />{" "}
-                probability density graph changes with time.
+                <p>
+                  Using the top right graph, explain why the{" "}
+                  <M t="|\psi_A|^2" /> probability density graph changes with
+                  time.
+                </p>
+
+                <p>
+                  <em>
+                    The probability density graph appears in the lower left when
+                    you check the corresponding box in the “Main Controls”
+                    panel.
+                  </em>
+                </p>
               </Prose>
             }
           />
@@ -102,11 +115,11 @@ export default page(setup, ({ section }) => ({
         const equationProbDensChoices = [
           [
             "ψ1^2 + ψ2^2 + ψ1ψ2",
-            <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 + \psi_1\psi_2)" />,
+            <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 + 2\psi_1\psi_2)" />,
           ],
           [
             "ψ1^2 + ψ2^2 - ψ1ψ2",
-            <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 - \psi_1\psi_2)" />,
+            <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 - 2\psi_1\psi_2)" />,
           ],
           ["ψ1^2 + ψ2^2", <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2)" />],
         ] as const;
@@ -170,9 +183,15 @@ export default page(setup, ({ section }) => ({
               </p>
 
               <p>
-                <M t="\Delta \equiv\," /> the phase difference (rotation angle)
+                <M t="\Delta" /> is the phase difference (rotation angle)
                 between
-                <M t="\psi_1" /> and <M t="\psi_2" />
+                <M t="\psi_1" /> and <M t="\psi_2" />:
+                <M
+                  display
+                  t="\Delta \equiv (\text{phase of } \psi_2) -  (\text{phase of } \psi_1)"
+                />
+                If you rotate <M t="\psi_1" /> by <M t="\Delta" />{" "}
+                <em>counterclockwise</em>, you should get to <M t="\psi_2" />.
               </p>
             </Prose>
 
@@ -275,6 +294,108 @@ export default page(setup, ({ section }) => ({
     }),
 
     section({
+      name: "tableGuidance",
+      enumerate: false,
+      body: (_, { responses }) => {
+        const table = responses?.table || {};
+        const correctTable: Responses["table"] = {
+          t000: {
+            phaseDifference: { selected: "0" },
+            equationProbAmp: { selected: "ψ1 + ψ2" },
+            equationProbDens: { selected: "ψ1^2 + ψ2^2 + ψ1ψ2" },
+            graphProbDens: { selected: "t000" },
+          },
+          t025: {
+            phaseDifference: { selected: "pi/2" },
+            equationProbAmp: { selected: "-iψ1 + ψ2" },
+            graphProbDens: { selected: "t025" },
+            equationProbDens: { selected: "ψ1^2 + ψ2^2" },
+          },
+          t050: {
+            phaseDifference: { selected: "pi" },
+            equationProbAmp: { selected: "-ψ1 + ψ2" },
+            equationProbDens: { selected: "ψ1^2 + ψ2^2 - ψ1ψ2" },
+            graphProbDens: { selected: "t050" },
+          },
+          t075: {
+            phaseDifference: { selected: "-pi/2" },
+            equationProbAmp: { selected: "iψ1 + ψ2" },
+            graphProbDens: { selected: "t025" },
+            equationProbDens: { selected: "ψ1^2 + ψ2^2" },
+          },
+        };
+
+        const times = ["t000", "t025", "t050", "t075"] as const;
+        const corrects = times.map((t) => deepEqual(table[t], correctTable[t]));
+
+        if (corrects.every(Boolean)) {
+          return (
+            <Help>
+              <Prose>We agree with your table!</Prose>
+            </Help>
+          );
+        }
+
+        const correctWithoutDelta = times
+          .map((t) =>
+            deepEqual(
+              { ...table[t], phaseDifference: undefined },
+              { ...correctTable[t], phaseDifference: undefined }
+            )
+          )
+          .every(Boolean);
+
+        if (correctWithoutDelta) {
+          return (
+            <Info>
+              <Prose>
+                <p>
+                  You’re nearly there, but at least one of your values for{" "}
+                  <M t="\Delta" /> is off.
+                </p>
+
+                <p>
+                  This message will update when you change your answers above.
+                </p>
+              </Prose>
+            </Info>
+          );
+        }
+
+        return (
+          <Info>
+            <Prose>
+              <p>
+                Heads up–you have at least one mistake in the row for each of
+                these times:
+              </p>
+
+              <ul>
+                {corrects
+                  .map((correct, i) => {
+                    if (correct) {
+                      return null;
+                    }
+                    const t = times[i];
+                    return (
+                      <li key={t}>
+                        <M t={`t = 0.${t.substring(2)}0\\ h / E_1`} />
+                      </li>
+                    );
+                  })
+                  .filter(Boolean)}
+              </ul>
+
+              <p>
+                This message will update when you change your answers above.
+              </p>
+            </Prose>
+          </Info>
+        );
+      },
+    }),
+
+    section({
       name: "symmetry",
       body: (m) => {
         const cs = [
@@ -345,7 +466,7 @@ export default page(setup, ({ section }) => ({
                   When <M t="\psi_1" /> and <M t="\psi_2" /> are in
                   perpendicular planes, the probability density{" "}
                   <M t="|\psi_A|^2" /> is symmetric with respect to{" "}
-                  <M t="L/2" />.
+                  <M t="L/2" />. (This is the answer to the previous question!)
                 </p>
 
                 <p>
@@ -380,11 +501,42 @@ export default page(setup, ({ section }) => ({
           <Prose>
             <em>
               To think about: Is the period of the probability density the same
-              as the period of either of the individual eigenfunctions?
+              as the period of either of the individual eigenfunctions? If not,
+              can you see mathematically as well as physically where the
+              discrepancy arises from?
             </em>
           </Prose>
         </>
       ),
+    }),
+
+    oneOf({
+      which: (r) =>
+        approxEquals(r.periodOfProbDens, 2 / 3)
+          ? "periodOfProbDensCorrect"
+          : "periodOfProbDensIncorrect",
+      sections: {
+        periodOfProbDensCorrect: section({
+          name: "periodOfProbDensCorrect",
+          body: (
+            <Help>
+              <Prose>
+                We agree! <M t="T_A = \frac{2}{3} \times \frac{h}{E_1}" />.
+              </Prose>
+            </Help>
+          ),
+        }),
+        periodOfProbDensIncorrect: section({
+          name: "periodOfProbDensIncorrect",
+          body: (
+            <Info>
+              <Prose>
+                Heads up: we got a different value for <M t="T_A" />.
+              </Prose>
+            </Info>
+          ),
+        }),
+      },
     }),
   ],
 }));
