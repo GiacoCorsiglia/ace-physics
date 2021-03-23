@@ -108,7 +108,7 @@ html:focus-within {
  * Essentials.
  ******************************************************************************/
 body {
-  background: colors.$neutral-100;
+  background: colors.$neutral-200;
   color: colors.$neutral-900;
   @include fonts.body;
 }

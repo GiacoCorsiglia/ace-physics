@@ -49,6 +49,10 @@ const styledConstructor = (tag: Tag) => (...classes: any[]): any => {
     }
     newProps.ref = ref;
     newProps.className = cx(props.className, ...cs);
+    // Let's just fix HTML real quick.
+    if (As === "button" && !newProps.type) {
+      newProps.type = "button";
+    }
 
     return createElement(As, newProps);
   });

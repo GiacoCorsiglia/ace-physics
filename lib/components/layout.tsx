@@ -41,3 +41,15 @@ export const Column = styled.div<{
   vertical === 100 && styles.vertical100,
   vertical === 300 && styles.vertical300,
 ]);
+
+export const Spacer = styled.span<{
+  size: 25 | 50 | 75 | 100;
+  block?: boolean;
+}>(({ size, block }) => [
+  !block && styles.spacerInlineBlock,
+  block && styles.spacerBlock,
+  size === 25 && styles.spacer25,
+  size === 50 && styles.spacer50,
+  size === 75 && styles.spacer75,
+  size === 100 && styles.spacer25,
+]);

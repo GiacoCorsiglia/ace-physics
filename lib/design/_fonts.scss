@@ -1,4 +1,4 @@
-@function _px-to-rem($px) {
+@function px-to-rem($px) {
   $base-size: 16; // This is 1rem in px (for normal browsers)
   @return $px / $base-size * 1rem;
 }
@@ -18,9 +18,9 @@ $ui-bold: bold;
   font: {
     family: $family;
     weight: $weight;
-    size: _px-to-rem($size);
+    size: px-to-rem($size);
   }
-  line-height: _px-to-rem($line-height);
+  line-height: px-to-rem($line-height);
 }
 
 @mixin heading1 {

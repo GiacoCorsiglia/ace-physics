@@ -1,0 +1,132 @@
+@use "borders";
+@use "colors";
+@use "fonts";
+@use "spacing";
+
+.header {
+  // Push the body content down appropriately.
+  height: spacing.$space-400;
+}
+
+.headerButton {
+  position: fixed;
+  top: spacing.$space-100;
+  z-index: 1000;
+  width: 3rem;
+  height: 2rem;
+  @include fonts.ui-small;
+  border: 1px solid colors.$neutral-300;
+  border-radius: borders.$radius-large;
+  background: colors.$neutral-100;
+  color: colors.$neutral-400;
+  cursor: pointer;
+  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.03);
+  // Center icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: {
+    property: color, border-color, box-shadow;
+    duration: 75ms;
+  }
+
+  &:hover {
+    color: colors.$neutral-500;
+    border-color: colors.$neutral-400;
+    box-shadow: 0px 2px 4px colors.alpha(colors.$neutral-900, 0.1);
+  }
+
+  &:focus {
+    color: colors.$neutral-500;
+    border-color: colors.$blue-500;
+    box-shadow: 0 0 0 1px colors.$blue-500,
+      0px 2px 4px colors.alpha(colors.$neutral-900, 0.1);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  svg {
+    display: block !important; // Override octicon styles
+    width: 1rem;
+    height: 1rem;
+    // Centering looked a little off:
+    position: relative;
+    top: 1px;
+  }
+}
+
+.left {
+  left: spacing.$space-100;
+}
+
+.right {
+  right: spacing.$space-100;
+}
+
+.nav {
+  position: fixed;
+  top: 4rem;
+  left: 1rem;
+  bottom: 2rem;
+  overflow-y: auto;
+  opacity: 0.5;
+}
+
+.navItem {
+  $border-width: 2px;
+  // Center icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 3rem;
+  border-radius: borders.$radius-large;
+  background: colors.$neutral-100;
+  border: $border-width solid currentColor;
+  font-size: fonts.px-to-rem(18);
+  font-weight: fonts.$bold;
+
+  & + & {
+    margin-top: spacing.$space-100;
+  }
+
+  svg {
+    display: block !important; // Override octicon styles
+    width: 1rem;
+    height: 1rem;
+    // Centering looked a little off:
+    position: relative;
+    top: 1px;
+  }
+
+  position: relative;
+  &:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    width: $border-width;
+    height: spacing.$space-100;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: calc(100% + #{$border-width});
+    background: currentColor;
+  }
+}
+
+.navItemComplete {
+  color: colors.$green-500;
+  box-shadow: 0px 1px 4px colors.alpha(colors.$green-900, 0.05);
+}
+
+.navItemActive {
+  color: colors.$neutral-700;
+  box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05);
+}
+
+.navItemIncomplete {
+  color: colors.$neutral-400;
+  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.03);
+}

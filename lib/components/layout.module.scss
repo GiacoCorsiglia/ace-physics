@@ -27,7 +27,7 @@ $max-content-width: 770px;
     padding-left: spacing.$space-400;
     padding-right: spacing.$space-400;
     border-width: 1px;
-    border-radius: 0.5rem;
+    border-radius: borders.$radius-large;
 
     --callout-horizontal-margins: #{- spacing.$space-150};
   }
@@ -100,4 +100,23 @@ $max-content-width: 770px;
     grid-template-columns: 1fr;
     row-gap: spacing.$space-100;
   }
+}
+
+.spacerInlineBlock {
+  display: inline-block;
+}
+.spacerBlock {
+  display: block;
+}
+.spacer25 {
+  width: spacing.$space-25;
+}
+.spacer50 {
+  width: spacing.$space-50;
+}
+.spacer75 {
+  width: spacing.$space-75;
+}
+.spacer100 {
+  width: spacing.$space-100;
 }
