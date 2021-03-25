@@ -512,7 +512,7 @@ export default page(setup, ({ section, oneOf }) => ({
 
     oneOf({
       which: (r) =>
-        approxEquals(r.periodOfProbDens, 2 / 3)
+        approxEquals(r.periodOfProbDens, 1 / 3)
           ? "periodOfProbDensCorrect"
           : "periodOfProbDensIncorrect",
       sections: {
@@ -521,7 +521,7 @@ export default page(setup, ({ section, oneOf }) => ({
           body: (
             <Help>
               <Prose>
-                We agree! <M t="T_A = \frac{2}{3} \times \frac{h}{E_1}" />.
+                We agree! <M t="T_A = \frac{1}{3} \times \frac{h}{E_1}" />.
               </Prose>
             </Help>
           ),
