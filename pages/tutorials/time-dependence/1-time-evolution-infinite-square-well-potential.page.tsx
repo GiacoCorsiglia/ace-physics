@@ -8,7 +8,7 @@ import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "timeEvolutionInfiniteSquareWellPotential",
-  label: "TODO",
+  label: "Time Evolution in the Infinite Square Well Potential",
   answers: "none",
   sections: [
     section({
@@ -36,11 +36,21 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            Sketch the ground state energy eigenfunction <M t="\psi_1(x)" /> at
-            time <M t="t=0" />.{" "}
-            <strong>
-              Share your screen and use Zoom’s annotation feature.
-            </strong>
+            <p>
+              Sketch the ground state energy eigenfunction <M t="\psi_1(x)" />{" "}
+              at time <M t="t=0" />.
+            </p>
+
+            <p>
+              <em>If you’re working with others in Zoom:</em>{" "}
+              <strong>
+                Share your screen and use Zoom’s annotation feature.
+              </strong>
+            </p>
+
+            <p>
+              <em>Otherwise:</em> <strong>Sketch on paper.</strong>
+            </p>
           </Prose>
 
           <Plot width={560} height={400} origin={[0.2, "center"]}>
@@ -87,7 +97,7 @@ export default page(setup, ({ section }) => ({
             <p>
               Consider <M t="\psi_1" /> at the point <M t="x = L/2" />. Plot the
               time evolution of <M t="\psi_1(x=L/2,t)" /> on a graph of the
-              complex plane. (Use Zoom annotation again.)
+              complex plane. (Use Zoom annotations/scrap paper again.)
             </p>
 
             <p>
@@ -129,9 +139,8 @@ export default page(setup, ({ section }) => ({
               Now consider the probability density <M t="|\psi_1(x)|^2" /> at
               the point <M t="x = L/2" />.{" "}
               <strong>Plot the value of the probability density</strong> on
-              these same axes for the same times (
-              <M t="E_1 t/ ħ = 0,\pi/2,\pi,3\pi/2" prespace={false} />
-              ):
+              these same axes for the same times,
+              <M t="E_1 t/ ħ = 0,\pi/2,\pi,3\pi/2" prespace={false} />:
             </p>
           </Prose>
 
@@ -187,7 +196,7 @@ export default page(setup, ({ section }) => ({
           </Prose>
 
           <FieldGroup grid className="margin-top-1">
-            <Text model={m.exp3PiOver2} label={<M t="e^{i3\pi/2} = " />} />
+            <Text model={m.exp3PiOver2} label={<M t="e^{-i3\pi/2} = " />} />
           </FieldGroup>
 
           <Prose>
@@ -205,7 +214,9 @@ export default page(setup, ({ section }) => ({
             <Text model={m.difTimePlotAxisY} label="Vertical axis label:" />
           </FieldGroup>
 
-          <Prose>Now complete the sketch using Zoom annotation.</Prose>
+          <Prose>
+            Now complete the sketch using Zoom annotation or on scrap paper.
+          </Prose>
 
           <Plot width={560} height={400} origin={[0.2, "center"]}>
             <Axes
@@ -233,16 +244,23 @@ export default page(setup, ({ section }) => ({
             model={m.wholeFunctionTimeDependencePlot}
             label={
               <Prose>
-                Above, you plotted the time evolution for a single value of
-                <M t="x" /> of the eigenfunction <M t="\psi_1(x,t)" />. How
-                would you plot the time evolution for the entire function using
-                a three-dimensional representation?
+                <p>
+                  Earlier, you plotted the time evolution for a single value of
+                  <M t="x" /> of the eigenfunction <M t="\psi_1(x,t)" />. How
+                  would you plot the time evolution for the entire function
+                  using a three-dimensional representation?
+                </p>
+
+                <p>
+                  Just give yourself a minute to think about this—then please
+                  move on!
+                </p>
               </Prose>
             }
           />
 
           <Prose className="opacity-faded">
-            Just give yourself a minute to think about this—then please move on!
+            On the next page, we’ll explore one such representation.
           </Prose>
         </>
       ),
