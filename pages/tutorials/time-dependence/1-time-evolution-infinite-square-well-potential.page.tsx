@@ -196,7 +196,7 @@ export default page(setup, ({ section }) => ({
           </Prose>
 
           <FieldGroup grid className="margin-top-1">
-            <Text model={m.exp3PiOver2} label={<M t="e^{i3\pi/2} = " />} />
+            <Text model={m.exp3PiOver2} label={<M t="e^{-i3\pi/2} = " />} />
           </FieldGroup>
 
           <Prose>
