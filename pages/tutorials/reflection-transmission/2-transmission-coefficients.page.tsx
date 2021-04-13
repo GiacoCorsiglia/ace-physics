@@ -6,6 +6,7 @@ import { page } from "@/tutorial";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import { cx } from "linaria";
 import React from "react";
+import simSetupImg from "./assets/sim-setup.png";
 import { StepPotential } from "./figures";
 import setup from "./setup";
 
@@ -91,8 +92,21 @@ export default page(setup, ({ section, hint }) => ({
             <p>Take some time to familiarize yourself with all the controls.</p>
 
             <p>
-              Then, set up the sim so it looks like a singe “downstep,” as shown
-              above.
+              Then, set up the sim so it looks like a single “downstep,” as
+              shown above. It should look like this when you’re done:
+            </p>
+
+            <img
+              src={simSetupImg}
+              width="2048"
+              height="1434"
+              alt="Screenshot of sim setup."
+            />
+
+            <p>
+              <em>
+                The big red arrows indicate which settings you need to change.
+              </em>
             </p>
           </Prose>
         </>
