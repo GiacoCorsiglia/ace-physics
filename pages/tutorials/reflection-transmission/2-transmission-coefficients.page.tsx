@@ -53,19 +53,13 @@ export default page(setup, ({ section, hint }) => ({
             }
             minRows={4}
           />
+
+          <Prose>
+            Consider different depths of the well, or even a “sign-flipped”
+            step, and different energies <M t="E" />.
+          </Prose>
         </>
       ),
-      hints: [
-        hint({
-          name: "qualitativePredictionsForT",
-          body: (
-            <Prose>
-              Consider different depths of the well, or even a “sign-flipped”
-              step, and different energies <M t="E" />.
-            </Prose>
-          ),
-        }),
-      ],
     }),
 
     section({

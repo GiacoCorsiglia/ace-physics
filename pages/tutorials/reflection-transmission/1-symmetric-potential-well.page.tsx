@@ -100,8 +100,8 @@ export default page(setup, ({ section, oneOf }) => ({
               <Prose>
                 <p>
                   Describe (in words) the constraints on the equations you wrote
-                  down if the physical situation involves particles approaching
-                  the well from the RIGHT.
+                  down if the physical situation involves only particles
+                  approaching the well from the RIGHT.
                 </p>
               </Prose>
             }
@@ -128,8 +128,8 @@ export default page(setup, ({ section, oneOf }) => ({
             <p>There will be at most two terms in each region.</p>
 
             <p>
-              Suppose again that a particle approaches the well from the RIGHT.
-              Select ALL of the terms that are NOT zero.
+              Suppose again that particles approach the well only from the
+              RIGHT. Select ALL of the terms that are NOT zero.
             </p>
           </Prose>
 
