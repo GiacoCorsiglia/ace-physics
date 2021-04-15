@@ -21,6 +21,8 @@ export default tutorialSchema({
     "unitsOfV0",
     "generalSolution",
     "generalSolutionConstraints",
+    "fromRightNonzeroTerms",
+    "fromRightNonzeroTermsGuidance",
 
     "transmissionCoefficientsIntro",
     "qualitativePredictionsForT",
@@ -51,6 +53,11 @@ export default tutorialSchema({
       regionI: f.string(),
       regionII: f.string(),
       regionIII: f.string(),
+    }),
+    fromRightNonzeroTerms: f.object({
+      regionI: f.chooseAll(["leftward", "rightward"]),
+      regionII: f.chooseAll(["leftward", "rightward"]),
+      regionIII: f.chooseAll(["leftward", "rightward"]),
     }),
     generalSolutionNewSymbols: f.string(),
     generalSolutionConstraints: f.string(),

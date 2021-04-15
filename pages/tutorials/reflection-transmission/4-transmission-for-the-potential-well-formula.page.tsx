@@ -106,6 +106,11 @@ export default page(setup, ({ section, hint }) => ({
               where <M t="l = \sqrt{2 m (E + V_0)/\hbar^2}" />.
             </Prose>
           </Reminder>
+
+          <Prose>
+            This sketch is challenging! Spend some time on it, but feel free to
+            move on even if your sketch isn’t perfect.
+          </Prose>
         </>
       ),
       hints: [

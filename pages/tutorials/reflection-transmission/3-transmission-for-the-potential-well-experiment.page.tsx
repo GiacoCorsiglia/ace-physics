@@ -3,6 +3,9 @@ import { TextArea, Toggle } from "@/inputs";
 import M from "@/math";
 import { page } from "@/tutorial";
 import React from "react";
+import simBarrierSetupImg from "./assets/sim-barrier-setup.png";
+import simPlaneWaveSettingImg from "./assets/sim-plane-wave-setting.png";
+import simWellSetupImg from "./assets/sim-well-setup.png";
 import { SymmetricWellPotential } from "./figures";
 import setup from "./setup";
 
@@ -70,48 +73,86 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "wellSimTestPredictions",
       body: (m) => (
-        <TextArea
-          model={m.wellSimTestPredictions}
-          label={
-            <Prose>
-              Use the{" "}
-              <a
-                href="https://phet.colorado.edu/sims/cheerpj/quantum-tunneling/latest/quantum-tunneling.html?simulation=quantum-tunneling"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                sim
-              </a>{" "}
-              to confirm (or challenge) some of your predictions/ideas. Indicate
-              anything you tested that surprised you:
-            </Prose>
-          }
-        />
+        <>
+          <TextArea
+            model={m.wellSimTestPredictions}
+            label={
+              <Prose>
+                Use the{" "}
+                <a
+                  href="https://phet.colorado.edu/sims/cheerpj/quantum-tunneling/latest/quantum-tunneling.html?simulation=quantum-tunneling"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  sim
+                </a>{" "}
+                to confirm (or challenge) some of your predictions/ideas.
+                Indicate anything you tested that surprised you:
+              </Prose>
+            }
+          />
+
+          <Prose>
+            <p>
+              Your sim should look something like this for the potential well,
+              although you’ll want to play around with the configuration!
+            </p>
+
+            <img
+              src={simWellSetupImg}
+              width="2050"
+              height="508"
+              alt="Sim setup showing a potential well"
+            />
+
+            <p>Also make sure you’re working with a plane wave:</p>
+
+            <img
+              src={simPlaneWaveSettingImg}
+              style={{ maxWidth: "204px" }}
+              width="508"
+              height="208"
+              alt="Select the “plane wave” setting in the sim."
+            />
+          </Prose>
+        </>
       ),
     }),
 
     section({
       name: "wavelengthAfterTunneling",
       body: (m) => (
-        <TextArea
-          model={m.wavelengthAfterTunneling}
-          label={
-            <Prose>
-              <p>
-                Suppose <M t="E \leq -V_0" />, meaning the “dip” is actually a
-                “bump.” This situation is referred to as{" "}
-                <strong>
-                  <em>tunneling.</em>
-                </strong>
-              </p>
+        <>
+          <TextArea
+            model={m.wavelengthAfterTunneling}
+            label={
+              <Prose>
+                <p>
+                  Suppose <M t="E \leq -V_0" />, meaning the “dip” is actually a
+                  “bump.” This situation is referred to as{" "}
+                  <strong>
+                    <em>tunneling.</em>
+                  </strong>
+                </p>
 
-              <p>
-                What happens to the wavelength of a plane wave after tunneling
-                through a barrier?
-              </p>
-            </Prose>
-          }
-        />
+                <p>
+                  What happens to the wavelength of a plane wave after tunneling
+                  through a barrier?
+                </p>
+              </Prose>
+            }
+          />
+          <Prose>
+            <p>Your sim should look something like this:</p>
+
+            <img
+              src={simBarrierSetupImg}
+              width="2048"
+              height="500"
+              alt="Sim setup showing a potential barrier"
+            />
+          </Prose>
+        </>
       ),
     }),
 
