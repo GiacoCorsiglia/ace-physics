@@ -181,18 +181,27 @@ export const deepEqual = (a: unknown, b: unknown): boolean => {
   } else {
     // Treat them as plain objects.
 
-    const aKeys = Object.keys(a);
-    if (aKeys.length !== Object.keys(b).length) {
+    // We do not distinguish between missing keys and undefined values.  This is
+    // unlike most deepEqual functions.
+
+    const aKeys = notUndefinedKeys(a);
+    const bKeys = notUndefinedKeys(b);
+    if (aKeys.length !== bKeys.length) {
       return false;
+    }
+
+    // Compare sorted keys.
+    aKeys.sort();
+    bKeys.sort();
+    for (let i = 0; i < aKeys.length; i++) {
+      // eslint-disable-next-line eqeqeq
+      if (aKeys[i] != bKeys[i]) {
+        return false;
+      }
     }
 
     for (let i = 0; i < aKeys.length; i++) {
       const key = aKeys[i];
-
-      if (!hasOwnProperty.call(b, key)) {
-        return false;
-      }
-
       if (!deepEqual((a as any)[key], (b as any)[key])) {
         return false;
       }
@@ -202,4 +211,14 @@ export const deepEqual = (a: unknown, b: unknown): boolean => {
   }
 };
 
-export const hasOwnProperty = Object.prototype.hasOwnProperty;
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+const notUndefinedKeys = (o: any) => {
+  const keys = [];
+  for (const k in o) {
+    if (hasOwnProperty.call(o, k) && o[k] !== undefined) {
+      keys.push(k);
+    }
+  }
+  return keys;
+};

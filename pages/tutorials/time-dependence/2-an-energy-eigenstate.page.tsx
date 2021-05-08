@@ -1,17 +1,18 @@
-import { Prose } from "@/design";
-import { cx } from "@/helpers/frontend";
+import { Help, Info, Prose } from "@/design";
+import { cx, Html } from "@/helpers/frontend";
 import { Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
 import inputStyles from "@/inputs/inputs.module.scss";
 import M from "@/math/M";
 import { page } from "@/tutorial";
+import { approxEquals } from "@/util";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import React from "react";
 import setup, { ResponseModels, Responses } from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, oneOf }) => ({
   name: "anEnergyEigenstate",
   label: "An Energy Eigenstate",
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "anEnergyEigenstateIntro",
@@ -154,6 +155,83 @@ export default page(setup, ({ section }) => ({
         </>
       ),
     }),
+
+    oneOf({
+      which: (r) => {
+        const t1Correct = 1;
+        const t2Correct = 0.25;
+        const t1 = r.rotationPeriod1;
+        const t2 = r.rotationPeriod2;
+
+        if (
+          t1 === 0.25 * t1Correct ||
+          t1 === 2 * t1Correct ||
+          t1 === 4 * t1Correct ||
+          t2 === 0.25 * t2Correct ||
+          t2 === 0.5 * t2Correct ||
+          t2 === 2 * t2Correct ||
+          t2 === 4 * t2Correct
+        ) {
+          return "rotationPeriodsOffByFactor";
+        } else if (
+          !approxEquals(t1, t1Correct) ||
+          !approxEquals(t2, t2Correct)
+        ) {
+          return "rotationPeriodsIncorrect";
+        } else if (t1 === t1Correct && t2 === t2Correct) {
+          return "rotationPeriodsCorrect";
+        } else if (approxEquals(t1, t1Correct) || approxEquals(t2, t2Correct)) {
+          return "rotationPeriodsClose";
+        }
+
+        return null;
+      },
+      sections: {
+        rotationPeriodsCorrect: section({
+          name: "rotationPeriodsCorrect",
+          body: (
+            <Help>
+              <Prose>
+                Nice—we agree with those values for <M t="T_1" /> and{" "}
+                <M t="T_2" />.
+              </Prose>
+            </Help>
+          ),
+        }),
+        rotationPeriodsClose: section({
+          name: "rotationPeriodsClose",
+          body: (
+            <Info>
+              <Prose>
+                You’re close, but at least one of your values is slightly off.
+                Make sure you use the time step arrows and both of the upper
+                plots to identify the exact periods.
+              </Prose>
+            </Info>
+          ),
+        }),
+        rotationPeriodsOffByFactor: section({
+          name: "rotationPeriodsOffByFactor",
+          body: (
+            <Info>
+              <Prose>
+                You’re close, but at least one of your values is off by a factor
+                of 2 or 4.
+              </Prose>
+            </Info>
+          ),
+        }),
+        rotationPeriodsIncorrect: section({
+          name: "rotationPeriodsIncorrect",
+          body: (
+            <Info>
+              <Prose>Heads up—at least one of your values is mistaken.</Prose>
+            </Info>
+          ),
+        }),
+      },
+    }),
+
     section({
       name: "comparePeriodicPsi2",
       body: (m, { responses }) => (
@@ -181,6 +259,35 @@ export default page(setup, ({ section }) => ({
           )}
         </>
       ),
+    }),
+
+    oneOf({
+      which: (r) =>
+        r.comparePeriodicPsi2?.selected === "same"
+          ? "comparePeriodicPsi2Correct"
+          : "comparePeriodicPsi2Incorrect",
+      sections: {
+        comparePeriodicPsi2Correct: section({
+          name: "comparePeriodicPsi2Correct",
+          body: (
+            <Help>
+              <Prose>They look identical to us!</Prose>
+            </Help>
+          ),
+        }),
+        comparePeriodicPsi2Incorrect: section({
+          name: "comparePeriodicPsi2Incorrect",
+          body: (
+            <Info>
+              <Prose>
+                This software can’t analyze what you’ve written, but the two
+                graphs look identical to us! We’re using{" "}
+                <M t="T_2 = 0.25 h/E_1" />.
+              </Prose>
+            </Info>
+          ),
+        }),
+      },
     }),
 
     section({
@@ -292,6 +399,46 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
+
+    section({
+      name: "studentStatementsOnTimeEvolutionGuidance",
+      enumerate: false,
+      body: (_, { responses }) => (
+        <>
+          <OurResponse
+            correct={responses?.agreementStudentA?.selected === "agree"}
+          >
+            agree with Student A. The graph in the upper-left of the sim shows{" "}
+            <M t="\psi_1" /> rotating in the complex plane.
+          </OurResponse>
+
+          <OurResponse
+            correct={responses?.agreementStudentB?.selected === "disagree"}
+          >
+            disagree with Student B. <M t="\psi_1" /> <strong>rotates</strong>{" "}
+            in the complex plane, it does not merely oscillate up and down.
+          </OurResponse>
+
+          <OurResponse
+            correct={responses?.agreementStudentC?.selected === "disagree"}
+          >
+            disagree with Student C. <M t="\psi_1" /> rotates in the complex
+            plane, which means it evolves in time. That said, <M t="\psi_1" />{" "}
+            <strong>is</strong> a stationary state. This means that the
+            probability <em>density</em> <M t="|\psi_1|^2" /> (i.e., what you
+            can physically measure) does not evolve in time. However, the wave
+            function itself still does.
+          </OurResponse>
+
+          <OurResponse
+            correct={responses?.agreementStudentD?.selected === "disagree"}
+          >
+            disagree with Student D. <M t="\psi_1" /> is periodic, it does not
+            tend towards zero.
+          </OurResponse>
+        </>
+      ),
+    }),
   ],
 }));
 
@@ -356,5 +503,23 @@ const Agreement = ({
         </div>
       </div>
     </div>
+  );
+};
+
+const OurResponse = ({
+  correct,
+  children,
+}: {
+  correct: boolean;
+  children: Html;
+}) => {
+  return correct ? (
+    <Help>
+      <Prose>We also {children}</Prose>
+    </Help>
+  ) : (
+    <Info>
+      <Prose>We {children}</Prose>
+    </Info>
   );
 };

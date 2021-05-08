@@ -42,7 +42,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
           label={
             <Prose>
               What are the possible values of a measurement of <M t="\hat{M}" />
-              ? (Check all that apply.)
+              ? (Please check all that apply.)
             </Prose>
           }
           choices={[
