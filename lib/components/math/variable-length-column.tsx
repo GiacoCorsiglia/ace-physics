@@ -98,7 +98,7 @@ export const VariableLengthColumn = <E extends Field>({
           <RemoveRowButton
             type="button"
             disabled={value.length <= minRows}
-            onKeyPress={(e) => {}}
+            // onKeyPress={() => {}}
             onClick={removeRow}
             title={`Remove element ${i + 1}`}
           >

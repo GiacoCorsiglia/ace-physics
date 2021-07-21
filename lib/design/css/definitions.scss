@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // DEPRECATED:
 $font-size: 16px;
 $width: $font-size * 35;
@@ -26,16 +28,16 @@ $bold: 700;
 // https://type-scale.com/?size=16&scale=1.125&text=A%20Visual%20Type%20Scale&font=Lato&fontweight=400&bodyfont=Lato&bodyfontweight=400&lineheight=1.5&backgroundcolor=white&fontcolor=%23333&preview=false
 
 // $text-<name>: <pixel-size>rem / $unit-px;
-$text-h1: 28.83rem / $unit-px;
-$text-h2: 25.63rem / $unit-px;
-$text-h3: 22.78rem / $unit-px;
-$text-h4: 20.25rem / $unit-px;
-$text-h5: 18rem / $unit-px;
-$text-h6: 16rem / $unit-px; // Yes it's the same as text-normal
-$text-normal: 16rem / $unit-px;
-$text-small: 14.22rem / $unit-px;
-$text-smaller: 12.64rem / $unit-px;
-$text-smallest: 11.24rem / $unit-px;
+$text-h1: math.div(28.83rem, $unit-px);
+$text-h2: math.div(25.63rem, $unit-px);
+$text-h3: math.div(22.78rem, $unit-px);
+$text-h4: math.div(20.25rem, $unit-px);
+$text-h5: math.div(18rem, $unit-px);
+$text-h6: math.div(16rem, $unit-px); // Yes it's the same as text-normal
+$text-normal: math.div(16rem, $unit-px);
+$text-small: math.div(14.22rem, $unit-px);
+$text-smaller: math.div(12.64rem, $unit-px);
+$text-smallest: math.div(11.24rem, $unit-px);
 
 // Widths for main content.
 
