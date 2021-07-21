@@ -11,7 +11,7 @@ $two-column-width: $font-size * (24 * 2 + 1);
 $unit-px: 12;
 
 @function rem-to-px($rem) {
-  @return $rem / 1rem * $unit-px * 1px;
+  @return math.div($rem, 1rem) * $unit-px * 1px;
 }
 
 // Typography.
