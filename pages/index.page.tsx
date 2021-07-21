@@ -1,7 +1,6 @@
 import { UserMenu } from "@/auth";
-import { Button } from "@/components";
-import { Prose } from "@/design";
-import { Content, Header, Page } from "@/design/layout";
+import { Button, Content, Prose } from "@/components";
+import { Header, Page } from "@/design/layout";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -20,7 +19,7 @@ export default function Index() {
         <UserMenu />
       </Header>
 
-      <Content as="main">
+      <Content as="main" vertical={100}>
         <Prose>
           <h1>Welcome to ACEPhysics.net</h1>
 
@@ -34,7 +33,7 @@ export default function Index() {
           </p>
         </Prose>
 
-        <Button color="green" className="margin-top" link={urls.Tutorials.link}>
+        <Button color="green" link={urls.Tutorials.link}>
           Take me to the online tutorials <ArrowRightIcon />
         </Button>
       </Content>
