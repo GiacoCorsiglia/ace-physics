@@ -27,7 +27,7 @@ export default function TestPage() {
     "a" | "b" | "c" | "d" | "e" | "f" | "g"
   >();
   const [decimal, setDecimal] = useState<number>();
-  const [string, setString] = useState("");
+  const [string, setString] = useState<string>();
 
   const choices = [
     ["a", "Choice A"],
