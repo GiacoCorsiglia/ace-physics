@@ -1,22 +1,118 @@
 @use "borders";
 @use "colors";
 @use "fonts";
+@use "helpers";
 @use "spacing";
 
-.header {
-  // Push the body content down appropriately.
-  height: spacing.$space-400;
+// $breakpoint: $max-content-width + 4 * spacing.space-100 + 3rem + 3rem;
+$breakpoint: 770px + (4 * 16px) + (3 * 16px) + (3 * 16px);
+
+@mixin above-breakpoint {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
 }
 
-.headerButton {
-  position: fixed;
-  top: spacing.$space-100;
-  z-index: 1000;
+@mixin below-breakpoint {
+  @media (max-width: $breakpoint - 1px) {
+    @content;
+  }
+}
+
+@include above-breakpoint {
+  .header {
+    // Push the body content down appropriately.
+    height: spacing.$space-400;
+  }
+
+  .popoverWrapper,
+  .navWrapper {
+    position: fixed;
+    z-index: 1000;
+  }
+
+  .navWrapper {
+    top: 0;
+    left: spacing.$space-100;
+    bottom: 0;
+  }
+
+  .popoverWrapper {
+    top: spacing.$space-100;
+    right: spacing.$space-100;
+  }
+}
+
+@include below-breakpoint {
+  .headerSpacer {
+    height: 4rem;
+  }
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 2rem;
+    border-bottom: 1px solid colors.$neutral-300;
+    background: colors.$neutral-100;
+    color: colors.$neutral-400;
+    box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.03);
+    display: flex;
+  }
+
+  .popoverWrapper {
+    position: relative;
+  }
+
+  .navWrapper {
+    order: -1;
+    margin-right: auto;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.popover {
+  position: absolute;
+  right: 0;
+  width: spacing.$space-1600;
+  border-style: solid;
+  border-color: colors.$neutral-300;
+  @include above-breakpoint {
+    top: calc(100% + #{spacing.$space-75});
+    border-width: 1px;
+    border-radius: borders.$radius-large;
+  }
+  @include below-breakpoint {
+    top: 100%;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 0 borders.$radius-large borders.$radius-large;
+  }
+  padding: spacing.$space-75 spacing.$space-100;
+  background: colors.$neutral-100;
+  color: colors.$neutral-400;
+  animation: fade-in 150ms;
+  box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+}
+
+.popoverButton,
+.navItemIconSmall,
+.navToggleButton {
   width: 3rem;
   height: 2rem;
   @include fonts.ui-small;
-  border: 1px solid colors.$neutral-300;
-  border-radius: borders.$radius-large;
+  border-style: solid;
+  border-color: colors.$neutral-300;
+  // See below for borders in media queries.
   background: colors.$neutral-100;
   color: colors.$neutral-400;
   cursor: pointer;
@@ -45,7 +141,9 @@
   }
 
   &:active {
-    transform: translateY(1px);
+    @include above-breakpoint {
+      transform: translateY(1px);
+    }
   }
 
   svg {
@@ -58,61 +156,90 @@
   }
 }
 
-.left {
-  left: spacing.$space-100;
+.navItemIconSmall {
+  border-width: 1px;
+  border-radius: borders.$radius-large;
 }
 
-.right {
-  right: spacing.$space-100;
+.popoverButton,
+.navToggleButton {
+  @include above-breakpoint {
+    border-width: 1px;
+    border-radius: borders.$radius-large;
+  }
+
+  @include below-breakpoint {
+    border-width: 0 1px 1px 1px;
+  }
+}
+
+.navToggleButton {
+  @include above-breakpoint {
+    display: none;
+  }
+}
+
+.hamburgerIcon,
+.xIcon {
+  animation: fade-in 150ms ease-out;
 }
 
 .nav {
-  position: fixed;
-  top: 4rem;
-  left: 1rem;
-  bottom: 2rem;
   overflow-y: auto;
-  opacity: 0.5;
+  // overflow-x is hidden due to `overflow-y: auto`, but there's no width set.
+
+  @include above-breakpoint {
+    max-height: 100vh;
+    padding-top: spacing.$space-100;
+    padding-right: 1rem; // Leave some room for a scrollbar just in case.
+
+    opacity: 0.5;
+    transition: opacity 100ms ease-in;
+    &:hover {
+      opacity: 1;
+      transition-timing-function: ease-out;
+    }
+  }
+
+  @include below-breakpoint {
+    height: calc(100vh - 2rem);
+    width: min(20rem, 100vw);
+    padding: spacing.$space-100;
+    background: colors.$neutral-100;
+    border-width: 0 1px 0 0;
+    border-style: solid;
+    border-color: colors.$neutral-300;
+
+    &:not(.navOpen) {
+      display: none;
+    }
+  }
 }
 
+$border-width: 2px;
 .navItem {
-  $border-width: 2px;
-  // Center icon;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
-  width: 3rem;
-  border-radius: borders.$radius-large;
-  background: colors.$neutral-100;
-  border: $border-width solid currentColor;
-  font-size: fonts.px-to-rem(18);
-  font-weight: fonts.$bold;
-
   & + & {
     margin-top: spacing.$space-100;
   }
 
-  svg {
-    display: block !important; // Override octicon styles
-    width: 1rem;
-    height: 1rem;
-    // Centering looked a little off:
-    position: relative;
-    top: 1px;
+  @include above-breakpoint {
+    &.withProgressConnector:not(:last-child) .navItemIcon::after {
+      content: "";
+      position: absolute;
+      width: $border-width;
+      height: 100%;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      top: calc(100% + #{$border-width});
+      background: currentColor;
+    }
   }
+}
 
-  position: relative;
-  &:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    width: $border-width;
-    height: spacing.$space-100;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    top: calc(100% + #{$border-width});
-    background: currentColor;
+.navItemLink {
+  @include below-breakpoint {
+    display: flex;
   }
 }
 
@@ -129,4 +256,78 @@
 .navItemIncomplete {
   color: colors.$neutral-400;
   box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.03);
+}
+
+.navItemIcon {
+  position: relative;
+  flex-shrink: 0;
+  // Center icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 3rem;
+  border-radius: borders.$radius-large;
+  background: colors.$neutral-100;
+  border: $border-width solid currentColor;
+
+  font-size: fonts.px-to-rem(18);
+  font-weight: fonts.$bold;
+
+  svg {
+    display: block !important; // Override octicon styles
+    width: 1rem;
+    height: 1rem;
+    // Centering looked a little off:
+    position: relative;
+    top: 1px;
+  }
+}
+
+.navItemLabel {
+  @include fonts.small;
+
+  @include below-breakpoint {
+    margin-left: spacing.$space-75;
+    color: colors.$neutral-700;
+    padding-top: spacing.$space-75;
+  }
+
+  @include above-breakpoint {
+    position: absolute;
+    left: 100%;
+    // top: set in JavaScript because CSS overflow is stupid.
+    // margin-left: spacing.$space-75;
+    width: spacing.$space-1400;
+    padding: spacing.$space-50 spacing.$space-75;
+
+    color: colors.$neutral-700;
+    border-radius: borders.$radius-large;
+    background: colors.$neutral-100;
+    border: 1px solid colors.$neutral-600;
+    box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+
+    transition: opacity ease-out 100ms;
+  }
+}
+
+@include above-breakpoint {
+  .navItem:not(:hover) {
+    .navItemLabel {
+      pointer-events: none;
+      opacity: 0;
+      transition-timing-function: ease-in;
+    }
+  }
+}
+
+.svgCaret {
+  pointer-events: none;
+  position: absolute;
+  right: 100%;
+  top: spacing.$space-75;
+  transform: rotate(-90deg);
+
+  fill: colors.$neutral-100;
+  stroke: colors.$neutral-600;
 }
