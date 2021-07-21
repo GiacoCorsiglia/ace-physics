@@ -1,10 +1,6 @@
 import { formatId, rememberedLearnerId, unformatId, useAuth } from "@/auth";
 import styles from "@/auth/account.module.scss";
-import { Button } from "@/components";
-import { Prose } from "@/design";
-import { Content, Page } from "@/design/layout";
-import { cx } from "@/helpers/frontend";
-import inputStyles from "@/inputs/inputs.module.scss";
+import { Button, Content, Page, Prose, TextInputControl } from "@/components";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
@@ -64,11 +60,11 @@ export default function Login() {
           </Prose>
 
           <div className={styles.loggedInButtons}>
-            <Button kind="tertiary" onClick={() => logout()}>
+            <Button color="yellow" onClick={() => logout()}>
               Log out
             </Button>
 
-            <Button link={next}>
+            <Button color="green" link={next}>
               Stay logged in <ArrowRightIcon />
             </Button>
           </div>
@@ -114,16 +110,14 @@ export default function Login() {
             });
           }}
         >
-          <input
+          <TextInputControl
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             aria-label="Your six-digit account code"
-            className={cx(styles.loginInput, inputStyles.textInput)}
-            type="text"
+            className={styles.loginInput}
             placeholder="000-000"
             value={id}
-            onChange={(e) => {
-              const input = e.target.value;
+            onChange={(input) => {
               if (inputPattern.test(input)) {
                 setId(input);
 
