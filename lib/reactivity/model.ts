@@ -102,7 +102,7 @@ export const model = <F extends f.Field>(
 
     // Add an `other` property to hold a model for the "other" field.
     other:
-      f.kind === "chooseOne" || f.kind === "chooseAll"
+      (f.kind === "chooseOne" || f.kind === "chooseAll") && f.other
         ? model(f.other, path.concat("other"), Context)
         : (undefined as any),
   };
@@ -130,12 +130,15 @@ export const isSet = <F extends f.Field>(
     case "string":
       return !!v;
     case "chooseOne":
-      return v.selected !== undefined || isSet(model.other, v.other);
+      return (
+        v.selected !== undefined ||
+        (model.other && isSet(model.other as Model, v.other))
+      );
     case "chooseAll":
       // If it's a multi-select, make sure it's not an empty array.
       return (
         (v.selected !== undefined && !!v.selected.length) ||
-        isSet(model.other, v.other)
+        (model.other && isSet(model.other as Model, v.other))
       );
     case "tuple":
       return model.elements.every((m, i) => isSet(m, v[i]));

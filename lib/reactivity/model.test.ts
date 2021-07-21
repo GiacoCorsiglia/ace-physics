@@ -134,7 +134,7 @@ describe("isSet", () => {
   });
 
   it("works for chooseOne", () => {
-    const m = model(f.chooseOne(["choice 1", "choice 2"]), [], C);
+    const m = model(f.chooseOne(["choice 1", "choice 2"], f.string()), [], C);
     expect(isSet(m, { selected: "choice 1" })).toBe(true);
     expect(isSet(m, { selected: "choice 1", other: "other" })).toBe(true);
     expect(isSet(m, { other: "other" })).toBe(true);
@@ -147,7 +147,7 @@ describe("isSet", () => {
   });
 
   it("works for chooseAll", () => {
-    const m = model(f.chooseAll(["choice 1", "choice 2"]), [], C);
+    const m = model(f.chooseAll(["choice 1", "choice 2"], f.string()), [], C);
     expect(isSet(m, { selected: ["choice 1"] })).toBe(true);
     expect(isSet(m, { selected: ["choice 1", "choice 2"] })).toBe(true);
     expect(isSet(m, { selected: ["choice 1"], other: "other" })).toBe(true);
