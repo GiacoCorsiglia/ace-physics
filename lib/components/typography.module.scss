@@ -2,6 +2,10 @@
 @use "spacing";
 @use "colors";
 
+.pageTitle {
+  @include fonts.heading1;
+}
+
 .prose {
   // text-align: justify;
   hyphens: auto;

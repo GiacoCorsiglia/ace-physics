@@ -1,4 +1,4 @@
-import { cx } from "@/helpers/frontend";
+import { cx, styled } from "@/helpers/frontend";
 import { Children, forwardRef } from "react";
 import styles from "./typography.module.scss";
 
@@ -56,3 +56,5 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
     );
   }
 );
+
+export const PageTitle = styled.h1(styles.pageTitle);
