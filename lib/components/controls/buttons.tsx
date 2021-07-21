@@ -1,3 +1,4 @@
+import { Caret } from "@/components/caret";
 import { cx, Html } from "@/helpers/frontend";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import Link from "next/link";
@@ -47,7 +48,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {iconRight}
         {props.disabled && disabledExplanation && (
           <span className={styles.disabledExplanation}>
-            {caret}
+            <Caret className={styles.svgCaret} />
             {disabledExplanation}
           </span>
         )}

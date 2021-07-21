@@ -7,6 +7,7 @@
 .button {
   composes: controlGroupButton from "./group.module.scss";
 
+  display: inline-block;
   position: relative;
   z-index: var(--button-z-index);
 
@@ -103,12 +104,8 @@
     color: colors.shade($color, 900);
   }
 
-  .svgTriangle {
+  .svgCaret {
     fill: colors.shade($color, 100);
-  }
-
-  .svgLine {
-    stroke-width: 1px;
     stroke: colors.shade($color, 300);
   }
 }
