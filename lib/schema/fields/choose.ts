@@ -45,7 +45,19 @@ export interface ChooseOneField<
  * meaning the field does not accept an "other" answer, but it can be made a
  * `StringField` or `NumberField` via the `other` argument.
  */
-export const chooseOne = <
+export const chooseOne: {
+  <C extends string, Cs extends readonly [C, ...C[]]>(
+    choices: Cs
+  ): ChooseOneField<Cs, undefined>;
+  <
+    C extends string,
+    Cs extends readonly [C, ...C[]],
+    O extends OtherChoiceField
+  >(
+    choices: Cs,
+    other: O
+  ): ChooseOneField<Cs, O>;
+} = <
   C extends string,
   Cs extends readonly [C, ...C[]],
   O extends OtherChoiceField | undefined = undefined
@@ -104,7 +116,19 @@ export interface ChooseAllField<
  * meaning the field does not accept an "other" answer, but it can be made a
  * `StringField` or `NumberField` via the `other` argument.
  */
-export const chooseAll = <
+export const chooseAll: {
+  <C extends string, Cs extends readonly [C, ...C[]]>(
+    choices: Cs
+  ): ChooseAllField<Cs, undefined>;
+  <
+    C extends string,
+    Cs extends readonly [C, ...C[]],
+    O extends OtherChoiceField
+  >(
+    choices: Cs,
+    other: O
+  ): ChooseAllField<Cs, O>;
+} = <
   C extends string,
   Cs extends readonly [C, ...C[]],
   O extends OtherChoiceField | undefined = undefined
