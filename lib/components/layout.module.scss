@@ -10,7 +10,7 @@ $min-content-width: 664px;
 // $maxContentWidth: 1px + spacing.$space-400} + $text-width + spacing.$space-400 + 1px;
 $max-content-width: 770px;
 
-.content {
+:not(.content) > .content {
   margin-left: auto;
   margin-right: auto;
   padding-top: spacing.$space-300;
@@ -30,6 +30,7 @@ $max-content-width: 770px;
     border-radius: borders.$radius-large;
 
     --callout-horizontal-margins: #{- spacing.$space-150};
+    --section-border-margins: #{- spacing.$space-400};
   }
 
   @media (min-width: $min-content-width) and (max-width: $max-content-width - 1px) {
@@ -45,12 +46,31 @@ $max-content-width: 770px;
   }
 }
 
+.sectionGroup {
+  .section + .section {
+    $spacing: spacing.$space-300;
+
+    margin-top: $spacing;
+
+    &::before {
+      // Use a pseudo element for the border-top to break out of the boundaries.
+      content: "";
+      display: block;
+      height: 1px;
+      background: colors.$neutral-300;
+      margin-left: var(--section-border-margins);
+      margin-right: var(--section-border-margins);
+      margin-bottom: $spacing; // This is basically `padding-top`.
+    }
+  }
+}
+
 .vertical100 > * + * {
-  margin-top: #{spacing.$space-100};
+  margin-top: spacing.$space-100;
 }
 
 .vertical300 > * + * {
-  margin-top: #{spacing.$space-300};
+  margin-top: spacing.$space-300;
 }
 
 .horizontal {

@@ -1,6 +1,4 @@
-import { Button } from "@/components";
-import { Prose } from "@/design";
-import { Content } from "@/design/layout";
+import { Button, Content, Prose } from "@/components";
 import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";

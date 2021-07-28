@@ -1,6 +1,7 @@
 import { cx } from "@/helpers/css";
 import { Html, useToggle } from "@/helpers/frontend";
 import { ThreeBarsIcon, XIcon } from "@primer/octicons-react";
+import Link from "next/link";
 import React, { useRef } from "react";
 import { Caret } from "./caret";
 import styles from "./header.module.scss";
@@ -41,11 +42,11 @@ export const HeaderPopover = ({
   );
 };
 
-export const Nav = ({ children }: { children: Html }) => {
+export const Nav = ({ title, children }: { title: Html; children: Html }) => {
   const [isOpen, setOpen, ref] = useToggle<HTMLOListElement>();
 
   return (
-    <div className={styles.navWrapper}>
+    <nav className={styles.navWrapper}>
       <button
         type="button"
         className={cx(styles.navToggleButton, isOpen && styles.navOpen)}
@@ -62,7 +63,7 @@ export const Nav = ({ children }: { children: Html }) => {
       <ol className={cx(styles.nav, isOpen && styles.navOpen)} ref={ref}>
         {children}
       </ol>
-    </div>
+    </nav>
   );
 };
 
@@ -97,20 +98,25 @@ export const NavItem = ({
       onMouseOver={handleHover}
       onFocus={handleHover}
     >
-      <a href={link} className={styles.navItemLink}>
-        <span
-          className={
-            style === "small" ? styles.navItemIconSmall : cx(styles.navItemIcon)
-          }
-        >
-          {icon}
-        </span>
+      <Link href={link}>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <a className={styles.navItemLink}>
+          <span
+            className={
+              style === "small"
+                ? styles.navItemIconSmall
+                : cx(styles.navItemIcon)
+            }
+          >
+            {icon}
+          </span>
 
-        <p className={styles.navItemLabel} ref={labelRef}>
-          <Caret className={styles.svgCaret} />
-          {children}
-        </p>
-      </a>
+          <p className={styles.navItemLabel} ref={labelRef}>
+            <Caret className={styles.svgCaret} />
+            {children}
+          </p>
+        </a>
+      </Link>
     </li>
   );
 };

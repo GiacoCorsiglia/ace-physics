@@ -60,7 +60,7 @@ $ui-bold: bold;
   @include _text-style($serif, $regular, 20, 28);
 }
 @mixin body {
-  @include _text-style($serif, $regular, 18, 32);
+  @include _text-style($serif, $regular, 18, 30);
 }
 @mixin small {
   @include _text-style($serif, $regular, 16, 24);

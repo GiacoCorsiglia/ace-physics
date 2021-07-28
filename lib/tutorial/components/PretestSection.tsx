@@ -1,4 +1,4 @@
-import { Content } from "@/design/layout";
+import { Content } from "@/components";
 import styles from "@/design/structure.module.scss";
 import { cx } from "@/helpers/frontend";
 import { Model } from "@/reactivity";

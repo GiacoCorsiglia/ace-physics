@@ -1,11 +1,10 @@
 import { useAuth } from "@/auth";
-import { Button } from "@/components";
-import { Prose } from "@/design";
-import { Content } from "@/design/layout";
+import { Button, Content, Prose, Vertical } from "@/components";
 import * as globalParams from "@/global-params";
 import { JsxElement } from "@/helpers/frontend";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
+import React from "react";
 import { TutorialConfig } from "../config";
 import styles from "./shared.module.scss";
 import TutorialHeader from "./TutorialHeader";
@@ -24,50 +23,46 @@ export default function TutorialRoot({
   return (
     <>
       <TutorialHeader config={config} />
-      {/* <TutorialNav config={config} /> */}
-      {/* <TutorialSidebar /> */}
 
-      <main className={styles.tutorialMain}>
-        <div className={styles.tutorialContent}>
-          {(() => {
-            switch (auth.status) {
-              case "Initial":
-              case "Loading":
-                return <TutorialLoading />;
-              case "LoggedOut":
-                return <LoggedOut />;
-              case "LoggedIn":
-                return (
-                  <>
-                    {globalParams.mockApi && (
-                      <Content>
-                        <Prose className={styles.notForCreditAlert}>
-                          You’re currently in <strong>preview mode</strong>.
-                          Your responses will <strong>not</strong> be saved.
-                        </Prose>
-                      </Content>
-                    )}
+      <Vertical as="main" space={300}>
+        {(() => {
+          switch (auth.status) {
+            case "Initial":
+            case "Loading":
+              return <TutorialLoading />;
+            case "LoggedOut":
+              return <LoggedOut />;
+            case "LoggedIn":
+              return (
+                <>
+                  {globalParams.mockApi && (
+                    <Content as="section">
+                      <Prose className={styles.notForCreditAlert}>
+                        You’re currently in <strong>preview mode</strong>. Your
+                        responses will <strong>not</strong> be saved.
+                      </Prose>
+                    </Content>
+                  )}
 
-                    {!globalParams.mockApi && !auth.isForCredit && (
-                      <Content>
-                        <Prose className={styles.notForCreditAlert}>
-                          This is an anonymous account. Your work will{" "}
-                          <strong>not</strong> count for any course credit.
-                        </Prose>
-                      </Content>
-                    )}
+                  {!globalParams.mockApi && !auth.isForCredit && (
+                    <Content as="section">
+                      <Prose className={styles.notForCreditAlert}>
+                        This is an anonymous account. Your work will{" "}
+                        <strong>not</strong> count for any course credit.
+                      </Prose>
+                    </Content>
+                  )}
 
-                    <TutorialStateRoot
-                      config={config}
-                      routeElement={routeElement}
-                      learner={auth.learner}
-                    />
-                  </>
-                );
-            }
-          })()}
-        </div>
-      </main>
+                  <TutorialStateRoot
+                    config={config}
+                    routeElement={routeElement}
+                    learner={auth.learner}
+                  />
+                </>
+              );
+          }
+        })()}
+      </Vertical>
     </>
   );
 }

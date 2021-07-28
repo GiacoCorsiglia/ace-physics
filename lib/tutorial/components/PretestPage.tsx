@@ -1,6 +1,4 @@
-import { Button, DisableControls } from "@/components";
-import { Info, Prose } from "@/design";
-import { Content } from "@/design/layout";
+import { Button, Callout, Content, DisableControls, Prose } from "@/components";
 import { cx, htmlTitle } from "@/helpers/frontend";
 import { isSet, Model, tracker } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
@@ -8,6 +6,7 @@ import { TutorialSchema } from "@/schema/tutorial";
 import * as urls from "@/urls";
 import { AlertIcon, ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
+import React from "react";
 import { PretestConfig, TutorialConfig } from "../config";
 import { tracked, useRootModel, useTracked } from "../state-tree";
 import styles from "./PretestPage.module.scss";
@@ -58,18 +57,18 @@ export default function PretestPage({
           </p>
         </Prose>
 
-        <Info>
+        <Callout color="blue">
           <div className={styles.noticeContainer}>
             <AlertIcon size="large" />
 
-            <Prose noMargin>
+            <Prose>
               <p className={styles.noticeText}>
                 Work on this page alone and don’t discuss your answers until
                 you’ve moved on to the next page.
               </p>
             </Prose>
           </div>
-        </Info>
+        </Callout>
 
         <Prose>
           <p>

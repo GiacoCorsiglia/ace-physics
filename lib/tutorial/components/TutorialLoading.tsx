@@ -1,4 +1,4 @@
-import { Content } from "@/design/layout";
+import { Content } from "@/components";
 import { SyncIcon } from "@primer/octicons-react";
 import styles from "./TutorialLoading.module.scss";
 

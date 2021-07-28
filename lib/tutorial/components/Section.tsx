@@ -1,6 +1,5 @@
-import { Button } from "@/components";
+import { Button, Content } from "@/components";
 import { Help } from "@/design";
-import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
 import { cx, useScrollIntoView } from "@/helpers/frontend";

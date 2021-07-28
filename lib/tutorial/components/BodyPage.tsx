@@ -1,7 +1,5 @@
-import { Button, TextBox } from "@/components";
-import { Info, Prose } from "@/design";
+import { Button, Callout, Content, Prose, TextBox } from "@/components";
 import { Answer, AnswerVisibility } from "@/design/answers";
-import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
 import { cx, htmlTitle, useScrollIntoView } from "@/helpers/frontend";
@@ -72,11 +70,11 @@ export default function BodyPage({
         </h1>
 
         {isFirstPage && (
-          <Info>
+          <Callout color="blue">
             <div className={styles.noticeContainer}>
               <CommentDiscussionIcon size="large" />
 
-              <Prose noMargin>
+              <Prose>
                 {tutorialConfig.pretest ? "From now on, we" : "We"} encourage
                 you to{" "}
                 <strong>
@@ -86,7 +84,7 @@ export default function BodyPage({
                 (if you’re working with a group today).
               </Prose>
             </div>
-          </Info>
+          </Callout>
         )}
 
         {answersRevealed && (

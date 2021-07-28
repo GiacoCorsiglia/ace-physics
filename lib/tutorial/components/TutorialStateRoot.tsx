@@ -1,6 +1,5 @@
 import { getTutorial, updateTutorial } from "@/api/client";
-import { Prose } from "@/design";
-import { Content } from "@/design/layout";
+import { Content, Prose } from "@/components";
 import { cx, JsxElement } from "@/helpers/frontend";
 import { Updates } from "@/reactivity";
 import { Learner } from "@/schema/db";
@@ -216,7 +215,7 @@ export function TutorialStateRoot({
       return <TutorialLoading />;
     case "error":
       return (
-        <Content>
+        <Content as="section">
           <Prose>
             <h1>Error</h1>
 

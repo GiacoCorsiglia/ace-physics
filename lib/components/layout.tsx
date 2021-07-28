@@ -11,6 +11,18 @@ export const Content = styled.div<{
   vertical === 300 && styles.vertical300,
 ]);
 
+export const SectionGroup = styled.div(
+  styles.sectionGroup,
+  styles.content,
+  styles.vertical100
+);
+
+export const Section = styled.section(
+  styles.section,
+  styles.content,
+  styles.vertical100
+);
+
 export const Vertical = styled.div<{
   space?: VerticalSpacing;
 }>(({ space = 100 }) => [

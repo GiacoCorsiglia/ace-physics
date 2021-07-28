@@ -1,8 +1,13 @@
-import { Button, TextBox, Toggle } from "@/components";
-import { Prose } from "@/design";
-import { Content } from "@/design/layout";
-import styles from "@/design/structure.module.scss";
-import { cx, htmlTitle } from "@/helpers/frontend";
+import {
+  Button,
+  PageTitle,
+  Prose,
+  Section,
+  SectionGroup,
+  TextBox,
+  Toggle,
+} from "@/components";
+import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -24,9 +29,9 @@ export default function FeedbackPage({
         <title>{htmlTitle("Feedback")}</title>
       </Head>
 
-      <Content>
-        <section>
-          <h1 className="prose">Please Share Your Feedback</h1>
+      <SectionGroup>
+        <Section>
+          <PageTitle>Please Share Your Feedback</PageTitle>
 
           <Prose>
             <p>
@@ -38,9 +43,9 @@ export default function FeedbackPage({
               critical.
             </p>
           </Prose>
-        </section>
+        </Section>
 
-        <section className={styles.section}>
+        <Section>
           <Toggle
             model={m.workedAlone}
             label={<Prose>I worked on this tutorial…</Prose>}
@@ -50,16 +55,16 @@ export default function FeedbackPage({
               ["partner", "Outside of class, with friends"],
             ]}
           />
-        </section>
+        </Section>
 
-        <section className={styles.section}>
+        <Section>
           <Prose>
             Today’s tutorial occasionally “checked your answers” and either told
             you that things looked good, or asked you to think some more or
             answer follow-up questions.
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.answerCheckingChangeApproach}
             label={
               <Prose>
@@ -68,10 +73,10 @@ export default function FeedbackPage({
               </Prose>
             }
           />
-        </section>
+        </Section>
 
-        <section className={styles.section}>
-          <TextArea
+        <Section>
+          <TextBox
             model={m.answerCheckingPreferenceOpenEnded}
             label={
               <Prose>
@@ -102,9 +107,9 @@ export default function FeedbackPage({
               Reach out any time!
             </p>
           </Prose>
-        </section>
+        </Section>
 
-        <section className={styles.section}>
+        <Section>
           <Toggle
             model={m.easyOrChallenging}
             choices={[
@@ -121,9 +126,9 @@ export default function FeedbackPage({
             model={m.easyOrChallengingExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
-        </section>
+        </Section>
 
-        <section className={styles.section}>
+        <Section>
           <Toggle
             model={m.confidence}
             choices={[
@@ -146,9 +151,9 @@ export default function FeedbackPage({
             model={m.confidenceExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
-        </section>
+        </Section>
 
-        <section className={styles.section}>
+        <Section>
           <TextBox
             model={m.technicalDifficulties}
             label={
@@ -158,9 +163,9 @@ export default function FeedbackPage({
               </Prose>
             }
           />
-        </section>
+        </Section>
 
-        <section className={cx(styles.section, "text-right")}>
+        <Section className="text-right">
           <Button
             color="green"
             link={urls.join(
@@ -171,8 +176,8 @@ export default function FeedbackPage({
           >
             I’m done <ArrowRightIcon />
           </Button>
-        </section>
-      </Content>
+        </Section>
+      </SectionGroup>
     </>
   );
 }
