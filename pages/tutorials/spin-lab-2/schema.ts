@@ -86,6 +86,8 @@ export default tutorialSchema({
     "qTimesV",
     "generalRuleQ",
     "doPQCommute",
+    "PQdonotcommute",
+    "PQcommute",
 
     "challengeIntro",
   ],

@@ -53,7 +53,7 @@ export const store = <T extends object>(initial: T): Store<T> => {
     if (timeout !== null) {
       return;
     }
-    timeout = setTimeout(() => {
+    timeout = window.setTimeout(() => {
       subscriptions.forEach((set, key) => {
         if (set.size === 0) {
           subscriptions.delete(key);
