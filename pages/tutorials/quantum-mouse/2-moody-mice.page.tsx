@@ -1,4 +1,4 @@
-import { Help, Prose } from "@/design";
+import { Help, Prose, Reminder } from "@/design";
 import { arraysEqual } from "@/helpers";
 import { ChooseAll, FieldGroup, Select, TextArea } from "@/inputs";
 import M from "@/math";
@@ -127,6 +127,14 @@ export default page(setup, ({ section, sequence, hint }) => ({
                 placeholder="Select operators..."
               />
             </FieldGroup>
+
+            <Reminder>
+              <p className="text-center margin-top-1">
+                <M t="\hat{M}\ket{\smiley} = \ket{\smiley}" />{" "}
+                &nbsp;&nbsp;and&nbsp;&nbsp;{" "}
+                <M t="\hat{M}\ket{\frownie} = -\ket{\frownie}" />.
+              </p>
+            </Reminder>
           </>
         );
       },
@@ -135,7 +143,10 @@ export default page(setup, ({ section, sequence, hint }) => ({
           name: "moodEigenUnits",
           label: "What about units?",
           body: (
-            <Prose>Have we actually defined any units for “mood” above?</Prose>
+            <Prose>
+              Unlike eye size, we consider “mood” to be a dimensionless
+              quantity, meaning it has no units. You can’t quantify happiness :)
+            </Prose>
           ),
         }),
       ],

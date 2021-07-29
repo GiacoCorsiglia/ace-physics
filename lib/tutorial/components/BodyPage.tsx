@@ -4,7 +4,7 @@ import { Content } from "@/design/layout";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
 import { htmlTitle } from "@/helpers";
-import { useScrollIntoView } from "@/helpers/frontend";
+import { Html, useScrollIntoView } from "@/helpers/frontend";
 import { Button, TextArea } from "@/inputs";
 import * as urls from "@/urls";
 import {
@@ -24,9 +24,11 @@ import SectionTree from "./SectionTree";
 export default function BodyPage({
   config,
   tutorialConfig,
+  showWhenComplete,
 }: {
   config: PageConfig;
   tutorialConfig: TutorialConfig;
+  showWhenComplete?: Html;
 }) {
   const [status, setStatus] = useValue(["pages", config.name, "status"]);
 
@@ -116,7 +118,11 @@ export default function BodyPage({
         <RevealAnswersSection config={config} complete={complete} />
       )}
 
-      <ContinueToNextPage config={config} tutorialConfig={tutorialConfig} />
+      <ContinueToNextPage
+        config={config}
+        tutorialConfig={tutorialConfig}
+        showWhenComplete={showWhenComplete}
+      />
     </AnswerVisibility>
   );
 }
@@ -124,9 +130,11 @@ export default function BodyPage({
 function ContinueToNextPage({
   config,
   tutorialConfig,
+  showWhenComplete,
 }: {
   config: PageConfig;
   tutorialConfig: TutorialConfig;
+  showWhenComplete?: Html;
 }) {
   const pageName = config.name;
   const [status] = useValue(["pages", pageName, "status"]);
@@ -138,24 +146,27 @@ function ContinueToNextPage({
     return null;
   }
 
-  const currentPath = router.pathname.split("/");
-  const currentLink = currentPath[currentPath.length - 1];
-  const currentPageIndex = tutorialConfig.pages.findIndex(
-    ({ link }) => link === currentLink
-  );
-  if (process.env.NODE_ENV === "development" && currentPageIndex === -1) {
-    throw new Error(`No page found for the current link: ${currentLink}`);
-  }
-  const nextPage =
-    currentPageIndex === -1
-      ? undefined
-      : tutorialConfig.pages[currentPageIndex + 1];
-  const nextLink = nextPage?.link ?? "feedback";
-  const fullLink = urls.join(
-    urls.Tutorials.link,
-    tutorialConfig.link,
-    nextLink
-  );
+  const fullLink = (() => {
+    if (showWhenComplete) {
+      return "";
+    }
+
+    const currentPath = router.pathname.split("/");
+    const currentLink = currentPath[currentPath.length - 1];
+    const currentPageIndex = tutorialConfig.pages.findIndex(
+      ({ link }) => link === currentLink
+    );
+    if (process.env.NODE_ENV === "development" && currentPageIndex === -1) {
+      throw new Error(`No page found for the current link: ${currentLink}`);
+    }
+    const nextPage =
+      currentPageIndex === -1
+        ? undefined
+        : tutorialConfig.pages[currentPageIndex + 1];
+    const nextLink = nextPage?.link ?? "feedback";
+
+    return urls.join(urls.Tutorials.link, tutorialConfig.link, nextLink);
+  })();
 
   return (
     <Content
@@ -212,11 +223,15 @@ function ContinueToNextPage({
         })()}
       </Prose>
 
-      <div className="text-right">
-        <Button link={fullLink}>
-          Move on to the next page <ArrowRightIcon />
-        </Button>
-      </div>
+      {showWhenComplete ? (
+        showWhenComplete
+      ) : (
+        <div className="text-right">
+          <Button link={fullLink}>
+            Move on to the next page <ArrowRightIcon />
+          </Button>
+        </div>
+      )}
     </Content>
   );
 }

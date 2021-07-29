@@ -6,12 +6,13 @@ import M, { Matrix } from "@/math";
 import { modelToColumn } from "@/math/Matrix";
 import { Axes, Plot, Tick, Vector } from "@/plots";
 import { page } from "@/tutorial";
+import { DemoOnly } from "@pages/demo/tutorial-demo";
 import React from "react";
 import setup, { Responses } from "./setup";
 
 export default page(setup, ({ section, oneOf, hint }) => ({
   name: "changingBasis",
-  label: "TODO",
+  label: "Changing Basis",
   answers: "checked-some",
   sections: [
     section({
@@ -73,8 +74,9 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         <>
           <Prose>
             <p>
-              Awesome, thanks for taking the time to think about that. Here’s
-              one way you can do it. It’s usually the most efficient way, but
+              Awesome, thanks for taking the time to think about that. This
+              software can't respond to what you’ve written, but here’s one way
+              you can change basis. It’s usually the most efficient way, but
               there are other valid approaches too!
             </p>
 
@@ -121,8 +123,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           body: (
             <Prose>
               On the previous page, we could think of <M t="\braket{i|u}" /> as
-              the <M t="\ket{i}" /> component. Can you describe the coefficient{" "}
-              <M t="a" /> in similar terms?
+              the <M t="\mathbf{\hat{i}}" /> component of <M t="\ket{u}" />. Can
+              you describe the coefficient <M t="a" /> in similar terms?
             </Prose>
           ),
         }),
@@ -218,7 +220,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
                 </p>
 
                 <p>
-                  Similarly, it <em>would</em> be sensible to write{" "}
+                  Similarly, it <em>could</em> be sensible to write{" "}
                   <M t="\vec{v} = (5, \vec{w} \cdot \vec{v}, 3)" />.
                 </p>
 
@@ -348,7 +350,20 @@ export default page(setup, ({ section, oneOf, hint }) => ({
                   \ket{v_2} \doteq \begin{pmatrix} -1/2 \\ \sqrt{3}/2 \end{pmatrix}
                 "
             />
+            Our goal is to represent our vector <M t="\ket{u}" /> in the form
+            <M display t="a\ket{v_1} + b\ket{v_2}" />
           </Reminder>
+
+          <DemoOnly>
+            <Info>
+              <Prose>
+                <p>
+                  <strong>For the demo only:</strong> If you don’t feel like
+                  calculating, <M t="a = 0.835" /> and <M t="b = 0.551" />.
+                </p>
+              </Prose>
+            </Info>
+          </DemoOnly>
         </>
       ),
       hints: [
@@ -356,8 +371,6 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           name: "basisChange",
           body: (
             <Prose>
-              Our goal is to represent our vector in the form
-              <M display t="a\ket{v_1} + b\ket{v_2}" />
               How do you represent the coefficients <M t="a" /> and
               <M t="b" /> in Dirac notation? (Hint: You did it above!) Can you
               compute those inner products?
@@ -389,8 +402,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             ]}
             label={
               <Prose>
-                Is it OK to label the horizontal axis as <M t="\vb{v_1}" /> and
-                the vertical axis as <M t="\vb{v_2}" />?
+                Is it OK to label the horizontal axis as <M t="v_1" /> and the
+                vertical axis as <M t="v_2" />?
               </Prose>
             }
           />

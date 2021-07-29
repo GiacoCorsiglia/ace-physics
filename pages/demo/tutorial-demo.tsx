@@ -1,0 +1,144 @@
+import { Info, Prose } from "@/design";
+import { Content } from "@/design/layout";
+import { Html } from "@/helpers/frontend";
+import { Button } from "@/inputs";
+import { TutorialSchema, TutorialState } from "@/schema/tutorial";
+import BodyPage from "@/tutorial/components/BodyPage";
+import { PageConfig, TutorialConfig } from "@/tutorial/config";
+import { Root } from "@/tutorial/state-tree";
+import { ArrowLeftIcon, IssueReopenedIcon } from "@primer/octicons-react";
+import Head from "next/head";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useReducer,
+  useState,
+} from "react";
+
+interface TutorialRouteComponent<S extends TutorialSchema> {
+  config: PageConfig<any>;
+  tutorialConfig: TutorialConfig<S>;
+}
+
+export const TutorialDemoPage = <S extends TutorialSchema>({
+  tutorialPage,
+  title,
+  intro,
+  initialState,
+}: {
+  tutorialPage: TutorialRouteComponent<S>;
+  title: string;
+  intro: Html;
+  initialState: TutorialState<S>;
+}) => {
+  const [resetKey, resetKeyFn] = useReducer((x: number) => x + 1, 0);
+  const [hasEdited, setHasEdited] = useState(false);
+
+  const reset = () => {
+    resetKeyFn();
+    setHasEdited(false);
+  };
+
+  const onChange = useCallback(() => setHasEdited(true), []);
+
+  return (
+    <main style={{ counterReset: "section" }}>
+      <Head>
+        <title>ACEPhysics.net Demo - {title}</title>
+      </Head>
+
+      <Content as="section">
+        <Info>
+          <Prose>
+            <h4>
+              Demo: <em>{title}</em>
+            </h4>
+
+            {intro}
+
+            <p>
+              Your answers on this demo page <strong>will not be saved</strong>.
+              Normally, students’ answers <em>are</em> saved automatically, so
+              they can return any time to finish or refer to their work.
+            </p>
+
+            <p>
+              Typically, there would be a table of contents for you to navigate
+              between the tutorial’s pages, but this demo only includes this one
+              page. Otherwise, this demo is identical to the actual tutorial
+              page.
+            </p>
+          </Prose>
+
+          <div style={{ display: "flex", marginTop: "2rem" }}>
+            <Button iconFirst kind="secondary" link="/demo">
+              <ArrowLeftIcon />
+              Go back
+            </Button>
+
+            <Button
+              kind="tertiary"
+              iconFirst
+              onClick={reset}
+              style={{ marginLeft: "auto" }}
+              disabled={!hasEdited}
+            >
+              <IssueReopenedIcon />
+              Reset and start over
+            </Button>
+          </div>
+        </Info>
+      </Content>
+
+      {/* Changing the key will destroy and re-mount this component. */}
+      <Root
+        key={resetKey}
+        overrideRootField={tutorialPage.tutorialConfig.schema}
+        initial={initialState}
+        onChange={onChange}
+      >
+        <DemoContext.Provider value={true}>
+          <BodyPage
+            tutorialConfig={tutorialPage.tutorialConfig}
+            config={tutorialPage.config}
+            showWhenComplete={
+              <>
+                <Prose>
+                  Normally, there’d be a link to the next page here! This demo
+                  only has one page.
+                </Prose>
+
+                <div style={{ display: "flex", marginTop: "2rem" }}>
+                  <Button iconFirst kind="secondary" link="/demo">
+                    <ArrowLeftIcon />
+                    Go back
+                  </Button>
+
+                  <Button
+                    kind="tertiary"
+                    iconFirst
+                    onClick={reset}
+                    style={{ marginLeft: "auto" }}
+                  >
+                    <IssueReopenedIcon />
+                    Reset and start over
+                  </Button>
+                </div>
+              </>
+            }
+          />
+        </DemoContext.Provider>
+      </Root>
+    </main>
+  );
+};
+
+const DemoContext = createContext(false);
+
+export const DemoOnly = ({ children }: { children?: Html }) => {
+  if (!useContext(DemoContext)) {
+    return null;
+  }
+  return <>{children}</>;
+};
