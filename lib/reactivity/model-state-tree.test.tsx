@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { Html } from "@/helpers/frontend";
 import * as f from "@/schema/fields";
 import { act, renderHook } from "@testing-library/react-hooks";
