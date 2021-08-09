@@ -133,7 +133,7 @@ export default function TutorialsIndex() {
   );
 }
 
-function TutorialLink({
+export function TutorialLink({
   label,
   url,
   children,

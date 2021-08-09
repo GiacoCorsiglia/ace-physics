@@ -1,4 +1,4 @@
-import { Info, Prose, Reminder } from "@/design";
+import { Help, Info, Prose, Reminder } from "@/design";
 import { Column, Columns } from "@/design/layout";
 import { Decimal, TextArea, Toggle } from "@/inputs";
 import M, { fieldToMatrix, Matrix } from "@/math";
@@ -9,7 +9,7 @@ import React from "react";
 import setup from "./setup";
 import { u, v } from "./shared";
 
-export default page(setup, ({ section, hint }) => ({
+export default page(setup, ({ section, oneOf, hint }) => ({
   name: "operatorsAsMatrices",
   label: "Operators as Matrices",
   sections: [
@@ -332,6 +332,53 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
+
+
+    oneOf({
+      which: (r) => {
+        if (!r.doPQCommute) {
+          return null;
+        } else if (r.doPQCommute.selected === "do not commute") {
+          return "PQdonotcommute";
+        } else if (r.doPQCommute.selected === "do commute") {
+          return "PQcommute";
+        }
+        return null;
+      },
+      sections: {
+        PQdonotcommute: section({
+          name: "PQdonotcommute",
+          body: (
+            <Help>
+              <Prose>
+                <p>
+                  That's right! (I'm just curious if you answered "order matters" because that's generally true
+                   for matrices - it might be, but might not! - or because you actually checked the specifics here?
+                </p>
+              </Prose>
+            </Help>
+          ),
+        }),
+        PQcommute: section({
+          name: "PQcommute",
+          body: (
+            <Info>
+              <Prose>
+                <p>
+                <M t="\hat{P}" /> and{" "}
+                <M t="\hat{Q}" /> are given matrices - we suggest you pull out a pencil and paper and try it out!
+                  Multiply the matrices - does the order matter?
+                </p>
+                <p>
+                  If you need to change your answer above, feel free to do so
+                </p>
+              </Prose>
+            </Info>
+          ),
+        }),
+      },
+    }),
+
   ],
 }));
 
