@@ -1,10 +1,46 @@
 import isPropValid from "@emotion/is-prop-valid";
-import { createElement, forwardRef, ReactElement } from "react";
+import {
+  Children,
+  cloneElement,
+  createElement,
+  forwardRef,
+  ReactElement,
+} from "react";
+import { Html } from "./frontend";
 
 // Class name concatenation.
 type ClassName = string | false | void | null | 0;
 export const cx = (...classNames: ClassName[]): string =>
   classNames.filter(Boolean).join(" "); // Thanks, Linaria.
+
+// Components to apply classes to their children.
+
+interface StyledChildComponent<P> {
+  (props: { children?: Html } & P): ReactElement<any, any> | null;
+  displayName?: string;
+}
+
+export const styledChild: {
+  (...classes: readonly ClassName[]): StyledChildComponent<{}>;
+  <P>(classes: (props: P) => readonly ClassName[]): StyledChildComponent<P>;
+} = (...classes: any[]) => {
+  const classesFn = classes[0] instanceof Function ? classes[0] : null;
+
+  const component = forwardRef(
+    ({ children, className, ...props }: any, ref) => {
+      Children.only(children);
+      const cs = classesFn ? classesFn(props) : classes;
+      return cloneElement(children, {
+        className: cx(children.props.className, className, ...cs),
+        ref,
+      });
+    }
+  );
+
+  component.displayName = `styledChild${devDisplayName(classes)}`;
+
+  return component;
+};
 
 // Simple styled components without inline CSS.
 type Tag = keyof JSX.IntrinsicElements;
@@ -34,33 +70,35 @@ export const styled: {
   // See loop below.
 } as any;
 
-const styledConstructor = (tag: Tag) => (...classes: any[]): any => {
-  const classesFn = classes[0] instanceof Function ? classes[0] : null;
+const styledConstructor =
+  (tag: Tag) =>
+  (...classes: any[]): any => {
+    const classesFn = classes[0] instanceof Function ? classes[0] : null;
 
-  const component = forwardRef((props: any, ref) => {
-    const As = props.as || tag;
-    const cs = classesFn ? classesFn(props) : classes;
+    const component = forwardRef((props: any, ref) => {
+      const As = props.as || tag;
+      const cs = classesFn ? classesFn(props) : classes;
 
-    const newProps: any = {};
-    for (const key in props) {
-      if (key !== "as" && isPropValid(key)) {
-        newProps[key] = props[key];
+      const newProps: any = {};
+      for (const key in props) {
+        if (key !== "as" && isPropValid(key)) {
+          newProps[key] = props[key];
+        }
       }
-    }
-    newProps.ref = ref;
-    newProps.className = cx(props.className, ...cs);
-    // Let's just fix HTML real quick.
-    if (As === "button" && !newProps.type) {
-      newProps.type = "button";
-    }
+      newProps.ref = ref;
+      newProps.className = cx(props.className, ...cs);
+      // Let's just fix HTML real quick.
+      if (As === "button" && !newProps.type) {
+        newProps.type = "button";
+      }
 
-    return createElement(As, newProps);
-  });
+      return createElement(As, newProps);
+    });
 
-  component.displayName = `styled.${tag}${devDisplayName(classes)}`;
+    component.displayName = `styled.${tag}${devDisplayName(classes)}`;
 
-  return component;
-};
+    return component;
+  };
 
 // The compiled function will include references to class names like:
 // _${filename}_module_scss__WEBPACK_IMPORTED_MODULE_1___default.a.${className};
