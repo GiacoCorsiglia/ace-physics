@@ -1,5 +1,5 @@
 import { UserMenu } from "@/auth";
-import { Header, Nav, NavItem } from "@/components";
+import { Header, HeaderTitle, Nav, NavItem } from "@/components";
 import * as urls from "@/urls";
 import {
   ArrowLeftIcon,
@@ -64,21 +64,13 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
     <Header>
       <UserMenu />
 
-      {/* <div className={styles.headerTitle}>
+      <HeaderTitle>
         <span className="prose">
-          {currentPage
-            ? currentPage.label
-            : typeof config.label === "string"
-            ? config.label
-            : config.label.html}
+          {typeof config.label === "string" ? config.label : config.label.html}
         </span>
-      </div> */}
+      </HeaderTitle>
 
-      <Nav
-        title={
-          typeof config.label === "string" ? config.label : config.label.html
-        }
-      >
+      <Nav>
         <NavItem
           style="small"
           icon={<ArrowLeftIcon />}
@@ -92,7 +84,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
           link={urls.join(`/${urls.Tutorials.path}`, config.link)}
           icon={<StarIcon />}
         >
-          Introduction
+          {typeof config.label === "string" ? config.label : config.label.html}
         </NavItem>
 
         {config.pretest && (

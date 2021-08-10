@@ -42,7 +42,11 @@ export const HeaderPopover = ({
   );
 };
 
-export const Nav = ({ title, children }: { title: Html; children: Html }) => {
+export const HeaderTitle = ({ children }: { children: Html }) => {
+  return <div className={styles.headerTitle}>{children}</div>;
+};
+
+export const Nav = ({ children }: { children: Html }) => {
   const [isOpen, setOpen, ref] = useToggle<HTMLOListElement>();
 
   return (
