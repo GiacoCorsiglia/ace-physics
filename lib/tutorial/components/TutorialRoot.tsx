@@ -1,5 +1,13 @@
 import { useAuth } from "@/auth";
-import { Button, Content, Prose, Vertical } from "@/components";
+import {
+  Button,
+  Callout,
+  Content,
+  ContentWidth,
+  Prose,
+  Vertical,
+  VerticalSpaceAfter100,
+} from "@/components";
 import * as globalParams from "@/global-params";
 import { JsxElement } from "@/helpers/frontend";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
@@ -36,21 +44,27 @@ export default function TutorialRoot({
               return (
                 <>
                   {globalParams.mockApi && (
-                    <Content as="section">
-                      <Prose className={styles.notForCreditAlert}>
-                        You’re currently in <strong>preview mode</strong>. Your
-                        responses will <strong>not</strong> be saved.
-                      </Prose>
-                    </Content>
+                    <VerticalSpaceAfter100>
+                      <ContentWidth>
+                        <Callout as="section" color="blue">
+                          <Prose>
+                            You’re currently in <strong>preview mode</strong>.
+                            Your responses will <strong>not</strong> be saved.
+                          </Prose>
+                        </Callout>
+                      </ContentWidth>
+                    </VerticalSpaceAfter100>
                   )}
 
                   {!globalParams.mockApi && !auth.isForCredit && (
-                    <Content as="section">
-                      <Prose className={styles.notForCreditAlert}>
-                        This is an anonymous account. Your work will{" "}
-                        <strong>not</strong> count for any course credit.
-                      </Prose>
-                    </Content>
+                    <VerticalSpaceAfter100>
+                      <ContentWidth>
+                        <Callout as="section" color="blue">
+                          This is an anonymous account. Your work will{" "}
+                          <strong>not</strong> count for any course credit.
+                        </Callout>
+                      </ContentWidth>
+                    </VerticalSpaceAfter100>
                   )}
 
                   <TutorialStateRoot

@@ -1,4 +1,4 @@
-import { styled } from "@/helpers/frontend";
+import { styled, styledChild } from "@/helpers/frontend";
 import styles from "./layout.module.scss";
 
 type VerticalSpacing = 100 | 300;
@@ -7,19 +7,26 @@ export const Content = styled.div<{
   vertical?: VerticalSpacing | false;
 }>(({ vertical = 100 }) => [
   styles.content,
+  styles.contentWidth,
   vertical === 100 && styles.vertical100,
   vertical === 300 && styles.vertical300,
 ]);
 
+export const contentWidthClass = styles.contentWidth;
+
+export const ContentWidth = styledChild(styles.contentWidth);
+
 export const SectionGroup = styled.div(
   styles.sectionGroup,
   styles.content,
+  styles.contentWidth,
   styles.vertical100
 );
 
 export const Section = styled.section(
   styles.section,
   styles.content,
+  styles.contentWidth,
   styles.vertical100
 );
 
@@ -30,6 +37,8 @@ export const Vertical = styled.div<{
   space === 100 && styles.vertical100,
   space === 300 && styles.vertical300,
 ]);
+
+export const VerticalSpaceAfter100 = styledChild(styles.verticalSpaceAfter100);
 
 export const Horizontal = styled.div<{
   align?: "start" | "end" | "center" | "stretch";
