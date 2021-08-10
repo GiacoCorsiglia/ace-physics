@@ -1,4 +1,4 @@
-import { Button, Content, Prose } from "@/components";
+import { Button, Content, PageTitle, Prose } from "@/components";
 import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
@@ -26,11 +26,11 @@ export default function IntroPage({
         </title>
       </Head>
 
-      <h1 className="prose">
+      <PageTitle>
         {typeof tutorialConfig.label === "string"
           ? tutorialConfig.label
           : tutorialConfig.label.html}
-      </h1>
+      </PageTitle>
 
       {config.body}
 
