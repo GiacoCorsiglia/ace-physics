@@ -14,9 +14,51 @@ import { TutorialConfig } from "../config";
 export default function TutorialHeader({ config }: { config: TutorialConfig }) {
   const router = useRouter();
 
-  const currentPage = config.pages.find((page) =>
+  const isIntroduction = router.pathname.endsWith(`/${config.link}`);
+  const isPretest = router.pathname.endsWith(
+    `/${config.link}/before-you-start`
+  );
+  const isFeedback = router.pathname.endsWith(`/${config.link}/feedback`);
+  const currentPage = config.pages.findIndex((page) =>
     router.pathname.endsWith(`/${page.link}`)
   );
+
+  const pageStatus = (
+    page:
+      | "introduction"
+      | "pretest"
+      | "feedback"
+      | TutorialConfig["pages"][number]
+  ): "complete" | "active" | "incomplete" => {
+    if (page === "introduction") {
+      return isIntroduction ? "active" : "complete";
+    }
+    if (page === "pretest") {
+      return isPretest ? "active" : isIntroduction ? "incomplete" : "complete";
+    }
+    if (page === "feedback") {
+      return isFeedback ? "active" : "incomplete";
+    }
+
+    // Now for regular pages.
+    if (isFeedback) {
+      return "complete";
+    }
+
+    if (isIntroduction || isPretest) {
+      return "incomplete";
+    }
+
+    const thisPage = config.pages.indexOf(page);
+
+    if (currentPage === thisPage) {
+      return "active";
+    } else if (thisPage < currentPage) {
+      return "complete";
+    } else {
+      return "incomplete";
+    }
+  };
 
   return (
     <Header>
@@ -46,9 +88,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
         </NavItem>
 
         <NavItem
-          status={
-            router.pathname.endsWith(`/${config.link}`) ? "active" : "complete"
-          }
+          status={pageStatus("introduction")}
           link={urls.join(`/${urls.Tutorials.path}`, config.link)}
           icon={<StarIcon />}
         >
@@ -57,11 +97,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
 
         {config.pretest && (
           <NavItem
-            status={
-              router.pathname.endsWith(`/${config.link}/before-you-start`)
-                ? "active"
-                : "incomplete"
-            }
+            status={pageStatus("pretest")}
             icon={<ChecklistIcon />}
             link={urls.join(
               `/${urls.Tutorials.path}`,
@@ -76,11 +112,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
         {config.pages.map((page, i) => (
           <NavItem
             key={page.link}
-            status={
-              router.pathname.endsWith(`/${page.link}`)
-                ? "active"
-                : "incomplete"
-            }
+            status={pageStatus(page)}
             icon={i + 1}
             link={urls.join(`/${urls.Tutorials.path}`, config.link, page.link)}
           >
@@ -89,11 +121,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
         ))}
 
         <NavItem
-          status={
-            router.pathname.endsWith(`/${config.link}/feedback`)
-              ? "active"
-              : "incomplete"
-          }
+          status={pageStatus("feedback")}
           icon={<ThumbsupIcon />}
           link={urls.join(`/${urls.Tutorials.path}`, config.link, "feedback")}
         >
