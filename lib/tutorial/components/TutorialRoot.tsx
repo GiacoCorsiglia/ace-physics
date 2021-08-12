@@ -12,9 +12,7 @@ import * as globalParams from "@/global-params";
 import { JsxElement } from "@/helpers/frontend";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
-import React from "react";
 import { TutorialConfig } from "../config";
-import styles from "./shared.module.scss";
 import TutorialHeader from "./TutorialHeader";
 import TutorialLoading from "./TutorialLoading";
 import { TutorialStateRoot } from "./TutorialStateRoot";
@@ -85,7 +83,7 @@ function LoggedOut() {
   const router = useRouter();
 
   return (
-    <Content className={styles.loggedOut}>
+    <Content className="text-center" marginTop="large">
       <LockIcon size="medium" />
 
       <Prose>You must be logged in to see this page.</Prose>

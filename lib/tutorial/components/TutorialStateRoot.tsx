@@ -8,17 +8,11 @@ import { decode } from "@/schema/types";
 import EllipsisCircleIcon from "@/svgs/ellipsis-circle.svg";
 import { AlertIcon, CheckCircleIcon, SyncIcon } from "@primer/octicons-react";
 import debounce from "lodash.debounce";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TutorialConfig } from "../config";
 import { Root } from "../state-tree";
-import styles from "./shared.module.scss";
 import TutorialLoading from "./TutorialLoading";
+import styles from "./TutorialStateRoot.module.scss";
 
 type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
 
@@ -244,14 +238,14 @@ function SavedStatus({
   subscribe,
 }: {
   subscribe: (setter: (s: SavedStatus) => void) => () => void;
-}): JSX.Element {
+}): JSX.Element | null {
   const [status, setStatus] = useState<SavedStatus>("initial");
 
   useEffect(() => subscribe(setStatus), [subscribe]);
 
   switch (status) {
     case "initial":
-      return <div className={styles.savedStatus}></div>;
+      return null;
     case "saving":
       return (
         <div className={styles.savedStatus}>

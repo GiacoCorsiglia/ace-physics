@@ -5,11 +5,14 @@ type VerticalSpacing = 100 | 300;
 
 export const Content = styled.div<{
   vertical?: VerticalSpacing | false;
-}>(({ vertical = 100 }) => [
+  marginTop?: "none" | "small" | "large";
+}>(({ vertical = 100, marginTop = "none" }) => [
   styles.content,
   styles.contentWidth,
   vertical === 100 && styles.vertical100,
   vertical === 300 && styles.vertical300,
+  marginTop === "small" && styles.contentMarginTop,
+  marginTop === "large" && styles.contentMarginTopLarge,
 ]);
 
 export const contentWidthClass = styles.contentWidth;

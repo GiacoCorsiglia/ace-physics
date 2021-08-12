@@ -129,3 +129,16 @@
     --display-math-margin-bottom: #{spacing.$space-150};
   }
 }
+
+.boldColorBlue strong {
+  color: colors.$blue-500;
+}
+.boldColorRed strong {
+  color: colors.$red-500;
+}
+.boldColorGreen strong {
+  color: colors.$green-500;
+}
+.boldColorYellow strong {
+  color: colors.$yellow-500;
+}

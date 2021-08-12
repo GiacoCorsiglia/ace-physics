@@ -18,11 +18,15 @@ const blockLevelElements = new Set([
 type ProseProps = {
   size?: "large" | "body" | "small";
   align?: "left" | "right" | "center" | "justify";
+  boldColor?: "neutral" | "blue" | "green" | "red" | "yellow";
   faded?: boolean;
 } & JSX.IntrinsicElements["p"];
 
 export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
-  function Prose({ size = "body", align, faded, ...props }, ref) {
+  function Prose(
+    { size = "body", align, faded, boldColor = "neutral", ...props },
+    ref
+  ) {
     // If there is no block level element in the children, wrap them in <p>.
     // Otherwise, just wrap everything in a <div>.  (The prop types for "p" and
     // "div" are identical.)
@@ -48,6 +52,11 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
           align === "justify" && "text-justify",
           // Fading.
           faded && "text-faded",
+          // Bold color.
+          boldColor === "blue" && styles.boldColorBlue,
+          boldColor === "red" && styles.boldColorRed,
+          boldColor === "green" && styles.boldColorGreen,
+          boldColor === "yellow" && styles.boldColorYellow,
           // Additional classes.
           props.className
         )}

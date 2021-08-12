@@ -35,9 +35,6 @@ $max-content-width: 770px;
   }
 }
 
-.contentCallout {
-}
-
 :not(.content) > .content {
   padding-top: spacing.$space-300;
   padding-bottom: spacing.$space-300;
@@ -79,6 +76,14 @@ $max-content-width: 770px;
       margin-bottom: $spacing; // This is basically `padding-top`.
     }
   }
+}
+
+.contentMarginTop {
+  margin-top: spacing.$space-300;
+}
+
+.contentMarginTopLarge {
+  margin-top: calc(#{spacing.$space-300} + 10vh);
 }
 
 .vertical100 > * + * {

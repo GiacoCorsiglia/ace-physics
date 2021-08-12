@@ -5,7 +5,6 @@ import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
 import React from "react";
 import { IntroConfig, TutorialConfig } from "../config";
-import styles from "./shared.module.scss";
 
 export default function IntroPage({
   config,
@@ -34,7 +33,7 @@ export default function IntroPage({
 
       {config.body}
 
-      <Prose className={styles.genericIntroProse}>
+      <Prose boldColor="blue">
         <p>
           <strong>
             This activity is not about “right” or “wrong” answers,
