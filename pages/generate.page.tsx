@@ -221,7 +221,7 @@ export default function Generate() {
 const makeChoices = (cs: string[]) => cs.map((c) => ({ value: c, label: c }));
 
 const institutions = makeChoices(["1000", "1100"]);
-const courses = makeChoices(["1001", "1002", "1101"]);
+const courses = makeChoices(["1001", "1002", "1003", "1101"]);
 
 const matchChoice = (
   choices: { value: string; label: string }[],
