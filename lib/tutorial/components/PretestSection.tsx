@@ -1,4 +1,4 @@
-import { Content } from "@/components";
+import { Section as LayoutSection } from "@/components";
 import { Model } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
@@ -29,11 +29,8 @@ export default tracked(function PretestSection(
     config.enumerate === undefined ? anyModelsUsed : config.enumerate;
 
   return (
-    <Content
-      as="section"
-      // className={cx(styles.section, enumerate && styles.enumerated)}
-    >
+    <LayoutSection as="section" enumerate={enumerate}>
       {body}
-    </Content>
+    </LayoutSection>
   );
 });
