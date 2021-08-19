@@ -1,6 +1,6 @@
-import { Answer } from "@/design";
 import { arraysEqual, Html } from "@/helpers/frontend";
 import type { Choice, Choices } from "@/schema/fields";
+import { Answer } from "../answers";
 import { Prose } from "../typography";
 
 export type ChoicesConfig<Cs extends Choices> = readonly (readonly [
