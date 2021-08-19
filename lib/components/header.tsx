@@ -2,7 +2,7 @@ import { cx } from "@/helpers/css";
 import { Html, useToggle } from "@/helpers/frontend";
 import { ThreeBarsIcon, XIcon } from "@primer/octicons-react";
 import Link from "next/link";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Caret } from "./caret";
 import styles from "./header.module.scss";
 
