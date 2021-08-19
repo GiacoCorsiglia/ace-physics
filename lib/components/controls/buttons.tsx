@@ -13,8 +13,7 @@ type ButtonProps = {
   iconLeft?: Html;
   iconRight?: Html;
   disabledExplanation?: Html;
-} & JSX.IntrinsicElements["button"] &
-  JSX.IntrinsicElements["a"]; // forwardRef doesn't work with generics.
+} & Omit<JSX.IntrinsicElements["button"] & JSX.IntrinsicElements["a"], "color">; // forwardRef doesn't work with generics.
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
