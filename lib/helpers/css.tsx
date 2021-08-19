@@ -57,11 +57,14 @@ interface StyledComponent<DefaultTag extends Tag, P> {
 }
 
 interface StyledConstructor<DefaultTag extends Tag> {
-  (...classes: readonly ClassName[]): StyledComponent<DefaultTag, {}>;
-  <P>(classes: (props: P) => readonly ClassName[]): StyledComponent<
-    DefaultTag,
-    P
-  >;
+  (
+    classes: ClassName | readonly ClassName[],
+    renderChildren?: (children: Html) => Html
+  ): StyledComponent<DefaultTag, {}>;
+  <P>(
+    classes: (props: P) => readonly ClassName[],
+    renderChildren?: (children: Html) => Html
+  ): StyledComponent<DefaultTag, P>;
 }
 
 export const styled: {
@@ -72,8 +75,11 @@ export const styled: {
 
 const styledConstructor =
   (tag: Tag) =>
-  (...classes: any[]): any => {
-    const classesFn = classes[0] instanceof Function ? classes[0] : null;
+  (classes: any, renderChildren?: (children: Html) => Html): any => {
+    const classesFn = classes instanceof Function ? classes : null;
+    if (!classesFn && !Array.isArray(classes)) {
+      classes = [classes];
+    }
 
     const component = forwardRef((props: any, ref) => {
       const As = props.as || tag;
@@ -92,6 +98,10 @@ const styledConstructor =
         newProps.type = "button";
       }
 
+      if (renderChildren) {
+        newProps.children = renderChildren(props.children);
+      }
+
       return createElement(As, newProps);
     });
 
@@ -106,13 +116,13 @@ const classesFnX = /([a-z0-9]+)_\w*__default\.\w+\.([a-z0-9]+)/i;
 // The CSS module classnames themselves look like:
 // ${filename}_${className} __${hash}
 const classesStrX = /^([a-z0-9]+)_([a-z0-9]+)_/i;
-const devDisplayName = (classes: [() => any] | readonly string[]): string => {
+const devDisplayName = (classes: (() => any) | readonly string[]): string => {
   if (process.env.NODE_ENV !== "development") {
     return "";
   }
 
-  const isFn = classes[0] instanceof Function;
-  const string = isFn ? classes[0].toString() : (classes[0] as string);
+  const isFn = classes instanceof Function;
+  const string = isFn ? classes.toString() : (classes as string[])[0];
   const pattern = isFn ? classesFnX : classesStrX;
   // We always just match the first occurence.
   const match = string && string.match(pattern);

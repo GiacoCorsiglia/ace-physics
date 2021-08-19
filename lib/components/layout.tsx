@@ -19,12 +19,12 @@ export const contentWidthClass = styles.contentWidth;
 
 export const ContentWidth = styledChild(styles.contentWidth);
 
-export const SectionGroup = styled.div(
+export const SectionGroup = styled.div([
   styles.sectionGroup,
   styles.content,
   styles.contentWidth,
-  styles.vertical100
-);
+  styles.vertical100,
+]);
 
 export const Section = styled.section<{
   first?: boolean;
