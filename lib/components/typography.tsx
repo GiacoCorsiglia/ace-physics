@@ -67,3 +67,5 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
 );
 
 export const PageTitle = styled.h1(styles.pageTitle);
+
+export const Vocabulary = styled.strong(styles.vocabulary);

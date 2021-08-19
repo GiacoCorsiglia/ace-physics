@@ -1,4 +1,4 @@
-import { Hint, Prose } from "@/design";
+import { Prose } from "@/design";
 import { FieldGroup, Text, TextArea } from "@/inputs";
 import M from "@/math";
 import { Axes, Label, Plot, WithPlot } from "@/plots";
@@ -101,12 +101,12 @@ export default page(setup, ({ section }) => ({
             </p>
 
             <p>
-              <Hint>
-                Try plotting the values of
+              <em>
+                Hint: Try plotting the values of
                 <M t="e^{-i E_1 t /\hbar}" /> for{" "}
                 <M t="E_1 t/ ħ = 0,\pi/2,\pi,3\pi/2" /> on the graph and
                 interpolate between them.
-              </Hint>
+              </em>
             </p>
           </Prose>
 
