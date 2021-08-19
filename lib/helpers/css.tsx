@@ -112,7 +112,9 @@ const styledConstructor =
 
 // The compiled function will include references to class names like:
 // _${filename}_module_scss__WEBPACK_IMPORTED_MODULE_1___default.a.${className};
-const classesFnX = /([a-z0-9]+)_\w*__default\.\w+\.([a-z0-9]+)/i;
+// or
+// _${filename}_module_scss__WEBPACK_IMPORTED_MODULE_1___default().${className};
+const classesFnX = /([a-z0-9]+)_\w*__default\(?\)?\.?\w*\.([a-z0-9]+)/i;
 // The CSS module classnames themselves look like:
 // ${filename}_${className} __${hash}
 const classesStrX = /^([a-z0-9]+)_([a-z0-9]+)_/i;
@@ -124,7 +126,7 @@ const devDisplayName = (classes: (() => any) | readonly string[]): string => {
   const isFn = classes instanceof Function;
   const string = isFn ? classes.toString() : (classes as string[])[0];
   const pattern = isFn ? classesFnX : classesStrX;
-  // We always just match the first occurence.
+  // We always just match the first occurrence.
   const match = string && string.match(pattern);
 
   const fileName = match && match[1];
