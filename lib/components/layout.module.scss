@@ -57,6 +57,15 @@ $max-content-width: 770px;
   @media (max-width: $min-content-width - 1px) {
     border-width: 1px 0;
   }
+
+  > hr {
+    border: 0;
+    border-bottom: 1px solid colors.$neutral-300;
+    margin-top: spacing.$space-150;
+    margin-bottom: spacing.$space-150;
+    margin-left: var(--section-border-margins);
+    margin-right: var(--section-border-margins);
+  }
 }
 
 .sectionGroup {
