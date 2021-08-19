@@ -1,5 +1,6 @@
 import { cx, Html, styled } from "@/helpers/frontend";
 import { Children, forwardRef } from "react";
+import { M } from "./math";
 import styles from "./typography.module.scss";
 
 const blockLevelElements = new Set([
@@ -24,6 +25,7 @@ const proseSafeElements = new Set([
   "a",
   "img",
   "span",
+  M,
 ]);
 
 type ProseProps = {
