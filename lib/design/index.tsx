@@ -1,4 +1,4 @@
-export { Answer } from "./answers"; // TODO: To keep imports working for now.
+export { Answer } from "../components/answers"; // TODO: To keep imports working for now.
 
 ////////////////////////////////////////////////////////////////////////////////
 // DEPRECATED:
@@ -83,9 +83,4 @@ export function Vocabulary({ children }: Children) {
       <em>{children}</em>
     </strong>
   );
-}
-
-/** @deprecated */
-export function Hint({ children }: Children) {
-  return <em>Hint: {children}</em>;
 }

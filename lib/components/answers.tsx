@@ -1,6 +1,6 @@
-import { cx, Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/frontend";
 import { createContext, useContext } from "react";
-import styles from "./structure.module.scss";
+import { Callout } from "./callouts";
 
 const AnswerVisibilityContext = createContext(false);
 AnswerVisibilityContext.displayName = "AnswerVisibilityContext";
@@ -26,19 +26,12 @@ export const Answer = ({
     return null;
   }
 
-  props.className = cx(
-    props.className,
-    styles.answer,
-    (correct === undefined || correct === "undetermined") &&
-      styles.undetermined,
-    correct === true && styles.correct,
-    correct === false && styles.incorrect
-  );
+  // Explicitly check `true` or `false` to default to "undetermined"
+  const color = correct === true ? "green" : correct === false ? "red" : "blue";
 
   return (
-    <div {...props}>
-      <span className={styles.answerLabel}>Our Answer:</span>
+    <Callout {...(props as any)} color={color} title="Our Answer:">
       {children}
-    </div>
+    </Callout>
   );
 };

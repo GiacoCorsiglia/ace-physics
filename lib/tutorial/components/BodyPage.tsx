@@ -1,5 +1,12 @@
-import { Button, Callout, Content, Prose, TextBox } from "@/components";
-import { Answer, AnswerVisibility } from "@/design/answers";
+import {
+  Answer,
+  AnswerVisibility,
+  Button,
+  Callout,
+  Content,
+  Prose,
+  TextBox,
+} from "@/components";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
 import { cx, Html, htmlTitle, useScrollIntoView } from "@/helpers/frontend";
@@ -277,10 +284,9 @@ const RevealAnswersSection = ({
                   top: 0,
                 });
               }}
-              kind="tertiary"
-              iconFirst
+              color="yellow"
+              iconLeft={<ChecklistIcon />}
             >
-              <ChecklistIcon />
               Show me the answers
             </Button>
           </div>
@@ -308,6 +314,7 @@ const RevealAnswersSection = ({
           {status !== "completed" && (
             <div className="text-right margin-top">
               <Button
+                color="green"
                 onClick={() => {
                   complete();
                 }}
