@@ -23,6 +23,7 @@ const proseSafeElements = new Set([
   "b",
   "a",
   "img",
+  "span",
 ]);
 
 type ProseProps = {
@@ -79,7 +80,12 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
 export const autoProse = (children: Html) => {
   let wrapInProse = true;
   Children.forEach(children, (child) => {
-    if (wrapInProse && child && !proseSafeElements.has((child as any).type)) {
+    if (
+      wrapInProse &&
+      typeof child === "object" &&
+      child !== null &&
+      !proseSafeElements.has((child as any).type)
+    ) {
       wrapInProse = false;
     }
   });

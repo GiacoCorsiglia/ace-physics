@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen } from "@testing-library/react";
-import { Prose } from "./typography";
+import { autoProse, Prose } from "./typography";
 
 const SomeComponent = () => <span>Test</span>;
 
@@ -51,5 +51,48 @@ describe("Prose", () => {
     );
     expect(container.childElementCount).toBe(1);
     expect(container.firstElementChild!.tagName).toBe("DIV");
+  });
+});
+
+describe("autoProse", () => {
+  it("Wraps string child with <Prose>", () => {
+    const original = "Test";
+    const wrapped: any = autoProse(original);
+    expect(wrapped.type).toBe(Prose);
+    expect(wrapped.props.children).toBe(original);
+  });
+
+  it("Wraps prose-safe element child with <Prose>", () => {
+    const original = <i>Test</i>;
+    const wrapped: any = autoProse(original);
+    expect(wrapped.type).toBe(Prose);
+    expect(wrapped.props.children).toBe(original);
+  });
+
+  it("Wraps string and prose-safe children with <Prose>", () => {
+    const original = (
+      <>
+        <strong>Test 1</strong> Test 2 {3} {false} {true} {undefined} {null}
+      </>
+    ).props.children;
+    const wrapped: any = autoProse(original);
+    expect(wrapped.type).toBe(Prose);
+    expect(wrapped.props.children).toBe(original);
+  });
+
+  it("Does not wrap <Prose> with <Prose>", () => {
+    const original = <Prose>Test</Prose>;
+    const wrapped: any = autoProse(original);
+    expect(wrapped).toBe(original);
+  });
+
+  it("Does not wrap mix of prose-safe and unsafe children with <Prose>", () => {
+    const original = (
+      <>
+        <strong>Test 1</strong> Test 2 <SomeComponent /> Test 4
+      </>
+    ).props.children;
+    const wrapped: any = autoProse(original);
+    expect(wrapped).toBe(original);
   });
 });
