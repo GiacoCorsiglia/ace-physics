@@ -1,6 +1,4 @@
 import { Content } from "@/components";
-import styles from "@/design/structure.module.scss";
-import { cx } from "@/helpers/frontend";
 import { Model } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
@@ -33,7 +31,7 @@ export default tracked(function PretestSection(
   return (
     <Content
       as="section"
-      className={cx(styles.section, enumerate && styles.enumerated)}
+      // className={cx(styles.section, enumerate && styles.enumerated)}
     >
       {body}
     </Content>

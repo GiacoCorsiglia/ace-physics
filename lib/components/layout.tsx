@@ -26,12 +26,19 @@ export const SectionGroup = styled.div(
   styles.vertical100
 );
 
-export const Section = styled.section(
+export const Section = styled.section<{
+  first?: boolean;
+  animateIn?: boolean;
+  enumerate?: boolean;
+}>(({ first, animateIn, enumerate }) => [
   styles.section,
   styles.content,
   styles.contentWidth,
-  styles.vertical100
-);
+  styles.vertical100,
+  first && styles.sectionFirst,
+  animateIn && styles.sectionAnimateIn,
+  enumerate && styles.sectionEnumerated,
+]);
 
 export const Vertical = styled.div<{
   space?: VerticalSpacing;

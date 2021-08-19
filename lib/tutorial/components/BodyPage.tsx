@@ -7,9 +7,8 @@ import {
   Prose,
   TextBox,
 } from "@/components";
-import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
-import { cx, Html, htmlTitle, useScrollIntoView } from "@/helpers/frontend";
+import { Html, htmlTitle, useScrollIntoView } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import {
   ArrowDownIcon,
@@ -79,20 +78,19 @@ export default function BodyPage({
         </h1>
 
         {isFirstPage && (
-          <Callout color="blue">
-            <div className={styles.noticeContainer}>
-              <CommentDiscussionIcon size="large" />
-
-              <Prose>
-                {tutorialConfig.pretest ? "From now on, we" : "We"} encourage
-                you to{" "}
-                <strong>
-                  discuss all of your answers with your peers immediately before
-                  moving on
-                </strong>{" "}
-                (if you’re working with a group today).
-              </Prose>
-            </div>
+          <Callout
+            color="blue"
+            iconLeft={<CommentDiscussionIcon size="large" />}
+          >
+            <Prose>
+              {tutorialConfig.pretest ? "From now on, we" : "We"} encourage you
+              to{" "}
+              <strong>
+                discuss all of your answers with your peers immediately before
+                moving on
+              </strong>{" "}
+              (if you’re working with a group today).
+            </Prose>
           </Callout>
         )}
 
@@ -165,11 +163,11 @@ function ContinueToNextPage({
   return (
     <Content
       as="section"
-      className={cx(
-        styles.section,
-        styles.sectionAnimateIn,
-        styles.noSectionLabel
-      )}
+      // className={cx(
+      //   styles.section,
+      //   styles.sectionAnimateIn,
+      //   styles.noSectionLabel
+      // )}
       ref={scrollRef}
     >
       <Prose>
@@ -261,10 +259,10 @@ const RevealAnswersSection = ({
   return (
     <Content
       as="section"
-      className={cx(
-        styles.section,
-        !globalParams.showAllSections && styles.sectionAnimateIn
-      )}
+      // className={cx(
+      //   styles.section,
+      //   !globalParams.showAllSections && styles.sectionAnimateIn
+      // )}
       ref={scrollRef}
     >
       {showPrompt && (

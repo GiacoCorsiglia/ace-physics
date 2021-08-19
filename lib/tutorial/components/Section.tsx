@@ -1,8 +1,8 @@
-import { Button, Content } from "@/components";
+import { Button, Content, Section as LayoutSection } from "@/components";
 import { Help } from "@/design";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
-import { cx, useScrollIntoView } from "@/helpers/frontend";
+import { useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
 import { SectionConfig } from "../config";
@@ -77,13 +77,10 @@ export default tracked(function Section(
       : config.enumerate;
 
   return (
-    <section
-      className={cx(
-        styles.section,
-        first && styles.sectionFirst,
-        !first && !globalParams.showAllSections && styles.sectionAnimateIn,
-        enumerate && styles.sectionEnumerated
-      )}
+    <LayoutSection
+      first={first}
+      animateIn={!first && !globalParams.showAllSections}
+      enumerate={enumerate}
       ref={scrollRef}
     >
       {enumerate && <Content className={styles.enumerated} />}
@@ -128,7 +125,7 @@ export default tracked(function Section(
           Please respond to every question before moving on.
         </p>
       </Content>
-    </section>
+    </LayoutSection>
   );
 });
 
