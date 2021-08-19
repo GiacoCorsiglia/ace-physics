@@ -1,4 +1,4 @@
-import { cx, styled } from "@/helpers/frontend";
+import { cx, Html, styled } from "@/helpers/frontend";
 import { Children, forwardRef } from "react";
 import styles from "./typography.module.scss";
 
@@ -13,6 +13,16 @@ const blockLevelElements = new Set([
   "ol",
   "blockquote",
   "p",
+]);
+
+const proseSafeElements = new Set([
+  ...blockLevelElements,
+  "strong",
+  "em",
+  "i",
+  "b",
+  "a",
+  "img",
 ]);
 
 type ProseProps = {
@@ -65,6 +75,16 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
     );
   }
 );
+
+export const autoProse = (children: Html) => {
+  let wrapInProse = true;
+  Children.forEach(children, (child) => {
+    if (wrapInProse && child && !proseSafeElements.has((child as any).type)) {
+      wrapInProse = false;
+    }
+  });
+  return wrapInProse ? <Prose>{children}</Prose> : children;
+};
 
 export const PageTitle = styled.h1(styles.pageTitle);
 

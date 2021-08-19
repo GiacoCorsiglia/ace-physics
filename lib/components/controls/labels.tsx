@@ -1,7 +1,8 @@
 import { styled } from "@/helpers/frontend";
+import { autoProse } from "../typography";
 import styles from "./labels.module.scss";
 
-export const ControlLabel = styled.label(styles.controlLabel);
+export const ControlLabel = styled.label(styles.controlLabel, autoProse);
 interface AlignProp {
   align?: "start" | "center" | "end";
 }

@@ -1,6 +1,7 @@
 import { cx, Html } from "@/helpers/frontend";
 import { forwardRef } from "react";
 import styles from "./callouts.module.scss";
+import { autoProse } from "./typography";
 
 export const Callout = forwardRef<
   HTMLDivElement,
@@ -34,7 +35,7 @@ export const Callout = forwardRef<
       {iconLeft && <div className={styles.iconContainer}>{iconLeft}</div>}
       <div className={styles.content}>
         {title && <p className={styles.calloutTitle}>{title}</p>}
-        {children}
+        {autoProse(children)}
       </div>
       {iconRight && <div className={styles.iconContainer}>{iconRight}</div>}
     </As>
