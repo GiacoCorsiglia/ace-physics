@@ -4,6 +4,8 @@ import {
   Button,
   Callout,
   Content,
+  Horizontal,
+  PageTitle,
   Prose,
   TextBox,
 } from "@/components";
@@ -72,39 +74,45 @@ export default function BodyPage({
         </title>
       </Head>
 
-      <Content as="section">
-        <h1 className="prose">
-          {typeof config.label === "string" ? config.label : config.label.html}
-        </h1>
+      <SectionTree
+        sections={config.sections}
+        complete={complete}
+        prepend={
+          <>
+            <PageTitle>
+              {typeof config.label === "string"
+                ? config.label
+                : config.label.html}
+            </PageTitle>
 
-        {isFirstPage && (
-          <Callout
-            color="blue"
-            iconLeft={<CommentDiscussionIcon size="large" />}
-          >
-            <Prose>
-              {tutorialConfig.pretest ? "From now on, we" : "We"} encourage you
-              to{" "}
-              <strong>
-                discuss all of your answers with your peers immediately before
-                moving on
-              </strong>{" "}
-              (if you’re working with a group today).
-            </Prose>
-          </Callout>
-        )}
+            {isFirstPage && (
+              <>
+                <hr />
+                <Callout
+                  color="blue"
+                  iconLeft={<CommentDiscussionIcon size="large" />}
+                >
+                  {tutorialConfig.pretest ? "From now on, we" : "We"} encourage
+                  you to{" "}
+                  <strong>
+                    discuss all of your answers with your peers immediately
+                    before moving on
+                  </strong>{" "}
+                  (if you’re working with a group today).
+                </Callout>
+                <hr />
+              </>
+            )}
 
-        {answersRevealed && (
-          <Answer>
-            <Prose>
-              Scroll down to see our answers to the questions below. They’ll be
-              in boxes like this one.
-            </Prose>
-          </Answer>
-        )}
-      </Content>
-
-      <SectionTree sections={config.sections} complete={complete} />
+            {answersRevealed && (
+              <Answer>
+                Scroll down to see our answers to the questions below. They’ll
+                be in boxes like this one.
+              </Answer>
+            )}
+          </>
+        }
+      />
 
       {config.answers === "provided" && (
         <RevealAnswersSection config={config} complete={complete} />
@@ -170,7 +178,7 @@ function ContinueToNextPage({
       // )}
       ref={scrollRef}
     >
-      <Prose>
+      <Prose boldColor="blue">
         Nice job finishing this page!{" "}
         {(() => {
           switch (config.answers) {
@@ -178,19 +186,15 @@ function ContinueToNextPage({
             case "none":
               return (
                 <>
-                  <strong className="text-blue">
-                    We haven't checked any of your answers,
-                  </strong>{" "}
-                  so you may want to check in with an instructor.
+                  <strong>We haven't checked any of your answers,</strong> so
+                  you may want to check in with an instructor.
                 </>
               );
             case "checked-some":
               return (
                 <>
-                  <strong className="text-blue">
-                    We only checked some of your answers,
-                  </strong>{" "}
-                  so you may want to check in with an instructor.
+                  <strong>We only checked some of your answers,</strong> so you
+                  may want to check in with an instructor.
                 </>
               );
             case "checked-all":
@@ -204,7 +208,7 @@ function ContinueToNextPage({
             case "provided":
               return (
                 <>
-                  <strong className="text-blue">
+                  <strong>
                     Learning doesn’t stop once you’ve seen the answers.
                   </strong>{" "}
                   We encourage you to keep thinking about these ideas, and to
@@ -218,11 +222,11 @@ function ContinueToNextPage({
       {showWhenComplete ? (
         showWhenComplete
       ) : (
-        <div className="text-right">
+        <Horizontal justify="end">
           <Button color="green" link={fullLink}>
             Move on to the next page <ArrowRightIcon />
           </Button>
-        </div>
+        </Horizontal>
       )}
     </Content>
   );

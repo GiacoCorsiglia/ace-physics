@@ -1,8 +1,7 @@
-import { Button, Content, Section as LayoutSection } from "@/components";
-import { Help } from "@/design";
+import { Button, Callout, Section as LayoutSection } from "@/components";
 import styles from "@/design/structure.module.scss";
 import * as globalParams from "@/global-params";
-import { useScrollIntoView } from "@/helpers/frontend";
+import { Html, useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
 import { SectionConfig } from "../config";
@@ -13,11 +12,13 @@ export default tracked(function Section(
   {
     config,
     first,
+    prepend,
     enumerateDefault,
     commit,
   }: {
     config: SectionConfig;
     first: boolean;
+    prepend?: Html;
     enumerateDefault: boolean;
     commit: CommitAction;
   },
@@ -46,9 +47,9 @@ export default tracked(function Section(
           state.hints?.[name]?.status === "revealed" && body !== "disable"
       )
       .map(({ name, body }) => (
-        <Help key={name}>
+        <Callout color="yellow" key={name}>
           {body instanceof Function ? body(modelsTracker.proxy, state) : body}
-        </Help>
+        </Callout>
       ));
 
   // End tracking accessed models.
@@ -83,48 +84,40 @@ export default tracked(function Section(
       enumerate={enumerate}
       ref={scrollRef}
     >
-      {enumerate && <Content className={styles.enumerated} />}
+      {/* {enumerate && <Content className={styles.enumerated} />} */}
 
-      {globalParams.showAllSections && (
-        <Content className={styles.sectionDevNoticeContainer}>
-          {isMarkedVisible(state, config) ? (
+      {
+        globalParams.showAllSections &&
+          // <Content className={styles.sectionDevNoticeContainer}>
+          (isMarkedVisible(state, config) ? (
             <EyeIcon className={styles.sectionDevNoticeVisible} />
           ) : (
             <EyeClosedIcon className={styles.sectionDevNoticeHidden} />
-          )}
-        </Content>
-      )}
+          )) // </Content>
+      }
 
-      <Content>
-        {bodyHtml}
+      {prepend}
 
-        <div className="margin-top">{revealedHintsHtml}</div>
-      </Content>
+      {/* <Content> */}
+      {bodyHtml}
 
-      <Content>
-        <div className={styles.continue}>
-          {isContinueVisible && status !== "committed" && (
-            <Button
-              color="green"
-              className={styles.button}
-              disabled={!isComplete}
-              onClick={() => commit(config)}
-            >
-              {continueLabelHtml || "Move on"} <ArrowDownIcon />
-            </Button>
-          )}
+      <div className="margin-top">{revealedHintsHtml}</div>
 
-          <SectionHintButtons config={config} />
-        </div>
+      <div className={styles.continue}>
+        {isContinueVisible && status !== "committed" && (
+          <Button
+            color="green"
+            className={styles.button}
+            disabled={!isComplete}
+            disabledExplanation="Please respond to every question before moving on."
+            onClick={() => commit(config)}
+          >
+            {continueLabelHtml || "Move on"} <ArrowDownIcon />
+          </Button>
+        )}
 
-        <p
-          className={styles.continueNotAllowedMessage}
-          // Use visibility so the layout doesn't jump around.
-          style={{ visibility: isComplete ? "hidden" : "visible" }}
-        >
-          Please respond to every question before moving on.
-        </p>
-      </Content>
+        <SectionHintButtons config={config} />
+      </div>
     </LayoutSection>
   );
 });

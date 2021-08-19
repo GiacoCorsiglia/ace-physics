@@ -1,5 +1,5 @@
 import * as globalParams from "@/global-params";
-import React from "react";
+import { Html } from "@/helpers/frontend";
 import { SequenceConfig } from "../config";
 import { CommitAction, isMarkedVisible, nodeKey } from "../section-logic";
 import { useTracked } from "../state-tree";
@@ -8,11 +8,13 @@ import SectionTreeNode from "./SectionTreeNode";
 export default function Sequence({
   config,
   first,
+  prepend,
   enumerateSections,
   commit,
 }: {
   config: SequenceConfig;
   first: boolean;
+  prepend?: Html;
   enumerateSections: boolean;
   commit: CommitAction;
 }) {
@@ -27,6 +29,7 @@ export default function Sequence({
       key={nodeKey(node)}
       node={node}
       first={first && i === 0}
+      prepend={first && i === 0 ? prepend : undefined}
       enumerateSections={enumerateSections}
       commit={commit}
     />

@@ -1,3 +1,4 @@
+import { Html } from "@/helpers/frontend";
 import { Setter } from "@/reactivity";
 import { TutorialState } from "@/schema/tutorial";
 import { useCallback, useEffect, useMemo } from "react";
@@ -9,9 +10,11 @@ import Sequence from "./Sequence";
 export default function SectionTree({
   sections,
   complete,
+  prepend,
 }: {
   sections: readonly NodeConfig[];
   complete: () => void;
+  prepend?: Html;
 }) {
   const store = useStore();
 
@@ -54,6 +57,7 @@ export default function SectionTree({
     <Sequence
       config={rootSequence}
       first={true}
+      prepend={prepend}
       enumerateSections={true}
       commit={commit}
     />
