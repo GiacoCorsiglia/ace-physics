@@ -12,8 +12,10 @@ const {
 } = process.env;
 process.env.SENTRY_DSN = SENTRY_DSN;
 
-const withPlugins = (plugins, config) => (...args) =>
-  plugins.reduce((c, plugin) => plugin(c), config(...args));
+const withPlugins =
+  (plugins, config) =>
+  (...args) =>
+    plugins.reduce((c, plugin) => plugin(c), config(...args));
 
 module.exports = withPlugins([require("next-images")], (phase) => ({
   // Only create routes for those files in the `pages` directory that end with
@@ -31,6 +33,11 @@ module.exports = withPlugins([require("next-images")], (phase) => ({
       path.join(__dirname, "lib/design"),
       path.join(__dirname, "lib/design/css"),
     ],
+  },
+
+  images: {
+    // TODO: Consider switching to built-in next.js image handling.
+    disableStaticImages: true,
   },
 
   // For Sentry.
