@@ -38,7 +38,7 @@ export const ChoiceAnswer = <C extends string, M extends boolean>({
   selected: (M extends true ? readonly C[] : C) | undefined;
   other: string | number | undefined;
   choices: ChoicesConfigUnion<C>;
-  answer?: M extends true ? C[] : C;
+  answer?: M extends true ? readonly C[] : C;
   explanation?: React.ReactNode;
 }) => {
   if (!answer) {
