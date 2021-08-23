@@ -6,6 +6,7 @@ import {
   useUniqueId,
 } from "@/helpers/frontend";
 import { useRef } from "react";
+import { autoProse } from "../typography";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
 import styles from "./choose.module.scss";
 import { useDisabled } from "./disabled";
@@ -175,7 +176,7 @@ export const ChooseControl = <
               />
             </ChoiceRadioBox>
 
-            <ChoiceLabel>{choiceLabel}</ChoiceLabel>
+            <ChoiceLabel>{autoProse(choiceLabel)}</ChoiceLabel>
           </Choice>
         ))}
 

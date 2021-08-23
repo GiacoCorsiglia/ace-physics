@@ -8,6 +8,7 @@ import {
 import { ChevronDownIcon } from "@primer/octicons-react";
 import { useSelect } from "downshift";
 import { useRef, useState } from "react";
+import { autoProse } from "../typography";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
 import { useDisabled } from "./disabled";
 import styles from "./dropdown.module.scss";
@@ -143,12 +144,14 @@ export const DropdownControl = <C,>({
         >
           {!selectedChoice && (
             <span className={styles.placeholder}>
-              {placeholder ?? "Select…"}
+              {autoProse(placeholder) ?? "Select…"}
             </span>
           )}
 
           {selectedChoice && (
-            <span className={styles.selectedLabel}>{selectedChoice[1]}</span>
+            <span className={styles.selectedLabel}>
+              {autoProse(selectedChoice[1])}
+            </span>
           )}
 
           <div className={styles.buttonIconContainer}>
@@ -186,7 +189,7 @@ export const DropdownControl = <C,>({
                 ),
                 disabled,
               });
-              return <li {...props}>{choiceLabel}</li>;
+              return <li {...props}>{autoProse(choiceLabel)}</li>;
             })}
         </ul>
       </div>

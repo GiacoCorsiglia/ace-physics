@@ -1,4 +1,5 @@
 import { cx, Html, useUniqueId } from "@/helpers/frontend";
+import { autoProse } from "../typography";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
 import { useDisabled } from "./disabled";
 import { ControlLabel } from "./labels";
@@ -81,7 +82,7 @@ export const ToggleControl = <C,>({
                   })
                 }
               />
-              {choiceLabel}
+              {autoProse(choiceLabel)}
             </label>
           ))}
         </div>
