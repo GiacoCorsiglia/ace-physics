@@ -3,15 +3,18 @@ import { forwardRef } from "react";
 import styles from "./callouts.module.scss";
 import { autoProse } from "./typography";
 
+type CalloutProps = {
+  title?: Html;
+  iconLeft?: Html;
+  iconRight?: Html;
+} & Omit<JSX.IntrinsicElements["aside"], "title" | "color" | "ref">;
+
 export const Callout = forwardRef<
   HTMLDivElement,
   {
     color: "green" | "blue" | "yellow" | "red" | "neutral";
-    title?: Html;
     as?: keyof JSX.IntrinsicElements;
-    iconLeft?: Html;
-    iconRight?: Html;
-  } & Omit<JSX.IntrinsicElements["aside"], "title">
+  } & CalloutProps
 >(function Callout(
   { as = "aside", color, children, title, iconLeft, iconRight, ...props },
   ref
@@ -43,9 +46,25 @@ export const Callout = forwardRef<
 });
 
 // Semantic versions.
-// export const Info = BlueCallout;
-// export const Hint = YellowCallout;
-// export const Agree = GreenCallout;
-// export const Disagree = RedCallout;
 
-// export const Reminder =
+export const Reminder = ({ ...props }: CalloutProps) => (
+  <Callout color="neutral" title="Reminder" {...props} />
+);
+
+export const Guidance = {
+  Agree: ({ ...props }: CalloutProps) => <Callout color="green" {...props} />,
+  Disagree: ({ ...props }: CalloutProps) => <Callout color="red" {...props} />,
+  HeadsUp: ({ ...props }: CalloutProps) => <Callout color="blue" {...props} />,
+  Hint: ({ ...props }: CalloutProps) => <Callout color="yellow" {...props} />,
+  Dynamic: ({
+    status,
+    ...props
+  }: { status: "agree" | "disagree" | "headsUp" } & CalloutProps) => (
+    <Callout
+      color={
+        status === "agree" ? "green" : status === "disagree" ? "red" : "blue"
+      }
+      {...props}
+    />
+  ),
+} as const;
