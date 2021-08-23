@@ -1,7 +1,5 @@
-import { Help, Info, Prose } from "@/design";
+import { ChooseOne, Decimal, Guidance, M, Prose, Table } from "@/components";
 import { cx, deepEqual } from "@/helpers/frontend";
-import { ChooseOne, Decimal } from "@/inputs";
-import M from "@/math";
 import { page } from "@/tutorial";
 import xzImg from "./assets/x-z.png";
 import zxImg from "./assets/z-x.png";
@@ -102,7 +100,6 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             ],
             ["none", "None of the above"],
           ]}
-          allowOther={false}
         />
       ),
     }),
@@ -124,41 +121,33 @@ export default page(setup, ({ section, hint, oneOf }) => ({
         setupForUpZDownXIncorrect: section({
           name: "setupForUpZDownXIncorrect",
           body: (
-            <Info>
-              <Prose>
-                We think one of those two choices will work. Take another look,
-                or discuss with an instructor before moving on.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              We think one of those two choices will work. Take another look, or
+              discuss with an instructor before moving on.
+            </Guidance.Disagree>
           ),
         }),
         setupForUpZDownXReversed: section({
           name: "setupForUpZDownXReversed",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  Your goal is to determine <M t="|\braket{+|+}_x|^2" />. The
-                  template formula we use for probabilities is
-                  <M t="P = |\braket{\text{out}|\text{in}}|^2" />.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Your goal is to determine <M t="|\braket{+|+}_x|^2" />. The
+                template formula we use for probabilities is
+                <M t="P = |\braket{\text{out}|\text{in}}|^2" />.
+              </p>
 
-                <p>
-                  In this setup, which analyzer should come last: the one
-                  corresponding with <M t="\ket{\text{in}}" />, or the one
-                  corresponding with <M t="\ket{\text{out}}" />?
-                </p>
-              </Prose>
-            </Info>
+              <p>
+                In this setup, which analyzer should come last: the one
+                corresponding with <M t="\ket{\text{in}}" />, or the one
+                corresponding with <M t="\ket{\text{out}}" />?
+              </p>
+            </Guidance.Disagree>
           ),
         }),
         setupForUpZDownXCorrect: section({
           name: "setupForUpZDownXCorrect",
-          body: (
-            <Help>
-              <Prose>Excellent, looks good to us!</Prose>
-            </Help>
-          ),
+          body: <Guidance.Agree>Excellent, looks good to us!</Guidance.Agree>,
         }),
       },
     }),
@@ -217,7 +206,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
               </p>
             </Prose>
 
-            <table className="table">
+            <Table>
               <thead>
                 <tr>
                   <td>
@@ -258,7 +247,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
           </>
         );
       },
@@ -283,18 +272,15 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       body: (m, { responses }) => (
         <>
           {deepEqual(responses?.outInTable, correctTable) ? (
-            <Help>Excellent work!</Help>
+            <Guidance.Agree>Excellent work!</Guidance.Agree>
           ) : (
-            <Info>
-              <Prose>
-                <p>
-                  Heads up, there’s at least one mistake somewhere in your
-                  table.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Heads up, there’s at least one mistake somewhere in your table.
+              </p>
 
-                <p>This message will update when your table is 100% correct.</p>
-              </Prose>
-            </Info>
+              <p>This message will update when your table is 100% correct.</p>
+            </Guidance.Disagree>
           )}
         </>
       ),

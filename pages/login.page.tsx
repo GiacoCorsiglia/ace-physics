@@ -1,11 +1,18 @@
 import { formatId, rememberedLearnerId, unformatId, useAuth } from "@/auth";
 import styles from "@/auth/account.module.scss";
-import { Button, Content, Page, Prose, TextInputControl } from "@/components";
+import {
+  Button,
+  Callout,
+  Content,
+  Page,
+  Prose,
+  TextInputControl,
+} from "@/components";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const inputPattern = /^\d{0,3}( |-|,)?\d{0,3}$/;
 const idPattern = /^\d{3}( |-|,)?\d{3}$/;
@@ -79,7 +86,9 @@ export default function Login() {
         <Prose>
           <h1>Welcome to ACEPhysics.net</h1>
 
-          {wasLoggedOut && <p className="success">You’ve been logged out.</p>}
+          {wasLoggedOut && (
+            <Callout color="green">You’ve been logged out.</Callout>
+          )}
 
           <p>Please sign in using your six-digit account code.</p>
         </Prose>
@@ -144,14 +153,14 @@ export default function Login() {
         </form>
 
         {status === "not-found" && (
-          <p className="error">
+          <Callout color="red">
             Sorry, there isn’t any account associated with that code. Please try
             again.
-          </p>
+          </Callout>
         )}
 
         {status === "error" && (
-          <p className="error">Sorry, something went wrong.</p>
+          <Callout color="red">Sorry, something went wrong.</Callout>
         )}
 
         <Prose>

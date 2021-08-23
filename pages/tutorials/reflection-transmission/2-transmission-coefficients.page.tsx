@@ -1,10 +1,5 @@
-import { Prose } from "@/design";
-import { cx } from "@/helpers/frontend";
-import { TextArea } from "@/inputs";
-import inputStyles from "@/inputs/inputs.module.scss";
-import M from "@/math";
+import { Button, Horizontal, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
-import { LinkExternalIcon } from "@primer/octicons-react";
 import React from "react";
 import simSetupImg from "./assets/sim-setup.png";
 import { StepPotential } from "./figures";
@@ -38,7 +33,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "qualitativePredictionsForT",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.qualitativePredictionsForT}
             label={
               <Prose>
@@ -70,17 +65,14 @@ export default page(setup, ({ section, hint }) => ({
             <p>Let’s explore this scenario using a PhET simulation.</p>
           </Prose>
 
-          <div className="text-center margin-top-1">
-            <a
-              className={cx(inputStyles.secondary, inputStyles.iconLast)}
-              href="https://phet.colorado.edu/sims/cheerpj/quantum-tunneling/latest/quantum-tunneling.html?simulation=quantum-tunneling"
-              target="_blank"
-              rel="noreferrer noopener"
+          <Horizontal justify="center">
+            <Button
+              link="https://phet.colorado.edu/sims/cheerpj/quantum-tunneling/latest/quantum-tunneling.html?simulation=quantum-tunneling"
+              color="blue"
             >
               Open the “Quantum Tunneling” sim
-              <LinkExternalIcon />
-            </a>
-          </div>
+            </Button>
+          </Horizontal>
 
           <Prose>
             <p>Take some time to familiarize yourself with all the controls.</p>
@@ -120,7 +112,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.simPatterns}
             label={
               <Prose>
@@ -146,7 +138,7 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "comparePredictionsWithSim",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.comparePredictionsWithSim}
           label={
             <Prose>

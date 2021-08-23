@@ -87,7 +87,7 @@ export default tutorialSetup({
 });
 `;
 
-const introPage = () => `import { Prose } from "@/design";
+const introPage = () => `import { Prose } from "@/components";
 import { intro } from "@/tutorial";
 import setup from "./setup";
 

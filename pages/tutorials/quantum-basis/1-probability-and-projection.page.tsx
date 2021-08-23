@@ -1,11 +1,19 @@
-import { Prose, Reminder, Vocabulary } from "@/design";
-import { Column, Columns, Flex } from "@/design/layout";
-import { ChooseAll, Select, TextArea } from "@/inputs";
-import M from "@/math";
+import {
+  ChooseAll,
+  Column,
+  Columns,
+  Dropdown,
+  Horizontal,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  Vocabulary,
+} from "@/components";
 import { Axes, Bar, Plot, Tick, WithPlot } from "@/plots";
 import { page } from "@/tutorial";
-import React from "react";
 import setup, { ResponseModels, Responses } from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section }) => ({
   name: "probabilityAndProjection",
@@ -160,7 +168,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "relationshipProbAmp",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.relationshipProbAmp}
           label={
             <Prose>
@@ -243,20 +251,6 @@ function Histogram({ pm }: { pm: Responses["probability"] }) {
   );
 }
 
-function selectStyles(borderColor: string, hoverBorderColor: string) {
-  return {
-    control: (styles: any) => ({
-      ...styles,
-      borderColor: borderColor,
-      "&:hover": {
-        borderColor: hoverBorderColor,
-      },
-    }),
-  };
-}
-const minusSelectStyles = selectStyles("green", "darkgreen");
-const plusSelectStyles = selectStyles("violet", "darkviolet");
-
 type PlusMinusModel = ResponseModels["probability"];
 
 function HistogramHeightControl({ pm }: { pm: PlusMinusModel }) {
@@ -272,26 +266,21 @@ function HistogramHeightControl({ pm }: { pm: PlusMinusModel }) {
   ] as const;
 
   return (
-    <Flex className="margin-top-1">
-      <Select
+    <Horizontal>
+      <Dropdown
         model={pm.properties.minusHeight}
         choices={heightChoices}
-        allowOther={false}
         placeholder="Height…"
-        styles={minusSelectStyles}
-        // Disable clearing so there's more room in the select.
-        isClearable={false}
+        className={styles.minusSelect}
       />
 
-      <Select
+      <Dropdown
         model={pm.properties.plusHeight}
         choices={heightChoices}
-        allowOther={false}
         placeholder="Height…"
-        styles={plusSelectStyles}
-        isClearable={false}
+        className={styles.plusSelect}
       />
-    </Flex>
+    </Horizontal>
   );
 }
 
@@ -306,24 +295,20 @@ function HistogramLabelControl({ pm }: { pm: PlusMinusModel }) {
   ] as const;
 
   return (
-    <Flex className="margin-top-1">
-      <Select
+    <Horizontal>
+      <Dropdown
         model={pm.properties.minusLabel}
         choices={labelChoices}
-        allowOther={false}
         placeholder="Label…"
-        styles={minusSelectStyles}
-        isClearable={false}
+        className={styles.minusSelect}
       />
 
-      <Select
+      <Dropdown
         model={pm.properties.plusLabel}
         choices={labelChoices}
-        allowOther={false}
         placeholder="Label…"
-        styles={plusSelectStyles}
-        isClearable={false}
+        className={styles.plusSelect}
       />
-    </Flex>
+    </Horizontal>
   );
 }

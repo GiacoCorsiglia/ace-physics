@@ -25,10 +25,16 @@ export default tutorialSchema({
     "timeEvolution",
   ],
   pretest: {
-    firstExcitedProbRightHalfChanges: f.chooseOne(["true", "false"]),
-    firstExcitedProbE2Changes: f.chooseOne(["true", "false"]),
-    superpositionProbRightHalfChanges: f.chooseOne(["true", "false"]),
-    superpositionProbE2Changes: f.chooseOne(["true", "false"]),
+    firstExcitedProbRightHalfChanges: f.chooseOne(
+      ["true", "false"],
+      f.string()
+    ),
+    firstExcitedProbE2Changes: f.chooseOne(["true", "false"], f.string()),
+    superpositionProbRightHalfChanges: f.chooseOne(
+      ["true", "false"],
+      f.string()
+    ),
+    superpositionProbE2Changes: f.chooseOne(["true", "false"], f.string()),
   },
   sections: [
     "timeEvolutionInfiniteSquareWellPotentialIntro",

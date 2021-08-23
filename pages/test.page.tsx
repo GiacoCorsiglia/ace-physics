@@ -19,7 +19,7 @@ import {
   Vertical,
 } from "@/components";
 import { AlertIcon, ArrowDownIcon } from "@primer/octicons-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function TestPage() {
   const [selected, setSelected] = useState<"a" | "b">();

@@ -1,8 +1,14 @@
-import { Help, Prose, Reminder } from "@/design";
-import { ChooseOne, Select, TextArea, Toggle } from "@/inputs";
-import M from "@/math/M";
+import {
+  ChooseOne,
+  Dropdown,
+  Guidance,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, sequence, hint }) => ({
@@ -80,7 +86,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.moodStartAmbiguity}
             label={
               <Prose>
@@ -108,7 +114,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
       name: "smallEyeProb",
       body: (m) => (
         <>
-          <Select
+          <Dropdown
             model={m.smallEyeProb}
             choices={[
               ["0", <M t="0" />],
@@ -131,7 +137,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.smallEyeProbExplain}
             label={<Prose>Explain your thoughts:</Prose>}
           />
@@ -188,7 +194,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
             </ol>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.finalMood}
             label={
               <Prose>
@@ -250,7 +256,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
                 choices={[
                   [
                     "classical student",
-                    <Prose noMargin>
+                    <Prose>
                       <strong>Student A:</strong>
                       <br />
                       <em>
@@ -264,7 +270,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
                   ],
                   [
                     "quantum student",
-                    <Prose noMargin>
+                    <Prose>
                       <strong>Student B:</strong>
                       <br />
                       <em>
@@ -277,7 +283,6 @@ export default page(setup, ({ section, sequence, hint }) => ({
                     </Prose>,
                   ],
                 ]}
-                allowOther={false}
                 label={
                   <Prose>
                     Consider two other students’ ideas. With whom do you agree
@@ -294,20 +299,18 @@ export default page(setup, ({ section, sequence, hint }) => ({
           when: (r) =>
             r.finalMoodOtherStudents?.selected === "classical student",
           body: (m) => (
-            <Help>
-              <Prose>
-                <p>Student B is more on the right track.</p>
+            <Guidance.Disagree>
+              <p>Student B is more on the right track.</p>
 
-                <p>
-                  Measuring the mouse’s eye size destroys the information about
-                  its mood. After measuring eye size, we can no longer be
-                  certain that the mouse is “unhappy.” Eye size and mood are
-                  examples of “incompatible” quantum observables.
-                </p>
+              <p>
+                Measuring the mouse’s eye size destroys the information about
+                its mood. After measuring eye size, we can no longer be certain
+                that the mouse is “unhappy.” Eye size and mood are examples of
+                “incompatible” quantum observables.
+              </p>
 
-                <p>It’s understandable if you find this unexpected!</p>
-              </Prose>
-            </Help>
+              <p>It’s understandable if you find this unexpected!</p>
+            </Guidance.Disagree>
           ),
         }),
       ],
@@ -316,7 +319,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
     section({
       name: "surpriseResults",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.surpriseResults}
           label={
             <Prose>
@@ -359,7 +362,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
             label={<Prose>Do you agree with your friend’s statement?</Prose>}
           />
 
-          <TextArea
+          <TextBox
             model={m.thinkingDeeperExplain}
             label={<Prose>Why or why not?</Prose>}
           />

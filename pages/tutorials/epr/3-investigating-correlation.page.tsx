@@ -1,6 +1,4 @@
-import { Prose } from "@/design";
-import { ChooseAll, ChooseOne } from "@/inputs";
-import M from "@/math";
+import { ChooseAll, ChooseOne, M, Prose } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 

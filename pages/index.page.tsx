@@ -1,10 +1,8 @@
 import { UserMenu } from "@/auth";
-import { Button, Content, Prose } from "@/components";
-import { Header, Page } from "@/design/layout";
+import { Button, Content, Header, Page, Prose } from "@/components";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
-import React from "react";
 
 export default function Index() {
   return (

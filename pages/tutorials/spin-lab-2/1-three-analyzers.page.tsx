@@ -1,13 +1,15 @@
-import { Prose, Reminder } from "@/design";
 import {
   ChooseAll,
-  FieldGroup,
+  Dropdown,
   Integer,
-  Select,
-  TextArea,
+  LabelsLeft,
+  M,
+  Prose,
+  Reminder,
+  Table,
+  TextBox,
   Toggle,
-} from "@/inputs";
-import M from "@/math/M";
+} from "@/components";
 import { page } from "@/tutorial";
 import threeAnalyzersImg from "./assets/three-analyzers.png";
 import setup from "./setup";
@@ -51,7 +53,7 @@ export default page(setup, ({ section, hint }) => ({
             Detector A? Detector B?
           </Prose>
 
-          <table className="table">
+          <Table>
             <thead>
               <tr>
                 <td></td>
@@ -80,7 +82,7 @@ export default page(setup, ({ section, hint }) => ({
                 </td>
               </tr>
             </tbody>
-          </table>
+          </Table>
         </>
       ),
     }),
@@ -95,22 +97,20 @@ export default page(setup, ({ section, hint }) => ({
             .
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Select
+          <LabelsLeft>
+            <Dropdown
               model={m.maxAi}
               label={<b className={styles.green}>Analyzer i:</b>}
               choices={analyzerChoices}
-              allowOther={false}
             />
-            <Select
+            <Dropdown
               model={m.maxAii}
               label={<b className={styles.blue}>Analyzer ii:</b>}
               choices={analyzerChoices}
-              allowOther={false}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <TextArea
+          <TextBox
             model={m.maxAExplain}
             label={<Prose>Explain why this combination works:</Prose>}
           />
@@ -137,7 +137,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <TextArea model={m.overMaxAExplain} label={<Prose>Explain:</Prose>} />
+          <TextBox model={m.overMaxAExplain} label={<Prose>Explain:</Prose>} />
         </>
       ),
     }),
@@ -156,7 +156,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <table className="table">
+          <Table>
             <thead>
               <tr>
                 <td></td>
@@ -170,54 +170,30 @@ export default page(setup, ({ section, hint }) => ({
               <tr>
                 <th className={styles.green}>Analyzer&nbsp;i</th>
                 <td>
-                  <Select
-                    model={m.minAi}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.minAi} choices={analyzerChoices} />
                 </td>
                 <td>
-                  <Select
-                    model={m.maxBi}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.maxBi} choices={analyzerChoices} />
                 </td>
                 <td>
-                  <Select
-                    model={m.minBi}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.minBi} choices={analyzerChoices} />
                 </td>
               </tr>
 
               <tr>
                 <th className={styles.blue}>Analyzer&nbsp;ii</th>
                 <td>
-                  <Select
-                    model={m.minAii}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.minAii} choices={analyzerChoices} />
                 </td>
                 <td>
-                  <Select
-                    model={m.maxBii}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.maxBii} choices={analyzerChoices} />
                 </td>
                 <td>
-                  <Select
-                    model={m.minBii}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.minBii} choices={analyzerChoices} />
                 </td>
               </tr>
             </tbody>
-          </table>
+          </Table>
 
           <Reminder>
             <Prose>
@@ -251,7 +227,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.moreThanOneComboExplain}
             label={<Prose>Explain:</Prose>}
           />
@@ -284,7 +260,6 @@ export default page(setup, ({ section, hint }) => ({
               ["+z", <M t="\ket{+}" />],
               ["-z", <M t="\ket{-}" />],
             ]}
-            allowOther={false}
           />
 
           <Reminder>
@@ -327,7 +302,6 @@ export default page(setup, ({ section, hint }) => ({
               </Prose>
             }
             choices={analyzerComboChoices}
-            allowOther={false}
           />
 
           <Reminder>
@@ -362,10 +336,9 @@ export default page(setup, ({ section, hint }) => ({
               </Prose>
             }
             choices={analyzerComboChoices}
-            allowOther={false}
           />
 
-          <TextArea
+          <TextBox
             model={m.setupsWhereABSameExplain}
             label={
               <Prose>Explain why these combinations produce this result:</Prose>

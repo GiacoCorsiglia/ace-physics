@@ -1,9 +1,6 @@
-import { Prose } from "@/design";
+import { Dropdown, LabelsLeft, M, Prose, TextBox } from "@/components";
 import { cx } from "@/helpers/frontend";
-import { FieldGroup, Select, TextArea } from "@/inputs";
-import M from "@/math/M";
 import { page } from "@/tutorial";
-import React from "react";
 import {
   BarrierPotential,
   TransmissionReflectionBarrier,
@@ -62,8 +59,8 @@ export default page(setup, ({ section }) => ({
             graph for each potential.
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Select
+          <LabelsLeft>
+            <Dropdown
               model={m.wellPotential}
               label={
                 <>
@@ -75,10 +72,9 @@ export default page(setup, ({ section }) => ({
                 ["T/R #1", "T/R #1"],
                 ["T/R #2", "T/R #2"],
               ]}
-              allowOther={false}
             />
 
-            <Select
+            <Dropdown
               model={m.barrierPotential}
               label={
                 <>
@@ -90,11 +86,10 @@ export default page(setup, ({ section }) => ({
                 ["T/R #1", "T/R #1"],
                 ["T/R #2", "T/R #2"],
               ]}
-              allowOther={false}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <TextArea
+          <TextBox
             model={m.graphMatchingExplain}
             label={<Prose>Explain your choices</Prose>}
           />
@@ -112,7 +107,7 @@ export default page(setup, ({ section }) => ({
 
           <BarrierPotential />
 
-          <TextArea
+          <TextBox
             model={m.changesInGeneralSolution}
             label={
               <Prose>
@@ -129,7 +124,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "physicalScenarios",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.physicalScenarios}
           label={
             <Prose>
@@ -144,7 +139,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "variationsInPhysicsFromSim",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.variationsInPhysicsFromSim}
           label={
             <Prose>

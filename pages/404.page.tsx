@@ -1,5 +1,5 @@
 import { UserMenu } from "@/auth";
-import { Content, Header, Page } from "@/design/layout";
+import { Content, Header, Page, Prose } from "@/components";
 import Link from "next/link";
 
 export default function Error404() {
@@ -9,14 +9,16 @@ export default function Error404() {
         <UserMenu />
       </Header>
 
-      <Content as="main" className="prose">
-        <h1>Not Found</h1>
+      <Content as="main">
+        <Prose>
+          <h1>Not Found</h1>
 
-        <p>Hey! The page you’re looking for doesn’t seem to exist.</p>
+          <p>Hey! The page you’re looking for doesn’t seem to exist.</p>
 
-        <p>
-          Maybe try the <Link href="/">homepage</Link>?
-        </p>
+          <p>
+            Maybe try the <Link href="/">homepage</Link>?
+          </p>
+        </Prose>
       </Content>
     </Page>
   );

@@ -1,9 +1,8 @@
-import { Button, Content, PageTitle, Prose } from "@/components";
+import { Button, Content, Horizontal, PageTitle, Prose } from "@/components";
 import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
-import React from "react";
 import { IntroConfig, TutorialConfig } from "../config";
 
 export default function IntroPage({
@@ -77,7 +76,7 @@ export default function IntroPage({
         </p>
       </Prose>
 
-      <div className="text-right margin-top">
+      <Horizontal justify="end">
         <Button
           color="green"
           link={urls.join(
@@ -90,7 +89,7 @@ export default function IntroPage({
         >
           Let’s get going <ArrowRightIcon />
         </Button>
-      </div>
+      </Horizontal>
     </Content>
   );
 }

@@ -91,7 +91,6 @@ function LoggedOut() {
       <Button
         color="green"
         link={`/login?next=${encodeURIComponent(router.asPath)}`}
-        className="margin-top"
       >
         Log in <ArrowRightIcon />
       </Button>

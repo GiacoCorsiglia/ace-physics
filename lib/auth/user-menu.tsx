@@ -1,4 +1,4 @@
-import { Button, HeaderPopover, Prose, Vertical } from "@/components";
+import { Button, Callout, HeaderPopover, Prose, Vertical } from "@/components";
 import { Login } from "@/urls";
 import { PersonIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
@@ -13,20 +13,18 @@ export const UserMenu = () => {
     <HeaderPopover icon={<PersonIcon aria-label="My Account Menu" />}>
       {auth.isLoggedIn && (
         <Vertical>
-          <Prose>
-            <p>You’re currently logged in with the account code:</p>
+          <Prose>You’re currently logged in with the account code:</Prose>
 
-            <p className="success text-center">
-              <strong>{formatId(auth.learner.learnerId)}</strong>
-            </p>
+          <Callout color="green" className="text-center">
+            <strong>{formatId(auth.learner.learnerId)}</strong>
+          </Callout>
 
-            {!auth.isForCredit && (
-              <p>
-                This is an anonymous account. Your work will{" "}
-                <strong>not</strong> count for any course credit.
-              </p>
-            )}
-          </Prose>
+          {!auth.isForCredit && (
+            <Prose>
+              This is an anonymous account. Your work will <strong>not</strong>{" "}
+              count for any course credit.
+            </Prose>
+          )}
 
           <Button
             color="blue"

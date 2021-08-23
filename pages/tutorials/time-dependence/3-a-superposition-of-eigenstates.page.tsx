@@ -1,11 +1,17 @@
-import { Help, Info, Prose } from "@/design";
-import { deepEqual } from "@/helpers";
-import { Decimal, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import {
+  ControlGroup,
+  Decimal,
+  Dropdown,
+  Guidance,
+  M,
+  Prose,
+  Table,
+  TextBox,
+  Toggle,
+} from "@/components";
+import { approxEquals, deepEqual } from "@/helpers/frontend";
 import { page } from "@/tutorial";
-import { approxEquals } from "@/util";
-import React, { Fragment } from "react";
-import type { StylesConfig } from "react-select";
+import { Fragment } from "react";
 import tableGraph1 from "./assets/table-graph-1.png";
 import tableGraph2 from "./assets/table-graph-2.png";
 import tableGraph3 from "./assets/table-graph-3.png";
@@ -31,7 +37,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "meaningOfRedLineInSim",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.meaningOfRedLineInSim}
             label={
               <Prose>
@@ -48,7 +54,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "explainTimeDependenceOfProbDens",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.explainTimeDependenceOfProbDens}
             label={
               <Prose>
@@ -76,7 +82,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "behaviorOfProbDensAtMidpoint",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.behaviorOfProbDensAtMidpoint}
             label={
               <Prose>
@@ -87,7 +93,7 @@ export default page(setup, ({ section, oneOf }) => ({
             }
           />
 
-          <Prose className="opacity-faded">
+          <Prose faded>
             You can set the slider to fix <M t="x=L/2" /> in the sim
           </Prose>
         </>
@@ -157,21 +163,6 @@ export default page(setup, ({ section, oneOf }) => ({
           ],
         ] as const;
 
-        const selectStyles: StylesConfig<any, any> = {
-          container: (s) => ({ ...s, minWidth: "auto" }),
-          control: (s) => ({ ...s, borderRadius: 0, border: "none" }),
-          dropdownIndicator: (s) => ({ ...s, padding: "8px 2px" }),
-          // Caused unnecessary clipping
-          singleValue: (s) => ({
-            ...s,
-            textOverflow: "none",
-            "& img": {
-              height: "3rem",
-              width: "auto",
-            },
-          }),
-        };
-
         return (
           <>
             <Prose>
@@ -195,14 +186,7 @@ export default page(setup, ({ section, oneOf }) => ({
               </p>
             </Prose>
 
-            <table className="table text-small text-left">
-              <colgroup>
-                <col style={{ width: "16%" }} />
-                <col style={{ width: "25%" }} />
-                <col style={{ width: "29%" }} />
-                <col style={{ width: "30%" }} />
-              </colgroup>
-
+            <Table className="text-small text-left" columns={[16, 25, 29, 30]}>
               <thead
                 className="text-center"
                 style={{ background: "hsl(0, 0%, 90%)" }}
@@ -236,58 +220,46 @@ export default page(setup, ({ section, oneOf }) => ({
                           padding: "0.25rem 0.5rem",
                           fontWeight: "normal",
                         }}
-                        className="text-left text-smaller opacity-faded"
+                        className="text-left text-smaller text-faded"
                       >
                         At time <M t={`t = 0.${row.substring(2)}0\\ h / E_1`} />
                         :
                       </th>
                     </tr>
 
-                    <tr className="tight">
+                    <tr>
                       <td>
-                        <Select
+                        <Dropdown
                           model={table[row].properties.phaseDifference}
                           choices={phaseChoices}
-                          allowOther={false}
-                          isClearable={false}
-                          styles={selectStyles}
                         />
                       </td>
 
                       <td>
-                        <Select
+                        <Dropdown
                           model={table[row].properties.equationProbAmp}
                           choices={equationProbAmpChoices}
-                          allowOther={false}
-                          isClearable={false}
-                          styles={selectStyles}
                         />
                       </td>
 
                       <td>
-                        <Select
+                        <Dropdown
                           model={table[row].properties.equationProbDens}
                           choices={equationProbDensChoices}
-                          allowOther={false}
-                          isClearable={false}
-                          styles={selectStyles}
                         />
                       </td>
 
                       <td>
-                        <Select
+                        <Dropdown
                           model={table[row].properties.graphProbDens}
                           choices={graphChoices}
-                          allowOther={false}
-                          isClearable={false}
-                          styles={selectStyles}
                         />
                       </td>
                     </tr>
                   </Fragment>
                 ))}
               </tbody>
-            </table>
+            </Table>
           </>
         );
       },
@@ -329,11 +301,7 @@ export default page(setup, ({ section, oneOf }) => ({
         const corrects = times.map((t) => deepEqual(table[t], correctTable[t]));
 
         if (corrects.every(Boolean)) {
-          return (
-            <Help>
-              <Prose>We agree with your table!</Prose>
-            </Help>
-          );
+          return <Guidance.Agree>We agree with your table!</Guidance.Agree>;
         }
 
         const correctWithoutDelta = times
@@ -347,50 +315,44 @@ export default page(setup, ({ section, oneOf }) => ({
 
         if (correctWithoutDelta) {
           return (
-            <Info>
-              <Prose>
-                <p>
-                  You’re nearly there, but at least one of your values for{" "}
-                  <M t="\Delta" /> is off.
-                </p>
-
-                <p>
-                  This message will update when you change your answers above.
-                </p>
-              </Prose>
-            </Info>
-          );
-        }
-
-        return (
-          <Info>
-            <Prose>
+            <Guidance.Disagree>
               <p>
-                Heads up–you have at least one mistake in the row for each of
-                these times:
+                You’re nearly there, but at least one of your values for{" "}
+                <M t="\Delta" /> is off.
               </p>
-
-              <ul>
-                {corrects
-                  .map((correct, i) => {
-                    if (correct) {
-                      return null;
-                    }
-                    const t = times[i];
-                    return (
-                      <li key={t}>
-                        <M t={`t = 0.${t.substring(2)}0\\ h / E_1`} />
-                      </li>
-                    );
-                  })
-                  .filter(Boolean)}
-              </ul>
 
               <p>
                 This message will update when you change your answers above.
               </p>
-            </Prose>
-          </Info>
+            </Guidance.Disagree>
+          );
+        }
+
+        return (
+          <Guidance.Disagree>
+            <p>
+              Heads up–you have at least one mistake in the row for each of
+              these times:
+            </p>
+
+            <ul>
+              {corrects
+                .map((correct, i) => {
+                  if (correct) {
+                    return null;
+                  }
+                  const t = times[i];
+                  return (
+                    <li key={t}>
+                      <M t={`t = 0.${t.substring(2)}0\\ h / E_1`} />
+                    </li>
+                  );
+                })
+                .filter(Boolean)}
+            </ul>
+
+            <p>This message will update when you change your answers above.</p>
+          </Guidance.Disagree>
         );
       },
     }),
@@ -458,7 +420,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "explainSymmetryWhenPerp",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.explainSymmetryWhenPerp}
             label={
               <Prose>
@@ -492,11 +454,10 @@ export default page(setup, ({ section, oneOf }) => ({
             <M t="h/E_1" />.
           </Prose>
 
-          <FieldGroup grid suffixed className="margin-top-1">
+          <ControlGroup>
             <Decimal model={m.periodOfProbDens} label={<M t="T_A = " />} />
-
             <M t="\times \frac{h}{E_1}" />
-          </FieldGroup>
+          </ControlGroup>
 
           <Prose>
             <em>
@@ -519,21 +480,17 @@ export default page(setup, ({ section, oneOf }) => ({
         periodOfProbDensCorrect: section({
           name: "periodOfProbDensCorrect",
           body: (
-            <Help>
-              <Prose>
-                We agree! <M t="T_A = \frac{1}{3} \times \frac{h}{E_1}" />.
-              </Prose>
-            </Help>
+            <Guidance.Agree>
+              We agree! <M t="T_A = \frac{1}{3} \times \frac{h}{E_1}" />.
+            </Guidance.Agree>
           ),
         }),
         periodOfProbDensIncorrect: section({
           name: "periodOfProbDensIncorrect",
           body: (
-            <Info>
-              <Prose>
-                Heads up: we got a different value for <M t="T_A" />.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              Heads up: we got a different value for <M t="T_A" />.
+            </Guidance.Disagree>
           ),
         }),
       },

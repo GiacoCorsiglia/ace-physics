@@ -18,7 +18,7 @@ export const validateChoices = (
     for (const [id] of choices) {
       if (seen.has(id)) {
         throw new Error(
-          `Repeated choice: "${id}".\nThis is probably due to a misconfigured <Toggle />, <Select />, <ChooseOne />, or <ChooseAll /> control.`
+          `Repeated choice: "${id}".\nThis is probably due to a misconfigured <Toggle />, <Dropdown />, <ChooseOne />, or <ChooseAll /> control.`
         );
       }
       seen.add(id);

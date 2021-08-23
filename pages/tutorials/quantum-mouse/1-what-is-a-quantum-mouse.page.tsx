@@ -1,8 +1,13 @@
-import { Prose } from "@/design";
-import { ChooseAll, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import {
+  ChooseAll,
+  Dropdown,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 import MouseBigEye from "./svgs/mouse-big-eye.svg";
 import MouseSmallEye from "./svgs/mouse-small-eye.svg";
@@ -91,21 +96,21 @@ export default page(setup, ({ section, hint }) => ({
               and which are the eigenvector(s)?
             </Prose>
 
-            <FieldGroup grid className="margin-top">
-              <Select
+            <LabelsLeft>
+              <Dropdown
                 model={m.sizeEigenvalues}
                 choices={sizeChoices}
                 label="Eigenvalues:"
                 placeholder="Select eigenvalues…"
               />
 
-              <Select
+              <Dropdown
                 model={m.sizeEigenvectors}
                 choices={sizeChoices}
                 label="Eigenvectors:"
                 placeholder="Select eigenvectors…"
               />
-            </FieldGroup>
+            </LabelsLeft>
           </>
         );
       },
@@ -132,7 +137,7 @@ export default page(setup, ({ section, hint }) => ({
         <>
           <Prose>Let's think some more about those eigen-equations.</Prose>
 
-          <FieldGroup grid className="margin-top">
+          <LabelsLeft>
             <Toggle
               model={m.hiddenUnits}
               choices={[
@@ -141,7 +146,7 @@ export default page(setup, ({ section, hint }) => ({
               ]}
               label="Do any numbers have “hidden” units?"
             />
-          </FieldGroup>
+          </LabelsLeft>
 
           <Prose>
             If so, is that OK? Can you think of times we might have seen that
@@ -178,15 +183,15 @@ export default page(setup, ({ section, hint }) => ({
             <M t="\braket{\smalleye|\wideye}" />?
           </Prose>
 
-          <FieldGroup grid className="margin-top">
-            <Select
+          <LabelsLeft>
+            <Dropdown
               model={m.smallBigInnerProduct}
               choices={innerProductChoices}
               label={<M t="\braket{\smalleye|\wideye} = " />}
             />
 
-            <TextArea model={m.smallBigInnerProductExplain} label="Explain:" />
-          </FieldGroup>
+            <TextBox model={m.smallBigInnerProductExplain} label="Explain:" />
+          </LabelsLeft>
         </>
       ),
       continue: { label: "Let’s check in" },
@@ -228,13 +233,13 @@ export default page(setup, ({ section, hint }) => ({
             What about <M t="\braket{\wideye|\wideye}" />?
           </Prose>
 
-          <FieldGroup grid className="margin-top">
-            <Select
+          <LabelsLeft>
+            <Dropdown
               model={m.bigBigInnerProduct}
               choices={innerProductChoices}
               label={<M t="\braket{\wideye|\wideye} = " />}
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),

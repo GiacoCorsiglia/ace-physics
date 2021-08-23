@@ -7,15 +7,14 @@ import {
   Horizontal,
   LabelsLeft,
   NumericInputControl,
+  Page,
   Prose,
   Vertical,
 } from "@/components";
-import { colors } from "@/design";
-import { Page } from "@/design/layout";
 import {
   ArrowRightIcon,
   CheckCircleIcon,
-  ClippyIcon,
+  CopyIcon,
   DownloadIcon,
 } from "@primer/octicons-react";
 import { useState } from "react";
@@ -123,7 +122,7 @@ export default function Generate() {
           </form>
 
           {status === "error" && (
-            <p className="prose error">Sorry, something went wrong.</p>
+            <Callout color="red">Sorry, something went wrong.</Callout>
           )}
 
           {status === "success" && ids && (
@@ -166,7 +165,7 @@ export default function Generate() {
                       ) : clipboardStatus === "success" ? (
                         <CheckCircleIcon />
                       ) : (
-                        <ClippyIcon />
+                        <CopyIcon />
                       )
                     }
                   >
@@ -216,7 +215,6 @@ export default function Generate() {
               color="neutral"
               style={{
                 fontFamily: "monospace",
-                background: colors.neutral.$50,
               }}
             >
               {ids.join("\n")}

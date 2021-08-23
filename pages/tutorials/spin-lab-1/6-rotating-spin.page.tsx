@@ -1,5 +1,4 @@
-import { Prose } from "@/design";
-import M from "@/math/M";
+import { M, Prose } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 

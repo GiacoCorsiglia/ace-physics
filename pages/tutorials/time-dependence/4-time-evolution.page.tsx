@@ -1,8 +1,5 @@
-import { Prose } from "@/design";
-import { TextArea } from "@/inputs";
-import M from "@/math/M";
+import { M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import graphsImg from "./assets/student-graphs.png";
 import setup from "./setup";
 
@@ -31,7 +28,7 @@ export default page(setup, ({ section }) => ({
             simulation.
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.explainWhyIncorrectStudentA}
             label={
               <Prose>
@@ -51,7 +48,7 @@ export default page(setup, ({ section }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.explainWhyIncorrectStudentB}
             label={
               <Prose>
@@ -98,7 +95,7 @@ export default page(setup, ({ section }) => ({
             </blockquote>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.explainWhyGraphIncorrect}
             label={
               <Prose>
@@ -114,7 +111,7 @@ export default page(setup, ({ section }) => ({
       name: "connectSimWithCorrectDescription",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.connectSimWithCorrectDescription}
             label={
               <Prose>

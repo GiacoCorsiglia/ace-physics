@@ -20,7 +20,7 @@ export interface CasesField<Cs extends readonly string[]> {
  *
  * **Prefer to use a `ChooseOneField` instead,** because it supports collecting
  * an "other" choice.  A `CasesField` will not work with any of the inputs like
- * `Choice`, `Toggle`, or `Select`.  Use a `CasesField` for storing some sort of
+ * `Choice`, `Toggle`, or `Dropdown`.  Use a `CasesField` for storing some sort of
  * user interface state, such as which step a student has gotten to when
  * clicking through a visualization.
  */

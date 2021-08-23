@@ -1,4 +1,7 @@
-@import "definitions";
+@use "borders";
+@use "colors";
+@use "fonts";
+@use "spacing";
 
 .histogramLabels {
   display: grid;
@@ -11,32 +14,29 @@
 .histogramLabel {
   padding: 0.5rem;
   height: 3rem;
-  border-radius: $border-radius;
-  border: 1px solid $grey80;
+  border-radius: borders.$radius;
+  border: 1px solid colors.$neutral-300;
   text-align: center;
-  font-size: $text-small;
   user-select: none;
-  opacity: $opacity-faded;
+  color: colors.$neutral-700;
 }
 
 .diracLabels {
   display: flex;
-  margin-top: 1rem;
-  margin-bottom: -1rem; // HACK: because plots have too much margin I guess
-  max-width: $width-content;
+  max-width: spacing.$space-4000;
 }
 
 .diracLabelInput,
 .diracLabelSelect {
-  $totalWidth: 560;
-  $inputWidth: ((9rem * $unit-px / 1rem) / $totalWidth) * 100%;
+  $totalWidth: 620;
+  $inputWidth: ((fonts.rem-to-px(9rem) / 1px) / $totalWidth) * 100%;
 
   $input1Margin: (100 / $totalWidth * 100%) - ($inputWidth / 2);
 
-  $input2Margin: (225 / $totalWidth * 100%) - (3 * ($inputWidth / 2)) -
+  $input2Margin: (260 / $totalWidth * 100%) - (3 * ($inputWidth / 2)) -
     $input1Margin;
 
-  $input3Margin: (480 / $totalWidth * 100%) - (5 * ($inputWidth / 2)) -
+  $input3Margin: (530 / $totalWidth * 100%) - (5 * ($inputWidth / 2)) -
     $input2Margin - $input1Margin;
 
   &:nth-child(1) {
@@ -57,7 +57,6 @@
 }
 
 .diracLabelSelect {
-  max-width: 9rem !important;
-  min-width: 9rem !important;
-  font-size: $text-small;
+  max-width: 9rem;
+  min-width: 9rem;
 }

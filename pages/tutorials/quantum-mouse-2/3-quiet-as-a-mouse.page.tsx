@@ -1,9 +1,15 @@
-import { Prose } from "@/design";
+import {
+  Decimal,
+  LabelsLeft,
+  M,
+  Matrix,
+  Prose,
+  TextBox,
+  TextLine,
+  Toggle,
+} from "@/components";
 import { Html } from "@/helpers/frontend";
-import { Decimal, FieldGroup, Text, TextArea, Toggle } from "@/inputs";
-import M, { Matrix, modelToMatrix } from "@/math";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 import styles from "./styles.module.scss";
 
@@ -55,27 +61,27 @@ export default page(setup, ({ section }) => ({
           <div className={styles.basisGrid}>
             <p>Noisy ket:</p>
             <KetLabel>
-              <Text model={m.notationNoisyState} maxWidth />
+              <TextLine model={m.notationNoisyState} maxWidth />
             </KetLabel>
             <M t="=" />
-            <Text
+            <TextLine
               model={m.noisyStateHappinessBasis}
               placeholder="Happiness basis representation"
             />
 
             <p>Quiet ket:</p>
             <KetLabel>
-              <Text model={m.notationQuietState} maxWidth />
+              <TextLine model={m.notationQuietState} maxWidth />
             </KetLabel>
             <M t="=" />
-            <Text
+            <TextLine
               model={m.quietStateHappinessBasis}
               placeholder="Happiness basis representation"
             />
           </div>
 
-          <Prose className="text-center">
-            <span className="text-small opacity-faded">
+          <Prose align="center">
+            <span className="text-small text-faded">
               You can copy-paste these:
             </span>
             <span
@@ -107,9 +113,8 @@ export default page(setup, ({ section }) => ({
           </Prose>
 
           <Matrix
-            className="margin-top-1"
             labelTex="\hat{N}"
-            matrix={modelToMatrix(m.representationNOperator, (c) => (
+            matrix={Matrix.modelToMatrix(m.representationNOperator, (c) => (
               <Decimal model={c} />
             ))}
           />
@@ -174,7 +179,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.simultaneousEigenstatesNMSExplain}
             label={<Prose>Why/why not (for both questions)?</Prose>}
           />
@@ -191,7 +196,7 @@ export default page(setup, ({ section }) => ({
             you expect for the following quantities?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal
               model={m.quietMiceExpValN}
               label={<M t="\expval{\hat{N}} =" />}
@@ -208,7 +213,7 @@ export default page(setup, ({ section }) => ({
               model={m.quietMiceUncertaintyM}
               label={<M t="\Delta\hat{M} =" />}
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -231,7 +236,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.quietMiceCanUncertaintySBeZeroExplain}
             label={<Prose>Why/why not?</Prose>}
           />

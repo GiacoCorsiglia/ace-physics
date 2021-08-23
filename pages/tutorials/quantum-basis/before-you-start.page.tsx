@@ -1,8 +1,12 @@
-import { Prose } from "@/design";
-import { ChooseAll, FieldGroup, TextArea, Toggle } from "@/inputs";
-import M from "@/math/M";
+import {
+  ChooseAll,
+  LabelsRight,
+  M,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { pretest } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default pretest(setup, ({ section }) => ({
@@ -21,7 +25,7 @@ export default pretest(setup, ({ section }) => ({
 
     section({
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.meaningOfCoefficients}
           label={
             <Prose>
@@ -91,7 +95,7 @@ export default pretest(setup, ({ section }) => ({
             <p>Consider the following statements and choose true or false.</p>
           </Prose>
 
-          <FieldGroup className="margin-top" grid="labelsRight">
+          <LabelsRight>
             <Toggle
               model={m.changedProbabilities}
               label={
@@ -135,7 +139,7 @@ export default pretest(setup, ({ section }) => ({
                 ["false", "False"],
               ]}
             />
-          </FieldGroup>
+          </LabelsRight>
         </>
       ),
     }),

@@ -4,7 +4,7 @@ import styles from "./TutorialLoading.module.scss";
 
 export default function TutorialLoading() {
   return (
-    <Content className="margin-top text-center">
+    <Content className="text-center">
       <SyncIcon
         size="large"
         aria-label="Loading…"

@@ -8,7 +8,6 @@ import {
   ThumbsupIcon,
 } from "@primer/octicons-react";
 import { useRouter } from "next/router";
-import React from "react";
 import { TutorialConfig } from "../config";
 
 export default function TutorialHeader({ config }: { config: TutorialConfig }) {
@@ -65,9 +64,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
       <UserMenu />
 
       <HeaderTitle>
-        <span className="prose">
-          {typeof config.label === "string" ? config.label : config.label.html}
-        </span>
+        {typeof config.label === "string" ? config.label : config.label.html}
       </HeaderTitle>
 
       <Nav>

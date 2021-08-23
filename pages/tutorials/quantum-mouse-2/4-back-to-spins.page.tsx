@@ -1,10 +1,15 @@
-import { Info, Prose } from "@/design";
+import {
+  Callout,
+  ChooseOne,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { Html } from "@/helpers/frontend";
-import { ChooseOne, FieldGroup, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -47,25 +52,25 @@ export default page(setup, ({ section }) => ({
             in the equation <M t="\hat{S_z}\ket{+} = \hbar/2 \ket{+}" />?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <TextArea
+          <LabelsLeft>
+            <TextBox
               model={m.interpretSz}
               label={<M t="\hat{S_z} \rightarrow" />}
               placeholder="Type your interpretation here"
             />
 
-            <TextArea
+            <TextBox
               model={m.interpretPlusZ}
               label={<M t="\hbar/2 \rightarrow" />}
               placeholder="Type your interpretation here"
             />
 
-            <TextArea
+            <TextBox
               model={m.interpretHBarOver2}
               label={<M t="\ket{+} \rightarrow" />}
               placeholder="Type your interpretation here"
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -87,7 +92,6 @@ export default page(setup, ({ section }) => ({
             </Prose>
           }
           choices={kindOfObjectChoices(<M t="S_z \ket{\psi}" />, "is")}
-          allowOther={true}
         />
       ),
     }),
@@ -103,27 +107,25 @@ export default page(setup, ({ section }) => ({
             </p>
           </Prose>
 
-          <Info>
-            <Prose>
-              <p>
-                <PencilIcon /> <strong>On scrap paper:</strong>
-              </p>
+          <Callout color="blue">
+            <p>
+              <PencilIcon /> <strong>On scrap paper:</strong>
+            </p>
 
-              <ol>
-                <li>
-                  Rewrite <M t="\ket{+}_x" /> as a column vector in the{" "}
-                  <M t="\hat{S_z}" /> basis.
-                </li>
+            <ol>
+              <li>
+                Rewrite <M t="\ket{+}_x" /> as a column vector in the{" "}
+                <M t="\hat{S_z}" /> basis.
+              </li>
 
-                <li>
-                  Act <M t="S_z" /> on it (do you remember how to write{" "}
-                  <M t="S_z" /> as a 2x2 matrix?)
-                </li>
+              <li>
+                Act <M t="S_z" /> on it (do you remember how to write{" "}
+                <M t="S_z" /> as a 2x2 matrix?)
+              </li>
 
-                <li>See what you get! </li>
-              </ol>
-            </Prose>
-          </Info>
+              <li>See what you get! </li>
+            </ol>
+          </Callout>
         </>
       ),
       continue: { label: "I worked it out on scrap paper" },

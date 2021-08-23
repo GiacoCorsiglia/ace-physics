@@ -1,7 +1,14 @@
-import { Prose } from "@/design";
-import { ChooseOne, FieldGroup, Text, TextArea, Toggle } from "@/inputs";
-import M from "@/math/M";
+import {
+  ChooseOne,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  TextLine,
+  Toggle,
+} from "@/components";
 import { pretest } from "@/tutorial";
+import React from "react";
 import setup from "./setup";
 
 export default pretest(setup, ({ section }) => ({
@@ -15,12 +22,12 @@ export default pretest(setup, ({ section }) => ({
             result of acting the operator <M t="\hat{S_z}" /> on this state.
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.SzTimesPsi}
               label={<M t="\hat{S_z} \ket{\psi} = " />}
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -86,7 +93,7 @@ export default pretest(setup, ({ section }) => ({
 
     section({
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.possibleCMeasurementResults}
           label={
             <Prose>
@@ -116,7 +123,7 @@ export default pretest(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.doAAndCCommuteExplain}
             label={<Prose>How do you know?</Prose>}
           />

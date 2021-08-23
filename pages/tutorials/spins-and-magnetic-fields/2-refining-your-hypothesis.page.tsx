@@ -1,6 +1,4 @@
-import { Info, Prose } from "@/design";
-import { FieldGroup, Integer, TextArea } from "@/inputs";
-import M from "@/math";
+import { Callout, Integer, LabelsLeft, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
@@ -31,14 +29,11 @@ export default page(setup, ({ section, hint }) => ({
       name: "derivedFormula",
       body: (m) => (
         <>
-          <Info>
-            <Prose>
-              <PencilIcon /> &nbsp; You definitely want scrap paper for this
-              part.
-            </Prose>
-          </Info>
+          <Callout color="blue">
+            <PencilIcon /> &nbsp; You definitely want scrap paper for this part.
+          </Callout>
 
-          <TextArea
+          <TextBox
             model={m.derivedFormula}
             label={
               <Prose>
@@ -103,7 +98,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "quantifyMagnetNumber",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.quantifyMagnetNumber}
             label={
               <Prose>
@@ -119,12 +114,12 @@ export default page(setup, ({ section, hint }) => ({
             convert spin down particles to be 100% spin up.
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Integer
               model={m.magnetNumberDownXToUpX}
               label={<M t="M_{\text{down} \to {up}} = " />}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
           <Prose>Test it out in the sim!</Prose>
         </>
@@ -135,7 +130,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "additionalTests",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.additionalTests}
             label={
               <Prose>

@@ -1,9 +1,6 @@
-import { Prose } from "@/design";
-import { FieldGroup, Text, TextArea } from "@/inputs";
-import M from "@/math";
+import { LabelsLeft, M, Prose, TextBox, TextLine } from "@/components";
 import { Axes, Label, Plot, WithPlot } from "@/plots";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -75,14 +72,14 @@ export default page(setup, ({ section }) => ({
             eigenfunction <M t="\psi_1(x,t)" /> in terms of <M t="\psi_1(x)" />.
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.timeEvolvedGroundState}
               label={<M t="\psi_1(x,t) =" />}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <Prose className="opacity-faded">
+          <Prose faded>
             To type <M t="\psi_1(x)" />, copy-paste this: ψ1(x)
           </Prose>
         </>
@@ -118,7 +115,7 @@ export default page(setup, ({ section }) => ({
             <strong>Take a screenshot of your graph when you’re done.</strong>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.timeEvolutionDescription}
             label={<Prose>Describe this time evolution in words:</Prose>}
           />
@@ -174,7 +171,7 @@ export default page(setup, ({ section }) => ({
             />
           </Plot>
 
-          <TextArea
+          <TextBox
             model={m.probDensRelationshipToProbAmp}
             label={
               <Prose>
@@ -195,9 +192,9 @@ export default page(setup, ({ section }) => ({
             <M t="e^{-i3\pi/2}" />.
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text model={m.exp3PiOver2} label={<M t="e^{-i3\pi/2} = " />} />
-          </FieldGroup>
+          <LabelsLeft>
+            <TextLine model={m.exp3PiOver2} label={<M t="e^{-i3\pi/2} = " />} />
+          </LabelsLeft>
 
           <Prose>
             <p>
@@ -209,10 +206,13 @@ export default page(setup, ({ section }) => ({
             <p>How should the axes be labeled?</p>
           </Prose>
 
-          <FieldGroup grid className="margin-top">
-            <Text model={m.difTimePlotAxisX} label="Horizontal axis label:" />
-            <Text model={m.difTimePlotAxisY} label="Vertical axis label:" />
-          </FieldGroup>
+          <LabelsLeft>
+            <TextLine
+              model={m.difTimePlotAxisX}
+              label="Horizontal axis label:"
+            />
+            <TextLine model={m.difTimePlotAxisY} label="Vertical axis label:" />
+          </LabelsLeft>
 
           <Prose>
             Now complete the sketch using Zoom annotation or on scrap paper.
@@ -240,7 +240,7 @@ export default page(setup, ({ section }) => ({
       name: "wholeFunctionTimeDependencePlot",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.wholeFunctionTimeDependencePlot}
             label={
               <Prose>
@@ -259,7 +259,7 @@ export default page(setup, ({ section }) => ({
             }
           />
 
-          <Prose className="opacity-faded">
+          <Prose faded>
             On the next page, we’ll explore one such representation.
           </Prose>
         </>

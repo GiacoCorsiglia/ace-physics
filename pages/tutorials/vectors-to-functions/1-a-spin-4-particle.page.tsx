@@ -1,10 +1,19 @@
-import { Help, Info, Prose } from "@/design";
+import {
+  Decimal,
+  Dropdown,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  TextLine,
+  Toggle,
+  VariableLengthColumn,
+} from "@/components";
 import { deepEqual, range } from "@/helpers/frontend";
-import { Decimal, FieldGroup, Select, Text, TextArea, Toggle } from "@/inputs";
-import M, { VariableLengthColumn } from "@/math";
 import { Axes, Bar, DragHandle, Grid, Indicator, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import setup, { ResponseModels, Responses } from "./setup";
 import styles from "./styles.module.scss";
 
@@ -44,9 +53,8 @@ export default page(setup, ({ section, hint }) => ({
           </Prose>
 
           <VariableLengthColumn
-            className="margin-top-1"
             model={m.spin4Column}
-            inputEl={<Decimal model={m.spin4Column.elements[0]} />}
+            component={(model) => <Decimal model={model} />}
             labelTex="\ket{\psi_D}"
           />
         </>
@@ -124,30 +132,34 @@ export default page(setup, ({ section, hint }) => ({
         const histogramCorrect = deepEqual(answer, responses?.spin4BarHeights);
 
         if (columnCorrect && histogramCorrect) {
-          return <Help>Nice work! Now let’s focus in on notation.</Help>;
+          return (
+            <Guidance.Agree>
+              Nice work! Now let’s focus in on notation.
+            </Guidance.Agree>
+          );
         } else if (!columnCorrect && histogramCorrect) {
           return (
-            <Info>
+            <Guidance.Disagree>
               Heads up. There’s at least one mistake in you column vector, but
               your histogram looks good. (This message will change if you adjust
               your answers above.)
-            </Info>
+            </Guidance.Disagree>
           );
         } else if (columnCorrect && !histogramCorrect) {
           return (
-            <Info>
+            <Guidance.Disagree>
               Heads up. There’s at least one mistake in you histogram, but your
               column vector looks good. (This message will change if you adjust
               your answers above.)
-            </Info>
+            </Guidance.Disagree>
           );
         } else {
           return (
-            <Info>
+            <Guidance.Disagree>
               Heads up. There’s at least one mistake in both your histogram and
               your column vector. (This message will change if you adjust your
               answers above.)
-            </Info>
+            </Guidance.Disagree>
           );
         }
       },
@@ -165,19 +177,19 @@ export default page(setup, ({ section, hint }) => ({
           </Prose>
 
           <div className={styles.diracLabels}>
-            <Text
+            <TextLine
               className={styles.diracLabelInput}
               model={m.minus3Dirac}
               placeholder=""
             />
 
-            <Text
+            <TextLine
               className={styles.diracLabelInput}
               model={m.minus1Dirac}
               placeholder=""
             />
 
-            <Text
+            <TextLine
               className={styles.diracLabelInput}
               model={m.plus4Dirac}
               placeholder=""
@@ -208,14 +220,6 @@ export default page(setup, ({ section, hint }) => ({
           ["<4|psi>", <M t="\braket{4|\psi_D}" />],
         ] as const;
 
-        const s = {
-          dropdownIndicator: (styles: any) => ({
-            ...styles,
-            paddingLeft: "3px",
-            paddingRight: "3px",
-          }),
-        };
-
         return (
           <>
             <Prose>
@@ -224,34 +228,25 @@ export default page(setup, ({ section, hint }) => ({
               above.
             </Prose>
             <div className={styles.diracLabels}>
-              <Select
+              <Dropdown
                 className={styles.diracLabelSelect}
                 model={m.minus3DiracSelect}
                 choices={cs}
                 placeholder=""
-                allowOther={false}
-                isClearable={false}
-                styles={s}
               />
 
-              <Select
+              <Dropdown
                 className={styles.diracLabelSelect}
                 model={m.minus1DiracSelect}
                 choices={cs}
                 placeholder=""
-                allowOther={false}
-                isClearable={false}
-                styles={s}
               />
 
-              <Select
+              <Dropdown
                 className={styles.diracLabelSelect}
                 model={m.plus4DiracSelect}
                 choices={cs}
                 placeholder=""
-                allowOther={false}
-                isClearable={false}
-                styles={s}
               />
             </div>
 
@@ -275,14 +270,14 @@ export default page(setup, ({ section, hint }) => ({
           responses?.plus4DiracSelect?.selected === "<4|psi>";
 
         if (allCorrect) {
-          return <Help>Looks good to us!</Help>;
+          return <Guidance.Agree>Looks good to us!</Guidance.Agree>;
         } else {
           return (
-            <Info>
+            <Guidance.Disagree>
               Heads up. There’s a mistake in at least one of your choices for
               Dirac Notation. (This message will update if you adjust your
               answers above.)
-            </Info>
+            </Guidance.Disagree>
           );
         }
       },
@@ -292,7 +287,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "spin4Normalization",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.spin4Normalization}
             label={
               <Prose>
@@ -316,7 +311,7 @@ export default page(setup, ({ section, hint }) => ({
         <>
           <Prose>Which option is MORE likely?</Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Toggle
               model={m.spin4ProbAsymmetric}
               choices={[
@@ -357,7 +352,7 @@ export default page(setup, ({ section, hint }) => ({
                 </>
               }
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),

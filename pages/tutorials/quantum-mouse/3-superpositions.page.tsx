@@ -1,9 +1,16 @@
-import { Help, Prose, Reminder } from "@/design";
+import {
+  ChooseAll,
+  Decimal,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { approxEquals, norm } from "@/helpers/frontend";
-import { ChooseAll, Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, oneOf, hint }) => ({
@@ -42,7 +49,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
     section({
       name: "whyWideStressed",
       body: (m) => (
-        <TextArea
+        <TextBox
           label={
             <Prose>
               This suggests that wide-eyed mice are rather <em>stressed</em>.
@@ -84,11 +91,11 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             </p>
           </Prose>
 
-          <FieldGroup grid className="margin-top">
+          <LabelsLeft>
             <Decimal label={<M t="a =" />} model={m.smallEyeA} />
 
             <Decimal label={<M t="b =" />} model={m.smallEyeB} />
-          </FieldGroup>
+          </LabelsLeft>
 
           <Prose>(You can type them in as decimals.)</Prose>
         </>
@@ -126,7 +133,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
               [
                 "not unique",
                 <>
-                  They’re <strong className="prose">not</strong> unique
+                  They’re <strong>not</strong> unique
                 </>,
               ],
             ]}
@@ -225,36 +232,29 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         abNotNormalized: section({
           name: "abNotNormalized",
           body: (
-            <Help>
-              <Prose>
-                The state <M t="\ket{\smalleye}" /> is <em>normalized</em>, so
-                your coefficients should satisfy
-                <M display t="|a|^2 + |b|^2 = 1" />
-                You may want to check up on that before moving on.
-              </Prose>
-            </Help>
+            <Guidance.Disagree>
+              The state <M t="\ket{\smalleye}" /> is <em>normalized</em>, so
+              your coefficients should satisfy
+              <M display t="|a|^2 + |b|^2 = 1" />
+              You may want to check up on that before moving on.
+            </Guidance.Disagree>
           ),
         }),
 
         abIncorrect: section({
           name: "abIncorrect",
           body: (
-            <Help>
-              <Prose>
-                You might want to check up on your coefficients <M t="a" /> and{" "}
-                <M t="b" /> before moving on. You can double check the following
-                relations:
-                <M
-                  display
-                  t="\braket{\smalleye|\smalleye} = |a|^2 + |b|^2 = 1"
-                />
-                and
-                <M
-                  display
-                  t="\braket{\wideye|\smalleye} = \left(\frac{1}{\sqrt{5}} \bra{\smiley} + \frac{2}{\sqrt{5}} \bra{\frownie}\right) \left(a \ket{\smiley} + b \ket{\frownie}\right) = 0"
-                />
-              </Prose>
-            </Help>
+            <Guidance.Disagree>
+              You might want to check up on your coefficients <M t="a" /> and{" "}
+              <M t="b" /> before moving on. You can double check the following
+              relations:
+              <M display t="\braket{\smalleye|\smalleye} = |a|^2 + |b|^2 = 1" />
+              and
+              <M
+                display
+                t="\braket{\wideye|\smalleye} = \left(\frac{1}{\sqrt{5}} \bra{\smiley} + \frac{2}{\sqrt{5}} \bra{\frownie}\right) \left(a \ket{\smiley} + b \ket{\frownie}\right) = 0"
+              />
+            </Guidance.Disagree>
           ),
         }),
       },

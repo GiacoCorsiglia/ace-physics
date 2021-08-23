@@ -1,8 +1,5 @@
-import { Prose, Reminder } from "@/design";
-import { Decimal, Text } from "@/inputs";
-import M from "@/math/M";
+import { Decimal, M, Prose, Reminder, Table, TextLine } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 import styles from "./styles.module.scss";
 
@@ -94,13 +91,13 @@ export default page(setup, ({ section, hint }) => ({
 
             <div className={styles.equation}>
               <M t="\ket{\psi_3} =" />
-              <Text
+              <TextLine
                 model={m.challengeConclusion.elements[0]}
                 maxWidth
                 placeholder="a = ?"
               />
               <M t="\ket{+} +" />
-              <Text
+              <TextLine
                 model={m.challengeConclusion.elements[1]}
                 maxWidth
                 placeholder="b = ?"
@@ -116,7 +113,7 @@ export default page(setup, ({ section, hint }) => ({
               </h4>
             </Prose>
 
-            <table className="table">
+            <Table>
               <thead>
                 <tr>
                   <td>Probabilities</td>
@@ -157,7 +154,7 @@ export default page(setup, ({ section, hint }) => ({
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </Table>
 
             <Reminder>
               <M

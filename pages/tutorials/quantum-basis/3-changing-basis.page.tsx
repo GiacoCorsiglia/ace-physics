@@ -1,13 +1,21 @@
-import { Help, Info, Prose, Reminder } from "@/design";
-import { Column, Columns } from "@/design/layout";
+import {
+  Callout,
+  Column,
+  Columns,
+  Decimal,
+  Dropdown,
+  Guidance,
+  M,
+  Matrix,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { approxEquals } from "@/helpers/frontend";
-import { Decimal, Select, TextArea, Toggle } from "@/inputs";
-import M, { Matrix } from "@/math";
-import { modelToColumn } from "@/math/Matrix";
 import { Axes, Plot, Tick, Vector } from "@/plots";
 import { page } from "@/tutorial";
 import { DemoOnly } from "@pages/demo/tutorial-demo";
-import React from "react";
 import setup, { Responses } from "./setup";
 
 export default page(setup, ({ section, oneOf, hint }) => ({
@@ -42,7 +50,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
     section({
       name: "basisChangeApproach",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.basisChangeApproach}
           label={
             <Prose>
@@ -97,11 +105,10 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           </Prose>
 
           <Matrix
-            className="margin-top"
             labelTex="\begin{pmatrix} a \\ b \end{pmatrix}_v ="
             subscriptTex="v"
-            column={modelToColumn(m.kColumnDirac, (c) => (
-              <Select
+            column={Matrix.modelToColumn(m.kColumnDirac, (c) => (
+              <Dropdown
                 model={c}
                 choices={[
                   ["|v1>", <M t="\ket{v_1}" />],
@@ -111,7 +118,6 @@ export default page(setup, ({ section, oneOf, hint }) => ({
                   ["<i|u>", <M t="\braket{i|u}" />],
                   ["<j|u>", <M t="\braket{j|u}" />],
                 ]}
-                allowOther={false}
               />
             ))}
           />
@@ -134,7 +140,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
     section({
       name: "columnSubscriptExplain",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.columnSubscriptExplain}
           label={<Prose>Why is there a subscript on the column vectors?</Prose>}
         />
@@ -201,108 +207,97 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         kColumnDiracKet: section({
           name: "kColumnDiracKet",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  You’ve inserted a <strong>ket</strong> (
-                  <M prespace={false} t="\ket{v_1}" /> or
-                  <M t="\ket{v_2}" />) into your column vector. This is kind of
-                  like writing vector
-                  <M t="\vec{v} = (5, \vec{w}, 3)" />, which normally doesn't
-                  make sense.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                You’ve inserted a <strong>ket</strong> (
+                <M prespace={false} t="\ket{v_1}" /> or
+                <M t="\ket{v_2}" />) into your column vector. This is kind of
+                like writing vector
+                <M t="\vec{v} = (5, \vec{w}, 3)" />, which normally doesn't make
+                sense.
+              </p>
 
-                <p>
-                  The elements of your column vector should be{" "}
-                  <strong>numbers</strong>. In Dirac notation,{" "}
-                  <strong>inner products</strong> (aka “brakets”) evaluate to
-                  numbers.
-                </p>
+              <p>
+                The elements of your column vector should be{" "}
+                <strong>numbers</strong>. In Dirac notation,{" "}
+                <strong>inner products</strong> (aka “brakets”) evaluate to
+                numbers.
+              </p>
 
-                <p>
-                  Similarly, it <em>could</em> be sensible to write{" "}
-                  <M t="\vec{v} = (5, \vec{w} \cdot \vec{v}, 3)" />.
-                </p>
+              <p>
+                Similarly, it <em>could</em> be sensible to write{" "}
+                <M t="\vec{v} = (5, \vec{w} \cdot \vec{v}, 3)" />.
+              </p>
 
-                <p>Adjust your answers, then check in again.</p>
-              </Prose>
-            </Info>
+              <p>Adjust your answers, then check in again.</p>
+            </Guidance.Disagree>
           ),
           continue: { label: "Check in again" },
         }),
         kColumnDiracCorrect: section({
           name: "kColumnDiracCorrect",
           body: (
-            <Help>
-              <Prose>
-                <p>Your column vector looks good to us! Nice work.</p>
+            <Guidance.Agree>
+              <p>Your column vector looks good to us! Nice work.</p>
 
-                <p>
-                  The <M t="v" /> subscript is how we indicate that the column
-                  vector is expressed in the basis of <M t="\ket{v_1}" />
-                  and
-                  <M t="\ket{v_2}" /> (as opposed to the standard basis of
-                  <M t="\ket{i}" />
-                  and
-                  <M t="\ket{j}" />, which doesn't require a subscript).
-                </p>
-              </Prose>
-            </Help>
+              <p>
+                The <M t="v" /> subscript is how we indicate that the column
+                vector is expressed in the basis of <M t="\ket{v_1}" />
+                and
+                <M t="\ket{v_2}" /> (as opposed to the standard basis of
+                <M t="\ket{i}" />
+                and
+                <M t="\ket{j}" />, which doesn't require a subscript).
+              </p>
+            </Guidance.Agree>
           ),
           continue: { label: "Keep on going" },
         }),
         kColumnDiracReversed: section({
           name: "kColumnDiracReversed",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  Looks like you may have swapped <M t="a" /> and <M t="b" />{" "}
-                  (i.e., written the elements in your column vector in the wrong
-                  order).
-                </p>
+            <Guidance.HeadsUp>
+              <p>
+                Looks like you may have swapped <M t="a" /> and <M t="b" />{" "}
+                (i.e., written the elements in your column vector in the wrong
+                order).
+              </p>
 
-                <p>Adjust your answers, then check in again.</p>
-              </Prose>
-            </Info>
+              <p>Adjust your answers, then check in again.</p>
+            </Guidance.HeadsUp>
           ),
           continue: { label: "Check in again" },
         }),
         kColumnDiracRepeated: section({
           name: "kColumnDiracRepeated",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  Looks like you repeated the same answer for both components in
-                  the column vector. You should have a different expression for
-                  both elements.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Looks like you repeated the same answer for both components in
+                the column vector. You should have a different expression for
+                both elements.
+              </p>
 
-                <p>Adjust your answers, then check in again.</p>
-              </Prose>
-            </Info>
+              <p>Adjust your answers, then check in again.</p>
+            </Guidance.Disagree>
           ),
           continue: { label: "Check in again" },
         }),
         kColumnDiracIorJ: section({
           name: "kColumnDiracIorJ",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  Looks like you have <M t="\braket{i|u}" /> or{" "}
-                  <M t="\braket{j|u}" /> in your column vector again. This was
-                  right on the previous page, but the <M t="v" /> subscript on
-                  the column tells you that now we’re working in a different
-                  basis!
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Looks like you have <M t="\braket{i|u}" /> or{" "}
+                <M t="\braket{j|u}" /> in your column vector again. This was
+                right on the previous page, but the <M t="v" /> subscript on the
+                column tells you that now we’re working in a different basis!
+              </p>
 
-                <p>Which basis is that? What are the basis vectors?</p>
+              <p>Which basis is that? What are the basis vectors?</p>
 
-                <p>Adjust your answers, then check in again.</p>
-              </Prose>
-            </Info>
+              <p>Adjust your answers, then check in again.</p>
+            </Guidance.Disagree>
           ),
           continue: { label: "Check in again" },
         }),
@@ -355,14 +350,12 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           </Reminder>
 
           <DemoOnly>
-            <Info>
-              <Prose>
-                <p>
-                  <strong>For the demo only:</strong> If you don’t feel like
-                  calculating, <M t="a = 0.835" /> and <M t="b = 0.551" />.
-                </p>
-              </Prose>
-            </Info>
+            <Callout color="blue">
+              <p>
+                <strong>For the demo only:</strong> If you don’t feel like
+                calculating, <M t="a = 0.835" /> and <M t="b = 0.551" />.
+              </p>
+            </Callout>
           </DemoOnly>
         </>
       ),
@@ -409,7 +402,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           />
 
           {responses?.v1v2AxesAllowed?.selected === "no" && (
-            <TextArea
+            <TextBox
               model={m.v1v2AxesAllowedExplain}
               label={<Prose>Explain why not:</Prose>}
             />
@@ -479,7 +472,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         <>
           <Columns>
             <Column>
-              <Prose noMargin>
+              <Prose>
                 <p>
                   Alright, let’s plot the vector. Like before, type in the new
                   coordinates as decimals in the column vector below.
@@ -487,10 +480,9 @@ export default page(setup, ({ section, oneOf, hint }) => ({
               </Prose>
 
               <Matrix
-                className="margin-top"
                 labelTex="\begin{pmatrix} a \\ b \end{pmatrix}_v ="
                 subscriptTex="v"
-                column={modelToColumn(m.kColumn, (c) => (
+                column={Matrix.modelToColumn(m.kColumn, (c) => (
                   <Decimal model={c} />
                 ))}
               />
@@ -519,9 +511,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         kColumnCorrect: section({
           name: "kColumnCorrect",
           body: (
-            <Help>
-              <Prose>Looks good to us! Wonderful job.</Prose>
-            </Help>
+            <Guidance.Agree>Looks good to us! Wonderful job.</Guidance.Agree>
           ),
           continue: { label: "Awesome, let’s keep going" },
         }),
@@ -529,69 +519,71 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         kColumnReversed: section({
           name: "kColumnReversed",
           body: (
-            <Help>
-              <Prose>
-                <p>
-                  You’re really close! Looks like you reversed <M t="a" /> and{" "}
-                  <M t="b" /> though. If you’re using inner products to
-                  calculate, make sure you’re using these equations:
-                  <M
-                    display
-                    t="a = \braket{v_1|u} \text{ and } b = \braket{v_2|u}"
-                  />
-                </p>
+            <Guidance.Agree>
+              <p>
+                You’re really close! Looks like you reversed <M t="a" /> and{" "}
+                <M t="b" /> though. If you’re using inner products to calculate,
+                make sure you’re using these equations:
+                <M
+                  display
+                  t="a = \braket{v_1|u} \text{ and } b = \braket{v_2|u}"
+                />
+              </p>
 
-                <p>
-                  You can fix this above if you’d like (it will help you
-                  visualize the vector). Otherwise, you’re ready to move on.
-                </p>
-              </Prose>
-            </Help>
+              <p>
+                You can fix this above if you’d like (it will help you visualize
+                the vector). Otherwise, you’re ready to move on.
+              </p>
+            </Guidance.Agree>
           ),
         }),
 
         kColumnIncorrect: section({
           name: "kColumnIncorrect",
-          body: (_, { responses }) => (
-            <Info>
-              <Prose>
-                {approxEquals(responses?.kColumn, [0.835, 0.551]) ? (
-                  <p>
-                    Hey! Looks like you changed your answers to the correct
-                    ones. Nice job! Feel free to move on.
-                  </p>
-                ) : (
-                  <>
-                    <p>
-                      {approxEquals(responses?.kColumn?.[0], 0.835) ? (
-                        <>
-                          Looks like your <M t="b" /> is somewhat off.
-                        </>
-                      ) : approxEquals(responses?.kColumn?.[1], 0.551) ? (
-                        <>
-                          Looks like your <M t="a" /> is somewhat off.
-                        </>
-                      ) : (
-                        <>Looks like your calculation is somewhat off.</>
-                      )}{" "}
-                      If you’re using inner products to calculate, make sure
-                      you’re using these equations:
-                      <M
-                        display
-                        t="a = \braket{v_1|u} \text{ and } b = \braket{v_2|u}"
-                      />
-                    </p>
+          body: (_, { responses }) => {
+            const agree = approxEquals(responses?.kColumn, [0.835, 0.551]);
 
+            return (
+              <Guidance.Dynamic status={agree ? "agree" : "disagree"}>
+                <Prose>
+                  {agree ? (
                     <p>
-                      The answers are revealed on the top of the next page. Keep
-                      trying (if you want), and you can double check yourself
-                      there. Move on when you decide you’re ready.
+                      Hey! Looks like you changed your answers to the correct
+                      ones. Nice job! Feel free to move on.
                     </p>
-                  </>
-                )}
-              </Prose>
-            </Info>
-          ),
+                  ) : (
+                    <>
+                      <p>
+                        {approxEquals(responses?.kColumn?.[0], 0.835) ? (
+                          <>
+                            Looks like your <M t="b" /> is somewhat off.
+                          </>
+                        ) : approxEquals(responses?.kColumn?.[1], 0.551) ? (
+                          <>
+                            Looks like your <M t="a" /> is somewhat off.
+                          </>
+                        ) : (
+                          <>Looks like your calculation is somewhat off.</>
+                        )}{" "}
+                        If you’re using inner products to calculate, make sure
+                        you’re using these equations:
+                        <M
+                          display
+                          t="a = \braket{v_1|u} \text{ and } b = \braket{v_2|u}"
+                        />
+                      </p>
+
+                      <p>
+                        The answers are revealed on the top of the next page.
+                        Keep trying (if you want), and you can double check
+                        yourself there. Move on when you decide you’re ready.
+                      </p>
+                    </>
+                  )}
+                </Prose>
+              </Guidance.Dynamic>
+            );
+          },
         }),
       },
     }),

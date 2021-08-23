@@ -59,13 +59,16 @@ export default tutorialSchema({
   ],
   pretest: {
     meaningOfCoefficients: f.string(),
-    coBExpression: f.chooseAll([
-      "x-subscripts",
-      "projection (correct)",
-      "probability coefficients",
-      "x<+|+> coefficients",
-      "just inner products",
-    ]),
+    coBExpression: f.chooseAll(
+      [
+        "x-subscripts",
+        "projection (correct)",
+        "probability coefficients",
+        "x<+|+> coefficients",
+        "just inner products",
+      ],
+      f.string()
+    ),
     changedProbabilities: f.chooseOne(["true", "false"]),
     cantKnowBothProbabilities: f.chooseOne(["true", "false"]),
     createdNewState: f.chooseOne(["true", "false"]),
@@ -128,12 +131,15 @@ export default tutorialSchema({
     "whyCoB",
   ],
   responses: {
-    meaningOfCoefficients: f.chooseAll([
-      "normalized",
-      "measurement-outcomes",
-      "probabilities-direct",
-      "probabilities-squared",
-    ]),
+    meaningOfCoefficients: f.chooseAll(
+      [
+        "normalized",
+        "measurement-outcomes",
+        "probabilities-direct",
+        "probabilities-squared",
+      ],
+      f.string()
+    ),
     probability: PlusMinus,
     probabilityAmplitude: PlusMinus,
     relationshipProbAmp: f.string(),

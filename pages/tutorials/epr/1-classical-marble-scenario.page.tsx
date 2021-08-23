@@ -1,8 +1,5 @@
-import { Answer, Prose } from "@/design";
-import { Column, Columns } from "@/design/layout";
-import { TextArea } from "@/inputs";
+import { Answer, Column, Columns, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -93,7 +90,7 @@ export default page(setup, ({ section }) => ({
 
           <Columns>
             <Column>
-              <TextArea
+              <TextBox
                 model={m.sameAsEPR}
                 minRows={4}
                 label={
@@ -117,7 +114,7 @@ export default page(setup, ({ section }) => ({
             </Column>
 
             <Column>
-              <TextArea
+              <TextBox
                 model={m.differentFromEPR}
                 minRows={4}
                 label={

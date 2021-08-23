@@ -1,8 +1,5 @@
-import { Prose } from "@/design";
-import { FieldGroup, Text, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import { LabelsLeft, M, Prose, TextBox, TextLine, Toggle } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -69,7 +66,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.doesSzTimesPlusXConnectToMeasurementExplain}
             label={<Prose>Explain:</Prose>}
           />
@@ -127,12 +124,12 @@ export default page(setup, ({ section }) => ({
             you get?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.SzTimesArbitraryKet}
               label={<M t="\hat{S_z}\ket{\psi} = " />}
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -166,7 +163,7 @@ export default page(setup, ({ section }) => ({
             </blockquote>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.studentInterpretationsOfSzTimesPsi}
             label={
               <Prose>
@@ -181,7 +178,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "whyOperatorTimesStateIsNotMeasurement",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.whyOperatorTimesStateIsNotMeasurement}
           label={
             <Prose>

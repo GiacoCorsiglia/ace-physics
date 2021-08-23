@@ -1,7 +1,5 @@
 import { UserMenu } from "@/auth";
-import { Prose } from "@/design";
-import { Content, Header, Page } from "@/design/layout";
-import { Button } from "@/inputs";
+import { Button, Content, Header, Page, Prose } from "@/components";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -11,7 +9,6 @@ import * as fs from "fs";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { join } from "path";
-import React from "react";
 import { promisify } from "util";
 import styles from "./[...slug].page.module.scss";
 
@@ -71,11 +68,15 @@ export default function FinishedPage() {
         </Prose>
 
         <div className={styles.buttons}>
-          <Button onClick={() => router.back()} iconFirst kind="tertiary">
-            <ArrowLeftIcon /> Go back
+          <Button
+            onClick={() => router.back()}
+            iconLeft={<ArrowLeftIcon />}
+            color="yellow"
+          >
+            Go back
           </Button>
 
-          <Button link="/tutorials">
+          <Button color="green" link="/tutorials">
             See other tutorials <ArrowRightIcon />
           </Button>
         </div>

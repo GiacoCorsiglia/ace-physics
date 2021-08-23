@@ -101,7 +101,7 @@ export default tracked(function Section(
       {/* <Content> */}
       {bodyHtml}
 
-      <div className="margin-top">{revealedHintsHtml}</div>
+      <div>{revealedHintsHtml}</div>
 
       <div className={styles.continue}>
         {isContinueVisible && status !== "committed" && (

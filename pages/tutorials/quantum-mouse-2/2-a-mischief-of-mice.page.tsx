@@ -1,8 +1,14 @@
-import { Prose, Reminder } from "@/design";
-import { Decimal, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import {
+  Decimal,
+  Dropdown,
+  LabelsLeft,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 import styles from "./styles.module.scss";
 
@@ -60,7 +66,7 @@ export default page(setup, ({ section }) => ({
           <div className={styles.unitsGrid}>
             <Decimal model={m.expValS} label={<M t="\expval{\hat{S}} = " />} />
 
-            <Select
+            <Dropdown
               model={m.expValSUnits}
               placeholder="Units"
               choices={[
@@ -75,7 +81,7 @@ export default page(setup, ({ section }) => ({
               label={<M t="\Delta\hat{S} = " />}
             />
 
-            <Select
+            <Dropdown
               model={m.uncertaintySUnits}
               placeholder="Units"
               choices={[
@@ -136,7 +142,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea model={m.signExpValMExplain} label={<Prose>Why?</Prose>} />
+          <TextBox model={m.signExpValMExplain} label={<Prose>Why?</Prose>} />
         </>
       ),
     }),
@@ -152,7 +158,7 @@ export default page(setup, ({ section }) => ({
             <strong>magnitude</strong> it could ever be?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal
               model={m.smallestMagnitudeExpValM}
               label={
@@ -172,7 +178,7 @@ export default page(setup, ({ section }) => ({
                 </>
               }
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -188,7 +194,7 @@ export default page(setup, ({ section }) => ({
             needed, just a rough idea)
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal
               model={m.smallestUncertaintyM}
               label={
@@ -206,7 +212,7 @@ export default page(setup, ({ section }) => ({
                 </>
               }
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -224,11 +230,11 @@ export default page(setup, ({ section }) => ({
             expectations above?)
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal model={m.expValM} label={<M t="\expval{\hat{M}} =" />} />
 
             <Decimal model={m.uncertaintyM} label={<M t="\Delta\hat{M} =" />} />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),

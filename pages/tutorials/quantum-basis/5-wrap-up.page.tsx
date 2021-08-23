@@ -1,8 +1,5 @@
-import { Prose } from "@/design";
-import { TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import { M, Prose, TextBox, Toggle } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import Car from "./assets/car.svg";
 import setup from "./setup";
 import styles from "./styles.module.scss";
@@ -48,7 +45,7 @@ export default page(setup, ({ section }) => ({
             choices={coordChoices}
           />
 
-          <TextArea
+          <TextBox
             model={m.positionCoordExplain}
             label={<Prose>Justify your choice:</Prose>}
           />
@@ -71,7 +68,7 @@ export default page(setup, ({ section }) => ({
             choices={coordChoices}
           />
 
-          <TextArea
+          <TextBox
             model={m.potentialEnergyCoordExplain}
             label={<Prose>Justify your choice:</Prose>}
           />
@@ -97,7 +94,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.coordEffectExplain}
             label={<Prose>Tell us what you‘re thinking:</Prose>}
           />
@@ -113,7 +110,7 @@ export default page(setup, ({ section }) => ({
             Now, let’s think about changing basis in quantum mechanics.
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.xBasisRewriteReason}
             label={
               <Prose>
@@ -124,7 +121,7 @@ export default page(setup, ({ section }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.xBasisRewriteNewInfo}
             label={
               <Prose>
@@ -175,7 +172,7 @@ export default page(setup, ({ section }) => ({
             choices={basisChoices}
           />
 
-          <TextArea
+          <TextBox
             model={m.basisChoiceExplain}
             label={<Prose>Explain your choices:</Prose>}
           />
@@ -201,7 +198,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.effectOfCoBExplain}
             label={<Prose>If yes, how so? If not, why not?</Prose>}
           />
@@ -212,7 +209,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "whyCoB",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.whyCoB}
           label={
             <Prose>

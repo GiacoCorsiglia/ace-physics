@@ -1,7 +1,14 @@
-import { Help, Prose, Reminder } from "@/design";
+import {
+  ChooseAll,
+  Dropdown,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+} from "@/components";
 import { arraysEqual } from "@/helpers/frontend";
-import { ChooseAll, FieldGroup, Select, TextArea } from "@/inputs";
-import M from "@/math";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -105,31 +112,31 @@ export default page(setup, ({ section, sequence, hint }) => ({
               </p>
             </Prose>
 
-            <FieldGroup grid className="margin-top">
-              <Select
+            <LabelsLeft>
+              <Dropdown
                 model={m.moodEigenvalues}
                 choices={moodChoices}
                 label="Eigenvalues:"
                 placeholder="Select eigenvalues…"
               />
 
-              <Select
+              <Dropdown
                 model={m.moodEigenvectors}
                 choices={moodChoices}
                 label="Eigenvectors:"
                 placeholder="Select eigenvectors…"
               />
 
-              <Select
+              <Dropdown
                 model={m.moodOperators}
                 choices={moodChoices}
                 label="Operators:"
                 placeholder="Select operators..."
               />
-            </FieldGroup>
+            </LabelsLeft>
 
             <Reminder>
-              <p className="text-center margin-top-1">
+              <p className="text-center">
                 <M t="\hat{M}\ket{\smiley} = \ket{\smiley}" />{" "}
                 &nbsp;&nbsp;and&nbsp;&nbsp;{" "}
                 <M t="\hat{M}\ket{\frownie} = -\ket{\frownie}" />.
@@ -155,8 +162,8 @@ export default page(setup, ({ section, sequence, hint }) => ({
     section({
       name: "happySadInnerProduct",
       body: (m) => (
-        <FieldGroup grid>
-          <Select
+        <LabelsLeft>
+          <Dropdown
             model={m.happySadInnerProduct}
             choices={[
               ["0", "0"],
@@ -166,8 +173,8 @@ export default page(setup, ({ section, sequence, hint }) => ({
             label={<M t="\braket{\smiley|\frownie} = " />}
           />
 
-          <TextArea model={m.happySadInnerProductExplain} label="Explain:" />
-        </FieldGroup>
+          <TextBox model={m.happySadInnerProductExplain} label="Explain:" />
+        </LabelsLeft>
       ),
       hints: [
         hint({
@@ -197,20 +204,18 @@ export default page(setup, ({ section, sequence, hint }) => ({
         return posCorrect !== valuesCorrect;
       },
       body: (
-        <Help>
-          <Prose>
-            <p>
-              Your answers to the first two questions on this page seem to
-              disagree.
-            </p>
+        <Guidance.Disagree>
+          <p>
+            Your answers to the first two questions on this page seem to
+            disagree.
+          </p>
 
-            <p>
-              What’s the relationship between the possible values of a
-              measurement of <M t="\hat{M}" /> and the eigenvalues in the
-              eigen-equations at the top of this page?
-            </p>
-          </Prose>
-        </Help>
+          <p>
+            What’s the relationship between the possible values of a measurement
+            of <M t="\hat{M}" /> and the eigenvalues in the eigen-equations at
+            the top of this page?
+          </p>
+        </Guidance.Disagree>
       ),
     }),
 
@@ -221,15 +226,12 @@ export default page(setup, ({ section, sequence, hint }) => ({
           name: "happySadVsSmallBig",
           when: (r) => r.smallBigInnerProduct?.selected === "0",
           body: (
-            <Help>
-              <Prose>
-                On the previous page, you said
-                <M t="\braket{\smalleye|\wideye} = 0" />.{" "}
-                <M t="\ket{\smiley}" /> and <M t="\ket{\frownie}" /> are also
-                orthogonal, so consider checking your answer for{" "}
-                <M t="\braket{\smiley|\frownie}" />.
-              </Prose>
-            </Help>
+            <Guidance.Disagree>
+              On the previous page, you said
+              <M t="\braket{\smalleye|\wideye} = 0" />. <M t="\ket{\smiley}" />{" "}
+              and <M t="\ket{\frownie}" /> are also orthogonal, so consider
+              checking your answer for <M t="\braket{\smiley|\frownie}" />.
+            </Guidance.Disagree>
           ),
         }),
 
@@ -237,20 +239,18 @@ export default page(setup, ({ section, sequence, hint }) => ({
           name: "happySadCorrection",
           when: (r) => r.smallBigInnerProduct?.selected !== "0",
           body: (
-            <Help>
-              <Prose>
-                <p>
-                  <M t="\ket{\smiley}" /> and <M t="\ket{\frownie}" /> are
-                  orthogonal, so their inner product (
-                  <M t="\braket{\smiley|\frownie}" prespace={false} />) is zero.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                <M t="\ket{\smiley}" /> and <M t="\ket{\frownie}" /> are
+                orthogonal, so their inner product (
+                <M t="\braket{\smiley|\frownie}" prespace={false} />) is zero.
+              </p>
 
-                <p>
-                  This is also true for <M t="\ket{\smalleye}" /> and{" "}
-                  <M t="\ket{\wideye}" /> from the previous page.
-                </p>
-              </Prose>
-            </Help>
+              <p>
+                This is also true for <M t="\ket{\smalleye}" /> and{" "}
+                <M t="\ket{\wideye}" /> from the previous page.
+              </p>
+            </Guidance.Disagree>
           ),
         }),
       ],

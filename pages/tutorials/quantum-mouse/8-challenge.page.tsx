@@ -1,7 +1,5 @@
-import { Prose, Reminder } from "@/design";
-import M from "@/math";
+import { M, Prose, Reminder } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({

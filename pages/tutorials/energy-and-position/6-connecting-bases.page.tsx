@@ -1,6 +1,4 @@
-import { Prose } from "@/design";
-import { TextArea } from "@/inputs";
-import M from "@/math";
+import { M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -51,7 +49,7 @@ export default page(setup, ({ section }) => ({
       name: "ketInEnergyBasisFunc",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.ketInEnergyBasisFunc}
             label={
               <Prose>
@@ -63,7 +61,7 @@ export default page(setup, ({ section }) => ({
             }
           />
 
-          <Prose className="opacity-faded">
+          <Prose faded>
             You can write <M t="1/\sqrt{N}" /> as “1/sqrt(N)”, and write “psi_n”
             and “phi_n”, or copy-paste:
             <br />ψ and φ
@@ -83,7 +81,7 @@ export default page(setup, ({ section }) => ({
       name: "posQuestionsEnergyBasis",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.posQuestionsEnergyBasis}
             label={
               <Prose>
@@ -102,7 +100,7 @@ export default page(setup, ({ section }) => ({
       name: "toThinkAbout",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.toThinkAbout}
             label={
               <Prose>

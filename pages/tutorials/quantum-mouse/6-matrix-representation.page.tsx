@@ -1,9 +1,15 @@
-import { Help, Prose, Reminder } from "@/design";
-import { Decimal, FieldGroup, Select, Text } from "@/inputs";
-import { fieldToMatrix, Matrix } from "@/math";
-import M from "@/math/M";
+import {
+  Decimal,
+  Dropdown,
+  Guidance,
+  LabelsLeft,
+  M,
+  Matrix,
+  Prose,
+  Reminder,
+  TextLine,
+} from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, sequence, hint }) => ({
@@ -81,29 +87,19 @@ export default page(setup, ({ section, sequence, hint }) => ({
             </Prose>
 
             <Matrix
-              className="margin-top"
               label="A small-eyed mouse,&nbsp;"
               labelTex="\ket{\smalleye}"
-              matrix={fieldToMatrix(
-                m.smallVector,
-                <Select
-                  model={m.smallVector.elements[0]}
-                  choices={vectorSelectChoices}
-                />
-              )}
+              column={Matrix.modelToColumn(m.smallVector, (model) => (
+                <Dropdown model={model} choices={vectorSelectChoices} />
+              ))}
             />
 
             <Matrix
-              className="margin-top"
               label="A wide-eyed mouse,&nbsp;"
               labelTex="\ket{\wideye}"
-              matrix={fieldToMatrix(
-                m.wideVector,
-                <Select
-                  model={m.wideVector.elements[0]}
-                  choices={vectorSelectChoices}
-                />
-              )}
+              column={Matrix.modelToColumn(m.wideVector, (model) => (
+                <Dropdown model={model} choices={vectorSelectChoices} />
+              ))}
             />
           </>
         );
@@ -123,20 +119,20 @@ export default page(setup, ({ section, sequence, hint }) => ({
             <p>But first, let’s remind ourselves of some things.</p>
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.happyEigenequation}
               label={<M t="\hat{M}\ket{\smiley} =" />}
             />
 
-            <Text
+            <TextLine
               model={m.sadEigenequation}
               label={<M t="\hat{M}\ket{\frownie} =" />}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <Prose className="text-center">
-            <span className="text-small opacity-faded">
+          <Prose align="center">
+            <span className="text-small text-faded">
               You can copy-paste these:
             </span>
             <span
@@ -180,12 +176,10 @@ export default page(setup, ({ section, sequence, hint }) => ({
           </Prose>
 
           <Matrix
-            className="margin-top"
             labelTex="\hat{M}"
-            matrix={fieldToMatrix(
-              m.moodMatrix,
-              <Decimal model={m.moodMatrix.elements[0].elements[0]} />
-            )}
+            matrix={Matrix.modelToMatrix(m.moodMatrix, (model) => (
+              <Decimal model={model} />
+            ))}
           />
         </>
       ),
@@ -195,11 +189,9 @@ export default page(setup, ({ section, sequence, hint }) => ({
       name: "moodMatrixDiagonal",
       when: (r) => r.moodMatrix?.[0]?.[1] !== 0 || r.moodMatrix?.[1]?.[0] !== 0,
       body: (
-        <Help>
-          <Prose>
-            Hint: You should find that <M t="b = c = 0" />. Give it another go!
-          </Prose>
-        </Help>
+        <Guidance.Disagree>
+          Hint: You should find that <M t="b = c = 0" />. Give it another go!
+        </Guidance.Disagree>
       ),
     }),
   ],

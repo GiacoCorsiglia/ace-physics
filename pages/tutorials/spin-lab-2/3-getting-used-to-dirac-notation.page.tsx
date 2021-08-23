@@ -1,7 +1,13 @@
-import { Info, Prose } from "@/design";
-import { Column, Columns } from "@/design/layout";
-import { Decimal, Select } from "@/inputs";
-import M, { fieldToMatrix, Matrix } from "@/math";
+import {
+  Callout,
+  Column,
+  Columns,
+  Decimal,
+  Dropdown,
+  M,
+  Matrix,
+  Prose,
+} from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
@@ -108,12 +114,10 @@ export default page(setup, ({ section, hint }) => ({
             <M t="\ket{y}" />
           </div>
 
-          <Info>
-            <Prose>
-              <PencilIcon /> &nbsp; Do this on scrap paper! And hang onto your
-              results—you’ll want them on the next page.
-            </Prose>
-          </Info>
+          <Callout color="blue">
+            <PencilIcon /> &nbsp; Do this on scrap paper! And hang onto your
+            results—you’ll want them on the next page.
+          </Callout>
         </>
       ),
     }),
@@ -127,24 +131,22 @@ export default page(setup, ({ section, hint }) => ({
             expressing each element as <strong>a number</strong>.
           </Prose>
 
-          <Columns className="margin-top">
+          <Columns>
             <Column>
               <Matrix
                 labelTex="\ket{u}"
-                column={fieldToMatrix(
-                  m.uColumn,
-                  <Decimal model={m.uColumn.elements[0]} />
-                )}
+                column={Matrix.modelToColumn(m.uColumn, (model) => (
+                  <Decimal model={model} />
+                ))}
               />
             </Column>
 
             <Column>
               <Matrix
                 labelTex="\ket{v}"
-                column={fieldToMatrix(
-                  m.vColumn,
-                  <Decimal model={m.vColumn.elements[0]} />
-                )}
+                column={Matrix.modelToColumn(m.vColumn, (model) => (
+                  <Decimal model={model} />
+                ))}
               />
             </Column>
           </Columns>
@@ -162,14 +164,13 @@ export default page(setup, ({ section, hint }) => ({
             <strong>an appropriate inner product</strong>.
           </Prose>
 
-          <Columns className="margin-top">
+          <Columns>
             <Column>
               <Matrix
                 labelTex="\ket{u}"
-                column={fieldToMatrix(
-                  m.uColumnDirac,
-                  <Select
-                    model={m.uColumnDirac.elements[0]}
+                column={Matrix.modelToColumn(m.uColumnDirac, (model) => (
+                  <Dropdown
+                    model={model}
                     choices={[
                       ["|x>", <M t="\ket{x}" />],
                       ["|y>", <M t="\ket{y}" />],
@@ -179,19 +180,17 @@ export default page(setup, ({ section, hint }) => ({
                       ["<u|x>", <M t="\braket{u|x}" />],
                       ["<u|y>", <M t="\braket{u|y}" />],
                     ]}
-                    allowOther={false}
                   />
-                )}
+                ))}
               />
             </Column>
 
             <Column>
               <Matrix
                 labelTex="\ket{v}"
-                column={fieldToMatrix(
-                  m.vColumnDirac,
-                  <Select
-                    model={m.vColumnDirac.elements[0]}
+                column={Matrix.modelToColumn(m.vColumnDirac, (model) => (
+                  <Dropdown
+                    model={model}
                     choices={[
                       ["|x>", <M t="\ket{x}" />],
                       ["|y>", <M t="\ket{y}" />],
@@ -201,9 +200,8 @@ export default page(setup, ({ section, hint }) => ({
                       ["<v|x>", <M t="\braket{v|x}" />],
                       ["<v|y>", <M t="\braket{v|y}" />],
                     ]}
-                    allowOther={false}
                   />
-                )}
+                ))}
               />
             </Column>
           </Columns>

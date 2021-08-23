@@ -271,12 +271,12 @@ const RevealAnswersSection = ({
     >
       {showPrompt && (
         <>
-          <Prose className="text-center">
+          <Prose align="center">
             Alright! You’re done with this page. There’s only one thing left to
             do…
           </Prose>
 
-          <div className="text-center margin-top">
+          <Horizontal justify="center">
             <Button
               onClick={() => {
                 setStatus("answersRevealed");
@@ -291,9 +291,9 @@ const RevealAnswersSection = ({
             >
               Show me the answers
             </Button>
-          </div>
+          </Horizontal>
 
-          <Prose className="text-center">
+          <Prose align="center">
             Clicking this button will scroll you to the top of the page.
           </Prose>
         </>
@@ -314,7 +314,7 @@ const RevealAnswersSection = ({
           />
 
           {status !== "completed" && (
-            <div className="text-right margin-top">
+            <Horizontal justify="end">
               <Button
                 color="green"
                 onClick={() => {
@@ -324,7 +324,7 @@ const RevealAnswersSection = ({
                 Move on
                 <ArrowDownIcon />
               </Button>
-            </div>
+            </Horizontal>
           )}
         </>
       )}

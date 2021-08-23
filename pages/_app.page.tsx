@@ -5,7 +5,6 @@ import "@/design/global.scss";
 import { JsxElement, resetUniqueIds } from "@/helpers/frontend";
 import { init } from "@/sentry";
 import type { AppProps } from "next/app";
-import React from "react";
 
 init();
 

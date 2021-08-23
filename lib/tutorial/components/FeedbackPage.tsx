@@ -11,7 +11,6 @@ import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
-import React from "react";
 import { TutorialConfig } from "../config";
 import { useRootModel } from "../state-tree";
 
@@ -94,7 +93,7 @@ export default function FeedbackPage({
             }
           />
 
-          <Prose className="opacity-faded">
+          <Prose faded>
             <p>
               We take your feedback to heart. But, we can’t get to everything,
               and may have other reasons for not directly implementing your

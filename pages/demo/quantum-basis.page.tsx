@@ -1,6 +1,5 @@
-import M from "@/math";
+import { M } from "@/components";
 import QuantumBasis from "@pages/tutorials/quantum-basis/3-changing-basis.page";
-import React from "react";
 import { TutorialDemoPage } from "./tutorial-demo";
 
 export default function QuantumBasisDemo() {

@@ -1,9 +1,7 @@
 import { createLearner } from "@/api/client";
 import { formatId, rememberLearnerId, useAuth } from "@/auth";
 import styles from "@/auth/account.module.scss";
-import { Button } from "@/components";
-import { Prose } from "@/design";
-import { Content, Page } from "@/design/layout";
+import { Button, Content, Horizontal, Page, Prose } from "@/components";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
@@ -72,8 +70,9 @@ export default function CreateAccount() {
           <>
             <Prose>Click below to generate your account code.</Prose>
 
-            <div className="text-center margin-top">
+            <Horizontal justify="center">
               <Button
+                color="green"
                 disabled={status === "loading"}
                 onClick={async () => {
                   setStatus("loading");
@@ -94,7 +93,7 @@ export default function CreateAccount() {
                   ? "Generating..."
                   : "Generate my account code"}
               </Button>
-            </div>
+            </Horizontal>
           </>
         )}
 
@@ -121,7 +120,7 @@ export default function CreateAccount() {
         )}
 
         {(status === "success" || status === "saved") && (
-          <div className="text-center margin-top">
+          <Horizontal justify="center">
             <Button
               color="green"
               onClick={() => setStatus("saved")}
@@ -129,7 +128,7 @@ export default function CreateAccount() {
             >
               I promise I’ve saved my code <ArrowRightIcon />
             </Button>
-          </div>
+          </Horizontal>
         )}
 
         {status === "saved" && (
@@ -139,13 +138,13 @@ export default function CreateAccount() {
               tutorials!
             </Prose>
 
-            <div className="text-center margin-top">
+            <Horizontal justify="center">
               <Button color="green" link={withNext(urls.Login.link, next)}>
                 Go log in <ArrowRightIcon />
               </Button>
-            </div>
+            </Horizontal>
 
-            <Prose className="text-center">
+            <Prose align="center">
               You'll have to click “Log in” on the next page.
             </Prose>
           </>

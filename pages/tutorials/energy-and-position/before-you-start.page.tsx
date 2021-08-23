@@ -1,6 +1,4 @@
-import { Prose } from "@/design";
-import { ChooseOne, TextArea } from "@/inputs";
-import M from "@/math/M";
+import { LabelsRight, M, Prose, TextBox, Toggle } from "@/components";
 import { pretest } from "@/tutorial";
 import React from "react";
 import setup from "./setup";
@@ -28,61 +26,64 @@ export default pretest(setup, ({ section }) => ({
 
     section({
       body: (m) => (
-        <ChooseOne
-          model={m.probUpZEqual}
-          choices={trueFalse}
-          label={
-            <Prose>
-              <em>True or false:</em> The probability(measuring <M t="Z" />{" "}
-              component of spin to be <M t="+\hbar/2" /> for state{" "}
-              <M t="\ket{\psi_1}" />) EQUALS the probability(measuring{" "}
-              <M t="Z" /> component of spin to be <M t="+\hbar/2" /> for state{" "}
-              <M t="\ket{\psi_2}" />)
-            </Prose>
-          }
-        />
+        <LabelsRight>
+          <Toggle
+            model={m.probUpZEqual}
+            choices={trueFalse}
+            label={
+              <Prose>
+                The probability of measuring the <M t="Z" /> component of spin
+                to be <M t="+\hbar/2" /> for state <M t="\ket{\psi_1}" /> EQUALS
+                the probability of measuring the <M t="Z" /> component of spin
+                to be <M t="+\hbar/2" /> for state <M t="\ket{\psi_2}" />.
+              </Prose>
+            }
+          />
+        </LabelsRight>
       ),
     }),
 
     section({
       body: (m) => (
-        <ChooseOne
-          model={m.probDownZEqual}
-          choices={trueFalse}
-          label={
-            <Prose>
-              <em>True or false:</em> The probability(measuring <M t="Z" />{" "}
-              component of spin to be <M t="-\hbar/2" /> for state{" "}
-              <M t="\ket{\psi_1}" />) EQUALS the probability(measuring{" "}
-              <M t="Z" /> component of spin to be <M t="-\hbar/2" /> for state{" "}
-              <M t="\ket{\psi_2}" />)
-            </Prose>
-          }
-        />
+        <LabelsRight>
+          <Toggle
+            model={m.probDownZEqual}
+            choices={trueFalse}
+            label={
+              <Prose>
+                The probability of measuring the <M t="Z" /> component of spin
+                to be <M t="-\hbar/2" /> for state <M t="\ket{\psi_1}" /> EQUALS
+                the probability of measuring the <M t="Z" /> component of spin
+                to be <M t="-\hbar/2" /> for state <M t="\ket{\psi_2}" />.
+              </Prose>
+            }
+          />
+        </LabelsRight>
       ),
     }),
 
     section({
       body: (m) => (
-        <ChooseOne
-          model={m.probUpXEqual}
-          choices={trueFalse}
-          label={
-            <Prose>
-              <em>True or false:</em> The probability(measuring <M t="X" />{" "}
-              component of spin to be <M t="+\hbar/2" /> for state{" "}
-              <M t="\ket{\psi_1}" />) EQUALS the probability(measuring{" "}
-              <M t="X" /> component of spin to be <M t="+\hbar/2" /> for state{" "}
-              <M t="\ket{\psi_2}" />)
-            </Prose>
-          }
-        />
+        <LabelsRight>
+          <Toggle
+            model={m.probUpXEqual}
+            choices={trueFalse}
+            label={
+              <Prose>
+                The probability of measuring the <M t="X" /> component of spin
+                to be <M t="+\hbar/2" /> for state <M t="\ket{\psi_1}" /> EQUALS
+                the probability of measuring the <M t="X" /> component of spin
+                to be <M t="+\hbar/2" /> for state <M t="\ket{\psi_2}" />.
+              </Prose>
+            }
+          />
+        </LabelsRight>
       ),
     }),
 
     section({
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.howToNormalizeWaveFunction}
           label={
             <Prose>

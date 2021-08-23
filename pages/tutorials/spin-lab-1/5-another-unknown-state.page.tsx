@@ -1,7 +1,15 @@
-import { Help, Info, Prose } from "@/design";
+import {
+  Decimal,
+  Dropdown,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  Table,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { deepEqual } from "@/helpers/frontend";
-import { Decimal, FieldGroup, Select, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -50,7 +58,7 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
     section({
       name: "anotherUnknownStateStrategy",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.anotherUnknownStateStrategy}
           label={
             <Prose>
@@ -76,12 +84,17 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
               results.
             </Prose>
 
-            <table className="table">
+            <Table
+              columns={[0.25, 0.25, 0.25, 0.25]}
+              caption={
+                <>
+                  Probability Table for <M t="\ket{\phi}" />
+                </>
+              }
+            >
               <thead>
                 <tr>
-                  <td>
-                    Probability Table for <M t="\ket{\phi}" />
-                  </td>
+                  <td></td>
                   <td colSpan={3}>Axis</td>
                 </tr>
 
@@ -124,7 +137,7 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </Table>
           </>
         );
       },
@@ -135,28 +148,24 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
       enumerate: false,
       body: (_, { responses }) =>
         deepEqual(correctUnknown1Table, responses?.unknown1Table) ? (
-          <Help>
-            <Prose>Nice, your table looks great.</Prose>
-          </Help>
+          <Guidance.Agree>Nice, your table looks great.</Guidance.Agree>
         ) : (
-          <Info>
-            <Prose>
-              <p>
-                Heads up, there’s at least one mistake in your table. This
-                message will update when it’s 100% correct.
-              </p>
+          <Guidance.Disagree>
+            <p>
+              Heads up, there’s at least one mistake in your table. This message
+              will update when it’s 100% correct.
+            </p>
 
-              {Object.values(responses?.unknown1Table || {})
-                .flatMap((o) => Object.values(o || {}))
-                .some((v) => (v === undefined ? false : v > 1)) && (
-                <p>
-                  We noticed at least one of the numbers in your table is
-                  greater than 1. To be clear: we’re asking for probabilities,
-                  not percentages and not raw totals from the sim.
-                </p>
-              )}
-            </Prose>
-          </Info>
+            {Object.values(responses?.unknown1Table || {})
+              .flatMap((o) => Object.values(o || {}))
+              .some((v) => (v === undefined ? false : v > 1)) && (
+              <p>
+                We noticed at least one of the numbers in your table is greater
+                than 1. To be clear: we’re asking for probabilities, not
+                percentages and not raw totals from the sim.
+              </p>
+            )}
+          </Guidance.Disagree>
         ),
     }),
 
@@ -168,8 +177,8 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
             What is <M t="\ket{\phi}" />?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Select
+          <LabelsLeft>
+            <Dropdown
               model={m.unknown1Ket}
               label={<M t="\ket{\phi} = " />}
               choices={[
@@ -180,9 +189,8 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
                 ["+y", <M t="\ket{+}_y" />],
                 ["-y", <M t="\ket{-}_y" />],
               ]}
-              allowOther={false}
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -199,8 +207,8 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
                 below—we suggest you give this question another go.
               </Prose>
 
-              <FieldGroup grid className="margin-top-1">
-                <Select
+              <LabelsLeft>
+                <Dropdown
                   model={m.unknown1KetClarified}
                   label={<M t="\ket{\phi} = " />}
                   choices={[
@@ -241,9 +249,8 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
                       </>,
                     ],
                   ]}
-                  allowOther={false}
                 />
-              </FieldGroup>
+              </LabelsLeft>
             </>
           ),
         }),
@@ -252,22 +259,18 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
           name: "unknown1KetFeedback",
           body: (_, { responses }) =>
             responses?.unknown1KetClarified?.selected === "+y" ? (
-              <Help>
-                <Prose>
-                  Nice! We agree, <M t="\ket{\phi} = \ket{+}_y" /> because it
-                  will exit the “up” port of a Y-oriented Stern-Gerlach
-                  apparatus 100% of the time.
-                </Prose>
-              </Help>
+              <Guidance.Agree>
+                Nice! We agree, <M t="\ket{\phi} = \ket{+}_y" /> because it will
+                exit the “up” port of a Y-oriented Stern-Gerlach apparatus 100%
+                of the time.
+              </Guidance.Agree>
             ) : (
-              <Info>
-                <Prose>
-                  If all particles are 100% certain to exit just one particular
-                  port of, say, a Y-oriented Stern-Gerlach apparatus, what can
-                  we say (for sure!) about the entering state? Maybe try a
-                  different response above?
-                </Prose>
-              </Info>
+              <Guidance.Disagree>
+                If all particles are 100% certain to exit just one particular
+                port of, say, a Y-oriented Stern-Gerlach apparatus, what can we
+                say (for sure!) about the entering state? Maybe try a different
+                response above?
+              </Guidance.Disagree>
             ),
         }),
       ],
@@ -276,7 +279,7 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
     section({
       name: "unknown1Ambiguity",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.unknown1Ambiguity}
           label={
             <Prose>Is there any ambiguity in your solution? Explain.</Prose>
@@ -288,21 +291,18 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
     section({
       name: "unknown1AmbiguityFeedback",
       body: (
-        <Help>
-          <Prose>
-            <p>
-              We haven't tried to analyze your text, but here's what we would
-              say:
-            </p>
+        <Guidance.HeadsUp>
+          <p>
+            We haven't tried to analyze your text, but here's what we would say:
+          </p>
 
-            <p>
-              <M t="\ket{\phi}" /> is statistically very likely to be spin up
-              along <M t="Y" />, but you can always multiply any quantum state
-              by an “overall phase,” like <M t="-1" />. So our solution is
-              unambiguous, up to an (irrelevant) overall phase.
-            </p>
-          </Prose>
-        </Help>
+          <p>
+            <M t="\ket{\phi}" /> is statistically very likely to be spin up
+            along <M t="Y" />, but you can always multiply any quantum state by
+            an “overall phase,” like <M t="-1" />. So our solution is
+            unambiguous, up to an (irrelevant) overall phase.
+          </p>
+        </Guidance.HeadsUp>
       ),
     }),
 
@@ -353,7 +353,7 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.unknown1RandomnessExplain}
             label={<Prose>Discuss why/why not for all three questions!</Prose>}
           />
@@ -372,23 +372,19 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
         unknown1RandomnessCorrect: section({
           name: "unknown1RandomnessCorrect",
           body: (
-            <Help>
-              <Prose>
-                We agree with your answers, although we haven't checked your
-                explanation.
-              </Prose>
-            </Help>
+            <Guidance.Agree>
+              We agree with your answers, although we haven't checked your
+              explanation.
+            </Guidance.Agree>
           ),
         }),
         unknown1RandomnessIncorrect: section({
           name: "unknown1RandomnessIncorrect",
           body: (
-            <Info>
-              <Prose>
-                We disagree with at least one of your answers; we suggest you
-                talk to an instructor.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              We disagree with at least one of your answers; we suggest you talk
+              to an instructor.
+            </Guidance.Disagree>
           ),
         }),
       },

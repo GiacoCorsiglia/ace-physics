@@ -1,14 +1,12 @@
-import { Info, Prose } from "@/design";
-import { Content } from "@/design/layout";
+import { Button, Callout, Content, Prose } from "@/components";
 import { Html } from "@/helpers/frontend";
-import { Button } from "@/inputs";
 import { TutorialSchema, TutorialState } from "@/schema/tutorial";
 import BodyPage from "@/tutorial/components/BodyPage";
 import { PageConfig, TutorialConfig } from "@/tutorial/config";
 import { Root } from "@/tutorial/state-tree";
 import { ArrowLeftIcon, IssueReopenedIcon } from "@primer/octicons-react";
 import Head from "next/head";
-import React, {
+import {
   createContext,
   useCallback,
   useContext,
@@ -49,7 +47,7 @@ export const TutorialDemoPage = <S extends TutorialSchema>({
       </Head>
 
       <Content as="section">
-        <Info>
+        <Callout color="blue">
           <Prose>
             <h4>
               Demo: <em>{title}</em>
@@ -72,23 +70,21 @@ export const TutorialDemoPage = <S extends TutorialSchema>({
           </Prose>
 
           <div style={{ display: "flex", marginTop: "2rem" }}>
-            <Button iconFirst kind="secondary" link="/demo">
-              <ArrowLeftIcon />
+            <Button color="blue" iconLeft={<ArrowLeftIcon />} link="/demo">
               Go back
             </Button>
 
             <Button
-              kind="tertiary"
-              iconFirst
+              color="yellow"
+              iconLeft={<IssueReopenedIcon />}
               onClick={reset}
               style={{ marginLeft: "auto" }}
               disabled={!hasEdited}
             >
-              <IssueReopenedIcon />
               Reset and start over
             </Button>
           </div>
-        </Info>
+        </Callout>
       </Content>
 
       {/* Changing the key will destroy and re-mount this component. */}
@@ -110,18 +106,20 @@ export const TutorialDemoPage = <S extends TutorialSchema>({
                 </Prose>
 
                 <div style={{ display: "flex", marginTop: "2rem" }}>
-                  <Button iconFirst kind="secondary" link="/demo">
-                    <ArrowLeftIcon />
+                  <Button
+                    color="blue"
+                    iconLeft={<ArrowLeftIcon />}
+                    link="/demo"
+                  >
                     Go back
                   </Button>
 
                   <Button
-                    kind="tertiary"
-                    iconFirst
+                    color="yellow"
+                    iconLeft={<IssueReopenedIcon />}
                     onClick={reset}
                     style={{ marginLeft: "auto" }}
                   >
-                    <IssueReopenedIcon />
                     Reset and start over
                   </Button>
                 </div>

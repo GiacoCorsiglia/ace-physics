@@ -1,12 +1,16 @@
-import { Help, Info, Prose } from "@/design";
-import { cx, Html } from "@/helpers/frontend";
-import { Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
-import inputStyles from "@/inputs/inputs.module.scss";
-import M from "@/math/M";
+import {
+  Button,
+  ControlGroup,
+  Decimal,
+  Guidance,
+  Horizontal,
+  M,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
+import { approxEquals, Html } from "@/helpers/frontend";
 import { page } from "@/tutorial";
-import { approxEquals } from "@/util";
-import { LinkExternalIcon } from "@primer/octicons-react";
-import React from "react";
 import setup, { ResponseModels, Responses } from "./setup";
 
 export default page(setup, ({ section, oneOf }) => ({
@@ -25,17 +29,14 @@ export default page(setup, ({ section, oneOf }) => ({
             </p>
           </Prose>
 
-          <div className="text-center margin-top-1">
-            <a
-              className={cx(inputStyles.secondary, inputStyles.iconLast)}
-              href="https://www.st-andrews.ac.uk/physics/quvis/simulations_html5/sims/TimeDevelopment/TimeDevelopment.html"
-              target="_blank"
-              rel="noreferrer noopener"
+          <Horizontal align="center">
+            <Button
+              link="https://www.st-andrews.ac.uk/physics/quvis/simulations_html5/sims/TimeDevelopment/TimeDevelopment.html"
+              color="blue"
             >
               Open the “Time Development” sim
-              <LinkExternalIcon />
-            </a>
-          </div>
+            </Button>
+          </Horizontal>
 
           <Prose>
             <p>
@@ -72,7 +73,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "prevGraphComparison",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.prevGraphComparison}
             label={
               <Prose>
@@ -97,7 +98,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "simGraphComparison",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.simGraphComparison}
             label={
               <Prose>
@@ -138,15 +139,15 @@ export default page(setup, ({ section, oneOf }) => ({
             </p>
           </Prose>
 
-          <FieldGroup grid suffixed className="margin-top-1">
+          <ControlGroup>
             <Decimal model={m.rotationPeriod1} label={<M t="T_1 = " />} />
-
             <M t="\times \frac{h}{E_1}" />
+          </ControlGroup>
 
+          <ControlGroup>
             <Decimal model={m.rotationPeriod2} label={<M t="T_2 = " />} />
-
             <M t="\times \frac{h}{E_1}" />
-          </FieldGroup>
+          </ControlGroup>
 
           <Prose>
             Please note we said <M t="h/E_1" />: Why is that <M t="h" /> is
@@ -190,43 +191,37 @@ export default page(setup, ({ section, oneOf }) => ({
         rotationPeriodsCorrect: section({
           name: "rotationPeriodsCorrect",
           body: (
-            <Help>
-              <Prose>
-                Nice—we agree with those values for <M t="T_1" /> and{" "}
-                <M t="T_2" />.
-              </Prose>
-            </Help>
+            <Guidance.Agree>
+              Nice—we agree with those values for <M t="T_1" /> and{" "}
+              <M t="T_2" />.
+            </Guidance.Agree>
           ),
         }),
         rotationPeriodsClose: section({
           name: "rotationPeriodsClose",
           body: (
-            <Info>
-              <Prose>
-                You’re close, but at least one of your values is slightly off.
-                Make sure you use the time step arrows and both of the upper
-                plots to identify the exact periods.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              You’re close, but at least one of your values is slightly off.
+              Make sure you use the time step arrows and both of the upper plots
+              to identify the exact periods.
+            </Guidance.Disagree>
           ),
         }),
         rotationPeriodsOffByFactor: section({
           name: "rotationPeriodsOffByFactor",
           body: (
-            <Info>
-              <Prose>
-                You’re close, but at least one of your values is off by a factor
-                of 2 or 4.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              You’re close, but at least one of your values is off by a factor
+              of 2 or 4.
+            </Guidance.Disagree>
           ),
         }),
         rotationPeriodsIncorrect: section({
           name: "rotationPeriodsIncorrect",
           body: (
-            <Info>
-              <Prose>Heads up—at least one of your values is mistaken.</Prose>
-            </Info>
+            <Guidance.Disagree>
+              Heads up—at least one of your values is mistaken.
+            </Guidance.Disagree>
           ),
         }),
       },
@@ -252,7 +247,7 @@ export default page(setup, ({ section, oneOf }) => ({
           />
 
           {responses?.comparePeriodicPsi2?.selected === "different" && (
-            <TextArea
+            <TextBox
               model={m.comparePeriodicPsi2Difference}
               label={<Prose>Explain the difference you see.</Prose>}
             />
@@ -269,22 +264,16 @@ export default page(setup, ({ section, oneOf }) => ({
       sections: {
         comparePeriodicPsi2Correct: section({
           name: "comparePeriodicPsi2Correct",
-          body: (
-            <Help>
-              <Prose>They look identical to us!</Prose>
-            </Help>
-          ),
+          body: <Guidance.Agree>They look identical to us!</Guidance.Agree>,
         }),
         comparePeriodicPsi2Incorrect: section({
           name: "comparePeriodicPsi2Incorrect",
           body: (
-            <Info>
-              <Prose>
-                This software can’t analyze what you’ve written, but the two
-                graphs look identical to us! We’re using{" "}
-                <M t="T_2 = 0.25 h/E_1" />.
-              </Prose>
-            </Info>
+            <Guidance.HeadsUp>
+              This software can’t analyze what you’ve written, but the two
+              graphs look identical to us! We’re using{" "}
+              <M t="T_2 = 0.25 h/E_1" />.
+            </Guidance.HeadsUp>
           ),
         }),
       },
@@ -294,7 +283,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "verifyRotationPeriod2",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.verifyRotationPeriod2}
             label={
               <Prose>
@@ -306,7 +295,7 @@ export default page(setup, ({ section, oneOf }) => ({
             }
           />
 
-          <Prose className="opacity-faded">
+          <Prose faded>
             Recall that <M t="E_n = n^2 E_1" /> and <M t="\hbar = h/2 \pi" /> .
           </Prose>
         </>
@@ -486,7 +475,7 @@ const Agreement = ({
         />
 
         <div>
-          <TextArea
+          <TextBox
             model={explainModel}
             placeholder={
               agreementResponse?.selected !== "disagree"
@@ -514,12 +503,12 @@ const OurResponse = ({
   children: Html;
 }) => {
   return correct ? (
-    <Help>
+    <Guidance.Agree>
       <Prose>We also {children}</Prose>
-    </Help>
+    </Guidance.Agree>
   ) : (
-    <Info>
+    <Guidance.Disagree>
       <Prose>We {children}</Prose>
-    </Info>
+    </Guidance.Disagree>
   );
 };

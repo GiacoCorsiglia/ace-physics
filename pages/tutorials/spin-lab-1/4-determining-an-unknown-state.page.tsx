@@ -1,6 +1,11 @@
-import { Help, Info, Prose } from "@/design";
-import { FieldGroup, Text, TextArea } from "@/inputs";
-import M from "@/math";
+import {
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  TextLine,
+} from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -62,19 +67,19 @@ export default page(setup, ({ section, oneOf }) => ({
             <p>Record your results here:</p>
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.unknown2CoefficientA}
               label={<M t="a = " />}
               maxWidth
             />
 
-            <Text
+            <TextLine
               model={m.unknown2CoefficientB}
               label={<M t="b = " />}
               maxWidth
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -82,7 +87,7 @@ export default page(setup, ({ section, oneOf }) => ({
     section({
       name: "unknown2Measurements",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.unknown2Measurements}
           label={
             <Prose>
@@ -104,33 +109,28 @@ export default page(setup, ({ section, oneOf }) => ({
         unknown2CoefficientsIncorrect: section({
           name: "unknown2CoefficientsIncorrect",
           body: (
-            <Info>
-              <Prose>
-                We get a different answer for <M t="a" /> and <M t="b" />. Are
-                you sure you were using Unknown 2 in the sim? Please check with
-                an instructor.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              We get a different answer for <M t="a" /> and <M t="b" />. Are you
+              sure you were using Unknown 2 in the sim? Please check with an
+              instructor.
+            </Guidance.Disagree>
           ),
         }),
 
         unknown2CoefficientsCorrect: section({
           name: "unknown2CoefficientsCorrect",
           body: (_, { responses }) => (
-            <Help>
-              <Prose>
-                <p>Nice work, we agree with your coefficients!</p>
+            <Guidance.Agree>
+              <p>Nice work, we agree with your coefficients!</p>
 
-                {responses?.unknown2CoefficientB?.trim() === "-1" && (
-                  <p>
-                    We would have gone with the simpler answer of{" "}
-                    <M t="b = 1" /> as opposed to <M t="b = -1" />. (You can
-                    always multiply a state by a minus sign without affecting
-                    the physics.)
-                  </p>
-                )}
-              </Prose>
-            </Help>
+              {responses?.unknown2CoefficientB?.trim() === "-1" && (
+                <p>
+                  We would have gone with the simpler answer of <M t="b = 1" />{" "}
+                  as opposed to <M t="b = -1" />. (You can always multiply a
+                  state by a minus sign without affecting the physics.)
+                </p>
+              )}
+            </Guidance.Agree>
           ),
         }),
       },

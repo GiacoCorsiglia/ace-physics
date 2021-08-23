@@ -1,10 +1,15 @@
-import { Info, Prose } from "@/design";
-import { cx } from "@/helpers/frontend";
-import { Decimal, FieldGroup, TextArea } from "@/inputs";
-import inputStyles from "@/inputs/inputs.module.scss";
-import M from "@/math";
+import {
+  Button,
+  Callout,
+  Decimal,
+  Horizontal,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+} from "@/components";
 import { page } from "@/tutorial";
-import { LinkExternalIcon, PencilIcon } from "@primer/octicons-react";
+import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
@@ -53,7 +58,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal
               model={m.psi1ProbUpZ}
               label={<M t="P(S_z = + \frac{\hbar}{2}) =" />}
@@ -62,14 +67,11 @@ export default page(setup, ({ section, hint }) => ({
               model={m.psi1ProbDownZ}
               label={<M t="P(S_z = - \frac{\hbar}{2}) =" />}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <Info>
-            <Prose>
-              <PencilIcon /> &nbsp; Don’t be afraid to break out some scrap
-              paper!
-            </Prose>
-          </Info>
+          <Callout color="blue">
+            <PencilIcon /> &nbsp; Don’t be afraid to break out some scrap paper!
+          </Callout>
         </>
       ),
     }),
@@ -80,17 +82,11 @@ export default page(setup, ({ section, hint }) => ({
         <>
           <Prose>Start up the Stern-Gerlach sim:</Prose>
 
-          <div className="text-center margin-top">
-            <a
-              className={cx(inputStyles.secondary, inputStyles.iconLast)}
-              href="https://tinyurl.com/spin3220"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
+          <Horizontal justify="center">
+            <Button link="https://tinyurl.com/spin3220" color="blue">
               Open the sim
-              <LinkExternalIcon />
-            </a>
-          </div>
+            </Button>
+          </Horizontal>
 
           <Prose>
             <p>
@@ -128,7 +124,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal
               model={m.psi1ProbUpX}
               label={<M t="P(S_x = + \frac{\hbar}{2}) =" />}
@@ -137,7 +133,7 @@ export default page(setup, ({ section, hint }) => ({
               model={m.psi1ProbDownX}
               label={<M t="P(S_x = - \frac{\hbar}{2}) =" />}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
           <Prose>
             <p>
@@ -167,7 +163,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal
               model={m.psi1ProbUpY}
               label={<M t="P(S_y = + \frac{\hbar}{2}) =" />}
@@ -176,23 +172,19 @@ export default page(setup, ({ section, hint }) => ({
               model={m.psi1ProbDownY}
               label={<M t="P(S_y = - \frac{\hbar}{2}) =" />}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
           <Prose>
-            <p>
-              <strong>
-                Then check with the sim—
-                <em>but only after you’ve made your prediction!</em>
-              </strong>
-            </p>
+            <strong>
+              Then check with the sim—
+              <em>but only after you’ve made your prediction!</em>
+            </strong>
           </Prose>
 
-          <Info>
-            <Prose>
-              <PencilIcon /> &nbsp; You’ll definitely want scrap paper for this
-              one.
-            </Prose>
-          </Info>
+          <Callout color="blue">
+            <PencilIcon /> &nbsp; You’ll definitely want scrap paper for this
+            one.
+          </Callout>
         </>
       ),
     }),
@@ -200,7 +192,7 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "reflectPsi1",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.reflectPsi1}
           label={
             <Prose>

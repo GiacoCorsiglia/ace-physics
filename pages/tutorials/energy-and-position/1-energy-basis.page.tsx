@@ -1,8 +1,13 @@
-import { Prose, Reminder } from "@/design";
-import { Text, TextArea, Toggle } from "@/inputs";
-import M, { VariableLengthColumn } from "@/math";
+import {
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  TextLine,
+  Toggle,
+  VariableLengthColumn,
+} from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
@@ -32,7 +37,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "psiAMeasurements",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.psiAMeasurements}
             label={
               <Prose>
@@ -79,7 +84,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.isPsiAEnergyEigenstateExplain}
             label={<Prose>Why or why not?</Prose>}
           />
@@ -127,15 +132,14 @@ export default page(setup, ({ section, hint }) => ({
           </Prose>
 
           <VariableLengthColumn
-            className="margin-top-1"
             model={m.columnE2}
-            inputEl={
-              <Text model={m.columnE2.elements[0]} placeholder="Type here" />
-            }
+            component={(model) => (
+              <TextLine model={model} placeholder="Type here" />
+            )}
             labelTex="\ket{E_2}"
           />
 
-          <Prose className="opacity-faded text-center">
+          <Prose faded align="center">
             If you need it, you can type <M t="\frac{1}{\sqrt{N}}" /> as
             “1/sqrt(N)”
             <br />
@@ -152,15 +156,14 @@ export default page(setup, ({ section, hint }) => ({
           <Prose>Represent our starting state in the same way:</Prose>
 
           <VariableLengthColumn
-            className="margin-top-1"
             model={m.columnPsiA}
-            inputEl={
-              <Text model={m.columnPsiA.elements[0]} placeholder="Type here" />
-            }
+            component={(model) => (
+              <TextLine model={model} placeholder="Type here" />
+            )}
             labelTex="\ket{\psi_A}"
           />
 
-          <Prose className="opacity-faded text-center">
+          <Prose faded align="center">
             If you need it, you can type <M t="\frac{1}{\sqrt{N}}" /> as
             “1/sqrt(N)” <br />
             and the vertical “dot-dot-dot” just as “...”
@@ -184,7 +187,7 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "dotDotDotMeaning",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.dotDotDotMeaning}
           label={
             <Prose>

@@ -1,10 +1,6 @@
-import { Info, Prose } from "@/design";
-import { cx } from "@/helpers/frontend";
-import { TextArea } from "@/inputs";
-import inputStyles from "@/inputs/inputs.module.scss";
-import M from "@/math";
+import { Button, Callout, Horizontal, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
-import { LinkExternalIcon, PencilIcon } from "@primer/octicons-react";
+import { PencilIcon } from "@primer/octicons-react";
 import { HowToUseTheSim } from "../spin-lab-1/shared";
 import experimentalSetupImg from "./assets/experimental-setup.png";
 import setup from "./setup";
@@ -42,17 +38,12 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <div className="text-center margin-top">
-            <a
-              className={cx(inputStyles.secondary, inputStyles.iconLast)}
-              href="https://tinyurl.com/spin3220"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
+          <Horizontal justify="center">
+            <Button link="https://tinyurl.com/spin3220" color="blue">
               Open the sim
-              <LinkExternalIcon />
-            </a>
-          </div>
+            </Button>
+          </Horizontal>
+
           <Prose>
             <p>
               There is one element we haven’t investigated yet:{" "}
@@ -114,12 +105,10 @@ export default page(setup, ({ section, hint }) => ({
               Look for interesting patterns.
             </p>
 
-            <Info>
-              <Prose>
-                <PencilIcon /> &nbsp; Keep notes with your data on a piece of
-                paper!
-              </Prose>
-            </Info>
+            <Callout color="blue">
+              <PencilIcon /> &nbsp; Keep notes with your data on a piece of
+              paper!
+            </Callout>
 
             <p>
               Hint: Make sure you click the “Reset” button in your sim between
@@ -127,7 +116,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.initialExplorationSummary}
             label={
               <Prose>
@@ -156,7 +145,7 @@ export default page(setup, ({ section, hint }) => ({
             </ol>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.incrementByOneSummary}
             label={
               <Prose>
@@ -173,7 +162,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "initialHypothesis",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.initialHypothesis}
             label={
               <Prose>

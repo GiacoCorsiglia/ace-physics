@@ -1,11 +1,8 @@
-import { Prose } from "@/design";
-import { Content, Page } from "@/design/layout";
-import { Button } from "@/inputs";
+import { Button, Content, Horizontal, Page, Prose } from "@/components";
 import { TutorialLink } from "@pages/tutorials/index.page";
 import { MailIcon } from "@primer/octicons-react";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
 
 export default function Index() {
   return (
@@ -34,7 +31,7 @@ export default function Index() {
           <p>We have two tutorial pages for you to try out:</p>
         </Prose>
 
-        <ol className="margin-top">
+        <ol>
           <TutorialLink
             label={
               <>
@@ -79,7 +76,7 @@ export default function Index() {
           </TutorialLink>
         </ol>
 
-        <Prose className="margin-top">
+        <Prose>
           <p>
             If you want to explore the full versions of all of our tutorials,
             you can{" "}
@@ -94,18 +91,19 @@ export default function Index() {
           </p>
         </Prose>
 
-        <div className="margin-top text-center">
-          <Button link="mailto:hello@acephysics.net" iconFirst>
-            <MailIcon />
+        <Horizontal justify="center">
+          <Button
+            color="green"
+            link="mailto:hello@acephysics.net"
+            iconLeft={<MailIcon />}
+          >
             Email us
           </Button>
-        </div>
+        </Horizontal>
 
-        <Prose>
-          <p className="text-center">
-            You can contact Giaco at{" "}
-            <a href="mailto:hello@acephysics.net">hello@acephysics.net</a>.
-          </p>
+        <Prose align="center">
+          You can contact Giaco at{" "}
+          <a href="mailto:hello@acephysics.net">hello@acephysics.net</a>.
         </Prose>
       </Content>
     </Page>

@@ -1,10 +1,7 @@
-import { Prose } from "@/design";
-import { TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import { M, Prose, TextBox, Toggle } from "@/components";
 import { page } from "@/tutorial";
 import { hint } from "@/tutorial/config";
 import Link from "next/link";
-import React from "react";
 import MouseBigEye from "../quantum-mouse/svgs/mouse-big-eye.svg";
 import MouseSmallEye from "../quantum-mouse/svgs/mouse-small-eye.svg";
 import setup from "./setup";
@@ -123,7 +120,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.eyeSizeMeasAffectsHappinessPredictExplain}
             label={<Prose>Explain:</Prose>}
           />
@@ -186,7 +183,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.mAndSCommuteAffectsChainedMeasurements}
             label={
               <Prose>
@@ -219,7 +216,7 @@ export default page(setup, ({ section }) => ({
 
           {responses?.canKnowEyeSizeHappinessSimultaneous?.selected ===
             "yes" && (
-            <TextArea
+            <TextBox
               model={m.canKnowEyeSizeHappinessSimultaneousExplain}
               label={<Prose>Explain how to create such a state.</Prose>}
             />
@@ -227,7 +224,7 @@ export default page(setup, ({ section }) => ({
 
           {responses?.canKnowEyeSizeHappinessSimultaneous?.selected ===
             "no" && (
-            <TextArea
+            <TextBox
               model={
                 m.canKnowEyeSizeHappinessSimultaneousExplain /* ignore-repeated-model */
               }
