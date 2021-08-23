@@ -10,6 +10,7 @@ import type {
   OtherChoiceField,
   StringField,
 } from "@/schema/fields";
+import { useEffect } from "react";
 import { ChoiceAnswer, ChoicesConfig } from "./choice-helpers";
 import { ChooseControl, ChooseControlProps } from "./choose";
 import { DropdownControl, DropdownControlProps } from "./dropdown";
@@ -28,21 +29,27 @@ import { ToggleControl, ToggleControlProps } from "./toggle";
 
 export const TextBox = ({
   model,
+  initialValue,
   ...props
 }: {
   model: Model<StringField>;
+  initialValue?: string;
 } & TextAreaControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialValue(initialValue, setValue);
   return <TextBoxControl {...props} value={value} onChange={setValue} />;
 };
 
 export const TextLine = ({
   model,
+  initialValue,
   ...props
 }: {
   model: Model<StringField>;
+  initialValue?: string;
 } & TextInputControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialValue(initialValue, setValue);
   return <TextInputControl {...props} value={value} onChange={setValue} />;
 };
 
@@ -52,11 +59,14 @@ export const TextLine = ({
 
 export const Integer = ({
   model,
+  initialValue,
   ...props
 }: {
   model: Model<NumberField>;
+  initialValue?: number;
 } & NumericInputControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialValue(initialValue, setValue);
   return (
     <NumericInputControl
       {...props}
@@ -69,11 +79,14 @@ export const Integer = ({
 
 export const Decimal = ({
   model,
+  initialValue,
   ...props
 }: {
   model: Model<NumberField>;
+  initialValue?: number;
 } & NumericInputControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialValue(initialValue, setValue);
   return (
     <NumericInputControl
       {...props}
@@ -99,17 +112,20 @@ export const ChooseOne = <
   O extends OtherChoiceField | undefined
 >({
   model,
+  initialValue,
   choices,
   answer,
   explanation,
   ...props
 }: {
   model: Model<ChooseOneField<Cs, O>>;
+  initialValue?: Choice<Cs>;
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>;
   explanation?: Html;
 } & ChooseControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialChoice(initialValue, setValue);
   return (
     <>
       <ChooseControl
@@ -166,17 +182,20 @@ export const ChooseAll = <
   O extends OtherChoiceField | undefined
 >({
   model,
+  initialValue,
   choices,
   answer,
   explanation,
   ...props
 }: {
   model: Model<ChooseAllField<Cs, O>>;
+  initialValue?: readonly Choice<Cs>[];
   choices: ChoicesConfig<Cs>;
-  answer?: Choice<Cs>[];
+  answer?: readonly Choice<Cs>[];
   explanation?: Html;
 } & ChooseControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialChoice(initialValue, setValue);
   return (
     <>
       <ChooseControl
@@ -229,17 +248,20 @@ export const ChooseAll = <
 
 export const Toggle = <Cs extends Choices>({
   model,
+  initialValue,
   choices,
   answer,
   explanation,
   ...props
 }: {
   model: Model<ChooseOneField<Cs, undefined>>;
+  initialValue?: Choice<Cs>;
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>;
   explanation?: Html;
 } & ToggleControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialChoice(initialValue, setValue);
   return (
     <>
       <ToggleControl
@@ -265,15 +287,18 @@ export const Toggle = <Cs extends Choices>({
 
 export const BooleanToggle = ({
   model,
+  initialValue,
   yes = "Yes",
   no = "No",
   ...props
 }: {
   model: Model<BooleanField>;
+  initialValue?: boolean;
   yes?: Html;
   no?: Html;
 } & ToggleControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialValue(initialValue, setValue);
   return (
     <ToggleControl
       {...props}
@@ -294,17 +319,20 @@ export const BooleanToggle = ({
 
 export const Dropdown = <Cs extends Choices>({
   model,
+  initialValue,
   choices,
   answer,
   explanation,
   ...props
 }: {
   model: Model<ChooseOneField<Cs, undefined>>;
+  initialValue?: Choice<Cs>;
   choices: ChoicesConfig<Cs>;
   answer?: Choice<Cs>;
   explanation?: Html;
 } & DropdownControlProps) => {
   const [value, setValue] = useModel(model);
+  useInitialChoice(initialValue, setValue);
   return (
     <>
       <DropdownControl
@@ -325,3 +353,35 @@ export const Dropdown = <Cs extends Choices>({
     </>
   );
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers.
+////////////////////////////////////////////////////////////////////////////////
+
+const useInitialValue = <T,>(
+  initialValue: T,
+  setValue: (setter: (prev: T) => T) => void
+) =>
+  useEffect(() => {
+    if (initialValue !== undefined) {
+      setValue((prevValue) =>
+        prevValue === undefined ? initialValue : prevValue
+      );
+    }
+  }, [initialValue, setValue]);
+
+const useInitialChoice = <T,>(
+  initialValue: T | undefined,
+  setValue: (
+    setter: (
+      prev: { readonly selected?: T } | undefined
+    ) => { readonly selected?: T } | undefined
+  ) => void
+) =>
+  useEffect(() => {
+    if (initialValue !== undefined) {
+      setValue((prevValue) =>
+        prevValue === undefined ? { selected: initialValue } : prevValue
+      );
+    }
+  }, [initialValue, setValue]);
