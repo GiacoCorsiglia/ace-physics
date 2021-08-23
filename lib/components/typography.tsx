@@ -29,7 +29,7 @@ const proseSafeElements = new Set([
 ]);
 
 type ProseProps = {
-  size?: "large" | "body" | "small";
+  size?: "large" | "body" | "small" | "smallest";
   align?: "left" | "right" | "center" | "justify";
   boldColor?: "neutral" | "blue" | "green" | "red" | "yellow";
   faded?: boolean;
@@ -58,6 +58,7 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
           size === "large" && "text-large",
           size === "body" && "text-body",
           size === "small" && "text-small",
+          size === "smallest" && "text-smallest",
           // Text alignment.
           align === "left" && "text-left",
           align === "center" && "text-center",
