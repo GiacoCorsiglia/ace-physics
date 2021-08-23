@@ -47,4 +47,10 @@
   th {
     font-weight: fonts.$bold;
   }
+
+  caption {
+    caption-side: bottom;
+    margin-top: spacing.$space-75;
+    @include fonts.small;
+  }
 }
