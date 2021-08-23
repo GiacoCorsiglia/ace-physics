@@ -26,8 +26,8 @@ const indexRegEx = /^(?:0|[1-9]\d*)$/;
 export const isIndex = (i: PropertyKey) =>
   (typeof i === "number" || (typeof i !== "symbol" && indexRegEx.test(i))) &&
   // JavaScript will "correctly" cast the string to a number for these tests.
-  ((i as unknown) as number) > -1 &&
-  ((i as unknown) as number) % 1 === 0;
+  (i as unknown as number) > -1 &&
+  (i as unknown as number) % 1 === 0;
 
 export const asIndex = (i: number | string | symbol): number | null => {
   if (typeof i === "number") {
@@ -39,7 +39,10 @@ export const asIndex = (i: number | string | symbol): number | null => {
   return n !== Infinity && String(n) === i && n >= 0 ? n : null;
 };
 
-export const arraysEqual = (a1?: any[], a2?: any[]): boolean => {
+export const arraysEqual = (
+  a1?: readonly any[],
+  a2?: readonly any[]
+): boolean => {
   if (!a1 || !a2 || a1.length !== a2.length) {
     return false;
   }
@@ -59,8 +62,8 @@ export const arraysEqual = (a1?: any[], a2?: any[]): boolean => {
 export const approxEquals = <
   T extends
     | number
-    | (number | undefined)[]
-    | ((number | undefined)[] | undefined)[]
+    | readonly (number | undefined)[]
+    | readonly (readonly (number | undefined)[] | undefined)[]
 >(
   n1: T | undefined,
   n2: T | undefined,
@@ -88,7 +91,9 @@ export const approxEquals = <
   return Math.abs((n1 as number) - (n2 as number)) <= forgiveness;
 };
 
-export const norm = (...ns: (number | undefined)[]): number | undefined => {
+export const norm = (
+  ...ns: readonly (number | undefined)[]
+): number | undefined => {
   const squared = ns.reduce(
     (norm, n) =>
       norm === undefined || n === undefined ? undefined : norm + n ** 2,
