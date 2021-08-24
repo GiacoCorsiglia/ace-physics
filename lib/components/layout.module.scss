@@ -1,6 +1,7 @@
 @use "colors";
 @use "borders";
 @use "spacing";
+@use "fonts";
 
 $text-width: spacing.$space-4000;
 // It turns out calc() doesn't behave well in media queries (at least not in
@@ -14,24 +15,29 @@ $max-content-width: 770px;
   margin-left: auto;
   margin-right: auto;
 
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
+
   @media (min-width: $max-content-width) {
     box-sizing: content-box;
     max-width: $text-width;
-    padding-left: spacing.$space-400;
-    padding-right: spacing.$space-400;
+    --content-padding: #{spacing.$space-400};
 
     --callout-horizontal-margins: #{- spacing.$space-150};
-    --section-border-margins: #{- spacing.$space-400};
+    --section-enumerated-left: calc(var(--content-padding) / 2);
+    --section-enumerated-top: #{spacing.$space-300};
   }
 
   @media (min-width: $min-content-width) and (max-width: $max-content-width - 1px) {
-    padding-left: calc((100vw - #{$text-width}) / 2);
-    padding-right: calc((100vw - #{$text-width}) / 2);
+    --content-padding: calc((100vw - #{$text-width}) / 2);
+    --section-enumerated-left: var(--content-padding);
+    --section-enumerated-top: #{spacing.$space-150};
   }
 
   @media (max-width: $min-content-width - 1px) {
-    padding-left: spacing.$space-75;
-    padding-right: spacing.$space-75;
+    --content-padding: #{spacing.$space-75};
+    --section-enumerated-left: var(--content-padding);
+    --section-enumerated-top: #{spacing.$space-150};
   }
 }
 
@@ -58,13 +64,13 @@ $max-content-width: 770px;
     border-width: 1px 0;
   }
 
-  > hr {
+  hr {
     border: 0;
     border-bottom: 1px solid colors.$neutral-300;
     margin-top: spacing.$space-150;
     margin-bottom: spacing.$space-150;
-    margin-left: var(--section-border-margins);
-    margin-right: var(--section-border-margins);
+    margin-left: calc(-1 * var(--content-padding));
+    margin-right: calc(-1 * var(--content-padding));
   }
 }
 
@@ -80,10 +86,36 @@ $max-content-width: 770px;
       display: block;
       height: 1px;
       background: colors.$neutral-300;
-      margin-left: var(--section-border-margins);
-      margin-right: var(--section-border-margins);
+      margin-left: calc(-1 * var(--content-padding));
+      margin-right: calc(-1 * var(--content-padding));
       margin-bottom: $spacing; // This is basically `padding-top`.
     }
+  }
+}
+
+.section {
+  position: relative;
+}
+
+@keyframes section-animate-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.sectionAnimateIn {
+  animation: section-animate-in 300ms ease-out;
+}
+
+.sectionEnumerated {
+  &::before {
+    counter-increment: section;
+    content: counter(section, upper-alpha) ".";
+    position: absolute;
+    top: var(--section-enumerated-top);
+    left: var(--section-enumerated-left);
+    color: colors.$neutral-600;
   }
 }
 

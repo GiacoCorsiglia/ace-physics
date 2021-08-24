@@ -27,15 +27,15 @@ export const SectionGroup = styled.div([
 ]);
 
 export const Section = styled.section<{
-  first?: boolean;
   animateIn?: boolean;
   enumerate?: boolean;
-}>(({ first, animateIn, enumerate }) => [
+  vertical?: VerticalSpacing | false;
+}>(({ animateIn, enumerate, vertical = 100 }) => [
   styles.section,
   styles.content,
   styles.contentWidth,
-  styles.vertical100,
-  first && styles.sectionFirst,
+  vertical === 100 && styles.vertical100,
+  vertical === 300 && styles.vertical300,
   animateIn && styles.sectionAnimateIn,
   enumerate && styles.sectionEnumerated,
 ]);
