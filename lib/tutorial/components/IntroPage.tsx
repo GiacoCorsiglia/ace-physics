@@ -1,4 +1,11 @@
-import { Button, Content, Horizontal, PageTitle, Prose } from "@/components";
+import {
+  Button,
+  Content,
+  Horizontal,
+  PageTitle,
+  Prose,
+  Vertical,
+} from "@/components";
 import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
@@ -13,7 +20,7 @@ export default function IntroPage({
   tutorialConfig: TutorialConfig;
 }) {
   return (
-    <Content>
+    <Content as="section">
       <Head>
         <title>
           {htmlTitle(
@@ -31,6 +38,8 @@ export default function IntroPage({
       </PageTitle>
 
       {config.body}
+
+      <hr />
 
       <Prose boldColor="blue">
         <p>
@@ -76,20 +85,24 @@ export default function IntroPage({
         </p>
       </Prose>
 
-      <Horizontal justify="end">
-        <Button
-          color="green"
-          link={urls.join(
-            `/${urls.Tutorials.path}`,
-            tutorialConfig.link,
-            tutorialConfig.pretest
-              ? "before-you-start"
-              : tutorialConfig.pages[0].link
-          )}
-        >
-          Let’s get going <ArrowRightIcon />
-        </Button>
-      </Horizontal>
+      <hr />
+
+      <Vertical.Space before={300}>
+        <Horizontal justify="end">
+          <Button
+            color="green"
+            link={urls.join(
+              `/${urls.Tutorials.path}`,
+              tutorialConfig.link,
+              tutorialConfig.pretest
+                ? "before-you-start"
+                : tutorialConfig.pages[0].link
+            )}
+          >
+            Let’s get going <ArrowRightIcon />
+          </Button>
+        </Horizontal>
+      </Vertical.Space>
     </Content>
   );
 }
