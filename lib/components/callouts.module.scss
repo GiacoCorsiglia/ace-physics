@@ -23,6 +23,17 @@
   }
 }
 
+@keyframes animate-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+.animateIn {
+  animation: animate-in 300ms ease-out;
+}
+
 .content {
   flex-grow: 1;
 }
