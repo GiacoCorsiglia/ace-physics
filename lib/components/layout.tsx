@@ -43,7 +43,7 @@ export const Section = styled.section<{
 export const Vertical = styled.div<{
   space?: VerticalSpacing;
 }>(({ space = 100 }) => [
-  styles.vertical, // Leave this here to set the displayName
+  styles.vertical,
   space === 100 && styles.vertical100,
   space === 300 && styles.vertical300,
 ]);
