@@ -6,7 +6,6 @@ import {
   ContentWidth,
   Prose,
   Vertical,
-  VerticalSpaceAfter100,
 } from "@/components";
 import * as globalParams from "@/global-params";
 import { JsxElement } from "@/helpers/frontend";
@@ -42,7 +41,7 @@ export default function TutorialRoot({
               return (
                 <>
                   {globalParams.mockApi && (
-                    <VerticalSpaceAfter100>
+                    <Vertical.Space after={100}>
                       <ContentWidth>
                         <Callout as="section" color="blue">
                           <Prose>
@@ -51,18 +50,18 @@ export default function TutorialRoot({
                           </Prose>
                         </Callout>
                       </ContentWidth>
-                    </VerticalSpaceAfter100>
+                    </Vertical.Space>
                   )}
 
                   {!globalParams.mockApi && !auth.isForCredit && (
-                    <VerticalSpaceAfter100>
+                    <Vertical.Space after={100}>
                       <ContentWidth>
                         <Callout as="section" color="blue">
                           This is an anonymous account. Your work will{" "}
                           <strong>not</strong> count for any course credit.
                         </Callout>
                       </ContentWidth>
-                    </VerticalSpaceAfter100>
+                    </Vertical.Space>
                   )}
 
                   <TutorialStateRoot
@@ -83,7 +82,7 @@ function LoggedOut() {
   const router = useRouter();
 
   return (
-    <Content className="text-center" marginTop="large">
+    <Content as="section" className="text-center" marginTop="large">
       <LockIcon size="medium" />
 
       <Prose>You must be logged in to see this page.</Prose>

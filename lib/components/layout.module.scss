@@ -136,8 +136,24 @@ $max-content-width: 770px;
 }
 
 .vertical {
+  > * + .verticalSpaceBefore0 {
+    margin-top: 0;
+  }
+  > * + .verticalSpaceBefore100 {
+    margin-top: spacing.$space-100;
+  }
+  > * + .verticalSpaceBefore300 {
+    margin-top: spacing.$space-300;
+  }
+
+  > .verticalSpaceAfter0 + * {
+    margin-top: 0;
+  }
   > .verticalSpaceAfter100 + * {
     margin-top: spacing.$space-100;
+  }
+  > .verticalSpaceAfter300 + * {
+    margin-top: spacing.$space-300;
   }
 }
 

@@ -21,10 +21,13 @@ interface StyledChildComponent<P> {
 }
 
 export const styledChild: {
-  (...classes: readonly ClassName[]): StyledChildComponent<{}>;
+  (classes: ClassName | readonly ClassName[]): StyledChildComponent<{}>;
   <P>(classes: (props: P) => readonly ClassName[]): StyledChildComponent<P>;
-} = (...classes: any[]) => {
-  const classesFn = classes[0] instanceof Function ? classes[0] : null;
+} = (classes: any) => {
+  const classesFn = classes instanceof Function ? classes : null;
+  if (!classesFn && !Array.isArray(classes)) {
+    classes = [classes];
+  }
 
   const component = forwardRef(
     ({ children, className, ...props }: any, ref) => {

@@ -9,6 +9,7 @@ export const Content = styled.div<{
 }>(({ vertical = 100, marginTop = "none" }) => [
   styles.content,
   styles.contentWidth,
+  vertical !== false && styles.vertical,
   vertical === 100 && styles.vertical100,
   vertical === 300 && styles.vertical300,
   marginTop === "small" && styles.contentMarginTop,
@@ -34,21 +35,38 @@ export const Section = styled.section<{
   styles.section,
   styles.content,
   styles.contentWidth,
+  vertical !== false && styles.vertical,
   vertical === 100 && styles.vertical100,
   vertical === 300 && styles.vertical300,
   animateIn && styles.sectionAnimateIn,
   enumerate && styles.sectionEnumerated,
 ]);
 
-export const Vertical = styled.div<{
-  space?: VerticalSpacing;
-}>(({ space = 100 }) => [
-  styles.vertical,
-  space === 100 && styles.vertical100,
-  space === 300 && styles.vertical300,
+const VerticalSpace = styledChild<{
+  before?: VerticalSpacing | 0;
+  after?: VerticalSpacing | 0;
+}>(({ before, after }) => [
+  styles.verticalSpace, // Leave this here to set the displayName
+  before === 0 && styles.verticalSpaceBefore0,
+  before === 100 && styles.verticalSpaceBefore100,
+  before === 300 && styles.verticalSpaceBefore300,
+  after === 0 && styles.verticalSpaceAfter0,
+  after === 100 && styles.verticalSpaceAfter100,
+  after === 300 && styles.verticalSpaceBefore300,
 ]);
 
-export const VerticalSpaceAfter100 = styledChild(styles.verticalSpaceAfter100);
+export const Vertical = Object.assign(
+  styled.div<{
+    space?: VerticalSpacing;
+  }>(({ space = 100 }) => [
+    styles.vertical,
+    space === 100 && styles.vertical100,
+    space === 300 && styles.vertical300,
+  ]),
+  {
+    Space: VerticalSpace,
+  }
+);
 
 export const Horizontal = styled.div<{
   align?: "start" | "end" | "center" | "stretch";
