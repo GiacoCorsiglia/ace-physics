@@ -1,5 +1,9 @@
-import { Button, Callout, Section as LayoutSection } from "@/components";
-import styles from "@/design/structure.module.scss";
+import {
+  Button,
+  Callout,
+  Section as LayoutSection,
+  Vertical,
+} from "@/components";
 import * as globalParams from "@/global-params";
 import { Html, useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
@@ -7,6 +11,7 @@ import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
 import { SectionConfig } from "../config";
 import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
+import styles from "./Section.module.scss";
 
 export default tracked(function Section(
   {
@@ -47,7 +52,7 @@ export default tracked(function Section(
           state.hints?.[name]?.status === "revealed" && body !== "disable"
       )
       .map(({ name, body }) => (
-        <Callout color="yellow" key={name}>
+        <Callout key={name} color="yellow" animateIn>
           {body instanceof Function ? body(modelsTracker.proxy, state) : body}
         </Callout>
       ));
@@ -79,35 +84,30 @@ export default tracked(function Section(
 
   return (
     <LayoutSection
-      first={first}
       animateIn={!first && !globalParams.showAllSections}
       enumerate={enumerate}
       ref={scrollRef}
+      vertical={false}
     >
-      {/* {enumerate && <Content className={styles.enumerated} />} */}
+      {globalParams.showAllSections &&
+        (isMarkedVisible(state, config) ? (
+          <EyeIcon className={styles.previewNoticeVisible} />
+        ) : (
+          <EyeClosedIcon className={styles.previewNoticeHidden} />
+        ))}
 
-      {
-        globalParams.showAllSections &&
-          // <Content className={styles.sectionDevNoticeContainer}>
-          (isMarkedVisible(state, config) ? (
-            <EyeIcon className={styles.sectionDevNoticeVisible} />
-          ) : (
-            <EyeClosedIcon className={styles.sectionDevNoticeHidden} />
-          )) // </Content>
-      }
+      <Vertical>
+        {prepend}
 
-      {prepend}
+        {bodyHtml}
+      </Vertical>
 
-      {/* <Content> */}
-      {bodyHtml}
-
-      <div>{revealedHintsHtml}</div>
+      <Vertical className={styles.hintsVertical}>{revealedHintsHtml}</Vertical>
 
       <div className={styles.continue}>
         {isContinueVisible && status !== "committed" && (
           <Button
             color="green"
-            className={styles.button}
             disabled={!isComplete}
             disabledExplanation="Please respond to every question before moving on."
             onClick={() => commit(config)}
@@ -147,7 +147,6 @@ const SectionHintButtons = tracked(function SectionHintButtons(
             return (
               <Button
                 key={name}
-                className={styles.button}
                 color="yellow"
                 onClick={() =>
                   store.transaction((set) =>

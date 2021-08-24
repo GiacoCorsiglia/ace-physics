@@ -1,0 +1,45 @@
+@use "spacing";
+@use "colors";
+
+.previewNoticeVisible,
+.previewNoticeHidden {
+  position: absolute;
+  top: spacing.$space-100;
+  right: spacing.$space-100;
+}
+
+.previewNoticeHidden {
+  color: colors.$red-600;
+}
+
+.previewNoticeVisible {
+  color: colors.$green-600;
+}
+
+.hintsVertical:not(:empty) {
+  margin-top: spacing.$space-300;
+}
+
+.continue {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  // For a total of 300 spacing including margin-top on children.
+  margin-top: spacing.$space-200;
+
+  &:empty {
+    display: none;
+  }
+
+  > * + * {
+    // margin-right, not -left because of the row-reverse.
+    margin-right: spacing.$space-100;
+  }
+
+  > * {
+    // This margin serves a double purpose: we want more space between the
+    // continue and the content, and this margin separates the buttons when the
+    // flex wrap comes into effect.
+    margin-top: spacing.$space-100;
+  }
+}

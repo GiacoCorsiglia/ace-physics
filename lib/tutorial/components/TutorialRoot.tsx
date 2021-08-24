@@ -30,7 +30,7 @@ export default function TutorialRoot({
     <>
       <TutorialHeader config={config} />
 
-      <Vertical as="main" space={300}>
+      <Vertical as="main" space={300} style={{ counterReset: "section" }}>
         {(() => {
           switch (auth.status) {
             case "Initial":
