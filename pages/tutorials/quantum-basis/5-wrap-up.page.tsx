@@ -6,7 +6,7 @@ import styles from "./styles.module.scss";
 
 export default page(setup, ({ section }) => ({
   name: "wrapUp",
-  label: "TODO",
+  label: "Wrap Up",
   answers: "none",
   sections: [
     section({

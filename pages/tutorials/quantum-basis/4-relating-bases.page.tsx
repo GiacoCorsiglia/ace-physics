@@ -50,9 +50,9 @@ export default page(setup, ({ section, hint }) => ({
           <Prose>
             <p>
               We have represented our vector in a new basis, that is in the form{" "}
-              <M t="a\ket{v_1} + b \ket{v_2}." />
-              <em>Should we rename the vector in this basis?</em> Let’s go ahead
-              and do that and investigate whether we needed to.
+              <M display t="a\ket{v_1} + b \ket{v_2}" />
+              <em>Should we rename the vector in this basis?</em> Let’s do so
+              and investigate whether we needed to.
             </p>
 
             <p>
