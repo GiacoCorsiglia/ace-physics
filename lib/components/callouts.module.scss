@@ -12,6 +12,8 @@
     property: background-color, border-color, color;
     duration: 150ms;
   }
+  margin-left: var(--callout-horizontal-margins);
+  margin-right: var(--callout-horizontal-margins);
 
   &.hasIcon {
     display: flex;

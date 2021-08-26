@@ -23,7 +23,7 @@ $max-content-width: 770px;
     max-width: $text-width;
     --content-padding: #{spacing.$space-400};
 
-    --callout-horizontal-margins: #{- spacing.$space-150};
+    --callout-horizontal-margins: #{-1 * spacing.$space-150};
     --section-enumerated-left: calc(var(--content-padding) / 2);
     --section-enumerated-top: #{spacing.$space-300};
   }
