@@ -45,9 +45,7 @@ export default function FinishedPage() {
 
   return (
     <Page title="Done">
-      <Header>
-        <UserMenu />
-      </Header>
+      <Header title="Done For Today" popovers={<UserMenu />} />
 
       <Content as="main" className={styles.content}>
         <Prose>

@@ -5,9 +5,7 @@ import Link from "next/link";
 export default function Error404() {
   return (
     <Page title="404 Not Found">
-      <Header>
-        <UserMenu />
-      </Header>
+      <Header title="404 Not Found" popovers={<UserMenu />} />
 
       <Content as="main">
         <Prose>

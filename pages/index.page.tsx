@@ -13,16 +13,14 @@ export default function Index() {
         </title>
       </Head>
 
-      <Header>
-        <UserMenu />
-      </Header>
+      <Header title="ACE Physics" popovers={<UserMenu />} />
 
       <Content as="main" vertical={300}>
         <Prose>
           <h1>Interactive Online Activities for Physics Learners</h1>
 
           <p>
-            Welcome to ACEPhysics:{" "}
+            Welcome to ACE Physics:{" "}
             <em>Adaptable Curricular Exercises for Physics.</em>
           </p>
         </Prose>
@@ -34,7 +32,7 @@ export default function Index() {
         </Horizontal>
 
         <Prose>
-          Today, ACEPhysics.net is home to a handful of interactive activities—
+          Today, ACE Physics is home to a handful of interactive activities—
           <em>tutorials</em>—for physics students studying quantum mechanics.
           Perhaps one day this website will hold an extensive suite of such
           activities for all physics learners.

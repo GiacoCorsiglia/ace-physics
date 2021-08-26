@@ -1,4 +1,5 @@
-import { Content, Page, Prose } from "@/components";
+import { UserMenu } from "@/auth";
+import { Content, Header, Page, Prose } from "@/components";
 import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ChevronRightIcon } from "@primer/octicons-react";
@@ -8,9 +9,7 @@ import styles from "./index.module.scss";
 export default function TutorialsIndex() {
   return (
     <Page title="Tutorials">
-      {/* <Header>
-        <UserMenu />
-      </Header> */}
+      <Header title="All Tutorials" popovers={<UserMenu />} />
 
       <Content as="main" className={styles.content}>
         <Prose>

@@ -1,5 +1,6 @@
 import { UserMenu } from "@/auth";
-import { Header, HeaderTitle, Nav, NavItem } from "@/components";
+import { Header } from "@/components";
+import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import {
   ArrowLeftIcon,
@@ -21,6 +22,21 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
   const currentPage = config.pages.findIndex((page) =>
     router.pathname.endsWith(`/${page.link}`)
   );
+
+  const tutorialTitle =
+    typeof config.label === "string" ? config.label : config.label.html;
+
+  const pageTitle = ((): Html => {
+    if (isIntroduction) {
+      return "";
+    } else if (isFeedback) {
+      return "Feedback";
+    } else if (isPretest) {
+      return "Before You Start";
+    } else if (currentPage > -1) {
+      return config.pages[currentPage].label;
+    }
+  })();
 
   const pageStatus = (
     page:
@@ -59,64 +75,57 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
     }
   };
 
+  const url = (...us: string[]) =>
+    urls.join(`/${urls.Tutorials.path}`, config.link, ...us);
+
   return (
-    <Header>
-      <UserMenu />
+    <Header
+      title={
+        <>
+          {tutorialTitle}
+          {pageTitle && ` › ${pageTitle}`}
+        </>
+      }
+      popovers={<UserMenu />}
+      nav={{
+        title: tutorialTitle,
 
-      <HeaderTitle>
-        {typeof config.label === "string" ? config.label : config.label.html}
-      </HeaderTitle>
+        secondary: [
+          {
+            icon: <ArrowLeftIcon />,
+            link: urls.Tutorials.link,
+            label: "Other Tutorials",
+          },
+        ],
 
-      <Nav>
-        <NavItem
-          style="small"
-          icon={<ArrowLeftIcon />}
-          link={urls.Tutorials.link}
-        >
-          Other Tutorials
-        </NavItem>
-
-        <NavItem
-          status={pageStatus("introduction")}
-          link={urls.join(`/${urls.Tutorials.path}`, config.link)}
-          icon={<StarIcon />}
-        >
-          {typeof config.label === "string" ? config.label : config.label.html}
-        </NavItem>
-
-        {config.pretest && (
-          <NavItem
-            status={pageStatus("pretest")}
-            icon={<ChecklistIcon />}
-            link={urls.join(
-              `/${urls.Tutorials.path}`,
-              config.link,
-              "before-you-start"
-            )}
-          >
-            Before You Start
-          </NavItem>
-        )}
-
-        {config.pages.map((page, i) => (
-          <NavItem
-            key={page.link}
-            status={pageStatus(page)}
-            icon={i + 1}
-            link={urls.join(`/${urls.Tutorials.path}`, config.link, page.link)}
-          >
-            {page.label}
-          </NavItem>
-        ))}
-
-        <NavItem
-          status={pageStatus("feedback")}
-          icon={<ThumbsupIcon />}
-          link={urls.join(`/${urls.Tutorials.path}`, config.link, "feedback")}
-        >
-          Feedback
-        </NavItem>
-      </Nav>
-    </Header>
+        items: [
+          {
+            status: pageStatus("introduction"),
+            link: url(),
+            icon: <StarIcon />,
+            label: "Introduction",
+          },
+          config.pretest && {
+            status: pageStatus("pretest"),
+            link: url("before-you-start"),
+            icon: <ChecklistIcon />,
+            label: "Before You Start",
+          },
+          ...config.pages.map((page, i) => ({
+            key: page.link,
+            status: pageStatus(page),
+            icon: i + 1,
+            link: url(page.link),
+            label: page.label,
+          })),
+          {
+            status: pageStatus("feedback"),
+            icon: <ThumbsupIcon />,
+            link: url("feedback"),
+            label: "Feedback",
+          },
+        ],
+      }}
+    />
   );
 }

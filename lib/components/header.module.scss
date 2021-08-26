@@ -1,139 +1,64 @@
 @use "borders";
 @use "colors";
 @use "fonts";
-@use "helpers";
 @use "spacing";
 
-// $breakpoint: $max-content-width + 4 * spacing.space-100 + 3rem + 3rem;
-$breakpoint: 770px + (4 * 16px) + (3 * 16px) + (3 * 16px);
+$header-height: 2rem;
 
-@mixin above-breakpoint {
-  @media (min-width: $breakpoint) {
-    @content;
-  }
+.header {
+  // This ensures adequate space below the header bar, regardless of whether the
+  // nav progress is there.
+  min-height: $header-height;
+  margin-bottom: spacing.$space-100;
 }
 
-@mixin below-breakpoint {
-  @media (max-width: $breakpoint - 1px) {
-    @content;
-  }
-}
+////////////////////////////////////////////////////////////////////////////////
+// Header Bar.
+////////////////////////////////////////////////////////////////////////////////
 
-@include above-breakpoint {
-  .header {
-    // Push the body content down appropriately.
-    height: spacing.$space-400;
-  }
-
-  .popoverWrapper,
-  .navWrapper {
-    position: fixed;
-    z-index: 1000;
-  }
-
-  .navWrapper {
-    top: 0;
-    left: spacing.$space-100;
-    bottom: 0;
-  }
-
-  .popoverWrapper {
-    top: spacing.$space-100;
-    right: spacing.$space-100;
-  }
-
-  .headerTitle {
-    position: absolute; // We want this to scroll.
-    top: spacing.$space-100;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-
-@include below-breakpoint {
-  .headerSpacer {
-    height: 4rem;
-  }
-
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    height: 2rem;
-    border-bottom: 1px solid colors.$neutral-300;
-    background: colors.$neutral-100;
-    color: colors.$neutral-400;
-    box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.03);
-    display: flex;
-  }
-
-  .popoverWrapper {
-    position: relative;
-  }
-
-  .navWrapper {
-    order: -2;
-    margin-right: auto;
-  }
-
-  .headerTitle {
-    order: -1;
-    flex-grow: 1;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.popover {
-  position: absolute;
+.headerBar {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
   right: 0;
-  width: 20rem;
-  border-style: solid;
-  border-color: colors.$neutral-300;
-  @include above-breakpoint {
-    top: calc(100% + #{spacing.$space-75});
-    border-width: 1px;
-    border-radius: borders.$radius-large;
-  }
-  @include below-breakpoint {
-    top: 100%;
-    border-width: 0 1px 1px 1px;
-    border-radius: 0 0 borders.$radius-large borders.$radius-large;
-  }
-  padding: spacing.$space-150;
+  z-index: 10000;
+  height: $header-height;
   background: colors.$neutral-100;
-  animation: fade-in 150ms;
-  box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.05);
+  border-bottom: 1px solid colors.$neutral-300;
+}
+
+.headerTitle {
+  flex-grow: 1;
 }
 
 .popoverButton,
-.navItemIconSmall,
 .navToggleButton,
 .headerTitle {
-  height: 2rem;
+  height: $header-height;
   @include fonts.ui-small;
   border-style: solid;
   border-color: colors.$neutral-300;
-  // See below for borders in media queries.
   background: colors.$neutral-100;
-  color: colors.$neutral-400;
-  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.03);
 }
 
-.popoverButton,
-.navItemIconSmall,
-.navToggleButton {
+.headerTitle {
+  padding: spacing.$space-50 spacing.$space-100;
+  border-bottom-width: 1px;
+  color: colors.$neutral-500;
+  text-align: center;
+  // Stop text from wrapping.
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navToggleButton,
+.popoverButton {
   width: 3rem;
   cursor: pointer;
+  color: colors.$neutral-400;
 
   // Center icon;
   display: flex;
@@ -158,12 +83,6 @@ $breakpoint: 770px + (4 * 16px) + (3 * 16px) + (3 * 16px);
       0px 2px 4px colors.alpha(colors.$neutral-900, 0.1);
   }
 
-  &:active {
-    @include above-breakpoint {
-      transform: translateY(1px);
-    }
-  }
-
   svg {
     display: block !important; // Override octicon styles
     width: 1rem;
@@ -174,131 +93,221 @@ $breakpoint: 770px + (4 * 16px) + (3 * 16px) + (3 * 16px);
   }
 }
 
-.navItemIconSmall {
-  border-width: 1px;
-  border-radius: borders.$radius-large;
-}
-
-.popoverButton,
-.navToggleButton,
-.headerTitle {
-  @include above-breakpoint {
-    border-width: 1px;
-    border-radius: borders.$radius-large;
-  }
-}
-
-.popoverButton,
 .navToggleButton {
-  @include below-breakpoint {
-    border-width: 0 1px 1px 1px;
-  }
-}
+  border-width: 0 1px 1px 0;
 
-.headerTitle {
-  padding: spacing.$space-50 spacing.$space-100;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  @include above-breakpoint {
-    border-width: 1px;
-    border-radius: borders.$radius-large;
-    max-width: 75vw; // Probably not necessary!
-  }
-
-  @include below-breakpoint {
-    border-width: 0 0 1px 0;
-    text-align: center;
-  }
-}
-
-.navToggleButton {
-  @include above-breakpoint {
-    display: none;
-  }
-}
-
-.hamburgerIcon,
-.xIcon {
-  animation: fade-in 150ms ease-out;
-}
-
-.nav {
-  overflow-y: auto;
-  // overflow-x is hidden due to `overflow-y: auto`, but there's no width set.
-
-  @include above-breakpoint {
-    max-height: 100vh;
-    padding-top: spacing.$space-100;
-    padding-right: 1rem; // Leave some room for a scrollbar just in case.
-
-    opacity: 0.5;
-    transition: opacity 100ms ease-in;
-    &:hover {
-      opacity: 1;
-      transition-timing-function: ease-out;
-    }
-  }
-
-  @include below-breakpoint {
-    height: calc(100vh - 2rem);
-    width: min(20rem, 100vw);
-    padding: spacing.$space-100;
-    background: colors.$neutral-100;
+  &.open {
     border-width: 0 1px 0 0;
-    border-style: solid;
-    border-color: colors.$neutral-300;
-
-    &:not(.navOpen) {
-      display: none;
-    }
   }
 }
 
-$border-width: 2px;
-.navItem {
-  & + & {
-    margin-top: spacing.$space-100;
-  }
+.popoverButton {
+  border-width: 0 0 1px 1px;
 
-  @include above-breakpoint {
-    &.withProgressConnector:not(:last-child) .navItemIcon::after {
-      content: "";
-      position: absolute;
-      width: $border-width;
-      height: 100%;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      top: calc(100% + #{$border-width});
-      background: currentColor;
-    }
+  &.open {
+    border-width: 0 0 0 1px;
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Popovers.
+////////////////////////////////////////////////////////////////////////////////
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-1px) translateX(2px) rotateX(15deg);
+  }
+}
+
+.popover {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  top: $header-height;
+  width: 20rem;
+  padding: spacing.$space-200;
+  border-style: solid;
+  border-color: colors.$neutral-400;
+  border-width: 0 1px 1px 1px;
+  border-bottom-left-radius: borders.$radius;
+  background: colors.$neutral-100;
+  box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.15);
+  color: colors.$neutral-800;
+  @include fonts.ui;
+
+  animation: popover-in 150ms ease-out;
+  transform-origin: top center;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Nav.
+////////////////////////////////////////////////////////////////////////////////
+
+@keyframes icon-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.xIcon,
+.hamburgerIcon {
+  animation: icon-in 100ms ease-out;
+}
+
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+.navPopover {
+  position: fixed;
+  z-index: -1;
+  top: $header-height;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  // overflow-x is hidden due to `overflow-y: auto`.
+  width: min(20rem, 100vw);
+  padding: spacing.$space-100 0;
+  // No horizontal padding so links can stretch to the edges.
+  background: colors.$neutral-100;
+  border-width: 0 1px 0 0;
+  border-style: solid;
+  border-color: colors.$neutral-300;
+  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.15);
+
+  @include fonts.small;
+
+  animation: nav-in 150ms ease-out;
+}
+
+$nav-item-icon-width: 1.3rem;
+
+.navSecondaryList + * {
+  margin-top: spacing.$space-100;
+}
+
+.navTitle {
+  padding: 0 spacing.$space-100 0
+    (spacing.$space-50 + $nav-item-icon-width + spacing.$space-100);
+  font-weight: fonts.$ui-bold;
+  margin-bottom: spacing.$space-25;
+  color: colors.$neutral-800;
 }
 
 .navItemLink {
-  @include below-breakpoint {
-    display: flex;
+  display: block;
+  padding: spacing.$space-25 spacing.$space-100;
+
+  color: colors.$neutral-600;
+
+  &.complete {
+    color: colors.$green-600;
+  }
+
+  &.active,
+  &:hover {
+    color: colors.$neutral-800;
   }
 }
 
-.navItemComplete {
-  color: colors.$green-500;
-  box-shadow: 0px 1px 4px colors.alpha(colors.$green-900, 0.05);
-}
-
-.navItemActive {
-  color: colors.$neutral-700;
-  box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05);
-}
-
-.navItemIncomplete {
-  color: colors.$neutral-400;
-  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.03);
-}
-
 .navItemIcon {
+  display: inline-block;
+  width: $nav-item-icon-width;
+  margin-right: spacing.$space-50;
+  text-align: center;
+
+  svg {
+    position: relative;
+    top: -2px;
+    width: 1rem;
+    height: auto;
+  }
+}
+
+.navItemNumberIcon {
+  position: relative;
+  top: -1px;
+  border: 1px solid currentColor;
+  height: $nav-item-icon-width;
+  width: $nav-item-icon-width;
+  font-size: 0.8rem;
+  line-height: $nav-item-icon-width - 0.1rem;
+  text-align: center;
+  border-radius: borders.$radius;
+  color: colors.$neutral-500;
+
+  .complete & {
+    color: colors.$green-500;
+  }
+
+  .active &,
+  .navItemLink:hover & {
+    color: colors.$neutral-700;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Nav Progress.
+////////////////////////////////////////////////////////////////////////////////
+
+.navProgress {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  // Leave room for the `position: fixed` header bar above.  THe rest of the
+  // margin-top is accomplished with margins on the items themselves (so they
+  // flex-wrap correctly).
+  margin-top: $header-height;
+  padding-left: spacing.$space-75;
+  padding-right: spacing.$space-75;
+}
+
+$border-width: 2px;
+.navProgressItem {
+  position: relative;
+  margin-top: spacing.$space-100; // For flex-wrap.
+
+  & + & {
+    margin-left: spacing.$space-100;
+  }
+
+  &:not(:last-child) .navProgressItemIcon::after {
+    display: block;
+    content: "";
+    position: absolute;
+    height: $border-width;
+    width: spacing.$space-100;
+    left: calc(100% + #{$border-width});
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    background: var(--nav-progress-color);
+  }
+
+  &.complete {
+    --nav-progress-color: #{colors.$green-500};
+  }
+
+  &.active {
+    --nav-progress-color: #{colors.$neutral-700};
+  }
+
+  &.incomplete {
+    --nav-progress-color: #{colors.$neutral-400};
+  }
+}
+
+.navProgressItemLink {
+  display: block;
+  position: relative;
+}
+
+.navProgressItemIcon {
   position: relative;
   flex-shrink: 0;
   // Center icon;
@@ -314,6 +323,8 @@ $border-width: 2px;
   font-size: fonts.px-to-rem(18);
   font-weight: fonts.$bold;
 
+  color: var(--nav-progress-color);
+
   svg {
     display: block !important; // Override octicon styles
     width: 1rem;
@@ -322,52 +333,72 @@ $border-width: 2px;
     position: relative;
     top: 1px;
   }
-}
 
-.navItemLabel {
-  @include fonts.small;
+  transition-property: box-shadow, border-color, color;
+  transition-duration: 200ms;
 
-  @include below-breakpoint {
-    margin-left: spacing.$space-75;
-    color: colors.$neutral-700;
-    padding-top: spacing.$space-75;
+  .complete & {
+    box-shadow: 0px 1px 4px colors.alpha(colors.$green-900, 0.05);
   }
 
-  @include above-breakpoint {
-    position: absolute;
-    left: 100%;
-    // top: set in JavaScript because CSS overflow is stupid.
-    // margin-left: spacing.$space-75;
-    width: spacing.$space-1400;
-    padding: spacing.$space-50 spacing.$space-75;
+  .active & {
+    box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05);
+  }
 
-    color: colors.$neutral-700;
-    border-radius: borders.$radius-large;
-    background: colors.$neutral-100;
-    border: 1px solid colors.$neutral-600;
+  .incomplete & {
+    box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.05);
+  }
+
+  .navProgressItemLink:hover & {
     box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
-
-    transition: opacity ease-out 100ms;
+    color: #{colors.$neutral-700}; // Don't change progress connector color.
   }
 }
 
-@include above-breakpoint {
-  .navItem:not(:hover) {
-    .navItemLabel {
-      pointer-events: none;
-      opacity: 0;
-      transition-timing-function: ease-in;
-    }
+.navProgressItemLabel {
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: spacing.$space-50;
+  margin-left: (-1 * spacing.$space-1200 / 2) + 1.5rem; // Centered.
+  width: spacing.$space-1200;
+  padding: spacing.$space-50 spacing.$space-75;
+
+  text-align: center;
+  color: colors.$neutral-700;
+  border-radius: borders.$radius-large;
+  background: colors.$neutral-100;
+  border: 1px solid colors.$neutral-700;
+  box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+
+  @include fonts.ui-small;
+
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity, transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in;
+
+  .navProgressItemLink:hover & {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition-timing-function: ease-out;
   }
 }
 
 .svgCaret {
   pointer-events: none;
   position: absolute;
-  right: 100%;
-  top: spacing.$space-75;
-  transform: rotate(-90deg);
-
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 100%;
   fill: colors.$neutral-100;
-  stroke: colors.$neutral-600;
+  stroke: colors.$neutral-700;
 }

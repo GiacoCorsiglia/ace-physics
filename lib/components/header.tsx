@@ -1,17 +1,46 @@
-import { cx } from "@/helpers/css";
-import { Html, useToggle } from "@/helpers/frontend";
+import { cx, styled } from "@/helpers/css";
+import { Html, OptionalList, useToggle } from "@/helpers/frontend";
 import { ThreeBarsIcon, XIcon } from "@primer/octicons-react";
 import Link from "next/link";
-import { useRef } from "react";
 import { Caret } from "./caret";
 import styles from "./header.module.scss";
 
-export const Header = ({ children }: { children: Html }) => (
-  <>
-    {/* This spacer is a hack but it's simpler than styling <body>. */}
-    <div className={styles.headerSpacer} />
-    <header className={styles.header}>{children}</header>
-  </>
+interface NavConfig {
+  readonly title: Html;
+  readonly items: OptionalList<NavItemWithStatus>;
+  readonly secondary: OptionalList<NavItem>;
+}
+
+interface NavItem {
+  readonly link: string;
+  readonly icon: Html;
+  readonly label: Html;
+}
+
+interface NavItemWithStatus extends NavItem {
+  readonly status: "complete" | "active" | "incomplete";
+}
+
+export const Header = ({
+  title,
+  nav,
+  popovers,
+}: {
+  title?: Html;
+  popovers?: Html;
+  nav?: NavConfig;
+}) => (
+  <header className={styles.header}>
+    <div className={styles.headerBar}>
+      {nav && <Nav config={nav} />}
+
+      <HeaderTitle>{title}</HeaderTitle>
+
+      {popovers}
+    </div>
+
+    {nav && <NavProgress items={nav.items} />}
+  </header>
 );
 
 export const HeaderPopover = ({
@@ -27,7 +56,7 @@ export const HeaderPopover = ({
     <div className={styles.popoverWrapper}>
       <button
         type="button"
-        className={styles.popoverButton}
+        className={cx(styles.popoverButton, isOpen && styles.open)}
         onClick={() => setOpen((o) => !o)}
       >
         {icon}
@@ -42,18 +71,20 @@ export const HeaderPopover = ({
   );
 };
 
-export const HeaderTitle = ({ children }: { children: Html }) => {
-  return <div className={styles.headerTitle}>{children}</div>;
-};
+const HeaderTitle = styled.div(styles.headerTitle);
 
-export const Nav = ({ children }: { children: Html }) => {
-  const [isOpen, setOpen, ref] = useToggle<HTMLOListElement>();
+const Nav = ({
+  config: { items, title, secondary },
+}: {
+  config: NavConfig;
+}) => {
+  const [isOpen, setOpen, ref] = useToggle<HTMLDivElement>();
 
   return (
     <nav className={styles.navWrapper}>
       <button
         type="button"
-        className={cx(styles.navToggleButton, isOpen && styles.navOpen)}
+        className={cx(styles.navToggleButton, isOpen && styles.open)}
         onClick={() => setOpen((o) => !o)}
       >
         {isOpen ? (
@@ -63,64 +94,90 @@ export const Nav = ({ children }: { children: Html }) => {
         )}
       </button>
 
-      {/* Hide/show with CSS since this is a media-query thing. */}
-      <ol className={cx(styles.nav, isOpen && styles.navOpen)} ref={ref}>
-        {children}
-      </ol>
+      {isOpen && (
+        <div className={styles.navPopover} ref={ref}>
+          <ul className={styles.navSecondaryList}>
+            {secondary
+              .filter((i): i is NavItem => !!i)
+              .map((item) => (
+                <NavItem key={item.link} item={item} />
+              ))}
+          </ul>
+
+          <p className={styles.navTitle}>{title}</p>
+
+          <ol>
+            {items
+              .filter((i): i is NavItemWithStatus => !!i)
+              .map((item) => (
+                <NavItem key={item.link} item={item} />
+              ))}
+          </ol>
+        </div>
+      )}
     </nav>
   );
 };
 
-export const NavItem = ({
-  style = "default",
-  status,
-  link,
-  icon,
-  children,
-}: {
-  style?: "small" | "default";
-  status?: "complete" | "active" | "incomplete";
-  link: string;
-  icon: Html;
-  children?: Html;
-}) => {
-  const labelRef = useRef<HTMLParagraphElement>(null);
-  const handleHover = (e: React.MouseEvent | React.FocusEvent) => {
-    // https://css-tricks.com/popping-hidden-overflow/
-    const li = e.currentTarget as HTMLLIElement;
-    labelRef.current?.style.setProperty("top", `${li.offsetTop}px`);
-  };
+const NavItem = ({ item }: { item: NavItem | NavItemWithStatus }) => {
+  const status = "status" in item ? item.status : undefined;
+
   return (
-    <li
-      className={cx(
-        styles.navItem,
-        style === "default" && styles.withProgressConnector,
-        status === "complete" && styles.navItemComplete,
-        status === "active" && styles.navItemActive,
-        status === "incomplete" && styles.navItemIncomplete
-      )}
-      onMouseOver={handleHover}
-      onFocus={handleHover}
-    >
-      <Link href={link}>
+    <li className={cx(styles.navItem, status === "active" && styles.active)}>
+      <Link href={item.link}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a className={styles.navItemLink}>
+        <a
+          className={cx(
+            styles.navItemLink,
+            status === "complete" && styles.complete,
+            status === "active" && styles.active
+          )}
+        >
           <span
-            className={
-              style === "small"
-                ? styles.navItemIconSmall
-                : cx(styles.navItemIcon)
-            }
+            className={cx(
+              styles.navItemIcon,
+              typeof item.icon === "number" && styles.navItemNumberIcon
+            )}
           >
-            {icon}
+            {item.icon}
           </span>
 
-          <p className={styles.navItemLabel} ref={labelRef}>
-            <Caret className={styles.svgCaret} />
-            {children}
-          </p>
+          <span className={styles.navItemLabel}>{item.label}</span>
         </a>
       </Link>
     </li>
   );
 };
+
+const NavProgress = ({ items }: { items: OptionalList<NavItemWithStatus> }) => (
+  <ol className={styles.navProgress}>
+    {items
+      .filter((i): i is NavItemWithStatus => !!i)
+      .map((item) => (
+        <NavProgressItem key={item.link} item={item} />
+      ))}
+  </ol>
+);
+
+const NavProgressItem = ({ item }: { item: NavItemWithStatus }) => (
+  <li
+    className={cx(
+      styles.navProgressItem,
+      item.status === "complete" && styles.complete,
+      item.status === "active" && styles.active,
+      item.status === "incomplete" && styles.incomplete
+    )}
+  >
+    <Link href={item.link}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+      <a className={styles.navProgressItemLink}>
+        <span className={styles.navProgressItemIcon}>{item.icon}</span>
+
+        <span className={styles.navProgressItemLabel}>
+          <Caret className={styles.svgCaret} />
+          {item.label}
+        </span>
+      </a>
+    </Link>
+  </li>
+);
