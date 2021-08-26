@@ -11,10 +11,6 @@
   border-radius: borders.$radius;
 
   overflow: hidden;
-
-  &:not(:first-child) {
-    margin-top: 2rem;
-  }
 }
 
 .mathForeignObject {
@@ -22,7 +18,7 @@
 
   > .mathElement {
     pointer-events: auto;
-    background: rgba(#fff, 0.9);
+    background: rgba(colors.$neutral-100, 0.9);
   }
 }
 
