@@ -118,14 +118,16 @@
 
   // Display Math.
   // If it's at the top level, give it a margin unless its first or last. Also
-  // handle the case when its nested (e.g. in a paragraph).
+  // handle the case when its nested (e.g. in a paragraph).  We have to use
+  // these special classes that are added by JavaScript because there isn't a
+  // CSS selector that tells us if an element has text node siblings.
   > :not(:first-child),
-  > :first-child :not(:first-child) {
+  > :first-child :not(:global(.display-math-first-child)) {
     --display-math-margin-top: #{spacing.$space-150};
   }
 
   > :not(:last-child),
-  > :last-child :not(:last-child) {
+  > :last-child :not(:global(.display-math-last-child)) {
     --display-math-margin-bottom: #{spacing.$space-150};
   }
 }
