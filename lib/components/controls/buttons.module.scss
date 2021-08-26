@@ -69,11 +69,11 @@
 
   $shadow-color: colors.shade($color, 800);
 
-  box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.18),
-    0px 2px 8px colors.alpha($shadow-color, 0.2);
+  box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.15),
+    0px 2px 7px colors.alpha($shadow-color, 0.18);
 
-  $hover-shadow: 0px 2px 4px colors.alpha($shadow-color, 0.25),
-    0px 3px 8px colors.alpha($shadow-color, 0.25);
+  $hover-shadow: 0px 2px 4px colors.alpha($shadow-color, 0.2),
+    0px 3px 8px colors.alpha($shadow-color, 0.22);
 
   &:hover {
     background: colors.shade($color, 600);
@@ -84,8 +84,8 @@
   &:active {
     background: colors.shade($color, 700);
     border-color: colors.shade($color, 700);
-    box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.25),
-      0px 2px 8px colors.alpha($shadow-color, 0.25);
+    box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.2),
+      0px 2px 8px colors.alpha($shadow-color, 0.22);
   }
 
   &:focus {
@@ -99,8 +99,8 @@
 
   &:disabled {
     background: colors.shade($color, 300);
-    border-color: colors.shade($color, 300);
-    box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.18);
+    border-color: colors.shade($color, 400);
+    box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.1);
   }
 
   .disabledExplanation {
