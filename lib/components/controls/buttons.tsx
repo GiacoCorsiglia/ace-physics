@@ -13,6 +13,7 @@ type ButtonProps = {
   iconLeft?: Html;
   iconRight?: Html;
   disabledExplanation?: Html;
+  size?: "normal" | "small";
 } & Omit<
   JSX.IntrinsicElements["button"] & JSX.IntrinsicElements["a"],
   "color" | "href"
@@ -28,6 +29,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       iconLeft,
       iconRight,
       disabledExplanation,
+      size = "normal",
       ...props
     },
     ref
@@ -62,6 +64,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       styles.button,
       iconLeft && styles.iconFirst,
       iconRight && styles.iconLast,
+      size === "normal" && styles.normal,
+      size === "small" && styles.small,
       color === "green" && styles.green,
       color === "blue" && styles.blue,
       color === "yellow" && styles.yellow
