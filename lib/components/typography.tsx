@@ -45,7 +45,11 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
     // "div" are identical.)
     let Container: "p" | "div" = "p";
     Children.forEach(props.children, (child) => {
-      if (child && blockLevelElements.has((child as any).type)) {
+      if (
+        child &&
+        Container === "p" &&
+        blockLevelElements.has((child as any).type)
+      ) {
         Container = "div";
       }
     });
