@@ -133,3 +133,4 @@ git checkout beta
 Now the changes you make will only affect beta.acephysics.net, and not the live/production version.  But—nothing you do on your own computer will affect anything outside of your own computer unless you explicitly sync up with GitHub!  The syncing is **NOT** automatic, which is for the best, because now you can proceed without worrying about breaking anything.  There are also protections in place on GitHub to prevent you from inadvertently affecting the live/production version (i.e., the real acephysics.net).
 
 OK!  You're (hopefully) ready to return to the "Everyday Steps to Get Started".  You can close your Terminal if you want.
+
