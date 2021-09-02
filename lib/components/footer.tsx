@@ -5,15 +5,9 @@ import styles from "./footer.module.scss";
 export const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <hr />
-
       <p>
-        &copy; {new Date().getFullYear()}&nbsp;Giaco&nbsp;Corsiglia,
-        Benjamin&nbsp;P.&nbsp;Schermerhorn, Steven&nbsp;Pollock,
-        Gina&nbsp;Passante, and Homeyra&nbsp;Sadaghiani
-      </p>
-
-      <p>
+        <Link href="/">Home</Link>
+        &nbsp; · &nbsp;
         <Link href={urls.Privacy.link}>Privacy</Link>
         &nbsp; · &nbsp;
         <a
@@ -21,8 +15,14 @@ export const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          ACEQM
+          ACEQM on PhysPort
         </a>
+      </p>
+
+      <p>
+        &copy; {new Date().getFullYear()}&nbsp;Giaco&nbsp;Corsiglia,
+        Benjamin&nbsp;P.&nbsp;Schermerhorn, Gina&nbsp;Passante,
+        Homeyra&nbsp;Sadaghiani, and Steven&nbsp;Pollock
       </p>
     </footer>
   );

@@ -14,15 +14,8 @@
   text-align: center;
   @include fonts.smallest;
 
-  margin-top: spacing.$space-1200;
+  padding-top: spacing.$space-600;
   padding-bottom: spacing.$space-300;
-  // @include above-sidebar-visible {
-  //   padding-bottom: 2rem;
-  // }
-  // @include below-sidebar-visible {
-  //   // Need to make room for the "Saved status" indicator
-  //   padding-bottom: 3rem;
-  // }
 
   p {
     margin-left: auto;
@@ -34,15 +27,6 @@
 
   p + p {
     margin-top: spacing.$space-50;
-  }
-
-  hr {
-    border: 0;
-    height: 1px;
-    background: colors.$neutral-300;
-    margin-bottom: 2rem;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   a {
