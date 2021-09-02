@@ -1,9 +1,12 @@
-import { Content, Page, Prose } from "@/components";
+import { UserMenu } from "@/auth";
+import { Content, Header, Page, Prose } from "@/components";
 import Link from "next/link";
 
 export default function Privacy() {
   return (
     <Page title="Privacy">
+      <Header title="Privacy on ACE Physics" popovers={<UserMenu />} />
+
       <Content as="main">
         <Prose>
           <h1>Privacy on ACEPhysics.net</h1>

@@ -11,7 +11,7 @@ export default function TutorialsIndex() {
     <Page title="Tutorials">
       <Header title="All Tutorials" popovers={<UserMenu />} />
 
-      <Content as="main" className={styles.content}>
+      <Content as="main">
         <Prose>
           <h1>
             <em>Tutorials</em> about Quantum Mechanics

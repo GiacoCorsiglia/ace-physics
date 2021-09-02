@@ -43,184 +43,181 @@ export default function Generate() {
   const ready = institution && course && number && number > 0 && number <= max;
 
   return (
-    <Page title="Generate New Account Codes">
-      <Content as="main">
-        <Vertical>
-          <Prose>
-            <h1>Generate New Account Codes</h1>
-          </Prose>
+    <Page title="Generate Account Codes">
+      <Content as="main" marginTop="small">
+        <Prose>
+          <h1>Generate Account Codes</h1>
+        </Prose>
 
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              if (!ready) {
-                return;
-              }
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (!ready) {
+              return;
+            }
 
-              setStatus("loading");
+            setStatus("loading");
 
-              const result = await api.createLearners({
-                institution: institution!,
-                course: course!,
-                number: number!,
-              });
+            const result = await api.createLearners({
+              institution: institution!,
+              course: course!,
+              number: number!,
+            });
 
-              if (result.failed) {
-                setStatus("error");
-                return;
-              }
+            if (result.failed) {
+              setStatus("error");
+              return;
+            }
 
-              setStatus("success");
-              setIds(result.value.learners.map((l) => l.learnerId));
-            }}
-          >
-            <LabelsLeft>
-              <DropdownControl
-                label="Institution:"
-                choices={institutions}
-                value={institution}
-                onChange={setInstitution}
-                disabled={status !== "initial"}
-              />
+            setStatus("success");
+            setIds(result.value.learners.map((l) => l.learnerId));
+          }}
+        >
+          <LabelsLeft>
+            <DropdownControl
+              label="Institution:"
+              choices={institutions}
+              value={institution}
+              onChange={setInstitution}
+              disabled={status !== "initial"}
+            />
 
-              <DropdownControl
-                label="Course:"
-                choices={courses}
-                value={course}
-                onChange={setCourse}
-                disabled={status !== "initial"}
-              />
+            <DropdownControl
+              label="Course:"
+              choices={courses}
+              value={course}
+              onChange={setCourse}
+              disabled={status !== "initial"}
+            />
 
-              <NumericInputControl
-                label={"Number:"}
-                type="integer"
-                id="number"
-                inputMode="numeric"
-                value={number}
-                onChange={setNumber}
-                disabled={status !== "initial"}
-              />
+            <NumericInputControl
+              label={"Number:"}
+              type="integer"
+              id="number"
+              inputMode="numeric"
+              value={number}
+              onChange={setNumber}
+              disabled={status !== "initial"}
+            />
 
-              {number && number > max && (
-                <p>You can’t generate more than {max} codes at once.</p>
+            {number && number > max && (
+              <p>You can’t generate more than {max} codes at once.</p>
+            )}
+
+            <Button
+              color="green"
+              type="submit"
+              disabled={!ready || status !== "initial"}
+            >
+              {status === "loading" ? (
+                <>Generating…</>
+              ) : (
+                <>
+                  Generate <ArrowRightIcon />
+                </>
               )}
+            </Button>
+          </LabelsLeft>
+        </form>
 
-              <Button
-                color="green"
-                type="submit"
-                disabled={!ready || status !== "initial"}
-              >
-                {status === "loading" ? (
-                  <>Generating…</>
-                ) : (
-                  <>
-                    Generate <ArrowRightIcon />
-                  </>
-                )}
-              </Button>
-            </LabelsLeft>
-          </form>
+        {status === "error" && (
+          <Callout color="red">Sorry, something went wrong.</Callout>
+        )}
 
-          {status === "error" && (
-            <Callout color="red">Sorry, something went wrong.</Callout>
-          )}
+        {status === "success" && ids && (
+          <Callout color="green">
+            <Vertical>
+              <Prose>
+                <p>
+                  {ids.length} {ids.length > 1 ? "codes have" : "code has"} been
+                  generated.
+                </p>
 
-          {status === "success" && ids && (
-            <Callout color="green">
-              <Vertical>
-                <Prose>
-                  <p>
-                    {ids.length} {ids.length > 1 ? "codes have" : "code has"}{" "}
-                    been generated.
-                  </p>
+                <p>
+                  <strong>This is your only chance to save them.</strong> Once
+                  you leave this page, you will not be able to recover them.
+                </p>
+              </Prose>
 
-                  <p>
-                    <strong>This is your only chance to save them.</strong> Once
-                    you leave this page, you will not be able to recover them.
-                  </p>
-                </Prose>
-
-                <Horizontal justify="stretch">
-                  <Button
-                    color="yellow"
-                    onClick={async () => {
-                      const text = ids.join("\n");
-                      setClipboardStatus("copying");
-                      try {
-                        await navigator.clipboard.writeText(text);
-                      } catch (e) {
-                        setClipboardStatus("error");
-                      }
-                      setClipboardStatus("success");
-                    }}
-                    disabled={
-                      clipboardStatus === "copying" ||
-                      clipboardStatus === "error"
+              <Horizontal justify="stretch">
+                <Button
+                  color="yellow"
+                  onClick={async () => {
+                    const text = ids.join("\n");
+                    setClipboardStatus("copying");
+                    try {
+                      await navigator.clipboard.writeText(text);
+                    } catch (e) {
+                      setClipboardStatus("error");
                     }
-                    iconRight={
-                      clipboardStatus === "copying" ? (
-                        "Copying…"
-                      ) : clipboardStatus === "error" ? (
-                        "Failed"
-                      ) : clipboardStatus === "success" ? (
-                        <CheckCircleIcon />
-                      ) : (
-                        <CopyIcon />
-                      )
-                    }
-                  >
-                    {clipboardStatus === "copying" ? (
+                    setClipboardStatus("success");
+                  }}
+                  disabled={
+                    clipboardStatus === "copying" || clipboardStatus === "error"
+                  }
+                  iconRight={
+                    clipboardStatus === "copying" ? (
                       "Copying…"
                     ) : clipboardStatus === "error" ? (
                       "Failed"
                     ) : clipboardStatus === "success" ? (
-                      <>Copy codes to clipboard</>
+                      <CheckCircleIcon />
                     ) : (
-                      <>Copy codes to clipboard</>
-                    )}
-                  </Button>
+                      <CopyIcon />
+                    )
+                  }
+                >
+                  {clipboardStatus === "copying" ? (
+                    "Copying…"
+                  ) : clipboardStatus === "error" ? (
+                    "Failed"
+                  ) : clipboardStatus === "success" ? (
+                    <>Copy codes to clipboard</>
+                  ) : (
+                    <>Copy codes to clipboard</>
+                  )}
+                </Button>
 
-                  <Button
-                    color="green"
-                    onClick={() => {
-                      const now = new Date();
-                      let month = "" + (now.getMonth() + 1);
-                      let day = "" + now.getDate();
-                      const year = now.getFullYear();
+                <Button
+                  color="green"
+                  onClick={() => {
+                    const now = new Date();
+                    let month = "" + (now.getMonth() + 1);
+                    let day = "" + now.getDate();
+                    const year = now.getFullYear();
 
-                      if (month.length < 2) {
-                        month = "0" + month;
-                      }
-                      if (day.length < 2) {
-                        day = "0" + day;
-                      }
+                    if (month.length < 2) {
+                      month = "0" + month;
+                    }
+                    if (day.length < 2) {
+                      day = "0" + day;
+                    }
 
-                      download(
-                        `ace-physics-account-codes-${year}-${month}-${day}.csv`,
-                        ids.join("\n")
-                      );
-                    }}
-                    iconRight={<DownloadIcon />}
-                  >
-                    Download codes as CSV
-                  </Button>
-                </Horizontal>
-              </Vertical>
-            </Callout>
-          )}
+                    download(
+                      `ace-physics-account-codes-${year}-${month}-${day}.csv`,
+                      ids.join("\n")
+                    );
+                  }}
+                  iconRight={<DownloadIcon />}
+                >
+                  Download codes as CSV
+                </Button>
+              </Horizontal>
+            </Vertical>
+          </Callout>
+        )}
 
-          {status === "success" && ids && (
-            <Callout
-              as="pre"
-              color="neutral"
-              style={{
-                fontFamily: "monospace",
-              }}
-            >
-              {ids.join("\n")}
-            </Callout>
-          )}
-        </Vertical>
+        {status === "success" && ids && (
+          <Callout
+            as="pre"
+            color="neutral"
+            style={{
+              fontFamily: "monospace",
+            }}
+          >
+            {ids.join("\n")}
+          </Callout>
+        )}
       </Content>
     </Page>
   );

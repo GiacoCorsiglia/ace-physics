@@ -1,12 +1,13 @@
 import { formatId, rememberedLearnerId, unformatId, useAuth } from "@/auth";
-import styles from "@/auth/account.module.scss";
 import {
   Button,
   Callout,
   Content,
+  Horizontal,
   Page,
   Prose,
   TextInputControl,
+  Vertical,
 } from "@/components";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
@@ -16,6 +17,8 @@ import { useMemo, useState } from "react";
 
 const inputPattern = /^\d{0,3}( |-|,)?\d{0,3}$/;
 const idPattern = /^\d{3}( |-|,)?\d{3}$/;
+const idStartPattern = /^\d{3}$/;
+const idStartWithDashPattern = /^\d{3}\-$/;
 
 const withNext = (link: string, next: string) =>
   link + (next ? `?next=${encodeURIComponent(next)}` : "");
@@ -47,10 +50,10 @@ export default function Login() {
 
   if (auth.isLoggedIn) {
     return (
-      <Page title="Log in">
-        <Content as="main">
+      <Page title="Log In">
+        <Content as="main" marginTop="small">
           <Prose>
-            <h1>Welcome to ACEPhysics.net</h1>
+            <h1>Welcome to ACE Physics</h1>
 
             <p>
               Looks like you’re signed in with the account code:{" "}
@@ -66,25 +69,27 @@ export default function Login() {
             )}
           </Prose>
 
-          <div className={styles.loggedInButtons}>
-            <Button color="yellow" onClick={() => logout()}>
-              Log out
-            </Button>
+          <Vertical.Space before={300}>
+            <Horizontal justify="center">
+              <Button color="yellow" onClick={() => logout()}>
+                Log out
+              </Button>
 
-            <Button color="green" link={next}>
-              Stay logged in <ArrowRightIcon />
-            </Button>
-          </div>
+              <Button color="green" link={next}>
+                Stay logged in <ArrowRightIcon />
+              </Button>
+            </Horizontal>
+          </Vertical.Space>
         </Content>
       </Page>
     );
   }
 
   return (
-    <Page title="Log in">
-      <Content as="main">
+    <Page title="Log In">
+      <Content as="main" marginTop="small">
         <Prose>
-          <h1>Welcome to ACEPhysics.net</h1>
+          <h1>Welcome to ACE Physics</h1>
 
           {wasLoggedOut && (
             <Callout color="green">You’ve been logged out.</Callout>
@@ -93,64 +98,72 @@ export default function Login() {
           <p>Please sign in using your six-digit account code.</p>
         </Prose>
 
-        <form
-          className={styles.loginForm}
-          onSubmit={(e) => {
-            e.preventDefault();
+        <Vertical.Space before={200} after={200}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
 
-            if (!isIdValid || status === "loading") {
-              return;
-            }
-
-            setStatus("loading");
-
-            const learnerId = unformatId(id);
-            login(learnerId).then((outcome) => {
-              switch (outcome) {
-                case "already-logged-in":
-                case "success":
-                  router.push(next);
-                  return;
-                case "not-found":
-                case "error":
-                  setStatus(outcome);
-                  return;
+              if (!isIdValid || status === "loading") {
+                return;
               }
-            });
-          }}
-        >
-          <TextInputControl
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-            aria-label="Your six-digit account code"
-            className={styles.loginInput}
-            placeholder="000-000"
-            value={id}
-            onChange={(input) => {
-              if (inputPattern.test(input)) {
-                setId(input);
 
-                if (status === "not-found") {
-                  setStatus("initial");
+              setStatus("loading");
+
+              const learnerId = unformatId(id);
+              login(learnerId).then((outcome) => {
+                switch (outcome) {
+                  case "already-logged-in":
+                  case "success":
+                    router.push(next);
+                    return;
+                  case "not-found":
+                  case "error":
+                    setStatus(outcome);
+                    return;
                 }
-              }
+              });
             }}
-          />
-
-          <Button
-            color="green"
-            type="submit"
-            disabled={!isIdValid || status === "loading"}
           >
-            {status === "loading" ? (
-              <>Loading…</>
-            ) : (
-              <>
-                Log in <ArrowRightIcon />
-              </>
-            )}
-          </Button>
-        </form>
+            <Horizontal justify="center">
+              <TextInputControl
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
+                maxWidth
+                aria-label="Your six-digit account code"
+                placeholder="000-000"
+                value={id}
+                onChange={(input) => {
+                  if (
+                    idStartPattern.test(input) &&
+                    !idStartWithDashPattern.test(id) // Allow deleting.
+                  ) {
+                    setId(`${input}-`);
+                  } else if (inputPattern.test(input)) {
+                    setId(input);
+
+                    if (status === "not-found") {
+                      setStatus("initial");
+                    }
+                  }
+                }}
+              />
+
+              <Button
+                color="green"
+                type="submit"
+                disabled={!isIdValid || status === "loading"}
+              >
+                {status === "loading" ? (
+                  <>Loading…</>
+                ) : (
+                  <>
+                    Log in <ArrowRightIcon />
+                  </>
+                )}
+              </Button>
+            </Horizontal>
+          </form>
+        </Vertical.Space>
 
         {status === "not-found" && (
           <Callout color="red">

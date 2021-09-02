@@ -14,7 +14,7 @@ export default function Index() {
         </title>
       </Head>
 
-      <Content as="main">
+      <Content as="main" marginTop="small">
         <Prose>
           <h1>Adaptive Curricular Exercises for Physics</h1>
 

@@ -1,7 +1,13 @@
 import { createLearner } from "@/api/client";
 import { formatId, rememberLearnerId, useAuth } from "@/auth";
-import styles from "@/auth/account.module.scss";
-import { Button, Content, Horizontal, Page, Prose } from "@/components";
+import {
+  Button,
+  Callout,
+  Content,
+  Horizontal,
+  Page,
+  Prose,
+} from "@/components";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
@@ -36,16 +42,16 @@ export default function CreateAccount() {
 
   return (
     <Page title="Create an Account">
-      <Content as="main">
+      <Content as="main" marginTop="small">
         <Prose>
-          <h1>Create an anonymous account</h1>
+          <h1>Create an Account</h1>
 
-          <p>Welcome to ACEPhysics.net!</p>
+          <p>Welcome to ACE Physics!</p>
 
           <p>
-            Use this page to create an anonymous account to access our online
-            physics activities. The account will be fully featured, but it will
-            not be associated with any school or physics course.
+            Use this page to create an <b>anonymous account</b> to access our
+            online physics activities. The account will be fully featured, but
+            it will not be associated with any school or physics course.
           </p>
 
           <p>
@@ -105,18 +111,20 @@ export default function CreateAccount() {
         )}
 
         {(status === "success" || status === "saved") && (
-          <Prose>
-            <p>Congrats! Here’s your new account code:</p>
+          <>
+            <Prose>Congrats! Here’s your new account code:</Prose>
 
-            <p className={styles.newAccountCode}>{formatId(newId)}</p>
+            <Callout color="green" className="text-center text-heading1">
+              {formatId(newId)}
+            </Callout>
 
-            <p>
+            <Prose>
               <strong>
                 Save this account code somewhere. If you forget it, it CANNOT be
                 recovered!
               </strong>
-            </p>
-          </Prose>
+            </Prose>
+          </>
         )}
 
         {(status === "success" || status === "saved") && (
