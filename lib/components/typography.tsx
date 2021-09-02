@@ -36,10 +36,7 @@ type ProseProps = {
 } & JSX.IntrinsicElements["p"];
 
 export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
-  function Prose(
-    { size = "body", align, faded, boldColor = "neutral", ...props },
-    ref
-  ) {
+  function Prose({ size, align, faded, boldColor = "neutral", ...props }, ref) {
     // If there is no block level element in the children, wrap them in <p>.
     // Otherwise, just wrap everything in a <div>.  (The prop types for "p" and
     // "div" are identical.)
@@ -59,6 +56,7 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
         className={cx(
           styles.prose,
           // Sizes.
+          // We don't set a size by default!
           size === "large" && "text-large",
           size === "body" && "text-body",
           size === "small" && "text-small",
