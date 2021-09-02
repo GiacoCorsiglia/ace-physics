@@ -131,6 +131,10 @@ $max-content-width: 770px;
   margin-top: spacing.$space-100;
 }
 
+.vertical200 > * + * {
+  margin-top: spacing.$space-200;
+}
+
 .vertical300 > * + * {
   margin-top: spacing.$space-300;
 }
@@ -142,6 +146,9 @@ $max-content-width: 770px;
   > * + .verticalSpaceBefore100 {
     margin-top: spacing.$space-100;
   }
+  > * + .verticalSpaceBefore200 {
+    margin-top: spacing.$space-200;
+  }
   > * + .verticalSpaceBefore300 {
     margin-top: spacing.$space-300;
   }
@@ -151,6 +158,9 @@ $max-content-width: 770px;
   }
   > .verticalSpaceAfter100 + * {
     margin-top: spacing.$space-100;
+  }
+  > .verticalSpaceAfter200 + * {
+    margin-top: spacing.$space-200;
   }
   > .verticalSpaceAfter300 + * {
     margin-top: spacing.$space-300;

@@ -1,7 +1,7 @@
 import { styled, styledChild } from "@/helpers/frontend";
 import styles from "./layout.module.scss";
 
-type VerticalSpacing = 100 | 300;
+type VerticalSpacing = 100 | 200 | 300;
 
 export const Content = styled.div<{
   vertical?: VerticalSpacing | false;
@@ -11,6 +11,7 @@ export const Content = styled.div<{
   styles.contentWidth,
   vertical !== false && styles.vertical,
   vertical === 100 && styles.vertical100,
+  vertical === 200 && styles.vertical200,
   vertical === 300 && styles.vertical300,
   marginTop === "small" && styles.contentMarginTop,
   marginTop === "large" && styles.contentMarginTopLarge,
@@ -37,6 +38,7 @@ export const Section = styled.section<{
   styles.contentWidth,
   vertical !== false && styles.vertical,
   vertical === 100 && styles.vertical100,
+  vertical === 200 && styles.vertical200,
   vertical === 300 && styles.vertical300,
   animateIn && styles.sectionAnimateIn,
   enumerate && styles.sectionEnumerated,
@@ -49,9 +51,11 @@ const VerticalSpace = styledChild<{
   styles.verticalSpace, // Leave this here to set the displayName
   before === 0 && styles.verticalSpaceBefore0,
   before === 100 && styles.verticalSpaceBefore100,
+  before === 200 && styles.verticalSpaceBefore200,
   before === 300 && styles.verticalSpaceBefore300,
   after === 0 && styles.verticalSpaceAfter0,
   after === 100 && styles.verticalSpaceAfter100,
+  after === 200 && styles.verticalSpaceAfter200,
   after === 300 && styles.verticalSpaceBefore300,
 ]);
 
@@ -61,6 +65,7 @@ export const Vertical = Object.assign(
   }>(({ space = 100 }) => [
     styles.vertical,
     space === 100 && styles.vertical100,
+    space === 200 && styles.vertical200,
     space === 300 && styles.vertical300,
   ]),
   {
@@ -88,6 +93,7 @@ export const Column = styled.div<{
 }>(({ vertical = 100 }) => [
   styles.column, // Leave this here to set the displayName
   vertical === 100 && styles.vertical100,
+  vertical === 200 && styles.vertical200,
   vertical === 300 && styles.vertical300,
 ]);
 
