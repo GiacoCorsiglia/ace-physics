@@ -73,7 +73,7 @@ export function PretestStepPotential({
                   markerStart={`url(#${marker2})`}
                 />
 
-                <g style={{ fontSize: "1.185rem" }}>
+                <g style={{ fontSize: "0.875rem" }}>
                   <plots.Label
                     t="\text{Incoming from right}"
                     y={incidentY}
@@ -96,7 +96,7 @@ export function PretestStepPotential({
                   markerEnd={`url(#${marker2})`}
                 />
 
-                <g style={{ fontSize: "1.185rem" }}>
+                <g style={{ fontSize: "0.875rem" }}>
                   <plots.Label
                     t="\text{Incoming from left}"
                     y={incidentY}
@@ -311,7 +311,7 @@ export function StepPotential() {
               markerStart={`url(#${marker2})`}
             />
 
-            <g style={{ fontSize: "1.185rem" }}>
+            <g style={{ fontSize: "0.875rem" }}>
               <plots.Label
                 t="\text{Incoming from right}"
                 y={1.55}
