@@ -22,9 +22,8 @@ export type Html = React.ReactNode;
 export type Component<P = {}> = React.FunctionComponent<P>;
 export type JsxElement = React.ReactElement<any, any> | null;
 
-export type Props<
-  T extends React.Component | React.FunctionComponent
-> = T extends React.Component<infer P>
+export type Props<T extends React.Component | React.FunctionComponent> =
+  T extends React.Component<infer P>
   ? P
   : T extends React.FunctionComponent<infer P>
   ? P
@@ -35,9 +34,9 @@ export const isReactElement = (o: any): o is React.ReactElement =>
   (typeof o.type === "string" || typeof o.type === "function") &&
   !!o.props;
 
-export const combineRefs = <T,>(...refs: React.Ref<T>[]): React.Ref<T> => (
-  node: T | null
-): void => {
+export const combineRefs =
+  <T,>(...refs: React.Ref<T>[]): React.Ref<T> =>
+  (node: T | null): void => {
   // https://stackoverflow.com/questions/62238716/using-ref-current-in-react-forwardref
   refs.forEach((ref) => {
     if (typeof ref === "function") {
