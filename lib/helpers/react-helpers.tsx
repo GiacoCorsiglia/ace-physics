@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { scrollToElement } from "./frontend";
 
 const subDomain =
   process.env.NEXT_PUBLIC_ACE_ENV === "development"
@@ -24,10 +25,10 @@ export type JsxElement = React.ReactElement<any, any> | null;
 
 export type Props<T extends React.Component | React.FunctionComponent> =
   T extends React.Component<infer P>
-  ? P
-  : T extends React.FunctionComponent<infer P>
-  ? P
-  : never;
+    ? P
+    : T extends React.FunctionComponent<infer P>
+    ? P
+    : never;
 
 export const isReactElement = (o: any): o is React.ReactElement =>
   !!o &&
@@ -37,15 +38,15 @@ export const isReactElement = (o: any): o is React.ReactElement =>
 export const combineRefs =
   <T,>(...refs: React.Ref<T>[]): React.Ref<T> =>
   (node: T | null): void => {
-  // https://stackoverflow.com/questions/62238716/using-ref-current-in-react-forwardref
-  refs.forEach((ref) => {
-    if (typeof ref === "function") {
-      ref(node);
-    } else if (ref) {
-      (ref as React.MutableRefObject<T | null>).current = node;
-    }
-  });
-};
+    // https://stackoverflow.com/questions/62238716/using-ref-current-in-react-forwardref
+    refs.forEach((ref) => {
+      if (typeof ref === "function") {
+        ref(node);
+      } else if (ref) {
+        (ref as React.MutableRefObject<T | null>).current = node;
+      }
+    });
+  };
 
 export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -132,7 +133,7 @@ export const useScrollIntoView = (when = true): React.RefObject<any> => {
       return;
     }
     alreadyScrolled.current = true;
-    el.current.scrollIntoView({ behavior: "smooth" });
+    scrollToElement(el.current, 16 * 3); // Offset for header (3rem).
   });
 
   return el;
