@@ -32,6 +32,9 @@
 .text-large {
   @include fonts.large;
 }
+.text-heading1 {
+  @include fonts.heading1;
+}
 
 // Fading.
 .text-faded {
