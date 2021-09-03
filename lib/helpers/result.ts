@@ -17,7 +17,7 @@ export const success = <T>(value: T): Success<T> => ({ failed: false, value });
 export const result = <E = Error, T = any>(action: () => T): Result<E, T> => {
   try {
     return { failed: false, value: action() };
-  } catch (error) {
+  } catch (error: any) {
     return { failed: true, error };
   }
 };
