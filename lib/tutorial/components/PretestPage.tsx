@@ -139,6 +139,7 @@ const ContinueSection = tracked(function ContinueSection(
             tutorialConfig.pages[0]?.link
           )}
           disabled={!isContinueAllowed}
+          disabledExplanation="Please respond to every question before moving on"
         >
           Submit and move on <ArrowRightIcon />
         </Button>
