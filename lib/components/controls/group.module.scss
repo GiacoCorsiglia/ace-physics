@@ -1,9 +1,11 @@
 @use "colors";
 @use "controls";
 
-.controlGroup {
+.controlGroupWrapper {
   composes: tableControl from "../tables.module.scss";
+}
 
+.controlGroup {
   position: relative;
   display: inline-flex;
   background: controls.$background-color;
