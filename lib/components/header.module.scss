@@ -2,6 +2,7 @@
 @use "colors";
 @use "fonts";
 @use "spacing";
+@use "sass:math";
 
 $header-height: 2rem;
 
@@ -363,7 +364,7 @@ $border-width: 2px;
   left: 0;
   right: 0;
   margin-top: spacing.$space-50;
-  margin-left: (-1 * spacing.$space-1200 / 2) + 1.5rem; // Centered.
+  margin-left: math.div(-1 * spacing.$space-1200, 2) + 1.5rem; // Centered.
   width: spacing.$space-1200;
   padding: spacing.$space-50 spacing.$space-75;
 
