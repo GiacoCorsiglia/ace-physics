@@ -95,4 +95,10 @@ describe("autoProse", () => {
     const wrapped: any = autoProse(original);
     expect(wrapped).toBe(original);
   });
+
+  it("Does not wrap empty children with <Prose>", () => {
+    expect(autoProse(undefined)).toBe(undefined);
+    expect(autoProse(false)).toBe(false);
+    expect(autoProse(null)).toBe(null);
+  });
 });
