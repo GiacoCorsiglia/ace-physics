@@ -24,7 +24,7 @@ export const UserMenu = () => {
             You’re currently logged in with the account code:
           </Prose>
 
-          <Callout color="green" className="text-center">
+          <Callout color="green" className="text-center text-large">
             <strong>{formatId(auth.learner.learnerId)}</strong>
           </Callout>
 
