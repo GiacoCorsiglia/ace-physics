@@ -83,18 +83,22 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
 );
 
 export const autoProse = (children: Html) => {
-  let wrapInProse = true;
+  let empty = true;
+  let proseSafe = true;
   Children.forEach(children, (child) => {
+    if (empty && child) {
+      empty = false;
+    }
     if (
-      wrapInProse &&
+      proseSafe &&
       typeof child === "object" &&
       child !== null &&
       !proseSafeElements.has((child as any).type)
     ) {
-      wrapInProse = false;
+      proseSafe = false;
     }
   });
-  return wrapInProse ? <Prose>{children}</Prose> : children;
+  return !empty && proseSafe ? <Prose>{children}</Prose> : children;
 };
 
 export const PageTitle = styled.h1(styles.pageTitle);
