@@ -290,6 +290,7 @@ export default page(setup, ({ section, sequence, oneOf }) => ({
 
     section({
       name: "unknown1AmbiguityFeedback",
+      enumerate: false,
       body: (
         <Guidance.HeadsUp>
           <p>

@@ -70,7 +70,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         <>
           <Prose>
             What is the probability that an atom entering the second analyzer
-            <br /> (state <M t="\ket{\text{𝑖𝑛}} = \ket{+}" />) exits the spin up
+            <br /> (state <M t="\ket{\text{in}} = \ket{+}" />) exits the spin up
             port (state <M t="\ket{\text{out}} = \ket{+}" />) of the second
             analyzer?
           </Prose>
