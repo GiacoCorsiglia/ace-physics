@@ -20,6 +20,12 @@
 }
 
 // Font size.
+.text-ui {
+  @include fonts.ui;
+}
+.text-ui-small {
+  @include fonts.ui-small;
+}
 .text-smallest {
   @include fonts.smallest;
 }

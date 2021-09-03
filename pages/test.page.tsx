@@ -250,6 +250,22 @@ export default function TestPage() {
       </Content>
 
       <Content>
+        <Prose size="ui" style={{ maxWidth: "20rem" }}>
+          <strong>Text UI:</strong> Light from a service hatch at the rear of
+          the arcade showed him broken lengths of damp chipboard and the robot
+          gardener. Before they could stampede, take flight from the Chinese
+          program’s thrust.
+        </Prose>
+
+        <Prose size="ui-small" style={{ maxWidth: "15rem" }}>
+          <strong>Text UI Small:</strong> Light from a service hatch at the rear
+          of the arcade showed him broken lengths of damp chipboard and the
+          robot gardener. Before they could stampede, take flight from the
+          Chinese program’s thrust.
+        </Prose>
+      </Content>
+
+      <Content>
         <Prose>
           <h1>Heading 1</h1>
 
