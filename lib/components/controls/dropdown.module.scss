@@ -17,6 +17,7 @@
 
   &.disabled {
     box-shadow: controls.$disabled-box-shadow;
+    border-color: controls.$disabled-border-color;
   }
 
   .buttonIconContainer {
@@ -35,10 +36,6 @@
   &:not(.disabled):focus-within {
     border-color: controls.$focus-border-color;
     box-shadow: controls.$focus-box-shadow;
-  }
-
-  &.disabled {
-    border-color: controls.$disabled-border-color;
   }
 }
 
