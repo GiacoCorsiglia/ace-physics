@@ -70,7 +70,7 @@ $ui-bold: bold;
 }
 
 @mixin ui {
-  @include _text-style($sans, $ui-regular, 18, 24);
+  @include _text-style($sans, $ui-regular, 18, 22);
 }
 @mixin ui-small {
   @include _text-style($sans, $ui-regular, 14, 16);
