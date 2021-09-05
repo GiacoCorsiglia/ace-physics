@@ -201,7 +201,7 @@ $nav-item-icon-width: 1.3rem;
 }
 
 .navItemLink {
-  display: block;
+  display: flex;
   padding: spacing.$space-25 spacing.$space-100;
 
   color: colors.$neutral-600;
@@ -217,7 +217,8 @@ $nav-item-icon-width: 1.3rem;
 }
 
 .navItemIcon {
-  display: inline-block;
+  display: block;
+  flex-shrink: 0;
   width: $nav-item-icon-width;
   margin-right: spacing.$space-50;
   text-align: center;
@@ -225,6 +226,7 @@ $nav-item-icon-width: 1.3rem;
   svg {
     position: relative;
     top: -2px;
+    left: 1px;
     width: 1rem;
     height: auto;
   }
