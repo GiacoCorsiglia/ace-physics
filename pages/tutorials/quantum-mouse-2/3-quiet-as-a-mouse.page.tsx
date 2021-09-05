@@ -80,10 +80,8 @@ export default page(setup, ({ section }) => ({
             />
           </div>
 
-          <Prose align="center">
-            <span className="text-small text-faded">
-              You can copy-paste these:
-            </span>
+          <Prose align="center" size="small">
+            <span className="text-faded">You can copy-paste these:</span>
             <span
               role="img"
               aria-label="happy face"
