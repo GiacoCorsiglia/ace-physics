@@ -3,6 +3,12 @@ $breakpoint: 512px;
 
 .controlLabel {
   display: block;
+
+  --vertical-margin-top: #{spacing.$space-150};
+
+  & + * {
+    --vertical-margin-top: #{spacing.$space-50};
+  }
 }
 
 .labelsLeft {

@@ -127,44 +127,48 @@ $max-content-width: 770px;
   margin-top: calc(#{spacing.$space-300} + 10vh);
 }
 
-.vertical100 > * + * {
-  margin-top: spacing.$space-100;
-}
-
-.vertical200 > * + * {
-  margin-top: spacing.$space-200;
-}
-
-.vertical300 > * + * {
-  margin-top: spacing.$space-300;
-}
-
 .vertical {
+  > * + * {
+    margin-top: var(--vertical-margin-top);
+  }
+
   > * + .verticalSpaceBefore0 {
-    margin-top: 0;
+    --vertical-margin-top: 0;
   }
   > * + .verticalSpaceBefore100 {
-    margin-top: spacing.$space-100;
+    --vertical-margin-top: #{spacing.$space-100};
   }
   > * + .verticalSpaceBefore200 {
-    margin-top: spacing.$space-200;
+    --vertical-margin-top: #{spacing.$space-200};
   }
   > * + .verticalSpaceBefore300 {
-    margin-top: spacing.$space-300;
+    --vertical-margin-top: #{spacing.$space-300};
   }
 
   > .verticalSpaceAfter0 + * {
-    margin-top: 0;
+    --vertical-margin-top: 0;
   }
   > .verticalSpaceAfter100 + * {
-    margin-top: spacing.$space-100;
+    --vertical-margin-top: #{spacing.$space-100};
   }
   > .verticalSpaceAfter200 + * {
-    margin-top: spacing.$space-200;
+    --vertical-margin-top: #{spacing.$space-200};
   }
   > .verticalSpaceAfter300 + * {
-    margin-top: spacing.$space-300;
+    --vertical-margin-top: #{spacing.$space-300};
   }
+}
+
+.vertical100 {
+  --vertical-margin-top: #{spacing.$space-100};
+}
+
+.vertical200 {
+  --vertical-margin-top: #{spacing.$space-200};
+}
+
+.vertical300 {
+  --vertical-margin-top: #{spacing.$space-300};
 }
 
 .horizontal {
