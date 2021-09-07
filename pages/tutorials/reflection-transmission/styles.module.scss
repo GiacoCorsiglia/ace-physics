@@ -1,3 +1,5 @@
+@use "fonts";
+
 .table {
   margin-top: 1rem;
   margin-bottom: 2rem;
@@ -17,7 +19,7 @@
   }
 
   p {
-    font-weight: $bold;
+    font-weight: fonts.$bold;
   }
 }
 
