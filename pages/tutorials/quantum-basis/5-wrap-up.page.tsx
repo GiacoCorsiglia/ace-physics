@@ -89,8 +89,8 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
             choices={[
-              ["has effect", "Yes, it changed the physics."],
-              ["no effect", "No, the physics was the same."],
+              ["has effect", "Yes, it changed the physical scenario"],
+              ["no effect", "No, it didn’t"],
             ]}
           />
 
