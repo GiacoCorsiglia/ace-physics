@@ -2,7 +2,7 @@ import {
   Button,
   Callout,
   DisableControls,
-  Horizontal,
+  Justify,
   Prose,
   SectionBox,
   SectionGroup,
@@ -130,7 +130,7 @@ const ContinueSection = tracked(function ContinueSection(
 
   return (
     <SectionBox>
-      <Horizontal justify="end">
+      <Justify end>
         <Button
           color="green"
           link={urls.join(
@@ -143,7 +143,7 @@ const ContinueSection = tracked(function ContinueSection(
         >
           Submit and move on <ArrowRightIcon />
         </Button>
-      </Horizontal>
+      </Justify>
 
       <Callout color="blue">
         <strong>Don’t discuss your answers</strong> until you’ve moved on to the

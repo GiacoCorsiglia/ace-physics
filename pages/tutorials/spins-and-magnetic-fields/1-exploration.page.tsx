@@ -1,4 +1,4 @@
-import { Button, Callout, Horizontal, M, Prose, TextBox } from "@/components";
+import { Button, Callout, Justify, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import { HowToUseTheSim } from "../spin-lab-1/shared";
@@ -38,11 +38,11 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <Horizontal justify="center">
+          <Justify center>
             <Button link="https://tinyurl.com/spin3220" color="blue">
               Open the sim
             </Button>
-          </Horizontal>
+          </Justify>
 
           <Prose>
             <p>

@@ -2,7 +2,7 @@ import {
   Button,
   Callout,
   Decimal,
-  Horizontal,
+  Justify,
   LabelsLeft,
   M,
   Prose,
@@ -82,11 +82,11 @@ export default page(setup, ({ section, hint }) => ({
         <>
           <Prose>Start up the Stern-Gerlach sim:</Prose>
 
-          <Horizontal justify="center">
+          <Justify center>
             <Button link="https://tinyurl.com/spin3220" color="blue">
               Open the sim
             </Button>
-          </Horizontal>
+          </Justify>
 
           <Prose>
             <p>

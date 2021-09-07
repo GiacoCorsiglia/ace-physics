@@ -1,6 +1,6 @@
 import {
   Button,
-  Horizontal,
+  Justify,
   PageTitle,
   Prose,
   SectionBox,
@@ -88,7 +88,7 @@ export default function IntroPage({
       <hr />
 
       <Vertical.Space before={300}>
-        <Horizontal justify="end">
+        <Justify end>
           <Button
             color="green"
             link={urls.join(
@@ -101,7 +101,7 @@ export default function IntroPage({
           >
             Let’s get going <ArrowRightIcon />
           </Button>
-        </Horizontal>
+        </Justify>
       </Vertical.Space>
     </SectionBox>
   );

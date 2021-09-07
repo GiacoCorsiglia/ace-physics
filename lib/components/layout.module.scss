@@ -220,6 +220,16 @@ $breakpoint: fonts.rem-to-px($callout-bleed + $text-width + $callout-bleed);
   }
 }
 
+.justifySelfCenter {
+  justify-self: center;
+}
+.justifySelfEnd {
+  justify-self: end;
+}
+.justifySelfStretch {
+  justify-self: stretch;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // MainContent.
 ////////////////////////////////////////////////////////////////////////////////

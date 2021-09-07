@@ -102,6 +102,16 @@ export const SectionBox = styled.section<{
 
 export const SectionGroup = styled.div(styles.sectionGroup);
 
+export const Justify = styledChild<{
+  center?: true;
+  end?: true;
+  stretch?: true;
+}>(({ center, end, stretch }) => [
+  center && styles.justifySelfCenter,
+  end && styles.justifySelfEnd,
+  stretch && styles.justifySelfStretch,
+]);
+
 export const ApplyContentBox = styledChild([
   styles.contentBoxCentered,
   styles.contentBoxGrid,

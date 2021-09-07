@@ -3,7 +3,7 @@ import {
   ControlGroup,
   Decimal,
   Guidance,
-  Horizontal,
+  Justify,
   M,
   Prose,
   TextBox,
@@ -29,14 +29,14 @@ export default page(setup, ({ section, oneOf }) => ({
             </p>
           </Prose>
 
-          <Horizontal align="center">
+          <Justify center>
             <Button
               link="https://www.st-andrews.ac.uk/physics/quvis/simulations_html5/sims/TimeDevelopment/TimeDevelopment.html"
               color="blue"
             >
               Open the “Time Development” sim
             </Button>
-          </Horizontal>
+          </Justify>
 
           <Prose>
             <p>

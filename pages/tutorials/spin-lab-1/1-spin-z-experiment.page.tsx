@@ -1,7 +1,7 @@
 import {
   Button,
   Decimal,
-  Horizontal,
+  Justify,
   M,
   Prose,
   TextBox,
@@ -25,11 +25,11 @@ export default page(setup, ({ section, hint }) => ({
             on.
           </Prose>
 
-          <Horizontal justify="center">
+          <Justify center>
             <Button link="https://tinyurl.com/spin3220" color="blue">
               Open the sim
             </Button>
-          </Horizontal>
+          </Justify>
         </>
       ),
       continue: { label: "I opened the sim" },

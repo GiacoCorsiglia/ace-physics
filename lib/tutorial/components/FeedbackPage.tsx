@@ -1,6 +1,6 @@
 import {
   Button,
-  Horizontal,
+  Justify,
   PageTitle,
   Prose,
   SectionBox,
@@ -179,7 +179,7 @@ export default function FeedbackPage({
         </SectionBox> */}
 
         <SectionBox>
-          <Horizontal justify="end">
+          <Justify end>
             <Button
               color="green"
               link={urls.join(
@@ -190,7 +190,7 @@ export default function FeedbackPage({
             >
               I’m done <ArrowRightIcon />
             </Button>
-          </Horizontal>
+          </Justify>
         </SectionBox>
       </SectionGroup>
     </>

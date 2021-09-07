@@ -7,6 +7,7 @@ import {
   DropdownControl,
   Horizontal,
   InputControl,
+  Justify,
   M,
   Matrix,
   NumericInputControl,
@@ -202,7 +203,7 @@ export default function TestPage() {
           </tbody>
         </Table>
 
-        <Horizontal justify="end">
+        <Justify end>
           <Button
             color="green"
             disabled
@@ -210,7 +211,7 @@ export default function TestPage() {
           >
             Move on
           </Button>
-        </Horizontal>
+        </Justify>
       </SectionBox>
 
       <SectionBox>

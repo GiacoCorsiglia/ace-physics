@@ -3,6 +3,7 @@ import {
   ApplyContentBox,
   Button,
   Callout,
+  Justify,
   MainContentBox,
   Prose,
   Vertical,
@@ -82,17 +83,21 @@ function LoggedOut() {
   const router = useRouter();
 
   return (
-    <MainContentBox as="section" className="text-center" marginTop="large">
-      <LockIcon size="medium" />
+    <MainContentBox as="section" marginTop="large">
+      <Justify center>
+        <LockIcon size="medium" />
+      </Justify>
 
-      <Prose>You must be logged in to see this page.</Prose>
+      <Prose align="center">You must be logged in to see this page.</Prose>
 
-      <Button
-        color="green"
-        link={`/login?next=${encodeURIComponent(router.asPath)}`}
-      >
-        Log in <ArrowRightIcon />
-      </Button>
+      <Justify center>
+        <Button
+          color="green"
+          link={`/login?next=${encodeURIComponent(router.asPath)}`}
+        >
+          Log in <ArrowRightIcon />
+        </Button>
+      </Justify>
     </MainContentBox>
   );
 }

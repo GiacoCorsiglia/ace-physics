@@ -3,7 +3,7 @@ import {
   AnswerVisibility,
   Button,
   Callout,
-  Horizontal,
+  Justify,
   PageTitle,
   Prose,
   SectionBox,
@@ -214,11 +214,11 @@ function ContinueToNextPage({
       {showWhenComplete ? (
         showWhenComplete
       ) : (
-        <Horizontal justify="end">
+        <Justify end>
           <Button color="green" link={fullLink}>
             Move on to the next page <ArrowRightIcon />
           </Button>
-        </Horizontal>
+        </Justify>
       )}
     </SectionBox>
   );
@@ -261,7 +261,7 @@ const RevealAnswersSection = ({
             do…
           </Prose>
 
-          <Horizontal justify="center">
+          <Justify center>
             <Button
               onClick={() => {
                 setStatus("answersRevealed");
@@ -276,7 +276,7 @@ const RevealAnswersSection = ({
             >
               Show me the answers
             </Button>
-          </Horizontal>
+          </Justify>
 
           <Prose align="center">
             Clicking this button will scroll you to the top of the page.
@@ -299,7 +299,7 @@ const RevealAnswersSection = ({
           />
 
           {status !== "completed" && (
-            <Horizontal justify="end">
+            <Justify end>
               <Button
                 color="green"
                 onClick={() => {
@@ -309,7 +309,7 @@ const RevealAnswersSection = ({
                 Move on
                 <ArrowDownIcon />
               </Button>
-            </Horizontal>
+            </Justify>
           )}
         </>
       )}

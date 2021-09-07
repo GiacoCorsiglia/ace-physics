@@ -2,7 +2,7 @@ import { UserMenu } from "@/auth";
 import {
   Button,
   Header,
-  Horizontal,
+  Justify,
   MainContentBox,
   Page,
   Prose,
@@ -32,11 +32,11 @@ export default function Index() {
           </p>
         </Prose>
 
-        <Horizontal justify="center">
+        <Justify center>
           <Button color="green" link={urls.Tutorials.link}>
             Take me to the online tutorials <ArrowRightIcon />
           </Button>
-        </Horizontal>
+        </Justify>
 
         <Prose>
           Today, ACE Physics is home to a handful of interactive activities—

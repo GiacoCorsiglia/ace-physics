@@ -2,7 +2,7 @@ import {
   Button,
   ChooseOne,
   Guidance,
-  Horizontal,
+  Justify,
   LabelsLeft,
   M,
   Prose,
@@ -235,7 +235,7 @@ export default page(setup, ({ section }) => ({
               Let’s fix that.
             </Prose>
 
-            <Horizontal justify="center">
+            <Justify center>
               <Button
                 onClick={() => setAddMorePoints(true)}
                 color="blue"
@@ -243,13 +243,13 @@ export default page(setup, ({ section }) => ({
               >
                 Add even more points <ArrowUpIcon />
               </Button>
-            </Horizontal>
+            </Justify>
 
             {addMorePoints && (
               <>
                 <Prose>That’s getting a little busy, don’t you think?</Prose>
 
-                <Horizontal justify="center">
+                <Justify center>
                   <Button
                     onClick={() => setSmooth(true)}
                     color="blue"
@@ -257,7 +257,7 @@ export default page(setup, ({ section }) => ({
                   >
                     Replace the points with a continuous curve <ArrowUpIcon />
                   </Button>
-                </Horizontal>
+                </Justify>
               </>
             )}
 

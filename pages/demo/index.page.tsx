@@ -1,4 +1,4 @@
-import { Button, Horizontal, MainContentBox, Page, Prose } from "@/components";
+import { Button, Justify, MainContentBox, Page, Prose } from "@/components";
 import { TutorialLink } from "@pages/tutorials/index.page";
 import { MailIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -91,7 +91,7 @@ export default function Index() {
           </p>
         </Prose>
 
-        <Horizontal justify="center">
+        <Justify center>
           <Button
             color="green"
             link="mailto:hello@acephysics.net"
@@ -99,7 +99,7 @@ export default function Index() {
           >
             Email us
           </Button>
-        </Horizontal>
+        </Justify>
 
         <Prose align="center">
           You can contact Giaco at{" "}

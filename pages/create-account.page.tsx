@@ -3,7 +3,7 @@ import { formatId, rememberLearnerId, useAuth } from "@/auth";
 import {
   Button,
   Callout,
-  Horizontal,
+  Justify,
   MainContentBox,
   Page,
   Prose,
@@ -76,7 +76,7 @@ export default function CreateAccount() {
           <>
             <Prose>Click below to generate your account code.</Prose>
 
-            <Horizontal justify="center">
+            <Justify center>
               <Button
                 color="green"
                 disabled={status === "loading"}
@@ -99,7 +99,7 @@ export default function CreateAccount() {
                   ? "Generating..."
                   : "Generate my account code"}
               </Button>
-            </Horizontal>
+            </Justify>
           </>
         )}
 
@@ -128,7 +128,7 @@ export default function CreateAccount() {
         )}
 
         {(status === "success" || status === "saved") && (
-          <Horizontal justify="center">
+          <Justify center>
             <Button
               color="green"
               onClick={() => setStatus("saved")}
@@ -136,7 +136,7 @@ export default function CreateAccount() {
             >
               I promise I’ve saved my code <ArrowRightIcon />
             </Button>
-          </Horizontal>
+          </Justify>
         )}
 
         {status === "saved" && (
@@ -146,11 +146,11 @@ export default function CreateAccount() {
               tutorials!
             </Prose>
 
-            <Horizontal justify="center">
+            <Justify center>
               <Button color="green" link={withNext(urls.Login.link, next)}>
                 Go log in <ArrowRightIcon />
               </Button>
-            </Horizontal>
+            </Justify>
 
             <Prose align="center">
               You'll have to click “Log in” on the next page.

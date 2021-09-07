@@ -1,4 +1,4 @@
-import { Button, Horizontal, M, Prose, TextBox } from "@/components";
+import { Button, Justify, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import simSetupImg from "./assets/sim-setup.png";
 import { StepPotential } from "./figures";
@@ -64,14 +64,14 @@ export default page(setup, ({ section, hint }) => ({
             <p>Let’s explore this scenario using a PhET simulation.</p>
           </Prose>
 
-          <Horizontal justify="center">
+          <Justify center>
             <Button
               link="https://phet.colorado.edu/sims/cheerpj/quantum-tunneling/latest/quantum-tunneling.html?simulation=quantum-tunneling"
               color="blue"
             >
               Open the “Quantum Tunneling” sim
             </Button>
-          </Horizontal>
+          </Justify>
 
           <Prose>
             <p>Take some time to familiarize yourself with all the controls.</p>
