@@ -1,4 +1,4 @@
-import { Button, Content, Horizontal, Page, Prose } from "@/components";
+import { Button, Horizontal, MainContentBox, Page, Prose } from "@/components";
 import { TutorialLink } from "@pages/tutorials/index.page";
 import { MailIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -14,7 +14,7 @@ export default function Index() {
         </title>
       </Head>
 
-      <Content as="main" marginTop="small">
+      <MainContentBox marginTop="small">
         <Prose>
           <h1>Adaptive Curricular Exercises for Physics</h1>
 
@@ -105,7 +105,7 @@ export default function Index() {
           You can contact Giaco at{" "}
           <a href="mailto:hello@acephysics.net">hello@acephysics.net</a>.
         </Prose>
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }

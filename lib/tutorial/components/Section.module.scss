@@ -3,6 +3,7 @@
 
 .previewNoticeVisible,
 .previewNoticeHidden {
+  grid-column: full-start / full-end;
   position: absolute;
   top: spacing.$space-100;
   right: spacing.$space-100;

@@ -1,5 +1,5 @@
 import { UserMenu } from "@/auth";
-import { Content, Header, Page, Prose } from "@/components";
+import { Header, MainContentBox, Page, Prose } from "@/components";
 import Link from "next/link";
 
 export default function Error404() {
@@ -7,7 +7,7 @@ export default function Error404() {
     <Page title="404 Not Found">
       <Header title="404 Not Found" popovers={<UserMenu />} />
 
-      <Content as="main">
+      <MainContentBox>
         <Prose>
           <h1>Not Found</h1>
 
@@ -17,7 +17,7 @@ export default function Error404() {
             Maybe try the <Link href="/">homepage</Link>?
           </p>
         </Prose>
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }

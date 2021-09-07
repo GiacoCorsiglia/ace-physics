@@ -1,5 +1,12 @@
 import { UserMenu } from "@/auth";
-import { Button, Content, Header, Horizontal, Page, Prose } from "@/components";
+import {
+  Button,
+  Header,
+  Horizontal,
+  MainContentBox,
+  Page,
+  Prose,
+} from "@/components";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -15,7 +22,7 @@ export default function Index() {
 
       <Header title="ACE Physics" popovers={<UserMenu />} />
 
-      <Content as="main" vertical={300}>
+      <MainContentBox vertical={300}>
         <Prose>
           <h1>Interactive Online Activities for Physics Learners</h1>
 
@@ -37,7 +44,7 @@ export default function Index() {
           Perhaps one day this website will hold an extensive suite of such
           activities for all physics learners.
         </Prose>
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }

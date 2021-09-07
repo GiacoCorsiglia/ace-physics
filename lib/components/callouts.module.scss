@@ -4,6 +4,8 @@
 @use "borders";
 
 .callout {
+  composes: callout from "layout.module.scss";
+
   padding: spacing.$space-100 spacing.$space-150;
   border-width: 1px;
   border-style: solid;
@@ -12,8 +14,6 @@
     property: background-color, border-color, color;
     duration: 150ms;
   }
-  margin-left: var(--callout-horizontal-margins);
-  margin-right: var(--callout-horizontal-margins);
 
   &.hasIcon {
     display: flex;

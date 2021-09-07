@@ -2,10 +2,10 @@ import * as api from "@/api/client";
 import {
   Button,
   Callout,
-  Content,
   DropdownControl,
   Horizontal,
   LabelsLeft,
+  MainContentBox,
   NumericInputControl,
   Page,
   Prose,
@@ -44,7 +44,7 @@ export default function Generate() {
 
   return (
     <Page title="Generate Account Codes">
-      <Content as="main" marginTop="small">
+      <MainContentBox marginTop="small">
         <Prose>
           <h1>Generate Account Codes</h1>
         </Prose>
@@ -218,7 +218,7 @@ export default function Generate() {
             {ids.join("\n")}
           </Callout>
         )}
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }

@@ -1,5 +1,5 @@
 import { getTutorial, updateTutorial } from "@/api/client";
-import { Content, Prose } from "@/components";
+import { Prose, SectionBox } from "@/components";
 import { cx, JsxElement } from "@/helpers/frontend";
 import { Updates } from "@/reactivity";
 import { Learner } from "@/schema/db";
@@ -209,13 +209,13 @@ export function TutorialStateRoot({
       return <TutorialLoading />;
     case "error":
       return (
-        <Content as="section">
+        <SectionBox>
           <Prose>
             <h1>Error</h1>
 
             <p>Sorry, we had trouble loading your saved tutorial.</p>
           </Prose>
-        </Content>
+        </SectionBox>
       );
     case "loaded":
       return (

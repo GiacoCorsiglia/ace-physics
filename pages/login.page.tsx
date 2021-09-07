@@ -2,8 +2,8 @@ import { formatId, rememberedLearnerId, unformatId, useAuth } from "@/auth";
 import {
   Button,
   Callout,
-  Content,
   Horizontal,
+  MainContentBox,
   Page,
   Prose,
   TextInputControl,
@@ -51,7 +51,7 @@ export default function Login() {
   if (auth.isLoggedIn) {
     return (
       <Page title="Log In">
-        <Content as="main" marginTop="small">
+        <MainContentBox marginTop="small">
           <Prose>
             <h1>Welcome to ACE Physics</h1>
 
@@ -80,14 +80,14 @@ export default function Login() {
               </Button>
             </Horizontal>
           </Vertical.Space>
-        </Content>
+        </MainContentBox>
       </Page>
     );
   }
 
   return (
     <Page title="Log In">
-      <Content as="main" marginTop="small">
+      <MainContentBox marginTop="small">
         <Prose>
           <h1>Welcome to ACE Physics</h1>
 
@@ -193,7 +193,7 @@ export default function Login() {
             .
           </p>
         </Prose>
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }

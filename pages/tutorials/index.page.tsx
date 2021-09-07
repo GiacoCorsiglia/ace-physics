@@ -1,5 +1,5 @@
 import { UserMenu } from "@/auth";
-import { Content, Header, Page, Prose } from "@/components";
+import { Header, MainContentBox, Page, Prose } from "@/components";
 import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ChevronRightIcon } from "@primer/octicons-react";
@@ -11,7 +11,7 @@ export default function TutorialsIndex() {
     <Page title="Tutorials">
       <Header title="All Tutorials" popovers={<UserMenu />} />
 
-      <Content as="main">
+      <MainContentBox>
         <Prose>
           <h1>
             <em>Tutorials</em> about Quantum Mechanics
@@ -127,7 +127,7 @@ export default function TutorialsIndex() {
             </TutorialLink>
           </ul>
         </nav>
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }

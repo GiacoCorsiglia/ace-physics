@@ -1,4 +1,4 @@
-import { Section as LayoutSection } from "@/components";
+import { SectionBox } from "@/components";
 import { Model } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
@@ -29,8 +29,8 @@ export default tracked(function PretestSection(
     config.enumerate === undefined ? anyModelsUsed : config.enumerate;
 
   return (
-    <LayoutSection as="section" enumerate={enumerate}>
+    <SectionBox as="section" enumerate={enumerate}>
       {body}
-    </LayoutSection>
+    </SectionBox>
   );
 });

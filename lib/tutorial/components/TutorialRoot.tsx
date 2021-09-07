@@ -1,9 +1,9 @@
 import { useAuth } from "@/auth";
 import {
+  ApplyContentBox,
   Button,
   Callout,
-  Content,
-  ContentWidth,
+  MainContentBox,
   Prose,
   Vertical,
 } from "@/components";
@@ -42,25 +42,25 @@ export default function TutorialRoot({
                 <>
                   {globalParams.mockApi && (
                     <Vertical.Space after={100}>
-                      <ContentWidth>
+                      <ApplyContentBox>
                         <Callout as="section" color="blue">
                           <Prose>
                             You’re currently in <strong>preview mode</strong>.
                             Your responses will <strong>not</strong> be saved.
                           </Prose>
                         </Callout>
-                      </ContentWidth>
+                      </ApplyContentBox>
                     </Vertical.Space>
                   )}
 
                   {!globalParams.mockApi && !auth.isForCredit && (
                     <Vertical.Space after={100}>
-                      <ContentWidth>
+                      <ApplyContentBox>
                         <Callout as="section" color="blue">
                           This is an anonymous account. Your work will{" "}
                           <strong>not</strong> count for any course credit.
                         </Callout>
-                      </ContentWidth>
+                      </ApplyContentBox>
                     </Vertical.Space>
                   )}
 
@@ -82,7 +82,7 @@ function LoggedOut() {
   const router = useRouter();
 
   return (
-    <Content as="section" className="text-center" marginTop="large">
+    <MainContentBox as="section" className="text-center" marginTop="large">
       <LockIcon size="medium" />
 
       <Prose>You must be logged in to see this page.</Prose>
@@ -93,6 +93,6 @@ function LoggedOut() {
       >
         Log in <ArrowRightIcon />
       </Button>
-    </Content>
+    </MainContentBox>
   );
 }

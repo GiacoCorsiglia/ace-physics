@@ -3,129 +3,9 @@
 @use "spacing";
 @use "fonts";
 
-$text-width: spacing.$space-4000;
-// It turns out calc() doesn't behave well in media queries (at least not in
-// Chrome) so we just hardcode these as pixel values assuming 1rem = 16px.
-// $minContentWidth: spacing.$space-75 + spacing.$space-4000 + spacing.$space-75;
-$min-content-width: 664px;
-// $maxContentWidth: 1px + spacing.$space-400} + $text-width + spacing.$space-400 + 1px;
-$max-content-width: 770px;
-
-:not(.contentWidth) > .contentWidth {
-  margin-left: auto;
-  margin-right: auto;
-
-  padding-left: var(--content-padding);
-  padding-right: var(--content-padding);
-
-  @media (min-width: $max-content-width) {
-    box-sizing: content-box;
-    max-width: $text-width;
-    --content-padding: #{spacing.$space-400};
-
-    --callout-horizontal-margins: #{-1 * spacing.$space-150};
-    --section-enumerated-left: calc(var(--content-padding) / 2);
-    --section-enumerated-top: #{spacing.$space-300};
-  }
-
-  @media (min-width: $min-content-width) and (max-width: $max-content-width - 1px) {
-    --content-padding: calc((100vw - #{$text-width}) / 2);
-    --section-enumerated-left: var(--content-padding);
-    --section-enumerated-top: #{spacing.$space-150};
-  }
-
-  @media (max-width: $min-content-width - 1px) {
-    --content-padding: #{spacing.$space-75};
-    --section-enumerated-left: var(--content-padding);
-    --section-enumerated-top: #{spacing.$space-150};
-  }
-}
-
-:not(.content) > .content {
-  padding-top: spacing.$space-300;
-  padding-bottom: spacing.$space-300;
-
-  background: colors.$neutral-100;
-  border-style: solid;
-  border-color: colors.$neutral-300;
-  box-shadow: 0px 2px 8px colors.alpha(colors.$neutral-900, 0.05),
-    0px 4px 30px colors.alpha(colors.$neutral-900, 0.05);
-
-  @media (min-width: $max-content-width) {
-    border-width: 1px;
-    border-radius: borders.$radius-large;
-  }
-
-  @media (min-width: $min-content-width) and (max-width: $max-content-width - 1px) {
-    border-width: 1px 0;
-  }
-
-  @media (max-width: $min-content-width - 1px) {
-    border-width: 1px 0;
-  }
-
-  hr {
-    border: 0;
-    border-bottom: 1px solid colors.$neutral-300;
-    margin-top: spacing.$space-150;
-    margin-bottom: spacing.$space-150;
-    margin-left: calc(-1 * var(--content-padding));
-    margin-right: calc(-1 * var(--content-padding));
-  }
-}
-
-.sectionGroup {
-  .section + .section {
-    $spacing: spacing.$space-300;
-
-    margin-top: $spacing;
-
-    &::before {
-      // Use a pseudo element for the border-top to break out of the boundaries.
-      content: "";
-      display: block;
-      height: 1px;
-      background: colors.$neutral-300;
-      margin-left: calc(-1 * var(--content-padding));
-      margin-right: calc(-1 * var(--content-padding));
-      margin-bottom: $spacing; // This is basically `padding-top`.
-    }
-  }
-}
-
-.section {
-  position: relative;
-}
-
-@keyframes section-animate-in {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-}
-
-.sectionAnimateIn {
-  animation: section-animate-in 300ms ease-out;
-}
-
-.sectionEnumerated {
-  &::before {
-    counter-increment: section;
-    content: counter(section, upper-alpha) ".";
-    position: absolute;
-    top: var(--section-enumerated-top);
-    left: var(--section-enumerated-left);
-    color: colors.$neutral-600;
-  }
-}
-
-.contentMarginTop {
-  margin-top: spacing.$space-300;
-}
-
-.contentMarginTopLarge {
-  margin-top: calc(#{spacing.$space-300} + 10vh);
-}
+////////////////////////////////////////////////////////////////////////////////
+// Vertical.
+////////////////////////////////////////////////////////////////////////////////
 
 .vertical {
   > * + * {
@@ -133,29 +13,29 @@ $max-content-width: 770px;
   }
 
   > * + .verticalSpaceBefore0 {
-    --vertical-margin-top: 0;
+    margin-top: 0;
   }
   > * + .verticalSpaceBefore100 {
-    --vertical-margin-top: #{spacing.$space-100};
+    margin-top: #{spacing.$space-100};
   }
   > * + .verticalSpaceBefore200 {
-    --vertical-margin-top: #{spacing.$space-200};
+    margin-top: #{spacing.$space-200};
   }
   > * + .verticalSpaceBefore300 {
-    --vertical-margin-top: #{spacing.$space-300};
+    margin-top: #{spacing.$space-300};
   }
 
   > .verticalSpaceAfter0 + * {
-    --vertical-margin-top: 0;
+    margin-top: 0;
   }
   > .verticalSpaceAfter100 + * {
-    --vertical-margin-top: #{spacing.$space-100};
+    margin-top: #{spacing.$space-100};
   }
   > .verticalSpaceAfter200 + * {
-    --vertical-margin-top: #{spacing.$space-200};
+    margin-top: #{spacing.$space-200};
   }
   > .verticalSpaceAfter300 + * {
-    --vertical-margin-top: #{spacing.$space-300};
+    margin-top: #{spacing.$space-300};
   }
 }
 
@@ -170,6 +50,10 @@ $max-content-width: 770px;
 .vertical300 {
   --vertical-margin-top: #{spacing.$space-300};
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Horizontal.
+////////////////////////////////////////////////////////////////////////////////
 
 .horizontal {
   display: flex;
@@ -206,35 +90,199 @@ $max-content-width: 770px;
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Columns.
+////////////////////////////////////////////////////////////////////////////////
+
 .columns {
   display: grid;
 
-  @media (min-width: $min-content-width) {
+  @media (min-width: fonts.rem-to-px(spacing.$space-4000)) {
     grid-template-columns: 1fr 1fr;
     column-gap: spacing.$space-150;
   }
 
-  @media (max-width: $min-content-width - 1px) {
+  @media (max-width: fonts.rem-to-px(spacing.$space-4000) - 1px) {
     grid-template-columns: 1fr;
     row-gap: spacing.$space-100;
   }
 }
 
-.spacerInlineBlock {
-  display: inline-block;
+////////////////////////////////////////////////////////////////////////////////
+// Content Boxes.
+////////////////////////////////////////////////////////////////////////////////
+
+$text-width: spacing.$space-4000;
+$border-width: 1px;
+$min-padding: spacing.$space-75;
+$max-padding: spacing.$space-400;
+$callout-bleed: spacing.$space-150;
+// calc() doesn't work properly in media queries.
+$breakpoint: fonts.rem-to-px($callout-bleed + $text-width + $callout-bleed);
+
+.contentBoxCentered {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: calc(
+    #{$border-width} + #{$max-padding + $text-width + $max-padding} + #{$border-width}
+  );
 }
-.spacerBlock {
-  display: block;
+
+.contentBoxGrid,
+.contentBoxGrid > .contentBoxSubgrid {
+  display: grid;
+
+  @media (min-width: $breakpoint) {
+    grid-template-columns:
+      [full-start]
+      minmax(0, auto)
+      [callout-start]
+      $callout-bleed
+      [content-start]
+      minmax(auto, $text-width)
+      [content-end]
+      $callout-bleed
+      [callout-end]
+      minmax(0, auto)
+      [full-end];
+  }
+
+  @media (max-width: $breakpoint - 1px) {
+    grid-template-columns:
+      [full-start]
+      $min-padding
+      [callout-start]
+      minmax(0, auto)
+      [content-start]
+      minmax(auto, $text-width)
+      [content-end]
+      minmax(0, auto)
+      [callout-end]
+      $min-padding
+      [full-end];
+  }
+
+  > * {
+    grid-column: content-start / content-end;
+  }
+
+  > .callout {
+    grid-column: callout-start / callout-end;
+  }
+
+  > .contentBoxGrid,
+  > .contentBoxSubgrid {
+    // This effectively simulates sub-grid!
+    grid-column: full-start / full-end;
+  }
 }
-.spacer25 {
-  width: spacing.$space-25;
+
+:not(.contentBoxBordered) > .contentBoxBordered {
+  padding-top: spacing.$space-300;
+  padding-bottom: spacing.$space-300;
+  background: colors.$neutral-100;
+  border-style: solid;
+  border-color: colors.$neutral-300;
+  box-shadow: 0px 2px 8px colors.alpha(colors.$neutral-900, 0.05),
+    0px 4px 30px colors.alpha(colors.$neutral-900, 0.05);
+
+  @media (min-width: $breakpoint) {
+    border-width: 1px;
+    border-radius: borders.$radius-large;
+  }
+
+  @media (max-width: $breakpoint - 1px) {
+    border-width: 1px 0;
+  }
 }
-.spacer50 {
-  width: spacing.$space-50;
+
+.contentBoxBordered > .contentBoxBordered + .contentBoxBordered {
+  $spacing: spacing.$space-300;
+  margin-top: $spacing;
+  border-top: 1px solid colors.$neutral-300;
+  padding-top: $spacing;
 }
-.spacer75 {
-  width: spacing.$space-75;
+
+.contentBoxBordered {
+  & > hr,
+  .contentBoxGrid > hr,
+  .contentBoxSubgrid > hr {
+    grid-column: full-start / full-end;
+    width: 100%; // Not sure why this is also necessary.
+    height: 1px;
+    margin-top: spacing.$space-150;
+    & + * {
+      // No margin collapse in grid.
+      margin-top: spacing.$space-150;
+    }
+    border: 0;
+    background-color: colors.$neutral-300;
+  }
 }
-.spacer100 {
-  width: spacing.$space-100;
+
+////////////////////////////////////////////////////////////////////////////////
+// MainContent.
+////////////////////////////////////////////////////////////////////////////////
+
+.mainContentBox {
+  composes: contentBoxCentered;
+  composes: contentBoxGrid;
+  composes: contentBoxBordered;
+}
+
+.contentMarginTop {
+  margin-top: spacing.$space-300;
+}
+
+.contentMarginTopLarge {
+  margin-top: calc(#{spacing.$space-300} + 10vh);
+}
+
+// ////////////////////////////////////////////////////////////////////////////////
+// // Section.
+// ////////////////////////////////////////////////////////////////////////////////
+
+.section {
+  position: relative;
+  composes: contentBoxCentered;
+  composes: contentBoxGrid;
+  composes: contentBoxBordered;
+}
+
+.sectionGroup {
+  composes: contentBoxCentered;
+  composes: contentBoxBordered;
+}
+
+@keyframes section-animate-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.sectionAnimateIn {
+  animation: section-animate-in 300ms ease-out;
+}
+
+.sectionEnumerated {
+  &::before {
+    counter-increment: section;
+    content: counter(section, upper-alpha) ".";
+    color: colors.$neutral-600;
+    position: absolute;
+    // The absolute positioning is relative to the grid area.
+
+    @media (min-width: $breakpoint) {
+      grid-column: full-start / content-start;
+      top: spacing.$space-300;
+      right: spacing.$space-100;
+    }
+
+    @media (max-width: $breakpoint - 1px) {
+      grid-column: content-start / content-end;
+      top: spacing.$space-100;
+      left: 0;
+    }
+  }
 }

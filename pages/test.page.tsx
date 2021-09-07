@@ -2,7 +2,6 @@ import {
   Button,
   Callout,
   ChooseControl,
-  Content,
   ControlGroup,
   DisableControls,
   DropdownControl,
@@ -12,6 +11,7 @@ import {
   Matrix,
   NumericInputControl,
   Prose,
+  SectionBox,
   Table,
   TextBoxControl,
   TextInputControl,
@@ -47,7 +47,7 @@ export default function TestPage() {
 
   return (
     <Vertical space={300}>
-      <Content>
+      <SectionBox>
         <Button color="green" onClick={() => setDisabled((d) => !d)}>
           {disabled ? "Enable" : "Disable"} Controls
         </Button>
@@ -134,9 +134,9 @@ export default function TestPage() {
           />
           <ControlGroup.Text>%</ControlGroup.Text>
         </ControlGroup>
-      </Content>
+      </SectionBox>
 
-      <Content>
+      <SectionBox>
         <Table columns={[0.5, 1, 1.5, 1]}>
           <thead>
             <tr>
@@ -211,9 +211,9 @@ export default function TestPage() {
             Move on
           </Button>
         </Horizontal>
-      </Content>
+      </SectionBox>
 
-      <Content>
+      <SectionBox>
         <Prose>This is some prose.</Prose>
 
         <Matrix column={[<div>One</div>, <div>Two</div>]} />
@@ -247,9 +247,9 @@ export default function TestPage() {
         <Button color="green" iconRight={<ArrowDownIcon />}>
           Let’s get going
         </Button>
-      </Content>
+      </SectionBox>
 
-      <Content>
+      <SectionBox>
         <Prose size="ui" style={{ maxWidth: "20rem" }}>
           <strong>Text UI:</strong> Light from a service hatch at the rear of
           the arcade showed him broken lengths of damp chipboard and the robot
@@ -263,9 +263,9 @@ export default function TestPage() {
           robot gardener. Before they could stampede, take flight from the
           Chinese program’s thrust.
         </Prose>
-      </Content>
+      </SectionBox>
 
-      <Content>
+      <SectionBox>
         <Prose>
           <h1>Heading 1</h1>
 
@@ -451,9 +451,9 @@ export default function TestPage() {
             />
           </p>
         </Prose>
-      </Content>
+      </SectionBox>
 
-      <Content>
+      <SectionBox>
         <DropdownControl
           choices={
             [
@@ -486,7 +486,7 @@ export default function TestPage() {
           onChange={setSelected2}
           disabled
         />
-      </Content>
+      </SectionBox>
     </Vertical>
   );
 }

@@ -1,54 +1,27 @@
-import { styled, styledChild } from "@/helpers/frontend";
+import { styled, styledChild } from "@/helpers/css";
 import styles from "./layout.module.scss";
+
+////////////////////////////////////////////////////////////////////////////////
+// Vertical.
+////////////////////////////////////////////////////////////////////////////////
 
 type VerticalSpacing = 100 | 200 | 300;
 
-export const Content = styled.div<{
-  vertical?: VerticalSpacing | false;
-  marginTop?: "none" | "small" | "large";
-}>(({ vertical = 100, marginTop = "none" }) => [
-  styles.content,
-  styles.contentWidth,
-  vertical !== false && styles.vertical,
-  vertical === 100 && styles.vertical100,
-  vertical === 200 && styles.vertical200,
-  vertical === 300 && styles.vertical300,
-  marginTop === "small" && styles.contentMarginTop,
-  marginTop === "large" && styles.contentMarginTopLarge,
-]);
-
-export const contentWidthClass = styles.contentWidth;
-
-export const ContentWidth = styledChild(styles.contentWidth);
-
-export const SectionGroup = styled.div([
-  styles.sectionGroup,
-  styles.content,
-  styles.contentWidth,
-  styles.vertical100,
-]);
-
-export const Section = styled.section<{
-  animateIn?: boolean;
-  enumerate?: boolean;
-  vertical?: VerticalSpacing | false;
-}>(({ animateIn, enumerate, vertical = 100 }) => [
-  styles.section,
-  styles.content,
-  styles.contentWidth,
-  vertical !== false && styles.vertical,
-  vertical === 100 && styles.vertical100,
-  vertical === 200 && styles.vertical200,
-  vertical === 300 && styles.vertical300,
-  animateIn && styles.sectionAnimateIn,
-  enumerate && styles.sectionEnumerated,
-]);
+const verticalCss = (space?: VerticalSpacing | false) =>
+  space !== false
+    ? [
+        styles.vertical,
+        space === 100 && styles.vertical100,
+        space === 200 && styles.vertical200,
+        space === 300 && styles.vertical300,
+      ]
+    : [];
 
 const VerticalSpace = styledChild<{
   before?: VerticalSpacing | 0;
   after?: VerticalSpacing | 0;
 }>(({ before, after }) => [
-  styles.verticalSpace, // Leave this here to set the displayName
+  styles.verticalSpace, // Leave this here to set the displayName.
   before === 0 && styles.verticalSpaceBefore0,
   before === 100 && styles.verticalSpaceBefore100,
   before === 200 && styles.verticalSpaceBefore200,
@@ -62,16 +35,19 @@ const VerticalSpace = styledChild<{
 export const Vertical = Object.assign(
   styled.div<{
     space?: VerticalSpacing;
-  }>(({ space = 100 }) => [
-    styles.vertical,
-    space === 100 && styles.vertical100,
-    space === 200 && styles.vertical200,
-    space === 300 && styles.vertical300,
-  ]),
+  }>(
+    ({ space = 100 }) => [...verticalCss(space), styles.contentBoxSubgrid],
+    undefined,
+    "Vertical"
+  ),
   {
     Space: VerticalSpace,
   }
 );
+
+////////////////////////////////////////////////////////////////////////////////
+// Horizontal.
+////////////////////////////////////////////////////////////////////////////////
 
 export const Horizontal = styled.div<{
   align?: "start" | "end" | "center" | "stretch";
@@ -86,25 +62,47 @@ export const Horizontal = styled.div<{
   justify === "stretch" && styles.justifyStretch,
 ]);
 
+////////////////////////////////////////////////////////////////////////////////
+// Columns.
+////////////////////////////////////////////////////////////////////////////////
+
 export const Columns = styled.div(styles.columns);
 
 export const Column = styled.div<{
   vertical?: VerticalSpacing | false;
 }>(({ vertical = 100 }) => [
-  styles.column, // Leave this here to set the displayName
-  vertical === 100 && styles.vertical100,
-  vertical === 200 && styles.vertical200,
-  vertical === 300 && styles.vertical300,
+  styles.column, // Leave this here to set the displayName.
+  ...verticalCss(vertical),
 ]);
 
-export const Spacer = styled.span<{
-  size: 25 | 50 | 75 | 100;
-  block?: boolean;
-}>(({ size, block }) => [
-  !block && styles.spacerInlineBlock,
-  block && styles.spacerBlock,
-  size === 25 && styles.spacer25,
-  size === 50 && styles.spacer50,
-  size === 75 && styles.spacer75,
-  size === 100 && styles.spacer25,
+////////////////////////////////////////////////////////////////////////////////
+// Content Boxes.
+////////////////////////////////////////////////////////////////////////////////
+
+export const MainContentBox = styled.main<{
+  vertical?: VerticalSpacing | false;
+  marginTop?: "none" | "small" | "large";
+}>(({ vertical = 100, marginTop = "none" }) => [
+  styles.mainContentBox,
+  marginTop === "small" && styles.contentMarginTop,
+  marginTop === "large" && styles.contentMarginTopLarge,
+  ...verticalCss(vertical),
+]);
+
+export const SectionBox = styled.section<{
+  animateIn?: boolean;
+  enumerate?: boolean;
+  vertical?: VerticalSpacing | false;
+}>(({ animateIn, enumerate, vertical = 100 }) => [
+  styles.section,
+  animateIn && styles.sectionAnimateIn,
+  enumerate && styles.sectionEnumerated,
+  ...verticalCss(vertical),
+]);
+
+export const SectionGroup = styled.div(styles.sectionGroup);
+
+export const ApplyContentBox = styledChild([
+  styles.contentBoxCentered,
+  styles.contentBoxGrid,
 ]);

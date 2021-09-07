@@ -1,4 +1,4 @@
-import { Button, Callout, Content, Prose } from "@/components";
+import { Button, MainContentBox, Prose, Vertical } from "@/components";
 import { Html } from "@/helpers/frontend";
 import { TutorialSchema, TutorialState } from "@/schema/tutorial";
 import BodyPage from "@/tutorial/components/BodyPage";
@@ -41,51 +41,48 @@ export const TutorialDemoPage = <S extends TutorialSchema>({
   const onChange = useCallback(() => setHasEdited(true), []);
 
   return (
-    <main style={{ counterReset: "section" }}>
+    <Vertical as="main" space={300} style={{ counterReset: "section" }}>
       <Head>
         <title>ACEPhysics.net Demo - {title}</title>
       </Head>
 
-      <Content as="section">
-        <Callout color="blue">
-          <Prose>
-            <h4>
-              Demo: <em>{title}</em>
-            </h4>
+      <MainContentBox marginTop="small">
+        <Prose>
+          <h4>
+            Demo: <em>{title}</em>
+          </h4>
 
-            {intro}
+          {intro}
 
-            <p>
-              Your answers on this demo page <strong>will not be saved</strong>.
-              Normally, students’ answers <em>are</em> saved automatically, so
-              they can return any time to finish or refer to their work.
-            </p>
+          <p>
+            Your answers on this demo page <strong>will not be saved</strong>.
+            Normally, students’ answers <em>are</em> saved automatically, so
+            they can return any time to finish or refer to their work.
+          </p>
 
-            <p>
-              Typically, there would be a table of contents for you to navigate
-              between the tutorial’s pages, but this demo only includes this one
-              page. Otherwise, this demo is identical to the actual tutorial
-              page.
-            </p>
-          </Prose>
+          <p>
+            Typically, there would be a table of contents for you to navigate
+            between the tutorial’s pages, but this demo only includes this one
+            page. Otherwise, this demo is identical to the actual tutorial page.
+          </p>
+        </Prose>
 
-          <div style={{ display: "flex", marginTop: "2rem" }}>
-            <Button color="blue" iconLeft={<ArrowLeftIcon />} link="/demo">
-              Go back
-            </Button>
+        <div style={{ display: "flex", marginTop: "2rem" }}>
+          <Button color="blue" iconLeft={<ArrowLeftIcon />} link="/demo">
+            Go back
+          </Button>
 
-            <Button
-              color="yellow"
-              iconLeft={<IssueReopenedIcon />}
-              onClick={reset}
-              style={{ marginLeft: "auto" }}
-              disabled={!hasEdited}
-            >
-              Reset and start over
-            </Button>
-          </div>
-        </Callout>
-      </Content>
+          <Button
+            color="yellow"
+            iconLeft={<IssueReopenedIcon />}
+            onClick={reset}
+            style={{ marginLeft: "auto" }}
+            disabled={!hasEdited}
+          >
+            Reset and start over
+          </Button>
+        </div>
+      </MainContentBox>
 
       {/* Changing the key will destroy and re-mount this component. */}
       <Root
@@ -128,7 +125,7 @@ export const TutorialDemoPage = <S extends TutorialSchema>({
           />
         </DemoContext.Provider>
       </Root>
-    </main>
+    </Vertical>
   );
 };
 

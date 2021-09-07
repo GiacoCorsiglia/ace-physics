@@ -1,9 +1,4 @@
-import {
-  Button,
-  Callout,
-  Section as LayoutSection,
-  Vertical,
-} from "@/components";
+import { Button, Callout, SectionBox, Vertical } from "@/components";
 import * as globalParams from "@/global-params";
 import { Html, useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
@@ -83,7 +78,7 @@ export default tracked(function Section(
       : config.enumerate;
 
   return (
-    <LayoutSection
+    <SectionBox
       animateIn={!first && !globalParams.showAllSections}
       enumerate={enumerate}
       ref={scrollRef}
@@ -118,7 +113,7 @@ export default tracked(function Section(
 
         <SectionHintButtons config={config} />
       </div>
-    </LayoutSection>
+    </SectionBox>
   );
 });
 

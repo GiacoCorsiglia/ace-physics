@@ -4,7 +4,7 @@ import {
   DisableControls,
   Horizontal,
   Prose,
-  Section,
+  SectionBox,
   SectionGroup,
 } from "@/components";
 import { htmlTitle } from "@/helpers/frontend";
@@ -49,7 +49,7 @@ export default function PretestPage({
         <title>{htmlTitle("Before You Start")}</title>
       </Head>
 
-      <Section>
+      <SectionBox>
         <Prose boldColor="blue">
           <h1>Before You Start</h1>
 
@@ -80,7 +80,7 @@ export default function PretestPage({
 
           <p>Thanks :)</p>
         </Prose>
-      </Section>
+      </SectionBox>
 
       <DisableControls when={isDisabled}>
         {/* This config should be stable so we can use the index as the key. */}
@@ -129,7 +129,7 @@ const ContinueSection = tracked(function ContinueSection(
     : defaultIsContinueAllowed;
 
   return (
-    <Section>
+    <SectionBox>
       <Horizontal justify="end">
         <Button
           color="green"
@@ -149,6 +149,6 @@ const ContinueSection = tracked(function ContinueSection(
         <strong>Don’t discuss your answers</strong> until you’ve moved on to the
         next page.
       </Callout>
-    </Section>
+    </SectionBox>
   );
 });

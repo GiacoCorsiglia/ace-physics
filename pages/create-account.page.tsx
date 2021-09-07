@@ -3,8 +3,8 @@ import { formatId, rememberLearnerId, useAuth } from "@/auth";
 import {
   Button,
   Callout,
-  Content,
   Horizontal,
+  MainContentBox,
   Page,
   Prose,
 } from "@/components";
@@ -42,7 +42,7 @@ export default function CreateAccount() {
 
   return (
     <Page title="Create an Account">
-      <Content as="main" marginTop="small">
+      <MainContentBox marginTop="small">
         <Prose>
           <h1>Create an Account</h1>
 
@@ -157,7 +157,7 @@ export default function CreateAccount() {
             </Prose>
           </>
         )}
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }

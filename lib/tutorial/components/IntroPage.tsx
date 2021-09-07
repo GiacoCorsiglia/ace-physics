@@ -1,9 +1,9 @@
 import {
   Button,
-  Content,
   Horizontal,
   PageTitle,
   Prose,
+  SectionBox,
   Vertical,
 } from "@/components";
 import { htmlTitle } from "@/helpers/frontend";
@@ -20,7 +20,7 @@ export default function IntroPage({
   tutorialConfig: TutorialConfig;
 }) {
   return (
-    <Content as="section">
+    <SectionBox>
       <Head>
         <title>
           {htmlTitle(
@@ -103,6 +103,6 @@ export default function IntroPage({
           </Button>
         </Horizontal>
       </Vertical.Space>
-    </Content>
+    </SectionBox>
   );
 }

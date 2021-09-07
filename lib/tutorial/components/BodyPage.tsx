@@ -3,10 +3,10 @@ import {
   AnswerVisibility,
   Button,
   Callout,
-  Content,
   Horizontal,
   PageTitle,
   Prose,
+  SectionBox,
   TextBox,
 } from "@/components";
 import * as globalParams from "@/global-params";
@@ -169,15 +169,7 @@ function ContinueToNextPage({
   })();
 
   return (
-    <Content
-      as="section"
-      // className={cx(
-      //   styles.section,
-      //   styles.sectionAnimateIn,
-      //   styles.noSectionLabel
-      // )}
-      ref={scrollRef}
-    >
+    <SectionBox ref={scrollRef}>
       <Prose boldColor="blue">
         Nice job finishing this page!{" "}
         {(() => {
@@ -228,7 +220,7 @@ function ContinueToNextPage({
           </Button>
         </Horizontal>
       )}
-    </Content>
+    </SectionBox>
   );
 }
 
@@ -261,14 +253,7 @@ const RevealAnswersSection = ({
     (globalParams.showAllSections && !showReflection);
 
   return (
-    <Content
-      as="section"
-      // className={cx(
-      //   styles.section,
-      //   !globalParams.showAllSections && styles.sectionAnimateIn
-      // )}
-      ref={scrollRef}
-    >
+    <SectionBox ref={scrollRef}>
       {showPrompt && (
         <>
           <Prose align="center">
@@ -328,6 +313,6 @@ const RevealAnswersSection = ({
           )}
         </>
       )}
-    </Content>
+    </SectionBox>
   );
 };

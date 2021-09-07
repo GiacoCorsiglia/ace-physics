@@ -1,5 +1,13 @@
 import { UserMenu } from "@/auth";
-import { Button, Content, Header, Page, Prose } from "@/components";
+import {
+  Button,
+  Header,
+  Horizontal,
+  MainContentBox,
+  Page,
+  Prose,
+  Vertical,
+} from "@/components";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -10,7 +18,6 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { join } from "path";
 import { promisify } from "util";
-import styles from "./[...slug].page.module.scss";
 
 export const getStaticProps: GetStaticProps = async () => {
   return { props: {} };
@@ -47,8 +54,8 @@ export default function FinishedPage() {
     <Page title="Done">
       <Header title="Done For Today" popovers={<UserMenu />} />
 
-      <Content as="main" className={styles.content}>
-        <Prose>
+      <MainContentBox>
+        <Prose align="center">
           <p>
             <CheckCircleFillIcon
               size="medium"
@@ -65,20 +72,22 @@ export default function FinishedPage() {
           </p>
         </Prose>
 
-        <div className={styles.buttons}>
-          <Button
-            onClick={() => router.back()}
-            iconLeft={<ArrowLeftIcon />}
-            color="yellow"
-          >
-            Go back
-          </Button>
+        <Vertical.Space before={200}>
+          <Horizontal justify="center">
+            <Button
+              onClick={() => router.back()}
+              iconLeft={<ArrowLeftIcon />}
+              color="yellow"
+            >
+              Go back
+            </Button>
 
-          <Button color="green" link="/tutorials">
-            See other tutorials <ArrowRightIcon />
-          </Button>
-        </div>
-      </Content>
+            <Button color="green" link="/tutorials">
+              See other tutorials <ArrowRightIcon />
+            </Button>
+          </Horizontal>
+        </Vertical.Space>
+      </MainContentBox>
     </Page>
   );
 }
