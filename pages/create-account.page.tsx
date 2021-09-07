@@ -152,7 +152,7 @@ export default function CreateAccount() {
               </Button>
             </Justify>
 
-            <Prose align="center">
+            <Prose justify="center">
               You'll have to click “Log in” on the next page.
             </Prose>
           </>

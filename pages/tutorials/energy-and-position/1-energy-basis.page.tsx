@@ -139,7 +139,7 @@ export default page(setup, ({ section, hint }) => ({
             labelTex="\ket{E_2}"
           />
 
-          <Prose faded align="center">
+          <Prose faded justify="center">
             If you need it, you can type <M t="\frac{1}{\sqrt{N}}" /> as
             “1/sqrt(N)”
             <br />
@@ -163,7 +163,7 @@ export default page(setup, ({ section, hint }) => ({
             labelTex="\ket{\psi_A}"
           />
 
-          <Prose faded align="center">
+          <Prose faded justify="center">
             If you need it, you can type <M t="\frac{1}{\sqrt{N}}" /> as
             “1/sqrt(N)” <br />
             and the vertical “dot-dot-dot” just as “...”

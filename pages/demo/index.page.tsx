@@ -101,7 +101,7 @@ export default function Index() {
           </Button>
         </Justify>
 
-        <Prose align="center">
+        <Prose justify="center">
           You can contact Giaco at{" "}
           <a href="mailto:hello@acephysics.net">hello@acephysics.net</a>.
         </Prose>

@@ -19,7 +19,7 @@ export default pretest(setup, ({ section }) => ({
 
           <PretestStepPotential incidentFrom="right" energy="E above V_0" />
 
-          <Prose faded align="center">
+          <Prose faded justify="center">
             <M t="V=+V_0" /> for any <M t="x > 0" /> (all the way to infinity)
             <br />
             <M t="V=0" /> for any <M t="x < 0" /> (all the way to negative

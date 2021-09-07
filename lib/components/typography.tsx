@@ -30,13 +30,16 @@ const proseSafeElements = new Set([
 
 type ProseProps = {
   size?: "large" | "body" | "small" | "smallest" | "ui" | "ui-small";
-  align?: "left" | "right" | "center" | "justify";
+  justify?: "left" | "right" | "center" | "flush";
   boldColor?: "neutral" | "blue" | "green" | "red" | "yellow";
   faded?: boolean;
 } & JSX.IntrinsicElements["p"];
 
 export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
-  function Prose({ size, align, faded, boldColor = "neutral", ...props }, ref) {
+  function Prose(
+    { size, justify, faded, boldColor = "neutral", ...props },
+    ref
+  ) {
     // If there is no block level element in the children, wrap them in <p>.
     // Otherwise, just wrap everything in a <div>.  (The prop types for "p" and
     // "div" are identical.)
@@ -64,10 +67,10 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
           size === "ui" && "text-ui",
           size === "ui-small" && "text-ui-small",
           // Text alignment.
-          align === "left" && "text-left",
-          align === "center" && "text-center",
-          align === "right" && "text-right",
-          align === "justify" && "text-justify",
+          justify === "left" && "text-left",
+          justify === "center" && "text-center",
+          justify === "right" && "text-right",
+          justify === "flush" && "text-flush",
           // Fading.
           faded && "text-faded",
           // Bold color.

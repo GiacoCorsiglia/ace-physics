@@ -131,7 +131,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
             />
           </LabelsLeft>
 
-          <Prose align="center">
+          <Prose justify="center">
             <span className="text-small text-faded">
               You can copy-paste these:
             </span>

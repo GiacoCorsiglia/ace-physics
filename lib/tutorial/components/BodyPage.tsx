@@ -256,7 +256,7 @@ const RevealAnswersSection = ({
     <SectionBox ref={scrollRef}>
       {showPrompt && (
         <>
-          <Prose align="center">
+          <Prose justify="center">
             Alright! You’re done with this page. There’s only one thing left to
             do…
           </Prose>
@@ -278,7 +278,7 @@ const RevealAnswersSection = ({
             </Button>
           </Justify>
 
-          <Prose align="center">
+          <Prose justify="center">
             Clicking this button will scroll you to the top of the page.
           </Prose>
         </>

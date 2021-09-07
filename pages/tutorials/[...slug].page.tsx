@@ -55,7 +55,7 @@ export default function FinishedPage() {
       <Header title="Done For Today" popovers={<UserMenu />} />
 
       <MainContentBox>
-        <Prose align="center">
+        <Prose justify="center">
           <p>
             <CheckCircleFillIcon
               size="medium"

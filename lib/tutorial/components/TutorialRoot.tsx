@@ -88,7 +88,7 @@ function LoggedOut() {
         <LockIcon size="medium" />
       </Justify>
 
-      <Prose align="center">You must be logged in to see this page.</Prose>
+      <Prose justify="center">You must be logged in to see this page.</Prose>
 
       <Justify center>
         <Button

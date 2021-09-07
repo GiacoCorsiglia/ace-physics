@@ -80,7 +80,7 @@ export default page(setup, ({ section }) => ({
             />
           </div>
 
-          <Prose align="center" size="small">
+          <Prose justify="center" size="small">
             <span className="text-faded">You can copy-paste these:</span>
             <span
               role="img"
