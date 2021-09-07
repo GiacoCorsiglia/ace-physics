@@ -59,9 +59,9 @@ export default function Generate() {
             setStatus("loading");
 
             const result = await api.createLearners({
-              institution: institution!,
-              course: course!,
-              number: number!,
+              institution: institution,
+              course: course,
+              number: number,
             });
 
             if (result.failed) {

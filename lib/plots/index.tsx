@@ -428,8 +428,8 @@ export const GridLine = ({
 
   const position = isX
     ? {
-        x1: plot.x(x!),
-        x2: plot.x(x!),
+        x1: plot.x(x),
+        x2: plot.x(x),
         y1: plot.topEdge,
         y2: plot.bottomEdge,
       }
@@ -468,8 +468,8 @@ export function Tick({
 
   const position = isX
     ? {
-        x1: plot.x(x!),
-        x2: plot.x(x!),
+        x1: plot.x(x),
+        x2: plot.x(x),
         y1: -length,
         y2: length,
       }

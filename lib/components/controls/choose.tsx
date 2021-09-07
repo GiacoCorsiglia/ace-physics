@@ -241,7 +241,7 @@ export const ChooseControl = <
                   return (
                     <NumericInputControl
                       {...inputProps}
-                      type={other.inputType as "integer" | "decimal"}
+                      type={other.inputType}
                       ref={otherInputRef as any}
                       value={otherInputValue as number}
                       onChange={handleOtherInputChange}
