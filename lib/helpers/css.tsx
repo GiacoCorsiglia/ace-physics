@@ -62,11 +62,13 @@ interface StyledComponent<DefaultTag extends Tag, P> {
 interface StyledConstructor<DefaultTag extends Tag> {
   (
     classes: ClassName | readonly ClassName[],
-    renderChildren?: (children: Html) => Html
+    renderChildren?: (children: Html) => Html,
+    displayName?: string
   ): StyledComponent<DefaultTag, {}>;
   <P>(
     classes: (props: P) => readonly ClassName[],
-    renderChildren?: (children: Html) => Html
+    renderChildren?: (children: Html) => Html,
+    displayName?: string
   ): StyledComponent<DefaultTag, P>;
 }
 
@@ -78,7 +80,11 @@ export const styled: {
 
 const styledConstructor =
   (tag: Tag) =>
-  (classes: any, renderChildren?: (children: Html) => Html): any => {
+  (
+    classes: any,
+    renderChildren?: (children: Html) => Html,
+    displayName?: string
+  ): any => {
     const classesFn = classes instanceof Function ? classes : null;
     if (!classesFn && !Array.isArray(classes)) {
       classes = [classes];
@@ -108,7 +114,9 @@ const styledConstructor =
       return createElement(As, newProps);
     });
 
-    component.displayName = `styled.${tag}${devDisplayName(classes)}`;
+    component.displayName = `styled.${tag}${
+      displayName ? `(${displayName})` : devDisplayName(classes)
+    }`;
 
     return component;
   };
