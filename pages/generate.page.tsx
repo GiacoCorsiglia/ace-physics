@@ -20,8 +20,8 @@ import {
 import { useState } from "react";
 
 const makeChoices = (...cs: string[]) => cs.map((c) => [c, c] as const);
-const institutions = makeChoices(["1000", "1100", "1200", "1300"]);
-const courses = makeChoices(["1001", "1002", "1003", "1101", "1201", "1301"]);
+const institutions = makeChoices("1000", "1100", "1200", "1300");
+const courses = makeChoices("1001", "1002", "1003", "1101", "1201", "1301");
 
 export default function Generate() {
   const [institution, setInstitution] = useState<string>();
