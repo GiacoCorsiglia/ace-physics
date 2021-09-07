@@ -129,12 +129,12 @@
 .disabledExplanation {
   @include fonts.ui-small;
   position: absolute;
+  z-index: 1000;
   top: calc(100% + #{spacing.$space-75});
   width: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(3px);
   margin: 0 auto;
-  min-width: 13rem;
   padding: spacing.$space-75 spacing.$space-50;
   border-radius: borders.$radius;
 
