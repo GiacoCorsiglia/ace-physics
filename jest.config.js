@@ -9,7 +9,7 @@ const config = (module.exports = {
 
   // Transformation/compilation.
   transform: {
-    "^.+\\.(ts|tsx)$": "babel-jest",
+    "^.+\\.(ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
 
     // Fake asset imports.
     "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)":
