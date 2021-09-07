@@ -1,8 +1,9 @@
 import {
   Button,
+  Horizontal,
   PageTitle,
   Prose,
-  Section,
+  SectionBox,
   SectionGroup,
   TextBox,
   Toggle,
@@ -29,7 +30,7 @@ export default function FeedbackPage({
       </Head>
 
       <SectionGroup>
-        <Section>
+        <SectionBox>
           <PageTitle>Please Share Your Feedback</PageTitle>
 
           <Prose>
@@ -42,9 +43,9 @@ export default function FeedbackPage({
               critical.
             </p>
           </Prose>
-        </Section>
+        </SectionBox>
 
-        <Section>
+        <SectionBox>
           <Toggle
             model={m.workedAlone}
             label={<Prose>I worked on this tutorial…</Prose>}
@@ -54,9 +55,9 @@ export default function FeedbackPage({
               ["partner", "Outside of class, with friends"],
             ]}
           />
-        </Section>
+        </SectionBox>
 
-        <Section>
+        {/* <SectionBox>
           <Prose>
             Today’s tutorial occasionally “checked your answers” and either told
             you that things looked good, or asked you to think some more or
@@ -72,9 +73,9 @@ export default function FeedbackPage({
               </Prose>
             }
           />
-        </Section>
+        </SectionBox> */}
 
-        <Section>
+        {/* <SectionBox>
           <TextBox
             model={m.answerCheckingPreferenceOpenEnded}
             label={
@@ -106,9 +107,9 @@ export default function FeedbackPage({
               Reach out any time!
             </p>
           </Prose>
-        </Section>
+        </SectionBox> */}
 
-        <Section>
+        <SectionBox>
           <Toggle
             model={m.easyOrChallenging}
             choices={[
@@ -121,13 +122,13 @@ export default function FeedbackPage({
             label={<Prose>I thought that this tutorial was mostly…</Prose>}
           />
 
-          <TextBox
+          {/* <TextBox
             model={m.easyOrChallengingExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
-          />
-        </Section>
+          /> */}
+        </SectionBox>
 
-        <Section>
+        {/* <SectionBox>
           <Toggle
             model={m.confidence}
             choices={[
@@ -150,9 +151,22 @@ export default function FeedbackPage({
             model={m.confidenceExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
-        </Section>
+        </SectionBox> */}
 
-        <Section>
+        <SectionBox>
+          <TextBox
+            model={m.genericFeedback}
+            label={
+              <Prose>
+                <em>Optional:</em> Any comments about the tutorial (e.g., things
+                that were confusing) or about this website (e.g., technical
+                difficulties)?
+              </Prose>
+            }
+          />
+        </SectionBox>
+
+        {/* <SectionBox>
           <TextBox
             model={m.technicalDifficulties}
             label={
@@ -162,20 +176,22 @@ export default function FeedbackPage({
               </Prose>
             }
           />
-        </Section>
+        </SectionBox> */}
 
-        <Section className="text-right">
-          <Button
-            color="green"
-            link={urls.join(
-              urls.Tutorials.link,
-              tutorialConfig.link,
-              "finished"
-            )}
-          >
-            I’m done <ArrowRightIcon />
-          </Button>
-        </Section>
+        <SectionBox>
+          <Horizontal justify="end">
+            <Button
+              color="green"
+              link={urls.join(
+                urls.Tutorials.link,
+                tutorialConfig.link,
+                "finished"
+              )}
+            >
+              I’m done <ArrowRightIcon />
+            </Button>
+          </Horizontal>
+        </SectionBox>
       </SectionGroup>
     </>
   );
