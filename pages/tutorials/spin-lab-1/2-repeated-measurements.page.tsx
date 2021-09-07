@@ -9,7 +9,6 @@ import {
   TextLine,
 } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import repeatedMeasurementsSetupImg from "./assets/repeated-measurements-setup.png";
 import setup from "./setup";
 import { HowToUseTheSim } from "./shared";

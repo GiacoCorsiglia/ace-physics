@@ -1,6 +1,5 @@
 import { Button, Horizontal, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import simSetupImg from "./assets/sim-setup.png";
 import { StepPotential } from "./figures";
 import setup from "./setup";

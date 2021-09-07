@@ -8,7 +8,6 @@ import {
   Toggle,
 } from "@/components";
 import { pretest } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default pretest(setup, ({ section }) => ({
