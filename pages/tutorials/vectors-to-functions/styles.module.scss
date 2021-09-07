@@ -2,6 +2,7 @@
 @use "colors";
 @use "fonts";
 @use "spacing";
+@use "sass:math";
 
 .histogramLabels {
   display: grid;
@@ -29,15 +30,16 @@
 .diracLabelInput,
 .diracLabelSelect {
   $totalWidth: 620;
-  $inputWidth: ((fonts.rem-to-px(9rem) / 1px) / $totalWidth) * 100%;
+  $inputWidth: math.div(math.div(fonts.rem-to-px(9rem), 1px), $totalWidth) *
+    100%;
 
-  $input1Margin: (100 / $totalWidth * 100%) - ($inputWidth / 2);
+  $input1Margin: math.div(100, $totalWidth * 100%) - math.div($inputWidth, 2);
 
-  $input2Margin: (260 / $totalWidth * 100%) - (3 * ($inputWidth / 2)) -
-    $input1Margin;
+  $input2Margin: math.div(260, $totalWidth * 100%) -
+    (3 * math.div($inputWidth, 2)) - $input1Margin;
 
-  $input3Margin: (530 / $totalWidth * 100%) - (5 * ($inputWidth / 2)) -
-    $input2Margin - $input1Margin;
+  $input3Margin: math.div(530, $totalWidth * 100%) -
+    (5 * math.div($inputWidth, 2)) - $input2Margin - $input1Margin;
 
   &:nth-child(1) {
     margin-left: $input1Margin;
