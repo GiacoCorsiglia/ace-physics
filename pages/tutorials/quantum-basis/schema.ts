@@ -58,6 +58,7 @@ export default tutorialSchema({
     "wrapUp",
   ],
   pretest: {
+    /** @deprecated */
     meaningOfCoefficients: f.string(),
     coBExpression: f.chooseAll(
       [
@@ -70,8 +71,11 @@ export default tutorialSchema({
       f.string()
     ),
     changedProbabilities: f.chooseOne(["true", "false"]),
+    changedProbabilitiesExplain: f.string(),
     cantKnowBothProbabilities: f.chooseOne(["true", "false"]),
+    cantKnowBothProbabilitiesExplain: f.string(),
     createdNewState: f.chooseOne(["true", "false"]),
+    createdNewStateExplain: f.string(),
   },
   sections: [
     "probabilityAndProjectionIntro",

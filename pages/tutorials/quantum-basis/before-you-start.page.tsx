@@ -1,5 +1,6 @@
 import {
   ChooseAll,
+  LabelsLeft,
   LabelsRight,
   M,
   Prose,
@@ -11,33 +12,6 @@ import setup from "./setup";
 
 export default pretest(setup, ({ section }) => ({
   sections: [
-    section({
-      body: (
-        <Prose>
-          Consider a spin-½ electron prepared in the state:
-          <M
-            display
-            t="\ket{\psi} = \frac{1}{\sqrt{3}} \ket{+} + \frac{\sqrt{2}}{\sqrt{3}}\ket{-}"
-          />
-        </Prose>
-      ),
-    }),
-
-    section({
-      body: (m) => (
-        <TextBox
-          model={m.meaningOfCoefficients}
-          label={
-            <Prose>
-              What do the coefficients in this expression (the{" "}
-              <M t="\frac{1}{\sqrt{3}}" /> and{" "}
-              <M t="\frac{\sqrt{2}}{\sqrt{3}}" />) tell you about the state?
-            </Prose>
-          }
-        />
-      ),
-    }),
-
     section({
       body: (m) => (
         <ChooseAll
@@ -67,6 +41,14 @@ export default pretest(setup, ({ section }) => ({
           label={
             <Prose>
               <p>
+                Consider a spin-½ electron prepared in the state:
+                <M
+                  display
+                  t="\ket{\psi} = \frac{1}{\sqrt{3}} \ket{+} + \frac{\sqrt{2}}{\sqrt{3}}\ket{-}"
+                />
+              </p>
+
+              <p>
                 Which expression correctly converts <M t="\ket{\psi}" /> into
                 the <i>x</i>-basis?
               </p>
@@ -87,12 +69,7 @@ export default pretest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            <p>
-              Recall{" "}
-              <M t="\ket{\psi} = \frac{1}{\sqrt{3}} \ket{+} + \frac{\sqrt{2}}{\sqrt{3}}\ket{-}" />
-              .
-            </p>{" "}
-            <p>Consider the following statements and choose true or false.</p>
+            Consider the following statements and choose true or false.
           </Prose>
 
           <LabelsRight>
@@ -110,7 +87,15 @@ export default pretest(setup, ({ section }) => ({
                 ["false", "False"],
               ]}
             />
+          </LabelsRight>
 
+          <LabelsLeft>
+            <TextBox model={m.changedProbabilitiesExplain} label="Explain:" />
+          </LabelsLeft>
+
+          <hr />
+
+          <LabelsRight>
             <Toggle
               model={m.cantKnowBothProbabilities}
               label={
@@ -125,7 +110,18 @@ export default pretest(setup, ({ section }) => ({
                 ["false", "False"],
               ]}
             />
+          </LabelsRight>
 
+          <LabelsLeft>
+            <TextBox
+              model={m.cantKnowBothProbabilitiesExplain}
+              label="Explain:"
+            />
+          </LabelsLeft>
+
+          <hr />
+
+          <LabelsRight>
             <Toggle
               model={m.createdNewState}
               label={
@@ -140,6 +136,10 @@ export default pretest(setup, ({ section }) => ({
               ]}
             />
           </LabelsRight>
+
+          <LabelsLeft>
+            <TextBox model={m.createdNewStateExplain} label="Explain:" />
+          </LabelsLeft>
         </>
       ),
     }),
