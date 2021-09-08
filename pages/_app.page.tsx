@@ -3,9 +3,11 @@ import "@/design/css/index.scss";
 import { Footer } from "@/design/Footer";
 import footerStyles from "@/design/Footer.module.scss";
 import { JsxElement } from "@/helpers/frontend";
+import { polyfill } from "@/polyfill";
 import { init } from "@/sentry";
 import type { AppProps } from "next/app";
 
+polyfill();
 init();
 
 type Props = AppProps & { err: any };
