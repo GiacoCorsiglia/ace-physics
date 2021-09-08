@@ -1,0 +1,137 @@
+@use "spacing";
+@use "controls";
+
+.container {
+  box-shadow: controls.$box-shadow;
+  border-radius: controls.$border-radius;
+
+  &:hover,
+  &:focus-within {
+    box-shadow: controls.$hover-box-shadow;
+  }
+
+  &.disabled {
+    box-shadow: controls.$disabled-box-shadow;
+  }
+}
+
+.choice {
+  position: relative; // For the z-index below.
+  display: flex;
+  align-items: center;
+  border: controls.$border-width solid controls.$border-color;
+  color: controls.$text-color;
+  background-color: controls.$background-color;
+
+  transition: {
+    property: border-color;
+    duration: controls.$transition-duration;
+  }
+
+  & + & {
+    margin-top: calc(-1 * #{controls.$border-width});
+  }
+
+  &:first-child {
+    border-top-left-radius: controls.$border-radius;
+    border-top-right-radius: controls.$border-radius;
+
+    .choiceRadioBox {
+      border-top-left-radius: controls.$border-radius;
+    }
+  }
+
+  &:last-child {
+    border-bottom-left-radius: controls.$border-radius;
+    border-bottom-right-radius: controls.$border-radius;
+
+    .choiceRadioBox {
+      border-bottom-left-radius: controls.$border-radius;
+    }
+  }
+
+  &:focus-within {
+    z-index: 3;
+    border-color: controls.$hover-border-color;
+  }
+
+  &:not(.disabled):hover,
+  &.selected {
+    z-index: 2;
+    border-color: controls.$hover-border-color;
+
+    .choiceRadioBox {
+      background-color: controls.$choice-hover-background-color;
+      border-right-color: controls.$hover-border-color;
+    }
+  }
+
+  &.disabled {
+    border-color: controls.$disabled-border-color;
+    color: controls.$disabled-text-color;
+    background-color: controls.$disabled-background-color;
+
+    .choiceRadioBox {
+      border-color: controls.$disabled-border-color;
+    }
+  }
+
+  &:not(.selected).disabled {
+    .choiceRadioBox {
+      background-color: controls.$disabled-background-color;
+    }
+  }
+}
+
+.choiceRadioBox {
+  display: flex;
+  align-items: center;
+  padding: 0 spacing.$space-100;
+  border-right: controls.$border-width solid controls.$border-color;
+  align-self: stretch;
+  transition: {
+    property: border-color, background-color, box-shadow;
+    duration: controls.$transition-duration;
+  }
+
+  &:focus-within {
+    @include controls.disable-control-borders;
+    margin-right: 1px; // Make up for the shrunk border
+
+    border-color: controls.$focus-border-color;
+    box-shadow: controls.$focus-box-shadow;
+  }
+
+  :focus {
+    outline: none;
+  }
+}
+
+.choiceLabel {
+  padding: controls.$padding-y controls.$padding-x;
+}
+
+.otherLabeL {
+  display: flex;
+  align-items: top;
+  align-self: stretch;
+}
+
+.otherLabelText {
+  padding: {
+    top: controls.$padding-y;
+    bottom: controls.$padding-y;
+    left: controls.$padding-x;
+    right: spacing.$space-25;
+  }
+
+  &::after {
+    content: ":";
+    letter-spacing: 0.25px;
+  }
+}
+
+.otherInput {
+  @include controls.disable-control-borders;
+  #{controls.$var-border-radius}: 0 0 controls.$default-border-radius 0;
+}

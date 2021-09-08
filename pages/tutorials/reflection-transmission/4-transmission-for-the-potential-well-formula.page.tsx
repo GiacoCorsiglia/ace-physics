@@ -1,9 +1,13 @@
-import { Prose, Reminder } from "@/design";
-import { FieldGroup, Text, TextArea } from "@/inputs";
-import M from "@/math";
+import {
+  LabelsLeft,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  TextLine,
+} from "@/components";
 import { Axes, Plot } from "@/plots";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
@@ -43,8 +47,8 @@ export default page(setup, ({ section, hint }) => ({
             What are the dimensions of <M t="T" />? What about <M t="l" />?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.unitsOfT}
               label={
                 <>
@@ -53,7 +57,7 @@ export default page(setup, ({ section, hint }) => ({
               }
             />
 
-            <Text
+            <TextLine
               model={m.unitsOfl}
               label={
                 <>
@@ -61,7 +65,7 @@ export default page(setup, ({ section, hint }) => ({
                 </>
               }
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -153,7 +157,7 @@ export default page(setup, ({ section, hint }) => ({
             <Axes yLabel="T" xLabel="a" />
           </Plot>
 
-          <TextArea
+          <TextBox
             model={m.tVersusALimits}
             label={
               <Prose>

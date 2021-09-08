@@ -1,0 +1,25 @@
+.carFigure {
+  display: block;
+  margin: 1rem auto 0;
+  width: 100%;
+  max-width: 266px;
+  height: auto;
+  border: 1px solid #b3b3b3;
+  border-radius: 3px;
+}
+
+.minusSelect {
+  border-color: green;
+
+  &:hover {
+    border-color: darkgreen !important;
+  }
+}
+
+.plusSelect {
+  border-color: violet;
+
+  &:hover {
+    border-color: darkviolet !important;
+  }
+}

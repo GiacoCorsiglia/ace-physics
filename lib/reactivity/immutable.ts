@@ -1,4 +1,4 @@
-import { isIndex, isObject, Path, TypeAtPath } from "@/helpers";
+import { isIndex, isObject, Path, TypeAtPath } from "@/helpers/frontend";
 
 /**
  * Safely get the value in `o` at `path`.

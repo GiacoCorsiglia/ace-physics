@@ -1,0 +1,55 @@
+@use "controls";
+
+input.input {
+  width: 100%; // inputs are stupid.
+}
+
+.input {
+  composes: controlGroupControl from "./group.module.scss";
+  composes: tableControl from "../tables.module.scss";
+
+  display: block;
+  padding: controls.$padding-y controls.$padding-x;
+  background: controls.$background-color;
+  color: controls.$text-color;
+  border: controls.$border-width solid controls.$border-color;
+  border-radius: controls.$border-radius;
+  box-shadow: controls.$box-shadow;
+  text-overflow: ellipsis;
+
+  transition: {
+    property: controls.$transition-property;
+    duration: controls.$transition-duration;
+  }
+
+  &:hover {
+    border-color: controls.$hover-border-color;
+    box-shadow: controls.$hover-box-shadow;
+  }
+
+  &::placeholder {
+    opacity: 1; // Reset.
+    color: controls.$placeholder-color;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: controls.$focus-border-color;
+    box-shadow: controls.$focus-box-shadow;
+  }
+
+  &:disabled {
+    background: controls.$disabled-background-color;
+    border-color: controls.$disabled-border-color;
+    color: controls.$disabled-text-color;
+    box-shadow: controls.$disabled-box-shadow;
+
+    &::placeholder {
+      color: controls.$disabled-placeholder-color;
+    }
+  }
+}
+
+.maxWidth {
+  max-width: var(#{controls.$var-max-width}, 8rem);
+}

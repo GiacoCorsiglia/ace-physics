@@ -1,11 +1,20 @@
-import { Answer, Prose, Reminder } from "@/design";
-import { ChooseOne, Integer, TextArea } from "@/inputs";
-import M from "@/math";
+import {
+  Answer,
+  ChooseOne,
+  ControlGroup,
+  Horizontal,
+  Integer,
+  M,
+  Prose,
+  Reminder,
+  Table,
+  TextBox,
+} from "@/components";
+import { Html } from "@/helpers/react-helpers";
 import { Model } from "@/reactivity";
 import { NumberField } from "@/schema/fields";
 import { page } from "@/tutorial";
 import { useValue } from "@/tutorial/state-tree";
-import React from "react";
 import EavesdroppingProtectionSvg from "./assets/eavesdropping-protection.svg";
 import setup from "./setup";
 
@@ -125,7 +134,6 @@ export default page(setup, ({ section }) => ({
               "Eve can never be certain about this bit of the key",
             ],
           ]}
-          allowOther={false}
           answer="certain if X"
         />
       ),
@@ -157,7 +165,6 @@ export default page(setup, ({ section }) => ({
             ],
             ["none", "None of the above."],
           ]}
-          allowOther={false}
           answer="undetected"
         />
       ),
@@ -190,7 +197,6 @@ export default page(setup, ({ section }) => ({
             ],
             ["none", "None of the above."],
           ]}
-          allowOther={false}
           answer="either"
           explanation={
             <>
@@ -236,7 +242,6 @@ export default page(setup, ({ section }) => ({
             ["25%", "25%"],
             ["0%", "0%"],
           ]}
-          allowOther={false}
           answer="100%"
         />
       ),
@@ -262,7 +267,6 @@ export default page(setup, ({ section }) => ({
             ["25%", "25%"],
             ["0%", "0%"],
           ]}
-          allowOther={false}
           answer="50%"
         />
       ),
@@ -287,7 +291,6 @@ export default page(setup, ({ section }) => ({
             ["25%", "25%"],
             ["0%", "0%"],
           ]}
-          allowOther={false}
           answer="25%"
           explanation={
             <p>
@@ -313,7 +316,7 @@ export default page(setup, ({ section }) => ({
             cases:
           </Prose>
 
-          <table className="table">
+          <Table>
             <thead>
               <tr>
                 <td>Alice and Bob’s SG Orientation</td>
@@ -365,7 +368,7 @@ export default page(setup, ({ section }) => ({
                 </td>
               </tr>
             </tbody>
-          </table>
+          </Table>
         </>
       ),
     }),
@@ -380,11 +383,8 @@ export default page(setup, ({ section }) => ({
           </Prose>
 
           <Percent
-            label={
-              <div style={{ marginRight: "1rem" }}>Overall likelihood:</div>
-            }
+            label={<Prose>Overall likelihood:</Prose>}
             model={m.overallDetectionProb}
-            className="margin-top-1"
           />
 
           <Answer correct={responses?.overallDetectionProb === 25}>
@@ -394,7 +394,7 @@ export default page(setup, ({ section }) => ({
             </Prose>
           </Answer>
 
-          <TextArea
+          <TextBox
             model={m.oddsBobDoesntNoticeEve}
             placeholder="Optional: type your response here"
             label={
@@ -420,7 +420,7 @@ export default page(setup, ({ section }) => ({
       name: "whyQuantum",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.whyQuantum}
             label={
               <Prose>
@@ -451,61 +451,25 @@ const Percent = ({
   model,
   answer,
   label,
-  className,
 }: {
   model: Model<NumberField>;
   answer?: number;
-  label?: React.ReactNode;
-  className?: string;
+  label?: Html;
 }) => {
   const [value] = useValue(model.path as any);
 
   return (
-    <div
-      className={className}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <Horizontal align="center" justify="center">
       {label}
 
-      <div style={{ display: "flex", alignItems: "stretch" }}>
-        <Integer
-          style={{
-            maxWidth: "6.5rem",
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-            textAlign: "right",
-          }}
-          model={model}
-          placeholder="Percent"
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            padding: "0.3rem",
-            borderStyle: "solid",
-            borderColor: "#ccc",
-            borderWidth: "1px 1px 1px 0",
-            borderTopRightRadius: "3px",
-            borderBottomRightRadius: "3px",
-          }}
-        >
-          <M t="\%" />
-        </div>
-      </div>
+      <ControlGroup>
+        <Integer model={model} placeholder="Percent" />
+        <M t="\%" />
+      </ControlGroup>
 
       {answer !== undefined && (
-        <Answer
-          style={{ marginLeft: "1rem", marginTop: "0" }}
-          correct={value === answer}
-        >
-          {answer}%
-        </Answer>
+        <Answer correct={value === answer}>{answer}%</Answer>
       )}
-    </div>
+    </Horizontal>
   );
 };

@@ -1,10 +1,16 @@
-import { Help, Info, Prose, Reminder, Vocabulary } from "@/design";
-import { ChooseOne, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import {
+  ChooseOne,
+  Guidance,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+  Vocabulary,
+} from "@/components";
 import { Axes, Curve, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
 import { sequence } from "@/tutorial/config";
-import React from "react";
 import setup from "./setup";
 
 const psiA = (x: number) =>
@@ -88,7 +94,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       name: "infoFromGraph",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.infoFromGraph}
             label={
               <Prose>
@@ -204,12 +210,12 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             </blockquote>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.studentInterpretationsProbDens}
             label={<Prose>What do you think about these responses? </Prose>}
           />
 
-          <TextArea
+          <TextBox
             model={m.correctInterpretationProbDens}
             label={<Prose> Can you help firm up a fully correct answer?</Prose>}
           />
@@ -236,7 +242,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             ]}
           />
 
-          <TextArea model={m.psiAExpValExplain} label={<Prose>Why?</Prose>} />
+          <TextBox model={m.psiAExpValExplain} label={<Prose>Why?</Prose>} />
         </>
       ),
     }),
@@ -261,7 +267,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.psiAPosEigenstateExplain}
             label={<Prose>Why or why not?</Prose>}
           />
@@ -321,7 +327,6 @@ export default page(setup, ({ section, hint, oneOf }) => ({
                       </>,
                     ],
                   ]}
-                  allowOther={false}
                 />
               ),
             }),
@@ -338,39 +343,35 @@ export default page(setup, ({ section, hint, oneOf }) => ({
                 agree: section({
                   name: "whatDoesAPosEigenstateLookLikeCorrect",
                   body: (
-                    <Help>
-                      <Prose>
-                        Agreed! An eigenstate of position is a delta function
-                        when written in the position basis. Therefore{" "}
-                        <M t="\ket{\psi_A}" /> is <strong>not</strong> an
-                        eigenstate of position (because <M t="\psi_A(x)" /> is
-                        not a delta function).
-                      </Prose>
-                    </Help>
+                    <Guidance.Agree>
+                      Agreed! An eigenstate of position is a delta function when
+                      written in the position basis. Therefore{" "}
+                      <M t="\ket{\psi_A}" /> is <strong>not</strong> an
+                      eigenstate of position (because <M t="\psi_A(x)" /> is not
+                      a delta function).
+                    </Guidance.Agree>
                   ),
                 }),
 
                 disagree: section({
                   name: "whatDoesAPosEigenstateLookLikeIncorrect",
                   body: (
-                    <Info>
-                      <Prose>
-                        <p>
-                          An eigenstate of position is a delta function when
-                          written in the position basis (i.e., as a function of{" "}
-                          <M t="x" />
-                          ).
-                        </p>
+                    <Guidance.Disagree>
+                      <p>
+                        An eigenstate of position is a delta function when
+                        written in the position basis (i.e., as a function of{" "}
+                        <M t="x" />
+                        ).
+                      </p>
 
-                        <p>
-                          Therefore <M t="\ket{\psi_A}" /> is{" "}
-                          <strong>not</strong> an eigenstate of position
-                          (because <M t="\psi_A(x)" /> is not a delta function).
-                          A particle in state <M t="\ket{\psi_A}" /> could be
-                          measured to be at multiple different positions.
-                        </p>
-                      </Prose>
-                    </Info>
+                      <p>
+                        Therefore <M t="\ket{\psi_A}" /> is <strong>not</strong>{" "}
+                        an eigenstate of position (because <M t="\psi_A(x)" />{" "}
+                        is not a delta function). A particle in state{" "}
+                        <M t="\ket{\psi_A}" /> could be measured to be at
+                        multiple different positions.
+                      </p>
+                    </Guidance.Disagree>
                   ),
                 }),
               },
@@ -381,17 +382,13 @@ export default page(setup, ({ section, hint, oneOf }) => ({
         correct: section({
           name: "psiAPosEigenstateCorrect",
           body: (
-            <Help>
-              <Prose>
-                <p>
-                  We agree! <M t="\psi_A(x)" /> is <strong>not</strong> an
-                  eigenstate of position, because it describes a particle{" "}
-                  <em>without</em> a definite position. A particle in state{" "}
-                  <M t="\ket{\psi_A}" /> could be measured to be at multiple
-                  different positions.
-                </p>
-              </Prose>
-            </Help>
+            <Guidance.Agree>
+              We agree! <M t="\psi_A(x)" /> is <strong>not</strong> an
+              eigenstate of position, because it describes a particle{" "}
+              <em>without</em> a definite position. A particle in state{" "}
+              <M t="\ket{\psi_A}" /> could be measured to be at multiple
+              different positions.
+            </Guidance.Agree>
           ),
         }),
       },

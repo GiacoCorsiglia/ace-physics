@@ -1,9 +1,5 @@
-import { Prose } from "@/design";
-import { Decimal, TextArea, Toggle } from "@/inputs";
-import { fieldToMatrix, Matrix } from "@/math";
-import M from "@/math/M";
+import { Decimal, M, Matrix, Prose, TextBox, Toggle } from "@/components";
 import { pretest } from "@/tutorial";
-import React from "react";
 import pretestGraphImg from "./assets/pretest-graph.png";
 import pretestSGImg from "./assets/pretest-s-g-setup.png";
 import setup from "./setup";
@@ -50,7 +46,7 @@ export default pretest(setup, ({ section }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.countDetector1Explain}
             label={<Prose>Briefly, explain:</Prose>}
           />
@@ -75,7 +71,7 @@ export default pretest(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.canDeterminePsiiExplain}
             label={<Prose>If so, what is it? If not, why not?</Prose>}
           />
@@ -106,12 +102,10 @@ export default pretest(setup, ({ section }) => ({
           </Prose>
 
           <Matrix
-            className="margin-top-1"
             labelTex="\ket{v}"
-            column={fieldToMatrix(
-              m.normalizedV,
-              <Decimal model={m.normalizedV.elements[0]} />
-            )}
+            column={Matrix.modelToColumn(m.normalizedV, (model) => (
+              <Decimal model={model} />
+            ))}
           />
         </>
       ),
@@ -131,7 +125,7 @@ export default pretest(setup, ({ section }) => ({
 
     section({
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.rTimesVExplain}
           label={
             <Prose>
@@ -155,7 +149,7 @@ export default pretest(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.doesREffectAllVectorsSameExplain}
             label={<Prose>Briefly, explain:</Prose>}
           />

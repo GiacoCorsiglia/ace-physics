@@ -1,4 +1,5 @@
-@import "definitions";
+@use "borders";
+@use "colors";
 
 .plot {
   display: block;
@@ -6,14 +7,10 @@
   height: auto;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid $grey80;
-  border-radius: $border-radius;
+  border: 1px solid colors.$neutral-800;
+  border-radius: borders.$radius;
 
   overflow: hidden;
-
-  &:not(:first-child) {
-    margin-top: 2rem;
-  }
 }
 
 .mathForeignObject {
@@ -21,7 +18,7 @@
 
   > .mathElement {
     pointer-events: auto;
-    background: rgba(#fff, 0.9);
+    background: rgba(colors.$neutral-100, 0.9);
   }
 }
 
@@ -29,7 +26,7 @@
   circle {
     transform-box: fill-box;
     transform-origin: center;
-    transition: transform $duration-hover $easing;
+    transition: transform 75ms;
   }
 
   &:not(.dragHandleDisabled):hover,
@@ -42,6 +39,5 @@
 }
 
 .bar {
-  transition: opacity $duration-active $easing, fill $duration-active $easing,
-    stroke $duration-active $easing;
+  transition: opacity 150ms, fill 150ms, stroke 150ms;
 }

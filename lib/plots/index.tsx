@@ -1,5 +1,5 @@
-import M, { PropTypes as MPropTypes } from "@/math";
-import { Children, range, useUniqueId } from "@/util";
+import { M, MPropTypes } from "@/components";
+import { Html, range, useUniqueId } from "@/helpers/frontend";
 import { createContext, memo, useContext, useMemo } from "react";
 import styles from "./plots.module.scss";
 import {
@@ -88,7 +88,8 @@ export function Plot({
     | "center";
   /** */
   padding?: number | readonly [x: number, y: number];
-} & Children) {
+  children?: Html;
+}) {
   const [xScale, yScale] = typeof scale === "number" ? [scale, scale] : scale;
   const [xPadding, yPadding] =
     typeof padding === "number" ? [padding, padding] : padding;
@@ -427,8 +428,8 @@ export const GridLine = ({
 
   const position = isX
     ? {
-        x1: plot.x(x!),
-        x2: plot.x(x!),
+        x1: plot.x(x),
+        x2: plot.x(x),
         y1: plot.topEdge,
         y2: plot.bottomEdge,
       }
@@ -467,8 +468,8 @@ export function Tick({
 
   const position = isX
     ? {
-        x1: plot.x(x!),
-        x2: plot.x(x!),
+        x1: plot.x(x),
+        x2: plot.x(x),
         y1: -length,
         y2: length,
       }
@@ -507,7 +508,13 @@ export function Tick({
   );
 }
 
-export function Rotate({ degrees, children }: { degrees: number } & Children) {
+export function Rotate({
+  degrees,
+  children,
+}: {
+  degrees: number;
+  children?: Html;
+}) {
   return <g transform={`rotate(-${degrees} 0 0)`}>{children}</g>;
 }
 

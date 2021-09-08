@@ -1,0 +1,407 @@
+@use "borders";
+@use "colors";
+@use "fonts";
+@use "spacing";
+@use "sass:math";
+
+$header-height: 2rem;
+
+.header {
+  // This ensures adequate space below the header bar, regardless of whether the
+  // nav progress is there.
+  min-height: $header-height;
+  margin-bottom: spacing.$space-100;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Header Bar.
+////////////////////////////////////////////////////////////////////////////////
+
+.headerBar {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  height: $header-height;
+  background: colors.$neutral-100;
+  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.05);
+  border-bottom: 1px solid colors.$neutral-300;
+}
+
+.headerTitle {
+  flex-grow: 1;
+}
+
+.popoverButton,
+.navToggleButton,
+.headerTitle {
+  height: $header-height;
+  @include fonts.ui-small;
+  border-style: solid;
+  border-color: colors.$neutral-300;
+  background: colors.$neutral-100;
+}
+
+.headerTitle {
+  padding: spacing.$space-50 spacing.$space-100;
+  border-bottom-width: 1px;
+  color: colors.$neutral-500;
+  text-align: center;
+  // Stop text from wrapping.
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navToggleButton,
+.popoverButton {
+  width: 3rem;
+  cursor: pointer;
+  color: colors.$neutral-400;
+
+  // Center icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: {
+    property: color, border-color, box-shadow;
+    duration: 75ms;
+  }
+
+  &:hover {
+    color: colors.$neutral-500;
+    border-color: colors.$neutral-400;
+    box-shadow: 0px 2px 4px colors.alpha(colors.$neutral-900, 0.1);
+  }
+
+  &:focus {
+    color: colors.$neutral-500;
+    border-color: colors.$blue-500;
+    box-shadow: 0 0 0 1px colors.$blue-500,
+      0px 2px 4px colors.alpha(colors.$neutral-900, 0.1);
+  }
+
+  svg {
+    display: block !important; // Override octicon styles
+    width: 1rem;
+    height: 1rem;
+    // Centering looked a little off:
+    position: relative;
+    top: 1px;
+  }
+}
+
+.navToggleButton {
+  border-width: 0 1px 1px 0;
+
+  &.open {
+    border-width: 0 1px 0 0;
+  }
+}
+
+.popoverButton {
+  border-width: 0 0 1px 1px;
+
+  &.open {
+    border-width: 0 0 0 1px;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Popovers.
+////////////////////////////////////////////////////////////////////////////////
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-1px) translateX(2px) rotateX(15deg);
+  }
+}
+
+.popover {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  top: $header-height;
+  width: 20rem;
+  padding: spacing.$space-200;
+  border-style: solid;
+  border-color: colors.$neutral-400;
+  border-width: 0 1px 1px 1px;
+  border-bottom-left-radius: borders.$radius;
+  background: colors.$neutral-100;
+  box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.15);
+  color: colors.$neutral-800;
+  @include fonts.ui;
+
+  animation: popover-in 150ms ease-out;
+  transform-origin: top center;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Nav.
+////////////////////////////////////////////////////////////////////////////////
+
+@keyframes icon-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.xIcon,
+.hamburgerIcon {
+  animation: icon-in 100ms ease-out;
+}
+
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+.navPopover {
+  position: fixed;
+  z-index: -1;
+  top: $header-height;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  // overflow-x is hidden due to `overflow-y: auto`.
+  width: min(20rem, 100vw);
+  padding: spacing.$space-100 0;
+  // No horizontal padding so links can stretch to the edges.
+  background: colors.$neutral-100;
+  border-width: 0 1px 0 0;
+  border-style: solid;
+  border-color: colors.$neutral-300;
+  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.15);
+
+  @include fonts.small;
+
+  animation: nav-in 150ms ease-out;
+}
+
+$nav-item-icon-width: 1.3rem;
+
+.navSecondaryList + * {
+  margin-top: spacing.$space-100;
+}
+
+.navTitle {
+  padding: 0 spacing.$space-100 0
+    (spacing.$space-50 + $nav-item-icon-width + spacing.$space-100);
+  font-weight: fonts.$ui-bold;
+  margin-bottom: spacing.$space-25;
+  color: colors.$neutral-800;
+}
+
+.navItemLink {
+  display: flex;
+  padding: spacing.$space-25 spacing.$space-100;
+
+  color: colors.$neutral-600;
+
+  &.complete {
+    color: colors.$green-600;
+  }
+
+  &.active,
+  &:hover {
+    color: colors.$neutral-800;
+  }
+}
+
+.navItemIcon {
+  display: block;
+  flex-shrink: 0;
+  width: $nav-item-icon-width;
+  margin-right: spacing.$space-50;
+  text-align: center;
+
+  svg {
+    position: relative;
+    top: -2px;
+    left: 1px;
+    width: 1rem;
+    height: auto;
+  }
+}
+
+.navItemNumberIcon {
+  position: relative;
+  top: -1px;
+  border: 1px solid currentColor;
+  height: $nav-item-icon-width;
+  width: $nav-item-icon-width;
+  font-size: 0.8rem;
+  line-height: $nav-item-icon-width - 0.1rem;
+  text-align: center;
+  border-radius: borders.$radius;
+  color: colors.$neutral-500;
+
+  .complete & {
+    color: colors.$green-500;
+  }
+
+  .active &,
+  .navItemLink:hover & {
+    color: colors.$neutral-700;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Nav Progress.
+////////////////////////////////////////////////////////////////////////////////
+
+.navProgress {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  // Leave room for the `position: fixed` header bar above.  THe rest of the
+  // margin-top is accomplished with margins on the items themselves (so they
+  // flex-wrap correctly).
+  margin-top: $header-height;
+  padding-left: spacing.$space-75;
+  padding-right: spacing.$space-75;
+}
+
+$border-width: 2px;
+.navProgressItem {
+  position: relative;
+  margin-top: spacing.$space-100; // For flex-wrap.
+
+  & + & {
+    margin-left: spacing.$space-100;
+  }
+
+  &:not(:last-child) .navProgressItemIcon::after {
+    display: block;
+    content: "";
+    position: absolute;
+    height: $border-width;
+    width: spacing.$space-100;
+    left: calc(100% + #{$border-width});
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    background: var(--nav-progress-color);
+  }
+
+  &.complete {
+    --nav-progress-color: #{colors.$green-500};
+  }
+
+  &.active {
+    --nav-progress-color: #{colors.$neutral-700};
+  }
+
+  &.incomplete {
+    --nav-progress-color: #{colors.$neutral-400};
+  }
+}
+
+.navProgressItemLink {
+  display: block;
+  position: relative;
+}
+
+.navProgressItemIcon {
+  position: relative;
+  flex-shrink: 0;
+  // Center icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 3rem;
+  border-radius: borders.$radius-large;
+  background: colors.$neutral-100;
+  border: $border-width solid currentColor;
+
+  font-size: fonts.px-to-rem(18);
+  font-weight: fonts.$bold;
+
+  color: var(--nav-progress-color);
+
+  svg {
+    display: block !important; // Override octicon styles
+    width: 1rem;
+    height: 1rem;
+    // Centering looked a little off:
+    position: relative;
+    top: 1px;
+  }
+
+  transition-property: box-shadow, border-color, color;
+  transition-duration: 200ms;
+
+  .complete & {
+    box-shadow: 0px 1px 4px colors.alpha(colors.$green-900, 0.05);
+  }
+
+  .active & {
+    box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05);
+  }
+
+  .incomplete & {
+    box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.05);
+  }
+
+  .navProgressItemLink:hover & {
+    box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+    color: #{colors.$neutral-700}; // Don't change progress connector color.
+  }
+}
+
+.navProgressItemLabel {
+  display: block;
+  position: absolute;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: spacing.$space-50;
+  margin-left: math.div(-1 * spacing.$space-1200, 2) + 1.5rem; // Centered.
+  width: spacing.$space-1200;
+  padding: spacing.$space-50 spacing.$space-75;
+
+  text-align: center;
+  color: colors.$neutral-700;
+  border-radius: borders.$radius-large;
+  background: colors.$neutral-100;
+  border: 1px solid colors.$neutral-700;
+  box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+
+  @include fonts.ui-small;
+
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity, transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in;
+
+  .navProgressItemLink:hover & {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition-timing-function: ease-out;
+  }
+}
+
+.svgCaret {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 100%;
+  fill: colors.$neutral-100;
+  stroke: colors.$neutral-700;
+}

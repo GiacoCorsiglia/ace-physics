@@ -101,12 +101,10 @@ export default tutorialSchema({
     interpretSz: f.string(),
     interpretPlusZ: f.string(),
     interpretHBarOver2: f.string(),
-    SzTimesArbitraryKetKindOfObject: f.chooseOne([
-      "bra",
-      "ket",
-      "operator",
-      "number",
-    ]),
+    SzTimesArbitraryKetKindOfObject: f.chooseOne(
+      ["bra", "ket", "operator", "number"],
+      f.string()
+    ),
     SzTimesPlusXKindOfObject: f.chooseOne(["bra", "ket", "operator", "number"]),
     SzTimesPlusXIsNormalized: f.chooseOne(["yes", "no"]),
 

@@ -6,7 +6,7 @@ export default tutorialSetup({
   name: "QuantumMouse",
   edition: "Main",
   link: "quantum-mouse",
-  label: "Quantum Mouse",
+  label: "Quantum Mouse Lab",
   pretest: true,
   pages: [
     {

@@ -1,0 +1,56 @@
+@use "fonts";
+@use "spacing";
+@use "colors";
+@use "./controls/controls";
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+
+  th,
+  td {
+    border: 1px solid colors.$neutral-400;
+    padding: spacing.$space-50;
+    vertical-align: middle;
+    // word-break: break-all;
+
+    > .tableControl:only-child,
+    > .tableToggleControl:only-child {
+      @include controls.full-width;
+      position: relative;
+      &:hover {
+        z-index: 2;
+      }
+      &:focus,
+      &:focus-within {
+        z-index: 3;
+      }
+    }
+
+    > .tableControl:only-child {
+      @include controls.disable-control-shadows;
+      @include controls.disable-control-border-radius;
+      margin: calc(-1 * #{spacing.$space-50} - 1px);
+      width: calc(100% + 2 * #{spacing.$space-50} + 2px);
+    }
+
+    > .tableToggleControl:only-child {
+      @include controls.disable-control-borders;
+      @include controls.disable-control-border-radius;
+      margin: calc(-1 * #{spacing.$space-50});
+      width: calc(100% + 2 * #{spacing.$space-50});
+    }
+  }
+
+  thead td,
+  th {
+    font-weight: fonts.$bold;
+  }
+
+  caption {
+    caption-side: bottom;
+    margin-top: spacing.$space-75;
+    @include fonts.small;
+  }
+}

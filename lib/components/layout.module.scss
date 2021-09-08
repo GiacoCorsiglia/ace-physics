@@ -1,0 +1,298 @@
+@use "colors";
+@use "borders";
+@use "spacing";
+@use "fonts";
+
+////////////////////////////////////////////////////////////////////////////////
+// Vertical.
+////////////////////////////////////////////////////////////////////////////////
+
+.vertical {
+  > * + * {
+    margin-top: var(--vertical-margin-top);
+  }
+
+  > * + .verticalSpaceBefore0 {
+    margin-top: 0;
+  }
+  > * + .verticalSpaceBefore100 {
+    margin-top: #{spacing.$space-100};
+  }
+  > * + .verticalSpaceBefore200 {
+    margin-top: #{spacing.$space-200};
+  }
+  > * + .verticalSpaceBefore300 {
+    margin-top: #{spacing.$space-300};
+  }
+
+  > .verticalSpaceAfter0 + * {
+    margin-top: 0;
+  }
+  > .verticalSpaceAfter100 + * {
+    margin-top: #{spacing.$space-100};
+  }
+  > .verticalSpaceAfter200 + * {
+    margin-top: #{spacing.$space-200};
+  }
+  > .verticalSpaceAfter300 + * {
+    margin-top: #{spacing.$space-300};
+  }
+}
+
+.vertical100 {
+  --vertical-margin-top: #{spacing.$space-100};
+}
+
+.vertical200 {
+  --vertical-margin-top: #{spacing.$space-200};
+}
+
+.vertical300 {
+  --vertical-margin-top: #{spacing.$space-300};
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Horizontal.
+////////////////////////////////////////////////////////////////////////////////
+
+.horizontal {
+  display: flex;
+  // Defaults:
+  align-items: center;
+  justify-content: flex-start;
+
+  > * + * {
+    margin-left: spacing.$space-100;
+  }
+}
+
+.alignStart {
+  align-items: flex-start;
+}
+.alignEnd {
+  align-items: flex-end;
+}
+.alignStretch {
+  align-items: center;
+}
+
+.justifyEnd {
+  justify-content: flex-end;
+}
+.justifyCenter {
+  justify-content: center;
+}
+.justifyStretch {
+  justify-content: stretch;
+
+  > * {
+    flex-grow: 1;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Columns.
+////////////////////////////////////////////////////////////////////////////////
+
+.columns {
+  display: grid;
+
+  @media (min-width: fonts.rem-to-px(spacing.$space-4000)) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: spacing.$space-150;
+  }
+
+  @media (max-width: fonts.rem-to-px(spacing.$space-4000) - 1px) {
+    grid-template-columns: 1fr;
+    row-gap: spacing.$space-100;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Content Boxes.
+////////////////////////////////////////////////////////////////////////////////
+
+$text-width: spacing.$space-4000;
+$border-width: 1px;
+$min-padding: spacing.$space-75;
+$max-padding: spacing.$space-400;
+$callout-bleed: spacing.$space-150;
+// calc() doesn't work properly in media queries.
+$breakpoint: fonts.rem-to-px($callout-bleed + $text-width + $callout-bleed);
+
+.contentBoxCentered {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: calc(
+    #{$border-width} + #{$max-padding + $text-width + $max-padding} + #{$border-width}
+  );
+}
+
+.contentBoxGrid,
+.contentBoxGrid > .contentBoxSubgrid {
+  display: grid;
+
+  @media (min-width: $breakpoint) {
+    grid-template-columns:
+      [full-start]
+      minmax(0, auto)
+      [callout-start]
+      $callout-bleed
+      [content-start]
+      minmax(auto, $text-width)
+      [content-end]
+      $callout-bleed
+      [callout-end]
+      minmax(0, auto)
+      [full-end];
+  }
+
+  @media (max-width: $breakpoint - 1px) {
+    grid-template-columns:
+      [full-start]
+      $min-padding
+      [callout-start]
+      minmax(0, auto)
+      [content-start]
+      minmax(auto, $text-width)
+      [content-end]
+      minmax(0, auto)
+      [callout-end]
+      $min-padding
+      [full-end];
+  }
+
+  > * {
+    grid-column: content-start / content-end;
+  }
+
+  > .callout {
+    grid-column: callout-start / callout-end;
+  }
+
+  > .contentBoxGrid,
+  > .contentBoxSubgrid {
+    // This effectively simulates sub-grid!
+    grid-column: full-start / full-end;
+  }
+}
+
+:not(.contentBoxBordered) > .contentBoxBordered {
+  padding-top: spacing.$space-300;
+  padding-bottom: spacing.$space-300;
+  background: colors.$neutral-100;
+  border-style: solid;
+  border-color: colors.$neutral-300;
+  box-shadow: 0px 2px 8px colors.alpha(colors.$neutral-900, 0.05),
+    0px 4px 30px colors.alpha(colors.$neutral-900, 0.05);
+
+  @media (min-width: $breakpoint) {
+    border-width: 1px;
+    border-radius: borders.$radius-large;
+  }
+
+  @media (max-width: $breakpoint - 1px) {
+    border-width: 1px 0;
+  }
+}
+
+.contentBoxBordered > .contentBoxBordered + .contentBoxBordered {
+  $spacing: spacing.$space-300;
+  margin-top: $spacing;
+  border-top: 1px solid colors.$neutral-300;
+  padding-top: $spacing;
+}
+
+.contentBoxBordered {
+  & > hr,
+  .contentBoxGrid > hr,
+  .contentBoxSubgrid > hr {
+    grid-column: full-start / full-end;
+    width: 100%; // Not sure why this is also necessary.
+    height: 1px;
+    margin-top: spacing.$space-150;
+    & + * {
+      // No margin collapse in grid.
+      margin-top: spacing.$space-150;
+    }
+    border: 0;
+    background-color: colors.$neutral-300;
+  }
+}
+
+.justifySelfCenter {
+  justify-self: center;
+}
+.justifySelfEnd {
+  justify-self: end;
+}
+.justifySelfStretch {
+  justify-self: stretch;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// MainContent.
+////////////////////////////////////////////////////////////////////////////////
+
+.mainContentBox {
+  composes: contentBoxCentered;
+  composes: contentBoxGrid;
+  composes: contentBoxBordered;
+}
+
+.contentMarginTop {
+  margin-top: spacing.$space-300;
+}
+
+.contentMarginTopLarge {
+  margin-top: calc(#{spacing.$space-300} + 10vh);
+}
+
+// ////////////////////////////////////////////////////////////////////////////////
+// // Section.
+// ////////////////////////////////////////////////////////////////////////////////
+
+.section {
+  position: relative;
+  composes: contentBoxCentered;
+  composes: contentBoxGrid;
+  composes: contentBoxBordered;
+}
+
+.sectionGroup {
+  composes: contentBoxCentered;
+  composes: contentBoxBordered;
+}
+
+@keyframes section-animate-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+.sectionAnimateIn {
+  animation: section-animate-in 300ms ease-out;
+}
+
+.sectionEnumerated {
+  &::before {
+    counter-increment: section;
+    content: counter(section, upper-alpha) ".";
+    color: colors.$neutral-600;
+    position: absolute;
+    // The absolute positioning is relative to the grid area.
+
+    @media (min-width: $breakpoint) {
+      grid-column: full-start / content-start;
+      top: spacing.$space-300;
+      right: spacing.$space-100;
+    }
+
+    @media (max-width: $breakpoint - 1px) {
+      grid-column: content-start / content-end;
+      top: spacing.$space-100;
+      left: 0;
+    }
+  }
+}

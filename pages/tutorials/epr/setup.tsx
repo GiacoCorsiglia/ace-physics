@@ -1,4 +1,4 @@
-import { Prose } from "@/design";
+import { Prose } from "@/components";
 import type { Model } from "@/reactivity";
 import type { Infer } from "@/schema/fields";
 import { tutorialSetup } from "@/tutorial";
@@ -20,7 +20,7 @@ export default tutorialSetup({
   label: "EPR and Entangled States",
   pretest: true,
   info: (
-    <Prose className="faded text-smallest">
+    <Prose faded size="smallest">
       <em>
         This tutorial is from{" "}
         <a

@@ -1,11 +1,8 @@
-import { Prose } from "@/design";
-import { Content, Page } from "@/design/layout";
-import { Button } from "@/inputs";
+import { Button, Justify, MainContentBox, Page, Prose } from "@/components";
 import { TutorialLink } from "@pages/tutorials/index.page";
 import { MailIcon } from "@primer/octicons-react";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
 
 export default function Index() {
   return (
@@ -17,7 +14,7 @@ export default function Index() {
         </title>
       </Head>
 
-      <Content as="main">
+      <MainContentBox marginTop="small">
         <Prose>
           <h1>Adaptive Curricular Exercises for Physics</h1>
 
@@ -34,7 +31,7 @@ export default function Index() {
           <p>We have two tutorial pages for you to try out:</p>
         </Prose>
 
-        <ol className="margin-top">
+        <ol>
           <TutorialLink
             label={
               <>
@@ -79,7 +76,7 @@ export default function Index() {
           </TutorialLink>
         </ol>
 
-        <Prose className="margin-top">
+        <Prose>
           <p>
             If you want to explore the full versions of all of our tutorials,
             you can{" "}
@@ -94,20 +91,21 @@ export default function Index() {
           </p>
         </Prose>
 
-        <div className="margin-top text-center">
-          <Button link="mailto:hello@acephysics.net" iconFirst>
-            <MailIcon />
+        <Justify center>
+          <Button
+            color="green"
+            link="mailto:hello@acephysics.net"
+            iconLeft={<MailIcon />}
+          >
             Email us
           </Button>
-        </div>
+        </Justify>
 
-        <Prose>
-          <p className="text-center">
-            You can contact Giaco at{" "}
-            <a href="mailto:hello@acephysics.net">hello@acephysics.net</a>.
-          </p>
+        <Prose justify="center">
+          You can contact Giaco at{" "}
+          <a href="mailto:hello@acephysics.net">hello@acephysics.net</a>.
         </Prose>
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }

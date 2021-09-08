@@ -33,8 +33,7 @@ export async function run(tutorial: string) {
   console.log(`pretest: true`);
 }
 
-const template = `import { Prose } from "@/design";
-import { TextArea } from "@/inputs";
+const template = `import { Prose, TextBox } from "@/components";
 import { pretest } from "@/tutorial";
 import setup from "./setup";
 
@@ -50,7 +49,7 @@ export default pretest(setup, ({ section }) => ({
 
     section({
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.TODO}
           label={<Prose>TODO</Prose>}
         />

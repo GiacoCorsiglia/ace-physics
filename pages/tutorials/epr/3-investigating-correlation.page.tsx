@@ -1,6 +1,4 @@
-import { Prose } from "@/design";
-import { ChooseAll, ChooseOne } from "@/inputs";
-import M from "@/math";
+import { ChooseAll, ChooseOne, M, Prose } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -181,7 +179,7 @@ export default page(setup, ({ section }) => ({
           model={m.aZbX}
           label={
             <Prose>
-              Bob uses an SG oriented along the X axis an Alice us an SG
+              Bob uses an SG oriented along the X axis, and Alice uses an SG
               oriented along the Z axis. Choose ALL statements that are true.
               (There may be more than one.)
             </Prose>

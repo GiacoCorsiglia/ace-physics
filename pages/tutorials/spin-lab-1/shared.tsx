@@ -1,4 +1,4 @@
-import { Prose } from "@/design";
+import { Prose } from "@/components";
 import { useState } from "react";
 import addAnalyzerCounterImg from "./assets/add-analyzer-counter.gif";
 import createBreakConnections from "./assets/create-break-connections.gif";

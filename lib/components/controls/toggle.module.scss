@@ -1,0 +1,159 @@
+@use "colors";
+@use "controls";
+
+.root {
+  composes: controlGroupControl from "./group.module.scss";
+  composes: tableToggleControl from "../tables.module.scss";
+}
+
+.container {
+  box-shadow: controls.$box-shadow;
+  border-radius: controls.$border-radius;
+  width: var(#{controls.$var-width}); // No default!
+
+  &.disabled {
+    box-shadow: controls.$disabled-box-shadow;
+  }
+}
+
+.horizontal {
+  display: inline-flex;
+}
+
+.vertical {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.grid {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.choice {
+  display: block;
+  flex-grow: 1;
+  background: controls.$background-color;
+  color: controls.$text-color;
+  padding: controls.$padding-y controls.$padding-x;
+  text-align: center;
+  transition: {
+    property: controls.$transition-property, background-color, color;
+    duration: controls.$transition-duration;
+  }
+
+  // Specific border widths are configured below.  Regardless of the control
+  // border variable, there always needs to be a border between choices.
+  border-style: solid;
+  border-color: controls.$border-color;
+
+  &:not(.disabled):not(.selected):hover,
+  &:focus-within {
+    position: relative;
+    z-index: 2;
+    border-color: controls.$hover-border-color;
+    background-color: controls.$choice-hover-background-color;
+  }
+
+  &:not(.disabled):active,
+  &.selected {
+    position: relative;
+    z-index: 3;
+    background-color: controls.$choice-selected-background-color;
+    color: controls.$choice-selected-text-color;
+    border-color: controls.$choice-selected-background-color;
+    box-shadow: var(
+      #{controls.$var-box-shadow},
+      0px 2px 4px #{colors.alpha(colors.$blue-900, 0.09)},
+      0px 4px 8px #{colors.alpha(colors.$blue-900, 0.07)}
+    );
+  }
+
+  &:not(.selected).disabled {
+    color: controls.$disabled-text-color;
+    background-color: controls.$disabled-background-color;
+    border-color: controls.$disabled-border-color;
+  }
+
+  &.selected:focus-within {
+    box-shadow: controls.$choice-selected-focus-shadow;
+  }
+
+  .horizontal & {
+    margin-left: -1px;
+    border-top-width: controls.$border-width;
+    border-bottom-width: controls.$border-width;
+    border-left-width: controls.$default-border-width;
+    border-right-width: controls.$default-border-width;
+
+    &:first-child {
+      margin-left: 0;
+      border-top-left-radius: controls.$border-radius;
+      border-bottom-left-radius: controls.$border-radius;
+      border-left-width: controls.$border-width;
+    }
+
+    &:last-child {
+      border-top-right-radius: controls.$border-radius;
+      border-bottom-right-radius: controls.$border-radius;
+      border-right-width: controls.$border-width;
+    }
+  }
+
+  .vertical & {
+    margin-top: -1px;
+    border-top-width: controls.$default-border-width;
+    border-bottom-width: controls.$default-border-width;
+    border-left-width: controls.$border-width;
+    border-right-width: controls.$border-width;
+
+    &:first-child {
+      margin-top: 0;
+      border-top-left-radius: controls.$border-radius;
+      border-top-right-radius: controls.$border-radius;
+      border-top-width: controls.$border-width;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: controls.$border-radius;
+      border-bottom-right-radius: controls.$border-radius;
+      border-bottom-width: controls.$border-width;
+    }
+  }
+
+  .grid & {
+    // TODO: This doesn't handle the case when the borders are turned off.
+    border-width: controls.$border-width;
+
+    &:nth-child(2n) {
+      margin-left: -1px;
+    }
+
+    &:not(:first-child):not(:nth-child(2)) {
+      margin-top: -1px;
+    }
+
+    &:first-child {
+      border-top-left-radius: controls.$border-radius;
+    }
+
+    &:nth-child(2) {
+      border-top-right-radius: controls.$border-radius;
+    }
+
+    &:nth-last-child(2) {
+      border-bottom-left-radius: controls.$border-radius;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: controls.$border-radius;
+    }
+  }
+}
+
+.radio {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}

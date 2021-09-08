@@ -1,26 +1,17 @@
-import { Content } from "@/design/layout";
+import { Justify, MainContentBox } from "@/components";
 import { SyncIcon } from "@primer/octicons-react";
-import { css } from "linaria";
+import styles from "./TutorialLoading.module.scss";
 
 export default function TutorialLoading() {
   return (
-    <Content className="margin-top text-center">
-      <SyncIcon
-        size="large"
-        aria-label="Loading…"
-        className={css`
-          animation: rotating 1.5s linear infinite;
-
-          @keyframes rotating {
-            from {
-              transform: rotate(0deg);
-            }
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        `}
-      />
-    </Content>
+    <MainContentBox>
+      <Justify center>
+        <SyncIcon
+          size="large"
+          aria-label="Loading…"
+          className={styles.animatedIcon}
+        />
+      </Justify>
+    </MainContentBox>
   );
 }

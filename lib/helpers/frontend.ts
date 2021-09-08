@@ -1,79 +1,74 @@
-import { useEffect, useReducer, useRef, useState } from "react";
-
-export type Html = React.ReactNode;
-export type Component<P = {}> = React.FunctionComponent<P>;
-export type JsxElement = React.ReactElement<any, any> | null;
-
-export interface Children<T = Html> {
-  children?: T;
-}
-
-export type Props<T extends React.Component> = T extends React.Component<
-  infer P
->
-  ? P
-  : never;
-
-export const useToggle = <E extends Element = HTMLElement>(
-  initial: boolean = false
-) => {
-  const ref = useRef<E>(null);
-  const [toggled, setToggled] = useState(initial);
-
-  useEffect(() => {
-    if (!toggled) {
-      return;
-    }
-
-    const clickHandler = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setToggled(false);
-      }
-    };
-
-    document.addEventListener("click", clickHandler);
-    return () => document.removeEventListener("click", clickHandler);
-  }, [toggled]);
-
-  return [toggled, setToggled, ref] as const;
-};
-
-let uniqueId = 0;
 /**
- * Creates a unique ID that's self-contained to the lifetime of this component
- * but otherwise doesn't matter.
+ * Import helpers from this file when code should be able to run in the api, or
+ * in scripts (i.e., anywhere that React shouldn't be imported).
  */
-export const useUniqueId = () => {
-  const idRef = useRef<number>();
-  return idRef.current || (idRef.current = ++uniqueId);
-};
+export * from "./css";
+export * from "./function-helpers";
+export * from "./react-helpers";
+export * from "./result";
+export * from "./type-helpers";
 
-/**
- * Creates a unique Symbol that's self-contained to the lifetime of this
- * component but otherwise doesn't matter.
- */
-export const useUniqueSymbol = () => {
-  const symbol = useRef<symbol>();
-  return symbol.current || (symbol.current = Symbol());
-};
+// Scrolling.
+// Source: https://nicegist.github.io/d210786daa23fd57db59634dd231f341
 
-const tickReducer = (x: number) => x + 1;
-export const useForceUpdate = () => useReducer(tickReducer, 0)[1];
+// Polyfilled smooth scrolling for IE, Edge, and Safari.
+const smoothScrollTo = (to: number, velocity: number = 1.2) => {
+  const element = document.scrollingElement || document.documentElement;
 
-export const useScrollIntoView = (when = true): React.RefObject<any> => {
-  // We return `RefObject<any>` because the variance for ref generics isn't what
-  // it should be.
-  const el = useRef<HTMLElement>(null);
-  const alreadyScrolled = useRef(false);
+  // Clamp `to` to the maximum scroll so the duration is calculated correctly.
+  const maxScroll = element.scrollHeight - element.clientHeight;
+  to = Math.min(to, maxScroll);
 
-  useEffect(() => {
-    const condition = when === undefined || when;
-    if (!condition || !el.current || alreadyScrolled.current) {
-      return;
+  const start = element.scrollTop;
+  const change = to - start;
+  // Adjust the velocity slightly for shorter changes to keep things smooth.
+  const duration = change / (velocity - velocity * Math.exp(-change / 400));
+
+  // t = current time
+  // b = start value
+  // c = change in value
+  // d = duration
+  const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
+    t /= d / 2;
+    if (t < 1) {
+      return (c / 2) * t * t + b;
     }
-    alreadyScrolled.current = true;
-    el.current.scrollIntoView({ behavior: "smooth" });
-  });
+    t--;
+    return (-c / 2) * (t * (t - 2) - 1) + b;
+  };
 
-  return el;
+  const startDate = +new Date();
+  const animateScroll = () => {
+    const currentDate = +new Date();
+    const currentTime = currentDate - startDate;
+    if (currentTime < duration) {
+      element.scrollTop = Math.floor(
+        easeInOutQuad(currentTime, start, change, duration)
+      );
+      requestAnimationFrame(animateScroll);
+    } else {
+      element.scrollTop = to;
+    }
+  };
+  animateScroll();
 };
+
+// Detect support for the `behavior` property in `ScrollOptions`.
+const supportsNativeSmoothScroll =
+  typeof document !== "undefined" &&
+  "scrollBehavior" in document.documentElement.style;
+
+export const scrollTo = (to: number) => {
+  if (supportsNativeSmoothScroll) {
+    window.scroll({
+      behavior: "smooth",
+      left: 0,
+      top: to,
+    });
+  } else {
+    smoothScrollTo(to);
+  }
+};
+
+export const scrollToElement = (element: HTMLElement, offset: number = 0) =>
+  scrollTo(element.getBoundingClientRect().top + window.pageYOffset - offset);

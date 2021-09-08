@@ -1,0 +1,77 @@
+@use "colors";
+@use "spacing";
+@use "borders";
+
+$padding-y: spacing.$space-50;
+$padding-x: spacing.$space-75;
+
+$var-width: --control-width;
+$var-max-width: --control-max-width;
+@mixin full-width {
+  #{$var-width}: 100%;
+  #{$var-max-width}: none;
+}
+
+$var-border-width: --control-border-width;
+$default-border-width: 1px;
+$border-width: var(#{$var-border-width}, #{$default-border-width});
+
+$var-border-radius: --control-border-radius;
+$default-border-radius: borders.$radius;
+$border-radius: var(#{$var-border-radius}, #{$default-border-radius});
+
+$var-box-shadow: --control-box-shadow;
+$empty-box-shadow: 0 0 0 transparent;
+$default-box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05),
+  0px 2px 8px colors.alpha(colors.$neutral-900, 0.04);
+$box-shadow: var(#{$var-box-shadow}, #{$default-box-shadow});
+
+@mixin disable-control-border-radius {
+  #{$var-border-radius}: 0px;
+}
+@mixin disable-control-borders {
+  #{$var-border-width}: 0px;
+  #{$var-box-shadow}: $empty-box-shadow;
+}
+@mixin disable-control-shadows {
+  #{$var-box-shadow}: $empty-box-shadow;
+}
+
+$var-border-color: --control-border-color;
+$border-color: var(#{$var-border-color}, #{colors.$neutral-400});
+$background-color: colors.$neutral-50;
+$text-color: colors.$neutral-900;
+$placeholder-color: colors.$neutral-400;
+
+$var-hover-border-color: --control-hover-border-color;
+$hover-border-color: var(
+  #{$var-hover-border-color},
+  var(#{$var-border-color}, #{colors.$neutral-500})
+);
+$default-hover-box-shadow: 0px 2px 4px colors.alpha(colors.$neutral-900, 0.05),
+  0px 4px 8px colors.alpha(colors.$neutral-900, 0.04);
+$hover-box-shadow: var(#{$var-box-shadow}, #{$default-hover-box-shadow});
+
+$focus-border-color: colors.$blue-500;
+$default-focus-box-shadow: 0px 2px 4px colors.alpha(colors.$blue-900, 0.05),
+  0px 4px 8px colors.alpha(colors.$blue-900, 0.04);
+$focus-box-shadow:
+  // Border:
+  0 0 0 calc(2px - #{$border-width}) colors.$blue-500,
+  0 1px 6px colors.alpha(colors.$blue-500, 0.3),
+  // ActualShadow:
+  var(#{$var-box-shadow}, #{$default-focus-box-shadow});
+
+$disabled-border-color: colors.$neutral-300;
+$disabled-background-color: colors.$neutral-200;
+$disabled-text-color: colors.$neutral-700;
+$disabled-placeholder-color: colors.$neutral-600;
+$disabled-box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05);
+
+$transition-property: box-shadow, border-color;
+$transition-duration: 75ms;
+
+$choice-hover-background-color: colors.$blue-200;
+$choice-selected-background-color: colors.$blue-500;
+$choice-selected-text-color: colors.$white;
+$choice-selected-focus-shadow: 0 0 0 2px colors.$blue-400;

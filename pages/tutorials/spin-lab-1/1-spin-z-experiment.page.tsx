@@ -1,10 +1,13 @@
-import { Prose } from "@/design";
-import { Decimal, TextArea, Toggle } from "@/inputs";
-import inputStyles from "@/inputs/inputs.module.scss";
-import M from "@/math";
+import {
+  Button,
+  Decimal,
+  Justify,
+  M,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
-import { LinkExternalIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import spinZSetupImg from "./assets/spin-z-setup.png";
 import setup from "./setup";
 
@@ -22,17 +25,11 @@ export default page(setup, ({ section, hint }) => ({
             on.
           </Prose>
 
-          <div className="text-center margin-top">
-            <a
-              className={cx(inputStyles.secondary, inputStyles.iconLast)}
-              href="https://tinyurl.com/spin3220"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
+          <Justify center>
+            <Button link="https://tinyurl.com/spin3220" color="blue">
               Open the sim
-              <LinkExternalIcon />
-            </a>
-          </div>
+            </Button>
+          </Justify>
         </>
       ),
       continue: { label: "I opened the sim" },
@@ -173,7 +170,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.variationFrom5050Explain}
             label={<Prose>Explain your reasoning:</Prose>}
           />
@@ -213,7 +210,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.quantitativeStdDev}
             label={<Prose>Explain if/how you adjusted your answers:</Prose>}
           />

@@ -1,8 +1,5 @@
-import { Prose } from "@/design";
-import { ChooseOne } from "@/inputs";
-import M from "@/math/M";
+import { ChooseOne, M, Prose } from "@/components";
 import { pretest } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default pretest(setup, ({ section }) => ({
@@ -37,7 +34,6 @@ export default pretest(setup, ({ section }) => ({
             </Prose>
           }
           choices={trueFalse}
-          allowOther={true}
         />
       ),
     }),
@@ -60,7 +56,6 @@ export default pretest(setup, ({ section }) => ({
             </Prose>
           }
           choices={trueFalse}
-          allowOther={true}
         />
       ),
     }),
@@ -84,7 +79,6 @@ export default pretest(setup, ({ section }) => ({
             </Prose>
           }
           choices={trueFalse}
-          allowOther={true}
         />
       ),
     }),
@@ -106,7 +100,6 @@ export default pretest(setup, ({ section }) => ({
             </Prose>
           }
           choices={trueFalse}
-          allowOther={true}
         />
       ),
     }),

@@ -1,4 +1,4 @@
-import { Result, unwrap } from "@/helpers/result";
+import { Result, unwrap } from "@/helpers/backend";
 import {
   CreateLearnerRequest,
   CreateLearnerResponse,

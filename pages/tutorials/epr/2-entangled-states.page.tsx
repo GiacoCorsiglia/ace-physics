@@ -1,8 +1,5 @@
-import { Answer, Prose } from "@/design";
-import { ChooseOne, TextArea } from "@/inputs";
-import M from "@/math";
+import { Answer, ChooseOne, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import EntangledStatesSvg from "./assets/entangled-states.svg";
 import setup from "./setup";
 
@@ -88,7 +85,7 @@ export default page(setup, ({ section }) => ({
             explanation="Because we collapsed the state to this."
           />
 
-          <TextArea
+          <TextBox
             model={m.bStateAfterMeasureAExplain}
             label={<Prose>Discuss how you made this prediction:</Prose>}
           />
@@ -126,7 +123,7 @@ export default page(setup, ({ section }) => ({
             explanation="Because B is in the z-down state, which yields 50% chance of X up."
           />
 
-          <TextArea
+          <TextBox
             model={m.bUpLikelihoodExplain}
             label={<Prose>Discuss how you found this likelihood:</Prose>}
           />
@@ -143,7 +140,7 @@ export default page(setup, ({ section }) => ({
             constitutes an “event.”
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.howOftenAliceBobSpinUp}
             label={
               <Prose>
@@ -164,7 +161,7 @@ export default page(setup, ({ section }) => ({
       name: "howOftenAliceBobSame",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.howOftenAliceBobSame}
             label={
               <Prose>
@@ -185,7 +182,7 @@ export default page(setup, ({ section }) => ({
       name: "howOftenAliceSzBobSxSame",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.howOftenAliceSzBobSxSame}
             label={
               <Prose>
@@ -207,7 +204,7 @@ export default page(setup, ({ section }) => ({
       name: "causality",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.causality}
             label={
               <Prose>

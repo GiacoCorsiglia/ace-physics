@@ -1,11 +1,17 @@
-import { Prose } from "@/design";
+import {
+  Decimal,
+  LabelsLeft,
+  M,
+  Matrix,
+  Prose,
+  TextBox,
+  TextLine,
+  Toggle,
+} from "@/components";
 import { Html } from "@/helpers/frontend";
-import { Decimal, FieldGroup, Text, TextArea, Toggle } from "@/inputs";
-import M, { Matrix, modelToMatrix } from "@/math";
 import { page } from "@/tutorial";
-import { css } from "linaria";
-import React from "react";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section }) => ({
   name: "quietAsAMouse",
@@ -52,40 +58,30 @@ export default page(setup, ({ section }) => ({
             </p>
           </Prose>
 
-          <div
-            className={css`
-              display: grid;
-              margin-top: 1rem;
-              grid-template-columns: auto auto auto 1fr;
-              grid-gap: 1rem;
-              align-items: center;
-            `}
-          >
+          <div className={styles.basisGrid}>
             <p>Noisy ket:</p>
             <KetLabel>
-              <Text model={m.notationNoisyState} maxWidth />
+              <TextLine model={m.notationNoisyState} maxWidth />
             </KetLabel>
             <M t="=" />
-            <Text
+            <TextLine
               model={m.noisyStateHappinessBasis}
               placeholder="Happiness basis representation"
             />
 
             <p>Quiet ket:</p>
             <KetLabel>
-              <Text model={m.notationQuietState} maxWidth />
+              <TextLine model={m.notationQuietState} maxWidth />
             </KetLabel>
             <M t="=" />
-            <Text
+            <TextLine
               model={m.quietStateHappinessBasis}
               placeholder="Happiness basis representation"
             />
           </div>
 
-          <Prose className="text-center">
-            <span className="text-small opacity-faded">
-              You can copy-paste these:
-            </span>
+          <Prose justify="center" size="small">
+            <span className="text-faded">You can copy-paste these:</span>
             <span
               role="img"
               aria-label="happy face"
@@ -115,9 +111,8 @@ export default page(setup, ({ section }) => ({
           </Prose>
 
           <Matrix
-            className="margin-top-1"
             labelTex="\hat{N}"
-            matrix={modelToMatrix(m.representationNOperator, (c) => (
+            matrix={Matrix.modelToMatrix(m.representationNOperator, (c) => (
               <Decimal model={c} />
             ))}
           />
@@ -182,7 +177,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.simultaneousEigenstatesNMSExplain}
             label={<Prose>Why/why not (for both questions)?</Prose>}
           />
@@ -199,7 +194,7 @@ export default page(setup, ({ section }) => ({
             you expect for the following quantities?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal
               model={m.quietMiceExpValN}
               label={<M t="\expval{\hat{N}} =" />}
@@ -216,7 +211,7 @@ export default page(setup, ({ section }) => ({
               model={m.quietMiceUncertaintyM}
               label={<M t="\Delta\hat{M} =" />}
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -239,7 +234,7 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.quietMiceCanUncertaintySBeZeroExplain}
             label={<Prose>Why/why not?</Prose>}
           />
@@ -251,16 +246,7 @@ export default page(setup, ({ section }) => ({
 
 function KetLabel({ children }: { children: Html }) {
   return (
-    <div
-      className={css`
-        display: flex;
-        align-items: center;
-
-        & > * + * {
-          margin-left: 0.3rem;
-        }
-      `}
-    >
+    <div className={styles.ketLabel}>
       <M t="\Large|" />
       {children}
       <M t="\Large\rangle" />

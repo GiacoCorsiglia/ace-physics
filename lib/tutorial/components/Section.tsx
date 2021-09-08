@@ -1,25 +1,24 @@
-import { Help } from "@/design";
-import { Content } from "@/design/layout";
-import styles from "@/design/structure.module.scss";
+import { Button, Callout, SectionBox, Vertical } from "@/components";
 import * as globalParams from "@/global-params";
-import { useScrollIntoView } from "@/helpers/frontend";
-import { Button } from "@/inputs";
+import { Html, useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
-import { css, cx } from "linaria";
 import { SectionConfig } from "../config";
 import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
+import styles from "./Section.module.scss";
 
 export default tracked(function Section(
   {
     config,
     first,
+    prepend,
     enumerateDefault,
     commit,
   }: {
     config: SectionConfig;
     first: boolean;
+    prepend?: Html;
     enumerateDefault: boolean;
     commit: CommitAction;
   },
@@ -48,9 +47,9 @@ export default tracked(function Section(
           state.hints?.[name]?.status === "revealed" && body !== "disable"
       )
       .map(({ name, body }) => (
-        <Help key={name}>
+        <Callout key={name} color="yellow" animateIn>
           {body instanceof Function ? body(modelsTracker.proxy, state) : body}
-        </Help>
+        </Callout>
       ));
 
   // End tracking accessed models.
@@ -79,61 +78,42 @@ export default tracked(function Section(
       : config.enumerate;
 
   return (
-    <section
-      className={cx(
-        styles.section,
-        first && styles.sectionFirst,
-        !first && !globalParams.showAllSections && styles.sectionAnimateIn,
-        enumerate && styles.sectionEnumerated
-      )}
+    <SectionBox
+      animateIn={!first && !globalParams.showAllSections}
+      enumerate={enumerate}
       ref={scrollRef}
+      vertical={false}
     >
-      {enumerate && <Content className={styles.enumerated} />}
+      {globalParams.showAllSections &&
+        (isMarkedVisible(state, config) ? (
+          <EyeIcon className={styles.previewNoticeVisible} />
+        ) : (
+          <EyeClosedIcon className={styles.previewNoticeHidden} />
+        ))}
 
-      {globalParams.showAllSections && (
-        <Content
-          className={css`
-            position: relative;
-          `}
-        >
-          {isMarkedVisible(state, config) ? (
-            <EyeIcon className={styles.sectionDevNoticeVisible} />
-          ) : (
-            <EyeClosedIcon className={styles.sectionDevNoticeHidden} />
-          )}
-        </Content>
-      )}
+      <Vertical>
+        {prepend}
 
-      <Content>
         {bodyHtml}
+      </Vertical>
 
-        <div className="margin-top">{revealedHintsHtml}</div>
-      </Content>
+      <Vertical className={styles.hintsVertical}>{revealedHintsHtml}</Vertical>
 
-      <Content>
-        <div className={styles.continue}>
-          {isContinueVisible && status !== "committed" && (
-            <Button
-              className={styles.button}
-              disabled={!isComplete}
-              onClick={() => commit(config)}
-            >
-              {continueLabelHtml || "Move on"} <ArrowDownIcon />
-            </Button>
-          )}
+      <div className={styles.continue}>
+        {isContinueVisible && status !== "committed" && (
+          <Button
+            color="green"
+            disabled={!isComplete}
+            disabledExplanation="Please respond to every question before moving on."
+            onClick={() => commit(config)}
+          >
+            {continueLabelHtml || "Move on"} <ArrowDownIcon />
+          </Button>
+        )}
 
-          <SectionHintButtons config={config} />
-        </div>
-
-        <p
-          className={styles.continueNotAllowedMessage}
-          // Use visibility so the layout doesn't jump around.
-          style={{ visibility: isComplete ? "hidden" : "visible" }}
-        >
-          Please respond to every question before moving on.
-        </p>
-      </Content>
-    </section>
+        <SectionHintButtons config={config} />
+      </div>
+    </SectionBox>
   );
 });
 
@@ -162,8 +142,7 @@ const SectionHintButtons = tracked(function SectionHintButtons(
             return (
               <Button
                 key={name}
-                className={styles.button}
-                kind="tertiary"
+                color="yellow"
                 onClick={() =>
                   store.transaction((set) =>
                     set(["hints", name, "status"], "revealed")

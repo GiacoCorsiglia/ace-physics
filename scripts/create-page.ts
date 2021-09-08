@@ -44,9 +44,9 @@ export async function run(tutorial: string, page: string) {
   console.log(`{\n  link: "${page}",\n  label: "TODO",\n}`);
 }
 
-const template = (page: string) => `import { Prose } from "@/design";
-import { TextArea } from "@/inputs";
-import M from "@/math";
+const template = (
+  page: string
+) => `import { M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -67,7 +67,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "TODO",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.TODO}
           label={<Prose>TODO</Prose>}
         />

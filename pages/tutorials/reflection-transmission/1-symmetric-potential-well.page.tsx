@@ -1,9 +1,14 @@
-import { Help, Info, Prose } from "@/design";
-import { arraysEqual } from "@/helpers";
-import { ChooseAll, FieldGroup, Text, TextArea } from "@/inputs";
-import M from "@/math";
+import {
+  ChooseAll,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  TextLine,
+} from "@/components";
+import { arraysEqual } from "@/helpers/frontend";
 import { page } from "@/tutorial";
-import React from "react";
 import { SymmetricWellPotential } from "./figures";
 import setup from "./setup";
 
@@ -44,7 +49,7 @@ export default page(setup, ({ section, oneOf }) => ({
     section({
       name: "unitsOfV0",
       body: (m) => (
-        <Text
+        <TextLine
           model={m.unitsOfV0}
           label={
             <Prose>
@@ -65,24 +70,24 @@ export default page(setup, ({ section, oneOf }) => ({
             <M t="E>0" /> as shown.
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.generalSolution.properties.regionI}
               label="Region I:"
             />
 
-            <Text
+            <TextLine
               model={m.generalSolution.properties.regionII}
               label="Region II:"
             />
 
-            <Text
+            <TextLine
               model={m.generalSolution.properties.regionIII}
               label="Region III:"
             />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <TextArea
+          <TextBox
             model={m.generalSolutionNewSymbols}
             label={<Prose>Define any new symbols you used:</Prose>}
           />
@@ -94,7 +99,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "generalSolutionConstraints",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.generalSolutionConstraints}
             label={
               <Prose>
@@ -108,7 +113,7 @@ export default page(setup, ({ section, oneOf }) => ({
             minRows={4}
           />
 
-          <TextArea
+          <TextBox
             model={m.generalSolutionPhysicalInterpretation}
             label={
               <Prose>
@@ -133,7 +138,7 @@ export default page(setup, ({ section, oneOf }) => ({
             </p>
           </Prose>
 
-          <FieldGroup className="margin-top-1" grid>
+          <LabelsLeft>
             <ChooseAll
               model={m.fromRightNonzeroTerms.properties.regionI}
               label="Region I:"
@@ -141,7 +146,6 @@ export default page(setup, ({ section, oneOf }) => ({
                 ["rightward", <M t="Ae^{ikx}" />],
                 ["leftward", <M t="Be^{-ikx}" />],
               ]}
-              allowOther={false}
             />
 
             <ChooseAll
@@ -151,7 +155,6 @@ export default page(setup, ({ section, oneOf }) => ({
                 ["rightward", <M t="Ce^{i\kappa x}" />],
                 ["leftward", <M t="De^{-i \kappa x}" />],
               ]}
-              allowOther={false}
             />
 
             <ChooseAll
@@ -161,9 +164,8 @@ export default page(setup, ({ section, oneOf }) => ({
                 ["rightward", <M t="Fe^{ikx}" />],
                 ["leftward", <M t="Ge^{-ikx}" />],
               ]}
-              allowOther={false}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
           <Prose>
             <em>
@@ -201,9 +203,9 @@ export default page(setup, ({ section, oneOf }) => ({
 
         if (rIAgree && rIIAgree && rIIIAgree) {
           return (
-            <Help>
-              <Prose>Excellent work—we agree with your answer.</Prose>
-            </Help>
+            <Guidance.Agree>
+              Excellent work—we agree with your answer.
+            </Guidance.Agree>
           );
         }
 
@@ -213,30 +215,26 @@ export default page(setup, ({ section, oneOf }) => ({
           // Everything is checked OR their answer looks like they thought the
           // particle was approaching from the LEFT not the RIGHT.
           return (
-            <Info>
-              <Prose>
-                Particles approaching from the RIGHT means that there are no
-                particles approaching from the LEFT.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              Particles approaching from the RIGHT means that there are no
+              particles approaching from the LEFT.
+            </Guidance.Disagree>
           );
         }
 
         if (!(rI?.length && rII?.length && rIII?.length)) {
           // There is at least one region in which nothing is checked.
           return (
-            <Info>
-              <Prose>
-                Heads up—there’s at least one nonzero term in each region.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              Heads up—there’s at least one nonzero term in each region.
+            </Guidance.Disagree>
           );
         }
 
         return (
-          <Info>
-            <Prose>Heads up—we disagree with your previous answer.</Prose>
-          </Info>
+          <Guidance.Disagree>
+            Heads up—we disagree with your previous answer.
+          </Guidance.Disagree>
         );
       },
     }),

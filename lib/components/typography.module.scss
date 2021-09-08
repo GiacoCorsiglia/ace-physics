@@ -1,0 +1,151 @@
+@use "fonts";
+@use "spacing";
+@use "colors";
+
+.pageTitle {
+  @include fonts.heading1;
+}
+
+.prose {
+  // text-align: justify;
+  hyphens: auto;
+
+  h1 {
+    @include fonts.heading1;
+  }
+
+  h2 {
+    @include fonts.heading2;
+  }
+
+  h3 {
+    @include fonts.heading3;
+  }
+
+  h4 {
+    @include fonts.heading4;
+  }
+
+  h5 {
+    @include fonts.heading5;
+  }
+
+  h6 {
+    @include fonts.heading6;
+  }
+
+  ol,
+  ul,
+  blockquote {
+    margin-left: spacing.$space-200;
+  }
+
+  ul {
+    list-style-type: disc;
+
+    ul {
+      list-style-type: circle;
+    }
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  blockquote {
+    font-style: italic;
+  }
+
+  i,
+  em {
+    font-style: italic;
+  }
+
+  b,
+  strong {
+    font-weight: fonts.$bold;
+  }
+
+  a,
+  .link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: colors.$blue-700;
+    transition: color 75ms ease-in-out;
+
+    &:hover {
+      color: colors.$blue-600;
+    }
+  }
+
+  // Reset button styles for button links.
+  button.link {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    background: none;
+    border: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // Spacing.
+
+  // Default.
+  > * + * {
+    margin-top: spacing.$space-100;
+  }
+
+  * + h1,
+  * + h2,
+  * + h3,
+  * + h4,
+  * + h5,
+  * + h6 {
+    margin-top: spacing.$space-200;
+  }
+
+  li + li {
+    margin-top: spacing.$space-50;
+  }
+
+  // Display Math.
+  // If it's at the top level, give it a margin unless its first or last. Also
+  // handle the case when its nested (e.g. in a paragraph).  We have to use
+  // these special classes that are added by JavaScript because there isn't a
+  // CSS selector that tells us if an element has text node siblings.
+  > :not(:first-child),
+  > :first-child :not(:global(.display-math-first-child)) {
+    --display-math-margin-top: #{spacing.$space-150};
+  }
+
+  > :not(:last-child),
+  > :last-child :not(:global(.display-math-last-child)) {
+    --display-math-margin-bottom: #{spacing.$space-150};
+  }
+}
+
+.boldColorBlue strong {
+  color: colors.$blue-500;
+}
+.boldColorRed strong {
+  color: colors.$red-500;
+}
+.boldColorGreen strong {
+  color: colors.$green-500;
+}
+.boldColorYellow strong {
+  color: colors.$yellow-500;
+}
+
+.vocabulary {
+  font-weight: fonts.$bold;
+  font-style: italic;
+}

@@ -1,26 +1,18 @@
 import { getTutorial, updateTutorial } from "@/api/client";
-import { Prose } from "@/design";
-import { Content } from "@/design/layout";
-import { JsxElement } from "@/helpers/frontend";
+import { Prose, SectionBox } from "@/components";
+import { cx, JsxElement } from "@/helpers/frontend";
 import { Updates } from "@/reactivity";
 import { Learner } from "@/schema/db";
 import { TutorialState } from "@/schema/tutorial";
 import { decode } from "@/schema/types";
 import EllipsisCircleIcon from "@/svgs/ellipsis-circle.svg";
 import { AlertIcon, CheckCircleIcon, SyncIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import debounce from "lodash.debounce";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TutorialConfig } from "../config";
 import { Root } from "../state-tree";
-import styles from "./shared.module.scss";
 import TutorialLoading from "./TutorialLoading";
+import styles from "./TutorialStateRoot.module.scss";
 
 type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
 
@@ -217,13 +209,13 @@ export function TutorialStateRoot({
       return <TutorialLoading />;
     case "error":
       return (
-        <Content>
+        <SectionBox>
           <Prose>
             <h1>Error</h1>
 
             <p>Sorry, we had trouble loading your saved tutorial.</p>
           </Prose>
-        </Content>
+        </SectionBox>
       );
     case "loaded":
       return (
@@ -246,14 +238,14 @@ function SavedStatus({
   subscribe,
 }: {
   subscribe: (setter: (s: SavedStatus) => void) => () => void;
-}): JSX.Element {
+}): JSX.Element | null {
   const [status, setStatus] = useState<SavedStatus>("initial");
 
   useEffect(() => subscribe(setStatus), [subscribe]);
 
   switch (status) {
     case "initial":
-      return <div className={styles.savedStatus}></div>;
+      return null;
     case "saving":
       return (
         <div className={styles.savedStatus}>

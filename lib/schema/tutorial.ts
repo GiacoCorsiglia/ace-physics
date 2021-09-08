@@ -107,6 +107,7 @@ export const TutorialFeedback = f.object({
   usedOtherMaterials: f.chooseOne(["no", "a bit", "repeatedly"]),
   usedMaterialsOther: f.string(),
   technicalDifficulties: f.string(),
+  genericFeedback: f.string(),
 
   // Feedback on feedback.
   answerCheckingChangeApproach: f.string(),

@@ -1,5 +1,5 @@
 import * as globalParams from "@/global-params";
-import React from "react";
+import { Html } from "@/helpers/frontend";
 import { OneOfConfig } from "../config";
 import {
   CommitAction,
@@ -13,11 +13,13 @@ import SectionTreeNode from "./SectionTreeNode";
 export default function OneOf({
   config,
   first,
+  prepend,
   enumerateSections,
   commit,
 }: {
   config: OneOfConfig;
   first: boolean;
+  prepend?: Html;
   enumerateSections: boolean;
   commit: CommitAction;
 }) {
@@ -42,6 +44,7 @@ export default function OneOf({
       key={nodeKey(node)}
       node={node}
       first={first && i === 0}
+      prepend={first && i === 0 ? prepend : undefined}
       enumerateSections={enumerateSections}
       commit={commit}
     />

@@ -1,8 +1,7 @@
 import { UserMenu } from "@/auth";
-import { Prose } from "@/design";
-import { Content, Header, Page } from "@/design/layout";
+import { Header, MainContentBox, Page, Prose } from "@/components";
+import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";
-import { Children } from "@/util";
 import { ChevronRightIcon } from "@primer/octicons-react";
 import Link from "next/link";
 import styles from "./index.module.scss";
@@ -10,11 +9,9 @@ import styles from "./index.module.scss";
 export default function TutorialsIndex() {
   return (
     <Page title="Tutorials">
-      <Header>
-        <UserMenu />
-      </Header>
+      <Header title="All Tutorials" popovers={<UserMenu />} />
 
-      <Content as="main">
+      <MainContentBox>
         <Prose>
           <h1>
             <em>Tutorials</em> about Quantum Mechanics
@@ -130,7 +127,7 @@ export default function TutorialsIndex() {
             </TutorialLink>
           </ul>
         </nav>
-      </Content>
+      </MainContentBox>
     </Page>
   );
 }
@@ -139,7 +136,11 @@ export function TutorialLink({
   label,
   url,
   children,
-}: { label: React.ReactNode; url: urls.URL } & Children) {
+}: {
+  label: React.ReactNode;
+  url: urls.URL;
+  children?: Html;
+}) {
   return (
     <li>
       <Link href={url.link}>
@@ -151,7 +152,7 @@ export function TutorialLink({
             <ChevronRightIcon />
           </div>
 
-          <Prose className="no-margin">{children}</Prose>
+          <Prose size="small">{children}</Prose>
         </a>
       </Link>
     </li>

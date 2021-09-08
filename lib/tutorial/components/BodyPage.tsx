@@ -1,11 +1,16 @@
-import { Info, Prose } from "@/design";
-import { Answer, AnswerVisibility } from "@/design/answers";
-import { Content } from "@/design/layout";
-import styles from "@/design/structure.module.scss";
+import {
+  Answer,
+  AnswerVisibility,
+  Button,
+  Callout,
+  Justify,
+  PageTitle,
+  Prose,
+  SectionBox,
+  TextBox,
+} from "@/components";
 import * as globalParams from "@/global-params";
-import { htmlTitle } from "@/helpers";
-import { Html, useScrollIntoView } from "@/helpers/frontend";
-import { Button, TextArea } from "@/inputs";
+import { Html, htmlTitle, useScrollIntoView } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import {
   ArrowDownIcon,
@@ -13,7 +18,6 @@ import {
   ChecklistIcon,
   CommentDiscussionIcon,
 } from "@primer/octicons-react";
-import { css, cx } from "linaria";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
@@ -70,49 +74,45 @@ export default function BodyPage({
         </title>
       </Head>
 
-      <Content as="section">
-        <h1 className="prose">
-          {typeof config.label === "string" ? config.label : config.label.html}
-        </h1>
+      <SectionTree
+        sections={config.sections}
+        complete={complete}
+        prepend={
+          <>
+            <PageTitle>
+              {typeof config.label === "string"
+                ? config.label
+                : config.label.html}
+            </PageTitle>
 
-        {isFirstPage && (
-          <Info>
-            <div
-              className={css`
-                display: flex;
-                align-items: center;
+            {isFirstPage && (
+              <>
+                <hr />
+                <Callout
+                  color="blue"
+                  iconLeft={<CommentDiscussionIcon size="large" />}
+                >
+                  {tutorialConfig.pretest ? "From now on, we" : "We"} encourage
+                  you to{" "}
+                  <strong>
+                    discuss all of your answers with your peers immediately
+                    before moving on
+                  </strong>{" "}
+                  (if you’re working with a group today).
+                </Callout>
+                <hr />
+              </>
+            )}
 
-                > * + * {
-                  margin-left: 1.5rem !important;
-                }
-              `}
-            >
-              <CommentDiscussionIcon size="large" />
-
-              <Prose noMargin>
-                {tutorialConfig.pretest ? "From now on, we" : "We"} encourage
-                you to{" "}
-                <strong>
-                  discuss all of your answers with your peers immediately before
-                  moving on
-                </strong>{" "}
-                (if you’re working with a group today).
-              </Prose>
-            </div>
-          </Info>
-        )}
-
-        {answersRevealed && (
-          <Answer>
-            <Prose>
-              Scroll down to see our answers to the questions below. They’ll be
-              in boxes like this one.
-            </Prose>
-          </Answer>
-        )}
-      </Content>
-
-      <SectionTree sections={config.sections} complete={complete} />
+            {answersRevealed && (
+              <Answer>
+                Scroll down to see our answers to the questions below. They’ll
+                be in boxes like this one.
+              </Answer>
+            )}
+          </>
+        }
+      />
 
       {config.answers === "provided" && (
         <RevealAnswersSection config={config} complete={complete} />
@@ -169,16 +169,8 @@ function ContinueToNextPage({
   })();
 
   return (
-    <Content
-      as="section"
-      className={cx(
-        styles.section,
-        styles.sectionAnimateIn,
-        styles.noSectionLabel
-      )}
-      ref={scrollRef}
-    >
-      <Prose>
+    <SectionBox ref={scrollRef}>
+      <Prose boldColor="blue">
         Nice job finishing this page!{" "}
         {(() => {
           switch (config.answers) {
@@ -186,19 +178,15 @@ function ContinueToNextPage({
             case "none":
               return (
                 <>
-                  <strong className="text-blue">
-                    We haven't checked any of your answers,
-                  </strong>{" "}
-                  so you may want to check in with an instructor.
+                  <strong>We haven't checked any of your answers,</strong> so
+                  you may want to check in with an instructor.
                 </>
               );
             case "checked-some":
               return (
                 <>
-                  <strong className="text-blue">
-                    We only checked some of your answers,
-                  </strong>{" "}
-                  so you may want to check in with an instructor.
+                  <strong>We only checked some of your answers,</strong> so you
+                  may want to check in with an instructor.
                 </>
               );
             case "checked-all":
@@ -212,7 +200,7 @@ function ContinueToNextPage({
             case "provided":
               return (
                 <>
-                  <strong className="text-blue">
+                  <strong>
                     Learning doesn’t stop once you’ve seen the answers.
                   </strong>{" "}
                   We encourage you to keep thinking about these ideas, and to
@@ -226,13 +214,13 @@ function ContinueToNextPage({
       {showWhenComplete ? (
         showWhenComplete
       ) : (
-        <div className="text-right">
-          <Button link={fullLink}>
+        <Justify end>
+          <Button color="green" link={fullLink}>
             Move on to the next page <ArrowRightIcon />
           </Button>
-        </div>
+        </Justify>
       )}
-    </Content>
+    </SectionBox>
   );
 }
 
@@ -265,22 +253,15 @@ const RevealAnswersSection = ({
     (globalParams.showAllSections && !showReflection);
 
   return (
-    <Content
-      as="section"
-      className={cx(
-        styles.section,
-        !globalParams.showAllSections && styles.sectionAnimateIn
-      )}
-      ref={scrollRef}
-    >
+    <SectionBox ref={scrollRef}>
       {showPrompt && (
         <>
-          <Prose className="text-center">
+          <Prose justify="center">
             Alright! You’re done with this page. There’s only one thing left to
             do…
           </Prose>
 
-          <div className="text-center margin-top">
+          <Justify center>
             <Button
               onClick={() => {
                 setStatus("answersRevealed");
@@ -290,15 +271,14 @@ const RevealAnswersSection = ({
                   top: 0,
                 });
               }}
-              kind="tertiary"
-              iconFirst
+              color="yellow"
+              iconLeft={<ChecklistIcon />}
             >
-              <ChecklistIcon />
               Show me the answers
             </Button>
-          </div>
+          </Justify>
 
-          <Prose className="text-center">
+          <Prose justify="center">
             Clicking this button will scroll you to the top of the page.
           </Prose>
         </>
@@ -306,7 +286,7 @@ const RevealAnswersSection = ({
 
       {showReflection && (
         <>
-          <TextArea
+          <TextBox
             model={model.properties.reflection}
             minRows={4}
             label={
@@ -319,8 +299,9 @@ const RevealAnswersSection = ({
           />
 
           {status !== "completed" && (
-            <div className="text-right margin-top">
+            <Justify end>
               <Button
+                color="green"
                 onClick={() => {
                   complete();
                 }}
@@ -328,10 +309,10 @@ const RevealAnswersSection = ({
                 Move on
                 <ArrowDownIcon />
               </Button>
-            </div>
+            </Justify>
           )}
         </>
       )}
-    </Content>
+    </SectionBox>
   );
 };

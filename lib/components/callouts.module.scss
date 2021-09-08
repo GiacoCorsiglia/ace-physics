@@ -1,0 +1,91 @@
+@use "fonts";
+@use "colors";
+@use "spacing";
+@use "borders";
+
+.callout {
+  composes: callout from "layout.module.scss";
+
+  padding: spacing.$space-100 spacing.$space-150;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: borders.$radius;
+  transition: {
+    property: background-color, border-color, color;
+    duration: 150ms;
+  }
+
+  &.hasIcon {
+    display: flex;
+    align-items: center;
+
+    > * + * {
+      margin-left: spacing.$space-150;
+    }
+  }
+}
+
+@keyframes animate-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+.animateIn {
+  animation: animate-in 300ms ease-out;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+@mixin callout($color) {
+  background-color: colors.shade($color, 100);
+  border-color: colors.shade($color, 200);
+  color: colors.shade($color, 900);
+  box-shadow: 0 1px 4px colors.alpha(colors.shade($color, 800), 0.05);
+
+  .calloutTitle {
+    color: colors.shade($color, 500);
+  }
+
+  .iconContainer {
+    color: colors.shade($color, 500);
+  }
+}
+
+.green {
+  @include callout(colors.$green);
+}
+
+.blue {
+  @include callout(colors.$blue);
+}
+
+.yellow {
+  @include callout(colors.$yellow);
+}
+
+.red {
+  @include callout(colors.$red);
+}
+
+.neutral {
+  background-color: colors.$neutral-200;
+  box-shadow: 0 1px 4px colors.alpha(colors.$neutral-800, 0.05);
+  border-color: colors.$neutral-300;
+  color: colors.$neutral-700;
+
+  .calloutTitle {
+    color: colors.$neutral-500;
+  }
+}
+
+.calloutTitle {
+  @include fonts.smallest;
+  // Small caps would be nice but then we need to load more fonts.
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+  margin-bottom: spacing.$space-50;
+}

@@ -1,8 +1,5 @@
-import { Prose } from "@/design";
-import { ChooseOne } from "@/inputs";
-import M from "@/math/M";
+import { ChooseOne, M, Prose } from "@/components";
 import { pretest } from "@/tutorial";
-import React from "react";
 import { PretestStepPotential } from "./figures";
 import setup from "./setup";
 
@@ -22,7 +19,7 @@ export default pretest(setup, ({ section }) => ({
 
           <PretestStepPotential incidentFrom="right" energy="E above V_0" />
 
-          <Prose className="opacity-faded text-center">
+          <Prose faded justify="center">
             <M t="V=+V_0" /> for any <M t="x > 0" /> (all the way to infinity)
             <br />
             <M t="V=0" /> for any <M t="x < 0" /> (all the way to negative
@@ -37,7 +34,6 @@ export default pretest(setup, ({ section }) => ({
               </Prose>
             }
             choices={answers}
-            allowOther={false}
           />
         </>
       ),
@@ -62,7 +58,6 @@ export default pretest(setup, ({ section }) => ({
               </Prose>
             }
             choices={answers}
-            allowOther={false}
           />
         </>
       ),
@@ -86,7 +81,6 @@ export default pretest(setup, ({ section }) => ({
               </Prose>
             }
             choices={answers}
-            allowOther={false}
           />
         </>
       ),

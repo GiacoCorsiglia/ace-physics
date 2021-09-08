@@ -58,17 +58,24 @@ export default tutorialSchema({
     "wrapUp",
   ],
   pretest: {
+    /** @deprecated */
     meaningOfCoefficients: f.string(),
-    coBExpression: f.chooseAll([
-      "x-subscripts",
-      "projection (correct)",
-      "probability coefficients",
-      "x<+|+> coefficients",
-      "just inner products",
-    ]),
+    coBExpression: f.chooseAll(
+      [
+        "x-subscripts",
+        "projection (correct)",
+        "probability coefficients",
+        "x<+|+> coefficients",
+        "just inner products",
+      ],
+      f.string()
+    ),
     changedProbabilities: f.chooseOne(["true", "false"]),
+    changedProbabilitiesExplain: f.string(),
     cantKnowBothProbabilities: f.chooseOne(["true", "false"]),
+    cantKnowBothProbabilitiesExplain: f.string(),
     createdNewState: f.chooseOne(["true", "false"]),
+    createdNewStateExplain: f.string(),
   },
   sections: [
     "probabilityAndProjectionIntro",
@@ -128,12 +135,15 @@ export default tutorialSchema({
     "whyCoB",
   ],
   responses: {
-    meaningOfCoefficients: f.chooseAll([
-      "normalized",
-      "measurement-outcomes",
-      "probabilities-direct",
-      "probabilities-squared",
-    ]),
+    meaningOfCoefficients: f.chooseAll(
+      [
+        "normalized",
+        "measurement-outcomes",
+        "probabilities-direct",
+        "probabilities-squared",
+      ],
+      f.string()
+    ),
     probability: PlusMinus,
     probabilityAmplitude: PlusMinus,
     relationshipProbAmp: f.string(),

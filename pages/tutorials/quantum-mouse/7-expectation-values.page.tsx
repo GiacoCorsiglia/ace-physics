@@ -1,6 +1,13 @@
-import { Help, Prose, Reminder } from "@/design";
-import { Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
-import M from "@/math/M";
+import {
+  Decimal,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -63,12 +70,12 @@ export default page(setup, ({ section, hint }) => ({
             average the results, what would you get?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal
               model={m.weightedAverage}
               label="Average eye size (in mm):"
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
       hints: [
@@ -115,7 +122,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.expValueMeasurabilityExplain}
             label={<Prose>Why or why not?</Prose>}
           />
@@ -137,7 +144,7 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "naiveAvg",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.naiveAvg}
           label={
             <Prose>
@@ -177,12 +184,10 @@ export default page(setup, ({ section, hint }) => ({
       name: "expValMeasurabilityCorrection",
       when: (r) => r.expValueMeasurability?.selected === "yes",
       body: (
-        <Help>
-          <Prose>
-            You may want to scroll up and reconsider the second question on this
-            page.
-          </Prose>
-        </Help>
+        <Guidance.Disagree>
+          You may want to scroll up and reconsider the second question on this
+          page.
+        </Guidance.Disagree>
       ),
     }),
   ],

@@ -1,11 +1,15 @@
 import { UserMenu } from "@/auth";
-import { Prose } from "@/design";
-import { Content, Header, Page } from "@/design/layout";
-import { Button } from "@/inputs";
+import {
+  Button,
+  Header,
+  Justify,
+  MainContentBox,
+  Page,
+  Prose,
+} from "@/components";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
-import React from "react";
 
 export default function Index() {
   return (
@@ -16,28 +20,31 @@ export default function Index() {
         </title>
       </Head>
 
-      <Header>
-        <UserMenu />
-      </Header>
+      <Header title="ACE Physics" popovers={<UserMenu />} />
 
-      <Content as="main">
+      <MainContentBox vertical={300}>
         <Prose>
-          <h1>Welcome to ACEPhysics.net</h1>
-
-          <p>Adaptive Curricular Exercises for Physics—online!</p>
+          <h1>Interactive Online Activities for Physics Learners</h1>
 
           <p>
-            Today, ACEPhysics.net is home to a handful of interactive
-            activities—<em>tutorials</em>—for physics students studying quantum
-            mechanics. Perhaps one day this website will hold an extensive suite
-            of such activities for all physics learners.
+            Welcome to ACE Physics:{" "}
+            <em>Adaptable Curricular Exercises for Physics.</em>
           </p>
         </Prose>
 
-        <Button className="margin-top" link={urls.Tutorials.link}>
-          Take me to the online tutorials <ArrowRightIcon />
-        </Button>
-      </Content>
+        <Justify center>
+          <Button color="green" link={urls.Tutorials.link}>
+            Take me to the online tutorials <ArrowRightIcon />
+          </Button>
+        </Justify>
+
+        <Prose>
+          Today, ACE Physics is home to a handful of interactive activities—
+          <em>tutorials</em>—for physics students studying quantum mechanics.
+          Perhaps one day this website will hold an extensive suite of such
+          activities for all physics learners.
+        </Prose>
+      </MainContentBox>
     </Page>
   );
 }

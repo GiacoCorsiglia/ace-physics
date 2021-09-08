@@ -1,11 +1,19 @@
-import { Help, Info, Prose, Reminder } from "@/design";
-import { Column, Columns } from "@/design/layout";
-import { Button, ChooseOne, Select, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import {
+  Button,
+  ChooseOne,
+  Column,
+  Columns,
+  Dropdown,
+  Guidance,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { Axes, Plot, Rotate, Tick, Vector } from "@/plots";
 import { useModel } from "@/reactivity";
 import { page } from "@/tutorial";
-import React from "react";
 import setup, { ResponseModels, Responses } from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
@@ -42,21 +50,17 @@ export default page(setup, ({ section, hint }) => ({
           <Prose>
             <p>
               We have represented our vector in a new basis, that is in the form{" "}
-              <M t="a\ket{v_1} + b \ket{v_2}." />
-              <em>Should we rename the vector in this basis?</em> Let’s go ahead
-              and do that and investigate whether we needed to.
+              <M display t="a\ket{v_1} + b \ket{v_2}" />
+              <em>Should we rename the vector in this basis?</em> Let’s do so
+              and investigate whether we needed to.
             </p>
 
             <p>
-              <em>
-                For now, we’ll call the vector in the new basis
-                <M t="\ket{k}" />. That is,
-                <M t="\ket{k} = a\ket{v_1} + b\ket{v_2}" />, where
-              </em>
-
+              For now, we’ll call the vector in the new basis
+              <M t="\ket{k}" />. That is,
+              <M t="\ket{k} = a\ket{v_1} + b\ket{v_2}" />, where
               <M display t="a \approx 0.835 \text { and } b \approx 0.551" />
-
-              <em>as you found on the previous page.</em>
+              as you found on the previous page.
             </p>
           </Prose>
         </Prose>
@@ -85,7 +89,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <Columns className="margin-top">
+          <Columns>
             <Column>
               <PlotUAndK graph={responses?.uAndKGraph} />
             </Column>
@@ -106,9 +110,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "uAndKRelationship",
       body: (m) => (
         <>
-          <Help>
-            <Prose>Your graph looks good!</Prose>
-          </Help>
+          <Guidance.Agree>Your graph looks good!</Guidance.Agree>
 
           <ChooseOne
             model={m.uAndKRelationship}
@@ -171,7 +173,7 @@ export default page(setup, ({ section, hint }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.newNameNecessaryExplain}
             label={<Prose>Explain:</Prose>}
           />
@@ -188,72 +190,66 @@ export default page(setup, ({ section, hint }) => ({
           {responses?.uAndKRelationship?.selected === "same" && (
             <>
               {responses?.newNameNecessary?.selected === "no" && (
-                <Help>
-                  <Prose>
-                    <p>We agree with your answers!</p>
+                <Guidance.Agree>
+                  <p>We agree with your answers!</p>
 
-                    <p>
-                      <M t="\ket{u} = \ket{k}" />, and changing basis just
-                      changes your representation of a vector, but it doesn’t
-                      change the underlying vector. Considering that, there’s no
-                      reason to give the vector another name. (Doing so might
-                      even be confusing!)
-                    </p>
-                  </Prose>
-                </Help>
+                  <p>
+                    <M t="\ket{u} = \ket{k}" />, and changing basis just changes
+                    your representation of a vector, but it doesn’t change the
+                    underlying vector. Considering that, there’s no reason to
+                    give the vector another name. (Doing so might even be
+                    confusing!)
+                  </p>
+                </Guidance.Agree>
               )}
 
               {(responses?.newNameNecessary?.selected === "yes" ||
                 responses?.newNameNecessary?.selected === "no but useful") && (
-                <Info>
-                  <Prose>
-                    <p>
-                      We agree that <M t="\ket{u}" /> and
-                      <M t="\ket{k}" /> are the same vector,{" "}
-                      <M t="\ket{u} = \ket{k}" />!
-                    </p>
+                <Guidance.Disagree>
+                  <p>
+                    We agree that <M t="\ket{u}" /> and
+                    <M t="\ket{k}" /> are the same vector,{" "}
+                    <M t="\ket{u} = \ket{k}" />!
+                  </p>
 
-                    <p>
-                      But since they’re the same vector, it doesn’t need a new
-                      name.
-                    </p>
+                  <p>
+                    But since they’re the same vector, it doesn’t need a new
+                    name.
+                  </p>
 
-                    <p>
-                      Although you could use the name of the vector to indicate
-                      the basis you’re working in, the right-hand-side of your
-                      equation already tells you this information. If you write{" "}
-                      <M t="\ket{u} = a\ket{v_1} + b\ket{v_2}" />, you know
-                      you’re working the in the basis of <M t="\ket{v_1}" /> and{" "}
-                      <M t="\ket{v_2}" />. It could actually be confusing to{" "}
-                      <em>also</em> change the name.
-                    </p>
-                  </Prose>
-                </Info>
+                  <p>
+                    Although you could use the name of the vector to indicate
+                    the basis you’re working in, the right-hand-side of your
+                    equation already tells you this information. If you write{" "}
+                    <M t="\ket{u} = a\ket{v_1} + b\ket{v_2}" />, you know you’re
+                    working the in the basis of <M t="\ket{v_1}" /> and{" "}
+                    <M t="\ket{v_2}" />. It could actually be confusing to{" "}
+                    <em>also</em> change the name.
+                  </p>
+                </Guidance.Disagree>
               )}
             </>
           )}
 
           {responses?.uAndKRelationship?.selected !== "same" && (
-            <Info>
-              <Prose>
-                <p>
-                  <M t="\ket{u}" /> and
-                  <M t="\ket{k}" /> are the same vector,
-                  <M t="\ket{u} = \ket{k}" />.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                <M t="\ket{u}" /> and
+                <M t="\ket{k}" /> are the same vector,
+                <M t="\ket{u} = \ket{k}" />.
+              </p>
 
-                <p>
-                  It’s no accident that they overlap on the graph. You can
-                  represent a vector in different bases and it’s still the same
-                  vector!
-                </p>
+              <p>
+                It’s no accident that they overlap on the graph. You can
+                represent a vector in different bases and it’s still the same
+                vector!
+              </p>
 
-                <p>
-                  Go ahead and change your answers above and scroll back down to
-                  check in again.
-                </p>
-              </Prose>
-            </Info>
+              <p>
+                Go ahead and change your answers above and scroll back down to
+                check in again.
+              </p>
+            </Guidance.Disagree>
           )}
         </>
       ),
@@ -262,7 +258,7 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "meaningOfCoB",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.meaningOfCoB}
           label={
             <Prose>
@@ -301,7 +297,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "whyNoSubscriptNeeded",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.whyNoSubscriptNeeded}
             label={
               <Prose>
@@ -326,39 +322,35 @@ export default page(setup, ({ section, hint }) => ({
       body: (_, { responses }) => (
         <>
           {responses?.equalityAllowed?.selected === "allowed" && (
-            <Help>
-              <Prose>
-                <p>
-                  Yep, that equation is totally allowed. <M t="\ket{\psi}" /> is
-                  the same vector regardless of the basis we express it in.
-                </p>
+            <Guidance.Agree>
+              <p>
+                Yep, that equation is totally allowed. <M t="\ket{\psi}" /> is
+                the same vector regardless of the basis we express it in.
+              </p>
 
-                <p>
-                  For that reason, we don’t need any subscript on
-                  <M t="\ket{\psi}" />.
-                </p>
-              </Prose>
-            </Help>
+              <p>
+                For that reason, we don’t need any subscript on
+                <M t="\ket{\psi}" />.
+              </p>
+            </Guidance.Agree>
           )}
 
           {responses?.equalityAllowed?.selected === "not allowed" && (
-            <Info>
-              <Prose>
-                <p>That equation is allowed.</p>
+            <Guidance.Disagree>
+              <p>That equation is allowed.</p>
 
-                <p>
-                  <M t="\ket{\psi}" /> is the same vector regardless of the
-                  basis we express it in. You can check that the equality holds
-                  by expanding <M t="\ket{+}_x" /> and <M t="\ket{-}_x" /> in
-                  the z-basis.
-                </p>
+              <p>
+                <M t="\ket{\psi}" /> is the same vector regardless of the basis
+                we express it in. You can check that the equality holds by
+                expanding <M t="\ket{+}_x" /> and <M t="\ket{-}_x" /> in the
+                z-basis.
+              </p>
 
-                <p>
-                  For the same reason, we don’t need any subscript on
-                  <M t="\ket{\psi}" />.
-                </p>
-              </Prose>
-            </Info>
+              <p>
+                For the same reason, we don’t need any subscript on
+                <M t="\ket{\psi}" />.
+              </p>
+            </Guidance.Disagree>
           )}
         </>
       ),
@@ -457,7 +449,7 @@ function PlotOptions({
   return (
     <>
       <Button
-        kind="secondary"
+        color="blue"
         onClick={() => setGraph((prev) => ({ ...prev, ij: true }))}
         disabled={graph?.ij === true}
       >
@@ -466,8 +458,7 @@ function PlotOptions({
 
       {graph?.ij === true && (
         <Button
-          className="margin-top-1"
-          kind="secondary"
+          color="blue"
           onClick={() => setGraph((prev) => ({ ...prev, u: true }))}
           disabled={graph?.u === true}
         >
@@ -476,8 +467,7 @@ function PlotOptions({
       )}
 
       {graph?.u === true && (
-        <Select
-          className="margin-top-1"
+        <Dropdown
           model={graphModel.properties.v1v2}
           choices={[
             [
@@ -495,24 +485,20 @@ function PlotOptions({
             ],
           ]}
           placeholder="What next?"
-          allowOther={false}
-          isDisabled={graph?.v1v2Axes === true}
+          disabled={graph?.v1v2Axes === true}
         />
       )}
 
       {graph?.v1v2?.selected === "labels" && (
-        <Help>
-          <Prose>
-            Does this make sense? Should the <M t="\ket{i}" /> and{" "}
-            <M t="\ket{v_1}" /> axes point in the same direction like this?
-          </Prose>
-        </Help>
+        <Guidance.Hint>
+          Does this make sense? Should the <M t="\ket{i}" /> and{" "}
+          <M t="\ket{v_1}" /> axes point in the same direction like this?
+        </Guidance.Hint>
       )}
 
       {graph?.v1v2?.selected === "vectors" && (
         <Button
-          className="margin-top-1"
-          kind="secondary"
+          color="blue"
           onClick={() => setGraph((prev) => ({ ...prev, v1v2Axes: true }))}
           disabled={graph?.v1v2Axes === true}
         >
@@ -521,8 +507,7 @@ function PlotOptions({
       )}
 
       {graph?.v1v2Axes === true && (
-        <Select
-          className="margin-top-1"
+        <Dropdown
           model={graphModel.properties.k}
           choices={[
             [
@@ -540,7 +525,6 @@ function PlotOptions({
               </>,
             ],
           ]}
-          allowOther={false}
           placeholder={
             <>
               How should we add <M t="\ket{k}" />?
@@ -550,21 +534,19 @@ function PlotOptions({
       )}
 
       {graph?.k?.selected === "ij" && (
-        <Help>
-          <Prose>
-            <p>
-              Does <M t="a" /> represent the component of <M t="\ket{k}" />{" "}
-              along the <M t="\vb{i}" />
-              -axis or along the <M t="\vb{v_1}" />
-              -axis?
-            </p>
+        <Guidance.Disagree>
+          <p>
+            Does <M t="a" /> represent the component of <M t="\ket{k}" /> along
+            the <M t="\vb{i}" />
+            -axis or along the <M t="\vb{v_1}" />
+            -axis?
+          </p>
 
-            <p>
-              Recall that <M t="a" /> is one of the coefficients you calculated
-              when changing basis on the previous page.
-            </p>
-          </Prose>
-        </Help>
+          <p>
+            Recall that <M t="a" /> is one of the coefficients you calculated
+            when changing basis on the previous page.
+          </p>
+        </Guidance.Disagree>
       )}
     </>
   );

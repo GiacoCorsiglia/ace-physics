@@ -1,12 +1,10 @@
-import { Help, Info, Prose } from "@/design";
-import { deepEqual } from "@/helpers";
-import { ChooseOne, Decimal } from "@/inputs";
-import M from "@/math";
+import { ChooseOne, Decimal, Guidance, M, Prose, Table } from "@/components";
+import { cx, deepEqual } from "@/helpers/frontend";
 import { page } from "@/tutorial";
-import { css, cx } from "linaria";
 import xzImg from "./assets/x-z.png";
 import zxImg from "./assets/z-x.png";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section, hint, oneOf }) => ({
   name: "spinAlongOtherAxes",
@@ -102,7 +100,6 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             ],
             ["none", "None of the above"],
           ]}
-          allowOther={false}
         />
       ),
     }),
@@ -124,41 +121,33 @@ export default page(setup, ({ section, hint, oneOf }) => ({
         setupForUpZDownXIncorrect: section({
           name: "setupForUpZDownXIncorrect",
           body: (
-            <Info>
-              <Prose>
-                We think one of those two choices will work. Take another look,
-                or discuss with an instructor before moving on.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              We think one of those two choices will work. Take another look, or
+              discuss with an instructor before moving on.
+            </Guidance.Disagree>
           ),
         }),
         setupForUpZDownXReversed: section({
           name: "setupForUpZDownXReversed",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  Your goal is to determine <M t="|\braket{+|+}_x|^2" />. The
-                  template formula we use for probabilities is
-                  <M t="P = |\braket{\text{out}|\text{in}}|^2" />.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Your goal is to determine <M t="|\braket{+|+}_x|^2" />. The
+                template formula we use for probabilities is
+                <M t="P = |\braket{\text{out}|\text{in}}|^2" />.
+              </p>
 
-                <p>
-                  In this setup, which analyzer should come last: the one
-                  corresponding with <M t="\ket{\text{in}}" />, or the one
-                  corresponding with <M t="\ket{\text{out}}" />?
-                </p>
-              </Prose>
-            </Info>
+              <p>
+                In this setup, which analyzer should come last: the one
+                corresponding with <M t="\ket{\text{in}}" />, or the one
+                corresponding with <M t="\ket{\text{out}}" />?
+              </p>
+            </Guidance.Disagree>
           ),
         }),
         setupForUpZDownXCorrect: section({
           name: "setupForUpZDownXCorrect",
-          body: (
-            <Help>
-              <Prose>Excellent, looks good to us!</Prose>
-            </Help>
-          ),
+          body: <Guidance.Agree>Excellent, looks good to us!</Guidance.Agree>,
         }),
       },
     }),
@@ -198,15 +187,8 @@ export default page(setup, ({ section, hint, oneOf }) => ({
               <p>
                 Use the sim to run your S-G setup, and fill in the corresponding
                 box in the table below (outlined in{" "}
-                <span
-                  className={css`
-                    color: green;
-                    font-weight: bold;
-                  `}
-                >
-                  green
-                </span>
-                ) with the corresponding probability.
+                <span className={styles.green}>green</span>) with the
+                corresponding probability.
               </p>
 
               <p>
@@ -224,7 +206,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
               </p>
             </Prose>
 
-            <table className="table">
+            <Table>
               <thead>
                 <tr>
                   <td>
@@ -251,10 +233,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
                             className={cx(
                               row === "upZ" &&
                                 col === "upX" &&
-                                css`
-                                  border-color: green;
-                                  box-shadow: green 0 0 1px 1px;
-                                `
+                                styles.greenBorder
                             )}
                             initialValue={
                               row === "upZ" && col === "upZ" ? 1 : undefined
@@ -268,7 +247,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
           </>
         );
       },
@@ -293,18 +272,15 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       body: (m, { responses }) => (
         <>
           {deepEqual(responses?.outInTable, correctTable) ? (
-            <Help>Excellent work!</Help>
+            <Guidance.Agree>Excellent work!</Guidance.Agree>
           ) : (
-            <Info>
-              <Prose>
-                <p>
-                  Heads up, there’s at least one mistake somewhere in your
-                  table.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Heads up, there’s at least one mistake somewhere in your table.
+              </p>
 
-                <p>This message will update when your table is 100% correct.</p>
-              </Prose>
-            </Info>
+              <p>This message will update when your table is 100% correct.</p>
+            </Guidance.Disagree>
           )}
         </>
       ),

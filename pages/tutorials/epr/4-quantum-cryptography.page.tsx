@@ -1,8 +1,15 @@
-import { Answer, Prose, Reminder } from "@/design";
-import { ChooseOne, FieldGroup, Text, Toggle } from "@/inputs";
-import M from "@/math";
+import {
+  Answer,
+  ChooseOne,
+  ControlGroup,
+  M,
+  Prose,
+  Reminder,
+  Table,
+  TextLine,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -63,7 +70,7 @@ export default page(setup, ({ section }) => ({
               orientation.
             </Prose>
 
-            <table className="table">
+            <Table>
               <thead>
                 <tr>
                   <td>Alice’s SG Orientation</td>
@@ -119,7 +126,7 @@ export default page(setup, ({ section }) => ({
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </Table>
           </>
         );
       },
@@ -173,7 +180,7 @@ export default page(setup, ({ section }) => ({
               because it could be either 1 or 0.
             </Prose>
 
-            <table className="table">
+            <Table>
               <thead>
                 <tr>
                   <td>Alice’s measurement</td>
@@ -246,7 +253,7 @@ export default page(setup, ({ section }) => ({
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </Table>
           </>
         );
       },
@@ -282,7 +289,7 @@ export default page(setup, ({ section }) => ({
               </p>
             </Prose>
 
-            <table className="table">
+            <Table>
               <thead>
                 <tr>
                   <td>Alice’s SG Orientation</td>
@@ -308,7 +315,7 @@ export default page(setup, ({ section }) => ({
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </Table>
           </>
         );
       },
@@ -320,21 +327,21 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Given the dataset above, what is the shared key?</Prose>
 
-          <FieldGroup grid className="margin-top">
-            <Text
+          <ControlGroup>
+            <TextLine
               model={m.key}
               label="Shared key:"
               style={{ maxWidth: "13rem" }}
               placeholder="Type the key here"
             />
+          </ControlGroup>
 
-            <Answer
-              correct={responses?.key?.trim() === key}
-              style={{ gridColumn: 2, maxWidth: "13rem" }}
-            >
-              {key}
-            </Answer>
-          </FieldGroup>
+          <Answer
+            correct={responses?.key?.trim() === key}
+            style={{ gridColumn: 2, maxWidth: "13rem" }}
+          >
+            {key}
+          </Answer>
         </>
       ),
     }),

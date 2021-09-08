@@ -1,7 +1,5 @@
-import { Prose } from "@/design";
-import { Decimal, FieldGroup, TextArea, Toggle } from "@/inputs";
+import { Decimal, LabelsLeft, Prose, TextBox, Toggle } from "@/components";
 import { pretest } from "@/tutorial";
-import React from "react";
 import pretest1 from "./assets/pretest-1.png";
 import pretest2 from "./assets/pretest-2.png";
 import setup from "./setup";
@@ -35,7 +33,7 @@ export default pretest(setup, ({ section }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.predictForSingleElectronExplain}
             label={<Prose>Why or why not?</Prose>}
           />
@@ -68,12 +66,12 @@ export default pretest(setup, ({ section }) => ({
             What would be the subsequent readings at Detector A and Detector B?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal model={m.readingDetectorA} label="Detector A: " />
             <Decimal model={m.readingDetectorB} label="Detector B: " />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <TextArea
+          <TextBox
             model={m.readingsExplain}
             label={<Prose>Briefly, explain your reasoning:</Prose>}
           />
@@ -83,7 +81,7 @@ export default pretest(setup, ({ section }) => ({
 
     section({
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.xSpinAtDetectorA}
           label={
             <Prose>

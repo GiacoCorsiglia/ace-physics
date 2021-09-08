@@ -1,11 +1,16 @@
-import { Help, Info, Prose, Reminder } from "@/design";
-import { range } from "@/helpers";
-import { ChooseOne, TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import {
+  ChooseOne,
+  Guidance,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+} from "@/components";
+import { approxEquals, range } from "@/helpers/frontend";
 import { Axes, Bar, DragHandle, GridLine, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
-import { approxEquals } from "@/util";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import setup from "./setup";
 
 const graph = {
@@ -83,7 +88,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       name: "interpretVerticalAxis",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.interpretVerticalAxis}
             label={
               <Prose>
@@ -100,7 +105,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       name: "normalizationMeaning",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.normalizationMeaning}
             label={
               <Prose>
@@ -117,7 +122,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       name: "psiBDifference",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.psiBDifference}
             label={
               <Prose>
@@ -145,7 +150,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       name: "psiBMeasurements",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.psiBMeasurements}
             label={
               <Prose>
@@ -178,13 +183,11 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       name: "psiBvsPsiAExpectationIncorrect",
       when: (r) => r.psiBvsPsiAExpectation?.selected === "different",
       body: (
-        <Info>
-          <Prose>
-            Despite the flipped sign on the coefficient for <M t="\ket{E_2}" />,{" "}
-            <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> have the same
-            expectation value for energy.
-          </Prose>
-        </Info>
+        <Guidance.Disagree>
+          Despite the flipped sign on the coefficient for <M t="\ket{E_2}" />,{" "}
+          <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> have the same
+          expectation value for energy.
+        </Guidance.Disagree>
       ),
     }),
 
@@ -338,20 +341,16 @@ export default page(setup, ({ section, hint, oneOf }) => ({
         psiBHistogramCorrect: section({
           name: "psiBHistogramCorrect",
           body: (
-            <Help>
-              <Prose>Your histogram looks good to us!</Prose>
-            </Help>
+            <Guidance.Agree>Your histogram looks good to us!</Guidance.Agree>
           ),
         }),
 
         psiBHistogramIncorrect: section({
           name: "psiBHistogramIncorrect",
           body: (
-            <Info>
-              <Prose>
-                Heads up, there’s at least one error in your histogram.
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              Heads up, there’s at least one error in your histogram.
+            </Guidance.Disagree>
           ),
         }),
       },
@@ -384,10 +383,9 @@ export default page(setup, ({ section, hint, oneOf }) => ({
                 </>,
               ],
             ]}
-            allowOther={false}
           />
 
-          <TextArea
+          <TextBox
             model={m.psiBDistinguishableFromPsiA}
             label={
               <Prose>

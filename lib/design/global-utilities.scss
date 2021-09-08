@@ -1,0 +1,62 @@
+/**
+ * A small set of global utility classes.
+ */
+@use "colors";
+@use "fonts";
+
+// Text alignment.
+.text-left {
+  text-align: left;
+}
+.text-flush {
+  text-align: justify;
+  hyphens: auto;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+// Font size.
+.text-ui {
+  @include fonts.ui;
+}
+.text-ui-small {
+  @include fonts.ui-small;
+}
+.text-smallest {
+  @include fonts.smallest;
+}
+.text-small {
+  @include fonts.small;
+}
+.text-body {
+  @include fonts.body;
+}
+.text-large {
+  @include fonts.large;
+}
+.text-heading1 {
+  @include fonts.heading1;
+}
+
+// Fading.
+.text-faded {
+  color: colors.$neutral-600;
+}
+
+// Colors.
+.text-green {
+  color: colors.$green-600;
+}
+.text-blue {
+  color: colors.$blue-600;
+}
+.text-red {
+  color: colors.$red-600;
+}
+.text-yellow {
+  color: colors.$yellow-600;
+}

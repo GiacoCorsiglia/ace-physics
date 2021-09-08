@@ -1,16 +1,17 @@
-import { Help, Prose, Reminder } from "@/design";
 import {
   ChooseOne,
   Decimal,
-  FieldGroup,
-  Select,
-  TextArea,
+  Dropdown,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  Reminder,
+  TextBox,
   Toggle,
-} from "@/inputs";
-import M from "@/math/M";
+} from "@/components";
+import { approxEquals } from "@/helpers/frontend";
 import { page } from "@/tutorial";
-import { approxEquals } from "@/util";
-import React from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section, oneOf, hint }) => ({
@@ -115,7 +116,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
       name: "remeasure1mm",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.remeasure1mmResults}
             label={
               <Prose>
@@ -125,7 +126,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             }
           />
 
-          <Select
+          <Dropdown
             model={m.remeasure1mmState}
             choices={[
               ["1mm", <M t="\ket{\smalleye}" />],
@@ -176,14 +177,14 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             “unhappy”)?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal model={m.measureUnhappyProbability} label="Probability:" />
 
-            <TextArea
+            <TextBox
               model={m.measureUnhappyProbabilityExplain}
               label="Explain:"
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
       hints: [
@@ -204,7 +205,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
     section({
       name: "smallEyedEmotion",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.smallEyedEmotion}
           label={
             <Prose>
@@ -248,12 +249,9 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         incorrect: section({
           name: "collapsed1mmStateIncorrect",
           body: (
-            <Help>
-              <Prose>
-                You may want to take another look the first question on this
-                page.
-              </Prose>
-            </Help>
+            <Guidance.Disagree>
+              You may want to take another look the first question on this page.
+            </Guidance.Disagree>
           ),
         }),
         inconsistent: section({
@@ -300,19 +298,17 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         probabilityNotSquared: section({
           name: "probabilityNotSquared",
           body: (
-            <Help>
-              <Prose>
-                Don’t forget to square your result for the probability!
-              </Prose>
-            </Help>
+            <Guidance.HeadsUp>
+              Don’t forget to square your result for the probability!
+            </Guidance.HeadsUp>
           ),
         }),
         probabilityNegative: section({
           name: "probabilityNegative",
           body: (
-            <Help>
-              <Prose>Probability can’t be negative!</Prose>
-            </Help>
+            <Guidance.Disagree>
+              Probability can’t be negative!
+            </Guidance.Disagree>
           ),
         }),
       },

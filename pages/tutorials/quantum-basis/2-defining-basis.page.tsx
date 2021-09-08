@@ -1,12 +1,18 @@
-import { Help, Info, Prose } from "@/design";
-import { Column, Columns } from "@/design/layout";
-import { approxEquals } from "@/helpers";
-import { Decimal, Select, TextArea, Toggle } from "@/inputs";
-import M, { Matrix } from "@/math";
-import { modelToColumn } from "@/math/Matrix";
+import {
+  Column,
+  Columns,
+  Decimal,
+  Dropdown,
+  Guidance,
+  M,
+  Matrix,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
+import { approxEquals } from "@/helpers/frontend";
 import { Axes, Plot, Tick, Vector } from "@/plots";
 import { page } from "@/tutorial";
-import React from "react";
 import setup, { Responses } from "./setup";
 
 export default page(setup, ({ section, sequence, oneOf, hint }) => ({
@@ -55,7 +61,7 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.iAndJFormBasisExplain}
             label={
               <Prose>
@@ -84,7 +90,7 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
               label={
                 <Prose>
                   Can you write any 2-D vector in the form{" "}
-                  <M t="a\ket{i} + b\ket{j}" />. In other words, can any 2-D
+                  <M t="a\ket{i} + b\ket{j}" />? In other words, can any 2-D
                   vector be expressed as a combination of the <M t="\vu{i}" />{" "}
                   and <M t="\vu{j}" /> unit vectors?
                 </Prose>
@@ -98,24 +104,19 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
           body: (_, { responses }) => (
             <>
               {responses?.iAndJSpan?.selected === "yes" && (
-                <Help>
-                  <Prose>
-                    That’s right. This means that we <strong>can</strong> use{" "}
-                    <M t="\ket{i}" /> and <M t="\ket{j}" /> as a basis.
-                  </Prose>
-                </Help>
+                <Guidance.Agree>
+                  That’s right. This means that we <strong>can</strong> use{" "}
+                  <M t="\ket{i}" /> and <M t="\ket{j}" /> as a basis.
+                </Guidance.Agree>
               )}
 
               {responses?.iAndJSpan?.selected !== "yes" && (
-                <Info>
-                  <Prose>
-                    Any vector in 2-D “regular” space can be written as a
-                    (linear) combination of the unit vectors <M t="\ket{i}" />{" "}
-                    and
-                    <M t="\ket{j}" />. This means that we <strong>can</strong>{" "}
-                    use them as a basis.
-                  </Prose>
-                </Info>
+                <Guidance.Disagree>
+                  Any vector in 2-D “regular” space can be written as a (linear)
+                  combination of the unit vectors <M t="\ket{i}" /> and
+                  <M t="\ket{j}" />. This means that we <strong>can</strong> use
+                  them as a basis.
+                </Guidance.Disagree>
               )}
             </>
           ),
@@ -140,18 +141,17 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
             <M t="\frac{2}{\sqrt{5}} \approx 0.894" />.
           </Prose>
 
-          <Columns className="margin-top">
+          <Columns>
             <Column>
-              <Prose noMargin>
+              <Prose>
                 Represent <M t="\ket{u}" /> as a column vector, and plot the
                 vector on the graph. You can do both by expressing each element
                 in the column as a decimal number.
               </Prose>
 
               <Matrix
-                className="margin-top"
                 labelTex="\ket{u}"
-                column={modelToColumn(m.uColumn, (c, i) => (
+                column={Matrix.modelToColumn(m.uColumn, (c, i) => (
                   <Decimal
                     model={c}
                     placeholder={i === 0 ? "Horizontal" : "Vertical"}
@@ -170,12 +170,10 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
           </Columns>
 
           {approxEquals(responses?.uColumn, [0.894, 0.447]) && (
-            <Info>
-              <Prose>
-                Be careful not to mix up the horizontal and vertical components
-                in the graph!
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              Be careful not to mix up the horizontal and vertical components in
+              the graph!
+            </Guidance.Disagree>
           )}
         </>
       ),
@@ -197,17 +195,16 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
       body: (m, { responses }) => (
         <Columns>
           <Column>
-            <Prose noMargin>
+            <Prose>
               Now express each element in the column vector symbolically as an
               appropriate expression in Dirac notation. Make sure you agree with
               the use of these expressions as labels in the graph as well.
             </Prose>
 
             <Matrix
-              className="margin-top"
               labelTex="\ket{u}"
-              column={modelToColumn(m.uColumnDirac, (c) => (
-                <Select model={c} choices={uColumnDiracChoices} />
+              column={Matrix.modelToColumn(m.uColumnDirac, (c) => (
+                <Dropdown model={c} choices={uColumnDiracChoices} />
               ))}
             />
           </Column>
@@ -292,42 +289,36 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
       sections: {
         uColumnDiracCorrect: section({
           name: "uColumnDiracCorrect",
-          body: (
-            <Help>
-              <Prose>Looks good to us! Nice work.</Prose>
-            </Help>
-          ),
+          body: <Guidance.Agree>Looks good to us! Nice work.</Guidance.Agree>,
         }),
 
         uColumnDiracKet: section({
           name: "uColumnDiracKet",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  You’ve inserted a <strong>ket</strong> (
-                  <M prespace={false} t="\ket{u}" />,
-                  <M t="\ket{i}" />, or <M t="\ket{j}" />) into your column
-                  vector. This is kind of like writing vector
-                  <M t="\vec{v} = (5, \vec{w}, 3)" />, which normally doesn't
-                  make sense.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                You’ve inserted a <strong>ket</strong> (
+                <M prespace={false} t="\ket{u}" />,
+                <M t="\ket{i}" />, or <M t="\ket{j}" />) into your column
+                vector. This is kind of like writing vector
+                <M t="\vec{v} = (5, \vec{w}, 3)" />, which normally doesn't make
+                sense.
+              </p>
 
-                <p>
-                  The elements of your column vector should be{" "}
-                  <strong>numbers</strong>. In Dirac notation,{" "}
-                  <strong>inner products</strong> (aka “brakets”) evaluate to
-                  numbers.
-                </p>
+              <p>
+                The elements of your column vector should be{" "}
+                <strong>numbers</strong>. In Dirac notation,{" "}
+                <strong>inner products</strong> (aka “brakets”) evaluate to
+                numbers.
+              </p>
 
-                <p>
-                  Similarly, it <em>would</em> be sensible to write{" "}
-                  <M t="\vec{v} = (5, \vec{w} \cdot \vec{v}, 3)" />.
-                </p>
+              <p>
+                Similarly, it <em>would</em> be sensible to write{" "}
+                <M t="\vec{v} = (5, \vec{w} \cdot \vec{v}, 3)" />.
+              </p>
 
-                <p>Adjust your answers, then check in again.</p>
-              </Prose>
-            </Info>
+              <p>Adjust your answers, then check in again.</p>
+            </Guidance.Disagree>
           ),
           continue: { label: "Check in again" },
         }),
@@ -335,41 +326,37 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
         uColumnDiracConjugate: section({
           name: "uColumnDiracConjugate",
           body: (
-            <Help>
-              <Prose>
-                <p>You’re really close!</p>
+            <Guidance.Agree>
+              <p>You’re really close!</p>
 
-                <p>
-                  Just be careful about the order of your brakets. You should
-                  have:
-                  <M
-                    display
-                    t="\ket{u} \doteq \begin{pmatrix} \braket{i|u} \\ \braket{j|u} \end{pmatrix}"
-                  />
-                </p>
+              <p>
+                Just be careful about the order of your brakets. You should
+                have:
+                <M
+                  display
+                  t="\ket{u} \doteq \begin{pmatrix} \braket{i|u} \\ \braket{j|u} \end{pmatrix}"
+                />
+              </p>
 
-                <p>
-                  This doesn’t matter in “regular space,” but it does matter in
-                  Quantum Mechanics when we work with complex numbers.
-                </p>
-              </Prose>
-            </Help>
+              <p>
+                This doesn’t matter in “regular space,” but it does matter in
+                Quantum Mechanics when we work with complex numbers.
+              </p>
+            </Guidance.Agree>
           ),
         }),
 
         uColumnDiracReversed: section({
           name: "uColumnDiracReversed",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  Looks like you may have reversed at least one of your
-                  horizontal and vertical components.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Looks like you may have reversed at least one of your horizontal
+                and vertical components.
+              </p>
 
-                <p>Adjust your answers, then check in again.</p>
-              </Prose>
-            </Info>
+              <p>Adjust your answers, then check in again.</p>
+            </Guidance.Disagree>
           ),
           continue: { label: "Check in again" },
         }),
@@ -377,22 +364,19 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
         uColumnDiracRepeated: section({
           name: "uColumnDiracRepeated",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  Looks like you repeated the same answer for both your
-                  horizontal and vertical components.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Looks like you repeated the same answer for both your horizontal
+                and vertical components.
+              </p>
 
-                <p>
-                  You should have a different expression for both elements,
-                  since you should have different numbers for each element
-                  above.
-                </p>
+              <p>
+                You should have a different expression for both elements, since
+                you should have different numbers for each element above.
+              </p>
 
-                <p>Adjust your answers, then check in again.</p>
-              </Prose>
-            </Info>
+              <p>Adjust your answers, then check in again.</p>
+            </Guidance.Disagree>
           ),
           continue: { label: "Check in again" },
         }),
@@ -400,20 +384,18 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
         uColumnDiracGeneralIncorrect: section({
           name: "uColumnDiracGeneralIncorrect",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  This software is limited, and we’re not sure how to respond to
-                  your input! We do think there’s a good answer amongst the
-                  choices we gave you.
-                </p>
+            <Guidance.HeadsUp>
+              <p>
+                This software is limited, and we’re not sure how to respond to
+                your input! We do think there’s a good answer amongst the
+                choices we gave you.
+              </p>
 
-                <p>
-                  Adjust your answers and check in again (or just click “Check
-                  in again” to move on).
-                </p>
-              </Prose>
-            </Info>
+              <p>
+                Adjust your answers and check in again (or just click “Check in
+                again” to move on).
+              </p>
+            </Guidance.HeadsUp>
           ),
           continue: { label: "Check in again" },
         }),
@@ -423,7 +405,7 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
     section({
       name: "innerProductMeaning",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.innerProductMeaning}
           label={
             <Prose>

@@ -1,4 +1,4 @@
-import React from "react";
+import { Html } from "@/helpers/frontend";
 import { NodeConfig } from "../config";
 import { CommitAction } from "../section-logic";
 import OneOf from "./OneOf";
@@ -8,11 +8,13 @@ import Sequence from "./Sequence";
 export default function SectionTreeNode({
   node,
   first,
+  prepend,
   enumerateSections,
   commit,
 }: {
   node: NodeConfig;
   first: boolean;
+  prepend?: Html;
   enumerateSections: boolean;
   commit: CommitAction;
 }) {
@@ -22,6 +24,7 @@ export default function SectionTreeNode({
         <Section
           config={node}
           first={first}
+          prepend={first ? prepend : undefined}
           enumerateDefault={enumerateSections}
           commit={commit}
         />
@@ -32,6 +35,7 @@ export default function SectionTreeNode({
         <Sequence
           config={node}
           first={first}
+          prepend={first ? prepend : undefined}
           enumerateSections={false}
           commit={commit}
         />
@@ -42,6 +46,7 @@ export default function SectionTreeNode({
         <OneOf
           config={node}
           first={first}
+          prepend={first ? prepend : undefined}
           enumerateSections={false}
           commit={commit}
         />

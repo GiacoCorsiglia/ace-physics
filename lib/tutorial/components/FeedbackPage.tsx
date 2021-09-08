@@ -1,13 +1,17 @@
-import { Prose } from "@/design";
-import { Content } from "@/design/layout";
-import styles from "@/design/structure.module.scss";
-import { htmlTitle } from "@/helpers";
-import { Button, TextArea, Toggle } from "@/inputs";
+import {
+  Button,
+  Justify,
+  PageTitle,
+  Prose,
+  SectionBox,
+  SectionGroup,
+  TextBox,
+  Toggle,
+} from "@/components";
+import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
-import { cx } from "linaria";
 import Head from "next/head";
-import React from "react";
 import { TutorialConfig } from "../config";
 import { useRootModel } from "../state-tree";
 
@@ -25,9 +29,9 @@ export default function FeedbackPage({
         <title>{htmlTitle("Feedback")}</title>
       </Head>
 
-      <Content>
-        <section>
-          <h1 className="prose">Please Share Your Feedback</h1>
+      <SectionGroup>
+        <SectionBox>
+          <PageTitle>Please Share Your Feedback</PageTitle>
 
           <Prose>
             <p>
@@ -39,9 +43,9 @@ export default function FeedbackPage({
               critical.
             </p>
           </Prose>
-        </section>
+        </SectionBox>
 
-        <section className={styles.section}>
+        <SectionBox>
           <Toggle
             model={m.workedAlone}
             label={<Prose>I worked on this tutorial…</Prose>}
@@ -51,16 +55,16 @@ export default function FeedbackPage({
               ["partner", "Outside of class, with friends"],
             ]}
           />
-        </section>
+        </SectionBox>
 
-        <section className={styles.section}>
+        {/* <SectionBox>
           <Prose>
             Today’s tutorial occasionally “checked your answers” and either told
             you that things looked good, or asked you to think some more or
             answer follow-up questions.
           </Prose>
 
-          <TextArea
+          <TextBox
             model={m.answerCheckingChangeApproach}
             label={
               <Prose>
@@ -69,10 +73,10 @@ export default function FeedbackPage({
               </Prose>
             }
           />
-        </section>
+        </SectionBox> */}
 
-        <section className={styles.section}>
-          <TextArea
+        {/* <SectionBox>
+          <TextBox
             model={m.answerCheckingPreferenceOpenEnded}
             label={
               <Prose>
@@ -90,7 +94,7 @@ export default function FeedbackPage({
             }
           />
 
-          <Prose className="opacity-faded">
+          <Prose faded>
             <p>
               We take your feedback to heart. But, we can’t get to everything,
               and may have other reasons for not directly implementing your
@@ -103,9 +107,9 @@ export default function FeedbackPage({
               Reach out any time!
             </p>
           </Prose>
-        </section>
+        </SectionBox> */}
 
-        <section className={styles.section}>
+        <SectionBox>
           <Toggle
             model={m.easyOrChallenging}
             choices={[
@@ -118,13 +122,13 @@ export default function FeedbackPage({
             label={<Prose>I thought that this tutorial was mostly…</Prose>}
           />
 
-          <TextArea
+          {/* <TextBox
             model={m.easyOrChallengingExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
-          />
-        </section>
+          /> */}
+        </SectionBox>
 
-        <section className={styles.section}>
+        {/* <SectionBox>
           <Toggle
             model={m.confidence}
             choices={[
@@ -143,14 +147,27 @@ export default function FeedbackPage({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.confidenceExplain}
             label={<Prose>Optional: What makes you feel that way?</Prose>}
           />
-        </section>
+        </SectionBox> */}
 
-        <section className={styles.section}>
-          <TextArea
+        <SectionBox>
+          <TextBox
+            model={m.genericFeedback}
+            label={
+              <Prose>
+                <em>Optional:</em> Any comments about the tutorial (e.g., things
+                that were confusing) or about this website (e.g., technical
+                difficulties)?
+              </Prose>
+            }
+          />
+        </SectionBox>
+
+        {/* <SectionBox>
+          <TextBox
             model={m.technicalDifficulties}
             label={
               <Prose>
@@ -159,20 +176,23 @@ export default function FeedbackPage({
               </Prose>
             }
           />
-        </section>
+        </SectionBox> */}
 
-        <section className={cx(styles.section, "text-right")}>
-          <Button
-            link={urls.join(
-              urls.Tutorials.link,
-              tutorialConfig.link,
-              "finished"
-            )}
-          >
-            I’m done <ArrowRightIcon />
-          </Button>
-        </section>
-      </Content>
+        <SectionBox>
+          <Justify end>
+            <Button
+              color="green"
+              link={urls.join(
+                urls.Tutorials.link,
+                tutorialConfig.link,
+                "finished"
+              )}
+            >
+              I’m done <ArrowRightIcon />
+            </Button>
+          </Justify>
+        </SectionBox>
+      </SectionGroup>
     </>
   );
 }

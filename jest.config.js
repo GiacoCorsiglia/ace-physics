@@ -9,9 +9,9 @@ const config = (module.exports = {
 
   // Transformation/compilation.
   transform: {
-    "^.+\\.(ts|tsx)$": "babel-jest",
+    "^.+\\.(ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
 
-    //Fake asset imports.
+    // Fake asset imports.
     "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)":
       "<rootDir>/lib/__mocks__/file-transform.js",
   },

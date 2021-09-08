@@ -1,9 +1,6 @@
-import { Prose } from "@/design";
-import { FieldGroup, Select, TextArea } from "@/inputs";
-import M from "@/math/M";
+import { Dropdown, LabelsLeft, M, Prose, TextBox } from "@/components";
+import { cx } from "@/helpers/frontend";
 import { page } from "@/tutorial";
-import { css, cx } from "linaria";
-import React from "react";
 import {
   BarrierPotential,
   TransmissionReflectionBarrier,
@@ -11,6 +8,7 @@ import {
   WellPotential,
 } from "./figures";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section }) => ({
   name: "summary",
@@ -23,7 +21,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Consider these potentials…</Prose>
 
-          <div className={cx(tableStyles, maxWidth)}>
+          <div className={cx(styles.table, styles.maxWidth)}>
             <div>
               <b>Well</b>
               <WellPotential />
@@ -37,7 +35,7 @@ export default page(setup, ({ section }) => ({
 
           <Prose>…and these reflection/transmission graphs:</Prose>
 
-          <div className={tableStyles}>
+          <div className={styles.tableStyles}>
             <div>
               <b>T/R #1</b>
               <TransmissionReflectionBarrier />
@@ -61,8 +59,8 @@ export default page(setup, ({ section }) => ({
             graph for each potential.
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Select
+          <LabelsLeft>
+            <Dropdown
               model={m.wellPotential}
               label={
                 <>
@@ -74,10 +72,9 @@ export default page(setup, ({ section }) => ({
                 ["T/R #1", "T/R #1"],
                 ["T/R #2", "T/R #2"],
               ]}
-              allowOther={false}
             />
 
-            <Select
+            <Dropdown
               model={m.barrierPotential}
               label={
                 <>
@@ -89,11 +86,10 @@ export default page(setup, ({ section }) => ({
                 ["T/R #1", "T/R #1"],
                 ["T/R #2", "T/R #2"],
               ]}
-              allowOther={false}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <TextArea
+          <TextBox
             model={m.graphMatchingExplain}
             label={<Prose>Explain your choices</Prose>}
           />
@@ -111,7 +107,7 @@ export default page(setup, ({ section }) => ({
 
           <BarrierPotential />
 
-          <TextArea
+          <TextBox
             model={m.changesInGeneralSolution}
             label={
               <Prose>
@@ -128,7 +124,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "physicalScenarios",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.physicalScenarios}
           label={
             <Prose>
@@ -143,7 +139,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "variationsInPhysicsFromSim",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.variationsInPhysicsFromSim}
           label={
             <Prose>
@@ -158,32 +154,3 @@ export default page(setup, ({ section }) => ({
     }),
   ],
 }));
-
-const tableStyles = css`
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-
-  display: flex;
-  justify-content: space-around;
-
-  text-align: center;
-
-  > :first-child {
-    margin-right: 1rem;
-  }
-
-  svg {
-    display: block;
-    margin-top: 0 !important;
-  }
-
-  p {
-    font-weight: $bold;
-  }
-`;
-
-const maxWidth = css`
-  svg {
-    max-width: 16rem;
-  }
-`;

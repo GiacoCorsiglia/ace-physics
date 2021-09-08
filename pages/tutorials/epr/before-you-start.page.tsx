@@ -1,6 +1,4 @@
-import { Prose } from "@/design";
-import { ChooseOne } from "@/inputs";
-import M from "@/math/M";
+import { ChooseOne, M, Prose } from "@/components";
 import { pretest } from "@/tutorial";
 import EntangledStatesSvg from "./assets/entangled-states.svg";
 import setup from "./setup";

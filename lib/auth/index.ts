@@ -5,4 +5,4 @@ export {
   rememberLearnerId,
   useAuth,
 } from "./service";
-export { default as UserMenu } from "./UserMenu";
+export * from "./user-menu";

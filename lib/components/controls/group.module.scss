@@ -1,0 +1,72 @@
+@use "colors";
+@use "controls";
+
+.controlGroupWrapper {
+  composes: tableControl from "../tables.module.scss";
+}
+
+.controlGroup {
+  position: relative;
+  display: inline-flex;
+  background: controls.$background-color;
+  border-radius: controls.$border-radius;
+  align-items: stretch;
+  transition: box-shadow 75ms;
+  box-shadow: controls.$box-shadow;
+
+  &:hover {
+    box-shadow: controls.$hover-box-shadow;
+  }
+
+  * {
+    @include controls.disable-control-shadows;
+    // Re-enable control borders.
+    #{controls.$var-border-width}: #{controls.$default-border-width};
+  }
+
+  // All of our inputs must implement this class.
+  > .controlGroupControl {
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0; // https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
+  }
+
+  > .controlGroupButton {
+    position: relative;
+    z-index: 2; // Makes the colored borders look better like this:
+  }
+
+  > :hover {
+    position: relative;
+    z-index: 2;
+  }
+
+  > :focus,
+  > :focus-within {
+    position: relative;
+    z-index: 3;
+  }
+
+  > :not(.controlGroupControl):not(.controlGroupButton) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: controls.$padding-y controls.$padding-x;
+    background: colors.$neutral-100;
+    color: colors.$neutral-900;
+    border: controls.$border-width solid controls.$border-color;
+    border-radius: controls.$border-radius;
+  }
+
+  // Specificity hack since we have two chained :not()s above.
+  > :not(:first-child):not(:first-child) {
+    margin-left: -1px; // Overlap adjacent borders.
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > :not(:last-child):not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}

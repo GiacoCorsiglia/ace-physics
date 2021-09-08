@@ -1,0 +1,14 @@
+.textArea {
+  composes: input from "./input.module.scss";
+
+  width: 100%;
+  resize: vertical;
+  min-height: 3rem;
+  // FireFox made the textarea too tall by default; apparently it tries to leave
+  // room for a horizontal scroll bar, which we shouldn't ever have.  This rule
+  // targets Firefox only.
+  // https://stackoverflow.com/a/22700700
+  @-moz-document url-prefix() {
+    overflow-x: hidden;
+  }
+}

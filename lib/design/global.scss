@@ -1,0 +1,128 @@
+@use "colors";
+@use "fonts";
+// Include global utility classes as well.
+@use "global-utilities";
+
+/******************************************************************************
+ * Reset.
+ * Mostly from: http://meyerweb.com/eric/tools/css/reset/
+ * And from: https://piccalil.li/blog/a-modern-css-reset
+ ******************************************************************************/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* prettier-ignore */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+/* prettier-ignore */
+blockquote::before, blockquote::after,
+q::before, q::after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  text-decoration-skip-ink: auto;
+}
+/* prettier-ignore */
+input, button, textarea, select, optgroup {
+  font: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+button {
+  background: none;
+  border: none;
+  outline: none;
+}
+img,
+picture {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+html:focus-within {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/******************************************************************************
+ * KaTeX Overrides.
+ ******************************************************************************/
+.katex {
+  /* KaTeX renders things a little larger than this, which I find too large. */
+  font-size: 1.15em !important;
+}
+
+.katex-display {
+  /* Remove default spacing around display math. */
+  margin: 0 !important;
+}
+
+/******************************************************************************
+ * Essentials.
+ ******************************************************************************/
+body {
+  background: colors.$neutral-200;
+  color: colors.$neutral-900;
+  @include fonts.body;
+}
+
+/******************************************************************************
+ * Sticky footer.
+ ******************************************************************************/
+html,
+body,
+#__next {
+  height: 100%;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+}

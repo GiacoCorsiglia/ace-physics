@@ -1,6 +1,15 @@
-import { Help, Prose, Vocabulary } from "@/design";
-import { Button, ChooseOne, FieldGroup, Text, TextArea } from "@/inputs";
-import M from "@/math";
+import {
+  Button,
+  ChooseOne,
+  Guidance,
+  Justify,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  TextLine,
+  Vocabulary,
+} from "@/components";
 import {
   Axes,
   DragHandle,
@@ -13,7 +22,7 @@ import {
 import { useModel } from "@/reactivity";
 import { page } from "@/tutorial";
 import { ArrowUpIcon } from "@primer/octicons-react";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -105,26 +114,21 @@ export default page(setup, ({ section }) => ({
                 </>,
               ],
             ]}
-            allowOther={false}
           />
 
           {responses?.originalPositionPlotSufficient?.selected === "yes" && (
-            <Help>
-              <Prose>
-                We disagree! For example, this plot doesn’t show you the
-                probability amplitude for <M t="x=1.5" />, but that’s definitely
-                an allowed value of position.
-              </Prose>
-            </Help>
+            <Guidance.Disagree>
+              We disagree! For example, this plot doesn’t show you the
+              probability amplitude for <M t="x=1.5" />, but that’s definitely
+              an allowed value of position.
+            </Guidance.Disagree>
           )}
 
           {responses?.originalPositionPlotSufficient?.selected === "no" && (
-            <Help>
-              <Prose>
-                We agree! Let’s try to address this problem by adding more
-                points to the plot.
-              </Prose>
-            </Help>
+            <Guidance.Agree>
+              We agree! Let’s try to address this problem by adding more points
+              to the plot.
+            </Guidance.Agree>
           )}
         </>
       ),
@@ -150,7 +154,7 @@ export default page(setup, ({ section }) => ({
 
           <Prose>In this updated diagram…</Prose>
 
-          <Text
+          <TextLine
             model={m.halfIntegerPossibleMeasurements}
             label={
               <Prose>
@@ -160,7 +164,7 @@ export default page(setup, ({ section }) => ({
             maxWidth
           />
 
-          <Text
+          <TextLine
             model={m.halfIntegerColumnElements}
             label={
               <Prose>
@@ -170,7 +174,7 @@ export default page(setup, ({ section }) => ({
             maxWidth
           />
 
-          <Text
+          <TextLine
             model={m.halfIntegerBasisStates}
             label={
               <Prose>…how many different basis states are represented?</Prose>
@@ -191,13 +195,13 @@ export default page(setup, ({ section }) => ({
             ?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.halfIntegerDiracNotation}
               label={<M t="{\color{purple} ??} =" />}
               maxWidth
             />
-          </FieldGroup>
+          </LabelsLeft>
 
           <Diagram phase="half-integer" xiPoint={2.5} xiPointLabel="" />
         </>
@@ -231,29 +235,29 @@ export default page(setup, ({ section }) => ({
               Let’s fix that.
             </Prose>
 
-            <div className="text-center margin-top-1">
+            <Justify center>
               <Button
                 onClick={() => setAddMorePoints(true)}
-                kind="secondary"
+                color="blue"
                 disabled={addMorePoints}
               >
                 Add even more points <ArrowUpIcon />
               </Button>
-            </div>
+            </Justify>
 
             {addMorePoints && (
               <>
                 <Prose>That’s getting a little busy, don’t you think?</Prose>
 
-                <div className="text-center margin-top-1">
+                <Justify center>
                   <Button
                     onClick={() => setSmooth(true)}
-                    kind="secondary"
+                    color="blue"
                     disabled={smooth}
                   >
                     Replace the points with a continuous curve <ArrowUpIcon />
                   </Button>
-                </div>
+                </Justify>
               </>
             )}
 
@@ -270,7 +274,7 @@ export default page(setup, ({ section }) => ({
                   </p>
                 </Prose>
 
-                <Text
+                <TextLine
                   model={m.smoothPossibleMeasurements}
                   label={
                     <Prose>
@@ -280,7 +284,7 @@ export default page(setup, ({ section }) => ({
                   maxWidth
                 />
 
-                <Text
+                <TextLine
                   model={m.smoothBasisStates}
                   label={
                     <Prose>
@@ -309,13 +313,13 @@ export default page(setup, ({ section }) => ({
             <M t="x_i" />?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.xiLabel}
               label={<M t="{\color{purple} ??} =" />}
               maxWidth
             />
-          </FieldGroup>
+          </LabelsLeft>
 
           <Diagram phase="smooth" xiPoint={1.5} />
         </>
@@ -350,7 +354,7 @@ export default page(setup, ({ section }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.xProb0or3Explain}
             label={<Prose>How can you tell?</Prose>}
           />
@@ -386,7 +390,7 @@ export default page(setup, ({ section }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.xProbPositiveNegativeExplain}
             label={<Prose>How can you tell?</Prose>}
           />
@@ -415,7 +419,7 @@ export default page(setup, ({ section }) => ({
     section({
       name: "psiXasColumn",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.psiXasColumn}
           label={
             <Prose>

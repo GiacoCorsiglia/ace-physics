@@ -1,9 +1,7 @@
-import { Content } from "@/design/layout";
-import styles from "@/design/structure.module.scss";
+import { SectionBox } from "@/components";
 import { Model } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
-import { cx } from "linaria";
 import { PretestSectionConfig } from "../config";
 import { tracked } from "../state-tree";
 
@@ -31,11 +29,8 @@ export default tracked(function PretestSection(
     config.enumerate === undefined ? anyModelsUsed : config.enumerate;
 
   return (
-    <Content
-      as="section"
-      className={cx(styles.section, enumerate && styles.enumerated)}
-    >
+    <SectionBox as="section" enumerate={enumerate}>
       {body}
-    </Content>
+    </SectionBox>
   );
 });

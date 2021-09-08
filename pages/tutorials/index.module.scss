@@ -1,36 +1,46 @@
-@import "definitions";
+@use "spacing";
+@use "borders";
+@use "fonts";
+@use "colors";
+// TODO:
+@use "../../lib/components/controls/controls";
 
 .tutorialLink {
   position: relative;
   display: block;
-  margin-top: 1rem;
-  padding: 1rem 3rem 1rem 1rem;
-  border: 1px solid $grey80;
-  border-radius: $border-radius;
-  background-color: #fff;
-  box-shadow: $box-shadow;
+  margin-top: spacing.$space-100;
+  padding: spacing.$space-150 spacing.$space-300 spacing.$space-150
+    spacing.$space-150;
+  border: 1px solid colors.$neutral-300;
+  border-radius: borders.$radius;
+  background-color: colors.$neutral-50;
+  box-shadow: controls.$box-shadow;
 
-  transition: background-color 75ms ease-in-out, border-color 75ms ease-in-out;
+  transition: {
+    property: background-color, border-color;
+    duration: 75ms;
+  }
 
   &:hover {
-    background-color: $light-blue;
-    border-color: $grey70;
-    box-shadow: $box-shadow-hover;
+    background-color: colors.$blue-200;
+    border-color: colors.$neutral-400;
+    box-shadow: controls.$hover-box-shadow;
 
     .arrow {
       transform: translateX(0.1rem);
-      color: $blue;
+      color: colors.$blue-500;
     }
   }
 
   &:active {
-    box-shadow: $box-shadow-active;
+    box-shadow: controls.$hover-box-shadow;
   }
 }
 
 .tutorialLabel {
-  font-weight: $bold;
-  color: $blue;
+  @include fonts.heading5;
+  color: colors.$blue-500;
+  margin-bottom: spacing.$space-50;
 }
 
 .arrow {
@@ -43,7 +53,7 @@
   bottom: 0;
   display: flex;
   align-items: center;
-  color: $grey;
+  color: colors.$neutral-500;
 
   transition: transform 75ms ease-in-out, color 75ms ease-in-out;
 

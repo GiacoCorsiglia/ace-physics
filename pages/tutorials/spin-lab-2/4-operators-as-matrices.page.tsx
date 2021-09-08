@@ -1,11 +1,19 @@
-import { Help, Info, Prose, Reminder } from "@/design";
-import { Column, Columns } from "@/design/layout";
-import { Decimal, TextArea, Toggle } from "@/inputs";
-import M, { fieldToMatrix, Matrix } from "@/math";
+import {
+  Callout,
+  Column,
+  Columns,
+  Decimal,
+  Guidance,
+  M,
+  Matrix,
+  Prose,
+  Reminder,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { Axes, Plot, Tick, Vector } from "@/plots";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
-import React from "react";
 import setup from "./setup";
 import { u, v } from "./shared";
 
@@ -43,19 +51,17 @@ export default page(setup, ({ section, oneOf, hint }) => ({
 
           <Columns>
             <Column>
-              <Prose noMargin>
+              <Prose>
                 Represent <M t="\hat{P}\ket{u}" /> as a column vector, and plot
                 the vector on the graph. You can do both by expressing each
                 element in the column as a decimal number.
               </Prose>
 
               <Matrix
-                className="margin-top"
                 labelTex="\hat{P}\ket{u}"
-                column={fieldToMatrix(
-                  m.pTimesU,
-                  <Decimal model={m.pTimesU.elements[0]} />
-                )}
+                column={Matrix.modelToColumn(m.pTimesU, (model) => (
+                  <Decimal model={model} />
+                ))}
               />
             </Column>
 
@@ -74,11 +80,9 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             </Column>
           </Columns>
 
-          <Info>
-            <Prose>
-              <PencilIcon /> &nbsp; Do these calculations on scrap paper!
-            </Prose>
-          </Info>
+          <Callout color="blue">
+            <PencilIcon /> &nbsp; Do these calculations on scrap paper!
+          </Callout>
         </>
       ),
     }),
@@ -98,18 +102,16 @@ export default page(setup, ({ section, oneOf, hint }) => ({
 
           <Columns>
             <Column>
-              <Prose noMargin>
+              <Prose>
                 Represent <M t="\hat{P}\ket{v}" /> as a column vector, and plot
                 the vector on the graph.
               </Prose>
 
               <Matrix
-                className="margin-top"
                 labelTex="\hat{P}\ket{v}"
-                column={fieldToMatrix(
-                  m.pTimesV,
-                  <Decimal model={m.pTimesV.elements[0]} />
-                )}
+                column={Matrix.modelToColumn(m.pTimesV, (model) => (
+                  <Decimal model={model} />
+                ))}
               />
             </Column>
 
@@ -134,7 +136,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
     section({
       name: "generalRuleP",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.generalRuleP}
           label={
             <Prose>
@@ -187,18 +189,16 @@ export default page(setup, ({ section, oneOf, hint }) => ({
 
           <Columns>
             <Column>
-              <Prose noMargin>
+              <Prose>
                 Represent <M t="\hat{Q}\ket{u}" /> as a column vector, and plot
                 the vector on the graph.
               </Prose>
 
               <Matrix
-                className="margin-top"
                 labelTex="\hat{Q}\ket{u}"
-                column={fieldToMatrix(
-                  m.qTimesU,
-                  <Decimal model={m.qTimesU.elements[0]} />
-                )}
+                column={Matrix.modelToColumn(m.qTimesU, (model) => (
+                  <Decimal model={model} />
+                ))}
               />
             </Column>
 
@@ -217,11 +217,9 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             </Column>
           </Columns>
 
-          <Info>
-            <Prose>
-              <PencilIcon /> &nbsp; Again, do these calculations on scrap paper!
-            </Prose>
-          </Info>
+          <Callout color="blue">
+            <PencilIcon /> &nbsp; Again, do these calculations on scrap paper!
+          </Callout>
         </>
       ),
     }),
@@ -241,18 +239,16 @@ export default page(setup, ({ section, oneOf, hint }) => ({
 
           <Columns>
             <Column>
-              <Prose noMargin>
+              <Prose>
                 Represent <M t="\hat{Q}\ket{v}" /> as a column vector, and plot
                 the vector on the graph.
               </Prose>
 
               <Matrix
-                className="margin-top"
                 labelTex="\hat{Q}\ket{v}"
-                column={fieldToMatrix(
-                  m.qTimesV,
-                  <Decimal model={m.qTimesV.elements[0]} />
-                )}
+                column={Matrix.modelToColumn(m.qTimesV, (model) => (
+                  <Decimal model={model} />
+                ))}
               />
             </Column>
 
@@ -277,7 +273,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
     section({
       name: "generalRuleQ",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.generalRuleQ}
           label={
             <Prose>
@@ -320,7 +316,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.doPQCommuteExplain}
             label={
               <Prose>
@@ -332,7 +328,6 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         </>
       ),
     }),
-
 
     oneOf({
       which: (r) => {
@@ -349,36 +344,29 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         PQdonotcommute: section({
           name: "PQdonotcommute",
           body: (
-            <Help>
-              <Prose>
-                <p>
-                  That's right! (I'm just curious if you answered "order matters" because that's generally true
-                   for matrices - it might be, but might not! - or because you actually checked the specifics here?
-                </p>
-              </Prose>
-            </Help>
+            <Guidance.Agree>
+              That's right! (I'm just curious if you answered "order matters"
+              because that's generally true for matrices - it might be, but
+              might not! - or because you actually checked the specifics here?
+            </Guidance.Agree>
           ),
         }),
         PQcommute: section({
           name: "PQcommute",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                <M t="\hat{P}" /> and{" "}
-                <M t="\hat{Q}" /> are given matrices - we suggest you pull out a pencil and paper and try it out!
-                  Multiply the matrices - does the order matter?
-                </p>
-                <p>
-                  If you need to change your answer above, feel free to do so
-                </p>
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              <p>
+                <M t="\hat{P}" /> and <M t="\hat{Q}" /> are given matrices - we
+                suggest you pull out a pencil and paper and try it out! Multiply
+                the matrices - does the order matter?
+              </p>
+
+              <p>If you need to change your answer above, feel free to do so</p>
+            </Guidance.Disagree>
           ),
         }),
       },
     }),
-
   ],
 }));
 

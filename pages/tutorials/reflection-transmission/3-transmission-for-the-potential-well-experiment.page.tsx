@@ -1,8 +1,5 @@
-import { Prose, Reminder } from "@/design";
-import { TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import { M, Prose, Reminder, TextBox, Toggle } from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import simBarrierSetupImg from "./assets/sim-barrier-setup.png";
 import simPlaneWaveSettingImg from "./assets/sim-plane-wave-setting.png";
 import simWellSetupImg from "./assets/sim-well-setup.png";
@@ -46,7 +43,7 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "wellPredictionsForT",
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.wellPredictionsForT}
           label={
             <Prose>
@@ -74,7 +71,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "wellSimTestPredictions",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.wellSimTestPredictions}
             label={
               <Prose>
@@ -123,7 +120,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "wavelengthAfterTunneling",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.wavelengthAfterTunneling}
             label={
               <Prose>
@@ -170,7 +167,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.energyAfterTunnelingExplain}
             label={<Prose>Explain:</Prose>}
           />

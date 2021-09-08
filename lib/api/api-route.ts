@@ -45,7 +45,7 @@ export const apiRoute = <T extends Type>(
         }
         return response.error(e);
       });
-    } catch (e) {
+    } catch (e: any) {
       if (process.env.NODE_ENV === "development") {
         console.error(e);
       }

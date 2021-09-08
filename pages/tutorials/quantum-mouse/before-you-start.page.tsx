@@ -1,6 +1,12 @@
-import { Prose } from "@/design";
-import { Decimal, FieldGroup, Text, TextArea } from "@/inputs";
-import M, { Matrix, modelToMatrix } from "@/math";
+import {
+  Decimal,
+  LabelsLeft,
+  M,
+  Matrix,
+  Prose,
+  TextBox,
+  TextLine,
+} from "@/components";
 import { pretest } from "@/tutorial";
 import setup from "./setup";
 
@@ -32,8 +38,8 @@ export default pretest(setup, ({ section }) => ({
             quantum mechanical terms.
           </Prose>
 
-          <FieldGroup grid className="margin-top">
-            <Text
+          <LabelsLeft>
+            <TextLine
               model={m.operatorLabel}
               placeholder="Your label"
               label={
@@ -44,7 +50,7 @@ export default pretest(setup, ({ section }) => ({
               }
             />
 
-            <Text
+            <TextLine
               model={m.eigenstateLabel}
               placeholder="Your label"
               label={
@@ -55,7 +61,7 @@ export default pretest(setup, ({ section }) => ({
               }
             />
 
-            <Text
+            <TextLine
               model={m.eigenvalueLabel}
               placeholder="Your label"
               label={
@@ -65,7 +71,7 @@ export default pretest(setup, ({ section }) => ({
                 </>
               }
             />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -80,9 +86,8 @@ export default pretest(setup, ({ section }) => ({
           </Prose>
 
           <Matrix
-            className="margin-top"
             labelTex="\hat{A}"
-            matrix={modelToMatrix(m.A, (c) => (
+            matrix={Matrix.modelToMatrix(m.A, (c) => (
               <Decimal model={c} />
             ))}
           />
@@ -118,7 +123,7 @@ export default pretest(setup, ({ section }) => ({
 
     section({
       body: (m) => (
-        <TextArea
+        <TextBox
           model={m.measureA}
           label={
             <Prose>
@@ -135,7 +140,7 @@ export default pretest(setup, ({ section }) => ({
         <>
           {/* Multiple choice b1/b2/a1/a2/|a1>/... */}
           {/* Briefly comment on your answer */}
-          <TextArea
+          <TextBox
             model={m.afterMeasureA}
             label={
               <Prose>

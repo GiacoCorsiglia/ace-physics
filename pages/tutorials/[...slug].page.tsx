@@ -1,18 +1,22 @@
 import { UserMenu } from "@/auth";
-import { Prose } from "@/design";
-import { Content, Header, Page } from "@/design/layout";
-import { Button } from "@/inputs";
+import {
+  Button,
+  Header,
+  Horizontal,
+  MainContentBox,
+  Page,
+  Prose,
+  Vertical,
+} from "@/components";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
   CheckCircleFillIcon,
 } from "@primer/octicons-react";
 import * as fs from "fs";
-import { css } from "linaria";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { join } from "path";
-import React from "react";
 import { promisify } from "util";
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -48,18 +52,10 @@ export default function FinishedPage() {
 
   return (
     <Page title="Done">
-      <Header>
-        <UserMenu />
-      </Header>
+      <Header title="Done For Today" popovers={<UserMenu />} />
 
-      <Content
-        as="main"
-        className={css`
-          text-align: center;
-          margin-top: calc(2rem + 10vh);
-        `}
-      >
-        <Prose>
+      <MainContentBox>
+        <Prose justify="center">
           <p>
             <CheckCircleFillIcon
               size="medium"
@@ -76,24 +72,22 @@ export default function FinishedPage() {
           </p>
         </Prose>
 
-        <div
-          className={css`
-            margin-top: 2rem;
+        <Vertical.Space before={200}>
+          <Horizontal justify="center">
+            <Button
+              onClick={() => router.back()}
+              iconLeft={<ArrowLeftIcon />}
+              color="yellow"
+            >
+              Go back
+            </Button>
 
-            & > * + * {
-              margin-left: 1rem;
-            }
-          `}
-        >
-          <Button onClick={() => router.back()} iconFirst kind="tertiary">
-            <ArrowLeftIcon /> Go back
-          </Button>
-
-          <Button link="/tutorials">
-            See other tutorials <ArrowRightIcon />
-          </Button>
-        </div>
-      </Content>
+            <Button color="green" link="/tutorials">
+              See other tutorials <ArrowRightIcon />
+            </Button>
+          </Horizontal>
+        </Vertical.Space>
+      </MainContentBox>
     </Page>
   );
 }

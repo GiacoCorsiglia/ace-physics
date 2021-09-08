@@ -1,10 +1,6 @@
-import { Prose, Reminder } from "@/design";
-import { Column, Columns } from "@/design/layout";
-import { TextArea } from "@/inputs";
-import M from "@/math";
+import { Column, Columns, M, Prose, Reminder, TextBox } from "@/components";
 import { Axes, Bar, Curve, GridLine, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 const graph = {
@@ -53,7 +49,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <Columns className="margin-top">
+          <Columns>
             <Column>
               <Plot
                 width={graph.width}
@@ -113,7 +109,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "sameStateDifRep",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.sameStateDifRep}
             label={
               <Prose>
@@ -141,7 +137,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "inferFromRep",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.inferFromHistRep}
             label={
               <Prose>
@@ -151,7 +147,7 @@ export default page(setup, ({ section, hint }) => ({
             }
           />
 
-          <TextArea
+          <TextBox
             model={m.inferFromFuncRep}
             label={
               <Prose>What about the wave function graph (on the right)?</Prose>
@@ -165,7 +161,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "oneRepBetter",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.oneRepBetter}
             label={
               <Prose>

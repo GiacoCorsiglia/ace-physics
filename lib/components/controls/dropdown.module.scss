@@ -1,0 +1,186 @@
+@use "helpers";
+@use "spacing";
+@use "colors";
+@use "controls";
+
+.container {
+  composes: controlGroupControl from "./group.module.scss";
+  composes: tableControl from "../tables.module.scss";
+
+  position: relative;
+  background: controls.$background-color;
+  border: controls.$border-width solid controls.$border-color;
+  border-radius: controls.$border-radius;
+  box-shadow: controls.$box-shadow;
+  // Reset text alignment.
+  text-align: left;
+
+  &.disabled {
+    box-shadow: controls.$disabled-box-shadow;
+    border-color: controls.$disabled-border-color;
+  }
+
+  .buttonIconContainer {
+    color: controls.$border-color;
+  }
+
+  &:not(.disabled):hover {
+    border-color: controls.$hover-border-color;
+    box-shadow: controls.$hover-box-shadow;
+
+    .buttonIconContainer {
+      color: controls.$hover-border-color;
+    }
+  }
+
+  &:not(.disabled):focus-within {
+    border-color: controls.$focus-border-color;
+    box-shadow: controls.$focus-box-shadow;
+  }
+}
+
+.toggleButton {
+  display: flex;
+  width: 100%; // Stupid buttons.
+  align-items: stretch;
+  text-align: left;
+  padding: controls.$padding-y controls.$padding-x; // Needs to be the thing with the padding.
+  border-radius: inherit;
+
+  &:focus,
+  &.toggleButtonOpen {
+    outline: none;
+  }
+
+  &.toggleButtonOpen {
+    .buttonIconContainer {
+      color: controls.$hover-border-color;
+    }
+  }
+
+  .placeholder,
+  .selectedLabel {
+    display: block;
+    padding-right: controls.$padding-x; // Make sure there's space
+  }
+
+  .placeholder {
+    color: controls.$placeholder-color;
+  }
+
+  .selectedLabel {
+    color: controls.$text-color;
+  }
+
+  &:disabled {
+    background: controls.$disabled-background-color;
+
+    .placeholder {
+      color: controls.$disabled-placeholder-color;
+    }
+
+    .selectedLabel {
+      color: controls.$disabled-text-color;
+    }
+  }
+}
+
+.buttonIconContainer {
+  margin-left: auto;
+  padding-left: controls.$padding-x;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid controls.$border-color;
+  transition: color controls.$transition-duration;
+
+  svg {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+.invertedIcon {
+  transform: rotateZ(180deg);
+}
+
+.menu {
+  transition: {
+    property: opacity;
+    duration: 100ms;
+  }
+}
+
+.menuClosed {
+  @include helpers.visibly-hidden;
+  opacity: 0;
+  transition-timing-function: ease-in;
+}
+
+$menu-spacing: spacing.$space-50;
+
+.menuOpenedBelow {
+  top: calc(100% + #{$menu-spacing});
+}
+
+.menuOpenedAbove {
+  bottom: calc(100% + #{$menu-spacing});
+}
+
+.menuOpen {
+  position: absolute;
+  z-index: 10000;
+  left: calc(-1 * #{controls.$border-width});
+  right: calc(-1 * #{controls.$border-width});
+
+  outline: none;
+  background: controls.$background-color;
+  color: controls.$text-color;
+  border: controls.$default-border-width solid controls.$border-color;
+  box-shadow: 0px 0 4px colors.alpha(colors.$neutral-900, 0.15),
+    0px 4px 12px 1px colors.alpha(colors.$neutral-900, 0.1),
+    0px 8px 32px 2px colors.alpha(colors.$neutral-900, 0.15);
+
+  // In principle we have this padding, but it doesn't work in FireFox when the
+  // menu has to scroll, so we use margin on the <li>s instead (see below).
+  // https://stackoverflow.com/questions/29986977/firefox-ignores-padding-when-using-overflowscroll
+  // padding: controls.$padding-y 0;
+  max-height: 15rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: controls.$default-border-radius;
+  border-bottom-left-radius: controls.$default-border-radius;
+
+  opacity: 1;
+  transition-timing-function: ease-out;
+}
+
+.menuItem {
+  padding: controls.$padding-y controls.$padding-x;
+  transition: {
+    property: background-color, color;
+    duration: controls.$transition-duration;
+  }
+
+  &:not(.menuItemSelected).menuItemHighlighted {
+    background-color: controls.$choice-hover-background-color;
+  }
+
+  &.menuItemSelected {
+    background-color: controls.$choice-selected-background-color;
+    color: controls.$choice-selected-text-color;
+  }
+
+  // Fake padding to fix a Firefox bug (see above).
+  &:first-child {
+    margin-top: controls.$padding-y;
+  }
+
+  &:last-child {
+    margin-bottom: controls.$padding-y;
+  }
+}

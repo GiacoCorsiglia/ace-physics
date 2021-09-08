@@ -1,6 +1,4 @@
-import { Prose } from "@/design";
-import { ChooseOne, TextArea } from "@/inputs";
-import M from "@/math/M";
+import { ChooseOne, M, Prose, TextBox } from "@/components";
 import { pretest } from "@/tutorial";
 import setup from "./setup";
 
@@ -69,10 +67,9 @@ export default pretest(setup, ({ section }) => ({
                 "Something very different (you can describe your ideas below).",
               ],
             ]}
-            allowOther={false}
           />
 
-          <TextArea
+          <TextBox
             model={m.whatHappensToSpinInMagneticFieldExplain}
             label={
               <Prose>Optional: If you want to elaborate, do so here.</Prose>
@@ -121,10 +118,9 @@ export default pretest(setup, ({ section }) => ({
                 "Something very different (you can describe your ideas below).",
               ],
             ]}
-            allowOther={false}
           />
 
-          <TextArea
+          <TextBox
             model={m.orientationOfSpinExitingMagneticFieldExplain}
             label={
               <Prose>Optional: If you want to elaborate, do so here.</Prose>

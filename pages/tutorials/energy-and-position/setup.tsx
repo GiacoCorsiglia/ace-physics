@@ -1,4 +1,4 @@
-import M from "@/math/M";
+import { M } from "@/components";
 import type { Model } from "@/reactivity";
 import type { Infer } from "@/schema/fields";
 import { tutorialSetup } from "@/tutorial";

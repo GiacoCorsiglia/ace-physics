@@ -1,13 +1,16 @@
-import { Prose } from "@/design";
-import { Content } from "@/design/layout";
-import { htmlTitle } from "@/helpers";
-import { Button } from "@/inputs";
+import {
+  Button,
+  Justify,
+  PageTitle,
+  Prose,
+  SectionBox,
+  Vertical,
+} from "@/components";
+import { htmlTitle } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
-import React from "react";
 import { IntroConfig, TutorialConfig } from "../config";
-import styles from "./shared.module.scss";
 
 export default function IntroPage({
   config,
@@ -17,7 +20,7 @@ export default function IntroPage({
   tutorialConfig: TutorialConfig;
 }) {
   return (
-    <Content>
+    <SectionBox>
       <Head>
         <title>
           {htmlTitle(
@@ -28,15 +31,17 @@ export default function IntroPage({
         </title>
       </Head>
 
-      <h1 className="prose">
+      <PageTitle>
         {typeof tutorialConfig.label === "string"
           ? tutorialConfig.label
           : tutorialConfig.label.html}
-      </h1>
+      </PageTitle>
 
       {config.body}
 
-      <Prose className={styles.genericIntroProse}>
+      <hr />
+
+      <Prose boldColor="blue">
         <p>
           <strong>
             This activity is not about “right” or “wrong” answers,
@@ -80,19 +85,24 @@ export default function IntroPage({
         </p>
       </Prose>
 
-      <div className="text-right margin-top">
-        <Button
-          link={urls.join(
-            `/${urls.Tutorials.path}`,
-            tutorialConfig.link,
-            tutorialConfig.pretest
-              ? "before-you-start"
-              : tutorialConfig.pages[0].link
-          )}
-        >
-          Let’s get going <ArrowRightIcon />
-        </Button>
-      </div>
-    </Content>
+      <hr />
+
+      <Vertical.Space before={300}>
+        <Justify end>
+          <Button
+            color="green"
+            link={urls.join(
+              `/${urls.Tutorials.path}`,
+              tutorialConfig.link,
+              tutorialConfig.pretest
+                ? "before-you-start"
+                : tutorialConfig.pages[0].link
+            )}
+          >
+            Let’s get going <ArrowRightIcon />
+          </Button>
+        </Justify>
+      </Vertical.Space>
+    </SectionBox>
   );
 }

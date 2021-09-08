@@ -1,9 +1,6 @@
-import { Help, Info, Prose, Reminder } from "@/design";
-import { TextArea, Toggle } from "@/inputs";
-import M from "@/math";
+import { Guidance, M, Prose, Reminder, TextBox, Toggle } from "@/components";
 import { Axes, Curve, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
-import React from "react";
 import setup from "./setup";
 
 const psiB = (x: number) =>
@@ -115,7 +112,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
       name: "compareGraphs",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.compareGraphs}
             label={
               <Prose>
@@ -149,7 +146,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             ]}
           />
 
-          <TextArea model={m.psiBExpValExplain} label={<Prose>Why?</Prose>} />
+          <TextBox model={m.psiBExpValExplain} label={<Prose>Why?</Prose>} />
         </>
       ),
     }),
@@ -208,7 +205,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.psiBDifferentFromPsiAReflect}
             label={<Prose>Explain:</Prose>}
           />
@@ -238,32 +235,26 @@ export default page(setup, ({ section, hint, oneOf }) => ({
         psiBDifferentFromPsiAModifiedIncorrect: section({
           name: "psiBDifferentFromPsiAModifiedIncorrect",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> have
-                  different wave function representations (i.e., the graph on
-                  this page looks different from the graph on the previous
-                  page). Therefore, they are different states.
-                </p>
-              </Prose>
-            </Info>
+            <Guidance.Disagree>
+              <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> have different
+              wave function representations (i.e., the graph on this page looks
+              different from the graph on the previous page). Therefore, they
+              are different states.
+            </Guidance.Disagree>
           ),
         }),
         psiBDifferentFromPsiAModifiedCorrect: section({
           name: "psiBDifferentFromPsiAModifiedCorrect",
           body: (
-            <Help>
-              <Prose>
-                <p>We agree.</p>
+            <Guidance.Agree>
+              <p>We agree.</p>
 
-                <p>
-                  <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> are
-                  different states. One way to tell is to notice that their wave
-                  function representations look different.
-                </p>
-              </Prose>
-            </Help>
+              <p>
+                <M t="\ket{\psi_A}" /> and <M t="\ket{\psi_B}" /> are different
+                states. One way to tell is to notice that their wave function
+                representations look different.
+              </p>
+            </Guidance.Agree>
           ),
         }),
       },

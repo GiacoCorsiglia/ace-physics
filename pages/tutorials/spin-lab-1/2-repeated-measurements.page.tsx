@@ -1,8 +1,14 @@
-import { Help, Info, Prose } from "@/design";
-import { Decimal, FieldGroup, Text, TextArea } from "@/inputs";
-import M from "@/math";
+import {
+  Callout,
+  Decimal,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  TextLine,
+} from "@/components";
 import { page } from "@/tutorial";
-import React from "react";
 import repeatedMeasurementsSetupImg from "./assets/repeated-measurements-setup.png";
 import setup from "./setup";
 import { HowToUseTheSim } from "./shared";
@@ -63,24 +69,21 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         <>
           <Prose>
             What is the probability that an atom entering the second analyzer
-            <br /> (state <M t="\ket{\text{𝑖𝑛}} = \ket{+}" />) exits the spin up
+            <br /> (state <M t="\ket{\text{in}} = \ket{+}" />) exits the spin up
             port (state <M t="\ket{\text{out}} = \ket{+}" />) of the second
             analyzer?
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal model={m.probUpUp} label="Probability =" />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <Help>
-            <Prose>
-              This probability is denoted in general as{" "}
-              <M t="P = |\braket{\text{out}|\text{in}}|^2" />, and specifically
-              here as{" "}
-              <M t="P = |\braket{\text{out}|\text{in}}|^2 = |\braket{+|+}|^2" />
-              .
-            </Prose>
-          </Help>
+          <Callout color="neutral">
+            This probability is denoted in general as{" "}
+            <M t="P = |\braket{\text{out}|\text{in}}|^2" />, and specifically
+            here as{" "}
+            <M t="P = |\braket{\text{out}|\text{in}}|^2 = |\braket{+|+}|^2" />.
+          </Callout>
         </>
       ),
     }),
@@ -100,37 +103,33 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         probUpUpOver1: section({
           name: "probUpUpOver1",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  Reminder: Probabilities are numbers between <M t="0" /> and
-                  <M t="1" />. (We usually don’t write them as percentages.)
-                </p>
+            <Guidance.Disagree>
+              <p>
+                Reminder: Probabilities are numbers between <M t="0" /> and
+                <M t="1" />. (We usually don’t write them as percentages.)
+              </p>
 
-                <p>Change your answer above before moving on.</p>
-              </Prose>
-            </Info>
+              <p>Change your answer above before moving on.</p>
+            </Guidance.Disagree>
           ),
         }),
 
         probUpUpIncorrect: section({
           name: "probUpUpIncorrect",
           body: (
-            <Info>
-              <Prose>
-                <p>
-                  You may want to take another look at your experiment and
-                  reconsider that probability.
-                </p>
+            <Guidance.Disagree>
+              <p>
+                You may want to take another look at your experiment and
+                reconsider that probability.
+              </p>
 
-                <p>
-                  To clarify: we’re asking,{" "}
-                  <em>of the atoms entering the second analyzer</em>, what is
-                  the probability that it ends up at the topmost counter in the
-                  image above.
-                </p>
-              </Prose>
-            </Info>
+              <p>
+                To clarify: we’re asking,{" "}
+                <em>of the atoms entering the second analyzer</em>, what is the
+                probability that it ends up at the topmost counter in the image
+                above.
+              </p>
+            </Guidance.Disagree>
           ),
         }),
       },
@@ -150,15 +149,19 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             Write it <strong>in symbolic notation</strong> like we did above:
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Text model={m.probUpDownDirac} label="Probability =" maxWidth />
-          </FieldGroup>
+          <LabelsLeft>
+            <TextLine
+              model={m.probUpDownDirac}
+              label="Probability ="
+              maxWidth
+            />
+          </LabelsLeft>
 
           <Prose>Also give the numerical result:</Prose>
 
-          <FieldGroup grid className="margin-top-1">
+          <LabelsLeft>
             <Decimal model={m.probUpDown} label="Probability =" />
-          </FieldGroup>
+          </LabelsLeft>
         </>
       ),
     }),
@@ -167,7 +170,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
       name: "repeatedMeasurementsConclusions",
       body: (m) => (
         <>
-          <TextArea
+          <TextBox
             model={m.repeatedMeasurementsConclusions}
             label={
               <Prose>

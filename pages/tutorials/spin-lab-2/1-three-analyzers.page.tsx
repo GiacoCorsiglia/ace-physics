@@ -1,17 +1,19 @@
-import { Prose, Reminder } from "@/design";
 import {
   ChooseAll,
-  FieldGroup,
+  Dropdown,
   Integer,
-  Select,
-  TextArea,
+  LabelsLeft,
+  M,
+  Prose,
+  Reminder,
+  Table,
+  TextBox,
   Toggle,
-} from "@/inputs";
-import M from "@/math/M";
+} from "@/components";
 import { page } from "@/tutorial";
-import { css } from "linaria";
 import threeAnalyzersImg from "./assets/three-analyzers.png";
 import setup from "./setup";
+import styles from "./styles.module.scss";
 
 export default page(setup, ({ section, hint }) => ({
   name: "threeAnalyzers",
@@ -51,7 +53,7 @@ export default page(setup, ({ section, hint }) => ({
             Detector A? Detector B?
           </Prose>
 
-          <table className="table">
+          <Table>
             <thead>
               <tr>
                 <td></td>
@@ -60,13 +62,7 @@ export default page(setup, ({ section, hint }) => ({
               </tr>
             </thead>
 
-            <tbody
-              className={css`
-                & input {
-                  min-width: 100%;
-                }
-              `}
-            >
+            <tbody className={styles.expandInputsInTable}>
               <tr>
                 <th>Maximum</th>
                 <td>
@@ -86,7 +82,7 @@ export default page(setup, ({ section, hint }) => ({
                 </td>
               </tr>
             </tbody>
-          </table>
+          </Table>
         </>
       ),
     }),
@@ -101,22 +97,20 @@ export default page(setup, ({ section, hint }) => ({
             .
           </Prose>
 
-          <FieldGroup grid className="margin-top-1">
-            <Select
+          <LabelsLeft>
+            <Dropdown
               model={m.maxAi}
-              label={<b className={green}>Analyzer i:</b>}
+              label={<b className={styles.green}>Analyzer i:</b>}
               choices={analyzerChoices}
-              allowOther={false}
             />
-            <Select
+            <Dropdown
               model={m.maxAii}
-              label={<b className={blue}>Analyzer ii:</b>}
+              label={<b className={styles.blue}>Analyzer ii:</b>}
               choices={analyzerChoices}
-              allowOther={false}
             />
-          </FieldGroup>
+          </LabelsLeft>
 
-          <TextArea
+          <TextBox
             model={m.maxAExplain}
             label={<Prose>Explain why this combination works:</Prose>}
           />
@@ -143,7 +137,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <TextArea model={m.overMaxAExplain} label={<Prose>Explain:</Prose>} />
+          <TextBox model={m.overMaxAExplain} label={<Prose>Explain:</Prose>} />
         </>
       ),
     }),
@@ -162,7 +156,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <table className="table">
+          <Table>
             <thead>
               <tr>
                 <td></td>
@@ -174,56 +168,32 @@ export default page(setup, ({ section, hint }) => ({
 
             <tbody>
               <tr>
-                <th className={green}>Analyzer&nbsp;i</th>
+                <th className={styles.green}>Analyzer&nbsp;i</th>
                 <td>
-                  <Select
-                    model={m.minAi}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.minAi} choices={analyzerChoices} />
                 </td>
                 <td>
-                  <Select
-                    model={m.maxBi}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.maxBi} choices={analyzerChoices} />
                 </td>
                 <td>
-                  <Select
-                    model={m.minBi}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.minBi} choices={analyzerChoices} />
                 </td>
               </tr>
 
               <tr>
-                <th className={blue}>Analyzer&nbsp;ii</th>
+                <th className={styles.blue}>Analyzer&nbsp;ii</th>
                 <td>
-                  <Select
-                    model={m.minAii}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.minAii} choices={analyzerChoices} />
                 </td>
                 <td>
-                  <Select
-                    model={m.maxBii}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.maxBii} choices={analyzerChoices} />
                 </td>
                 <td>
-                  <Select
-                    model={m.minBii}
-                    choices={analyzerChoices}
-                    allowOther={false}
-                  />
+                  <Dropdown model={m.minBii} choices={analyzerChoices} />
                 </td>
               </tr>
             </tbody>
-          </table>
+          </Table>
 
           <Reminder>
             <Prose>
@@ -257,7 +227,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <TextArea
+          <TextBox
             model={m.moreThanOneComboExplain}
             label={<Prose>Explain:</Prose>}
           />
@@ -290,7 +260,6 @@ export default page(setup, ({ section, hint }) => ({
               ["+z", <M t="\ket{+}" />],
               ["-z", <M t="\ket{-}" />],
             ]}
-            allowOther={false}
           />
 
           <Reminder>
@@ -333,7 +302,6 @@ export default page(setup, ({ section, hint }) => ({
               </Prose>
             }
             choices={analyzerComboChoices}
-            allowOther={false}
           />
 
           <Reminder>
@@ -368,10 +336,9 @@ export default page(setup, ({ section, hint }) => ({
               </Prose>
             }
             choices={analyzerComboChoices}
-            allowOther={false}
           />
 
-          <TextArea
+          <TextBox
             model={m.setupsWhereABSameExplain}
             label={
               <Prose>Explain why these combinations produce this result:</Prose>
@@ -394,13 +361,6 @@ export default page(setup, ({ section, hint }) => ({
   ],
 }));
 
-const green = css`
-  color: green;
-`;
-const blue = css`
-  color: blue;
-`;
-
 const analyzerChoices = [
   ["X", "X"],
   ["Y", "Y"],
@@ -409,13 +369,13 @@ const analyzerChoices = [
 
 //prettier-ignore
 const analyzerComboChoices = [
-  ["XX", <><b className={green}>X</b> then <b className={blue}>X</b></>],
-  ["XY", <><b className={green}>X</b> then <b className={blue}>Y</b></>],
-  ["XZ", <><b className={green}>X</b> then <b className={blue}>Z</b></>],
-  ["YX", <><b className={green}>Y</b> then <b className={blue}>X</b></>],
-  ["YY", <><b className={green}>Y</b> then <b className={blue}>Y</b></>],
-  ["YZ", <><b className={green}>Y</b> then <b className={blue}>Z</b></>],
-  ["ZX", <><b className={green}>Z</b> then <b className={blue}>X</b></>],
-  ["ZY", <><b className={green}>Z</b> then <b className={blue}>Y</b></>],
-  ["ZZ", <><b className={green}>Z</b> then <b className={blue}>Z</b></>],
+  ["XX", <><b className={styles.green}>X</b> then <b className={styles.blue}>X</b></>],
+  ["XY", <><b className={styles.green}>X</b> then <b className={styles.blue}>Y</b></>],
+  ["XZ", <><b className={styles.green}>X</b> then <b className={styles.blue}>Z</b></>],
+  ["YX", <><b className={styles.green}>Y</b> then <b className={styles.blue}>X</b></>],
+  ["YY", <><b className={styles.green}>Y</b> then <b className={styles.blue}>Y</b></>],
+  ["YZ", <><b className={styles.green}>Y</b> then <b className={styles.blue}>Z</b></>],
+  ["ZX", <><b className={styles.green}>Z</b> then <b className={styles.blue}>X</b></>],
+  ["ZY", <><b className={styles.green}>Z</b> then <b className={styles.blue}>Y</b></>],
+  ["ZZ", <><b className={styles.green}>Z</b> then <b className={styles.blue}>Z</b></>],
 ] as const;

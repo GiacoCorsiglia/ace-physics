@@ -1,10 +1,7 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useIsomorphicLayoutEffect } from "@/helpers/frontend";
 import { Store } from "./store";
 
 // https://medium.com/@zalmoxis/redux-devtools-without-redux-or-how-to-have-a-predictable-state-with-any-architecture-61c5f5a7716f
-
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export const useDevTools = (store: Store<any>, displayName: string) => {
   useIsomorphicLayoutEffect(() => {

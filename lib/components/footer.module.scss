@@ -1,0 +1,40 @@
+@use "spacing";
+@use "colors";
+@use "fonts";
+
+// Also see globals.scss
+
+.bodyContent {
+  flex: 1 0 auto;
+}
+
+.footer {
+  flex-shrink: 0;
+  color: colors.$neutral-400;
+  text-align: center;
+  @include fonts.smallest;
+
+  padding-top: spacing.$space-600;
+  padding-bottom: spacing.$space-300;
+
+  p {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 28rem;
+    padding-left: spacing.$space-75;
+    padding-right: spacing.$space-75;
+  }
+
+  p + p {
+    margin-top: spacing.$space-50;
+  }
+
+  a {
+    text-decoration: underline;
+    transition: color 75ms;
+
+    &:hover {
+      color: colors.$neutral-500;
+    }
+  }
+}
