@@ -56,15 +56,11 @@ export default page(setup, ({ section, hint }) => ({
             </p>
 
             <p>
-              <em>
-                For now, we’ll call the vector in the new basis
-                <M t="\ket{k}" />. That is,
-                <M t="\ket{k} = a\ket{v_1} + b\ket{v_2}" />, where
-              </em>
-
+              For now, we’ll call the vector in the new basis
+              <M t="\ket{k}" />. That is,
+              <M t="\ket{k} = a\ket{v_1} + b\ket{v_2}" />, where
               <M display t="a \approx 0.835 \text { and } b \approx 0.551" />
-
-              <em>as you found on the previous page.</em>
+              as you found on the previous page.
             </p>
           </Prose>
         </Prose>

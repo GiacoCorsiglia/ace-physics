@@ -90,7 +90,7 @@ export default page(setup, ({ section, sequence, oneOf, hint }) => ({
               label={
                 <Prose>
                   Can you write any 2-D vector in the form{" "}
-                  <M t="a\ket{i} + b\ket{j}" />. In other words, can any 2-D
+                  <M t="a\ket{i} + b\ket{j}" />? In other words, can any 2-D
                   vector be expressed as a combination of the <M t="\vu{i}" />{" "}
                   and <M t="\vu{j}" /> unit vectors?
                 </Prose>
