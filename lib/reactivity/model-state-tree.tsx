@@ -60,7 +60,7 @@ export const modelStateTree = <P extends f.Properties>(
         rootModel: model(
           overrideRootField || rootField,
           [],
-          (Context as unknown) as React.Context<ModelContext>
+          Context as unknown as React.Context<ModelContext>
         ),
       };
     }
