@@ -5,13 +5,16 @@ export type TutorialSchema<
   Pages extends readonly string[] = string[],
   Pretest extends f.Properties = f.Properties,
   Responses extends f.Properties = f.Properties,
-  Sections extends readonly string[] = string[],
+  Message extends string = string,
+  Sections extends {
+    [name: string]: Section<readonly Message[]>;
+  } = { [name: string]: Section<readonly Message[]> },
   Hints extends readonly string[] = string[]
 > = f.ObjectField<{
   pages: f.ObjectField<PropertiesFromNames<Pages, typeof PageStatus>>;
   pretest: f.ObjectField<Pretest>;
   responses: f.ObjectField<Responses>;
-  sections: f.ObjectField<PropertiesFromNames<Sections, typeof SectionStatus>>;
+  sections: f.ObjectField<Sections>;
   hints: f.ObjectField<PropertiesFromNames<Hints, typeof HintStatus>>;
   feedback: typeof TutorialFeedback;
 }>;
@@ -28,8 +31,10 @@ export const tutorialSchema = <
   Pages extends readonly Page[],
   Pretest extends f.Properties,
   Responses extends f.Properties,
-  Section extends string,
-  Sections extends readonly Section[],
+  Message extends string,
+  Sections extends {
+    [name: string]: Section<readonly Message[]>;
+  },
   Hint extends string,
   Hints extends readonly Hint[]
 >({
@@ -44,12 +49,12 @@ export const tutorialSchema = <
   responses: Responses;
   sections: Sections;
   hints: Hints;
-}): TutorialSchema<Pages, Pretest, Responses, Sections, Hints> => {
+}): TutorialSchema<Pages, Pretest, Responses, Message, Sections, Hints> => {
   return f.object({
     pages: statuses(pages, PageStatus),
     pretest: f.object(pretest),
     responses: f.object(responses),
-    sections: statuses(sections, SectionStatus),
+    sections: f.object(sections),
     hints: statuses(hints, HintStatus),
     feedback: TutorialFeedback,
   });
@@ -67,12 +72,34 @@ const PageStatus = f.object({
   }),
 });
 
-const SectionStatus = f.object({
+type Section<Messages extends readonly string[] = string[]> = f.ObjectField<
+  typeof baseSection.properties & {
+    revealedMessages: f.ArrayField<f.CasesField<Messages>>;
+  }
+>;
+
+const baseSection = f.object({
   status: f.cases("hidden", "revealed", "committed"),
   // Storing this allows us to sort revealed sections in the order they where
   // revealed, if relevant.
   revealedAt: f.number(),
 });
+
+export const section: {
+  (): Section<[]>;
+  <
+    Message extends string,
+    Messages extends readonly [Message, ...Message[]]
+  >(c: {
+    messages: Messages;
+  }): Section<Messages>;
+} = (c?: { messages?: [string, ...string[]] }) =>
+  c && c.messages
+    ? f.object({
+        ...baseSection.properties,
+        revealedMessages: f.array(f.cases(...c.messages)),
+      })
+    : (baseSection as any);
 
 const HintStatus = f.object({
   status: f.cases("hidden", "revealed"),

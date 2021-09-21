@@ -1,5 +1,6 @@
 import type { Html } from "@/helpers/frontend";
 import type { Model } from "@/reactivity";
+import type { Infer } from "@/schema/fields";
 import type { TutorialSchema, TutorialState } from "@/schema/tutorial";
 
 type Models<S extends TutorialSchema> = Model<S>["properties"];
@@ -166,19 +167,29 @@ type LogicFunction<S extends TutorialSchema, R> = (
 
 type When<S extends TutorialSchema> = LogicFunction<S, boolean>;
 
+type Message<S extends TutorialSchema> =
+  | Html
+  | ((
+      state: TutorialState<S>,
+      models: Models<S>["responses"]["properties"]
+    ) => Html);
+
 /**
  * Configuration for a section of a body page.
  */
-export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
+export interface SectionConfig<
+  S extends TutorialSchema = TutorialSchema,
+  Name extends keyof S["properties"]["sections"]["properties"] = string
+> {
   readonly kind: "section";
   /**
    * The internal name of the section.
    */
-  readonly name: keyof S["properties"]["sections"]["properties"];
+  readonly name: Name;
   /**
    * The contents of the section.
    */
-  readonly body:
+  readonly body?:
     | Html
     | ((
         models: Models<S>["responses"]["properties"],
@@ -192,7 +203,9 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
    * Controls the numbered/lettered label for the section.
    */
   readonly enumerate?: boolean;
-  /** Configuration  */
+  /**
+   * Configuration for the hints included in this section.
+   */
   readonly hints?: readonly (HintConfig<S> | readonly HintConfig<S>[])[];
   /**
    * Configuration for the section's continue button.
@@ -217,6 +230,30 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
      * @param state The current TutorialState.
      */
     readonly visible?: (state: TutorialState<S>) => boolean;
+  };
+  /**
+   * Configuration for guidance messages included in this section.
+   */
+  readonly guidance?: {
+    /**
+     * Determines which message should be revealed next.
+     */
+    readonly nextMessage: (
+      responses: NonNullable<TutorialState<S>["responses"]>,
+      state: TutorialState<S>
+    ) => Infer<
+      S["properties"]["sections"]["properties"][Name]["properties"]["revealedMessages"]["elements"]
+    > | null;
+    /**
+     * The set of messages.
+     */
+    readonly messages: {
+      [K in Infer<
+        S["properties"]["sections"]["properties"][Name]["properties"]["revealedMessages"]["elements"]
+      >]: Message<S>;
+    };
+    // TODO:
+    // allowSkiping:
   };
 }
 
@@ -266,9 +303,12 @@ export interface OneOfConfig<
   readonly sections: C;
 }
 
-export const section = <S extends TutorialSchema>(
-  c: Omit<SectionConfig<S>, "kind">
-): SectionConfig<S> => ({ kind: "section", ...c });
+export const section = <
+  S extends TutorialSchema,
+  Name extends keyof S["properties"]["sections"]["properties"]
+>(
+  c: Omit<SectionConfig<S, Name>, "kind">
+): SectionConfig<S, Name> => ({ kind: "section", ...c });
 
 export const sequence = <S extends TutorialSchema>(
   c: Omit<SequenceConfig<S>, "kind">
