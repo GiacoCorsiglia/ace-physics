@@ -1,57 +1,54 @@
-import * as f from "@/schema/fields";
-import { tutorialSchema } from "@/schema/tutorial";
+import * as s from "@/schema/tutorial";
 
-export default tutorialSchema({
-  pages: [
-    // Pages here.
-    "exploration",
-    "refiningYourHypothesis",
-  ],
+export default s.tutorial({
+  pages: {
+    exploration: s.page(),
+    refiningYourHypothesis: s.page(),
+  },
   pretest: {
-    whatHappensToSpinInMagneticField: f.chooseOne([
+    whatHappensToSpinInMagneticField: s.chooseOne([
       "nothing",
       "rotates around z",
       "rotates towards z",
       "flips",
       "other",
     ]),
-    whatHappensToSpinInMagneticFieldExplain: f.string(),
-    orientationOfSpinExitingMagneticField: f.chooseOne([
+    whatHappensToSpinInMagneticFieldExplain: s.string(),
+    orientationOfSpinExitingMagneticField: s.chooseOne([
       "return to original",
       "sticks with final orientation",
       "continues rotating",
       "other",
     ]),
-    orientationOfSpinExitingMagneticFieldExplain: f.string(),
+    orientationOfSpinExitingMagneticFieldExplain: s.string(),
   },
-  sections: [
-    "explorationIntro",
-    "simSetup",
-    "initialExploration",
-    "incrementByOne",
-    "initialHypothesis",
+  sections: {
+    explorationIntro: s.section(),
+    simSetup: s.section(),
+    initialExploration: s.section(),
+    incrementByOne: s.section(),
+    initialHypothesis: s.section(),
 
-    "refiningYourHypothesisIntro",
-    "derivedFormula",
-    "quantifyMagnetNumber",
-    "additionalTests",
-  ],
+    refiningYourHypothesisIntro: s.section(),
+    derivedFormula: s.section(),
+    quantifyMagnetNumber: s.section(),
+    additionalTests: s.section(),
+  },
   responses: {
-    initialExplorationSummary: f.string(),
-    incrementByOneSummary: f.string(),
-    initialHypothesis: f.string(),
+    initialExplorationSummary: s.string(),
+    incrementByOneSummary: s.string(),
+    initialHypothesis: s.string(),
 
-    derivedFormula: f.string(),
-    refinedHypothesis: f.string(),
-    quantifyMagnetNumber: f.string(),
-    magnetNumberDownXToUpX: f.number(),
-    additionalTests: f.string(),
+    derivedFormula: s.string(),
+    refinedHypothesis: s.string(),
+    quantifyMagnetNumber: s.string(),
+    magnetNumberDownXToUpX: s.number(),
+    additionalTests: s.string(),
   },
-  hints: [
-    // Hints here.
-    "howToUseSim",
+  hints: {
+    howToUseSim: s.hint(),
 
-    "derivedFormulaProcedure",
-    "whatIsTheHamiltonian",
-  ],
+    derivedFormulaProcedure: s.hint(),
+    whatIsTheHamiltonian: s.hint(),
+  },
 });

@@ -35,26 +35,24 @@ export async function run(name: string) {
   console.log(`["${pascal}", ${pascal}]`);
 }
 
-const schema = () => `import * as f from "@/schema/fields";
-import { tutorialSchema } from "@/schema/tutorial";
+const schema = () => `import * as s from "@/schema/tutorial";
 
-export default tutorialSchema({
-  pages: [
+export default s.tutorial({
+  pages: {
     // Pages here.
-  ],
+  },
   pretest: {
     // Pretest fields here.
   },
-  sections: [
+  sections: {
     // Sections here.
-  ],
-  responses: {
-    // Responses here.
-    field1: f.string(), // Remove or rename this one.
   },
-  hints: [
+  responses: {
+    // Response fields here.
+  },
+  hints: {
     // Hints here.
-  ],
+  },
 });
 `;
 

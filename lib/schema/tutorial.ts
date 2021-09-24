@@ -1,42 +1,58 @@
 import * as f from "./fields";
 import type { Infer } from "./types";
 
+// This export makes the individual tutorial schema files simpler.
+export * from "./fields";
+
+////////////////////////////////////////////////////////////////////////////////
+// Tutorials.
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * The schema for a tutorial, which defines all the pages, sections, hints, and
+ * fields for responses to the body and pretest, as well as the available
+ * feedback questions.
+ */
 export type TutorialSchema<
-  Pages extends readonly string[] = string[],
+  Pages extends Dict<PageSchema> = Dict<PageSchema>,
   Pretest extends f.Properties = f.Properties,
   Responses extends f.Properties = f.Properties,
   Message extends string = string,
-  Sections extends {
-    [name: string]: Section<readonly Message[]>;
-  } = { [name: string]: Section<readonly Message[]> },
-  Hints extends readonly string[] = string[]
+  Sections extends Dict<SectionSchema<readonly Message[]>> = Dict<
+    SectionSchema<readonly Message[]>
+  >,
+  Hints extends Dict<HintSchema> = Dict<HintSchema>
 > = f.ObjectField<{
-  pages: f.ObjectField<PropertiesFromNames<Pages, typeof PageStatus>>;
+  pages: f.ObjectField<Pages>;
   pretest: f.ObjectField<Pretest>;
   responses: f.ObjectField<Responses>;
   sections: f.ObjectField<Sections>;
-  hints: f.ObjectField<PropertiesFromNames<Hints, typeof HintStatus>>;
+  hints: f.ObjectField<Hints>;
   feedback: typeof TutorialFeedback;
 }>;
 
+/**
+ * The state of a tutorial instance.  This is the saved state of all the input
+ * responses, as well as which sections and hints are visible, etc.
+ */
 export type TutorialState<S extends TutorialSchema = TutorialSchema> = Infer<
   S["type"]
 >;
 
+interface Dict<S> {
+  readonly [name: string]: S;
+}
+
 /**
  * Creates the schema for a new tutorial.
  */
-export const tutorialSchema = <
-  Page extends string,
-  Pages extends readonly Page[],
+export const tutorial = <
+  Pages extends Dict<PageSchema>,
   Pretest extends f.Properties,
   Responses extends f.Properties,
   Message extends string,
-  Sections extends {
-    [name: string]: Section<readonly Message[]>;
-  },
-  Hint extends string,
-  Hints extends readonly Hint[]
+  Sections extends Dict<SectionSchema<readonly Message[]>>,
+  Hints extends Dict<HintSchema>
 >({
   pages,
   pretest,
@@ -51,16 +67,22 @@ export const tutorialSchema = <
   hints: Hints;
 }): TutorialSchema<Pages, Pretest, Responses, Message, Sections, Hints> => {
   return f.object({
-    pages: statuses(pages, PageStatus),
+    pages: f.object(pages),
     pretest: f.object(pretest),
     responses: f.object(responses),
     sections: f.object(sections),
-    hints: statuses(hints, HintStatus),
+    hints: f.object(hints),
     feedback: TutorialFeedback,
   });
 };
 
-const PageStatus = f.object({
+////////////////////////////////////////////////////////////////////////////////
+// Pages.
+////////////////////////////////////////////////////////////////////////////////
+
+type PageSchema = typeof pageStatus;
+
+const pageStatus = f.object({
   status: f.cases(
     "revealed",
     "answersPrompted",
@@ -72,11 +94,21 @@ const PageStatus = f.object({
   }),
 });
 
-type Section<Messages extends readonly string[] = string[]> = f.ObjectField<
-  typeof baseSection.properties & {
-    revealedMessages: f.ArrayField<f.CasesField<Messages>>;
-  }
->;
+/**
+ * Creates a schema for a tutorial page.
+ */
+export const page = (): PageSchema => pageStatus;
+
+////////////////////////////////////////////////////////////////////////////////
+// Sections.
+////////////////////////////////////////////////////////////////////////////////
+
+type SectionSchema<Messages extends readonly string[] = string[]> =
+  f.ObjectField<
+    typeof baseSection.properties & {
+      revealedMessages: f.ArrayField<f.CasesField<Messages>>;
+    }
+  >;
 
 const baseSection = f.object({
   status: f.cases("hidden", "revealed", "committed"),
@@ -85,14 +117,17 @@ const baseSection = f.object({
   revealedAt: f.number(),
 });
 
+/**
+ * Creates a schema for a tutorial body section.
+ */
 export const section: {
-  (): Section<[]>;
+  (): SectionSchema<[]>;
   <
     Message extends string,
     Messages extends readonly [Message, ...Message[]]
   >(c: {
     messages: Messages;
-  }): Section<Messages>;
+  }): SectionSchema<Messages>;
 } = (c?: { messages?: [string, ...string[]] }) =>
   c && c.messages
     ? f.object({
@@ -101,23 +136,24 @@ export const section: {
       })
     : (baseSection as any);
 
-const HintStatus = f.object({
+////////////////////////////////////////////////////////////////////////////////
+// Hints.
+////////////////////////////////////////////////////////////////////////////////
+
+type HintSchema = typeof hintStatus;
+
+const hintStatus = f.object({
   status: f.cases("hidden", "revealed"),
 });
 
-type PropertiesFromNames<Names extends readonly string[], F extends f.Field> = {
-  [K in Names[number]]: F;
-};
+/**
+ * Creates a schema for a tutorial hint.
+ */
+export const hint = () => hintStatus;
 
-const statuses = <Names extends readonly string[], F extends f.Field>(
-  names: Names,
-  field: F
-) =>
-  f.object(
-    Object.fromEntries(
-      names.map((name) => [name, field])
-    ) as PropertiesFromNames<Names, F>
-  );
+////////////////////////////////////////////////////////////////////////////////
+// Feedback.
+////////////////////////////////////////////////////////////////////////////////
 
 export const TutorialFeedback = f.object({
   workedAlone: f.chooseOne(["alone", "partner", "in class"]),
