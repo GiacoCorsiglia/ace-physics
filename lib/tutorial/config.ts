@@ -167,13 +167,6 @@ type LogicFunction<S extends TutorialSchema, R> = (
 
 type When<S extends TutorialSchema> = LogicFunction<S, boolean>;
 
-type Message<S extends TutorialSchema> =
-  | Html
-  | ((
-      state: TutorialState<S>,
-      models: Models<S>["responses"]["properties"]
-    ) => Html);
-
 /**
  * Configuration for a section of a body page.
  */
@@ -188,6 +181,8 @@ export interface SectionConfig<
   readonly name: Name;
   /**
    * The contents of the section.
+   * @param models The list of models for the tutorial response fields.
+   * @param state The current TutorialState.
    */
   readonly body?:
     | Html
@@ -250,10 +245,26 @@ export interface SectionConfig<
     readonly messages: {
       [K in Infer<
         S["properties"]["sections"]["properties"][Name]["properties"]["revealedMessages"]["elements"]
-      >]: Message<S>;
+      >]: {
+        /**
+         * The contents of the message.
+         * @param state The current TutorialState.
+         */
+        readonly body: Html | ((state: TutorialState<S>) => Html);
+        /**
+         * Configures what to do when continuing from this message.  Return
+         * "nextMessage" to rerun the `nextMessage` function and show another
+         * message.  Return "nextSection" to not show any more messages and
+         * instead move on to the next section.
+         */
+        readonly onContinue: "nextMessage" | "nextSection";
+        /**
+         * The label of the continue button.
+         * @param state The current TutorialState.
+         */
+        readonly continueLabel?: Html | ((state: TutorialState<S>) => Html);
+      };
     };
-    // TODO:
-    // allowSkiping:
   };
 }
 
