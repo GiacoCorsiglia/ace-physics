@@ -3,20 +3,9 @@ import type { Model } from "@/reactivity";
 import type { Infer } from "@/schema/fields";
 import type { TutorialSchema, TutorialState } from "@/schema/tutorial";
 
-type Models<S extends TutorialSchema> = Model<S>["properties"];
-
-type Label =
-  | string
-  | {
-      /**
-       * The version of the label for display within the page.
-       */
-      readonly html: Html;
-      /**
-       * The version of the label for display in the browser tab bar.
-       */
-      readonly title: string;
-    };
+////////////////////////////////////////////////////////////////////////////////
+// Tutorials.
+////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Configuration for a tutorial.
@@ -70,6 +59,10 @@ export interface TutorialConfig<S extends TutorialSchema = TutorialSchema> {
  */
 export const tutorial = <S extends TutorialSchema>(o: TutorialConfig<S>) => o;
 
+////////////////////////////////////////////////////////////////////////////////
+// Intro.
+////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Configuration for the intro page.
  */
@@ -79,6 +72,10 @@ export interface IntroConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly body: Html;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Pretests.
+////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Configuration for the pretest page.
@@ -95,7 +92,9 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
     /**
      * List of optional fields.
      */
-    readonly optional?: readonly (keyof S["properties"]["pretest"]["properties"])[];
+    readonly optional?: readonly StringKeys<
+      S["properties"]["pretest"]["properties"]
+    >[];
     /**
      * Conditional logic dictating when the continue button should be enabled.
      * By default, the button will only be enabled when all models used in the
@@ -129,6 +128,10 @@ export interface PretestSectionConfig<
       ) => Html);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Body Pages.
+////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Configuration for a body page (aka a "part").
  */
@@ -136,7 +139,7 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * The internal name for this page.
    */
-  readonly name: keyof S["properties"]["pages"]["properties"];
+  readonly name: StringKeys<S["properties"]["pages"]["properties"]>;
   /**
    * The page's title.
    */
@@ -151,6 +154,10 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly sections: readonly NodeConfig<S>[];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Section Tree.
+////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Configuration for a node in the section tree of a body page.
@@ -332,6 +339,10 @@ export const oneOf = <
   c: Omit<OneOfConfig<S, C>, "kind">
 ): OneOfConfig<S, C> => ({ kind: "oneOf", ...c });
 
+////////////////////////////////////////////////////////////////////////////////
+// Hints.
+////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Configuration for a hint.
  */
@@ -339,7 +350,7 @@ export interface HintConfig<S extends TutorialSchema> {
   /**
    * The internal name of the hint.
    */
-  readonly name: keyof S["properties"]["hints"]["properties"];
+  readonly name: StringKeys<S["properties"]["hints"]["properties"]>;
   /**
    * The contents of the hint, which will only be revealed when the hint button
    * is clicked.
@@ -364,3 +375,25 @@ export interface HintConfig<S extends TutorialSchema> {
 export const hint = <S extends TutorialSchema>(
   c: HintConfig<S>
 ): HintConfig<S> => c;
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers.
+////////////////////////////////////////////////////////////////////////////////
+
+type Label =
+  | string
+  | {
+      /**
+       * The version of the label for display within the page.
+       */
+      readonly html: Html;
+      /**
+       * The version of the label for display in the browser tab bar.
+       */
+      readonly title: string;
+    };
+
+type Models<S extends TutorialSchema> = Model<S>["properties"];
+
+type StringsOnly<T> = T extends string ? T : never;
+type StringKeys<T> = StringsOnly<keyof T>;
