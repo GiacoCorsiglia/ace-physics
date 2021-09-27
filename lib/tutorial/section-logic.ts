@@ -25,7 +25,8 @@ export const nextMessageToReveal = (
   if (!guidance) {
     return null;
   }
-  return guidance.nextMessage(state.responses || {}, state);
+  const nextMessage = guidance.nextMessage(state.responses || {}, state);
+  return nextMessage && guidance.messages[nextMessage] ? nextMessage : null;
 };
 
 export const nextSectionToReveal = (

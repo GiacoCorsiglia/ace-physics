@@ -1,6 +1,11 @@
 import { TutorialState } from "@/schema/tutorial";
 import { OneOfConfig, SectionConfig, SequenceConfig } from "./config";
-import { isMarkedVisible, nextSectionToReveal, nodeKey } from "./section-logic";
+import {
+  isMarkedVisible,
+  nextMessageToReveal,
+  nextSectionToReveal,
+  nodeKey,
+} from "./section-logic";
 
 describe("nodeKey", () => {
   const section1: SectionConfig = {
@@ -139,7 +144,7 @@ describe("isMarkedVisible", () => {
   });
 });
 
-describe("nextVisibleSection", () => {
+describe("nextSectionToReveal", () => {
   const section1: SectionConfig = {
     kind: "section",
     name: "section1",
@@ -678,5 +683,115 @@ describe("nextVisibleSection", () => {
       },
     } as const;
     expect(nextSectionToReveal(state3, sequence)).toBe(section2);
+  });
+
+  it("chooses section with no body but with a next message", () => {
+    const sectionWithMessages: SectionConfig = {
+      kind: "section",
+      name: "sectionWithMessages",
+      guidance: {
+        nextMessage() {
+          return "m1";
+        },
+        messages: {
+          m1: {
+            body: "body",
+            onContinue: "nextMessage",
+          },
+        },
+      },
+    };
+    const sequence: SequenceConfig = {
+      kind: "sequence",
+      sections: [sectionWithMessages],
+    };
+
+    expect(nextSectionToReveal({}, sequence)).toBe(sectionWithMessages);
+  });
+
+  it("skips sections with no body or next message", () => {
+    const sectionWithNoNextMessage: SectionConfig = {
+      kind: "section",
+      name: "sectionWithNoNextMessage",
+      guidance: {
+        nextMessage() {
+          return null;
+        },
+        messages: {},
+      },
+    };
+    const sectionWithNothing: SectionConfig = {
+      kind: "section",
+      name: "sectionWithNothing",
+    };
+    const sequence1: SequenceConfig = {
+      kind: "sequence",
+      sections: [sectionWithNoNextMessage, sectionWithNothing, section1],
+    };
+
+    expect(nextSectionToReveal({}, sequence1)).toBe(section1);
+  });
+});
+
+describe("nextMessageToReveal", () => {
+  it("returns null for section without guidance", () => {
+    const section: SectionConfig = {
+      kind: "section",
+      name: "section",
+      body() {},
+    };
+    expect(nextMessageToReveal({}, section)).toBeNull();
+  });
+
+  it("returns result of section.guidance.nextMessage()", () => {
+    const section: SectionConfig = {
+      kind: "section",
+      name: "section",
+      guidance: {
+        nextMessage() {
+          return "theMessage";
+        },
+        messages: {
+          theMessage: {
+            body() {},
+            onContinue: "nextMessage",
+          },
+        },
+      },
+    };
+    expect(nextMessageToReveal({}, section)).toBe("theMessage");
+  });
+
+  it("returns null if section.guidance.nextMessage() is invalid", () => {
+    const section: SectionConfig = {
+      kind: "section",
+      name: "section",
+      guidance: {
+        nextMessage() {
+          return "nonexistentMessage";
+        },
+        messages: {
+          theMessage: {
+            body() {},
+            onContinue: "nextMessage",
+          },
+        },
+      },
+    };
+    expect(nextMessageToReveal({}, section)).toBe(null);
+  });
+
+  it("passes state.responses and state to section.guidance.nextMessage()", () => {
+    const state = { responses: {} };
+    const mock = jest.fn();
+    const section: SectionConfig = {
+      kind: "section",
+      name: "section",
+      guidance: { nextMessage: mock, messages: {} },
+    };
+
+    nextMessageToReveal(state, section);
+    expect(mock).toBeCalledTimes(1);
+    expect(mock).toBeCalledWith(state.responses, state);
   });
 });
