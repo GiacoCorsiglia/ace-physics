@@ -78,4 +78,7 @@ export const Guidance = {
       {...props}
     />
   ),
+  AnimateIn: ({ ...props }: JSX.IntrinsicElements["div"]) => (
+    <div {...props} className={cx(props.className, styles.animateIn)} />
+  ),
 } as const;
