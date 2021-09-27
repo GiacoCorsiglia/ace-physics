@@ -1,9 +1,9 @@
-import { Button, Callout, SectionBox, Vertical } from "@/components";
+import { Button, Callout, Guidance, SectionBox, Vertical } from "@/components";
 import * as globalParams from "@/global-params";
-import { Html, useScrollIntoView } from "@/helpers/frontend";
+import { cx, Html, useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
-import { SectionConfig } from "../config";
+import { GuidanceMessageConfig, SectionConfig } from "../config";
 import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
 import styles from "./Section.module.scss";
@@ -24,10 +24,16 @@ export default tracked(function Section(
   },
   state
 ) {
-  const status = state.sections?.[config.name]?.status;
+  const sectionState = state.sections?.[config.name];
+  const status = sectionState?.status;
+  const revealedMessages = sectionState?.revealedMessages;
 
   const rootModel = useRootModel();
   const models = rootModel.properties.responses.properties;
+
+  // We want this section to scroll into view unless it's the first one, or if
+  // we're in preview mode.
+  const scrollRef = useScrollIntoView(!first && !globalParams.showAllSections);
 
   // Begin tracking accessed models.
   const modelsTracker = tracker(models, false);
@@ -36,6 +42,8 @@ export default tracked(function Section(
   const body = config.body;
   const bodyHtml =
     body instanceof Function ? body(modelsTracker.proxy, state) : body;
+
+  const hasBody = !!bodyHtml || !!prepend;
 
   // Revealed hints.
   const revealedHintsHtml =
@@ -55,26 +63,35 @@ export default tracked(function Section(
   // End tracking accessed models.
   const affected = modelsTracker.resetTracking();
 
-  let isComplete = [...affected].every((key) =>
+  // Is the move on button enabled?  By default, every model field accessed in
+  // the rendering of the body and hints must be filled out.
+  const isComplete = [...affected].every((key) =>
     isSet(models[key], state.responses?.[key])
   );
   const continueAllowed = config.continue?.allowed;
-  if (continueAllowed) {
-    isComplete = continueAllowed(state, isComplete);
-  }
+  const isContinueAllowed = continueAllowed
+    ? continueAllowed(state, isComplete)
+    : isComplete;
 
+  // Should the move on button even be rendered?
   const continueVisible = config.continue?.visible;
-  const isContinueVisible = continueVisible ? continueVisible(state) : true;
+  const isContinueVisible =
+    status !== "committed" &&
+    !revealedMessages?.length &&
+    (continueVisible ? continueVisible(state) : true);
 
+  // Label for the move on button.
   const continueLabel = config.continue?.label;
   const continueLabelHtml =
     continueLabel instanceof Function ? continueLabel(state) : continueLabel;
 
-  const scrollRef = useScrollIntoView(!first && !globalParams.showAllSections);
-
+  // Should this section be enumerated?  By default, sections rendered
+  // conditionally  (with a `when()` or embedded in sequences or oneOf's) are
+  // not enumerated.  Neither is the first section, nor are sections without a
+  // body (e.g., just messages).
   const enumerate =
     config.enumerate === undefined
-      ? !first && config.when === undefined && enumerateDefault
+      ? !first && config.when === undefined && hasBody && enumerateDefault
       : config.enumerate;
 
   return (
@@ -100,12 +117,14 @@ export default tracked(function Section(
       <Vertical className={styles.hintsVertical}>{revealedHintsHtml}</Vertical>
 
       <div className={styles.continue}>
-        {isContinueVisible && status !== "committed" && (
+        {isContinueVisible && (
           <Button
             color="green"
-            disabled={!isComplete}
+            disabled={!isContinueAllowed}
             disabledExplanation="Please respond to every question before moving on."
-            onClick={() => commit(config)}
+            onClick={() => {
+              commit(config, { skipRemainingMessages: false });
+            }}
           >
             {continueLabelHtml || "Move on"} <ArrowDownIcon />
           </Button>
@@ -113,6 +132,10 @@ export default tracked(function Section(
 
         <SectionHintButtons config={config} />
       </div>
+
+      {hasBody && config.guidance && <hr className={styles.guidanceHr} />}
+
+      <SectionGuidance config={config} commit={commit} />
     </SectionBox>
   );
 });
@@ -158,5 +181,107 @@ const SectionHintButtons = tracked(function SectionHintButtons(
         return null;
       })}
     </>
+  );
+});
+
+const SectionGuidance = tracked(function SectionGuidance(
+  {
+    config,
+    commit,
+  }: {
+    config: SectionConfig;
+    commit: CommitAction;
+  },
+  state
+) {
+  const guidance = config.guidance;
+
+  if (!guidance) {
+    return null;
+  }
+
+  const revealedMessages = state.sections?.[
+    config.name
+  ]?.revealedMessages?.filter(
+    // Filter out undefined or invalid message names
+    (messageName): messageName is string =>
+      !!messageName && !!guidance.messages[messageName]
+  );
+
+  if (!revealedMessages || !revealedMessages.length) {
+    return null;
+  }
+
+  // Identify the latest message, the last one that was revealed.
+  const latestMessageName = revealedMessages[revealedMessages.length - 1];
+  const latestMessage = guidance.messages[latestMessageName];
+
+  // We'll allow people to move on anyway if they've seen the same message twice
+  // or more (which means there is at least one repeat in the list).
+  const anyRepeated = revealedMessages.length > new Set(revealedMessages).size;
+  const skipAllowed = latestMessage.skipAllowed;
+  const isSkipAllowed =
+    (skipAllowed ? skipAllowed(state) : false) || anyRepeated;
+
+  // The continue label is set by the last message.
+  const continueLabel = latestMessage.continueLabel;
+  const continueLabelHtml =
+    continueLabel instanceof Function ? continueLabel(state) : continueLabel;
+  const continueLabelDefault =
+    latestMessage.onContinue === "nextSection" ? "Move on" : "Check in again";
+
+  const sectionStatus = state.sections?.[config.name]?.status;
+
+  return (
+    <>
+      <Vertical className={styles.guidanceMessages}>
+        {revealedMessages.map((messageName, i) => (
+          <GuidanceMessage
+            // Using the index as the key is necessary here, since we may repeat
+            // the same message multiple times.  It should work fine, because we
+            // will only ever append to the list of revealedMessages.
+            key={i}
+            config={guidance.messages[messageName]}
+          />
+        ))}
+      </Vertical>
+
+      {sectionStatus !== "committed" && (
+        <div className={cx(styles.continue, styles.guidanceContinue)}>
+          <Button
+            color="green"
+            onClick={() =>
+              commit(config, {
+                skipRemainingMessages:
+                  latestMessage.onContinue === "nextSection",
+              })
+            }
+          >
+            {continueLabelHtml || continueLabelDefault} <ArrowDownIcon />
+          </Button>
+
+          {isSkipAllowed && latestMessage.onContinue !== "nextSection" && (
+            <Button
+              color="yellow"
+              onClick={() => commit(config, { skipRemainingMessages: true })}
+            >
+              Move on anyway <ArrowDownIcon />
+            </Button>
+          )}
+        </div>
+      )}
+    </>
+  );
+});
+
+const GuidanceMessage = tracked(function GuidanceMessage(
+  { config }: { config: GuidanceMessageConfig },
+  state
+) {
+  const body = config.body;
+  return (
+    <Guidance.AnimateIn>
+      {body instanceof Function ? body(state) : body}
+    </Guidance.AnimateIn>
   );
 });

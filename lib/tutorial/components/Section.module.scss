@@ -28,6 +28,10 @@
   // For a total of 300 spacing including margin-top on children.
   margin-top: spacing.$space-200;
 
+  &.guidanceContinue {
+    margin-top: spacing.$space-50; // For a total of 150.
+  }
+
   &:empty {
     display: none;
   }
@@ -42,5 +46,22 @@
     // continue and the content, and this margin separates the buttons when the
     // flex wrap comes into effect.
     margin-top: spacing.$space-100;
+  }
+}
+
+.guidanceHr:last-child {
+  // This means there's no guidance rendered after it.
+  display: none;
+}
+
+// Fade outdated messages.
+.guidanceMessages > :not(:last-child) {
+  opacity: 0.5;
+  transition: opacity 300ms;
+
+  &:hover,
+  &:focus-within {
+    opacity: 1;
+    transition-duration: 150ms;
   }
 }

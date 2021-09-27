@@ -252,27 +252,42 @@ export interface SectionConfig<
     readonly messages: {
       [K in Infer<
         S["properties"]["sections"]["properties"][Name]["properties"]["revealedMessages"]["elements"]
-      >]: {
-        /**
-         * The contents of the message.
-         * @param state The current TutorialState.
-         */
-        readonly body: Html | ((state: TutorialState<S>) => Html);
-        /**
-         * Configures what to do when continuing from this message.  Return
-         * "nextMessage" to rerun the `nextMessage` function and show another
-         * message.  Return "nextSection" to not show any more messages and
-         * instead move on to the next section.
-         */
-        readonly onContinue: "nextMessage" | "nextSection";
-        /**
-         * The label of the continue button.
-         * @param state The current TutorialState.
-         */
-        readonly continueLabel?: Html | ((state: TutorialState<S>) => Html);
-      };
+      >]: GuidanceMessageConfig<S>;
     };
   };
+}
+
+/**
+ * Config for a message that's part of a Section's guidance.
+ */
+export interface GuidanceMessageConfig<
+  S extends TutorialSchema = TutorialSchema
+> {
+  /**
+   * The contents of the message.
+   * @param state The current TutorialState.
+   */
+  readonly body: Html | ((state: TutorialState<S>) => Html);
+  /**
+   * Configures what to do when continuing from this message.  Set to
+   * "nextMessage" to rerun the `nextMessage` function and show another message.
+   * Set to "nextSection" to not show any more messages and instead move on to
+   * the next section.
+   */
+  readonly onContinue: "nextMessage" | "nextSection";
+  /**
+   * The label of the continue button.
+   * @param state The current TutorialState.
+   */
+  readonly continueLabel?: Html | ((state: TutorialState<S>) => Html);
+  /**
+   * Conditional logic dictating whether a "Move on anyway" button should be
+   * presented after this message, allowing people to move on without fixing the
+   * relevant problem.  If someone sees this message twice, they will see a
+   * "Move on anyway" button regardless of this setting.
+   * @param state The current TutorialState.
+   */
+  readonly skipAllowed?: (state: TutorialState<S>) => boolean;
 }
 
 /**

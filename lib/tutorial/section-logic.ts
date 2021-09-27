@@ -1,7 +1,10 @@
 import { TutorialState } from "@/schema/tutorial";
 import { NodeConfig, SectionConfig } from "./config";
 
-export type CommitAction = (section: SectionConfig) => void;
+export type CommitAction = (
+  section: SectionConfig,
+  options: { skipRemainingMessages: boolean }
+) => void;
 
 export const nodeKey = (node: NodeConfig): string => {
   switch (node.kind) {
@@ -12,6 +15,17 @@ export const nodeKey = (node: NodeConfig): string => {
     case "oneOf":
       return `oneOf(${Object.values(node.sections).map(nodeKey).join(",")})`;
   }
+};
+
+export const nextMessageToReveal = (
+  state: TutorialState,
+  section: SectionConfig
+) => {
+  const guidance = section.guidance;
+  if (!guidance) {
+    return null;
+  }
+  return guidance.nextMessage(state.responses || {}, state);
 };
 
 export const nextSectionToReveal = (
@@ -34,7 +48,16 @@ export const nextSectionToReveal = (
 
   switch (node.kind) {
     case "section":
-      return node;
+      if (node.body) {
+        // If there's a body set, we don't care about messages now.  The body
+        // will be shown first anyway.
+        return node;
+      }
+      // If there's no body set, we only want to reveal this section if any of
+      // the messages will be revealed.  Otherwise we'd be revealing an empty
+      // section (ignoring hints).
+      const nextMessage = nextMessageToReveal(state, node);
+      return nextMessage ? node : null;
     case "sequence": {
       const subNodes = node.sections;
       const start = firstUncommittedNodeIndex(state, subNodes);
