@@ -211,6 +211,7 @@ $breakpoint: fonts.rem-to-px($callout-bleed + $text-width + $callout-bleed);
     width: 100%; // Not sure why this is also necessary.
     height: 1px;
     margin-top: spacing.$space-150;
+    margin-bottom: 0; // Reset browser default.
     & + * {
       // No margin collapse in grid.
       margin-top: spacing.$space-150;
