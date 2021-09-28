@@ -88,8 +88,12 @@ const revealSection = (
   set(["sections", section.name, "status"], "revealed");
   set(["sections", section.name, "revealedAt"], Date.now());
 
-  // If the section doesn't have a body, reveal the first message immediately.
-  if (!section.body) {
+  // If the section doesn't have a body, reveal the first message immediately
+  // (if no messages were previously revealed).
+  if (
+    !section.body &&
+    !state.sections?.[section.name]?.revealedMessages?.length
+  ) {
     const nextMessage = nextMessageToReveal(state, section);
     if (nextMessage) {
       revealMessage(set, section, nextMessage);
