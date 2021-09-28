@@ -180,6 +180,17 @@ fs.readdirSync(tutorialsDir)
         });
       });
 
+      // eslint-disable-next-line jest/expect-expect
+      it("sections have either body or guidance", () => {
+        allSections.forEach((section) => {
+          if (!section.body && !section.guidance) {
+            throw new Error(
+              `Section "${section.name}" has neither body nor guidance`
+            );
+          }
+        });
+      });
+
       it("no repeated models", () => {
         // const identifier = /^[A-Za-z_][0-9A-Za-z_$]*$/;
         const modelsArgX = /^\s*\(?([A-Za-z_$][0-9A-Za-z_$]*)(?:,|\s|=>)/;

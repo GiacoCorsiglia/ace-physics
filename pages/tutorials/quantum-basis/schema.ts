@@ -1,9 +1,8 @@
-import * as f from "@/schema/fields";
-import { tutorialSchema } from "@/schema/tutorial";
+import * as s from "@/schema/tutorial";
 
-const Point2D = f.tuple(f.number(), f.number());
+const Point2D = s.tuple(s.number(), s.number());
 
-const uColumnDiracChoice = f.chooseOne([
+const uColumnDiracChoice = s.chooseOne([
   "|i>",
   "|j>",
   "|u>",
@@ -13,7 +12,7 @@ const uColumnDiracChoice = f.chooseOne([
   "<u|j>",
 ]);
 
-const kColumnDiracChoice = f.chooseOne([
+const kColumnDiracChoice = s.chooseOne([
   "|v1>",
   "|v2>",
   "<v1|u>",
@@ -22,7 +21,7 @@ const kColumnDiracChoice = f.chooseOne([
   "<j|u>",
 ]);
 
-const HeightChoice = f.chooseOne([
+const HeightChoice = s.chooseOne([
   "3/5",
   "-3/5",
   "4/5",
@@ -33,7 +32,7 @@ const HeightChoice = f.chooseOne([
   "-16/25",
 ]);
 
-const LabelChoice = f.chooseOne([
+const LabelChoice = s.chooseOne([
   "|->",
   "|+>",
   "<-|psi_A>",
@@ -42,25 +41,25 @@ const LabelChoice = f.chooseOne([
   "|<+|psi_A>|^2",
 ]);
 
-const PlusMinus = f.object({
+const PlusMinus = s.object({
   minusHeight: HeightChoice,
   plusHeight: HeightChoice,
   minusLabel: LabelChoice,
   plusLabel: LabelChoice,
 });
 
-export default tutorialSchema({
-  pages: [
-    "probabilityAndProjection",
-    "definingBasis",
-    "changingBasis",
-    "relatingBases",
-    "wrapUp",
-  ],
+export default s.tutorial({
+  pages: {
+    probabilityAndProjection: s.page(),
+    definingBasis: s.page(),
+    changingBasis: s.page(),
+    relatingBases: s.page(),
+    wrapUp: s.page(),
+  },
   pretest: {
     /** @deprecated */
-    meaningOfCoefficients: f.string(),
-    coBExpression: f.chooseAll(
+    meaningOfCoefficients: s.string(),
+    coBExpression: s.chooseAll(
       [
         "x-subscripts",
         "projection (correct)",
@@ -68,142 +67,141 @@ export default tutorialSchema({
         "x<+|+> coefficients",
         "just inner products",
       ],
-      f.string()
+      s.string()
     ),
-    changedProbabilities: f.chooseOne(["true", "false"]),
-    changedProbabilitiesExplain: f.string(),
-    cantKnowBothProbabilities: f.chooseOne(["true", "false"]),
-    cantKnowBothProbabilitiesExplain: f.string(),
-    createdNewState: f.chooseOne(["true", "false"]),
-    createdNewStateExplain: f.string(),
+    changedProbabilities: s.chooseOne(["true", "false"]),
+    changedProbabilitiesExplain: s.string(),
+    cantKnowBothProbabilities: s.chooseOne(["true", "false"]),
+    cantKnowBothProbabilitiesExplain: s.string(),
+    createdNewState: s.chooseOne(["true", "false"]),
+    createdNewStateExplain: s.string(),
   },
-  sections: [
-    "probabilityAndProjectionIntro",
-    "meaningOfCoefficients",
-    "histogramHeights",
-    "histogramLabels",
-    "relationshipProbAmp",
+  sections: {
+    probabilityAndProjectionIntro: s.section(),
+    meaningOfCoefficients: s.section(),
+    histogramHeights: s.section(),
+    histogramLabels: s.section(),
+    relationshipProbAmp: s.section(),
 
-    "definingBasisIntro",
-    "iAndJFormBasis",
-    "iAndJSpan",
-    "iAndJFeedback",
-    "uColumn",
-    "uColumnDirac",
-    "uColumnDiracKet",
-    "uColumnDiracCorrect",
-    "uColumnDiracConjugate",
-    "uColumnDiracReversed",
-    "uColumnDiracRepeated",
-    "uColumnDiracGeneralIncorrect",
-    "innerProductMeaning",
+    definingBasisIntro: s.section(),
+    iAndJFormBasis: s.section(),
+    iAndJSpan: s.section(),
+    iAndJFeedback: s.section(),
+    uColumn: s.section(),
+    uColumnDirac: s.section(),
+    uColumnDiracKet: s.section(),
+    uColumnDiracCorrect: s.section(),
+    uColumnDiracConjugate: s.section(),
+    uColumnDiracReversed: s.section(),
+    uColumnDiracRepeated: s.section(),
+    uColumnDiracGeneralIncorrect: s.section(),
+    innerProductMeaning: s.section(),
 
-    "changingBasisIntro",
-    "basisChangeApproach",
-    "kColumnDirac",
-    "kColumnDiracCorrect",
-    "kColumnDiracReversed",
-    "kColumnDiracRepeated",
-    "kColumnDiracKet",
-    "kColumnDiracIorJ",
-    "columnSubscriptExplain",
-    "basisChange",
-    "v1v2AxesAllowed",
-    "v1v2AxesAllowedCorrection",
-    "kColumn",
-    "kColumnIncorrect",
-    "kColumnReversed",
-    "kColumnCorrect",
+    changingBasisIntro: s.section(),
+    basisChangeApproach: s.section(),
+    kColumnDirac: s.section(),
+    kColumnDiracCorrect: s.section(),
+    kColumnDiracReversed: s.section(),
+    kColumnDiracRepeated: s.section(),
+    kColumnDiracKet: s.section(),
+    kColumnDiracIorJ: s.section(),
+    columnSubscriptExplain: s.section(),
+    basisChange: s.section(),
+    v1v2AxesAllowed: s.section(),
+    v1v2AxesAllowedCorrection: s.section(),
+    kColumn: s.section(),
+    kColumnIncorrect: s.section(),
+    kColumnReversed: s.section(),
+    kColumnCorrect: s.section(),
 
-    "relatingBasesIntro",
-    "uAndKGraph",
-    "uAndKRelationship",
-    "newNameNecessary",
-    "uVsKFeedback",
-    "meaningOfCoB",
-    "equalityAllowed",
-    "whyNoSubscriptNeeded",
-    "equalityAllowedFeedback",
+    relatingBasesIntro: s.section(),
+    uAndKGraph: s.section(),
+    uAndKRelationship: s.section(),
+    newNameNecessary: s.section(),
+    uVsKFeedback: s.section(),
+    meaningOfCoB: s.section(),
+    equalityAllowed: s.section(),
+    whyNoSubscriptNeeded: s.section(),
+    equalityAllowedFeedback: s.section(),
 
-    "wrapUpIntro",
-    "positionCoord",
-    "potentialEnergyCoord",
-    "coordEffect",
-    "xBasisRewrite",
-    "basisChoice",
-    "effectOfCoB",
-    "whyCoB",
-  ],
+    wrapUpIntro: s.section(),
+    positionCoord: s.section(),
+    potentialEnergyCoord: s.section(),
+    coordEffect: s.section(),
+    xBasisRewrite: s.section(),
+    basisChoice: s.section(),
+    effectOfCoB: s.section(),
+    whyCoB: s.section(),
+  },
   responses: {
-    meaningOfCoefficients: f.chooseAll(
+    meaningOfCoefficients: s.chooseAll(
       [
         "normalized",
         "measurement-outcomes",
         "probabilities-direct",
         "probabilities-squared",
       ],
-      f.string()
+      s.string()
     ),
     probability: PlusMinus,
     probabilityAmplitude: PlusMinus,
-    relationshipProbAmp: f.string(),
+    relationshipProbAmp: s.string(),
 
-    iAndJFormBasis: f.chooseOne(["yes", "no"]),
-    iAndJFormBasisExplain: f.string(),
-    iAndJSpan: f.chooseOne(["yes", "no"]),
+    iAndJFormBasis: s.chooseOne(["yes", "no"]),
+    iAndJFormBasisExplain: s.string(),
+    iAndJSpan: s.chooseOne(["yes", "no"]),
     uColumn: Point2D,
-    uColumnDirac: f.tuple(uColumnDiracChoice, uColumnDiracChoice),
-    innerProductMeaning: f.string(),
+    uColumnDirac: s.tuple(uColumnDiracChoice, uColumnDiracChoice),
+    innerProductMeaning: s.string(),
 
-    basisChangeApproach: f.string(),
-    kColumnDirac: f.tuple(kColumnDiracChoice, kColumnDiracChoice),
-    columnSubscriptExplain: f.string(),
-    v1v2AxesAllowed: f.chooseOne(["yes", "no"]),
-    v1v2AxesAllowedExplain: f.string(),
+    basisChangeApproach: s.string(),
+    kColumnDirac: s.tuple(kColumnDiracChoice, kColumnDiracChoice),
+    columnSubscriptExplain: s.string(),
+    v1v2AxesAllowed: s.chooseOne(["yes", "no"]),
+    v1v2AxesAllowedExplain: s.string(),
     kColumn: Point2D,
 
-    uAndKGraph: f.object({
-      ij: f.boolean(),
-      u: f.boolean(),
-      v1v2: f.chooseOne(["labels", "vectors"]),
-      v1v2Axes: f.boolean(),
-      k: f.chooseOne(["ij", "v1v2"]),
+    uAndKGraph: s.object({
+      ij: s.boolean(),
+      u: s.boolean(),
+      v1v2: s.chooseOne(["labels", "vectors"]),
+      v1v2Axes: s.boolean(),
+      k: s.chooseOne(["ij", "v1v2"]),
     }),
-    uAndKRelationship: f.chooseOne([
+    uAndKRelationship: s.chooseOne([
       "same",
       "different-bases",
       "different-coefficients",
     ]),
-    newNameNecessary: f.chooseOne(["yes", "no", "no but useful"]),
-    newNameNecessaryExplain: f.string(),
-    meaningOfCoB: f.string(),
-    equalityAllowed: f.chooseOne(["allowed", "not allowed"]),
-    whyNoSubscriptNeeded: f.string(),
+    newNameNecessary: s.chooseOne(["yes", "no", "no but useful"]),
+    newNameNecessaryExplain: s.string(),
+    meaningOfCoB: s.string(),
+    equalityAllowed: s.chooseOne(["allowed", "not allowed"]),
+    whyNoSubscriptNeeded: s.string(),
 
-    positionCoord: f.chooseOne(["standard", "rotated"]),
-    positionCoordExplain: f.string(),
-    potentialEnergyCoord: f.chooseOne(["standard", "rotated"]),
-    potentialEnergyCoordExplain: f.string(),
-    coordEffect: f.chooseOne(["has effect", "no effect"]),
-    coordEffectExplain: f.string(),
-    xBasisRewriteReason: f.string(),
-    xBasisRewriteNewInfo: f.string(),
-    basisChoiceMeasureZ: f.chooseOne(["x-basis", "z-basis"]),
-    basisChoiceMeasureX: f.chooseOne(["x-basis", "z-basis"]),
-    basisChoiceExplain: f.string(),
-    effectOfCoB: f.chooseOne(["has effect", "no effect"]),
-    effectOfCoBExplain: f.string(),
-    whyCoB: f.string(),
+    positionCoord: s.chooseOne(["standard", "rotated"]),
+    positionCoordExplain: s.string(),
+    potentialEnergyCoord: s.chooseOne(["standard", "rotated"]),
+    potentialEnergyCoordExplain: s.string(),
+    coordEffect: s.chooseOne(["has effect", "no effect"]),
+    coordEffectExplain: s.string(),
+    xBasisRewriteReason: s.string(),
+    xBasisRewriteNewInfo: s.string(),
+    basisChoiceMeasureZ: s.chooseOne(["x-basis", "z-basis"]),
+    basisChoiceMeasureX: s.chooseOne(["x-basis", "z-basis"]),
+    basisChoiceExplain: s.string(),
+    effectOfCoB: s.chooseOne(["has effect", "no effect"]),
+    effectOfCoBExplain: s.string(),
+    whyCoB: s.string(),
   },
-  hints: [
-    // Hints here.
-    "uColumn",
-    "uColumnDirac",
-    "kColumnDirac",
-    "columnSubscriptExplain",
-    "basisChange",
-    "v1v2AxesAllowed",
-    "v1v2AxesAllowed2",
-    "uAndKRelationship",
-  ],
+  hints: {
+    uColumn: s.hint(),
+    uColumnDirac: s.hint(),
+    kColumnDirac: s.hint(),
+    columnSubscriptExplain: s.hint(),
+    basisChange: s.hint(),
+    v1v2AxesAllowed: s.hint(),
+    v1v2AxesAllowed2: s.hint(),
+    uAndKRelationship: s.hint(),
+  },
 });

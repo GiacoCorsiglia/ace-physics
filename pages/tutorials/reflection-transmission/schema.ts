@@ -1,92 +1,90 @@
-import * as f from "@/schema/fields";
-import { tutorialSchema } from "@/schema/tutorial";
+import * as s from "@/schema/tutorial";
 
-const ReflectionAmountChoice = f.chooseOne(["all", "some", "none", "depends"]);
+const ReflectionAmountChoice = s.chooseOne(["all", "some", "none", "depends"]);
 
-export default tutorialSchema({
-  pages: [
-    "symmetricPotentialWell",
-    "transmissionCoefficients",
-    "transmissionForThePotentialWellExperiment",
-    "transmissionForThePotentialWellFormula",
-    "summary",
-  ],
+export default s.tutorial({
+  pages: {
+    symmetricPotentialWell: s.page(),
+    transmissionCoefficients: s.page(),
+    transmissionForThePotentialWellExperiment: s.page(),
+    transmissionForThePotentialWellFormula: s.page(),
+    summary: s.page(),
+  },
   pretest: {
     reflectWhenEAboveVFromRight: ReflectionAmountChoice,
     reflectWhenEAboveVFromLeft: ReflectionAmountChoice,
     reflectWhenEBelowVFromLeft: ReflectionAmountChoice,
   },
-  sections: [
-    "symmetricPotentialWellIntro",
-    "unitsOfV0",
-    "generalSolution",
-    "generalSolutionConstraints",
-    "fromRightNonzeroTerms",
-    "fromRightNonzeroTermsGuidance",
+  sections: {
+    symmetricPotentialWellIntro: s.section(),
+    unitsOfV0: s.section(),
+    generalSolution: s.section(),
+    generalSolutionConstraints: s.section(),
+    fromRightNonzeroTerms: s.section(),
+    fromRightNonzeroTermsGuidance: s.section(),
 
-    "transmissionCoefficientsIntro",
-    "qualitativePredictionsForT",
-    "simSetup",
-    "simPatterns",
-    "comparePredictionsWithSim",
+    transmissionCoefficientsIntro: s.section(),
+    qualitativePredictionsForT: s.section(),
+    simSetup: s.section(),
+    simPatterns: s.section(),
+    comparePredictionsWithSim: s.section(),
 
-    "transmissionForThePotentialWellExperimentIntro",
-    "wellPredictionsForT",
-    "wellSimTestPredictions",
-    "wavelengthAfterTunneling",
-    "energyAfterTunneling",
+    transmissionForThePotentialWellExperimentIntro: s.section(),
+    wellPredictionsForT: s.section(),
+    wellSimTestPredictions: s.section(),
+    wavelengthAfterTunneling: s.section(),
+    energyAfterTunneling: s.section(),
 
-    "transmissionForThePotentialWellFormulaIntro",
-    "unitsOflAndT",
-    "tVersusEGraph",
-    "tVersusA",
+    transmissionForThePotentialWellFormulaIntro: s.section(),
+    unitsOflAndT: s.section(),
+    tVersusEGraph: s.section(),
+    tVersusA: s.section(),
 
-    "summaryIntro",
-    "graphMatching",
-    "changesInGeneralSolution",
-    "physicalScenarios",
-    "variationsInPhysicsFromSim",
-  ],
-  responses: {
-    unitsOfV0: f.string(),
-    generalSolution: f.object({
-      regionI: f.string(),
-      regionII: f.string(),
-      regionIII: f.string(),
-    }),
-    fromRightNonzeroTerms: f.object({
-      regionI: f.chooseAll(["leftward", "rightward"]),
-      regionII: f.chooseAll(["leftward", "rightward"]),
-      regionIII: f.chooseAll(["leftward", "rightward"]),
-    }),
-    generalSolutionNewSymbols: f.string(),
-    generalSolutionConstraints: f.string(),
-    generalSolutionPhysicalInterpretation: f.string(),
-
-    qualitativePredictionsForT: f.string(),
-    simPatterns: f.string(),
-    comparePredictionsWithSim: f.string(),
-
-    wellPredictionsForT: f.string(),
-    wellSimTestPredictions: f.string(),
-    wavelengthAfterTunneling: f.string(),
-    energyAfterTunneling: f.chooseOne(["lost", "not lost", "depends"]),
-    energyAfterTunnelingExplain: f.string(),
-
-    unitsOfT: f.string(),
-    unitsOfl: f.string(),
-    tVersusALimits: f.string(),
-    wellPotential: f.chooseOne(["T/R #1", "T/R #2"]),
-    barrierPotential: f.chooseOne(["T/R #1", "T/R #2"]),
-    graphMatchingExplain: f.string(),
-    changesInGeneralSolution: f.string(),
-    physicalScenarios: f.string(),
-    variationsInPhysicsFromSim: f.string(),
+    summaryIntro: s.section(),
+    graphMatching: s.section(),
+    changesInGeneralSolution: s.section(),
+    physicalScenarios: s.section(),
+    variationsInPhysicsFromSim: s.section(),
   },
-  hints: [
-    // Hints here.
-    "qualitativePredictionsForT",
-    "simPatterns",
-    "tVersusEGraph",
-  ],
+  responses: {
+    unitsOfV0: s.string(),
+    generalSolution: s.object({
+      regionI: s.string(),
+      regionII: s.string(),
+      regionIII: s.string(),
+    }),
+    fromRightNonzeroTerms: s.object({
+      regionI: s.chooseAll(["leftward", "rightward"]),
+      regionII: s.chooseAll(["leftward", "rightward"]),
+      regionIII: s.chooseAll(["leftward", "rightward"]),
+    }),
+    generalSolutionNewSymbols: s.string(),
+    generalSolutionConstraints: s.string(),
+    generalSolutionPhysicalInterpretation: s.string(),
+
+    qualitativePredictionsForT: s.string(),
+    simPatterns: s.string(),
+    comparePredictionsWithSim: s.string(),
+
+    wellPredictionsForT: s.string(),
+    wellSimTestPredictions: s.string(),
+    wavelengthAfterTunneling: s.string(),
+    energyAfterTunneling: s.chooseOne(["lost", "not lost", "depends"]),
+    energyAfterTunnelingExplain: s.string(),
+
+    unitsOfT: s.string(),
+    unitsOfl: s.string(),
+    tVersusALimits: s.string(),
+    wellPotential: s.chooseOne(["T/R #1", "T/R #2"]),
+    barrierPotential: s.chooseOne(["T/R #1", "T/R #2"]),
+    graphMatchingExplain: s.string(),
+    changesInGeneralSolution: s.string(),
+    physicalScenarios: s.string(),
+    variationsInPhysicsFromSim: s.string(),
+  },
+  hints: {
+    qualitativePredictionsForT: s.hint(),
+    simPatterns: s.hint(),
+    tVersusEGraph: s.hint(),
+  },
 });

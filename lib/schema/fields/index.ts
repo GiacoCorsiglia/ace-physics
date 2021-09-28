@@ -23,7 +23,7 @@ import { TupleField } from "./tuple";
 export type Field =
   | ArrayField<any>
   | BooleanField
-  | CasesField<readonly [string, ...string[]]>
+  | CasesField<readonly string[]>
   | ChooseAllField<Choices, OtherChoiceField | undefined>
   | ChooseOneField<Choices, OtherChoiceField | undefined>
   | NumberField

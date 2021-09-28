@@ -1,21 +1,11 @@
 import type { Html } from "@/helpers/frontend";
 import type { Model } from "@/reactivity";
+import type { Infer } from "@/schema/fields";
 import type { TutorialSchema, TutorialState } from "@/schema/tutorial";
 
-type Models<S extends TutorialSchema> = Model<S>["properties"];
-
-type Label =
-  | string
-  | {
-      /**
-       * The version of the label for display within the page.
-       */
-      readonly html: Html;
-      /**
-       * The version of the label for display in the browser tab bar.
-       */
-      readonly title: string;
-    };
+////////////////////////////////////////////////////////////////////////////////
+// Tutorials.
+////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Configuration for a tutorial.
@@ -69,6 +59,10 @@ export interface TutorialConfig<S extends TutorialSchema = TutorialSchema> {
  */
 export const tutorial = <S extends TutorialSchema>(o: TutorialConfig<S>) => o;
 
+////////////////////////////////////////////////////////////////////////////////
+// Intro.
+////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Configuration for the intro page.
  */
@@ -78,6 +72,10 @@ export interface IntroConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly body: Html;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Pretests.
+////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Configuration for the pretest page.
@@ -94,7 +92,9 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
     /**
      * List of optional fields.
      */
-    readonly optional?: readonly (keyof S["properties"]["pretest"]["properties"])[];
+    readonly optional?: readonly StringKeys<
+      S["properties"]["pretest"]["properties"]
+    >[];
     /**
      * Conditional logic dictating when the continue button should be enabled.
      * By default, the button will only be enabled when all models used in the
@@ -128,6 +128,10 @@ export interface PretestSectionConfig<
       ) => Html);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Body Pages.
+////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Configuration for a body page (aka a "part").
  */
@@ -135,7 +139,7 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * The internal name for this page.
    */
-  readonly name: keyof S["properties"]["pages"]["properties"];
+  readonly name: StringKeys<S["properties"]["pages"]["properties"]>;
   /**
    * The page's title.
    */
@@ -150,6 +154,10 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly sections: readonly NodeConfig<S>[];
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Section Tree.
+////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Configuration for a node in the section tree of a body page.
@@ -169,16 +177,21 @@ type When<S extends TutorialSchema> = LogicFunction<S, boolean>;
 /**
  * Configuration for a section of a body page.
  */
-export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
+export interface SectionConfig<
+  S extends TutorialSchema = TutorialSchema,
+  Name extends keyof S["properties"]["sections"]["properties"] = string
+> {
   readonly kind: "section";
   /**
    * The internal name of the section.
    */
-  readonly name: keyof S["properties"]["sections"]["properties"];
+  readonly name: Name;
   /**
    * The contents of the section.
+   * @param models The list of models for the tutorial response fields.
+   * @param state The current TutorialState.
    */
-  readonly body:
+  readonly body?:
     | Html
     | ((
         models: Models<S>["responses"]["properties"],
@@ -192,7 +205,9 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
    * Controls the numbered/lettered label for the section.
    */
   readonly enumerate?: boolean;
-  /** Configuration  */
+  /**
+   * Configuration for the hints included in this section.
+   */
   readonly hints?: readonly (HintConfig<S> | readonly HintConfig<S>[])[];
   /**
    * Configuration for the section's continue button.
@@ -218,6 +233,61 @@ export interface SectionConfig<S extends TutorialSchema = TutorialSchema> {
      */
     readonly visible?: (state: TutorialState<S>) => boolean;
   };
+  /**
+   * Configuration for guidance messages included in this section.
+   */
+  readonly guidance?: {
+    /**
+     * Determines which message should be revealed next.
+     */
+    readonly nextMessage: (
+      responses: NonNullable<TutorialState<S>["responses"]>,
+      state: TutorialState<S>
+    ) => Infer<
+      S["properties"]["sections"]["properties"][Name]["properties"]["revealedMessages"]["elements"]
+    > | null;
+    /**
+     * The set of messages.
+     */
+    readonly messages: {
+      [K in Infer<
+        S["properties"]["sections"]["properties"][Name]["properties"]["revealedMessages"]["elements"]
+      >]: GuidanceMessageConfig<S>;
+    };
+  };
+}
+
+/**
+ * Config for a message that's part of a Section's guidance.
+ */
+export interface GuidanceMessageConfig<
+  S extends TutorialSchema = TutorialSchema
+> {
+  /**
+   * The contents of the message.
+   * @param state The current TutorialState.
+   */
+  readonly body: Html | ((state: TutorialState<S>) => Html);
+  /**
+   * Configures what to do when continuing from this message.  Set to
+   * "nextMessage" to rerun the `nextMessage` function and show another message.
+   * Set to "nextSection" to not show any more messages and instead move on to
+   * the next section.
+   */
+  readonly onContinue: "nextMessage" | "nextSection";
+  /**
+   * The label of the continue button.
+   * @param state The current TutorialState.
+   */
+  readonly continueLabel?: Html | ((state: TutorialState<S>) => Html);
+  /**
+   * Conditional logic dictating whether a "Move on anyway" button should be
+   * presented after this message, allowing people to move on without fixing the
+   * relevant problem.  If someone sees this message twice, they will see a
+   * "Move on anyway" button regardless of this setting.
+   * @param state The current TutorialState.
+   */
+  readonly skipAllowed?: (state: TutorialState<S>) => boolean;
 }
 
 /**
@@ -266,9 +336,12 @@ export interface OneOfConfig<
   readonly sections: C;
 }
 
-export const section = <S extends TutorialSchema>(
-  c: Omit<SectionConfig<S>, "kind">
-): SectionConfig<S> => ({ kind: "section", ...c });
+export const section = <
+  S extends TutorialSchema,
+  Name extends keyof S["properties"]["sections"]["properties"]
+>(
+  c: Omit<SectionConfig<S, Name>, "kind">
+): SectionConfig<S, Name> => ({ kind: "section", ...c });
 
 export const sequence = <S extends TutorialSchema>(
   c: Omit<SequenceConfig<S>, "kind">
@@ -281,6 +354,10 @@ export const oneOf = <
   c: Omit<OneOfConfig<S, C>, "kind">
 ): OneOfConfig<S, C> => ({ kind: "oneOf", ...c });
 
+////////////////////////////////////////////////////////////////////////////////
+// Hints.
+////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Configuration for a hint.
  */
@@ -288,7 +365,7 @@ export interface HintConfig<S extends TutorialSchema> {
   /**
    * The internal name of the hint.
    */
-  readonly name: keyof S["properties"]["hints"]["properties"];
+  readonly name: StringKeys<S["properties"]["hints"]["properties"]>;
   /**
    * The contents of the hint, which will only be revealed when the hint button
    * is clicked.
@@ -313,3 +390,25 @@ export interface HintConfig<S extends TutorialSchema> {
 export const hint = <S extends TutorialSchema>(
   c: HintConfig<S>
 ): HintConfig<S> => c;
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers.
+////////////////////////////////////////////////////////////////////////////////
+
+type Label =
+  | string
+  | {
+      /**
+       * The version of the label for display within the page.
+       */
+      readonly html: Html;
+      /**
+       * The version of the label for display in the browser tab bar.
+       */
+      readonly title: string;
+    };
+
+type Models<S extends TutorialSchema> = Model<S>["properties"];
+
+type StringsOnly<T> = T extends string ? T : never;
+type StringKeys<T> = StringsOnly<keyof T>;
