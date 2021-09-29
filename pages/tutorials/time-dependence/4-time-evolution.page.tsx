@@ -1,4 +1,4 @@
-import { M, Prose, TextBox } from "@/components";
+import { Image, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import graphsImg from "./assets/student-graphs.png";
 import setup from "./setup";
@@ -83,7 +83,7 @@ export default page(setup, ({ section }) => ({
               for the graphs.
             </p>
 
-            <img
+            <Image
               src={graphsImg}
               alt="Graphs of ψA at 3 at t=0, at a quarter period, and at a half period."
             />

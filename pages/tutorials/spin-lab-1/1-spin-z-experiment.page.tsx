@@ -1,6 +1,7 @@
 import {
   Button,
   Decimal,
+  Image,
   Justify,
   M,
   Prose,
@@ -57,10 +58,8 @@ export default page(setup, ({ section, hint }) => ({
               continuously by pressing the “Start” button.
             </p>
 
-            <img
+            <Image
               src={spinZSetupImg}
-              width={493}
-              height={204}
               alt="Experimental setup described in the above text"
             />
           </Prose>

@@ -2,6 +2,7 @@ import {
   Callout,
   Decimal,
   Guidance,
+  Image,
   LabelsLeft,
   M,
   Prose,
@@ -29,10 +30,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
               below. You need an extra analyzer and counter.
             </p>
 
-            <img
+            <Image
               src={repeatedMeasurementsSetupImg}
-              width={665}
-              height={268}
               alt="Experimental setup described in the above text"
             />
           </Prose>

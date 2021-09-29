@@ -12,19 +12,14 @@ const {
 } = process.env;
 process.env.SENTRY_DSN = SENTRY_DSN;
 
-const withPlugins =
-  (plugins, config) =>
-  (...args) =>
-    plugins.reduce((c, plugin) => plugin(c), config(...args));
-
-module.exports = withPlugins([require("next-images")], (phase) => ({
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = (module.exports = {
   // Only create routes for those files in the `pages` directory that end with
   // these extensions.  This way we can put non-route files in the pages
   // directory, allowing us to collocate such files with the relevant routes.
   pageExtensions: ["page.tsx", "endpoint.ts"],
-
-  // For next-images; remove SVG in favor of svgr
-  fileExtensions: ["jpg", "jpeg", "png", "gif", "ico", "webp", "jp2", "avif"],
 
   // Real next config.
   sassOptions: {
@@ -33,11 +28,6 @@ module.exports = withPlugins([require("next-images")], (phase) => ({
       path.join(__dirname, "lib/design"),
       path.join(__dirname, "lib/design/css"),
     ],
-  },
-
-  images: {
-    // TODO: Consider switching to built-in next.js image handling.
-    disableStaticImages: true,
   },
 
   // For Sentry.
@@ -106,4 +96,4 @@ module.exports = withPlugins([require("next-images")], (phase) => ({
 
     return config;
   },
-}));
+});

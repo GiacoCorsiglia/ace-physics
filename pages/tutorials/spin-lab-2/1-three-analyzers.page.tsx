@@ -5,6 +5,7 @@ import {
   LabelsLeft,
   M,
   Prose,
+  Image,
   Reminder,
   Table,
   TextBox,
@@ -25,10 +26,8 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           <p>Consider the (thermal, random) oven and 3 analyzers below.</p>
 
-          <img
+          <Image
             src={threeAnalyzersImg}
-            width={648}
-            height={151}
             alt="Three chained Stern-Gerlach analyzers."
           />
 
@@ -197,10 +196,8 @@ export default page(setup, ({ section, hint }) => ({
 
           <Reminder>
             <Prose>
-              <img
+              <Image
                 src={threeAnalyzersImg}
-                width={648}
-                height={151}
                 alt="Three chained Stern-Gerlach analyzers."
               />
             </Prose>
@@ -266,10 +263,8 @@ export default page(setup, ({ section, hint }) => ({
             <Prose>
               <p>Here’s the experimental setup again:</p>
 
-              <img
+              <Image
                 src={threeAnalyzersImg}
-                width={648}
-                height={151}
                 alt="Three chained Stern-Gerlach analyzers."
               />
 
@@ -306,10 +301,8 @@ export default page(setup, ({ section, hint }) => ({
 
           <Reminder>
             <Prose>
-              <img
+              <Image
                 src={threeAnalyzersImg}
-                width={648}
-                height={151}
                 alt="Three chained Stern-Gerlach analyzers."
               />
             </Prose>
@@ -347,10 +340,8 @@ export default page(setup, ({ section, hint }) => ({
 
           <Reminder>
             <Prose>
-              <img
+              <Image
                 src={threeAnalyzersImg}
-                width={648}
-                height={151}
                 alt="Three chained Stern-Gerlach analyzers."
               />
             </Prose>

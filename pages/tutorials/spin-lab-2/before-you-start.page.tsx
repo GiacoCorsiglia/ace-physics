@@ -1,4 +1,12 @@
-import { Decimal, M, Matrix, Prose, TextBox, Toggle } from "@/components";
+import {
+  Decimal,
+  Image,
+  M,
+  Matrix,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { pretest } from "@/tutorial";
 import pretestGraphImg from "./assets/pretest-graph.png";
 import pretestSGImg from "./assets/pretest-s-g-setup.png";
@@ -15,13 +23,7 @@ export default pretest(setup, ({ section }) => ({
             depicted here.
           </p>
 
-          <img
-            src={pretestSGImg}
-            width={1022}
-            height={518}
-            alt=""
-            style={{ maxWidth: "350px" }}
-          />
+          <Image src={pretestSGImg} alt="" maxWidth="350px" />
 
           <p className="text-center">
             <strong>Data:</strong>
@@ -87,7 +89,7 @@ export default pretest(setup, ({ section }) => ({
               Consider the 2-D spatial vector <M t="\vb{v}" /> shown here.
             </p>
 
-            <img src={pretestGraphImg} width={249} height={228} alt="" />
+            <Image src={pretestGraphImg} alt="" />
           </Prose>
         </>
       ),

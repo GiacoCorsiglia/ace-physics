@@ -1,4 +1,5 @@
 // Declare environment variables.
+
 declare namespace NodeJS {
   interface ProcessEnv {
     // Private.
@@ -15,18 +16,18 @@ declare namespace NodeJS {
 
 // Declare asset modules.
 
-declare module "*.jpg" {
-  const src: string;
-  export default src;
-}
-declare module "*.gif" {
-  const src: string;
-  export default src;
-}
-declare module "*.png" {
-  const src: string;
-  export default src;
-}
+// declare module "*.jpg" {
+//   const src: string;
+//   export default src;
+// }
+// declare module "*.gif" {
+//   const src: string;
+//   export default src;
+// }
+// declare module "*.png" {
+//   const src: string;
+//   export default src;
+// }
 
 declare module "*.svg" {
   import * as React from "react";
@@ -39,7 +40,8 @@ declare module "*.svg" {
   export default ReactComponent;
 }
 
-// Redux Dev Tools
+// Redux Dev Tools.
+
 interface Window {
   __REDUX_DEVTOOLS_EXTENSION__?: any;
 }

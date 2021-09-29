@@ -2,6 +2,7 @@ export * from "./answers";
 export * from "./callouts";
 export * from "./controls";
 export * from "./header";
+export * from "./image";
 export * from "./layout";
 export * from "./math";
 export * from "./page";
