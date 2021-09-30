@@ -1,4 +1,12 @@
-import { ChooseOne, Decimal, Guidance, M, Prose, Table } from "@/components";
+import {
+  ChooseOne,
+  Decimal,
+  Guidance,
+  Image,
+  M,
+  Prose,
+  Table,
+} from "@/components";
 import { cx, deepEqual } from "@/helpers/frontend";
 import { page } from "@/tutorial";
 import xzImg from "./assets/x-z.png";
@@ -78,26 +86,8 @@ export default page(setup, ({ section, hint, oneOf }) => ({
             <Prose>Which of these reasonably matches your sim’s setup?</Prose>
           }
           choices={[
-            [
-              "z-x",
-              <img
-                className="img"
-                src={zxImg}
-                width={665}
-                height={267}
-                alt="Z S-G first, X S-G second"
-              />,
-            ],
-            [
-              "x-z",
-              <img
-                className="img"
-                src={xzImg}
-                width={664}
-                height={264}
-                alt="X S-G first, Z S-G second"
-              />,
-            ],
+            ["z-x", <Image src={zxImg} alt="Z S-G first, X S-G second" />],
+            ["x-z", <Image src={xzImg} alt="X S-G first, Z S-G second" />],
             ["none", "None of the above"],
           ]}
         />

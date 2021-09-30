@@ -1,7 +1,8 @@
 import { cx, result, useIsomorphicLayoutEffect } from "@/helpers/frontend";
 import type { KatexOptions, ParseError } from "katex";
 import "katex/dist/katex.css";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { useActualSiblingCheck } from "..";
 import styles from "./m.module.scss";
 import { macros } from "./macros";
 
@@ -78,31 +79,15 @@ export const M = ({
     });
   }, [tex, prespace, postspace, display]);
 
-  const elRef = useRef<HTMLSpanElement>(null);
-  const classesRef = useRef("");
-
-  useIsomorphicLayoutEffect(() => {
-    const el = elRef.current;
-    if (!el || !display || !html.__html) {
-      return;
-    }
-    // If this is display math, determine if this element is the first/last
-    // child of its parent *including text nodes* (which CSS is incapable of).
-    const firstChild = !el.previousSibling;
-    const lastChild = !el.nextSibling;
-    classesRef.current = cx(
-      firstChild && "display-math-first-child",
-      lastChild && "display-math-last-child"
-    );
-    el.className += " " + classesRef.current;
-  }, [display, html]);
+  const [elRef, classes] = useActualSiblingCheck(
+    () => !!display && !!html.__html,
+    [display, html.__html]
+  );
 
   return (
     <span
       ref={elRef}
-      className={
-        display ? cx(styles.displayMath, classesRef.current) : undefined
-      }
+      className={display ? cx(styles.displayMath, classes) : undefined}
       style={color ? { color } : undefined}
       dangerouslySetInnerHTML={html}
     />

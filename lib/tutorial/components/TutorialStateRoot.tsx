@@ -5,7 +5,6 @@ import { Updates } from "@/reactivity";
 import { Learner } from "@/schema/db";
 import { TutorialState } from "@/schema/tutorial";
 import { decode } from "@/schema/types";
-import EllipsisCircleIcon from "@/svgs/ellipsis-circle.svg";
 import { AlertIcon, CheckCircleIcon, SyncIcon } from "@primer/octicons-react";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -276,3 +275,33 @@ function SavedStatus({
       );
   }
 }
+
+const EllipsisCircleIcon = () => (
+  <svg
+    aria-hidden="true"
+    role="img"
+    className="octicon"
+    viewBox="0 0 16 16"
+    width="16"
+    height="16"
+    style={{
+      display: "inline-block",
+      userSelect: "none",
+      verticalAlign: "text-bottom",
+    }}
+  >
+    <circle
+      stroke="currentColor"
+      cy="8"
+      cx="8"
+      stroke-width="1.4"
+      fill="none"
+      r="7.2"
+    />
+    <g fill="currentColor">
+      <circle cy="8" cx="8" r="1.2" />
+      <circle cy="8" cx="11.2" r="1.2" />
+      <circle cy="8" cx="4.8" r="1.2" />
+    </g>
+  </svg>
+);

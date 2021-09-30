@@ -1,4 +1,12 @@
-import { Button, Callout, Justify, M, Prose, TextBox } from "@/components";
+import {
+  Button,
+  Callout,
+  Justify,
+  M,
+  Prose,
+  TextBox,
+  Image,
+} from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import { HowToUseTheSim } from "../spin-lab-1/shared";
@@ -83,10 +91,8 @@ export default page(setup, ({ section, hint }) => ({
           <Prose>
             <p>Set up your sim to match this screenshot:</p>
 
-            <img
+            <Image
               src={experimentalSetupImg}
-              width="1332 "
-              height="302"
               alt="Setup with the oven connected to X Stern-Gerlach analyzer, with the down port connected to a magnet oriented along the Z direction, connected to another X Stern-Gerlach analyzer, with both ports connected to counters."
             />
 

@@ -1,6 +1,6 @@
-import { ChooseOne, M, Prose } from "@/components";
+import { ChooseOne, Image, M, Prose } from "@/components";
 import { pretest } from "@/tutorial";
-import EntangledStatesSvg from "./assets/entangled-states.svg";
+import entangledStatesSvg from "./assets/entangled-states.svg";
 import setup from "./setup";
 
 export default pretest(setup, ({ section }) => ({
@@ -8,7 +8,7 @@ export default pretest(setup, ({ section }) => ({
     section({
       body: (
         <>
-          <EntangledStatesSvg className="svg-img" />
+          <Image src={entangledStatesSvg} layout="responsive" />
 
           <Prose>
             <p>

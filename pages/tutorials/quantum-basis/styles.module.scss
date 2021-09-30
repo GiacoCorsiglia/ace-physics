@@ -1,11 +1,9 @@
+@use "colors";
+@use "borders";
+
 .carFigure {
-  display: block;
-  margin: 1rem auto 0;
-  width: 100%;
-  max-width: 266px;
-  height: auto;
-  border: 1px solid #b3b3b3;
-  border-radius: 3px;
+  border: 1px solid colors.$neutral-600 !important;
+  border-radius: borders.$radius !important;
 }
 
 .minusSelect {

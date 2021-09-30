@@ -10,11 +10,11 @@
     // ESLint Rules: https://eslint.org/docs/rules/
     // TypeScript-ESLint Rules: https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
 
-    // Next.js overrides.
-    "@next/next/no-img-element": "off",
-
     // Upgrade react-hooks rules to errors so they fail builds.
-    "react-hooks/exhaustive-deps": "error",
+    "react-hooks/exhaustive-deps": [
+      "error",
+      { "additionalHooks": "(useActualSiblingCheck)" }
+    ],
 
     // Possible errors.
     "eqeqeq": "error",
