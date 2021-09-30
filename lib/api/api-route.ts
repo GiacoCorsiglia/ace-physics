@@ -1,9 +1,7 @@
 import { decode, Infer, Type } from "@/schema/types";
-import { init } from "@/sentry";
+import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import * as response from "./response";
-
-init();
 
 interface Request<T> {
   body: T;
@@ -53,7 +51,7 @@ export const apiRoute = <T extends Type>(
     }
   };
 
-  return async (req: NextApiRequest, res: NextApiResponse) => {
+  return withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== method) {
       res.setHeader("Allow", [method]);
       res.status(405).json({
@@ -77,5 +75,5 @@ export const apiRoute = <T extends Type>(
     }
 
     res.status(res_.statusCode).json(res_.body);
-  };
+  });
 };

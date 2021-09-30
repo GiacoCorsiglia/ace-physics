@@ -4,26 +4,16 @@ import footerStyles from "@/components/footer.module.scss";
 import "@/design/global.scss";
 import { JsxElement, resetUniqueIds } from "@/helpers/frontend";
 import { polyfill } from "@/polyfill";
-import { init } from "@/sentry";
 import type { AppProps } from "next/app";
 
 polyfill();
-init();
 
-type Props = AppProps & { err: any };
-
-export default function AceApp({ Component, pageProps, err }: Props) {
+export default function AceApp({ Component, pageProps }: AppProps) {
   if (typeof window === "undefined") {
     // If rendering on the server, reset this at the start of every render. This
     // way we can avoid mismatching unique ids between the server and client.
     // SEE: https://github.com/downshift-js/downshift#faq
     resetUniqueIds();
-  }
-
-  if (err) {
-    // https://github.com/vercel/next.js/blob/canary/examples/with-sentry/pages/_app.js
-    // eslint-disable-next-line no-param-reassign
-    pageProps.err = err;
   }
 
   const layout: (Page: typeof Component, pageProps: any) => JsxElement =
