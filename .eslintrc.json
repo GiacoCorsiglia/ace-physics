@@ -11,7 +11,10 @@
     // TypeScript-ESLint Rules: https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
 
     // Upgrade react-hooks rules to errors so they fail builds.
-    "react-hooks/exhaustive-deps": "error",
+    "react-hooks/exhaustive-deps": [
+      "error",
+      { "additionalHooks": "(useActualSiblingCheck)" }
+    ],
 
     // Possible errors.
     "eqeqeq": "error",
