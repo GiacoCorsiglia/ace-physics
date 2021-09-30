@@ -18,7 +18,7 @@ process.env.SENTRY_DSN = SENTRY_DSN;
 const nextConfig = (module.exports = {
   // Only create routes for those files in the `pages` directory that end with
   // these extensions.  This way we can put non-route files in the pages
-  // directory, allowing us to collocate such files with the relevant routes.
+  // directory, allowing us to colocate such files with the relevant routes.
   pageExtensions: ["page.tsx", "endpoint.ts"],
 
   // Real next config.
@@ -43,11 +43,6 @@ const nextConfig = (module.exports = {
    * @param {import("webpack").Configuration} config
    */
   webpack(config, options) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-
     //////////////////////////////////////////////////////////////////////////
     // Sentry config.
     // See: https://github.com/vercel/next.js/tree/canary/examples/with-sentry

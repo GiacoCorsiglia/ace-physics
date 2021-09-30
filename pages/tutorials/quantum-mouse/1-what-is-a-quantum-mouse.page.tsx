@@ -1,6 +1,7 @@
 import {
   ChooseAll,
   Dropdown,
+  Image,
   LabelsLeft,
   M,
   Prose,
@@ -9,8 +10,8 @@ import {
 } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
-import MouseBigEye from "./svgs/mouse-big-eye.svg";
-import MouseSmallEye from "./svgs/mouse-small-eye.svg";
+import mouseBigEyeSvg from "./svgs/mouse-big-eye.svg";
+import mouseSmallEyeSvg from "./svgs/mouse-small-eye.svg";
 
 export default page(setup, ({ section, hint }) => ({
   name: "what-is-a-quantum-mouse",
@@ -285,7 +286,7 @@ function SmallEyeMouseKet() {
   return (
     <>
       <M t="\large|" />
-      <MouseSmallEye />
+      <Image src={mouseSmallEyeSvg} inline />
       <M t="\large\rangle" />
     </>
   );
@@ -295,7 +296,7 @@ function BigEyeMouseKet() {
   return (
     <>
       <M t="\large|" />
-      <MouseBigEye />
+      <Image src={mouseBigEyeSvg} inline />
       <M t="\large\rangle" />
     </>
   );

@@ -1,6 +1,6 @@
-import { M, Prose, TextBox, Toggle } from "@/components";
+import { Image, M, Prose, TextBox, Toggle } from "@/components";
 import { page } from "@/tutorial";
-import Car from "./assets/car.svg";
+import carSvg from "./assets/car.svg";
 import setup from "./setup";
 import styles from "./styles.module.scss";
 
@@ -25,7 +25,7 @@ export default page(setup, ({ section }) => ({
             down a hill.
           </Prose>
 
-          <Car className={styles.carFigure} />
+          <Image src={carSvg} className={styles.carFigure} maxWidth="266px" />
         </>
       ),
     }),

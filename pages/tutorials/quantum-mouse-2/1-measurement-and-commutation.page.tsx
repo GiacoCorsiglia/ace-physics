@@ -1,9 +1,9 @@
-import { M, Prose, TextBox, Toggle } from "@/components";
+import { Image, M, Prose, TextBox, Toggle } from "@/components";
 import { page } from "@/tutorial";
 import { hint } from "@/tutorial/config";
 import Link from "next/link";
-import MouseBigEye from "../quantum-mouse/svgs/mouse-big-eye.svg";
-import MouseSmallEye from "../quantum-mouse/svgs/mouse-small-eye.svg";
+import mouseBigEyeSvg from "../quantum-mouse/svgs/mouse-big-eye.svg";
+import mouseSmallEyeSvg from "../quantum-mouse/svgs/mouse-small-eye.svg";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -241,7 +241,7 @@ function SmallEyeMouseKet() {
   return (
     <>
       <M t="\large|" />
-      <MouseSmallEye />
+      <Image src={mouseSmallEyeSvg} inline />
       <M t="\large\rangle" />
     </>
   );
@@ -251,7 +251,7 @@ function BigEyeMouseKet() {
   return (
     <>
       <M t="\large|" />
-      <MouseBigEye />
+      <Image src={mouseBigEyeSvg} inline />
       <M t="\large\rangle" />
     </>
   );

@@ -1,6 +1,6 @@
-import { Answer, ChooseOne, M, Prose, TextBox } from "@/components";
+import { Answer, ChooseOne, Image, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
-import EntangledStatesSvg from "./assets/entangled-states.svg";
+import entangledStatesSvg from "./assets/entangled-states.svg";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -12,7 +12,7 @@ export default page(setup, ({ section }) => ({
       name: "entangledStatesIntro",
       body: (
         <>
-          <EntangledStatesSvg className="svg-img" />
+          <Image src={entangledStatesSvg} layout="responsive" />
 
           <Prose>
             <p>
