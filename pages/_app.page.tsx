@@ -4,11 +4,15 @@ import footerStyles from "@/components/footer.module.scss";
 import "@/design/global.scss";
 import { JsxElement, resetUniqueIds } from "@/helpers/frontend";
 import { polyfill } from "@/polyfill";
+import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 
 polyfill();
 
-export default function AceApp({ Component, pageProps }: AppProps) {
+export default function AceApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   if (typeof window === "undefined") {
     // If rendering on the server, reset this at the start of every render. This
     // way we can avoid mismatching unique ids between the server and client.
@@ -21,12 +25,14 @@ export default function AceApp({ Component, pageProps }: AppProps) {
     ((Page: typeof Component, pageProps: any) => <Page {...pageProps} />);
 
   return (
-    <AuthProvider>
-      <div className={footerStyles.bodyContent}>
-        {layout(Component, pageProps)}
-      </div>
+    <SessionProvider session={session}>
+      <AuthProvider>
+        <div className={footerStyles.bodyContent}>
+          {layout(Component, pageProps)}
+        </div>
 
-      <Footer />
-    </AuthProvider>
+        <Footer />
+      </AuthProvider>
+    </SessionProvider>
   );
 }

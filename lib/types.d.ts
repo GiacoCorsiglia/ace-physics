@@ -4,8 +4,11 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     // Private.
+    readonly ACE_AWS_ENDPOINT: string | undefined;
     readonly ACE_AWS_ACCESS_KEY: string;
     readonly ACE_AWS_SECRET_KEY: string;
+    readonly ACE_AWS_SES_ACCESS_KEY: string | undefined;
+    readonly ACE_AWS_SES_SECRET_KEY: string | undefined;
     readonly ACE_AWS_REGION: string;
     readonly ACE_TABLE_NAME: string;
     // Public.
