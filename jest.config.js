@@ -1,27 +1,14 @@
 // @ts-check
+const nextJest = require("next/jest");
 const path = require("path");
 const tsconfig = require("./tsconfig.json");
 
+const createJestConfig = nextJest({
+  dir: "./",
+});
+
 /** @type {import("@jest/types").Config.InitialOptions} */
-const config = (module.exports = {
-  // Test files.
-  testPathIgnorePatterns: ["<rootDir>[/\\\\](node_modules|.next)[/\\\\]"],
-
-  // Transformation/compilation.
-  transform: {
-    "^.+\\.(ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
-
-    // Fake asset imports.
-    "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)":
-      "<rootDir>/lib/__mocks__/file-transform.js",
-  },
-  transformIgnorePatterns: [
-    "[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$",
-    "^.+\\.module\\.(css|sass|scss)$",
-  ],
-
-  // Modules.
-  moduleFileExtensions: ["ts", "tsx", "js", "json", "jsx"],
+const config = {
   // Ensure the `baseUrl` from tsconfig.json is respected.
   modulePaths: tsconfig.compilerOptions.baseUrl
     ? [tsconfig.compilerOptions.baseUrl.replace(".", "<rootDir>")]
@@ -40,4 +27,6 @@ const config = (module.exports = {
 
   // Setup.
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-});
+};
+
+module.exports = createJestConfig(config);

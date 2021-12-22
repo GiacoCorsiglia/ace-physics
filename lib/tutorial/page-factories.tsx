@@ -121,7 +121,7 @@ export const page = <S extends TutorialSchema>(
   return routeComponent({
     element: (
       <BodyPage
-        config={config as c.PageConfig<TutorialSchema>}
+        config={config as unknown as c.PageConfig<TutorialSchema>}
         tutorialConfig={tutorialConfig}
       />
     ),

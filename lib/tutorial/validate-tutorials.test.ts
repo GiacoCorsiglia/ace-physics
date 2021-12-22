@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { TutorialSchema } from "@/schema/tutorial";
 import { tutorialSchemas } from "@pages/tutorials/schemas";
 import * as fs from "fs";
@@ -193,7 +196,7 @@ fs.readdirSync(tutorialsDir)
 
       it("no repeated models", () => {
         // const identifier = /^[A-Za-z_][0-9A-Za-z_$]*$/;
-        const modelsArgX = /^\s*\(?([A-Za-z_$][0-9A-Za-z_$]*)(?:,|\s|=>)/;
+        const modelsArgX = /^\s*\(?([A-Za-z_$][0-9A-Za-z_$]*)(?:\)|,|\s|=>)/;
 
         const allAccessedModels: string[] = [];
         const allRepeatedModels: string[] = [];
@@ -213,7 +216,7 @@ fs.readdirSync(tutorialsDir)
           if (modelsArg === null) {
             // We've already checked the arity, so we should be able to find the
             // name of the models arg with this pattern.
-            throw new Error("Broken test");
+            throw new Error("Broken test: failed to match models arg pattern");
           }
 
           // Check for things like:
