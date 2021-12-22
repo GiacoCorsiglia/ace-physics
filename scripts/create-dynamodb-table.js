@@ -6,8 +6,12 @@ const {
   UpdateTimeToLiveCommand,
 } = require("@aws-sdk/client-dynamodb");
 const { exit } = require("process");
+const path = require("path");
+const dotenv = require("dotenv");
 
-const TableName = "ACE_local_Data"; // Update in db.ts as well.
+dotenv.config({ path: path.resolve(__dirname, "../.env.development") });
+
+const TableName = process.env.ACE_TABLE_NAME;
 
 // Using DynamoDB TTL is suggested by next-auth: https://next-auth.js.org/adapters/dynamodb
 const TimeToLiveAttribute = "expires";
@@ -15,12 +19,13 @@ const TimeToLiveAttribute = "expires";
 run();
 async function run() {
   const client = new DynamoDB({
-    endpoint: "http://localhost:8000",
-    region: "us-east-1",
-    tls: false,
+    endpoint: process.env.ACE_AWS_ENDPOINT,
+    region: process.env.ACE_AWS_REGION,
+    // If we are specifying an endpoint, it's localhost, so disable tls.
+    tls: process.env.ACE_AWS_ENDPOINT ? false : undefined,
     credentials: {
-      accessKeyId: "key",
-      secretAccessKey: "key",
+      accessKeyId: process.env.ACE_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.ACE_AWS_SECRET_KEY,
     },
   });
 
