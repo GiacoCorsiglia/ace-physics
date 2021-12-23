@@ -1,7 +1,7 @@
 import { sendVerificationRequest } from "@/auth/email";
+import { HashedDynamoDBAdapter } from "@/auth/hashed-dynamodb-adapter";
 import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
@@ -28,7 +28,7 @@ export default NextAuth({
       sendVerificationRequest,
     }),
   ],
-  adapter: DynamoDBAdapter(dynamodb, {
+  adapter: HashedDynamoDBAdapter(dynamodb, {
     tableName: process.env.ACE_TABLE_NAME,
   }),
 });
