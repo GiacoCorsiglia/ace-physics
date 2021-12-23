@@ -23,6 +23,7 @@ const dynamodb = DynamoDBDocument.from(new DynamoDB(dynamodbConfig), {
 });
 
 export default NextAuth({
+  secret: process.env.ACE_NEXT_AUTH_SECRET,
   providers: [
     EmailProvider({
       sendVerificationRequest,
