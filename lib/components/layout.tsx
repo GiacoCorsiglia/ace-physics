@@ -29,7 +29,7 @@ const VerticalSpace = styledChild<{
   after === 0 && styles.verticalSpaceAfter0,
   after === 100 && styles.verticalSpaceAfter100,
   after === 200 && styles.verticalSpaceAfter200,
-  after === 300 && styles.verticalSpaceBefore300,
+  after === 300 && styles.verticalSpaceAfter300,
 ]);
 
 export const Vertical = Object.assign(
