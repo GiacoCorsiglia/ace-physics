@@ -21,6 +21,12 @@ export const sendVerificationRequest = async ({
   identifier: string;
   url: string;
 }) => {
+  if (process.env.NODE_ENV === "development") {
+    console.log(`Log in as ${email} with this link:`);
+    console.log(url);
+    return;
+  }
+
   const { host } = new URL(url);
 
   const command = new SendEmailCommand({
