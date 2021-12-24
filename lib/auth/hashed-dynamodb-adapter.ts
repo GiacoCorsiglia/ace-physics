@@ -18,6 +18,7 @@ export const hashEmail = (email: string): string => {
   // database.  If we change the `hashEmail()` function, no existing user will
   // be able to log in (unless we implement a gradual migration strategy, which
   // would still have to rely on the original implementation of `hashEmail`).
+  // !! THIS STRATEGY IS REPEATED IN use-unhashed-email.ts !!
   //////////////////////////////////////////////////////////////////////////////
   email = email.toLowerCase(); // Emails should not be case sensitive.
   const hash = createHash("sha256");

@@ -32,4 +32,9 @@ export default NextAuth({
   adapter: HashedDynamoDBAdapter(dynamodb, {
     tableName: process.env.ACE_TABLE_NAME,
   }),
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    verifyRequest: "/auth/verify-request",
+  },
 });
