@@ -1,144 +1,209 @@
-import { asyncResult, isObject } from "@/helpers/backend";
-import { Learner, Tutorial } from "@/schema/db";
-import { decode, Infer, Type } from "@/schema/types";
-import AWS from "aws-sdk";
+import { isObject } from "@/helpers/backend";
+import {
+  Course,
+  CourseInstructor,
+  CourseStudent,
+  TutorialState,
+} from "@/schema/db";
+import { any, decode, Infer, Type } from "@/schema/types";
+import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocument, TranslateConfig } from "@aws-sdk/lib-dynamodb";
 
-if (process.env.NODE_ENV === "development") {
-  AWS.config.update({
-    region: "local",
-  });
-} else {
-  AWS.config.update({
+////////////////////////////////////////////////////////////////////////////////
+// Database connection.
+////////////////////////////////////////////////////////////////////////////////
+
+export const TableName = process.env.ACE_TABLE_NAME;
+
+export const createDocumentClient = (translateConfig: TranslateConfig) => {
+  const config: DynamoDBClientConfig = {
+    endpoint: process.env.ACE_AWS_ENDPOINT, // Local only.
     region: process.env.ACE_AWS_REGION,
-    accessKeyId: process.env.ACE_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.ACE_AWS_SECRET_KEY,
-  });
-}
+    credentials: {
+      accessKeyId: process.env.ACE_AWS_ACCESS_KEY,
+      secretAccessKey: process.env.ACE_AWS_SECRET_KEY,
+    },
+  };
 
-// Table Name.
-
-export const TableName =
-  process.env.NODE_ENV === "development"
-    ? require("./ddb.json").TableName
-    : process.env.ACE_TABLE_NAME;
-
-// Client.
-
-let _client: AWS.DynamoDB.DocumentClient;
-export const client = () =>
-  _client ||
-  (_client = new AWS.DynamoDB.DocumentClient(
-    process.env.NODE_ENV === "development"
-      ? { endpoint: "http://localhost:8000" }
-      : undefined
-  ));
-
-// Helpers.
-
-export const now = () => new Date().toISOString();
-
-export const result = <D, E>(request: AWS.Request<D, E>) =>
-  asyncResult<E, PromiseType<ReturnType<AWS.Request<D, E>["promise"]>>>(
-    request.promise()
+  const documentClient = DynamoDBDocument.from(
+    new DynamoDB(config),
+    translateConfig
   );
 
-type PromiseType<P extends Promise<any>> = P extends Promise<infer T>
-  ? T
-  : never;
-
-export const expressionAttributeValues = (values: Record<string, any>) => {
-  const obj: any = {};
-  for (const key in values) {
-    obj[`:${key}`] = values[key];
-  }
-  return obj;
+  return documentClient;
 };
 
-export const expressionAttributeNames = (values: Record<string, any>) => {
-  const obj: any = {};
-  for (const key in values) {
-    obj[`#${key}`] = key;
-  }
-  return obj;
-};
+let _client: DynamoDBDocument;
+export const client = () =>
+  _client ||
+  (_client = createDocumentClient({
+    marshallOptions: {
+      convertEmptyValues: false,
+      removeUndefinedValues: true,
+      convertClassInstanceToMap: true,
+    },
+  }));
 
-export interface Key {
-  pk: string;
-  sk: string;
+////////////////////////////////////////////////////////////////////////////////
+
+// Avoid typing "GSI1PK" everywhere because I'll definitely mess it up.
+export enum Keys {
+  pk = "pk",
+  sk = "sk",
+  GSI1PK = "GSI1PK",
+  GSI1SK = "GSI1SK",
 }
+
+type Key = { readonly pk: string; readonly sk: string } & (
+  | { readonly GSI1PK?: never; readonly GSI1SK?: never }
+  | { readonly GSI1PK: string; readonly GSI1SK: string }
+);
+
+const codec = <
+  T extends DatabaseType,
+  S extends Type,
+  F extends (item: Infer<S>) => Key
+>(
+  type: T,
+  schema: S,
+  keys: F
+) =>
+  ({
+    /** Compute database keys for given item. */
+    keys,
+
+    /** The "type" attribute in the database. */
+    type,
+
+    /** Converts item from application object for saving in the database. */
+    encode(item: Infer<S>) {
+      if (process.env.NODE_ENV === "development") {
+        for (const p of ["type", ...Object.values(Keys)]) {
+          if (p in (item as any)) {
+            const json = JSON.stringify(item);
+            throw new Error(
+              `Property "${p}" conflicts with database-only property:\n${json}`
+            );
+          }
+        }
+      }
+
+      const clone = {
+        ...item,
+        type,
+        ...keys(item),
+      };
+
+      return clone;
+    },
+
+    /** Convert item from the database for use in the application. */
+    decode(item: unknown) {
+      // Remove database-only properties.
+      if (isObject(item)) {
+        delete (item as any).type;
+        for (const k in Keys) {
+          delete (item as any)[k];
+        }
+      }
+
+      return decode(schema, item);
+    },
+  } as const);
 
 // Codecs.
 
-const hashRegEx = /^\w+#/;
-const parseKey = (prefixedId: string) => prefixedId.replace(hashRegEx, "");
+const enum Prefix {
+  User = "USER",
+  Course = "COURSE",
+  Instructor = "INSTRUCTOR",
+  Student = "STUDENT",
+  TutorialState = "TUTORIAL_STATE",
+}
 
-declare const IsEncoded: unique symbol;
-type Encoded<T> = T & { [IsEncoded]: true };
+const enum DatabaseType {
+  User = "USER",
+  Course = "COURSE",
+  CourseStudent = "COURSE_STUDENT",
+  CourseInstructor = "COURSE_INSTRUCTOR",
+  TutorialState = "TUTORIAL_STATE",
+}
 
-const codec = <
-  T extends Type,
-  K extends Partial<Record<string, string>>,
-  F extends (...args: any) => Key
->(
-  type: T,
-  fromKeys: (pk: string, sk: string) => K,
-  toKeys: (item: Infer<T>) => [pk: string, sk: string],
-  key: F
-) => ({
-  key,
+const joinKey = (...parts: string[]) => parts.join("#");
 
-  forDb(item: Infer<T>) {
-    const [pk, sk] = toKeys(item);
-    const clone = { ...item, pk, sk };
-    Object.keys(fromKeys(pk, sk)).forEach((prop) => delete clone[prop]);
-    return clone as Encoded<Omit<typeof clone, keyof K>>;
-  },
-
-  forClient(item: unknown) {
-    if (isObject(item)) {
-      item = {
-        ...item,
-        ...fromKeys(
-          parseKey((item as any).pk + ""),
-          parseKey((item as any).sk + "")
-        ),
-      };
-      delete (item as any).pk;
-      delete (item as any).sk;
-    }
-
-    return decode(type, item);
-  },
-});
-
-export const key = (...parts: string[]) => parts.join("#");
-
-export const learnerPrefix = "Learner";
-export const tutorialPrefix = "Tutorial";
-
-export const LearnerCodec = codec(
-  Learner,
-  (pk) => ({ learnerId: pk }),
-  (learner) => [key(learnerPrefix, learner.learnerId), "Profile"],
-  (learnerId: string) => ({
-    pk: key(learnerPrefix, learnerId),
-    sk: "Profile",
+/**
+ * NextAuth User.
+ */
+export const UserCodec = codec(
+  DatabaseType.User,
+  any(), // Allow anything since it's from NextAuth.
+  (item: { id: string; email: string }) => ({
+    pk: joinKey(Prefix.User, item.id),
+    sk: joinKey(Prefix.User, item.id),
+    GSI1PK: joinKey(Prefix.User, item.email),
+    GSI1SK: joinKey(Prefix.User, item.email),
   })
 );
 
-export const TutorialCodec = codec(
-  Tutorial,
-  (pk, sk) => ({
-    learnerId: pk,
-    tutorial: sk.split("#")[0],
-    edition: sk.split("#")[1] || "Main",
-  }),
-  (tutorial) => [
-    key(learnerPrefix, tutorial.learnerId),
-    key(tutorialPrefix, tutorial.tutorial, tutorial.edition),
-  ],
-  (learnerId: string, tutorial: string, edition: string) => ({
-    pk: key(learnerPrefix, learnerId),
-    sk: key(tutorialPrefix, tutorial, edition),
+/**
+ * Configuration for a course.
+ */
+export const CourseCodec = codec(
+  DatabaseType.Course,
+  Course,
+  (item: { id: string }) => ({
+    pk: joinKey(Prefix.Course, item.id),
+    sk: joinKey(Prefix.Course, item.id),
   })
+);
+
+/**
+ * Associates a user with a course as a student.
+ */
+export const CourseStudentCodec = codec(
+  DatabaseType.CourseStudent,
+  CourseStudent,
+  (item: { courseId: string; userEmail: string }) => ({
+    pk: joinKey(Prefix.Course, item.courseId),
+    sk: joinKey(Prefix.Student, item.userEmail),
+    GSI1PK: joinKey(Prefix.Student, item.userEmail),
+    GSI1SK: joinKey(Prefix.Course, item.courseId),
+  })
+);
+
+/**
+ * Associates a user with a course as an instructor.
+ */
+export const CourseInstructorCodec = codec(
+  DatabaseType.CourseInstructor,
+  CourseInstructor,
+  (item: { courseId: string; userEmail: string }) => ({
+    pk: joinKey(Prefix.Course, item.courseId),
+    sk: joinKey(Prefix.Instructor, item.userEmail),
+    GSI1PK: joinKey(Prefix.Instructor, item.userEmail),
+    GSI1SK: joinKey(Prefix.Course, item.courseId),
+  })
+);
+
+/**
+ * Tutorial state.  Associated with a user, but may or may not be associated
+ * with a course as well.
+ */
+export const TutorialStateCodec = codec(
+  DatabaseType.TutorialState,
+  TutorialState,
+  (item: { courseId: string; userEmail: string; tutorial: string }) => {
+    // TODO:
+    if (item.courseId === "NONE") {
+      return {
+        pk: joinKey(Prefix.User, item.userEmail),
+        sk: joinKey(Prefix.TutorialState, item.tutorial),
+      };
+    }
+
+    return {
+      pk: joinKey(Prefix.Course, item.courseId),
+      sk: joinKey(Prefix.TutorialState, item.tutorial, item.userEmail),
+    };
+  }
 );

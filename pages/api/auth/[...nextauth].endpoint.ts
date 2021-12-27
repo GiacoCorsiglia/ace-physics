@@ -1,20 +1,10 @@
+import * as db from "@/api/db";
 import { sendVerificationRequest } from "@/auth/email";
 import { HashedDynamoDBAdapter } from "@/auth/hashed-dynamodb-adapter";
-import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
-const dynamodbConfig: DynamoDBClientConfig = {
-  endpoint: process.env.ACE_AWS_ENDPOINT,
-  region: process.env.ACE_AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.ACE_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.ACE_AWS_SECRET_KEY,
-  },
-};
-
-const dynamodb = DynamoDBDocument.from(new DynamoDB(dynamodbConfig), {
+const dynamodb = db.createDocumentClient({
   marshallOptions: {
     convertEmptyValues: true,
     removeUndefinedValues: true,
@@ -30,7 +20,7 @@ export default NextAuth({
     }),
   ],
   adapter: HashedDynamoDBAdapter(dynamodb, {
-    tableName: process.env.ACE_TABLE_NAME,
+    tableName: db.TableName,
   }),
   pages: {
     signIn: "/auth/signin",
