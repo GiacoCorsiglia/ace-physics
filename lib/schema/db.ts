@@ -32,7 +32,7 @@ export type TutorialState = t.Infer<typeof TutorialState>;
 export const TutorialState = t.exact({
   courseId: t.string(),
   userEmail: t.string(),
-  tutorial: t.string(),
+  tutorialId: t.string(),
   createdAt: t.string(),
   updatedAt: t.string(),
   version: t.number(),
