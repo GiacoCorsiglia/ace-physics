@@ -1,18 +1,18 @@
-interface SuccessResponse<B = {}> {
+interface SuccessResponse<Body = {}> {
   statusCode: 200;
-  body: B;
+  body: Body;
   headers?: { readonly [headerName: string]: string | readonly string[] };
 }
 
 interface ErrorResponse {
-  statusCode: 404 | 405 | 500;
+  statusCode: 403 | 404 | 405 | 500;
   body: {};
   headers?: { readonly [headerName: string]: string | readonly string[] };
 }
 
-export type Response<B = {}> = SuccessResponse<B> | ErrorResponse;
+export type Response<Body = {}> = SuccessResponse<Body> | ErrorResponse;
 
-export const success = <B>(body: B): SuccessResponse<B> => ({
+export const success = <Body>(body: Body): SuccessResponse<Body> => ({
   statusCode: 200,
   body,
 });
@@ -20,6 +20,11 @@ export const success = <B>(body: B): SuccessResponse<B> => ({
 export const notFound = (): ErrorResponse => ({
   statusCode: 404,
   body: { error: 404, type: "Not Found" },
+});
+
+export const forbidden = (): ErrorResponse => ({
+  statusCode: 403,
+  body: { error: 403, type: "Forbidden" },
 });
 
 export const error = (
@@ -40,8 +45,14 @@ export const error = (
   };
 };
 
-export const methodNotAllowed = (method: string): ErrorResponse => ({
+export const methodNotAllowed = (
+  method: string | undefined,
+  allowedMethods: string[]
+): ErrorResponse => ({
   statusCode: 405,
+  headers: {
+    Allow: allowedMethods,
+  },
   body: {
     error: 405,
     type: "Method Not Allowed",
