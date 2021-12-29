@@ -12,18 +12,12 @@ export const Course = t.exact({
   visibleTutorials: t.union(t.array(t.string()), t.undefined()),
 });
 
-export type CourseStudent = t.Infer<typeof CourseStudent>;
-export const CourseStudent = t.exact({
+export type CourseUser = t.Infer<typeof CourseUser>;
+export const CourseUser = t.exact({
   courseId: t.string(),
   userEmail: t.string(),
   createdAt: t.string(),
-});
-
-export type CourseInstructor = t.Infer<typeof CourseInstructor>;
-export const CourseInstructor = t.exact({
-  courseId: t.string(),
-  userEmail: t.string(),
-  createdAt: t.string(),
+  role: t.union(t.literal("student"), t.literal("instructor")),
 });
 
 // TutorialState.
