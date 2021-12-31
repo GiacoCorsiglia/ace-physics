@@ -64,29 +64,36 @@ const wrapClient = (client: DynamoDBDocument): SafeDynamoDBDocument => {
 
   wrapped.unsafe = client;
 
-  for (const key in client) {
-    if (Object.prototype.hasOwnProperty.call(client, key)) {
-      const value = client[key as keyof DynamoDBDocument];
+  // We can't just iterate over the object's own keys, we have to walk up the
+  // prototype chain.
+  const properties = new Set<string | symbol>();
+  let obj: any = client;
+  do {
+    Reflect.ownKeys(obj).forEach((k) => properties.add(k));
+  } while ((obj = Reflect.getPrototypeOf(obj)) && obj !== Object.prototype);
 
-      if (typeof value === "function") {
-        (wrapped as any)[key] = (...args: any) => {
-          let ret: any;
-          try {
-            ret = (value as Function)(...args);
-          } catch (e) {
-            return Promise.resolve(failure(e));
-          }
-
-          if (ret && "then" in ret && typeof ret.then === "function") {
-            return asyncResult(ret);
-          }
-
-          return ret;
-        };
-      } else {
-        (wrapped as any)[key] = value;
-      }
+  for (const key of properties) {
+    const value: any = client[key as keyof DynamoDBDocument];
+    if (typeof value !== "function") {
+      (wrapped as any)[key] = value;
+      continue;
     }
+
+    (wrapped as any)[key] = (...args: any) => {
+      let ret: any;
+      try {
+        // It's a class method, so make sure it knows what `this` is.
+        ret = value.apply(client, args);
+      } catch (e) {
+        return Promise.resolve(failure(e));
+      }
+
+      if (ret && "then" in ret && typeof ret.then === "function") {
+        return asyncResult(ret);
+      }
+
+      return ret;
+    };
   }
 
   return wrapped;
