@@ -42,6 +42,7 @@ const getEmailForHash = async (hash: string): Promise<null | string> => {
 
 // Re-implement the hashing function for calculation in the browser.
 const hashEmail = async (email: string): Promise<string> => {
+  email = email.toLowerCase();
   const msgBuffer = new TextEncoder().encode(email);
   const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgBuffer);
   let binary = "";
