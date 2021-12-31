@@ -1,3 +1,6 @@
+// By making this a function, we allowing changing it in tests!
+export const tableName = () => process.env.ACE_TABLE_NAME;
+
 // Avoid typing "GSI1PK" everywhere because I'll definitely mess it up.
 export enum Keys {
   pk = "pk",

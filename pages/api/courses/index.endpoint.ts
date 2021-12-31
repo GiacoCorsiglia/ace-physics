@@ -7,7 +7,7 @@ export default endpoint(spec.Courses, {
 
     const userCoursesResult = await db.fetchAllPages((ExclusiveStartKey) =>
       db.client().query({
-        TableName: db.TableName,
+        TableName: db.tableName(),
         KeyConditionExpression: `#${db.Keys.pk} = :${db.Keys.pk} and begins_with(#${db.Keys.sk}, :${db.Keys.sk})`,
         ...db.expressionAttributes(
           db.codec.CourseUser.keys.primary({
@@ -28,7 +28,7 @@ export default endpoint(spec.Courses, {
     // This is limited to 100 courses, which should be fine...
     const coursesResult = await db.client().batchGet({
       RequestItems: {
-        [db.TableName]: {
+        [db.tableName()]: {
           Keys: userCourses.map((course) =>
             db.codec.Course.keys.primary({ id: course.courseId })
           ),
@@ -41,7 +41,7 @@ export default endpoint(spec.Courses, {
     }
 
     const courses = db.codec.Course.decodeList(
-      coursesResult.value.Responses?.[db.TableName]
+      coursesResult.value.Responses?.[db.tableName()]
     );
 
     const rolesByCourse = new Map(
@@ -90,7 +90,7 @@ export default endpoint(spec.Courses, {
       TransactItems: [
         {
           Put: {
-            TableName: db.TableName,
+            TableName: db.tableName(),
             Item: db.codec.Course.encode(newCourse),
             ConditionExpression: `attribute_not_exists(#${db.Keys.pk})`,
             ExpressionAttributeNames: db.expressionAttributeNames({
@@ -100,7 +100,7 @@ export default endpoint(spec.Courses, {
         },
         {
           Put: {
-            TableName: db.TableName,
+            TableName: db.tableName(),
             Item: db.codec.CourseUser.encode(newCourseUser),
           },
         },

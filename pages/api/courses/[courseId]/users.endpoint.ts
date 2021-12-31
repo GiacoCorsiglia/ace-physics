@@ -19,7 +19,7 @@ const userHasPermission = async (
   }
 
   const courseUserResult = await db.client().get({
-    TableName: db.TableName,
+    TableName: db.tableName(),
     Key: db.codec.CourseUser.keys.primary({
       courseId,
       userEmail: user.email,
@@ -58,7 +58,7 @@ export default endpoint(spec.CourseUsers, {
     // Now fetch all the users.
     const usersResult = await db.fetchAllPages((ExclusiveStartKey) =>
       db.client().query({
-        TableName: db.TableName,
+        TableName: db.tableName(),
         IndexName: db.Indexes.GSI1,
         KeyConditionExpression: `#${db.Keys.GSI1PK} = :${db.Keys.GSI1PK} and begins_with(#${db.Keys.GSI1SK}, :${db.Keys.GSI1SK})`,
         ...db.expressionAttributes(
@@ -135,7 +135,7 @@ export default endpoint(spec.CourseUsers, {
           for (let i = 0; i < writeRequests.length; i += chunkSize) {
             yield client.batchWrite({
               RequestItems: {
-                [db.TableName]: writeRequests.slice(i, i + chunkSize),
+                [db.tableName()]: writeRequests.slice(i, i + chunkSize),
               },
             });
           }

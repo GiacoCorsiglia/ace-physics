@@ -20,7 +20,7 @@ export default NextAuth({
     }),
   ],
   adapter: HashedDynamoDBAdapter(dynamodb, {
-    tableName: db.TableName,
+    tableName: db.tableName(),
   }),
   pages: {
     signIn: "/auth/signin",

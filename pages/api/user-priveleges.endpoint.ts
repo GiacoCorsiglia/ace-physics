@@ -11,7 +11,7 @@ const adapter = HashedDynamoDBAdapter(
     },
   }),
   {
-    tableName: db.TableName,
+    tableName: db.tableName(),
   }
 );
 

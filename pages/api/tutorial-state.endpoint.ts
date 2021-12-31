@@ -8,7 +8,7 @@ export default endpoint(spec.TutorialState, {
     const { user } = request.session;
 
     const result = await db.client().get({
-      TableName: db.TableName,
+      TableName: db.tableName(),
       Key: db.codec.TutorialState.keys.primary({
         userEmail: user.email,
         tutorialId: request.query.tutorialId,
@@ -76,7 +76,7 @@ export default endpoint(spec.TutorialState, {
     );
 
     const result = await db.client().update({
-      TableName: db.TableName,
+      TableName: db.tableName(),
       Key: db.codec.TutorialState.keys.primary(item),
       // Only update if no version number is set (it's a new entry), or the
       // version in the database is less (older) than the incoming version.

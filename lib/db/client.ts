@@ -2,8 +2,6 @@ import { asyncResult, failure, Result } from "@/helpers/result";
 import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument, TranslateConfig } from "@aws-sdk/lib-dynamodb";
 
-export const TableName = process.env.ACE_TABLE_NAME;
-
 export const createDocumentClient = (translateConfig: TranslateConfig) => {
   const config: DynamoDBClientConfig = {
     endpoint: process.env.ACE_AWS_ENDPOINT, // Local only.

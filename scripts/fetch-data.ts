@@ -34,7 +34,7 @@ export async function run() {
   async function scan(LastEvaluatedKey?: DocumentClient.Key) {
     const res = await db.result(
       client.scan({
-        TableName: db.TableName,
+        TableName: db.TableName(),
         ExclusiveStartKey: LastEvaluatedKey,
       })
     );

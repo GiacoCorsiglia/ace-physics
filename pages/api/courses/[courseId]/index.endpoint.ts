@@ -9,7 +9,7 @@ export default endpoint(spec.Course, {
       TransactItems: [
         {
           Get: {
-            TableName: db.TableName,
+            TableName: db.tableName(),
             Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
           },
         },
@@ -17,7 +17,7 @@ export default endpoint(spec.Course, {
         // access this course.
         {
           Get: {
-            TableName: db.TableName,
+            TableName: db.tableName(),
             Key: db.codec.CourseUser.keys.primary({
               courseId: request.query.courseId,
               userEmail: user.email,
@@ -61,7 +61,7 @@ export default endpoint(spec.Course, {
         // with the course, and have the role instructor.
         {
           ConditionCheck: {
-            TableName: db.TableName,
+            TableName: db.tableName(),
             Key: db.codec.CourseUser.keys.primary({
               courseId: request.query.courseId,
               userEmail: user.email,
@@ -75,7 +75,7 @@ export default endpoint(spec.Course, {
 
         {
           Update: {
-            TableName: db.TableName,
+            TableName: db.tableName(),
             Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
             ...db.codec.Course.updateExpression(updatedProperties),
           },
@@ -92,7 +92,7 @@ export default endpoint(spec.Course, {
     }
 
     const courseResult = await db.client().get({
-      TableName: db.TableName,
+      TableName: db.tableName(),
       Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
     });
 
