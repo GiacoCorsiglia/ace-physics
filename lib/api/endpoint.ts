@@ -7,7 +7,7 @@ import { ApiSpec } from "./spec";
 export const endpoint = <S extends ApiSpec>(
   spec: S,
   handlers: S["_"]["Handlers"]
-) => {
+): ReturnType<typeof withSentry> & { handlers: S["_"]["Handlers"] } => {
   const wrapped = async (req: NextApiRequest): Promise<response.Response> => {
     const parsedRequest = await parseRequest(spec, req);
     if (parsedRequest.failed) {
@@ -34,7 +34,7 @@ export const endpoint = <S extends ApiSpec>(
     }
   };
 
-  return withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
+  const ret = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
     const isHead = req.method === "HEAD";
     if (isHead) {
       req.method = "GET";
@@ -57,4 +57,6 @@ export const endpoint = <S extends ApiSpec>(
       res.json(res_.body);
     }
   });
+
+  return Object.assign(ret, { handlers });
 };
