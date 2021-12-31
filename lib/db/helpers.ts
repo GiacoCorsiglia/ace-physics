@@ -25,9 +25,22 @@ export const expressionAttributes = (values: Record<string, any>) => ({
   ExpressionAttributeNames: expressionAttributeNames(values),
 });
 
-export const updateExpression = (values: Record<string, any>) => {
-  const exp = Object.keys(values)
-    .map((key) => `#${key} = :${key}`)
+export const updateExpression = <T extends Record<string, any>>(
+  values: T,
+  functions?: { [K in keyof T]?: (name: string, value: string) => string }
+) => {
+  const exp = Object.entries(values)
+    .map(([key, val]) => {
+      const name = `#${key}`;
+      const value = `:${key}`;
+
+      const func = functions && functions.hasOwnProperty(key) && functions[key];
+      if (func) {
+        return `${name} = ${func(name, value)}`;
+      }
+
+      return `${name} = ${value}`;
+    })
     .join(", ");
   return {
     UpdateExpression: `set ${exp}`,

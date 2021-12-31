@@ -57,7 +57,7 @@ export const codec = <
     ) => ReturnType<typeof updateExpression>,
 
     /** Converts item from application object for saving in the database. */
-    encode(item: Item) {
+    encode(item: Item, withKeys: boolean = true) {
       if (process.env.NODE_ENV === "development") {
         for (const p of ["type", ...Object.values(Keys)]) {
           if (p in (item as any)) {
@@ -72,8 +72,8 @@ export const codec = <
       const clone = {
         ...item,
         type,
-        ...keysPrimary(item),
-        ...(keysGS1I && keysGS1I(item)),
+        ...(withKeys && keysPrimary(item)),
+        ...(withKeys && keysGS1I && keysGS1I(item)),
       };
 
       return clone;
