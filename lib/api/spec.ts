@@ -13,7 +13,7 @@ interface RR {
 type HandlerResponse<T extends t.Type> = Promise<Response<t.Infer<T>>>;
 
 // `parseRequest` enforces that the session have a user with an email.
-type HandlerSession = Session & { user: { email: string } };
+export type HandlerSession = Session & { user: { email: string } };
 
 export const isHandlerSession = (
   session: Session | null | undefined

@@ -8,11 +8,11 @@ export default endpoint(spec.Courses, {
     const userCoursesResult = await db.fetchAllPages((ExclusiveStartKey) =>
       db.client().query({
         TableName: db.TableName,
-        KeyConditionExpression: `#${db.Keys.GSI1PK} = :${db.Keys.GSI1PK} and begins_with(#${db.Keys.GSI1SK}, :${db.Keys.GSI1SK})`,
+        KeyConditionExpression: `#${db.Keys.pk} = :${db.Keys.pk} and begins_with(#${db.Keys.sk}, :${db.Keys.sk})`,
         ...db.expressionAttributes(
-          db.codec.CourseUser.keys.GSI1({
-            courseId: "",
+          db.codec.CourseUser.keys.primary({
             userEmail: user.email,
+            courseId: "",
           })
         ),
         ExclusiveStartKey,

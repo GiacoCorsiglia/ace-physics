@@ -70,30 +70,26 @@ export const Course = spec({
   DELETE: null,
 });
 
-export const CourseInstructors = spec({
-  url: join(Course.url, "instructors"),
+export const CourseUsers = spec({
+  url: join(Course.url, "users"),
   Query: Course.Query,
+  GET: {
+    Response: t.exact({
+      instructors: t.array(schema.CourseInstructor),
+      students: t.array(schema.CourseStudent),
+    }),
+  },
   PUT: {
     Request: t.exact({
-      emailsList: t.string(),
+      unhashedInstructorEmails: t.string(),
+      unhashedStudentEmails: t.string(),
     }),
-    Response: Ok,
-  },
-  GET: null,
-  POST: null,
-  DELETE: null,
-});
-
-export const CourseStudents = spec({
-  url: join(Course.url, "students"),
-  Query: Course.Query,
-  PUT: {
-    Request: t.exact({
-      emailsList: t.string(),
+    Response: t.exact({
+      instructors: t.array(schema.CourseInstructor),
+      students: t.array(schema.CourseStudent),
+      unhashedRejectedEmails: t.array(t.string()),
     }),
-    Response: Ok,
   },
-  GET: null,
   POST: null,
   DELETE: null,
 });
@@ -112,18 +108,17 @@ export const CourseTutorialStates = spec({
   DELETE: null,
 });
 
-export const User = spec({
-  url: "/users/{userEmail}",
-  Query: t.exact({
-    userEmail: t.string(),
-  }),
-  PUT: {
+export const UserPrivileges = spec({
+  url: "/users-privileges",
+  Query: Empty,
+  POST: {
     Request: t.exact({
+      unhashedUserEmail: t.string(),
       role: t.union(t.literal("instructor"), t.literal("admin")),
     }),
     Response: Ok,
   },
   DELETE: null,
   GET: null,
-  POST: null,
+  PUT: null,
 });
