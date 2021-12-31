@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom";
-import type { ImageProps } from "next/image";
 
 expect.extend({
   toSatisfy(received, predicate) {
@@ -22,16 +21,3 @@ declare global {
     }
   }
 }
-
-// Mock the Next.js Image component.
-jest.mock("next/image", () => ({
-  __esModule: true,
-  default: (props: ImageProps) =>
-    `Image stub for "${
-      typeof props.src === "string"
-        ? props.src
-        : "default" in props.src
-        ? props.src.default.src
-        : props.src.src
-    }"`,
-}));
