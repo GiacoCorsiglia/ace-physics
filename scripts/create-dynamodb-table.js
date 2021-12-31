@@ -8,6 +8,7 @@ const {
 const { exit } = require("process");
 const path = require("path");
 const dotenv = require("dotenv");
+const tableConfig = require("../lib/db/ddb.json");
 
 dotenv.config({ path: path.resolve(__dirname, "../.env.development") });
 
@@ -30,55 +31,8 @@ async function run() {
   });
 
   const createCommand = new CreateTableCommand({
+    ...tableConfig,
     TableName,
-    AttributeDefinitions: [
-      {
-        AttributeName: "pk",
-        AttributeType: "S",
-      },
-      {
-        AttributeName: "sk",
-        AttributeType: "S",
-      },
-      {
-        AttributeName: "GSI1PK",
-        AttributeType: "S",
-      },
-      {
-        AttributeName: "GSI1SK",
-        AttributeType: "S",
-      },
-    ],
-    KeySchema: [
-      {
-        AttributeName: "pk",
-        KeyType: "HASH",
-      },
-      {
-        AttributeName: "sk",
-        KeyType: "RANGE",
-      },
-    ],
-    GlobalSecondaryIndexes: [
-      {
-        IndexName: "GSI1",
-        KeySchema: [
-          { AttributeName: "GSI1PK", KeyType: "HASH" },
-          { AttributeName: "GSI1SK", KeyType: "RANGE" },
-        ],
-        Projection: {
-          ProjectionType: "ALL",
-        },
-        ProvisionedThroughput: {
-          ReadCapacityUnits: 3,
-          WriteCapacityUnits: 3,
-        },
-      },
-    ],
-    ProvisionedThroughput: {
-      ReadCapacityUnits: 3,
-      WriteCapacityUnits: 3,
-    },
   });
 
   console.log(`Creating table ${TableName}...`);

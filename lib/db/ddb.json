@@ -17,7 +17,6 @@
       "AttributeType": "S"
     }
   ],
-  "TableName": "ACE_Data",
   "KeySchema": [
     {
       "AttributeName": "pk",
@@ -34,7 +33,14 @@
       "KeySchema": [
         { "AttributeName": "GSI1PK", "KeyType": "HASH" },
         { "AttributeName": "GSI1SK", "KeyType": "RANGE" }
-      ]
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 3,
+        "WriteCapacityUnits": 3
+      }
     }
   ],
   "ProvisionedThroughput": {
