@@ -11,6 +11,11 @@ import { createHash } from "crypto";
 import type { Adapter } from "next-auth/adapters";
 
 export const hashEmail = (email: string): string => {
+  if (!email.includes("@")) {
+    // It appears to be hashed already!
+    return email;
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // !! WARNING !!
   // !! DO NOT CHANGE THE HASHING STRATEGY !!
