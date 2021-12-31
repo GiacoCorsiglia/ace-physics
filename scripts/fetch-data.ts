@@ -1,5 +1,4 @@
-import * as db from "@/api/db";
-import type { DocumentClient } from "aws-sdk/clients/dynamodb";
+import * as db from "@/db";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 
@@ -31,14 +30,11 @@ export async function run() {
 
   console.log(`Wrote items to ${file}`);
 
-  async function scan(LastEvaluatedKey?: DocumentClient.Key) {
-    const res = await db.result(
-      client.scan({
-        TableName: db.TableName(),
-        ExclusiveStartKey: LastEvaluatedKey,
-      })
-    );
-
+  async function scan(LastEvaluatedKey?: {}) {
+    const res = await client.scan({
+      TableName: db.tableName(),
+      ExclusiveStartKey: LastEvaluatedKey,
+    });
     if (res.failed === true) {
       console.error("Scan error");
       console.error(res.error);

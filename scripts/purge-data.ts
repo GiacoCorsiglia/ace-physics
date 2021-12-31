@@ -1,15 +1,5 @@
-import type { DocumentClient } from "aws-sdk/clients/dynamodb";
+import * as db from "@/db";
 import readline from "readline";
-import * as db from "../src/db";
-
-const TableName =
-  process.env.ACE_TABLE_NAME ||
-  (process.env.ACE_LOCAL === "yes" ? "DataTable" : "ACE_production_DataTable");
-
-const client = db.client({
-  endpoint:
-    process.env.ACE_LOCAL === "yes" ? "http://localhost:8000" : undefined,
-});
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -17,7 +7,7 @@ const rl = readline.createInterface({
 });
 
 rl.question(
-  `\n\x1b[1mWHOA WHOA DO YOU REALLY WANT TO PURGE TABLE "${TableName}"?\x1b[0m\nType "yes" to proceed: `,
+  `\n\x1b[1mWHOA WHOA DO YOU REALLY WANT TO PURGE TABLE "${db.tableName()}"?\x1b[0m\nType "yes" to proceed: `,
   (yes) => {
     if (yes.toLowerCase() !== "yes") {
       rl.close();
@@ -42,7 +32,7 @@ rl.question(
   }
 );
 
-async function run() {
+export async function run() {
   const items: any[] = [];
   await scan();
 
@@ -50,15 +40,13 @@ async function run() {
   const promises = [];
   for (let i = 0; i < items.length; i += chunkSize) {
     promises.push(
-      client
-        .batchWrite({
-          RequestItems: {
-            [TableName]: items.slice(i, i + chunkSize).map((Key) => ({
-              DeleteRequest: { Key },
-            })),
-          },
-        })
-        .promise()
+      db.client().batchWrite({
+        RequestItems: {
+          [db.tableName()]: items.slice(i, i + chunkSize).map((Key) => ({
+            DeleteRequest: { Key },
+          })),
+        },
+      })
     );
   }
 
@@ -71,15 +59,13 @@ async function run() {
 
   console.log(`Deleted all ${items.length} items`);
 
-  async function scan(LastEvaluatedKey?: DocumentClient.Key) {
-    const res = await db.result(
-      client.scan({
-        TableName,
-        ExclusiveStartKey: LastEvaluatedKey,
-        // We only need the keys.
-        ProjectionExpression: "pk, sk",
-      })
-    );
+  async function scan(LastEvaluatedKey?: {}) {
+    const res = await db.client().scan({
+      TableName: db.tableName(),
+      ExclusiveStartKey: LastEvaluatedKey,
+      // We only need the keys.
+      ProjectionExpression: "pk, sk",
+    });
 
     if (res.failed === true) {
       console.error("Error", res.error);
