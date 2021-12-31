@@ -6,6 +6,10 @@ export enum Keys {
   GSI1SK = "GSI1SK",
 }
 
+export enum Indexes {
+  GSI1 = "GSI1",
+}
+
 export interface KeyPrimary {
   readonly pk: string;
   readonly sk: string;

@@ -1,7 +1,7 @@
 import { isObject, isSuccess } from "@/helpers/backend";
 import * as t from "@/schema/types";
 import { expressionAttributes, updateExpression } from "./helpers";
-import { KeyGSI1, KeyPrimary, Keys } from "./keys";
+import { KeyGSI1, KeyPrimary, Keys } from "./table";
 
 export const codec = <
   T extends string,
