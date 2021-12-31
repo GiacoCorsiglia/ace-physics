@@ -2,7 +2,7 @@ import { _destroyClient } from "@/db/client";
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { execSync } from "child_process";
 import { randomBytes } from "crypto";
-import tableConfig from "../db/ddb.json";
+import tableConfig from "./ddb.json";
 
 const currentTest = () => expect.getState().currentTestName;
 
@@ -51,7 +51,7 @@ export const setupDB = () => {
       return;
     }
 
-    const TableName = randomBytes(16).toString("base64url");
+    const TableName = `Test_${randomBytes(16).toString("base64url")}`;
     tables.set(currentTest(), TableName);
     process.env = {
       ...originalEnv,
