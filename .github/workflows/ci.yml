@@ -14,5 +14,7 @@ jobs:
       run: npm run types
     - name: Lint
       run: npm run lint
+    - name: Setup DynamoDB local
+      run: docker run --name dynamodb -d -p 8000:8000 amazon/dynamodb-local
     - name: Run tests
       run: npm run test
