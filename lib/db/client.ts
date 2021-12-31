@@ -33,6 +33,14 @@ export const client = () =>
     })
   ));
 
+/** @internal Exposed for testing only. */
+export const _destroyClient = () => {
+  if (_client) {
+    _client.destroy();
+    _client = undefined as any;
+  }
+};
+
 type SafeDynamoDBDocument = {
   [K in keyof DynamoDBDocument]: DynamoDBDocument[K] extends {
     (...args: infer Args): Promise<infer Output>;
