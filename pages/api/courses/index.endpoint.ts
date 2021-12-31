@@ -25,6 +25,12 @@ export default endpoint(spec.Courses, {
 
     const userCourses = db.codec.CourseUser.decodeList(userCoursesResult.value);
 
+    if (userCourses.length === 0) {
+      // Bail when there are no courses for this user!  DynamoDB doesn't like
+      // having an empty set of RequestItems, and it's a wasted call anyway.
+      return response.success([]);
+    }
+
     // This is limited to 100 courses, which should be fine...
     const coursesResult = await db.client().batchGet({
       RequestItems: {
