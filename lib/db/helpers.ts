@@ -75,4 +75,6 @@ export const fetchAllPages = async <
   return result.success(items);
 };
 
-export const generateRandomId = () => randomBytes(16).toString("base64url");
+// Base64url is 22 characters while hex is 32 characters, but hex avoids special
+// characters ("-"" and "_"), and looks less weird IMO.
+export const generateRandomId = () => randomBytes(16).toString("hex");
