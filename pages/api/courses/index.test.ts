@@ -1,4 +1,4 @@
-import { response } from "@/api";
+import { response } from "@/api/server";
 import { setupDB } from "@/db/test-helpers";
 import * as api from "@/schema/api";
 import endpoint from "./index.endpoint";

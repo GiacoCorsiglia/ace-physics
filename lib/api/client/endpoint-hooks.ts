@@ -1,0 +1,162 @@
+import { AsyncResult } from "@/helpers/result";
+import { Infer, ObjectType } from "@/schema/types";
+import { useCallback, useState } from "react";
+import useSwr, { useSWRConfig } from "swr";
+import { ApiSpec, renderUrl } from "../isomorphic/spec";
+import { fetchAndParse, ResponseError } from "./fetch-and-parse";
+
+// GET.
+
+type UseGetHook<
+  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
+> = (query: Infer<S["Query"]>) => {
+  readonly data?: Infer<S["GET"]["Response"]>;
+  readonly error?: ResponseError;
+  readonly isLoading?: boolean;
+};
+
+export const createUseGet = <
+  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
+>(
+  spec: S
+): UseGetHook<S> => {
+  interface ThrownResponseError extends Error {
+    responseError: ResponseError;
+  }
+
+  const fetcher = async (url: string) => {
+    const response = await fetchAndParse(spec.GET, url, "GET");
+
+    if (response.failed) {
+      // SWR expects errors to be thrown.
+      const error = new Error("") as ThrownResponseError;
+      error.responseError = response.error;
+      throw error;
+    }
+
+    return response.value;
+  };
+
+  return (query) => {
+    const url: string = renderUrl(spec, query);
+    const swr = useSwr(url, fetcher);
+
+    return {
+      // SWR avoids rerenders if these properties aren't read.
+      get data() {
+        return swr.data;
+      },
+      get error() {
+        return swr.error?.responseError;
+      },
+      get isLoading() {
+        return swr.isValidating;
+      },
+    };
+  };
+};
+
+// Mutations: PUT|POST|DELETE.
+
+type UseMutationHook<
+  S extends ApiSpec,
+  M extends "PUT" | "POST" | "DELETE"
+> = () => {
+  readonly mutate: ObjectType<{}> extends S["Query"] // Query is empty.
+    ? M extends "PUT" | "POST"
+      ? (
+          request: Infer<NonNullable<S[M]>["Request"]>
+        ) => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>
+      : () => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>
+    : M extends "PUT" | "POST"
+    ? (
+        query: Infer<S["Query"]>,
+        request: Infer<NonNullable<S[M]>["Request"]>
+      ) => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>
+    : (
+        query: Infer<S["Query"]>
+      ) => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>;
+
+  readonly reset: () => void;
+
+  readonly data?: Infer<NonNullable<S[M]>["Response"]>;
+  readonly error?: ResponseError;
+  readonly status: Status;
+};
+
+type Status = "idle" | "loading" | "error" | "success";
+
+type AllowedMethods<
+  S extends ApiSpec,
+  M extends "PUT" | "POST" | "DELETE"
+> = M extends unknown ? (S[M] extends null ? never : M) : never;
+
+export const createUseMutation = <
+  S extends ApiSpec,
+  M extends AllowedMethods<S, "PUT" | "POST" | "DELETE">
+>(
+  spec: S,
+  method: M
+): UseMutationHook<S, M> => {
+  const needsQuery = Object.keys(spec.Query.properties).length > 0;
+  const needsRequest = method !== "DELETE";
+
+  return () => {
+    const { mutate: swrMutate } = useSWRConfig();
+
+    const [status, setStatus] = useState<Status>("idle");
+    const [data, setData] = useState<Infer<NonNullable<S[M]>["Response"]>>();
+    const [error, setError] = useState<ResponseError>();
+
+    const reset = useCallback(() => {
+      setStatus("idle");
+      setData(undefined);
+      setError(undefined);
+    }, []);
+
+    const mutate = useCallback(
+      async (queryOrRequestArg?: any, requestArg?: any) => {
+        const query = needsQuery ? queryOrRequestArg : {};
+        const request = needsRequest
+          ? needsQuery
+            ? requestArg
+            : queryOrRequestArg
+          : undefined;
+
+        const url = renderUrl(spec, query);
+
+        setStatus("loading");
+
+        const result = await fetchAndParse(
+          spec[method] as any,
+          url,
+          method as any,
+          request
+        );
+
+        if (result.failed) {
+          setStatus("error");
+          setData(undefined);
+          setError(result.error);
+        } else {
+          setStatus("success");
+          setData(result.value);
+          setError(undefined);
+          swrMutate(url);
+        }
+
+        return result;
+      },
+      [swrMutate]
+    );
+
+    return {
+      mutate: mutate as any,
+      reset,
+
+      status,
+      data,
+      error,
+    };
+  };
+};

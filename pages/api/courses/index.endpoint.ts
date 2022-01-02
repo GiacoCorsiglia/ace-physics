@@ -1,4 +1,4 @@
-import { endpoint, response, spec } from "@/api";
+import { endpoint, response, spec } from "@/api/server";
 import * as db from "@/db";
 import { sortBy } from "@/helpers/function-helpers";
 

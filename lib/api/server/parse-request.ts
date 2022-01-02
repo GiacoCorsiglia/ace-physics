@@ -1,17 +1,44 @@
 import * as result from "@/helpers/result";
-import { decode } from "@/schema/types";
+import { decode, Infer } from "@/schema/types";
 import { NextApiRequest } from "next";
+import type { Session } from "next-auth";
 import { getSession } from "next-auth/react";
+import { ApiSpec } from "../isomorphic/spec";
 import * as response from "./response";
-import { ApiSpec, isHandlerSession } from "./spec";
 
 type Method = typeof methods[number];
 const methods = ["GET", "PUT", "POST", "DELETE"] as const;
 
+// `parseRequest` enforces that the session have a user with an email.
+export type ParsedSession = Session & { user: { email: string } };
+
+const isParsedSession = (s: Session | null | undefined): s is ParsedSession =>
+  !!(s && s.user && s.user.email);
+
+export type ParsedRequest<S extends ApiSpec> = {
+  query: Infer<S["Query"]>;
+  session: ParsedSession;
+} & (
+  | (S["GET"] extends null ? never : { readonly method: "GET" })
+  | (S["PUT"] extends null
+      ? never
+      : {
+          readonly method: "PUT";
+          readonly body: Infer<NonNullable<S["PUT"]>["Request"]>;
+        })
+  | (S["POST"] extends null
+      ? never
+      : {
+          readonly method: "POST";
+          readonly body: Infer<NonNullable<S["POST"]>["Request"]>;
+        })
+  | (S["DELETE"] extends null ? never : { readonly method: "DELETE" })
+);
+
 export const parseRequest = async <S extends ApiSpec>(
   spec: S,
   req: NextApiRequest
-): Promise<result.Result<response.Response, S["_"]["HandlerRequest"]>> => {
+): Promise<result.Result<response.Response, ParsedRequest<S>>> => {
   // Method.
   const method = req.method as Method;
   if (!methods.includes(method) || !spec[method]) {
@@ -54,7 +81,7 @@ export const parseRequest = async <S extends ApiSpec>(
 
   const session = await getSession({ req });
 
-  if (!isHandlerSession(session)) {
+  if (!isParsedSession(session)) {
     return result.failure(response.forbidden());
   }
 

@@ -1,4 +1,4 @@
-import { response } from "@/api";
+import { response } from "@/api/server";
 import { hashEmail } from "@/auth/hashed-dynamodb-adapter";
 import * as db from "@/db";
 import { setupDB } from "@/db/test-helpers";
