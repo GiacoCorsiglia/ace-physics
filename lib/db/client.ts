@@ -55,9 +55,16 @@ type SafeDynamoDBDocument = {
     : DynamoDBDocument[K];
 } & { unsafe: DynamoDBDocument };
 
-interface AwsError extends Error {
-  name: string;
-}
+type AwsError = Error &
+  (
+    | { name: "ConditionalCheckFailedException" }
+    | {
+        name: "TransactionCanceledException";
+        CancellationReasons?: Array<
+          { Code: "None" } | { Code: "ConditionalCheckFailed" }
+        >;
+      }
+  );
 
 const wrapClient = (client: DynamoDBDocument): SafeDynamoDBDocument => {
   const wrapped = {} as SafeDynamoDBDocument;
