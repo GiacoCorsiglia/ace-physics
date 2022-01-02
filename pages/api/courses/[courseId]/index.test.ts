@@ -1,5 +1,5 @@
 import { response } from "@/api/server";
-import { hashEmail } from "@/auth/hashed-dynamodb-adapter";
+import { hashEmail } from "@/auth/server/hashed-dynamodb-adapter";
 import { setupDB } from "@/db/test-helpers";
 import * as api from "@/schema/api";
 import indexEndpoint from "../index.endpoint";

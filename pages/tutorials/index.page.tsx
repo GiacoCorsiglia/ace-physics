@@ -1,4 +1,4 @@
-import { UserMenu } from "@/auth";
+import { UserMenu } from "@/auth/client";
 import { Header, MainContentBox, Page, Prose } from "@/components";
 import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";

@@ -1,4 +1,4 @@
-import { UserMenu } from "@/auth";
+import { UserMenu } from "@/auth/client";
 import {
   Button,
   Header,

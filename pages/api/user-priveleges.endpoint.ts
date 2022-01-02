@@ -1,5 +1,5 @@
 import { endpoint, response, spec } from "@/api/server";
-import { HashedDynamoDBAdapter } from "@/auth/hashed-dynamodb-adapter";
+import { HashedDynamoDBAdapter } from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
 
 const adapter = HashedDynamoDBAdapter(

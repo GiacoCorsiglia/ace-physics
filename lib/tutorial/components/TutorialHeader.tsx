@@ -1,4 +1,4 @@
-import { UserMenu } from "@/auth";
+import { UserMenu } from "@/auth/client";
 import { Header } from "@/components";
 import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";

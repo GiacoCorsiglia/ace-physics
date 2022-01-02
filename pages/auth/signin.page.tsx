@@ -95,7 +95,7 @@ export default function SignIn() {
     <Page title="Sign In">
       <MainContentBox marginTop="small" className="text-center">
         <Prose>
-          <h1>Welcome to ACE Physics</h1>
+          <h1>Sign in to ACE Physics</h1>
         </Prose>
 
         {errorHtml}

@@ -1,5 +1,5 @@
-import { sendVerificationRequest } from "@/auth/email";
-import { HashedDynamoDBAdapter } from "@/auth/hashed-dynamodb-adapter";
+import { sendVerificationRequest } from "@/auth/server/email";
+import { HashedDynamoDBAdapter } from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";

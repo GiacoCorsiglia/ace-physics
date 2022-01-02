@@ -1,5 +1,5 @@
 import { endpoint, response, Session, spec } from "@/api/server";
-import { hashEmail } from "@/auth/hashed-dynamodb-adapter";
+import { hashEmail } from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
 import { sortBy } from "@/helpers/function-helpers";
 import { failure, isFailure, Result, success } from "@/helpers/result";

@@ -1,4 +1,3 @@
-import { AuthProvider } from "@/auth";
 import { Footer } from "@/components/footer";
 import footerStyles from "@/components/footer.module.scss";
 import "@/design/global.scss";
@@ -26,13 +25,11 @@ export default function AceApp({
 
   return (
     <SessionProvider session={session}>
-      <AuthProvider>
-        <div className={footerStyles.bodyContent}>
-          {layout(Component, pageProps)}
-        </div>
+      <div className={footerStyles.bodyContent}>
+        {layout(Component, pageProps)}
+      </div>
 
-        <Footer />
-      </AuthProvider>
+      <Footer />
     </SessionProvider>
   );
 }

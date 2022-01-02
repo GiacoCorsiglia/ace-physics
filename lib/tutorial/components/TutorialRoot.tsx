@@ -1,4 +1,4 @@
-import { useAuth } from "@/auth";
+import { useAuth } from "@/auth/client";
 import {
   ApplyContentBox,
   Button,
