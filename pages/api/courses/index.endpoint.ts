@@ -1,5 +1,6 @@
 import { endpoint, response, spec } from "@/api";
 import * as db from "@/db";
+import { sortBy } from "@/helpers/function-helpers";
 
 export default endpoint(spec.Courses, {
   async GET(request) {
@@ -55,10 +56,13 @@ export default endpoint(spec.Courses, {
     );
 
     return response.success(
-      courses.map((course) => ({
-        ...course,
-        userRole: rolesByCourse.get(course.id)!, // Necessarily defined.
-      }))
+      sortBy(
+        courses.map((course) => ({
+          ...course,
+          userRole: rolesByCourse.get(course.id)!, // Necessarily defined.
+        })),
+        "createdAt"
+      )
     );
   },
 

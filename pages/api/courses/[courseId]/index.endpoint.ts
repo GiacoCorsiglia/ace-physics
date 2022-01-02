@@ -28,6 +28,15 @@ export default endpoint(spec.Course, {
     });
 
     if (result.failed) {
+      if (
+        result.error.name === "TransactionCanceledException" &&
+        result.error.CancellationReasons?.some(
+          ({ Code }) => Code === "ConditionalCheckFailed"
+        )
+      ) {
+        return response.notFound();
+      }
+
       return response.error(result.error);
     }
 
@@ -84,7 +93,12 @@ export default endpoint(spec.Course, {
     });
 
     if (result.failed) {
-      if (result.error.name === "ConditionalCheckFailed") {
+      if (
+        result.error.name === "TransactionCanceledException" &&
+        result.error.CancellationReasons?.some(
+          ({ Code }) => Code === "ConditionalCheckFailed"
+        )
+      ) {
         // User does not have permission to modify this course.
         return response.notFound();
       }
@@ -100,9 +114,9 @@ export default endpoint(spec.Course, {
       return response.error(courseResult.error);
     }
 
-    const course = db.codec.Course.decode(courseResult.value);
+    const course = db.codec.Course.decode(courseResult.value.Item);
     if (course.failed) {
-      return response.error("Failed to decode Course");
+      return response.error("Failed to decode Course", course.error);
     }
 
     return response.success({

@@ -85,8 +85,8 @@ export const CourseUsers = spec({
       unhashedStudentEmails: t.string(),
     }),
     Response: t.exact({
-      instructors: t.array(schema.CourseInstructor),
-      students: t.array(schema.CourseStudent),
+      newInstructors: t.array(schema.CourseInstructor),
+      newStudents: t.array(schema.CourseStudent),
       unhashedRejectedEmails: t.array(t.string()),
     }),
   },
