@@ -1,4 +1,5 @@
 export * from "./answers";
+export * from "./auth-guard";
 export * from "./callouts";
 export * from "./controls";
 export * from "./header";
