@@ -81,8 +81,12 @@ export default function SignIn() {
                 Sign out
               </Button>
 
-              <Button color="green" link={callbackUrl || "/"}>
-                Stay signed in <ArrowRightIcon />
+              <Button
+                color="green"
+                link={callbackUrl || "/"}
+                iconRight={<ArrowRightIcon />}
+              >
+                Stay signed in
               </Button>
             </Horizontal>
           </Vertical.Space>
