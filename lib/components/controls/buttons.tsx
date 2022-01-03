@@ -37,7 +37,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     props.disabled = useDisabled(props);
 
     const isExternalLink =
-      !!link && (link.startsWith("http:") || link.startsWith("https:"));
+      !!link &&
+      (link.startsWith("http:") || link.startsWith("https:")) &&
+      new URL(link).origin !== location.origin;
     if (isExternalLink) {
       // Default to opening external links in a new tab, unless explicitly set.
       openNewTab = openNewTab ?? true;
