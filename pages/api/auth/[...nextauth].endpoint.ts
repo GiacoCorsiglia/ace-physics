@@ -27,4 +27,12 @@ export default NextAuth({
     signOut: "/auth/signout",
     verifyRequest: "/auth/verify-request",
   },
+  callbacks: {
+    session({ session, user }) {
+      if (session.user) {
+        session.user.role = user.role;
+      }
+      return session;
+    },
+  },
 });
