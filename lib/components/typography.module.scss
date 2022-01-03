@@ -111,6 +111,10 @@
     margin-top: spacing.$space-50;
   }
 
+  code {
+    font-family: monospace;
+  }
+
   // Display Math & Images.
   // If it's at the top level, give it a margin unless its first or last. Also
   // handles the case when its nested (e.g. in a paragraph).  We have to use
