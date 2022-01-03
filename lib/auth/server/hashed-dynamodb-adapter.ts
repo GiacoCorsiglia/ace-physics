@@ -40,6 +40,8 @@ const hashProperty = <T>(p: keyof T, o: T): T => {
   return o;
 };
 
+const acephysicsEmailX = /^[a-zA-Z0-9\.\+]+@acephysics\.net$/;
+
 export const HashedDynamoDBAdapter = (
   ...args: Parameters<typeof DynamoDBAdapter>
 ): Adapter => {
@@ -49,6 +51,11 @@ export const HashedDynamoDBAdapter = (
     // Avoid spreading ...ddb so we are forced to consider every method.
     // We only need to hash inbound data.
     createUser(user) {
+      if (user.email && acephysicsEmailX.test(user.email as string)) {
+        // Special case: automatically make users with acephysics emails admins.
+        user = { ...user, role: "admin" };
+      }
+
       user = hashProperty("email", user);
       return ddb.createUser(user);
     },
