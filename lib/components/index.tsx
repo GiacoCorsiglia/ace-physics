@@ -4,6 +4,8 @@ export * from "./controls";
 export * from "./header";
 export * from "./image";
 export * from "./layout";
+export * from "./link-card";
+export * from "./loading";
 export * from "./math";
 export * from "./page";
 export * from "./tables";
