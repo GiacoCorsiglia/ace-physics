@@ -1,4 +1,4 @@
-import { saveUnhashedEmail, useUnhashedEmail } from "@/auth/use-unhashed-email";
+import { saveUnhashedEmail, useUnhashedEmail } from "@/auth/client";
 import {
   Button,
   Callout,

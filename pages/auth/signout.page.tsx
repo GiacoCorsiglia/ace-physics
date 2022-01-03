@@ -1,4 +1,4 @@
-import { clearSavedUnhashedEmail } from "@/auth/use-unhashed-email";
+import { clearSavedUnhashedEmail } from "@/auth/client";
 import { Button, MainContentBox, Page, Prose } from "@/components";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { signOut, useSession } from "next-auth/react";
