@@ -2,7 +2,7 @@ import type { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-type Auth =
+export type Auth =
   | { status: "loading" }
   | { status: "unauthenticated" }
   | {
