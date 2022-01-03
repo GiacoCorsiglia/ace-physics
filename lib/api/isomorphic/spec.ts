@@ -1,4 +1,4 @@
-import type { Infer, ObjectType, Type } from "@/schema/types";
+import type { ObjectType, Type } from "@/schema/types";
 
 interface R {
   readonly Response: Type;
@@ -33,20 +33,3 @@ export const spec = <
 >(
   o: ApiSpec<Query, GET, PUT, POST, DELETE>
 ) => o;
-
-export const renderUrl = <S extends ApiSpec>(
-  { url }: S,
-  query: Infer<S["Query"]>
-) => {
-  for (const k in query) {
-    if (Object.prototype.hasOwnProperty.call(query, k)) {
-      url = url.replace(`{${k}}`, encodeURIComponent(query[k]));
-    }
-  }
-  if (process.env.NODE_ENV === "development") {
-    if (/{\w+}/.test(url)) {
-      throw new Error(`Incomplete url template:\n${url}`);
-    }
-  }
-  return url;
-};

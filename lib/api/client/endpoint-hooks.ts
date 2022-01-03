@@ -2,18 +2,40 @@ import { AsyncResult } from "@/helpers/result";
 import { Infer, ObjectType } from "@/schema/types";
 import { useCallback, useState } from "react";
 import useSwr, { useSWRConfig } from "swr";
-import { ApiSpec, renderUrl } from "../isomorphic/spec";
+import { ApiSpec } from "../isomorphic/spec";
 import { fetchAndParse, ResponseError } from "./fetch-and-parse";
+
+// URL rendering.
+
+const renderUrl = <S extends ApiSpec>({ url }: S, query: Infer<S["Query"]>) => {
+  for (const k in query) {
+    if (Object.prototype.hasOwnProperty.call(query, k)) {
+      url = url.replace(`{${k}}`, encodeURIComponent(query[k]));
+    }
+  }
+  if (process.env.NODE_ENV === "development") {
+    if (/{\w+}/.test(url)) {
+      throw new Error(`Incomplete url template:\n${url}`);
+    }
+  }
+  return `/api/${url}`;
+};
 
 // GET.
 
-type UseGetHook<
+interface UseGetHookReturn<
   S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
-> = (query: Infer<S["Query"]>) => {
+> {
   readonly data?: Infer<S["GET"]["Response"]>;
   readonly error?: ResponseError;
   readonly isLoading?: boolean;
-};
+}
+
+type UseGetHook<
+  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
+> = ObjectType<{}> extends S["Query"] // Query is empty.
+  ? () => UseGetHookReturn<S>
+  : (query: Infer<S["Query"]>) => UseGetHookReturn<S>;
 
 export const createUseGet = <
   S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
@@ -37,7 +59,7 @@ export const createUseGet = <
     return response.value;
   };
 
-  return (query) => {
+  return (query = {}) => {
     const url: string = renderUrl(spec, query);
     const swr = useSwr(url, fetcher);
 
