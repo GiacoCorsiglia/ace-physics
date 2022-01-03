@@ -1,6 +1,6 @@
 import { Html } from "@/helpers/frontend";
 import { ChevronRightIcon } from "@primer/octicons-react";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import styles from "./link-card.module.scss";
 import { Prose } from "./typography";
 
@@ -9,7 +9,7 @@ export const LinkCard = ({
   label,
   children,
 }: {
-  link: string;
+  link: LinkProps["href"];
   label: Html;
   children?: Html;
 }) => {
