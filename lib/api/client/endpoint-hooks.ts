@@ -126,15 +126,19 @@ export const createUseMutation = <
   return () => {
     const { mutate: swrMutate } = useSWRConfig();
 
-    const [status, setStatus] = useState<Status>("idle");
-    const [data, setData] = useState<Infer<NonNullable<S[M]>["Response"]>>();
-    const [error, setError] = useState<ResponseError>();
+    const [state, setState] = useState<{
+      status: Status;
+      data?: Infer<NonNullable<S[M]>["Response"]>;
+      error?: ResponseError;
+    }>({ status: "idle" });
 
-    const reset = useCallback(() => {
-      setStatus("idle");
-      setData(undefined);
-      setError(undefined);
-    }, []);
+    const reset = useCallback(
+      () =>
+        setState((prev) =>
+          prev.status === "idle" ? prev : { status: "idle" }
+        ),
+      []
+    );
 
     const mutate = useCallback(
       async (queryOrRequestArg?: any, requestArg?: any) => {
@@ -147,7 +151,7 @@ export const createUseMutation = <
 
         const url = renderUrl(spec, query);
 
-        setStatus("loading");
+        setState({ status: "loading" });
 
         const result = await fetchAndParse(
           spec[method] as any,
@@ -157,13 +161,15 @@ export const createUseMutation = <
         );
 
         if (result.failed) {
-          setStatus("error");
-          setData(undefined);
-          setError(result.error);
+          setState({
+            status: "error",
+            error: result.error,
+          });
         } else {
-          setStatus("success");
-          setData(result.value);
-          setError(undefined);
+          setState({
+            status: "success",
+            data: result.value,
+          });
           swrMutate(url);
         }
 
@@ -176,9 +182,7 @@ export const createUseMutation = <
       mutate: mutate as any,
       reset,
 
-      status,
-      data,
-      error,
+      ...state,
     };
   };
 };
