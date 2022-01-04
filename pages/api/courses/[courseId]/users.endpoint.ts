@@ -148,7 +148,7 @@ const parseAndHashEmails = (
     email = email.trim();
     if (emailX.test(email)) {
       accepted.push(hashEmail(email));
-    } else {
+    } else if (email) {
       rejected.push(email);
     }
   }
