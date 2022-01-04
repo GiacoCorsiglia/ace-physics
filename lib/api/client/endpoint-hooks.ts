@@ -18,7 +18,7 @@ const renderUrl = <S extends ApiSpec>({ url }: S, query: Infer<S["Query"]>) => {
       throw new Error(`Incomplete url template:\n${url}`);
     }
   }
-  return `/api/${url}`;
+  return `/api/${url.replace(/^\/+/, "")}`;
 };
 
 // GET.
