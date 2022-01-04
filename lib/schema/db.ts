@@ -9,7 +9,8 @@ export const Course = t.exact({
   createdAt: t.string(),
   updatedAt: t.string(),
   displayName: t.string(),
-  visibleTutorials: t.union(t.array(t.string()), t.undefined()),
+  displayMessage: t.optional(t.string()),
+  visibleTutorials: t.optional(t.array(t.string())),
 });
 
 export type CourseUser = t.Infer<typeof CourseUser>;

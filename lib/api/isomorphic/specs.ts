@@ -62,6 +62,7 @@ export const Course = spec({
   PUT: {
     Request: t.exact({
       displayName: t.string(),
+      displayMessage: t.optional(t.string()),
       visibleTutorials: t.optional(t.array(t.string())),
     }),
     Response: schema.Course,
