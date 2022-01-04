@@ -1,0 +1,32 @@
+@use "spacing";
+@use "colors";
+@use "fonts";
+
+.list {
+  @include fonts.smallest;
+  color: colors.$neutral-600;
+
+  li {
+    display: inline-block;
+
+    + li {
+      margin-left: spacing.$space-50;
+
+      &::before {
+        content: "/";
+        display: inline-block;
+        margin-right: spacing.$space-50;
+      }
+    }
+  }
+}
+
+.link {
+  border-bottom: 1px solid colors.$neutral-300;
+  transition: color 75ms, border-color 75ms;
+
+  &:hover {
+    color: colors.$neutral-900;
+    border-color: colors.$neutral-800;
+  }
+}
