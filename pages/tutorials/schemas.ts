@@ -1,7 +1,8 @@
 import { TutorialSchema } from "@/schema/tutorial";
 import EnergyAndPosition from "./energy-and-position/schema";
 import EPR from "./epr/schema";
-import QuantumBasis from "./quantum-basis/schema";
+import QuantumBasisLite from "./quantum-basis-lite/schema";
+import QuantumBasisMain from "./quantum-basis/schema";
 import QuantumMouse2 from "./quantum-mouse-2/schema";
 import QuantumMouse from "./quantum-mouse/schema";
 import ReflectionTransmission from "./reflection-transmission/schema";
@@ -14,7 +15,8 @@ import VectorsToFunctions from "./vectors-to-functions/schema";
 export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["EnergyAndPosition", EnergyAndPosition],
   ["EPR", EPR],
-  ["QuantumBasis", QuantumBasis],
+  ["QuantumBasisMain", QuantumBasisMain],
+  ["QuantumBasisLite", QuantumBasisLite],
   ["QuantumMouse", QuantumMouse],
   ["QuantumMouse2", QuantumMouse2],
   ["ReflectionTransmission", ReflectionTransmission],

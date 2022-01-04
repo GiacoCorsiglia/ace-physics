@@ -5,7 +5,7 @@ import * as fs from "fs";
 import path from "path";
 import { latestDataFile } from "./helpers";
 
-export async function run(tutorial: string, edition: string = "Main") {
+export async function run(tutorial: string) {
   const dataFile = latestDataFile();
   const schema: TutorialSchema = (
     await import(path.join("../pages/tutorials/", tutorial, "schema.ts"))
@@ -22,7 +22,7 @@ export async function run(tutorial: string, edition: string = "Main") {
   );
 
   const tuts = json.filter(
-    (item) => item.sk === `Tutorial#${pascalCase(tutorial)}#${edition}`
+    (item) => item.sk === `Tutorial#${pascalCase(tutorial)}`
   );
 
   const data = tuts.map((item) => {

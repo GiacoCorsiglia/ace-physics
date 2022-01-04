@@ -14,11 +14,7 @@ export interface TutorialConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * Name of the tutorial
    */
-  readonly name: string;
-  /**
-   * Edition of the tutorial.
-   */
-  readonly edition: string;
+  readonly id: string;
   /**
    * The schema for the tutorial.
    */

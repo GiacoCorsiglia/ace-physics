@@ -71,8 +71,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "${pascalCase(name)}",
-  edition: "Main",
+  id: "${pascalCase(name)}",
   link: "${name}",
   label: "TODO",
   pretest: false,

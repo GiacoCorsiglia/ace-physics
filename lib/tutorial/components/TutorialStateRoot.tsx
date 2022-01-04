@@ -51,7 +51,7 @@ export function TutorialStateRoot({
 
       const result = await getTutorial({
         learnerId: learner.learnerId,
-        tutorial: config.name,
+        tutorial: config.id,
         edition: config.edition,
       });
 
@@ -109,7 +109,7 @@ export function TutorialStateRoot({
 
       const result = await updateTutorial({
         learnerId: learner.learnerId,
-        tutorial: config.name,
+        tutorial: config.id,
         edition: config.edition,
         version: newVersion,
         state: tutorialState,

@@ -80,9 +80,9 @@ fs.readdirSync(tutorialsDir)
         expect(setup.link).toBe(t.name);
       });
 
-      it(`schema is exported as "${setup.name}" from pages/tutorials/schemas.ts`, () => {
-        expect(tutorialSchemas.has(setup.name)).toBe(true);
-        expect(tutorialSchemas.get(setup.name)).toBe(schema);
+      it(`schema is exported as "${setup.id}" from pages/tutorials/schemas.ts`, () => {
+        expect(tutorialSchemas.has(setup.id)).toBe(true);
+        expect(tutorialSchemas.get(setup.id)).toBe(schema);
       });
 
       it("intro page", () => {

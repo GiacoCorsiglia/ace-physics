@@ -13,8 +13,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "SpinsAndMagneticFields",
-  edition: "Main",
+  id: "SpinsAndMagneticFields",
   link: "spins-and-magnetic-fields",
   label: "Spins & Magnetic Fields",
   pretest: true,
