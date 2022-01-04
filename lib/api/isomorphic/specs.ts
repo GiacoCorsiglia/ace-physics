@@ -110,12 +110,16 @@ export const CourseTutorialStates = spec({
 });
 
 export const UserPrivileges = spec({
-  url: "/users-privileges",
+  url: "/user-privileges",
   Query: Empty,
   POST: {
     Request: t.exact({
       unhashedUserEmail: t.string(),
-      role: t.union(t.literal("instructor"), t.literal("admin")),
+      role: t.union(
+        t.literal("student"),
+        t.literal("instructor"),
+        t.literal("admin")
+      ),
     }),
     Response: Ok,
   },

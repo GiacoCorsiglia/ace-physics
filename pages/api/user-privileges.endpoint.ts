@@ -1,6 +1,10 @@
 import { endpoint, response, spec } from "@/api/server";
-import { HashedDynamoDBAdapter } from "@/auth/server/hashed-dynamodb-adapter";
+import {
+  HashedDynamoDBAdapter,
+  hashEmail,
+} from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
+import { isValidEmail } from "@/helpers/function-helpers";
 
 const adapter = HashedDynamoDBAdapter(
   db.createDocumentClient({
@@ -21,6 +25,17 @@ export default endpoint(spec.UserPrivileges, {
 
     if (user.role !== "admin") {
       return response.forbidden();
+    }
+
+    if (!isValidEmail(request.body.unhashedUserEmail)) {
+      return response.error(
+        "Invalid email address",
+        request.body.unhashedUserEmail
+      );
+    }
+
+    if (user.email === hashEmail(request.body.unhashedUserEmail)) {
+      return response.error("Cannot change own privileges");
     }
 
     const targetUser = await adapter.getUserByEmail(

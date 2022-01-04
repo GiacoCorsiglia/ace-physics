@@ -10,22 +10,22 @@ declare module "next-auth" {
 
   export interface Session {
     user?: DefaultSession["user"] & {
-      role?: "instructor" | "admin";
+      role?: "student" | "instructor" | "admin";
     };
   }
 
   export interface User {
-    role?: "instructor" | "admin";
+    role?: "student" | "instructor" | "admin";
   }
 }
 declare module "next-auth/core/types" {
   export interface Session {
     user?: DefaultSession["user"] & {
-      role?: "instructor" | "admin";
+      role?: "student" | "instructor" | "admin";
     };
   }
 
   export interface User {
-    role?: "instructor" | "admin";
+    role?: "student" | "instructor" | "admin";
   }
 }
