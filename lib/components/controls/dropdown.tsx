@@ -140,6 +140,7 @@ export const DropdownControl = <C,>({
               ds.isOpen && styles.toggleButtonOpen
             ),
             onKeyDown,
+            type: "button",
           })}
         >
           {!selectedChoice && (
