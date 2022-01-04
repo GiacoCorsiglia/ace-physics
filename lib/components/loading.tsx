@@ -16,7 +16,14 @@ export const LoadingAnimation = ({
       size === "large" && styles.sizeLarge
     )}
   >
-    {svg}
+    <div
+      className={styles.svg}
+      style={{
+        backgroundImage: `url("data:image/svg+xml,${svgUri}")`,
+      }}
+    >
+      <div style={{ paddingTop: `${(viewBoxHeight / viewBoxWidth) * 100}%` }} />
+    </div>
     {message && <p className={styles.message}>{message}</p>}
   </div>
 );
@@ -62,59 +69,57 @@ const imaginaryReversed = sineWave(imaginaryOffset, -1);
 
 const duration = "5s";
 
-const svg = (
-  <svg
-    viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
-    xmlns="http://www.w3.org/2000/svg"
+const svg = `<svg
+  viewBox="0 0 ${viewBoxWidth} ${viewBoxHeight}"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title>Loading…</title>
+
+  <line
+    stroke="rgb(203, 187, 169)"
+    x1="0"
+    y1="${center}"
+    x2="180"
+    y2="${center}"
+  ></line>
+
+  <path
+    style="
+      fill: none;
+      stroke: hsl(11, 70.3%, 41%);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 4px;
+    "
+    d="${imaginaryFlat}"
   >
-    <title>Loading…</title>
+    <animate
+      attributeName="d"
+      attributeType="XML"
+      repeatCount="indefinite"
+      dur="${duration}"
+      values="${imaginaryFlat}; ${imaginary}; ${imaginaryFlat}; ${imaginaryReversed}; ${imaginaryFlat}"
+    />
+  </path>
 
-    <line
-      stroke="rgb(203, 187, 169)"
-      x1="0"
-      y1={center}
-      x2="180"
-      y2={center}
-    ></line>
+  <path
+    style="
+      fill: none;
+      stroke: hsl(221, 90.4%, 36.9%);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 4px;
+    "
+    d="${real}"
+  >
+    <animate
+      attributeName="d"
+      attributeType="XML"
+      repeatCount="indefinite"
+      dur="${duration}"
+      values="${real}; ${realFlat}; ${realReversed}; ${realFlat}; ${real}"
+    />
+  </path>
+</svg>`;
 
-    <path
-      // Must use style or Chrome doesn't play the animation.
-      style={{
-        fill: "none",
-        stroke: "hsl(11, 70.3%, 41%)",
-        strokeLinecap: "round",
-        strokeLinejoin: "round",
-        strokeWidth: "4px",
-      }}
-      d={imaginaryFlat}
-    >
-      <animate
-        attributeName="d"
-        attributeType="XML"
-        repeatCount="indefinite"
-        dur={duration}
-        values={`${imaginaryFlat}; ${imaginary}; ${imaginaryFlat}; ${imaginaryReversed}; ${imaginaryFlat}`}
-      />
-    </path>
-
-    <path
-      style={{
-        fill: "none",
-        stroke: "hsl(221, 90.4%, 36.9%)",
-        strokeLinecap: "round",
-        strokeLinejoin: "round",
-        strokeWidth: "4px",
-      }}
-      d={real}
-      values={`${real}; ${realFlat}; ${realReversed}; ${realFlat}; ${real}`}
-    >
-      <animate
-        attributeName="d"
-        attributeType="XML"
-        repeatCount="indefinite"
-        dur={duration}
-        values={`${real}; ${realFlat}; ${realReversed}; ${realFlat}; ${real}`}
-      />
-    </path>
-  </svg>
-);
+const svgUri = encodeURIComponent(svg.replace(/\s+/g, " "));

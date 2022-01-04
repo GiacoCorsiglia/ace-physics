@@ -5,29 +5,24 @@
 .loadingAnimation {
   text-align: center;
   @include fonts.smallest();
-
-  svg {
-    display: block;
-    margin: 0 auto;
-    height: auto;
-    border: 1px solid colors.$neutral-200;
-  }
 }
 
-.sizeSmall {
-  svg {
-    width: 80px;
-  }
+.svg {
+  margin: 0 auto;
+  // Height is set in JS.
+  background-size: contain;
+  background-position: center;
+  border: 1px solid colors.$neutral-200;
 }
-.sizeMedium {
-  svg {
-    width: 120px;
-  }
+
+.sizeSmall .svg {
+  width: 80px;
 }
-.sizeLarge {
-  svg {
-    width: 180px;
-  }
+.sizeMedium .svg {
+  width: 120px;
+}
+.sizeLarge .svg {
+  width: 180px;
 }
 
 .message {
