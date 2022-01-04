@@ -236,3 +236,6 @@ export const sortBy = <T>(array: T[], property: keyof T) =>
         ((a[property] > b[property]) as any) -
         ((a[property] < b[property]) as any)
     );
+
+const emailX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const isValidEmail = (email: string) => emailX.test(email);

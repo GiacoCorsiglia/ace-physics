@@ -1,7 +1,7 @@
 import { endpoint, response, Session, spec } from "@/api/server";
 import { hashEmail } from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
-import { sortBy } from "@/helpers/function-helpers";
+import { isValidEmail, sortBy } from "@/helpers/function-helpers";
 import { failure, isFailure, Result, success } from "@/helpers/result";
 import {
   CourseInstructor,
@@ -136,8 +136,6 @@ export default endpoint(spec.CourseUsers, {
   },
 });
 
-const emailX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 const parseAndHashEmails = (
   list: string
 ): [accepted: string[], rejected: string[]] => {
@@ -146,7 +144,7 @@ const parseAndHashEmails = (
 
   for (let email of list.split("\n")) {
     email = email.trim();
-    if (emailX.test(email)) {
+    if (isValidEmail(email)) {
       accepted.push(hashEmail(email));
     } else if (email) {
       rejected.push(email);

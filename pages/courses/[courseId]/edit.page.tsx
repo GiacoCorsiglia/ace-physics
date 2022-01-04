@@ -14,6 +14,7 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
+import { isValidEmail } from "@/helpers/function-helpers";
 import { Course } from "@/schema/api";
 import { CheckCircleIcon, UploadIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
@@ -169,12 +170,10 @@ const CourseForm = ({ course }: { course: Course }) => {
   );
 };
 
-const emailX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 const validateEmails = (emails: string) => {
   for (let email of emails.split("\n")) {
     email = email.trim();
-    if (email && !emailX.test(email)) {
+    if (email && !isValidEmail(email)) {
       return false;
     }
   }
