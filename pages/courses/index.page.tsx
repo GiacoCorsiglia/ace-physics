@@ -1,6 +1,7 @@
 import { useCourses, useCreateCourse } from "@/api/client";
 import { useAuth, UserMenu } from "@/auth/client";
 import {
+  AuthGuard,
   Button,
   Callout,
   Header,
@@ -30,32 +31,36 @@ export default function Courses() {
       <Header title="Your Courses" popovers={<UserMenu />} />
 
       <MainContentBox>
-        <Prose>
-          <h1>Your Courses</h1>
-        </Prose>
+        <AuthGuard auth={auth} allowed={true}>
+          <Prose>
+            <h1>Your Courses</h1>
+          </Prose>
 
-        {(auth.status === "loading" || (!courses && !error)) && <p>Loading…</p>}
+          {(auth.status === "loading" || (!courses && !error)) && (
+            <LoadingAnimation size="large" />
+          )}
 
-        {auth.status === "authenticated" && courses && (
-          <>
-            {!!courses.length && (
-              <ul>
-                {courses.map((course) => (
-                  <CourseCard key={course.id} course={course} />
-                ))}
-              </ul>
-            )}
+          {auth.status === "authenticated" && courses && (
+            <>
+              {!!courses.length && (
+                <ul>
+                  {courses.map((course) => (
+                    <CourseCard key={course.id} course={course} />
+                  ))}
+                </ul>
+              )}
 
-            {!courses.length && (
-              <Prose>Your account isn’t associated with any courses.</Prose>
-            )}
+              {!courses.length && (
+                <Prose>Your account isn’t associated with any courses.</Prose>
+              )}
 
-            {isLoading && <LoadingAnimation size="small" />}
+              {isLoading && <LoadingAnimation size="small" />}
 
-            {(auth.user.role === "instructor" ||
-              auth.user.role === "admin") && <CreateCourseForm />}
-          </>
-        )}
+              {(auth.user.role === "instructor" ||
+                auth.user.role === "admin") && <CreateCourseForm />}
+            </>
+          )}
+        </AuthGuard>
       </MainContentBox>
     </Page>
   );
