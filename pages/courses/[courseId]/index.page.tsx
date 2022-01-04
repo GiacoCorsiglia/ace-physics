@@ -11,6 +11,7 @@ import {
   Prose,
   Vertical,
 } from "@/components";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { GearIcon, StackIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 
@@ -29,6 +30,13 @@ export default function Course() {
       <Header title={title} popovers={<UserMenu />} />
 
       <MainContentBox>
+        <Breadcrumb
+          items={[
+            { link: "/", label: "Home" },
+            { link: "/courses", label: "Your Courses" },
+          ]}
+        />
+
         <AuthGuard
           auth={auth}
           allowed={true}

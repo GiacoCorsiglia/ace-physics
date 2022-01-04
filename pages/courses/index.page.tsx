@@ -15,6 +15,7 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { Course } from "@/schema/api";
 import { ArrowRightIcon, PlusIcon } from "@primer/octicons-react";
 import { useState } from "react";
@@ -31,14 +32,12 @@ export default function Courses() {
       <Header title="Your Courses" popovers={<UserMenu />} />
 
       <MainContentBox>
-        <AuthGuard auth={auth} allowed={true}>
+        <Breadcrumb items={[{ link: "/", label: "Home" }]} />
+
+        <AuthGuard auth={auth} allowed={true} loading={!courses && !error}>
           <Prose>
             <h1>Your Courses</h1>
           </Prose>
-
-          {(auth.status === "loading" || (!courses && !error)) && (
-            <LoadingAnimation size="large" />
-          )}
 
           {auth.status === "authenticated" && courses && (
             <>

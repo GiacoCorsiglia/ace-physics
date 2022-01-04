@@ -14,6 +14,7 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
+import { Breadcrumb } from "@/components/breadcrumb";
 import { isValidEmail } from "@/helpers/function-helpers";
 import { Course } from "@/schema/api";
 import { CheckCircleIcon, UploadIcon } from "@primer/octicons-react";
@@ -37,6 +38,17 @@ export default function EditCourse() {
       <Header title={title} popovers={<UserMenu />} />
 
       <MainContentBox>
+        <Breadcrumb
+          items={[
+            { link: "/", label: "Home" },
+            { link: "/courses", label: "Your Courses" },
+            course && {
+              link: { pathname: "/courses/[courseId]", query: { courseId } },
+              label: course.displayName,
+            },
+          ]}
+        />
+
         <AuthGuard
           auth={auth}
           errors={error}
