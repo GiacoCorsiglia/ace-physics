@@ -23,6 +23,9 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const router = useRouter();
 
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [signInError, setSignInError] = useState<any>();
+
   const callbackUrlQ = router.query.callbackUrl;
   const callbackUrl = Array.isArray(callbackUrlQ)
     ? callbackUrlQ[0]
@@ -48,7 +51,9 @@ export default function SignIn() {
     SessionRequired: "Please sign in to access this page.",
     default: "Unable to sign in.",
   };
-  const errorMessage = errorType && (errors[errorType] ?? errors.default);
+  const errorMessage =
+    (signInError && "There was an error signing in.") ||
+    (errorType && (errors[errorType] ?? errors.default));
   const errorHtml = errorMessage && (
     <Callout animateIn color="red">
       {errorMessage}
@@ -107,7 +112,7 @@ export default function SignIn() {
         <Prose>
           <p>Sign in with your email below.</p>
 
-          <p>If you're a student, use your educational email.</p>
+          <p>If you’re a student, use your educational email.</p>
         </Prose>
 
         <Vertical.Space before={200} after={200}>
@@ -115,10 +120,13 @@ export default function SignIn() {
             onSubmit={(e) => {
               e.preventDefault();
               saveUnhashedEmail(email);
+              setIsSigningIn(true);
               signIn("email", {
                 email,
                 callbackUrl,
-              });
+              })
+                .catch((e) => setSignInError(e))
+                .finally(() => setIsSigningIn(false));
             }}
           >
             <Vertical>
@@ -138,8 +146,12 @@ export default function SignIn() {
               <Button
                 color="green"
                 type="submit"
-                disabled={!isEmailValid}
-                disabledExplanation="Please enter a valid email address before signing in."
+                disabled={!isEmailValid || isSigningIn}
+                disabledExplanation={
+                  !isEmailValid
+                    ? "Please enter a valid email address before signing in."
+                    : undefined
+                }
               >
                 Sign in <ArrowRightIcon />
               </Button>
@@ -154,7 +166,7 @@ export default function SignIn() {
           </p>
 
           <p>
-            If it's your first time here, an account will be created for you
+            If it’s your first time here, an account will be created for you
             automatically.
           </p>
         </Prose>
