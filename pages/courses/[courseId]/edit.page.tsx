@@ -352,7 +352,7 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
             </Prose>
           </Vertical.Space>
 
-          <Horizontal as="label">
+          <Horizontal as="label" spacing={50}>
             <div>
               <input
                 type="checkbox"
