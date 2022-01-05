@@ -1,6 +1,6 @@
 import type { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export type Auth =
   | { status: "loading" }
@@ -8,8 +8,10 @@ export type Auth =
   | {
       status: "authenticated";
       expires: string;
-      user: Session["user"] & { email: string };
+      user: AuthUser;
     };
+
+export type AuthUser = Session["user"] & { email: string };
 
 // Slightly nicer version of NextAuth's useSession with better types.
 export const useAuth = (...args: Parameters<typeof useSession>): Auth => {
@@ -27,16 +29,19 @@ export const useAuth = (...args: Parameters<typeof useSession>): Auth => {
     }
   }, [isBadSession]);
 
-  if (session.status === "loading") {
-    return { status: "loading" };
-  }
-  if (session.status === "unauthenticated" || isBadSession) {
-    return { status: "unauthenticated" };
-  }
+  return useMemo(() => {
+    if (session.status === "loading") {
+      return { status: "loading" };
+    }
 
-  return {
-    status: "authenticated",
-    expires: session.data!.expires,
-    user: session.data!.user! as Session["user"] & { email: string },
-  };
+    if (session.status === "unauthenticated" || isBadSession) {
+      return { status: "unauthenticated" };
+    }
+
+    return {
+      status: "authenticated",
+      expires: session.data!.expires,
+      user: session.data!.user! as Session["user"] & { email: string },
+    };
+  }, [session, isBadSession]);
 };
