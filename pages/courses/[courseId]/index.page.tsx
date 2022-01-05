@@ -80,7 +80,10 @@ export default function Course() {
 
                         <Button
                           color="green"
-                          link="./edit"
+                          link={{
+                            pathname: "/courses/[courseId]/student-responses",
+                            query: { courseId },
+                          }}
                           iconLeft={<StackIcon />}
                         >
                           Access student work
