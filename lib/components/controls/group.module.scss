@@ -8,6 +8,11 @@
 .controlGroup {
   position: relative;
   display: inline-flex;
+
+  .stretch & {
+    display: flex;
+  }
+
   background: controls.$background-color;
   border-radius: controls.$border-radius;
   align-items: stretch;
