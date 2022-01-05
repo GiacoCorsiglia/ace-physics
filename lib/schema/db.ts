@@ -23,6 +23,8 @@ export const CourseUser = t.exact({
 
 // TutorialState.
 
+export const TUTORIAL_STATE_NO_COURSE = "NONE";
+
 export type TutorialState = t.Infer<typeof TutorialState>;
 export const TutorialState = t.exact({
   courseId: t.string(),

@@ -71,8 +71,7 @@ export const TutorialState = codec(
   DatabaseType.TutorialState,
   schema.TutorialState,
   (item: { courseId: string; userEmail: string; tutorialId: string }) => {
-    // TODO:
-    if (item.courseId === "NONE") {
+    if (item.courseId === schema.TUTORIAL_STATE_NO_COURSE) {
       return {
         pk: key(Prefix.User, item.userEmail),
         sk: key(Prefix.TutorialState, item.tutorialId),
