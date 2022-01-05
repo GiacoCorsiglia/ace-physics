@@ -1,4 +1,4 @@
-import type { Tutorial } from "@/schema/db";
+import type { TutorialState } from "@/schema/db";
 import { TutorialSchema } from "@/schema/tutorial";
 import stringify from "csv-stringify/lib/sync";
 import * as fs from "fs";
@@ -13,7 +13,10 @@ export async function run(tutorial: string) {
   const pretestProperties = Object.keys(schema.properties.pretest.properties);
   const feedbackProperties = Object.keys(schema.properties.feedback.properties);
 
-  const json: (Tutorial & { sk: string; pk: string })[] = require(dataFile);
+  const json: (TutorialState & {
+    sk: string;
+    pk: string;
+  })[] = require(dataFile);
 
   const coursesByLearner = new Map(
     json
