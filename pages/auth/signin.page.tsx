@@ -34,7 +34,7 @@ export default function SignIn() {
   // Errors.
   const errorQ = router.query.error;
   const errorType = Array.isArray(errorQ) ? errorQ[0] : errorQ;
-  // This is lifted directly from NextAuth.
+  // This is lifted directly from NextAuth .
   // https://github.com/nextauthjs/next-auth/blob/main/src/core/pages/signin.tsx#L42
   const errors: Record<string, string> = {
     Signin: "Try signing in with a different account.",
@@ -45,7 +45,9 @@ export default function SignIn() {
     Callback: "Try signing in with a different account.",
     OAuthAccountNotLinked:
       "To confirm your identity, sign in with the same account you used originally.",
-    EmailSignin: "Check your email inbox.",
+    EmailSignin:
+      // This is updated from NextAuth, but seems to be more accurate.
+      "Sign in failed. We encountered an error when trying to send the sign in email.",
     CredentialsSignin:
       "Sign in failed. Check the details you provided are correct.",
     SessionRequired: "Please sign in to access this page.",
