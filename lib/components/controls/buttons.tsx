@@ -122,3 +122,17 @@ const caret = (
     </g>
   </svg>
 );
+
+type LinkButtonProps = JSX.IntrinsicElements["button"];
+
+export const LinkButton = forwardRef<HTMLButtonElement, LinkButtonProps>(
+  function LinkButton({ children, ...props }, ref) {
+    props.className = cx(props.className, styles.linkButton);
+
+    return (
+      <button {...props} type={props.type || "button"} ref={ref}>
+        {children}
+      </button>
+    );
+  }
+);
