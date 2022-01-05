@@ -1,8 +1,8 @@
-import * as globalParams from "@/global-params";
 import { Html } from "@/helpers/frontend";
 import { SequenceConfig } from "../config";
 import { CommitAction, isMarkedVisible, nodeKey } from "../section-logic";
 import { useTracked } from "../state-tree";
+import { useInstructorMode } from "./mode-manager";
 import SectionTreeNode from "./SectionTreeNode";
 
 export default function Sequence({
@@ -18,9 +18,11 @@ export default function Sequence({
   enumerateSections: boolean;
   commit: CommitAction;
 }) {
+  const instructorMode = useInstructorMode();
+
   const visibleNodes = useTracked((state) =>
     config.sections.filter((node) =>
-      globalParams.showAllSections ? true : isMarkedVisible(state, node)
+      instructorMode?.showAllSections ? true : isMarkedVisible(state, node)
     )
   );
 

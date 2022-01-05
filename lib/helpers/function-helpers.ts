@@ -227,3 +227,15 @@ const notUndefinedKeys = (o: any) => {
   }
   return keys;
 };
+
+export const sortBy = <T>(array: T[], property: keyof T) =>
+  array
+    .slice()
+    .sort(
+      (a, b) =>
+        ((a[property] > b[property]) as any) -
+        ((a[property] < b[property]) as any)
+    );
+
+const emailX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const isValidEmail = (email: string) => emailX.test(email);

@@ -1,5 +1,11 @@
-import { Button, Justify, MainContentBox, Page, Prose } from "@/components";
-import { TutorialLink } from "@pages/tutorials/index.page";
+import {
+  Button,
+  Justify,
+  LinkCard,
+  MainContentBox,
+  Page,
+  Prose,
+} from "@/components";
 import { MailIcon } from "@primer/octicons-react";
 import Head from "next/head";
 import Link from "next/link";
@@ -32,48 +38,53 @@ export default function Index() {
         </Prose>
 
         <ol>
-          <TutorialLink
-            label={
-              <>
-                Changing Basis — <i>click here to try it out</i>
-              </>
-            }
-            url={{ path: "quantum-basis", link: "/demo/quantum-basis" }}
-          >
-            <p>
-              Relate quantum state vectors to 2D Cartesian vectors, and practice
-              using projection inner products to change basis.
-            </p>
+          <li>
+            <LinkCard
+              label={
+                <>
+                  Changing Basis — <i>click here to try it out</i>
+                </>
+              }
+              link="/demo/quantum-basis"
+            >
+              <p>
+                Relate quantum state vectors to 2D Cartesian vectors, and
+                practice using projection inner products to change basis.
+              </p>
 
-            <p>
-              <em>
-                Note: the guidance on this page is more heavy-handed. The
-                answers to these questions help with the rest of the tutorial.
-              </em>
-            </p>
-          </TutorialLink>
+              <p>
+                <em>
+                  Note: the guidance on this page is more heavy-handed. The
+                  answers to these questions help with the rest of the tutorial.
+                </em>
+              </p>
+            </LinkCard>
+          </li>
 
-          <TutorialLink
-            label={
-              <>
-                Quantum Mouse — <i>click here to try it out</i>
-              </>
-            }
-            url={{ path: "quantum-mouse", link: "/demo/quantum-mouse" }}
-          >
-            <p>
-              Practice with Dirac notation, interpretation and solving of
-              eigen-equations, and the basic quantum rules involving probability
-              amplitudes.
-            </p>
+          <li>
+            <LinkCard
+              label={
+                <>
+                  Quantum Mouse — <i>click here to try it out</i>
+                </>
+              }
+              link="/demo/quantum-mouse"
+            >
+              <p>
+                Practice with Dirac notation, interpretation and solving of
+                eigen-equations, and the basic quantum rules involving
+                probability amplitudes.
+              </p>
 
-            <p>
-              <em>
-                Note: the guidance on this page is less heavy-handed. Students
-                will grapple with similar questions as the tutorial progresses.
-              </em>
-            </p>
-          </TutorialLink>
+              <p>
+                <em>
+                  Note: the guidance on this page is less heavy-handed. Students
+                  will grapple with similar questions as the tutorial
+                  progresses.
+                </em>
+              </p>
+            </LinkCard>
+          </li>
         </ol>
 
         <Prose>

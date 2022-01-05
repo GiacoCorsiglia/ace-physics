@@ -14,7 +14,7 @@ export const useDevTools = (store: Store<any>, displayName: string) => {
       return;
     }
 
-    console.log("Dev tools: connecting");
+    console.info("Dev tools: connecting");
 
     // https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md
     const devTools = window.__REDUX_DEVTOOLS_EXTENSION__.connect({
@@ -57,7 +57,7 @@ export const useDevTools = (store: Store<any>, displayName: string) => {
     // https://github.com/zalmoxisus/mobx-remotedev/blob/2d9ea51d3378e0507cfe8295046491e9f25c4a77/src/monitorActions.js#L46
     devTools.subscribe((message: any) => {
       if (message.type !== "DISPATCH") {
-        console.log("Dev tools: unsupported monitor action", message);
+        console.warn("Dev tools: unsupported monitor action", message);
         return;
       }
 
@@ -76,7 +76,7 @@ export const useDevTools = (store: Store<any>, displayName: string) => {
           setState(JSON.parse(message.state));
           return;
         default:
-          console.log("Dev tools: unsupported monitor action", message);
+          console.warn("Dev tools: unsupported monitor action", message);
           return;
       }
     });

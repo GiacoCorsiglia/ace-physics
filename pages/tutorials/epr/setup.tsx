@@ -14,8 +14,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "EPR",
-  edition: "Main",
+  id: "EPR",
   link: "epr",
   label: "EPR and Entangled States",
   pretest: true,

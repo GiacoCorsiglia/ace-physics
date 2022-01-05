@@ -14,8 +14,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "EnergyAndPosition",
-  edition: "Main",
+  id: "EnergyAndPosition",
   link: "energy-and-position",
   label: "Energy & Position",
   pretest: true,

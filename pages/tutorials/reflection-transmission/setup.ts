@@ -13,8 +13,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "ReflectionTransmission",
-  edition: "Main",
+  id: "ReflectionTransmission",
   link: "reflection-transmission",
   label: "Reflecting on Transmission",
   pretest: true,

@@ -13,8 +13,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "QuantumBasis",
-  edition: "Main",
+  id: "QuantumBasisMain",
   link: "quantum-basis",
   label: "Visualizing a Vector in a Different Basis — Main Edition",
   pretest: true,

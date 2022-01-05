@@ -9,6 +9,9 @@ const createJestConfig = nextJest({
 
 /** @type {import("@jest/types").Config.InitialOptions} */
 const config = {
+  // Disable matching  "__test__/*" or ".spec.ts" files for tests.
+  testRegex: "(\\.|/)test\\.[jt]sx?$",
+
   // Ensure the `baseUrl` from tsconfig.json is respected.
   modulePaths: tsconfig.compilerOptions.baseUrl
     ? [tsconfig.compilerOptions.baseUrl.replace(".", "<rootDir>")]

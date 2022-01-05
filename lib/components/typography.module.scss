@@ -9,6 +9,9 @@
 .prose {
   // text-align: justify;
   hyphens: auto;
+  // Chrome (at least some version 96) renders a weird glyph instead of a hyphen
+  // if this isn't set.  It should be "\2010" but that's rendered wrong.
+  -webkit-hyphenate-character: "-";
 
   h1 {
     @include fonts.heading1;
@@ -106,6 +109,10 @@
 
   li + li {
     margin-top: spacing.$space-50;
+  }
+
+  code {
+    font-family: monospace;
   }
 
   // Display Math & Images.

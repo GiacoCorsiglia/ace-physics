@@ -2,14 +2,14 @@ import stringify from "csv-stringify/lib/sync";
 import * as fs from "fs";
 import { latestDataFile } from "./helpers";
 
-export async function run(tutorial: string = "", edition: string = "Main") {
+export async function run(tutorial: string = "") {
   const dataFile = latestDataFile();
   const json: any[] = require(dataFile);
 
   const tuts = json.filter((item) =>
     tutorial === ""
       ? item.sk.startsWith("Tutorial#")
-      : item.sk === `Tutorial#${tutorial}#${edition}`
+      : item.sk === `Tutorial#${tutorial}`
   );
 
   const data = tuts.map((item) => {

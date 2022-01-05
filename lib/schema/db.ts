@@ -1,24 +1,35 @@
 import { Event } from "./events";
 import * as t from "./types";
 
-// Learner.
+// Courses.
 
-export type Learner = t.Infer<typeof Learner>;
-export const Learner = t.object({
-  learnerId: t.string(),
-
-  institution: t.string(),
-  course: t.string(),
+export type Course = t.Infer<typeof Course>;
+export const Course = t.exact({
+  id: t.string(),
   createdAt: t.string(),
+  updatedAt: t.string(),
+  displayName: t.string(),
+  displayMessage: t.optional(t.string()),
+  visibleTutorials: t.optional(t.array(t.string())),
 });
 
-// Tutorial.
+export type CourseUser = t.Infer<typeof CourseUser>;
+export const CourseUser = t.exact({
+  courseId: t.string(),
+  userEmail: t.string(),
+  createdAt: t.string(),
+  role: t.union(t.literal("student"), t.literal("instructor")),
+});
 
-export type Tutorial = t.Infer<typeof Tutorial>;
-export const Tutorial = t.object({
-  learnerId: t.string(),
-  tutorial: t.string(),
-  edition: t.string(),
+// TutorialState.
+
+export const TUTORIAL_STATE_NO_COURSE = "NONE";
+
+export type TutorialState = t.Infer<typeof TutorialState>;
+export const TutorialState = t.exact({
+  courseId: t.string(),
+  userEmail: t.string(),
+  tutorialId: t.string(),
   createdAt: t.string(),
   updatedAt: t.string(),
   version: t.number(),

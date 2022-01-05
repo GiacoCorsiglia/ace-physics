@@ -1,20 +1,29 @@
-import { useAuth } from "@/auth";
+import { useCourses } from "@/api/client";
+import { useAuth } from "@/auth/client";
 import {
   ApplyContentBox,
   Button,
   Callout,
   Justify,
+  LoadingAnimation,
   MainContentBox,
   Prose,
   Vertical,
 } from "@/components";
-import * as globalParams from "@/global-params";
-import { JsxElement } from "@/helpers/frontend";
+import { Html, JsxElement } from "@/helpers/frontend";
+import { TUTORIAL_STATE_NO_COURSE } from "@/schema/db";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
-import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { TutorialConfig } from "../config";
+import {
+  defaultMode,
+  InstructorModeProvider,
+  isValidMode,
+  Mode,
+  ModeManager,
+} from "./mode-manager";
 import TutorialHeader from "./TutorialHeader";
-import TutorialLoading from "./TutorialLoading";
 import { TutorialStateRoot } from "./TutorialStateRoot";
 
 export default function TutorialRoot({
@@ -24,80 +33,127 @@ export default function TutorialRoot({
   config: TutorialConfig;
   routeElement: JsxElement;
 }) {
-  const { auth } = useAuth();
+  const auth = useAuth();
+  const { data: courses, error } = useCourses();
+
+  const [mode, setMode] = useState<Mode | undefined>(
+    auth.status === "authenticated" && courses
+      ? defaultMode(auth.user, courses)
+      : undefined
+  );
+
+  useEffect(() => {
+    if (auth.status !== "authenticated" || !courses) {
+      return;
+    }
+    // Once `courses` is loaded, validate and possibly auto-select a `courseId`.
+    setMode((prev) => {
+      if (prev && isValidMode(auth.user, courses, prev)) {
+        // Then keep what was already set.
+        return prev;
+      }
+      return defaultMode(auth.user, courses);
+    });
+  }, [auth, courses]);
+
+  const courseId =
+    mode?.type === "CourseMode"
+      ? mode.courseId
+      : mode?.type === "ExplorationMode"
+      ? TUTORIAL_STATE_NO_COURSE
+      : undefined;
 
   return (
     <>
       <TutorialHeader config={config} />
 
       <Vertical as="main" space={300} style={{ counterReset: "section" }}>
-        {(() => {
-          switch (auth.status) {
-            case "Initial":
-            case "Loading":
-              return <TutorialLoading />;
-            case "LoggedOut":
-              return <LoggedOut />;
-            case "LoggedIn":
-              return (
-                <>
-                  {globalParams.mockApi && (
-                    <Vertical.Space after={100}>
-                      <ApplyContentBox>
-                        <Callout as="section" color="blue">
-                          <Prose>
-                            You’re currently in <strong>preview mode</strong>.
-                            Your responses will <strong>not</strong> be saved.
-                          </Prose>
-                        </Callout>
-                      </ApplyContentBox>
-                    </Vertical.Space>
-                  )}
+        {((): Html => {
+          if (auth.status === "unauthenticated") {
+            return <SignedOut />;
+          }
 
-                  {!globalParams.mockApi && !auth.isForCredit && (
-                    <Vertical.Space after={100}>
-                      <ApplyContentBox>
-                        <Callout as="section" color="blue">
-                          This is an anonymous account. Your work will{" "}
-                          <strong>not</strong> count for any course credit.
-                        </Callout>
-                      </ApplyContentBox>
-                    </Vertical.Space>
-                  )}
+          if (auth.status === "loading" || (!courses && !error)) {
+            return (
+              <div style={{ marginTop: "3rem" }}>
+                <LoadingAnimation size="large" />
+              </div>
+            );
+          }
 
+          // The `!courses` makes TypeScript happy but is not needed.
+          if (error || !courses) {
+            return (
+              <Vertical.Space after={100}>
+                <ApplyContentBox>
+                  <Callout as="section" color="red">
+                    We couldn't load this tutorial for you.
+                  </Callout>
+                </ApplyContentBox>
+              </Vertical.Space>
+            );
+          }
+
+          return (
+            <>
+              <Vertical.Space after={100}>
+                <ApplyContentBox>
+                  <Callout as="section" color="blue">
+                    <ModeManager
+                      mode={mode}
+                      setMode={setMode}
+                      courses={courses}
+                      user={auth.user}
+                    />
+                  </Callout>
+                </ApplyContentBox>
+              </Vertical.Space>
+
+              {mode && (
+                <InstructorModeProvider
+                  value={
+                    mode.type === "InstructorMode" &&
+                    (auth.user.role === "instructor" ||
+                      auth.user.role === "admin")
+                      ? mode.options
+                      : null
+                  }
+                >
                   <TutorialStateRoot
                     config={config}
                     routeElement={routeElement}
-                    learner={auth.learner}
+                    courseId={courseId}
                   />
-                </>
-              );
-          }
+                </InstructorModeProvider>
+              )}
+            </>
+          );
         })()}
       </Vertical>
     </>
   );
 }
 
-function LoggedOut() {
-  const router = useRouter();
+const SignedOut = () => (
+  <MainContentBox as="section" marginTop="large">
+    <Justify center>
+      <LockIcon size="medium" />
+    </Justify>
 
-  return (
-    <MainContentBox as="section" marginTop="large">
-      <Justify center>
-        <LockIcon size="medium" />
-      </Justify>
+    <Prose justify="center">You must be signed in to see this page.</Prose>
 
-      <Prose justify="center">You must be logged in to see this page.</Prose>
+    <Justify center>
+      <Button
+        color="green"
+        onClick={() => signIn()}
+        iconRight={<ArrowRightIcon />}
+      >
+        Sign in with email
+      </Button>
+    </Justify>
 
-      <Justify center>
-        <Button
-          color="green"
-          link={`/login?next=${encodeURIComponent(router.asPath)}`}
-        >
-          Log in <ArrowRightIcon />
-        </Button>
-      </Justify>
-    </MainContentBox>
-  );
-}
+    <Prose justify="center" size="small" faded>
+      If you don’t have an account, one will be created for you.
+    </Prose>
+  </MainContentBox>
+);

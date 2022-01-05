@@ -3,8 +3,7 @@ import schema from "./schema";
 
 export default tutorialSetup({
   schema,
-  name: "SpinLab2",
-  edition: "Main",
+  id: "SpinLab2",
   link: "spin-lab-2",
   label: "Spin Lab 2: Spins & Operators",
   pretest: true,

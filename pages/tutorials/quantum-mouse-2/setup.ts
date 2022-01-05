@@ -13,8 +13,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "QuantumMouse2",
-  edition: "Main",
+  id: "QuantumMouse2",
   link: "quantum-mouse-2",
   label: "Quantum Mouse 2",
   pretest: true,

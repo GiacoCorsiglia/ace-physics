@@ -29,7 +29,7 @@ const VerticalSpace = styledChild<{
   after === 0 && styles.verticalSpaceAfter0,
   after === 100 && styles.verticalSpaceAfter100,
   after === 200 && styles.verticalSpaceAfter200,
-  after === 300 && styles.verticalSpaceBefore300,
+  after === 300 && styles.verticalSpaceAfter300,
 ]);
 
 export const Vertical = Object.assign(
@@ -51,8 +51,9 @@ export const Vertical = Object.assign(
 
 export const Horizontal = styled.div<{
   align?: "start" | "end" | "center" | "stretch";
-  justify?: "start" | "end" | "center" | "stretch";
-}>(({ align, justify }) => [
+  justify?: "start" | "end" | "center" | "stretch" | "space-between";
+  spacing?: 50 | 100;
+}>(({ align, justify, spacing = 100 }) => [
   styles.horizontal,
   align === "start" && styles.alignStart,
   align === "end" && styles.alignEnd,
@@ -60,6 +61,9 @@ export const Horizontal = styled.div<{
   justify === "center" && styles.justifyCenter,
   justify === "end" && styles.justifyEnd,
   justify === "stretch" && styles.justifyStretch,
+  justify === "space-between" && styles.justifySpaceBetween,
+  spacing === 50 && styles.horizontal50,
+  spacing === 100 && styles.horizontal100,
 ]);
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useReducer,
@@ -137,4 +138,21 @@ export const useScrollIntoView = (when = true): React.RefObject<any> => {
   });
 
   return el;
+};
+
+export const useBoolean = (
+  initial: boolean = false
+): readonly [
+  value: boolean,
+  setTrue: () => void,
+  setFalse: () => void,
+  toggle: () => void
+] => {
+  const [value, setValue] = useState(initial);
+
+  const setTrue = useCallback(() => setValue(true), []);
+  const setFalse = useCallback(() => setValue(false), []);
+  const toggle = useCallback(() => setValue((v) => !v), []);
+
+  return [value, setTrue, setFalse, toggle];
 };

@@ -1,10 +1,7 @@
-import { UserMenu } from "@/auth";
-import { Header, MainContentBox, Page, Prose } from "@/components";
+import { UserMenu } from "@/auth/client";
+import { Header, LinkCard, MainContentBox, Page, Prose } from "@/components";
 import { Html } from "@/helpers/frontend";
 import * as urls from "@/urls";
-import { ChevronRightIcon } from "@primer/octicons-react";
-import Link from "next/link";
-import styles from "./index.module.scss";
 
 export default function TutorialsIndex() {
   return (
@@ -132,7 +129,7 @@ export default function TutorialsIndex() {
   );
 }
 
-export function TutorialLink({
+const TutorialLink = ({
   label,
   url,
   children,
@@ -140,21 +137,10 @@ export function TutorialLink({
   label: React.ReactNode;
   url: urls.URL;
   children?: Html;
-}) {
-  return (
-    <li>
-      <Link href={url.link}>
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a className={styles.tutorialLink}>
-          <p className={styles.tutorialLabel}>{label}</p>
-
-          <div className={styles.arrow}>
-            <ChevronRightIcon />
-          </div>
-
-          <Prose size="small">{children}</Prose>
-        </a>
-      </Link>
-    </li>
-  );
-}
+}) => (
+  <li>
+    <LinkCard link={url.link} label={label}>
+      {children}
+    </LinkCard>
+  </li>
+);

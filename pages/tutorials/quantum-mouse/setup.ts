@@ -3,8 +3,7 @@ import schema from "./schema";
 
 export default tutorialSetup({
   schema,
-  name: "QuantumMouse",
-  edition: "Main",
+  id: "QuantumMouse",
   link: "quantum-mouse",
   label: "Quantum Mouse Lab",
   pretest: true,
