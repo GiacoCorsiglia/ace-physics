@@ -1,10 +1,12 @@
 import { clearSavedUnhashedEmail } from "@/auth/client";
-import { Button, MainContentBox, Page, Prose } from "@/components";
+import { Button, LinkButton, MainContentBox, Page, Prose } from "@/components";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function SignOut() {
   const { status } = useSession();
+  const router = useRouter();
 
   return (
     <Page title="Sign Out">
@@ -25,9 +27,16 @@ export default function SignOut() {
                   signOut({ redirect: false });
                 }}
                 disabled={status === "loading"}
+                iconRight={<ArrowRightIcon />}
               >
-                Sign out <ArrowRightIcon />
+                Sign out
               </Button>
+            </div>
+
+            <div>
+              <LinkButton onClick={() => router.back()}>
+                Stay signed in
+              </LinkButton>
             </div>
           </>
         )}
@@ -37,7 +46,7 @@ export default function SignOut() {
             <Prose>
               <h1>You’ve been signed out</h1>
 
-              <p>Come back soon to learn some more physics!</p>
+              <p>Come back soon and learn some more physics!</p>
             </Prose>
 
             <div>
