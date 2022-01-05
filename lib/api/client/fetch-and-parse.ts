@@ -26,6 +26,8 @@ export const fetchAndParse: {
 ): Promise<Result<ResponseError, Infer<Res>>> => {
   const responseSchema = spec.Response;
 
+  console.info("api: making request", url, method, requestBody);
+
   const result = await asyncResult(
     fetch(url, {
       method,
@@ -77,7 +79,7 @@ export const fetchAndParse: {
     return failure(error);
   }
 
-  console.log("api: request succeeded", url, body);
+  console.info("api: request succeeded", url, body);
 
   const decoded = decode(responseSchema, body);
 
