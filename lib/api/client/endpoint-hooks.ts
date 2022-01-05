@@ -7,7 +7,10 @@ import { fetchAndParse, ResponseError } from "./fetch-and-parse";
 
 // URL rendering.
 
-const renderUrl = <S extends ApiSpec>({ url }: S, query: Infer<S["Query"]>) => {
+export const renderUrl = <S extends ApiSpec>(
+  { url }: S,
+  query: Infer<S["Query"]>
+) => {
   for (const k in query) {
     if (Object.prototype.hasOwnProperty.call(query, k)) {
       url = url.replace(`{${k}}`, encodeURIComponent(query[k]));
