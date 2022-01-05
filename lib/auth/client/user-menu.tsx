@@ -1,40 +1,56 @@
-import { Button, HeaderPopover, Prose, Vertical } from "@/components";
+import {
+  Button,
+  Callout,
+  HeaderPopover,
+  Horizontal,
+  LoadingAnimation,
+  Prose,
+  Vertical,
+} from "@/components";
 import { PersonIcon } from "@primer/octicons-react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { useAuth } from "./use-auth";
 import { useUnhashedEmail } from "./use-unhashed-email";
 
 export const UserMenu = () => {
-  const session = useSession();
-  const unhashedEmail = useUnhashedEmail(session.data?.user?.email);
-
-  if (session.status === "authenticated") {
-    session.data.user!.email;
-  }
+  const auth = useAuth();
+  const unhashedEmail = useUnhashedEmail(
+    auth.status === "authenticated" ? auth.user?.email : undefined
+  );
 
   return (
     <HeaderPopover icon={<PersonIcon aria-label="My Account Menu" />}>
-      {session.status === "authenticated" && (
+      {auth.status === "loading" && <LoadingAnimation />}
+
+      {auth.status === "authenticated" && (
         <Vertical>
-          <Prose size="small">
-            You’re currently signed in
-            {unhashedEmail && " as "}
-            {unhashedEmail && <strong>{unhashedEmail}</strong>}.
-          </Prose>
+          <Callout
+            color="green"
+            title={`You’re signed in ${unhashedEmail ? "as" : ""}`}
+            className="text-small text-center"
+          >
+            {unhashedEmail}
+          </Callout>
 
-          {/* {!auth.isForCredit && (
-            <Prose size="small">
-              This is an anonymous account. Your work will <strong>not</strong>{" "}
-              count for any course credit.
-            </Prose>
-          )} */}
+          <Horizontal justify="stretch" spacing={50}>
+            {auth.user.role === "admin" && (
+              <Button color="yellow" size="small" link="/admin">
+                Admin
+              </Button>
+            )}
 
-          <Button color="blue" size="small" link="/auth/signout">
-            Sign out
-          </Button>
+            <Button color="green" size="small" link="/courses">
+              Courses
+            </Button>
+
+            <Button color="blue" size="small" link="/auth/signout">
+              Sign out
+            </Button>
+          </Horizontal>
         </Vertical>
       )}
 
-      {session.status === "unauthenticated" && (
+      {auth.status === "unauthenticated" && (
         <Vertical>
           <Prose size="small">You’re not signed in.</Prose>
 
