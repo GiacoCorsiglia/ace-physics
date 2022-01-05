@@ -1,11 +1,11 @@
 import { Button, Callout, Guidance, SectionBox, Vertical } from "@/components";
-import * as globalParams from "@/global-params";
 import { cx, Html, useScrollIntoView } from "@/helpers/frontend";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
 import { GuidanceMessageConfig, SectionConfig } from "../config";
 import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
+import { useInstructorMode } from "./mode-manager";
 import styles from "./Section.module.scss";
 
 export default tracked(function Section(
@@ -24,6 +24,9 @@ export default tracked(function Section(
   },
   state
 ) {
+  const instructorMode = useInstructorMode();
+  const showAllSections = instructorMode?.showAllSections;
+
   const sectionState = state.sections?.[config.name];
   const status = sectionState?.status;
   const revealedMessages = sectionState?.revealedMessages;
@@ -33,7 +36,7 @@ export default tracked(function Section(
 
   // We want this section to scroll into view unless it's the first one, or if
   // we're in preview mode.
-  const scrollRef = useScrollIntoView(!first && !globalParams.showAllSections);
+  const scrollRef = useScrollIntoView(!first && !showAllSections);
 
   // Begin tracking accessed models.
   const modelsTracker = tracker(models, false);
@@ -96,12 +99,12 @@ export default tracked(function Section(
 
   return (
     <SectionBox
-      animateIn={!first && !globalParams.showAllSections}
+      animateIn={!first && !showAllSections}
       enumerate={enumerate}
       ref={scrollRef}
       vertical={false}
     >
-      {globalParams.showAllSections &&
+      {showAllSections &&
         (isMarkedVisible(state, config) ? (
           <EyeIcon className={styles.previewNoticeVisible} />
         ) : (
