@@ -12,16 +12,13 @@ export const TutorialState = spec({
   url: "/tutorial-state?tutorialId={tutorialId}&courseId={courseId}",
   Query: t.exact({
     tutorialId: t.string(),
-    courseId: t.string(), // TODO
+    courseId: t.string(),
   }),
   GET: {
     Response: schema.TutorialState,
   },
   PUT: {
     Request: t.exact({
-      courseId: t.string(),
-      userEmail: t.string(),
-      tutorialId: t.string(),
       version: t.number(),
       state: t.any(),
       events: t.array(Event),
