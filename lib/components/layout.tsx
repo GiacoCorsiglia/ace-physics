@@ -52,7 +52,8 @@ export const Vertical = Object.assign(
 export const Horizontal = styled.div<{
   align?: "start" | "end" | "center" | "stretch";
   justify?: "start" | "end" | "center" | "stretch" | "space-between";
-}>(({ align, justify }) => [
+  spacing?: 50 | 100;
+}>(({ align, justify, spacing = 100 }) => [
   styles.horizontal,
   align === "start" && styles.alignStart,
   align === "end" && styles.alignEnd,
@@ -61,6 +62,8 @@ export const Horizontal = styled.div<{
   justify === "end" && styles.justifyEnd,
   justify === "stretch" && styles.justifyStretch,
   justify === "space-between" && styles.justifySpaceBetween,
+  spacing === 50 && styles.horizontal50,
+  spacing === 100 && styles.horizontal100,
 ]);
 
 ////////////////////////////////////////////////////////////////////////////////

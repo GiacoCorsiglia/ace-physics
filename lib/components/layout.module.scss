@@ -60,10 +60,13 @@
   // Defaults:
   align-items: center;
   justify-content: flex-start;
+}
 
-  > * + * {
-    margin-left: spacing.$space-100;
-  }
+.horizontal50 > * + * {
+  margin-left: spacing.$space-50;
+}
+.horizontal100 > * + * {
+  margin-left: spacing.$space-100;
 }
 
 .alignStart {
