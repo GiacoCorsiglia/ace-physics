@@ -7,7 +7,7 @@ import {
   TextBox,
   TextLine,
 } from "@/components";
-import { arraysEqual } from "@/helpers/frontend";
+import { arraysSetEqual } from "@/helpers/frontend";
 import { page } from "@/tutorial";
 import { SymmetricWellPotential } from "./figures";
 import setup from "./setup";
@@ -197,9 +197,9 @@ export default page(setup, ({ section, oneOf }) => ({
         const rII = fromRightNonzeroTerms?.regionII?.selected;
         const rIII = fromRightNonzeroTerms?.regionIII?.selected;
 
-        const rIAgree = arraysEqual(rI, ["leftward"]);
-        const rIIAgree = arraysEqual(rII, ["leftward", "rightward"]);
-        const rIIIAgree = arraysEqual(rIII, ["leftward", "rightward"]);
+        const rIAgree = arraysSetEqual(rI, ["leftward"]);
+        const rIIAgree = arraysSetEqual(rII, ["leftward", "rightward"]);
+        const rIIIAgree = arraysSetEqual(rIII, ["leftward", "rightward"]);
 
         if (rIAgree && rIIAgree && rIIIAgree) {
           return (
@@ -209,8 +209,8 @@ export default page(setup, ({ section, oneOf }) => ({
           );
         }
 
-        const rIAll = arraysEqual(rI, ["leftward", "rightward"]);
-        const rIIIAsIfFromLeft = arraysEqual(rIII, ["rightward"]);
+        const rIAll = arraysSetEqual(rI, ["leftward", "rightward"]);
+        const rIIIAsIfFromLeft = arraysSetEqual(rIII, ["rightward"]);
         if (rIAll && rIIAgree && (rIIIAgree || rIIIAsIfFromLeft)) {
           // Everything is checked OR their answer looks like they thought the
           // particle was approaching from the LEFT not the RIGHT.

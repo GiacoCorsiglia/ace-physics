@@ -8,7 +8,7 @@ import {
   Reminder,
   TextBox,
 } from "@/components";
-import { arraysEqual } from "@/helpers/frontend";
+import { arraysSetEqual } from "@/helpers/frontend";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -196,7 +196,7 @@ export default page(setup, ({ section, sequence, hint }) => ({
     section({
       name: "moodDisagree",
       when: (r) => {
-        const posCorrect = arraysEqual(r.possibleMoodEigenvalues?.selected, [
+        const posCorrect = arraysSetEqual(r.possibleMoodEigenvalues?.selected, [
           "-1",
           "1",
         ]);
