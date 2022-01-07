@@ -13,11 +13,11 @@ export const renderUrl = <S extends ApiSpec>(
 ) => {
   for (const k in query) {
     if (Object.prototype.hasOwnProperty.call(query, k)) {
-      url = url.replace(`{${k}}`, encodeURIComponent(query[k]));
+      url = url.replace(`[${k}]`, encodeURIComponent(query[k]));
     }
   }
   if (process.env.NODE_ENV === "development") {
-    if (/{\w+}/.test(url)) {
+    if (/\[\w+\]/.test(url)) {
       throw new Error(`Incomplete url template:\n${url}`);
     }
   }

@@ -9,7 +9,7 @@ const Empty = t.exact({});
 const Ok = t.exact({ ok: t.literal(true) });
 
 export const TutorialState = spec({
-  url: "/tutorial-state?tutorialId={tutorialId}&courseId={courseId}",
+  url: "/tutorial-state?tutorialId=[tutorialId]&courseId=[courseId]",
   Query: t.exact({
     tutorialId: t.string(),
     courseId: t.string(),
@@ -49,7 +49,7 @@ export const Courses = spec({
 });
 
 export const Course = spec({
-  url: join(Courses.url, "{courseId}"),
+  url: join(Courses.url, "[courseId]"),
   Query: t.exact({
     courseId: t.string(),
   }),
@@ -93,7 +93,7 @@ export const CourseUsers = spec({
 });
 
 export const CourseTutorialStates = spec({
-  url: join(Course.url, "tutorial-states?tutorialId={tutorialId}"),
+  url: join(Course.url, "tutorial-states?tutorialId=[tutorialId]"),
   Query: t.exact({
     courseId: t.string(),
     tutorialId: t.string(),
