@@ -43,7 +43,7 @@ type ProseProps = {
   faded?: boolean;
 } & JSX.IntrinsicElements["p"];
 
-export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
+const ProseComponent = forwardRef<HTMLParagraphElement, ProseProps>(
   function Prose(
     { size, justify, hyphenate = true, faded, boldColor = "neutral", ...props },
     ref
@@ -96,6 +96,12 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
     );
   }
 );
+
+const SubText = styled.p([styles.subText, "text-small", "text-faded"]);
+
+export const Prose = Object.assign(ProseComponent, {
+  SubText,
+});
 
 export const autoProse = (children: Html) => {
   let empty = true;

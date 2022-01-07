@@ -92,6 +92,10 @@
     margin-top: spacing.$space-100;
   }
 
+  * + .subText {
+    margin-top: 0;
+  }
+
   * + h1,
   * + h2,
   * + h3,
