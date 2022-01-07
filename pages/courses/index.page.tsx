@@ -114,15 +114,20 @@ const CreateCourseForm = () => {
           >
             <Vertical>
               <TextInputControl
-                label="Course name:"
+                label={
+                  <Prose>
+                    <p>Course name</p>
+
+                    <Prose.SubText>
+                      Keep it anonymous: don’t include school name or course
+                      number.
+                    </Prose.SubText>
+                  </Prose>
+                }
                 value={displayName}
                 onChange={setDisplayName}
                 placeholder="Spring 2019 Quantum Mechanics"
               />
-
-              <Prose size="small" faded>
-                Keep it anonymous: don’t include school name or course number.
-              </Prose>
 
               <Horizontal justify="space-between">
                 <Button
