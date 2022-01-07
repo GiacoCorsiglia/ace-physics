@@ -12,7 +12,7 @@ import type { TutorialSchema, TutorialState } from "@/schema/tutorial";
  */
 export interface TutorialConfig<S extends TutorialSchema = TutorialSchema> {
   /**
-   * Name of the tutorial
+   * Internal name for the tutorial.
    */
   readonly id: string;
   /**
