@@ -34,7 +34,9 @@ export default function TutorialRoot({
   routeElement: JsxElement;
 }) {
   const auth = useAuth();
-  const { data: courses, error } = useCourses();
+  const { data: courses, error } = useCourses({
+    revalidateOnFocus: false,
+  });
 
   const [mode, setMode] = useState<Mode | undefined>(
     auth.status === "authenticated" && courses
