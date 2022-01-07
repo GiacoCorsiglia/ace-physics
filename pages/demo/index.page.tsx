@@ -22,7 +22,7 @@ export default function Index() {
 
       <MainContentBox marginTop="small">
         <Prose>
-          <h1>Adaptive Curricular Exercises for Physics</h1>
+          <h1>Adaptable Curricular Exercises for Physics</h1>
 
           <p>Welcome to ACE Physics! Thanks for visiting.</p>
 
