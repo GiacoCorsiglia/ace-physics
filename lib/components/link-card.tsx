@@ -23,7 +23,9 @@ export const LinkCard = ({
           <ChevronRightIcon />
         </div>
 
-        <Prose size="small">{children}</Prose>
+        <Prose size="small" hyphenate={false}>
+          {children}
+        </Prose>
       </a>
     </Link>
   );

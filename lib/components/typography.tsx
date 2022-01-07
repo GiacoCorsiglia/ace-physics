@@ -38,13 +38,14 @@ const proseSafeElements = new Set([
 type ProseProps = {
   size?: "large" | "body" | "small" | "smallest" | "ui" | "ui-small";
   justify?: "left" | "right" | "center" | "flush";
+  hyphenate?: boolean;
   boldColor?: "neutral" | "blue" | "green" | "red" | "yellow";
   faded?: boolean;
 } & JSX.IntrinsicElements["p"];
 
 export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
   function Prose(
-    { size, justify, faded, boldColor = "neutral", ...props },
+    { size, justify, hyphenate = true, faded, boldColor = "neutral", ...props },
     ref
   ) {
     // If there is no block level element in the children, wrap them in <p>.
@@ -78,6 +79,8 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
           justify === "center" && "text-center",
           justify === "right" && "text-right",
           justify === "flush" && "text-flush",
+          // Hyphenation
+          hyphenate && styles.hyphenate,
           // Fading.
           faded && "text-faded",
           // Bold color.
