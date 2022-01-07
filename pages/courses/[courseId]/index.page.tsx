@@ -12,6 +12,8 @@ import {
   Vertical,
 } from "@/components";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { TutorialList } from "@/tutorial/components/tutorial-list";
+import { tutorialList } from "@pages/tutorials/list";
 import { GearIcon, StackIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 
@@ -24,6 +26,12 @@ export default function Course() {
   const { data: course, error } = useCourse({ courseId });
 
   const title = course ? course.displayName : `Course ${courseId}`;
+
+  const visibleTutorialIds = new Set(course?.visibleTutorials);
+  const tutorials =
+    visibleTutorialIds.size > 0
+      ? tutorialList.filter((l) => visibleTutorialIds.has(l.id))
+      : tutorialList;
 
   return (
     <Page title={title}>
@@ -95,10 +103,16 @@ export default function Course() {
               )}
 
               {course.displayMessage && (
-                <Prose style={{ whiteSpace: "pre-line" }}>
-                  {course.displayMessage}
-                </Prose>
+                <>
+                  <hr />
+                  <Prose style={{ whiteSpace: "pre-line" }}>
+                    {course.displayMessage}
+                  </Prose>
+                  <hr />
+                </>
               )}
+
+              <TutorialList tutorials={tutorials} />
             </>
           )}
         </AuthGuard>

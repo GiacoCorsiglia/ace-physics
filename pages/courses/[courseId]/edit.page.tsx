@@ -4,6 +4,7 @@ import {
   AuthGuard,
   Button,
   Callout,
+  ChooseControl,
   Header,
   Horizontal,
   LoadingAnimation,
@@ -15,8 +16,9 @@ import {
   Vertical,
 } from "@/components";
 import { Breadcrumb } from "@/components/breadcrumb";
-import { isValidEmail } from "@/helpers/function-helpers";
+import { arraysEqual, isValidEmail } from "@/helpers/function-helpers";
 import { Course } from "@/schema/api";
+import { tutorialList } from "@pages/tutorials/list";
 import { CheckCircleIcon, UploadIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -85,10 +87,14 @@ const CourseForm = ({ course }: { course: Course }) => {
 
   const [displayName, setDisplayName] = useState(course.displayName);
   const [displayMessage, setDisplayMessage] = useState(course.displayMessage);
+  const [visibleTutorials, setVisibleTutorials] = useState(
+    course.visibleTutorials
+  );
 
   const isDirty =
     course.displayName !== displayName ||
-    (course.displayMessage || "") !== (displayMessage || "");
+    (course.displayMessage || "") !== (displayMessage || "") ||
+    !arraysEqual(course.visibleTutorials, visibleTutorials);
 
   useEffect(() => {
     if (isDirty) {
@@ -104,6 +110,7 @@ const CourseForm = ({ course }: { course: Course }) => {
       {
         displayName,
         displayMessage,
+        visibleTutorials,
       }
     );
 
@@ -113,6 +120,7 @@ const CourseForm = ({ course }: { course: Course }) => {
 
     setDisplayName(result.value.displayName);
     setDisplayMessage(result.value.displayMessage);
+    setVisibleTutorials(result.value.visibleTutorials);
   };
 
   return (
@@ -129,24 +137,66 @@ const CourseForm = ({ course }: { course: Course }) => {
       >
         <Vertical>
           <TextInputControl
-            label="Course name:"
+            label={
+              <Prose>
+                <p>Course name</p>
+
+                <Prose.SubText>
+                  Keep it anonymous: don’t include school name or course number.
+                </Prose.SubText>
+              </Prose>
+            }
             value={displayName}
             onChange={setDisplayName}
             disabled={mutation.status === "loading"}
           />
 
           <TextBoxControl
-            label="Message to students:"
+            label={
+              <Prose>
+                <p>Message to students</p>
+
+                <Prose.SubText>
+                  This message will be displayed above the list of tutorials on
+                  the course’s home page.
+                </Prose.SubText>
+              </Prose>
+            }
             value={displayMessage}
             onChange={setDisplayMessage}
             placeholder="Type here"
             disabled={mutation.status === "loading"}
           />
 
-          <Prose size="small" faded>
-            This message will be displayed above the list of tutorials on the
-            course’s home page.
-          </Prose>
+          <ChooseControl
+            label={
+              <Prose>
+                <p>Listed tutorials</p>
+
+                <Prose.SubText>
+                  If no tutorials are selected, all of them will be listed. Note
+                  that the system will not stop students from attempting any
+                  tutorial.
+                </Prose.SubText>
+              </Prose>
+            }
+            multi={true}
+            choices={tutorialList.map(
+              (listing) => [listing.id, listing.label] as const
+            )}
+            value={visibleTutorials}
+            onChange={(reducer) =>
+              setVisibleTutorials((prev) => {
+                const selected = new Set(reducer(prev));
+                // Since we don't support custom sorting right now, make sure
+                // the order is forced to match the display order.
+                return tutorialList
+                  .map((l) => l.id)
+                  .filter((id) => selected.has(id));
+              })
+            }
+            disabled={mutation.status === "loading"}
+          />
 
           {mutation.status === "success" && (
             <Callout color="green" animateIn iconRight={<CheckCircleIcon />}>
@@ -325,7 +375,13 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
           </Vertical.Space>
 
           <TextBoxControl
-            label={<Prose>Student emails:</Prose>}
+            label={
+              <Prose>
+                <p>Student emails</p>
+
+                <Prose.SubText>One email address per line</Prose.SubText>
+              </Prose>
+            }
             value={studentEmails}
             onChange={(newEmails) => {
               resetMutation(studentEmails, newEmails);
@@ -337,9 +393,9 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
           />
 
           <Prose size="small" faded>
-            One email address per line. You can copy-paste a column from Excel.
-            Adding the same email address twice will have no effect, and any
-            email addresses you added previously will not be overwritten.
+            You can copy-paste a column from Excel. Adding the same email
+            address twice will have no effect, and any email addresses you added
+            previously will be preserved.
           </Prose>
 
           {!wantsInstructors &&
@@ -380,7 +436,13 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
           {wantsInstructors && (
             <>
               <TextBoxControl
-                label="Instructor emails:"
+                label={
+                  <Prose>
+                    <p>Instructor emails</p>
+
+                    <Prose.SubText>One email address per line.</Prose.SubText>
+                  </Prose>
+                }
                 value={instructorEmails}
                 onChange={(newEmails) => {
                   resetMutation(instructorEmails, newEmails);
@@ -389,10 +451,6 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
                 placeholder="instructor@example.com"
                 disabled={mutation.status === "loading"}
               />
-
-              <Prose size="small" faded>
-                One email address per line.
-              </Prose>
             </>
           )}
 
