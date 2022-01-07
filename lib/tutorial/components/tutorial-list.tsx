@@ -9,7 +9,7 @@ export const TutorialList = ({
   <ul>
     {tutorials.map((listing) => (
       <li key={listing.id}>
-        <LinkCard link={`/tutorials/${listing.id}`} label={listing.label}>
+        <LinkCard link={`/tutorials/${listing.link}`} label={listing.label}>
           {listing.blurb}
         </LinkCard>
       </li>
