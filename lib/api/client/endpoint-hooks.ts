@@ -1,7 +1,7 @@
 import { AsyncResult } from "@/helpers/result";
 import { Infer, ObjectType } from "@/schema/types";
 import { useCallback, useState } from "react";
-import useSwr, { useSWRConfig } from "swr";
+import useSwr, { SWRConfiguration, useSWRConfig } from "swr";
 import { ApiSpec } from "../isomorphic/spec";
 import { fetchAndParse, ResponseError } from "./fetch-and-parse";
 
@@ -37,8 +37,13 @@ interface UseGetHookReturn<
 type UseGetHook<
   S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
 > = ObjectType<{}> extends S["Query"] // Query is empty.
-  ? () => UseGetHookReturn<S>
-  : (query: Infer<S["Query"]>) => UseGetHookReturn<S>;
+  ? (
+      swrOptions?: SWRConfiguration<Infer<S["GET"]["Response"]>, ResponseError>
+    ) => UseGetHookReturn<S>
+  : (
+      query: Infer<S["Query"]>,
+      swrOptions?: SWRConfiguration<Infer<S["GET"]["Response"]>, ResponseError>
+    ) => UseGetHookReturn<S>;
 
 export const createUseGet = <
   S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
@@ -62,9 +67,14 @@ export const createUseGet = <
     return response.value;
   };
 
-  return (query = {}) => {
+  const needsQuery = Object.keys(spec.Query.properties).length > 0;
+
+  return (queryOrOptions?: Infer<S["Query"]>, options?: SWRConfiguration) => {
+    const query = needsQuery ? queryOrOptions || {} : {};
+    const swrOptions = needsQuery ? options : queryOrOptions;
+
     const url: string = renderUrl(spec, query);
-    const swr = useSwr(url, fetcher);
+    const swr = useSwr(url, fetcher, swrOptions);
 
     return {
       // SWR avoids rerenders if these properties aren't read.
