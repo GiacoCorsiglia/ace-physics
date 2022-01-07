@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import { TutorialSchema } from "@/schema/tutorial";
+import { tutorialList } from "@pages/tutorials/list";
 import { tutorialSchemas } from "@pages/tutorials/schemas";
 import * as fs from "fs";
 import * as path from "path";
@@ -83,6 +84,12 @@ fs.readdirSync(tutorialsDir)
       it(`schema is exported as "${setup.id}" from pages/tutorials/schemas.ts`, () => {
         expect(tutorialSchemas.has(setup.id)).toBe(true);
         expect(tutorialSchemas.get(setup.id)).toBe(schema);
+      });
+
+      it("listing is included in pages/tutorials/list.tsx with correct link", () => {
+        const listing = tutorialList.find((l) => l.id === setup.id);
+        expect(listing).not.toBeUndefined();
+        expect(listing!.link).toBe(setup.link);
       });
 
       it("intro page", () => {

@@ -1,7 +1,7 @@
 import { UserMenu } from "@/auth/client";
-import { Header, LinkCard, MainContentBox, Page, Prose } from "@/components";
-import { Html } from "@/helpers/frontend";
-import * as urls from "@/urls";
+import { Header, MainContentBox, Page, Prose } from "@/components";
+import { TutorialList } from "@/tutorial/components/tutorial-list";
+import { tutorialList } from "./list";
 
 export default function TutorialsIndex() {
   return (
@@ -30,117 +30,9 @@ export default function TutorialsIndex() {
         </Prose>
 
         <nav>
-          <ul>
-            <TutorialLink label="Spin Lab 1" url={urls.Tutorials.SpinLab1}>
-              Investigate the phenomenon of “spin,” which is fundamentally
-              quantum mechanical in nature.
-            </TutorialLink>
-
-            <TutorialLink label="Spin Lab 2" url={urls.Tutorials.SpinLab2}>
-              Continue exploring spin, and practice with Dirac Notation.
-            </TutorialLink>
-
-            <TutorialLink
-              label="Quantum Mouse Lab"
-              url={urls.Tutorials.QuantumMouse}
-            >
-              It’s all about eigenvalues, eigenstates, and measurement.
-            </TutorialLink>
-
-            <TutorialLink
-              label="Visualizing a Vector in a Different Basis — Main Edition"
-              url={urls.Tutorials.QuantumBasis}
-            >
-              Connecting quantum state vectors with the 2D vectors you’re used
-              to.
-              <br />
-              The “Main” edition connects these concepts with quantum
-              probabilities, and investigates the reasons one might change
-              basis.
-            </TutorialLink>
-
-            <TutorialLink
-              label="Visualizing a Vector in a Different Basis — Lite Edition"
-              url={urls.Tutorials.QuantumBasisLite}
-            >
-              Connecting quantum state vectors with the 2D vectors you’re used
-              to.
-              <br />
-              The “Lite” edition doesn’t discuss the connection with quantum
-              probabilities or reasons for changing basis, but takes less time.
-            </TutorialLink>
-
-            <TutorialLink
-              label="Quantum Mouse Lab 2"
-              url={urls.Tutorials.QuantumMouse2}
-            >
-              Continue to explore eigenvalues, eigenstates, operators, and
-              measurement.
-            </TutorialLink>
-
-            <TutorialLink
-              label="Spins & Magnetic Fields"
-              url={urls.Tutorials.SpinsAndMagneticFields}
-            >
-              What happens when a spin-½ particle passes through a region with a
-              magnetic field?
-            </TutorialLink>
-
-            <TutorialLink label="EPR and Entanglement" url={urls.Tutorials.EPR}>
-              Investigate the uniquely <em>quantum</em> effect of entanglement,
-              and apply it to cryptography.
-            </TutorialLink>
-
-            <TutorialLink
-              label="Probability Amplitude: From Vectors to Functions"
-              url={urls.Tutorials.VectorsToFunctions}
-            >
-              Bridging between discrete vectors (such as those describing a
-              particle’s spin state) and continuous wave functions (which might
-              model a particle’s position state).
-            </TutorialLink>
-
-            <TutorialLink
-              label="Energy & Position"
-              url={urls.Tutorials.EnergyAndPosition}
-            >
-              Explore the connection between the energy and position
-              representations of a quantum state.
-            </TutorialLink>
-
-            <TutorialLink
-              label="Time Dependence"
-              url={urls.Tutorials.TimeDependence}
-            >
-              Visualize the time evolution of position space wave functions.
-            </TutorialLink>
-
-            <TutorialLink
-              label="Reflecting on Transmission"
-              url={urls.Tutorials.ReflectionTransmission}
-            >
-              Explore the phenomena of reflection and transmission from 1D
-              potential barriers.
-            </TutorialLink>
-          </ul>
+          <TutorialList tutorials={tutorialList} />
         </nav>
       </MainContentBox>
     </Page>
   );
 }
-
-const TutorialLink = ({
-  label,
-  url,
-  children,
-}: {
-  label: React.ReactNode;
-  url: urls.URL;
-  children?: Html;
-}) => (
-  <li>
-    <LinkCard link={url.link} label={label}>
-      {children}
-    </LinkCard>
-  </li>
-);
