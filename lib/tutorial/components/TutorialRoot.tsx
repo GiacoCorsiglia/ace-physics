@@ -67,7 +67,7 @@ export default function TutorialRoot({
 
   return (
     <>
-      <TutorialHeader config={config} />
+      <TutorialHeader config={config} mode={mode} />
 
       <Vertical as="main" space={300} style={{ counterReset: "section" }}>
         {((): Html => {

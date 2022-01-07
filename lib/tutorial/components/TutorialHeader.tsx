@@ -10,8 +10,15 @@ import {
 } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 import { TutorialConfig } from "../config";
+import { Mode } from "./mode-manager";
 
-export default function TutorialHeader({ config }: { config: TutorialConfig }) {
+export default function TutorialHeader({
+  config,
+  mode,
+}: {
+  config: TutorialConfig;
+  mode: Mode | undefined;
+}) {
   const router = useRouter();
 
   const isIntroduction = router.pathname.endsWith(`/${config.link}`);
@@ -78,6 +85,9 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
   const url = (...us: string[]) =>
     urls.join(`/${urls.Tutorials.path}`, config.link, ...us);
 
+  const otherTutorialsLink =
+    mode?.type === "CourseMode" ? `/courses/${mode.courseId}` : "/tutorials";
+
   return (
     <Header
       title={
@@ -93,7 +103,7 @@ export default function TutorialHeader({ config }: { config: TutorialConfig }) {
         secondary: [
           {
             icon: <ArrowLeftIcon />,
-            link: urls.Tutorials.link,
+            link: otherTutorialsLink,
             label: "Other Tutorials",
           },
         ],
