@@ -50,14 +50,14 @@ export const HeaderPopover = ({
   icon: Html;
   children: Html;
 }) => {
-  const [isOpen, setOpen, popoverRef] = useToggle<HTMLDivElement>();
+  const [isOpen, toggleHandler, popoverRef] = useToggle<HTMLDivElement>();
 
   return (
     <div className={styles.popoverWrapper}>
       <button
         type="button"
         className={cx(styles.popoverButton, isOpen && styles.open)}
-        onClick={() => setOpen((o) => !o)}
+        onClick={toggleHandler}
       >
         {icon}
       </button>
@@ -78,14 +78,14 @@ const Nav = ({
 }: {
   config: NavConfig;
 }) => {
-  const [isOpen, setOpen, ref] = useToggle<HTMLDivElement>();
+  const [isOpen, toggleHandler, ref] = useToggle<HTMLDivElement>();
 
   return (
     <nav className={styles.navWrapper}>
       <button
         type="button"
         className={cx(styles.navToggleButton, isOpen && styles.open)}
-        onClick={() => setOpen((o) => !o)}
+        onClick={toggleHandler}
       >
         {isOpen ? (
           <XIcon className={styles.xIcon} />

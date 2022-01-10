@@ -58,6 +58,15 @@ export const useToggle = <E extends Element = HTMLElement>(
   const ref = useRef<E>(null);
   const [toggled, setToggled] = useState(initial);
 
+  const toggleHandler = useCallback((e: React.MouseEvent) => {
+    // Ensure the document handler doesn't run!  I don't understand why this bug
+    // happens, it seems bizarre that a click handler added *during* a click
+    // event would fire, but it seems to (sometimes).
+    e.stopPropagation();
+    // Actually toggle.
+    setToggled((t) => !t);
+  }, []);
+
   useEffect(() => {
     if (!toggled) {
       return;
@@ -73,7 +82,7 @@ export const useToggle = <E extends Element = HTMLElement>(
     return () => document.removeEventListener("click", clickHandler);
   }, [toggled]);
 
-  return [toggled, setToggled, ref] as const;
+  return [toggled, toggleHandler, ref] as const;
 };
 
 let uniqueId = 0;
