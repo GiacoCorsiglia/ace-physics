@@ -50,7 +50,32 @@ export default function Courses() {
               )}
 
               {!courses.length && (
-                <Prose>Your account isn’t associated with any courses.</Prose>
+                <>
+                  <Prose>
+                    <p>Your account isn’t associated with any courses.</p>
+
+                    <p>
+                      <strong>If you’re a student</strong> expecting to receive
+                      class credit for using this website, make sure you logged
+                      in using the correct email address.
+                    </p>
+
+                    <p>
+                      <strong>Otherwise</strong>, you can use our tutorials in
+                      exploration mode:
+                    </p>
+                  </Prose>
+
+                  <Justify center>
+                    <Button
+                      color="green"
+                      link="/tutorials"
+                      iconRight={<ArrowRightIcon />}
+                    >
+                      Take me to the tutorials
+                    </Button>
+                  </Justify>
+                </>
               )}
 
               {isLoading && <LoadingAnimation size="small" />}
