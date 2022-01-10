@@ -112,6 +112,11 @@ const CreateCourseForm = () => {
   return (
     <>
       <hr />
+
+      <Prose>
+        <strong>You’re an instructor</strong>, so you can create a new course.
+      </Prose>
+
       {!isCreating && (
         <Justify center>
           <Button
