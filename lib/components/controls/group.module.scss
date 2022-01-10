@@ -3,6 +3,7 @@
 
 .controlGroupWrapper {
   composes: tableControl from "../tables.module.scss";
+  display: block; // In case we make it an inline element.
 }
 
 .controlGroup {
