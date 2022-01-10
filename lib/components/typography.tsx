@@ -1,9 +1,4 @@
-import {
-  cx,
-  Html,
-  styled,
-  useIsomorphicLayoutEffect,
-} from "@/helpers/frontend";
+import { cx, Html, styled, useIsomorphicLayoutEffect } from "@/helpers/client";
 import { Children, forwardRef, useRef } from "react";
 import { Image } from "./image";
 import { M } from "./math";

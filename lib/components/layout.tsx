@@ -1,4 +1,4 @@
-import { styled, styledChild } from "@/helpers/css";
+import { styled, styledChild } from "@/helpers/client";
 import styles from "./layout.module.scss";
 
 ////////////////////////////////////////////////////////////////////////////////

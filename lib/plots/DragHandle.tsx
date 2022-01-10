@@ -1,4 +1,4 @@
-import { cx, roundToNearest } from "@/helpers/frontend";
+import { cx, roundToNearest } from "@/helpers/client";
 import { Model, useModel } from "@/reactivity";
 import { NumberField } from "@/schema/fields";
 import { useState } from "react";

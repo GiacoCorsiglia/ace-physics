@@ -8,7 +8,7 @@ import {
   Reminder,
   TextBox,
 } from "@/components";
-import { arraysSetEqual } from "@/helpers/frontend";
+import { arraysSetEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
 import setup from "./setup";
 

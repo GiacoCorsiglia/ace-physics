@@ -6,7 +6,7 @@ import {
   forwardRef,
   ReactElement,
 } from "react";
-import { Html } from "./frontend";
+import { Html } from ".";
 
 // Class name concatenation.
 type ClassName = string | false | void | null | 0;

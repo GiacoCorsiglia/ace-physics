@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { act, renderHook } from "@testing-library/react-hooks";
 import { stateTree } from "./state-tree";
 

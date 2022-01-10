@@ -1,4 +1,4 @@
-import { asyncResult, failure, Result, success } from "@/helpers/result";
+import { asyncResult, failure, Result, success } from "@/result";
 import { decode, DecodeError, Infer, Type } from "@/schema/types";
 
 export const fetchAndParse: {

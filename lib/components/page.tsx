@@ -1,4 +1,4 @@
-import { Html, htmlTitle } from "@/helpers/frontend";
+import { Html, htmlTitle } from "@/helpers/client";
 import Head from "next/head";
 
 export const Page = ({

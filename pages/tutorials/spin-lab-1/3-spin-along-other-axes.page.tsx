@@ -7,7 +7,7 @@ import {
   Prose,
   Table,
 } from "@/components";
-import { cx, deepEqual } from "@/helpers/frontend";
+import { cx, deepEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
 import xzImg from "./assets/x-z.png";
 import zxImg from "./assets/z-x.png";

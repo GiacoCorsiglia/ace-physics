@@ -9,7 +9,7 @@ import {
   ToggleControl,
   Vertical,
 } from "@/components";
-import { Html, useBoolean } from "@/helpers/react-helpers";
+import { Html, useBoolean } from "@/helpers/client";
 import { Course } from "@/schema/api";
 import { createContext, useContext, useEffect, useState } from "react";
 

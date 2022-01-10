@@ -1,4 +1,4 @@
-import { cx, Html, useUniqueId } from "@/helpers/frontend";
+import { cx, Html, useUniqueId } from "@/helpers/client";
 import { autoProse } from "../typography";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";
 import { useDisabled } from "./disabled";

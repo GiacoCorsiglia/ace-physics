@@ -8,7 +8,7 @@ import {
   TextLine,
   Toggle,
 } from "@/components";
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { page } from "@/tutorial";
 import setup from "./setup";
 import styles from "./styles.module.scss";

@@ -1,5 +1,5 @@
 import { M, MPropTypes } from "@/components";
-import { Html, range, useUniqueId } from "@/helpers/frontend";
+import { Html, range, useUniqueId } from "@/helpers/client";
 import { createContext, memo, useContext, useMemo } from "react";
 import styles from "./plots.module.scss";
 import {

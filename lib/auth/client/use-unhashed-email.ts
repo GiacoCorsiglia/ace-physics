@@ -1,4 +1,5 @@
-import { asyncResult, safeLocalStorage } from "@/helpers/frontend";
+import { safeLocalStorage } from "@/helpers/client";
+import { asyncResult } from "@/result";
 import { useEffect, useState } from "react";
 
 const localStorageKey = "ace-unhashed-email";

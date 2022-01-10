@@ -1,4 +1,4 @@
-import * as result from "@/helpers/result";
+import * as result from "@/result";
 import { QueryCommandOutput, ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
 import { randomBytes } from "crypto";
 

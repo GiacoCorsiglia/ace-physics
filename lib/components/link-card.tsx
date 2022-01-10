@@ -1,4 +1,4 @@
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { ChevronRightIcon } from "@primer/octicons-react";
 import Link, { LinkProps } from "next/link";
 import styles from "./link-card.module.scss";

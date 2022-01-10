@@ -1,4 +1,4 @@
-import { useUniqueId } from "@/helpers/frontend";
+import { useUniqueId } from "@/helpers/client";
 import * as plots from "@/plots";
 
 ////////////////////////////////////////////////////////////////////////////////

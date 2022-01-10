@@ -16,7 +16,7 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
-import { isValidEmail } from "@/helpers/function-helpers";
+import { isValidEmail } from "@/helpers/client";
 import { useState } from "react";
 
 export default function Courses() {

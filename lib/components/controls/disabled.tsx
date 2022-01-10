@@ -1,4 +1,4 @@
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { createContext, useContext } from "react";
 
 const Context = createContext(false);

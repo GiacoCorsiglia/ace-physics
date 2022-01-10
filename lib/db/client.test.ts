@@ -1,4 +1,4 @@
-import { unwrap } from "@/helpers/result";
+import { unwrap } from "@/result";
 import { client } from "./client";
 import { Keys, tableName } from "./table";
 import { setupDB } from "./test-helpers";

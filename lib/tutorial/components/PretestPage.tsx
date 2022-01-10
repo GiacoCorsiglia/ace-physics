@@ -7,7 +7,7 @@ import {
   SectionBox,
   SectionGroup,
 } from "@/components";
-import { htmlTitle } from "@/helpers/frontend";
+import { htmlTitle } from "@/helpers/client";
 import { isSet, Model, tracker } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";

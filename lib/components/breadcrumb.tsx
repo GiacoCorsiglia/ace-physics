@@ -1,4 +1,4 @@
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import Link, { LinkProps } from "next/link";
 import styles from "./breadcrumb.module.scss";
 

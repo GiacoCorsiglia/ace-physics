@@ -1,4 +1,4 @@
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { NodeConfig } from "../config";
 import { CommitAction } from "../section-logic";
 import OneOf from "./OneOf";

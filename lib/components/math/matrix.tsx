@@ -1,4 +1,4 @@
-import { cx, Html, styled } from "@/helpers/frontend";
+import { cx, Html, styled } from "@/helpers/client";
 import { Model } from "@/reactivity";
 import { Field, TupleField } from "@/schema/fields";
 import { M } from "./m";

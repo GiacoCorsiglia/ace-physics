@@ -1,4 +1,4 @@
-import { useSyncedState } from "@/helpers/frontend";
+import { useSyncedState } from "@/helpers/client";
 import { forwardRef } from "react";
 import { InputControl, InputControlProps } from "./input";
 

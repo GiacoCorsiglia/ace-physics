@@ -1,4 +1,4 @@
-import { JsxElement } from "@/helpers/frontend";
+import { JsxElement } from "@/helpers/client";
 import { TutorialSchema } from "@/schema/tutorial";
 import { cloneElement } from "react";
 import BodyPage from "./components/BodyPage";

@@ -1,4 +1,5 @@
-import { cx, result, useIsomorphicLayoutEffect } from "@/helpers/frontend";
+import { cx, useIsomorphicLayoutEffect } from "@/helpers/client";
+import { result } from "@/result";
 import type { KatexOptions, ParseError } from "katex";
 import "katex/dist/katex.css";
 import { useState } from "react";

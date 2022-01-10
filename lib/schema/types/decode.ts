@@ -1,4 +1,4 @@
-import { failure, Failure, Result, success } from "@/helpers/isomorphic";
+import { failure, Failure, Result, success } from "@/result";
 import type { Infer, Type } from ".";
 import { decodeAny } from "./any";
 import { decodeArray } from "./array";

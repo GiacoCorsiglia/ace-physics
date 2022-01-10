@@ -1,4 +1,4 @@
-import { cx, Html, useUniqueId } from "@/helpers/frontend";
+import { cx, Html, useUniqueId } from "@/helpers/client";
 import { forwardRef } from "react";
 import { useDisabled } from "./disabled";
 import styles from "./input.module.scss";

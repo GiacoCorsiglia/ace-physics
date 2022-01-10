@@ -1,9 +1,7 @@
-import { Failure, Result, Success } from "@/helpers/isomorphic";
+import { Failure, isFailure, isSuccess, Success } from "@/result";
 import { Decoded, DecodeError } from "./decode";
 
-export const isFailure = (o: Result<any, any>) => o.failed;
-
-export const isSuccess = (o: Result<any, any>) => !o.failed;
+export { isFailure, isSuccess };
 
 // TypeScript prefers these not be arrow functions:
 

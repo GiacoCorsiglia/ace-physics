@@ -11,7 +11,7 @@ import {
   Table,
   TextBox,
 } from "@/components";
-import { Html } from "@/helpers/react-helpers";
+import { Html } from "@/helpers/client";
 import { Model } from "@/reactivity";
 import { NumberField } from "@/schema/fields";
 import { page } from "@/tutorial";

@@ -9,7 +9,7 @@ import {
   SectionBox,
   TextBox,
 } from "@/components";
-import { Html, htmlTitle, useScrollIntoView } from "@/helpers/frontend";
+import { Html, htmlTitle, useScrollIntoView } from "@/helpers/client";
 import * as urls from "@/urls";
 import {
   ArrowDownIcon,

@@ -1,4 +1,4 @@
-import { styled } from "@/helpers/frontend";
+import { styled } from "@/helpers/client";
 import styles from "./group.module.scss";
 
 // Not that kind of control group :P

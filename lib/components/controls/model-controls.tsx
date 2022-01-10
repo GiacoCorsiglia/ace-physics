@@ -1,4 +1,4 @@
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { Model, useModel } from "@/reactivity";
 import type {
   BooleanField,

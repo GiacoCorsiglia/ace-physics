@@ -10,7 +10,7 @@ import {
   TextBox,
   Toggle,
 } from "@/components";
-import { approxEquals, deepEqual } from "@/helpers/frontend";
+import { approxEquals, deepEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
 import { Fragment } from "react";
 import tableGraph1 from "./assets/table-graph-1.png";

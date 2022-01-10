@@ -10,7 +10,7 @@ import {
   Prose,
   Vertical,
 } from "@/components";
-import { Html, JsxElement } from "@/helpers/frontend";
+import { Html, JsxElement } from "@/helpers/client";
 import { TUTORIAL_STATE_NO_COURSE } from "@/schema/db";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
 import { signIn } from "next-auth/react";

@@ -4,7 +4,7 @@ import {
   Html,
   useIsomorphicLayoutEffect,
   useUniqueId,
-} from "@/helpers/frontend";
+} from "@/helpers/client";
 import { ChevronDownIcon } from "@primer/octicons-react";
 import { useSelect } from "downshift";
 import { useRef, useState } from "react";

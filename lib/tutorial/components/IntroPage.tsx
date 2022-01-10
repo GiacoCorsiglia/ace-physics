@@ -6,7 +6,7 @@ import {
   SectionBox,
   Vertical,
 } from "@/components";
-import { htmlTitle } from "@/helpers/frontend";
+import { htmlTitle } from "@/helpers/client";
 import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";

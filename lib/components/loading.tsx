@@ -1,4 +1,4 @@
-import { cx, Html, range } from "@/helpers/frontend";
+import { cx, Html, range } from "@/helpers/client";
 import styles from "./loading.module.scss";
 
 export const LoadingAnimation = ({

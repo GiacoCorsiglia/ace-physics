@@ -1,4 +1,4 @@
-import { styled } from "@/helpers/frontend";
+import { styled } from "@/helpers/client";
 import { autoProse } from "../typography";
 import styles from "./labels.module.scss";
 

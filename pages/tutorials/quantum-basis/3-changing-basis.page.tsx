@@ -12,7 +12,7 @@ import {
   TextBox,
   Toggle,
 } from "@/components";
-import { approxEquals } from "@/helpers/frontend";
+import { approxEquals } from "@/helpers/client";
 import { Axes, Plot, Tick, Vector } from "@/plots";
 import { page } from "@/tutorial";
 import { DemoOnly } from "@pages/demo/tutorial-demo";
