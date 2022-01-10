@@ -1,4 +1,4 @@
-import { arraysEqual, Html } from "@/helpers/frontend";
+import { arraysSetEqual, Html } from "@/helpers/frontend";
 import type { Choice, Choices } from "@/schema/fields";
 import { Answer } from "../answers";
 import { Prose } from "../typography";
@@ -51,7 +51,7 @@ export const ChoiceAnswer = <C extends string, M extends boolean>({
         other !== undefined
           ? "undetermined"
           : multi
-          ? arraysEqual(answer as C[], selected as C[] | undefined)
+          ? arraysSetEqual(answer as C[], selected as C[] | undefined)
           : selected === answer
       }
     >

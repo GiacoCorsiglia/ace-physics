@@ -1,5 +1,11 @@
-import { cx, Html, styled } from "@/helpers/frontend";
-import { Children, forwardRef } from "react";
+import {
+  cx,
+  Html,
+  styled,
+  useIsomorphicLayoutEffect,
+} from "@/helpers/frontend";
+import { Children, forwardRef, useRef } from "react";
+import { Image } from "./image";
 import { M } from "./math";
 import styles from "./typography.module.scss";
 
@@ -26,18 +32,20 @@ const proseSafeElements = new Set([
   "img",
   "span",
   M,
+  Image,
 ]);
 
 type ProseProps = {
   size?: "large" | "body" | "small" | "smallest" | "ui" | "ui-small";
   justify?: "left" | "right" | "center" | "flush";
+  hyphenate?: boolean;
   boldColor?: "neutral" | "blue" | "green" | "red" | "yellow";
   faded?: boolean;
 } & JSX.IntrinsicElements["p"];
 
-export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
+const ProseComponent = forwardRef<HTMLParagraphElement, ProseProps>(
   function Prose(
-    { size, justify, faded, boldColor = "neutral", ...props },
+    { size, justify, hyphenate = true, faded, boldColor = "neutral", ...props },
     ref
   ) {
     // If there is no block level element in the children, wrap them in <p>.
@@ -71,6 +79,8 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
           justify === "center" && "text-center",
           justify === "right" && "text-right",
           justify === "flush" && "text-flush",
+          // Hyphenation
+          hyphenate && styles.hyphenate,
           // Fading.
           faded && "text-faded",
           // Bold color.
@@ -86,6 +96,12 @@ export const Prose = forwardRef<HTMLParagraphElement, ProseProps>(
     );
   }
 );
+
+const SubText = styled.p([styles.subText, "text-small", "text-faded"]);
+
+export const Prose = Object.assign(ProseComponent, {
+  SubText,
+});
 
 export const autoProse = (children: Html) => {
   let empty = true;
@@ -109,3 +125,26 @@ export const autoProse = (children: Html) => {
 export const PageTitle = styled.h1(styles.pageTitle);
 
 export const Vocabulary = styled.strong(styles.vocabulary);
+
+export const useActualSiblingCheck = (when: () => boolean, deps: any[]) => {
+  const elRef = useRef<HTMLDivElement>(null);
+  const classesRef = useRef("");
+
+  useIsomorphicLayoutEffect(() => {
+    const el = elRef.current;
+    if (!el || !when()) {
+      return;
+    }
+    // If this is display math, determine if this element is the first/last
+    // child of its parent *including text nodes* (which CSS is incapable of).
+    const firstChild = !el.previousSibling;
+    const lastChild = !el.nextSibling;
+    classesRef.current = cx(
+      firstChild && "prose-actual-first-child",
+      lastChild && "prose-actual-last-child"
+    );
+    el.className += " " + classesRef.current;
+  }, deps);
+
+  return [elRef, classesRef.current] as const;
+};

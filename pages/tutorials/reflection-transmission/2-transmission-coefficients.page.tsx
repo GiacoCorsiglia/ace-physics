@@ -1,4 +1,4 @@
-import { Button, Justify, M, Prose, TextBox } from "@/components";
+import { Button, Image, Justify, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import simSetupImg from "./assets/sim-setup.png";
 import { StepPotential } from "./figures";
@@ -81,12 +81,7 @@ export default page(setup, ({ section, hint }) => ({
               shown above. It should look like this when you’re done:
             </p>
 
-            <img
-              src={simSetupImg}
-              width="2048"
-              height="1434"
-              alt="Screenshot of sim setup."
-            />
+            <Image src={simSetupImg} alt="Screenshot of sim setup." />
 
             <p>
               <em>

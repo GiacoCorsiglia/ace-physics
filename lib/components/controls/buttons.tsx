@@ -1,14 +1,14 @@
 import { Caret } from "@/components/caret";
 import { cx, Html } from "@/helpers/frontend";
 import { LinkExternalIcon } from "@primer/octicons-react";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import { forwardRef } from "react";
 import styles from "./buttons.module.scss";
 import { useDisabled } from "./disabled";
 
 type ButtonProps = {
   color: "green" | "blue" | "yellow";
-  link?: string;
+  link?: LinkProps["href"];
   openNewTab?: boolean;
   iconLeft?: Html;
   iconRight?: Html;
@@ -37,7 +37,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     props.disabled = useDisabled(props);
 
     const isExternalLink =
-      !!link && (link.startsWith("http:") || link.startsWith("https:"));
+      !!link &&
+      typeof link === "string" &&
+      (link.startsWith("http:") || link.startsWith("https:")) &&
+      new URL(link).origin !== location.origin;
     if (isExternalLink) {
       // Default to opening external links in a new tab, unless explicitly set.
       openNewTab = openNewTab ?? true;
@@ -81,7 +84,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <a
           {...(props as JSX.IntrinsicElements["a"])}
-          href={link}
+          href={link as string}
           target={openNewTab ? "_blank" : undefined}
           rel={openNewTab ? "noreferrer noopener" : undefined}
           ref={ref as any}
@@ -118,4 +121,18 @@ const caret = (
       <path d={line} fill="none" className={styles.svgLine} />
     </g>
   </svg>
+);
+
+type LinkButtonProps = JSX.IntrinsicElements["button"];
+
+export const LinkButton = forwardRef<HTMLButtonElement, LinkButtonProps>(
+  function LinkButton({ children, ...props }, ref) {
+    props.className = cx(props.className, styles.linkButton);
+
+    return (
+      <button {...props} type={props.type || "button"} ref={ref}>
+        {children}
+      </button>
+    );
+  }
 );

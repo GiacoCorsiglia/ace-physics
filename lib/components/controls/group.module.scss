@@ -3,11 +3,17 @@
 
 .controlGroupWrapper {
   composes: tableControl from "../tables.module.scss";
+  display: block; // In case we make it an inline element.
 }
 
 .controlGroup {
   position: relative;
   display: inline-flex;
+
+  .stretch & {
+    display: flex;
+  }
+
   background: controls.$background-color;
   border-radius: controls.$border-radius;
   align-items: stretch;

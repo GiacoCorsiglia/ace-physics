@@ -1,0 +1,31 @@
+@use "spacing";
+@use "colors";
+@use "fonts";
+
+.loadingAnimation {
+  text-align: center;
+  @include fonts.smallest();
+}
+
+.svg {
+  margin: 0 auto;
+  // Height is set in JS.
+  background-size: contain;
+  background-position: center;
+  border: 1px solid colors.$neutral-200;
+}
+
+.sizeSmall .svg {
+  width: 80px;
+}
+.sizeMedium .svg {
+  width: 120px;
+}
+.sizeLarge .svg {
+  width: 180px;
+}
+
+.message {
+  margin-top: spacing.$space-25;
+  color: colors.$neutral-500;
+}

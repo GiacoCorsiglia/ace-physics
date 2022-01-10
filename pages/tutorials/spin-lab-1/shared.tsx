@@ -1,4 +1,4 @@
-import { Prose } from "@/components";
+import { Image, Prose } from "@/components";
 import { useState } from "react";
 import addAnalyzerCounterImg from "./assets/add-analyzer-counter.gif";
 import createBreakConnections from "./assets/create-break-connections.gif";
@@ -28,10 +28,8 @@ export const HowToUseTheSim = () => {
           </li>
           <li>
             Click and drag between two unconnected elements to connect them.
-            <img
+            <Image
               src={createBreakConnections}
-              width={945}
-              height={522}
               alt="Steps for breaking and creating a line, as described above."
             />
           </li>
@@ -44,10 +42,8 @@ export const HowToUseTheSim = () => {
           <li>
             To change the spin component you are measuring, click on the capital
             letter (X, Y, Z).
-            <img
+            <Image
               src={addAnalyzerCounterImg}
-              width={945}
-              height={522}
               alt="Steps for adding an analyzer and counter, as described above."
             />
           </li>

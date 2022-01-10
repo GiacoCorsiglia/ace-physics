@@ -1,4 +1,4 @@
-import { M, Prose, Reminder, TextBox, Toggle } from "@/components";
+import { Image, M, Prose, Reminder, TextBox, Toggle } from "@/components";
 import { page } from "@/tutorial";
 import simBarrierSetupImg from "./assets/sim-barrier-setup.png";
 import simPlaneWaveSettingImg from "./assets/sim-plane-wave-setting.png";
@@ -95,21 +95,17 @@ export default page(setup, ({ section, hint }) => ({
               although you’ll want to play around with the configuration!
             </p>
 
-            <img
+            <Image
               src={simWellSetupImg}
-              width="2050"
-              height="508"
               alt="Sim setup showing a potential well"
             />
 
             <p>Also make sure you’re working with a plane wave:</p>
 
-            <img
+            <Image
               src={simPlaneWaveSettingImg}
-              style={{ maxWidth: "204px" }}
-              width="508"
-              height="208"
               alt="Select the “plane wave” setting in the sim."
+              maxWidth="204px"
             />
           </Prose>
         </>
@@ -142,10 +138,8 @@ export default page(setup, ({ section, hint }) => ({
           <Prose>
             <p>Your sim should look something like this:</p>
 
-            <img
+            <Image
               src={simBarrierSetupImg}
-              width="2048"
-              height="500"
               alt="Sim setup showing a potential barrier"
             />
           </Prose>

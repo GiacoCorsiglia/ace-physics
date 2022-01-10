@@ -1,4 +1,3 @@
-import * as globalParams from "@/global-params";
 import { Html } from "@/helpers/frontend";
 import { OneOfConfig } from "../config";
 import {
@@ -8,6 +7,7 @@ import {
   revealedAt,
 } from "../section-logic";
 import { useTracked } from "../state-tree";
+import { useInstructorMode } from "./mode-manager";
 import SectionTreeNode from "./SectionTreeNode";
 
 export default function OneOf({
@@ -23,6 +23,8 @@ export default function OneOf({
   enumerateSections: boolean;
   commit: CommitAction;
 }) {
+  const instructorMode = useInstructorMode();
+
   // *Normally*, at most one subNode will be visible at a time, but we'll be
   // safe and display them all.  This way, if the state changes between commits
   // (e.g., someone goes back to edit their answers), a newly relevant section
@@ -31,7 +33,7 @@ export default function OneOf({
   const visibleNodes = useTracked((state) =>
     Object.values(config.sections)
       .filter((node) =>
-        globalParams.showAllSections ? true : isMarkedVisible(state, node)
+        instructorMode?.showAllSections ? true : isMarkedVisible(state, node)
       )
       // This array was just created, so we can use the in-place sort.
       .sort(

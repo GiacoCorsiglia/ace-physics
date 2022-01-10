@@ -28,7 +28,8 @@
     "eigenstate",
     "eigenstates",
     "linaria",
-    "rerender"
+    "rerender",
+    "unhashed"
   ],
   "jestrunner.jestCommand": "yarn test",
   "typescript.tsdk": "node_modules/typescript/lib",

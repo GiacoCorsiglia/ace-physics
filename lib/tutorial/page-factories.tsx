@@ -98,7 +98,9 @@ export const page = <S extends TutorialSchema>(
   tutorialConfig: c.TutorialConfig<S>,
   factory: (constructors: {
     /** Creates a section in the page. */
-    section: Constructor<c.SectionConfig<S>>;
+    section: <Name extends keyof S["properties"]["sections"]["properties"]>(
+      c: Omit<c.SectionConfig<S, Name>, "kind">
+    ) => c.SectionConfig<S, Name>;
     /** Creates a sequence of sections in the page.  */
     sequence: Constructor<c.SequenceConfig<S>>;
     /** Creates a sequence of sections in the page.  */
@@ -119,7 +121,7 @@ export const page = <S extends TutorialSchema>(
   return routeComponent({
     element: (
       <BodyPage
-        config={config as c.PageConfig<TutorialSchema>}
+        config={config as unknown as c.PageConfig<TutorialSchema>}
         tutorialConfig={tutorialConfig}
       />
     ),

@@ -3,6 +3,7 @@ import {
   Decimal,
   Dropdown,
   Guidance,
+  Image,
   M,
   Prose,
   Table,
@@ -131,36 +132,9 @@ export default page(setup, ({ section, oneOf }) => ({
         ] as const;
 
         const graphChoices = [
-          [
-            "t025",
-            <img
-              className="img"
-              alt=""
-              src={tableGraph2}
-              width={750}
-              height={438}
-            />,
-          ],
-          [
-            "t050",
-            <img
-              className="img"
-              alt=""
-              src={tableGraph3}
-              width={750}
-              height={438}
-            />,
-          ],
-          [
-            "t000",
-            <img
-              className="img"
-              alt=""
-              src={tableGraph1}
-              width={750}
-              height={438}
-            />,
-          ],
+          ["t025", <Image alt="" src={tableGraph2} />],
+          ["t050", <Image alt="" src={tableGraph3} />],
+          ["t000", <Image alt="" src={tableGraph1} />],
         ] as const;
 
         return (

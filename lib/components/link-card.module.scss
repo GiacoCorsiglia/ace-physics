@@ -1,0 +1,64 @@
+@use "spacing";
+@use "borders";
+@use "fonts";
+@use "colors";
+// TODO:
+@use "../../lib/components/controls/controls";
+
+.linkCard {
+  position: relative;
+  display: block;
+  margin-top: spacing.$space-100;
+  padding: spacing.$space-150 spacing.$space-300 spacing.$space-150
+    spacing.$space-150;
+  border: 1px solid colors.$neutral-300;
+  border-radius: borders.$radius;
+  background-color: colors.$neutral-50;
+  box-shadow: controls.$box-shadow;
+
+  transition: {
+    property: background-color, border-color;
+    duration: 75ms;
+  }
+
+  &:hover {
+    background-color: colors.$blue-200;
+    border-color: colors.$neutral-400;
+    box-shadow: controls.$hover-box-shadow;
+
+    .arrow {
+      transform: translateX(0.1rem);
+      color: colors.$blue-500;
+    }
+  }
+
+  &:active {
+    box-shadow: controls.$hover-box-shadow;
+  }
+}
+
+.label {
+  @include fonts.heading5;
+  color: colors.$blue-500;
+  margin-bottom: spacing.$space-50;
+}
+
+.arrow {
+  display: block;
+  position: absolute;
+  right: 0.5rem;
+  font-size: 3rem;
+  margin-left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  color: colors.$neutral-500;
+
+  transition: transform 75ms ease-in-out, color 75ms ease-in-out;
+
+  svg {
+    width: 2rem;
+    height: auto;
+  }
+}

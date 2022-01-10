@@ -1,75 +1,74 @@
-import * as f from "@/schema/fields";
-import { tutorialSchema } from "@/schema/tutorial";
+import * as s from "@/schema/tutorial";
 
-const PretestAnswer = f.chooseOne(["+hbar/2", "-hbar/2", "either", "not sure"]);
+const PretestAnswer = s.chooseOne(["+hbar/2", "-hbar/2", "either", "not sure"]);
 
-export default tutorialSchema({
-  pages: [
-    "classicalMarbleScenario",
-    "entangledStates",
-    "investigatingCorrelation",
-    "quantumCryptography",
-    "eavesdroppingDetection",
-  ],
+export default s.tutorial({
+  pages: {
+    classicalMarbleScenario: s.page(),
+    entangledStates: s.page(),
+    investigatingCorrelation: s.page(),
+    quantumCryptography: s.page(),
+    eavesdroppingDetection: s.page(),
+  },
   pretest: {
     aliceSpinUpX: PretestAnswer,
     aliceSpinUpZ: PretestAnswer,
     aliceSpinUpZAfter: PretestAnswer,
     aliceNoMeasurement: PretestAnswer,
   },
-  sections: [
-    "marblesIntro",
-    "compareToEPR",
+  sections: {
+    marblesIntro: s.section(),
+    compareToEPR: s.section(),
 
-    "entangledStatesIntro",
-    "bStateAfterMeasureA",
-    "bUpLikelihood",
-    "howOftenAliceBobSpinUp",
-    "howOftenAliceBobSame",
-    "howOftenAliceSzBobSxSame",
-    "causality",
+    entangledStatesIntro: s.section(),
+    bStateAfterMeasureA: s.section(),
+    bUpLikelihood: s.section(),
+    howOftenAliceBobSpinUp: s.section(),
+    howOftenAliceBobSame: s.section(),
+    howOftenAliceSzBobSxSame: s.section(),
+    causality: s.section(),
 
-    "investigatingCorrelationIntro",
-    "bX1A0",
-    "bX1A1",
-    "aZ0B1Prob",
-    "aZ1B1Prob",
-    "aZbZ",
-    "aZbX",
-    "general",
+    investigatingCorrelationIntro: s.section(),
+    bX1A0: s.section(),
+    bX1A1: s.section(),
+    aZ0B1Prob: s.section(),
+    aZ1B1Prob: s.section(),
+    aZbZ: s.section(),
+    aZbX: s.section(),
+    general: s.section(),
 
-    "quantumCryptographyIntro",
-    "bobCertaintyTable",
-    "bobCertaintyTableRule",
-    "bobMeasurementTable",
-    "keyTable",
-    "key",
+    quantumCryptographyIntro: s.section(),
+    bobCertaintyTable: s.section(),
+    bobCertaintyTableRule: s.section(),
+    bobMeasurementTable: s.section(),
+    keyTable: s.section(),
+    key: s.section(),
 
-    "eavesdroppingDetectionIntro",
-    "eavesdroppingFinal",
-    "eveCertainty",
-    "eveUndetected",
-    "eveVsBob",
-    "probBobUnaffectedEveX",
-    "probBobUnaffectedEveZ",
-    "probEveDetected",
-    "eveDetectionTable",
-    "overallDetectionProb",
-    "whyQuantum",
-  ],
+    eavesdroppingDetectionIntro: s.section(),
+    eavesdroppingFinal: s.section(),
+    eveCertainty: s.section(),
+    eveUndetected: s.section(),
+    eveVsBob: s.section(),
+    probBobUnaffectedEveX: s.section(),
+    probBobUnaffectedEveZ: s.section(),
+    probEveDetected: s.section(),
+    eveDetectionTable: s.section(),
+    overallDetectionProb: s.section(),
+    whyQuantum: s.section(),
+  },
   responses: {
-    sameAsEPR: f.string(),
-    differentFromEPR: f.string(),
+    sameAsEPR: s.string(),
+    differentFromEPR: s.string(),
 
-    bStateAfterMeasureA: f.chooseOne([
+    bStateAfterMeasureA: s.chooseOne([
       "|up_B>X",
       "|down_B>X",
       "|up_B>Z",
       "|down_B>Z",
       "cannot predict",
     ]),
-    bStateAfterMeasureAExplain: f.string(),
-    bUpLikelihood: f.chooseOne([
+    bStateAfterMeasureAExplain: s.string(),
+    bUpLikelihood: s.chooseOne([
       "100%",
       "75%",
       "50%",
@@ -77,45 +76,45 @@ export default tutorialSchema({
       "0%",
       "Not determined",
     ]),
-    bUpLikelihoodExplain: f.string(),
-    howOftenAliceBobSpinUp: f.string(),
-    howOftenAliceBobSame: f.string(),
-    howOftenAliceSzBobSxSame: f.string(),
-    causality: f.string(),
+    bUpLikelihoodExplain: s.string(),
+    howOftenAliceBobSpinUp: s.string(),
+    howOftenAliceBobSame: s.string(),
+    howOftenAliceSzBobSxSame: s.string(),
+    causality: s.string(),
 
-    bX1A0: f.chooseOne(["X", "Z", "either", "none"]),
-    bX1A1: f.chooseOne(["X", "Z", "either", "none"]),
-    aZ0B1Prob: f.chooseOne([
+    bX1A0: s.chooseOne(["X", "Z", "either", "none"]),
+    bX1A1: s.chooseOne(["X", "Z", "either", "none"]),
+    aZ0B1Prob: s.chooseOne([
       "100% certainty",
       "75% certainty",
       "50% certainty",
       "25% certainty",
       "0% certainty",
     ]),
-    aZ1B1Prob: f.chooseOne([
+    aZ1B1Prob: s.chooseOne([
       "100% certainty",
       "75% certainty",
       "50% certainty",
       "25% certainty",
       "0% certainty",
     ]),
-    aZbZ: f.chooseAll(["0", "1", "either"]),
-    aZbX: f.chooseAll(["0", "1", "either"]),
-    general: f.chooseAll(["Bob 1", "Bob 0", "same direction"]),
+    aZbZ: s.chooseAll(["0", "1", "either"]),
+    aZbX: s.chooseAll(["0", "1", "either"]),
+    general: s.chooseAll(["Bob 1", "Bob 0", "same direction"]),
 
     bobCertaintyTable: (() => {
-      const choice = f.chooseOne(["certain", "uncertain"]);
-      return f.object({
+      const choice = s.chooseOne(["certain", "uncertain"]);
+      return s.object({
         aXbX: choice,
         aXbZ: choice,
         aZbX: choice,
         aZbZ: choice,
       });
     })(),
-    bobCertaintyTableRule: f.chooseOne(["always", "sometimes", "never"]),
+    bobCertaintyTableRule: s.chooseOne(["always", "sometimes", "never"]),
     bobMeasurementTable: (() => {
-      const choice = f.chooseOne(["0", "1", "?"]);
-      return f.object({
+      const choice = s.chooseOne(["0", "1", "?"]);
+      return s.object({
         a1aXbX: choice,
         a1aXbZ: choice,
         a1aZbX: choice,
@@ -127,8 +126,8 @@ export default tutorialSchema({
       });
     })(),
     keyTable: (() => {
-      const choice = f.chooseOne(["0", "1", "-"]);
-      return f.tuple(
+      const choice = s.chooseOne(["0", "1", "-"]);
+      return s.tuple(
         // 10 of them.
         choice,
         choice,
@@ -142,35 +141,35 @@ export default tutorialSchema({
         choice
       );
     })(),
-    key: f.string(),
+    key: s.string(),
 
-    eveCertainty: f.chooseOne([
+    eveCertainty: s.chooseOne([
       "certain if X",
       "certain if Z",
       "always certain",
       "never certain",
     ]),
-    eveUndetected: f.chooseOne([
+    eveUndetected: s.chooseOne([
       "undetected",
       "detected",
       "maybe detected",
       "none",
     ]),
-    eveVsBob: f.chooseOne(["same", "opposite", "either", "none"]),
-    probBobUnaffectedEveX: f.chooseOne(["100%", "75%", "50%", "25%", "0%"]),
-    probBobUnaffectedEveZ: f.chooseOne(["100%", "50%", "25%", "0%"]),
-    probEveDetected: f.chooseOne(["75%", "50%", "25%", "0%"]),
-    eveDetectionTable: f.object({
-      abXeX: f.number(),
-      abXeZ: f.number(),
-      abZeX: f.number(),
-      abZeZ: f.number(),
+    eveVsBob: s.chooseOne(["same", "opposite", "either", "none"]),
+    probBobUnaffectedEveX: s.chooseOne(["100%", "75%", "50%", "25%", "0%"]),
+    probBobUnaffectedEveZ: s.chooseOne(["100%", "50%", "25%", "0%"]),
+    probEveDetected: s.chooseOne(["75%", "50%", "25%", "0%"]),
+    eveDetectionTable: s.object({
+      abXeX: s.number(),
+      abXeZ: s.number(),
+      abZeX: s.number(),
+      abZeZ: s.number(),
     }),
-    overallDetectionProb: f.number(),
-    oddsBobDoesntNoticeEve: f.string(),
-    whyQuantum: f.string(),
+    overallDetectionProb: s.number(),
+    oddsBobDoesntNoticeEve: s.string(),
+    whyQuantum: s.string(),
   },
-  hints: [
+  hints: {
     // Hints here.
-  ],
+  },
 });

@@ -9,7 +9,6 @@ import {
   SectionBox,
   TextBox,
 } from "@/components";
-import * as globalParams from "@/global-params";
 import { Html, htmlTitle, useScrollIntoView } from "@/helpers/frontend";
 import * as urls from "@/urls";
 import {
@@ -23,6 +22,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { PageConfig, TutorialConfig } from "../config";
 import { useRootModel, useValue } from "../state-tree";
+import { useInstructorMode } from "./mode-manager";
 import SectionTree from "./SectionTree";
 
 export default function BodyPage({
@@ -231,6 +231,9 @@ const RevealAnswersSection = ({
   config: PageConfig;
   complete: () => void;
 }) => {
+  const instructorMode = useInstructorMode();
+  const showAllSections = instructorMode?.showAllSections;
+
   const models = useRootModel();
   const model =
     models.properties.pages.properties[config.name].properties.answers;
@@ -241,16 +244,15 @@ const RevealAnswersSection = ({
     status === "answersRevealed" ||
     status === "completed";
 
-  const scrollRef = useScrollIntoView(!globalParams.showAllSections);
+  const scrollRef = useScrollIntoView(!showAllSections);
 
-  if (!visible && !globalParams.showAllSections) {
+  if (!visible && !showAllSections) {
     return null;
   }
 
   const showReflection = status === "answersRevealed" || status === "completed";
   const showPrompt =
-    status === "answersPrompted" ||
-    (globalParams.showAllSections && !showReflection);
+    status === "answersPrompted" || (showAllSections && !showReflection);
 
   return (
     <SectionBox ref={scrollRef}>

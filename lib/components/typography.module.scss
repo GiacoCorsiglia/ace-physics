@@ -7,9 +7,6 @@
 }
 
 .prose {
-  // text-align: justify;
-  hyphens: auto;
-
   h1 {
     @include fonts.heading1;
   }
@@ -56,16 +53,6 @@
     font-style: italic;
   }
 
-  i,
-  em {
-    font-style: italic;
-  }
-
-  b,
-  strong {
-    font-weight: fonts.$bold;
-  }
-
   a,
   .link {
     cursor: pointer;
@@ -88,19 +75,15 @@
     border: none;
   }
 
-  img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   // Spacing.
 
   // Default.
   > * + * {
     margin-top: spacing.$space-100;
+  }
+
+  * + .subText {
+    margin-top: 0;
   }
 
   * + h1,
@@ -116,20 +99,36 @@
     margin-top: spacing.$space-50;
   }
 
-  // Display Math.
-  // If it's at the top level, give it a margin unless its first or last. Also
-  // handle the case when its nested (e.g. in a paragraph).  We have to use
-  // these special classes that are added by JavaScript because there isn't a
-  // CSS selector that tells us if an element has text node siblings.
-  > :not(:first-child),
-  > :first-child :not(:global(.display-math-first-child)) {
-    --display-math-margin-top: #{spacing.$space-150};
+  code {
+    font-family: monospace;
   }
 
-  > :not(:last-child),
-  > :last-child :not(:global(.display-math-last-child)) {
-    --display-math-margin-bottom: #{spacing.$space-150};
+  // Display Math & Images.
+  // If it's at the top level, give it a margin unless its first or last. Also
+  // handles the case when its nested (e.g. in a paragraph).  We have to use
+  // these special classes that are added by JavaScript because there isn't a
+  // CSS selector that tells us if an element has text node siblings.
+  --image-margin-top: #{spacing.$space-100};
+  --display-math-margin-top: #{spacing.$space-150};
+  --image-margin-bottom: #{spacing.$space-100};
+  --display-math-margin-bottom: #{spacing.$space-150};
+
+  :global(.prose-actual-first-child) {
+    --image-margin-top: 0;
+    --display-math-margin-top: 0;
   }
+
+  :global(.prose-actual-last-child) {
+    --image-margin-bottom: 0;
+    --display-math-margin-bottom: 0;
+  }
+}
+
+.hyphenate {
+  hyphens: auto;
+  // Chrome (at least version 96) renders a weird glyph instead of a hyphen if
+  // this isn't set.  It should be "\2010" but that's rendered wrong.
+  -webkit-hyphenate-character: "-";
 }
 
 .boldColorBlue strong {

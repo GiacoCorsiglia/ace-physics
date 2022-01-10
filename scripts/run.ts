@@ -71,7 +71,7 @@ async function run(): Promise<void> {
 
   const commandArgs = args.slice(env === "none" ? 1 : 2);
 
-  if (commandArgs.length !== command.run.length) {
+  if (commandArgs.length < command.run.length) {
     throw error(
       "Missing",
       command.run.length - commandArgs.length,

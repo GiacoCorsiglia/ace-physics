@@ -1,5 +1,5 @@
-/** https://github.com/vercel/next.js/blob/canary/examples/with-sentry/pages/_error.js */
-import * as Sentry from "@sentry/node";
+/** https//github.com/vercel/next.js/blob/canary/examples/with-sentry/pages/_error.js */
+import * as Sentry from "@sentry/nextjs";
 import NextErrorComponent from "next/error";
 
 const AceError = ({ statusCode, hasGetInitialPropsRun, err }: any) => {

@@ -1,8 +1,7 @@
-import * as f from "@/schema/fields";
-import { tutorialSchema } from "@/schema/tutorial";
+import * as s from "@/schema/tutorial";
 
-const AnalyzerChoice = f.chooseOne(["X", "Y", "Z"]);
-const AnalyzerComboChoice = f.chooseAll([
+const AnalyzerChoice = s.chooseOne(["X", "Y", "Z"]);
+const AnalyzerComboChoice = s.chooseAll([
   "XX",
   "XY",
   "XZ",
@@ -14,9 +13,9 @@ const AnalyzerComboChoice = f.chooseAll([
   "ZZ",
 ]);
 
-const Vector = f.tuple(f.number(), f.number());
+const Vector = s.tuple(s.number(), s.number());
 
-const uDiracChoice = f.chooseOne([
+const uDiracChoice = s.chooseOne([
   "|x>",
   "|y>",
   "|u>",
@@ -26,7 +25,7 @@ const uDiracChoice = f.chooseOne([
   "<u|y>",
 ]);
 
-const vDiracChoice = f.chooseOne([
+const vDiracChoice = s.chooseOne([
   "|x>",
   "|y>",
   "|v>",
@@ -36,113 +35,115 @@ const vDiracChoice = f.chooseOne([
   "<v|y>",
 ]);
 
-export default tutorialSchema({
-  pages: [
-    "threeAnalyzers",
-    "aGivenState",
-    "gettingUsedToDiracNotation",
-    "operatorsAsMatrices",
-    "challenge",
-  ],
-  pretest: {
-    countDetector1: f.number(),
-    countDetector1Explain: f.string(),
-    canDeterminePsii: f.chooseOne(["yes", "no"]),
-    canDeterminePsiiExplain: f.string(),
-    normalizedV: Vector,
-    rTimesVExplain: f.string(),
-    doesREffectAllVectorsSame: f.chooseOne(["yes", "no"]),
-    doesREffectAllVectorsSameExplain: f.string(),
+export default s.tutorial({
+  pages: {
+    threeAnalyzers: s.page(),
+    aGivenState: s.page(),
+    gettingUsedToDiracNotation: s.page(),
+    operatorsAsMatrices: s.page(),
+    challenge: s.page(),
   },
-  sections: [
-    "threeAnalyzersIntro",
-    "averageMinsMaxes",
-    "setupForMaxA",
-    "overMaxA",
-    "setupForOtherMinsMaxes",
-    "moreThanOneCombo",
-    "psi2IfDetectorB50",
-    "setupsIfDetectorB50",
-    "setupsWhereABSame",
+  pretest: {
+    countDetector1: s.number(),
+    countDetector1Explain: s.string(),
+    canDeterminePsii: s.chooseOne(["yes", "no"]),
+    canDeterminePsiiExplain: s.string(),
+    normalizedV: Vector,
+    rTimesVExplain: s.string(),
+    doesREffectAllVectorsSame: s.chooseOne(["yes", "no"]),
+    doesREffectAllVectorsSameExplain: s.string(),
+  },
+  sections: {
+    threeAnalyzersIntro: s.section(),
+    averageMinsMaxes: s.section(),
+    setupForMaxA: s.section(),
+    overMaxA: s.section(),
+    setupForOtherMinsMaxes: s.section(),
+    moreThanOneCombo: s.section(),
+    psi2IfDetectorB50: s.section(),
+    setupsIfDetectorB50: s.section(),
+    setupsWhereABSame: s.section(),
 
-    "aGivenStateIntro",
-    "predictionForPsi1Z",
-    "experimentForPsi1Z",
-    "predictionForPsi1X",
-    "predictionForPsi1Y",
-    "reflectPsi1",
+    aGivenStateIntro: s.section(),
+    predictionForPsi1Z: s.section(),
+    experimentForPsi1Z: s.section(),
+    predictionForPsi1X: s.section(),
+    predictionForPsi1Y: s.section(),
+    reflectPsi1: s.section(),
 
-    "gettingUsedToDiracNotationIntro",
-    "normalizeUV",
-    "uVColumns",
-    "uVColumnsDirac",
+    gettingUsedToDiracNotationIntro: s.section(),
+    normalizeUV: s.section(),
+    uVColumns: s.section(),
+    uVColumnsDirac: s.section(),
 
-    "operatorsAsMatricesIntro",
-    "pTimesU",
-    "pTimesV",
-    "generalRuleP",
-    "operatorQIntro",
-    "qTimesU",
-    "qTimesV",
-    "generalRuleQ",
-    "doPQCommute",
-    "PQdonotcommute",
-    "PQcommute",
+    operatorsAsMatricesIntro: s.section(),
+    pTimesU: s.section(),
+    pTimesV: s.section(),
+    generalRuleP: s.section(),
+    operatorQIntro: s.section(),
+    qTimesU: s.section(),
+    qTimesV: s.section(),
+    generalRuleQ: s.section(),
+    doPQCommute: s.section(),
+    PQdonotcommute: s.section(),
+    PQcommute: s.section(),
 
-    "challengeIntro",
-  ],
+    challengeIntro: s.section(),
+  },
   responses: {
-    averageMinA: f.number(),
-    averageMaxA: f.number(),
-    averageMinB: f.number(),
-    averageMaxB: f.number(),
+    averageMinA: s.number(),
+    averageMaxA: s.number(),
+    averageMinB: s.number(),
+    averageMaxB: s.number(),
     maxAi: AnalyzerChoice,
     maxAii: AnalyzerChoice,
-    maxAExplain: f.string(),
-    overMaxA: f.chooseOne(["yes", "no"]),
-    overMaxAExplain: f.string(),
+    maxAExplain: s.string(),
+    overMaxA: s.chooseOne(["yes", "no"]),
+    overMaxAExplain: s.string(),
     minAi: AnalyzerChoice,
     minAii: AnalyzerChoice,
     maxBi: AnalyzerChoice,
     maxBii: AnalyzerChoice,
     minBi: AnalyzerChoice,
     minBii: AnalyzerChoice,
-    moreThanOneCombo: f.chooseOne(["yes", "no"]),
-    moreThanOneComboExplain: f.string(),
-    psi2IfDetectorB50: f.chooseAll(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    moreThanOneCombo: s.chooseOne(["yes", "no"]),
+    moreThanOneComboExplain: s.string(),
+    psi2IfDetectorB50: s.chooseAll(["+z", "-z", "+x", "-x", "+y", "-y"]),
     setupsIfDetectorB50: AnalyzerComboChoice,
     setupsWhereABSame: AnalyzerComboChoice,
-    setupsWhereABSameExplain: f.string(),
+    setupsWhereABSameExplain: s.string(),
 
-    psi1ProbUpZ: f.number(),
-    psi1ProbDownZ: f.number(),
-    psi1ProbUpX: f.number(),
-    psi1ProbDownX: f.number(),
-    psi1ProbUpY: f.number(),
-    psi1ProbDownY: f.number(),
-    reflectPsi1: f.string(),
+    psi1ProbUpZ: s.number(),
+    psi1ProbDownZ: s.number(),
+    psi1ProbUpX: s.number(),
+    psi1ProbDownX: s.number(),
+    psi1ProbUpY: s.number(),
+    psi1ProbDownY: s.number(),
+    reflectPsi1: s.string(),
 
     uNormalized: Vector,
     vNormalized: Vector,
     uColumn: Vector,
     vColumn: Vector,
-    uColumnDirac: f.tuple(uDiracChoice, uDiracChoice),
-    vColumnDirac: f.tuple(vDiracChoice, vDiracChoice),
+    uColumnDirac: s.tuple(uDiracChoice, uDiracChoice),
+    vColumnDirac: s.tuple(vDiracChoice, vDiracChoice),
 
     pTimesU: Vector,
     pTimesV: Vector,
-    generalRuleP: f.string(),
+    generalRuleP: s.string(),
     qTimesU: Vector,
     qTimesV: Vector,
-    generalRuleQ: f.string(),
-    doPQCommute: f.chooseOne(["do commute", "do not commute"]),
-    doPQCommuteExplain: f.string(),
+    generalRuleQ: s.string(),
+    doPQCommute: s.chooseOne(["do commute", "do not commute"]),
+    doPQCommuteExplain: s.string(),
 
-    challengeConclusion: f.tuple(f.string(), f.string()),
-    challengeProbabilityTable: f.object({
-      spinUp: f.object({ x: f.number(), y: f.number(), z: f.number() }),
-      spinDown: f.object({ x: f.number(), y: f.number(), z: f.number() }),
+    challengeConclusion: s.tuple(s.string(), s.string()),
+    challengeProbabilityTable: s.object({
+      spinUp: s.object({ x: s.number(), y: s.number(), z: s.number() }),
+      spinDown: s.object({ x: s.number(), y: s.number(), z: s.number() }),
     }),
   },
-  hints: ["spinXVersusCartesianX"],
+  hints: {
+    spinXVersusCartesianX: s.hint(),
+  },
 });

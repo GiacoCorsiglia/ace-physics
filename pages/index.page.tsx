@@ -1,4 +1,4 @@
-import { UserMenu } from "@/auth";
+import { useAuth, UserMenu } from "@/auth/client";
 import {
   Button,
   Header,
@@ -7,11 +7,14 @@ import {
   Page,
   Prose,
 } from "@/components";
-import * as urls from "@/urls";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
 
 export default function Index() {
+  const auth = useAuth();
+
+  const link = auth.status === "authenticated" ? "/courses" : "/tutorials";
+
   return (
     <Page>
       <Head>
@@ -22,7 +25,7 @@ export default function Index() {
 
       <Header title="ACE Physics" popovers={<UserMenu />} />
 
-      <MainContentBox vertical={300}>
+      <MainContentBox vertical={200}>
         <Prose>
           <h1>Interactive Online Activities for Physics Learners</h1>
 
@@ -33,16 +36,33 @@ export default function Index() {
         </Prose>
 
         <Justify center>
-          <Button color="green" link={urls.Tutorials.link}>
-            Take me to the online tutorials <ArrowRightIcon />
+          <Button color="green" link={link} iconRight={<ArrowRightIcon />}>
+            Get started
           </Button>
         </Justify>
 
         <Prose>
-          Today, ACE Physics is home to a handful of interactive activities—
-          <em>tutorials</em>—for physics students studying quantum mechanics.
-          Perhaps one day this website will hold an extensive suite of such
-          activities for all physics learners.
+          <p>
+            Today, ACE Physics is home to a handful of interactive activities—
+            <em>tutorials</em>—for physics students studying quantum mechanics.
+            Perhaps one day this website will hold an extensive suite of such
+            activities for all physics learners.
+          </p>
+
+          <p>
+            <strong>Considering using ACE Physics in your classroom?</strong>{" "}
+            Check out the instructor demo below—no sign in required.
+          </p>
+        </Prose>
+
+        <Justify center>
+          <Button color="blue" link="/demo" iconRight={<ArrowRightIcon />}>
+            Instructor demo
+          </Button>
+        </Justify>
+
+        <Prose>
+          ACE Physics is free for all to use. We hope you find it useful!
         </Prose>
       </MainContentBox>
     </Page>

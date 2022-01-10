@@ -13,8 +13,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "TimeDependence",
-  edition: "Main",
+  id: "TimeDependence",
   link: "time-dependence",
   label: "Time Dependence",
   pretest: true,

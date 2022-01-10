@@ -18,19 +18,18 @@ interface Properties {
  * matching the Types in the `properties` property.  Extra properties will be
  * preserved when decoding, unless `exact` is true.
  */
-export interface ObjectType<P extends Properties> {
+export interface ObjectType<P extends Properties = Properties> {
   // The extra map here flattens it into one declaration.
   readonly _: {
     [K in keyof ({
       readonly [K in keyof P as P[K] extends OptionalType<any>
         ? K
         : never]?: null;
-    } &
-      {
-        readonly [K in keyof P as P[K] extends OptionalType<any>
-          ? never
-          : K]: null;
-      })]: K extends keyof P ? Infer<P[K]> : never;
+    } & {
+      readonly [K in keyof P as P[K] extends OptionalType<any>
+        ? never
+        : K]: null;
+    })]: K extends keyof P ? Infer<P[K]> : never;
   };
   readonly kind: "object";
   /**

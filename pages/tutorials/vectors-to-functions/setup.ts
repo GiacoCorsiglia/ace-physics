@@ -13,8 +13,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  name: "VectorsToFunctions",
-  edition: "Main",
+  id: "VectorsToFunctions",
   link: "vectors-to-functions",
   label: "Vectors to Functions",
   pretest: false,

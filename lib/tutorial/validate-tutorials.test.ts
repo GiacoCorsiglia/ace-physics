@@ -1,4 +1,8 @@
+/**
+ * @jest-environment jsdom
+ */
 import { TutorialSchema } from "@/schema/tutorial";
+import { tutorialList } from "@pages/tutorials/list";
 import { tutorialSchemas } from "@pages/tutorials/schemas";
 import * as fs from "fs";
 import * as path from "path";
@@ -77,9 +81,15 @@ fs.readdirSync(tutorialsDir)
         expect(setup.link).toBe(t.name);
       });
 
-      it(`schema is exported as "${setup.name}" from pages/tutorials/schemas.ts`, () => {
-        expect(tutorialSchemas.has(setup.name)).toBe(true);
-        expect(tutorialSchemas.get(setup.name)).toBe(schema);
+      it(`schema is exported as "${setup.id}" from pages/tutorials/schemas.ts`, () => {
+        expect(tutorialSchemas.has(setup.id)).toBe(true);
+        expect(tutorialSchemas.get(setup.id)).toBe(schema);
+      });
+
+      it("listing is included in pages/tutorials/list.tsx with correct link", () => {
+        const listing = tutorialList.find((l) => l.id === setup.id);
+        expect(listing).not.toBeUndefined();
+        expect(listing!.link).toBe(setup.link);
       });
 
       it("intro page", () => {
@@ -180,9 +190,20 @@ fs.readdirSync(tutorialsDir)
         });
       });
 
+      // eslint-disable-next-line jest/expect-expect
+      it("sections have either body or guidance", () => {
+        allSections.forEach((section) => {
+          if (!section.body && !section.guidance) {
+            throw new Error(
+              `Section "${section.name}" has neither body nor guidance`
+            );
+          }
+        });
+      });
+
       it("no repeated models", () => {
         // const identifier = /^[A-Za-z_][0-9A-Za-z_$]*$/;
-        const modelsArgX = /^\s*\(?([A-Za-z_$][0-9A-Za-z_$]*)(?:,|\s|=>)/;
+        const modelsArgX = /^\s*\(?([A-Za-z_$][0-9A-Za-z_$]*)(?:\)|,|\s|=>)/;
 
         const allAccessedModels: string[] = [];
         const allRepeatedModels: string[] = [];
@@ -202,7 +223,7 @@ fs.readdirSync(tutorialsDir)
           if (modelsArg === null) {
             // We've already checked the arity, so we should be able to find the
             // name of the models arg with this pattern.
-            throw new Error("Broken test");
+            throw new Error("Broken test: failed to match models arg pattern");
           }
 
           // Check for things like:

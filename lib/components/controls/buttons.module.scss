@@ -18,11 +18,11 @@
 
   &.normal {
     @include fonts.ui;
-    padding: spacing.$space-75 spacing.$space-200;
+    padding: spacing.$space-75 spacing.$space-150;
   }
   &.small {
     @include fonts.ui-small;
-    padding: spacing.$space-75 spacing.$space-150;
+    padding: spacing.$space-75 spacing.$space-100;
   }
 
   transition: {
@@ -51,7 +51,7 @@
 
 .iconFirst {
   svg {
-    margin-left: -0.3rem;
+    margin-left: -0.5rem;
     margin-right: 0.6rem;
   }
 }
@@ -59,7 +59,7 @@
 .iconLast {
   svg {
     margin-left: 0.6rem;
-    margin-right: -0.3rem;
+    margin-right: -0.5rem;
   }
 }
 
@@ -164,4 +164,18 @@
   right: 0;
   margin: 0 auto;
   bottom: 100%;
+}
+
+.linkButton {
+  display: inline-block;
+  @include fonts.smallest;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.5;
+  transition: opacity 75ms;
+
+  &:hover {
+    opacity: 1;
+  }
 }

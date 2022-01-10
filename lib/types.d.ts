@@ -1,11 +1,18 @@
+/** Global type declarations & shims. */
+
 // Declare environment variables.
 declare namespace NodeJS {
   interface ProcessEnv {
     // Private.
+    readonly ACE_AWS_ENDPOINT: string | undefined;
     readonly ACE_AWS_ACCESS_KEY: string;
     readonly ACE_AWS_SECRET_KEY: string;
+    readonly ACE_AWS_SES_ACCESS_KEY: string | undefined;
+    readonly ACE_AWS_SES_SECRET_KEY: string | undefined;
     readonly ACE_AWS_REGION: string;
     readonly ACE_TABLE_NAME: string;
+    // See: https://next-auth.js.org/configuration/options#secret
+    readonly ACE_NEXT_AUTH_SECRET: string | undefined;
     // Public.
     readonly NEXT_PUBLIC_ACE_ENV: "production" | "staging" | "development";
     // Public, for local.
@@ -13,33 +20,7 @@ declare namespace NodeJS {
   }
 }
 
-// Declare asset modules.
-
-declare module "*.jpg" {
-  const src: string;
-  export default src;
-}
-declare module "*.gif" {
-  const src: string;
-  export default src;
-}
-declare module "*.png" {
-  const src: string;
-  export default src;
-}
-
-declare module "*.svg" {
-  import * as React from "react";
-
-  const ReactComponent: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & { title?: string }
-  >;
-
-  // const src: string;
-  export default ReactComponent;
-}
-
-// Redux Dev Tools
+// Redux Dev Tools.
 interface Window {
   __REDUX_DEVTOOLS_EXTENSION__?: any;
 }

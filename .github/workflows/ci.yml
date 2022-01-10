@@ -1,0 +1,23 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        cache: 'npm'
+    - name: Update to NPM 8
+      run: npm install -g npm@8
+    - name: Install dependencies
+      run: npm install
+    - name: Check types
+      run: npm run types
+    - name: Lint
+      run: npm run lint
+    - name: Setup DynamoDB local
+      run: docker run --name dynamodb -d -p 8000:8000 amazon/dynamodb-local
+    - name: Run tests
+      run: npm run test

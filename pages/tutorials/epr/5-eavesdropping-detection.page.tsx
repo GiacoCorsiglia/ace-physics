@@ -3,6 +3,7 @@ import {
   ChooseOne,
   ControlGroup,
   Horizontal,
+  Image,
   Integer,
   M,
   Prose,
@@ -15,7 +16,7 @@ import { Model } from "@/reactivity";
 import { NumberField } from "@/schema/fields";
 import { page } from "@/tutorial";
 import { useValue } from "@/tutorial/state-tree";
-import EavesdroppingProtectionSvg from "./assets/eavesdropping-protection.svg";
+import eavesdroppingProtectionSvg from "./assets/eavesdropping-protection.svg";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -27,7 +28,7 @@ export default page(setup, ({ section }) => ({
       name: "eavesdroppingDetectionIntro",
       body: (
         <>
-          <EavesdroppingProtectionSvg className="svg-img" />
+          <Image src={eavesdroppingProtectionSvg} layout="responsive" />
 
           <Prose>
             <p>Now there is a third party, Eve.</p>

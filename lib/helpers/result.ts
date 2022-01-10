@@ -14,6 +14,12 @@ export const failure = <E>(error: E): Failure<E> => ({ failed: true, error });
 
 export const success = <T>(value: T): Success<T> => ({ failed: false, value });
 
+export const isSuccess = <T>(result: Result<any, T>): result is Success<T> =>
+  !result.failed;
+
+export const isFailure = <E>(result: Result<E, any>): result is Failure<E> =>
+  result.failed;
+
 export const result = <E = Error, T = any>(action: () => T): Result<E, T> => {
   try {
     return { failed: false, value: action() };
@@ -30,9 +36,11 @@ export const unwrap = <E, T>(r: Result<E, T>): T => {
   return r.value;
 };
 
+export interface AsyncResult<E, T> extends Promise<Result<E, T>> {}
+
 export const asyncResult = <E = any, T = any>(
   promise: Promise<T>
-): Promise<Result<E, T>> =>
+): AsyncResult<E, T> =>
   promise.then(
     (value): Success<T> => ({ failed: false, value }),
     (error): Failure<E> => ({ failed: true, error })

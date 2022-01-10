@@ -39,9 +39,28 @@ export const asIndex = (i: number | string | symbol): number | null => {
   return n !== Infinity && String(n) === i && n >= 0 ? n : null;
 };
 
+/** Tests if two arrays contain the same elements in the same order. */
 export const arraysEqual = (
-  a1?: readonly any[],
-  a2?: readonly any[]
+  a1?: readonly unknown[],
+  a2?: readonly unknown[]
+): boolean => {
+  if (!a1 || !a2 || a1.length !== a2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < a1.length; i++) {
+    if (a1[i] !== a2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+/** Tests if two arrays contain the same elements in any order. */
+export const arraysSetEqual = (
+  a1?: readonly unknown[],
+  a2?: readonly unknown[]
 ): boolean => {
   if (!a1 || !a2 || a1.length !== a2.length) {
     return false;
@@ -226,4 +245,26 @@ const notUndefinedKeys = (o: any) => {
     }
   }
   return keys;
+};
+
+export const sortBy = <T>(array: T[], property: keyof T) =>
+  array
+    .slice()
+    .sort(
+      (a, b) =>
+        ((a[property] > b[property]) as any) -
+        ((a[property] < b[property]) as any)
+    );
+
+const emailX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const isValidEmail = (email: string) => emailX.test(email);
+
+export const isValidEmailList = (emails: string) => {
+  for (let email of emails.split("\n")) {
+    email = email.trim();
+    if (email && !isValidEmail(email)) {
+      return false;
+    }
+  }
+  return true;
 };

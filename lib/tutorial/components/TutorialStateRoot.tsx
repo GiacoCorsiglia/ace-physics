@@ -1,17 +1,14 @@
 import { getTutorial, updateTutorial } from "@/api/client";
-import { Prose, SectionBox } from "@/components";
+import { LoadingAnimation, Prose, SectionBox } from "@/components";
 import { cx, JsxElement } from "@/helpers/frontend";
 import { Updates } from "@/reactivity";
-import { Learner } from "@/schema/db";
 import { TutorialState } from "@/schema/tutorial";
 import { decode } from "@/schema/types";
-import EllipsisCircleIcon from "@/svgs/ellipsis-circle.svg";
 import { AlertIcon, CheckCircleIcon, SyncIcon } from "@primer/octicons-react";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TutorialConfig } from "../config";
 import { Root } from "../state-tree";
-import TutorialLoading from "./TutorialLoading";
 import styles from "./TutorialStateRoot.module.scss";
 
 type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
@@ -19,11 +16,12 @@ type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
 export function TutorialStateRoot({
   config,
   routeElement,
-  learner,
+  courseId,
 }: {
   config: TutorialConfig;
   routeElement: JsxElement;
-  learner: Learner;
+  /** No `courseId` means Instructor Mode. */
+  courseId: string | undefined;
 }) {
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
     "loading"
@@ -47,18 +45,22 @@ export function TutorialStateRoot({
   useEffect(() => {
     loadInitialTutorialState();
     async function loadInitialTutorialState() {
+      if (!courseId) {
+        setStatus("loaded");
+        return;
+      }
+
       setStatus("loading");
-      console.log("tutorial: fetching saved data");
+      console.info("tutorial: fetching saved data");
 
       const result = await getTutorial({
-        learnerId: learner.learnerId,
-        tutorial: config.name,
-        edition: config.edition,
+        tutorialId: config.id,
+        courseId,
       });
 
       if (result.failed) {
-        if (result.error.type === 404) {
-          console.log("tutorial: no saved data found");
+        if (result.error.type === "404 NOT FOUND") {
+          console.info("tutorial: no saved data found");
           setStatus("loaded");
           return;
         } else {
@@ -77,12 +79,12 @@ export function TutorialStateRoot({
 
       if (decoded.failed) {
         // TODO: Handle this by not throwing everything away!
-        console.log("tutorial: invalid saved data found");
+        console.warn("tutorial: invalid saved data found");
         setStatus("loaded");
         return;
       }
 
-      console.log("tutorial: saved data found");
+      console.info("tutorial: saved data found");
       setInitial(decoded.value);
       setStatus("loaded");
       if (setSavedStatusRef.current) {
@@ -90,14 +92,18 @@ export function TutorialStateRoot({
       }
       return;
     }
-  }, [learner, config]);
+  }, [config, courseId]);
 
   const save = useCallback(
     async (tutorialState: any) => {
+      if (!courseId) {
+        return;
+      }
+
       const setSavedStatus = setSavedStatusRef.current || (() => undefined);
 
       const newVersion = version.current; // Already incremented in onChange
-      console.log("tutorial: updating version:", newVersion);
+      console.info("tutorial: updating version:", newVersion);
 
       if (
         inFlightVersion.current === undefined ||
@@ -108,14 +114,17 @@ export function TutorialStateRoot({
 
       setSavedStatus("saving");
 
-      const result = await updateTutorial({
-        learnerId: learner.learnerId,
-        tutorial: config.name,
-        edition: config.edition,
-        version: newVersion,
-        state: tutorialState,
-        events: [],
-      });
+      const result = await updateTutorial(
+        {
+          tutorialId: config.id,
+          courseId,
+        },
+        {
+          version: newVersion,
+          state: tutorialState,
+          events: [],
+        }
+      );
 
       if (inFlightVersion.current === newVersion) {
         inFlightVersion.current = undefined;
@@ -144,10 +153,10 @@ export function TutorialStateRoot({
         if (lastSavedVersion.current < newVersion) {
           lastSavedVersion.current = newVersion;
         }
-        console.log("tutorial: updated version", newVersion);
+        console.info("tutorial: updated version", newVersion);
       }
     },
-    [config, learner]
+    [config, courseId]
   );
 
   const debouncedSave = useMemo(
@@ -206,7 +215,11 @@ export function TutorialStateRoot({
 
   switch (status) {
     case "loading":
-      return <TutorialLoading />;
+      return (
+        <SectionBox>
+          <LoadingAnimation size="large" />
+        </SectionBox>
+      );
     case "error":
       return (
         <SectionBox>
@@ -221,6 +234,10 @@ export function TutorialStateRoot({
       return (
         <>
           <Root
+            // Changing the key destroys and remounts this component.  This is
+            // the appropriate thing to do when we've reloaded the state from
+            // the server because the courseId or mode switched.
+            key={courseId || "InstructorMode"}
             overrideRootField={config.schema}
             initial={initial}
             onChange={onChange}
@@ -228,7 +245,7 @@ export function TutorialStateRoot({
             {routeElement}
           </Root>
 
-          <SavedStatus subscribe={savedStatusSubscribe} />
+          {courseId && <SavedStatus subscribe={savedStatusSubscribe} />}
         </>
       );
   }
@@ -276,3 +293,33 @@ function SavedStatus({
       );
   }
 }
+
+const EllipsisCircleIcon = () => (
+  <svg
+    aria-hidden="true"
+    role="img"
+    className="octicon"
+    viewBox="0 0 16 16"
+    width="16"
+    height="16"
+    style={{
+      display: "inline-block",
+      userSelect: "none",
+      verticalAlign: "text-bottom",
+    }}
+  >
+    <circle
+      stroke="currentColor"
+      cy="8"
+      cx="8"
+      strokeWidth="1.4"
+      fill="none"
+      r="7.2"
+    />
+    <g fill="currentColor">
+      <circle cy="8" cx="8" r="1.2" />
+      <circle cy="8" cx="11.2" r="1.2" />
+      <circle cy="8" cx="4.8" r="1.2" />
+    </g>
+  </svg>
+);
