@@ -1,4 +1,4 @@
-import stringify from "csv-stringify/lib/sync";
+import { stringify } from "csv-stringify/sync";
 import * as fs from "fs";
 import { latestDataFile } from "./helpers";
 
