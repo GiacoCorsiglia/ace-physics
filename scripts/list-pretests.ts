@@ -1,6 +1,6 @@
 import type { TutorialState } from "@/schema/db";
 import { TutorialSchema } from "@/schema/tutorial";
-import stringify from "csv-stringify/lib/sync";
+import { stringify } from "csv-stringify/sync";
 import * as fs from "fs";
 import path from "path";
 import { latestDataFile } from "./helpers";

@@ -92,17 +92,21 @@ export const CourseUsers = spec({
   DELETE: null,
 });
 
-export const CourseTutorialStates = spec({
-  url: join(Course.url, "tutorial-states?tutorialId=[tutorialId]"),
-  Query: t.exact({
-    courseId: t.string(),
-    tutorialId: t.string(),
-  }),
-  GET: {
-    Response: t.any(), // It's a CSV
-  },
+export const CourseReports = spec({
+  url: join(Course.url, "reports"),
+  Query: Course.Query,
+  GET: null,
   PUT: null,
-  POST: null,
+  POST: {
+    Request: t.exact({
+      tutorialId: t.string(),
+      unhashedStudentEmails: t.string(),
+      locale: t.string(),
+      timeZone: t.string(),
+      includePretests: t.boolean(),
+    }),
+    Response: t.string(), // It's a CSV
+  },
   DELETE: null,
 });
 

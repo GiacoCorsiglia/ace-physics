@@ -7,7 +7,8 @@ export const fetchAndParse: {
       Response: Res;
     },
     url: string,
-    method: "GET" | "DELETE"
+    method: "GET" | "DELETE",
+    isText?: boolean
   ): Promise<Result<ResponseError, Infer<Res>>>;
   <Res extends Type, Req extends Type>(
     spec: {
@@ -16,13 +17,15 @@ export const fetchAndParse: {
     },
     url: string,
     method: "PUT" | "POST",
-    requestBody: Infer<Req>
+    requestBody: Infer<Req>,
+    isText?: boolean
   ): Promise<Result<ResponseError, Infer<Res>>>;
 } = async <Res extends Type>(
   spec: { Response: Res },
   url: string,
   method: "GET" | "PUT" | "POST" | "DELETE",
-  requestBody?: unknown
+  requestBody?: unknown,
+  isText: boolean = false
 ): Promise<Result<ResponseError, Infer<Res>>> => {
   const responseSchema = spec.Response;
 
@@ -45,14 +48,20 @@ export const fetchAndParse: {
 
   const response = result.value;
 
-  const json = await asyncResult(response.json());
+  let body: unknown;
 
-  if (json.failed) {
-    console.error("api: request with invalid json", url, json.error);
-    return failure({ type: "JSON", error: json.error });
+  if (isText) {
+    body = await response.text();
+  } else {
+    const json = await asyncResult(response.json());
+
+    if (json.failed) {
+      console.error("api: request with invalid json", url, json.error);
+      return failure({ type: "JSON", error: json.error });
+    }
+
+    body = json.value;
   }
-
-  const body = json.value;
 
   // Specific error codes.
 
@@ -80,6 +89,10 @@ export const fetchAndParse: {
   }
 
   console.info("api: request succeeded", url, body);
+
+  if (isText) {
+    return success(body);
+  }
 
   const decoded = decode(responseSchema, body);
 

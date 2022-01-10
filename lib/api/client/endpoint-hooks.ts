@@ -131,7 +131,8 @@ export const createUseMutation = <
   M extends AllowedMethods<S, "PUT" | "POST" | "DELETE">
 >(
   spec: S,
-  method: M
+  method: M,
+  isText: boolean = false
 ): UseMutationHook<S, M> => {
   const needsQuery = Object.keys(spec.Query.properties).length > 0;
   const needsRequest = method !== "DELETE";
@@ -170,7 +171,8 @@ export const createUseMutation = <
           spec[method] as any,
           url,
           method as any,
-          request
+          request,
+          isText
         );
 
         if (result.failed) {

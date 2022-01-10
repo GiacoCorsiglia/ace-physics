@@ -17,7 +17,7 @@ const enum DatabaseType {
   TutorialState = "TUTORIAL_STATE",
 }
 
-const key = (...parts: string[]) => parts.join("#");
+const key = (...parts: string[]) => parts.filter((p) => !!p).join("#");
 
 /**
  * NextAuth User.

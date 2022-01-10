@@ -1,6 +1,7 @@
 import { Infer, Type } from "@/schema/types";
 import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
+import { sendResponse } from ".";
 import { ApiSpec } from "../isomorphic/spec";
 import { ParsedRequest, ParsedSession, parseRequest } from "./parse-request";
 import * as response from "./response";
@@ -82,22 +83,9 @@ export const endpoint = <S extends ApiSpec>(
       req.method = "GET";
     }
 
-    const res_ = await wrapped(req);
+    const responseObject = await wrapped(req);
 
-    if (res_.headers) {
-      Object.entries(res_.headers).forEach(([header, value]) => {
-        res.setHeader(header, value);
-      });
-    }
-
-    if (res_.statusCode === 500) {
-      console.error(res_.body);
-    }
-
-    res.status(res_.statusCode);
-    if (!isHead) {
-      res.json(res_.body);
-    }
+    sendResponse(res, responseObject, isHead);
   });
 
   return Object.assign(ret, { handlers });

@@ -89,7 +89,7 @@ export default function Course() {
                         <Button
                           color="green"
                           link={{
-                            pathname: "/courses/[courseId]/student-responses",
+                            pathname: "/courses/[courseId]/reports",
                             query: { courseId },
                           }}
                           iconLeft={<StackIcon />}

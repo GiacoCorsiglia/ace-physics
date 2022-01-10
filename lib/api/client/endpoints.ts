@@ -31,3 +31,9 @@ export const updateTutorial = (
   const url = renderUrl(spec.TutorialState, query);
   return fetchAndParse(spec.TutorialState.PUT, url, "PUT", request);
 };
+
+export const usePostReports = createUseMutation(
+  spec.CourseReports,
+  "POST",
+  true
+);
