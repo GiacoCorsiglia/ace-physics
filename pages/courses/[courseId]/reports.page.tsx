@@ -218,8 +218,8 @@ const StudentResponsesForm = ({ course }: { course: Course }) => {
     >
       <Vertical>
         <Prose>
-          Using this page, you can download a report of your students’ responses
-          to a given tutorial.
+          Using this page, you can download a report of your students’
+          responses.
         </Prose>
 
         <DropdownControl
