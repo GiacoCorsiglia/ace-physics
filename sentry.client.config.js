@@ -10,7 +10,7 @@ const SENTRY_DSN =
   "https://b08fd44c934c4c7cb31f6387c858f722@o446424.ingest.sentry.io/5424848";
 
 Sentry.init({
-  dsn: process.env.NODE_ENV !== "dev" ? SENTRY_DSN : "",
+  dsn: process.env.NODE_ENV !== "development" ? SENTRY_DSN : "",
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 1.0,
   // ...
