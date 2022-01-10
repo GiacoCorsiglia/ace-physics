@@ -1,4 +1,4 @@
-import { useIsomorphicLayoutEffect } from "@/helpers/frontend";
+import { useIsomorphicLayoutEffect } from "@/helpers/client";
 import { Store } from "./store";
 
 // https://medium.com/@zalmoxis/redux-devtools-without-redux-or-how-to-have-a-predictable-state-with-any-architecture-61c5f5a7716f

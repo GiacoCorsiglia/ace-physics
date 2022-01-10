@@ -7,7 +7,7 @@ import {
   TextBox,
   TextLine,
 } from "@/components";
-import { arraysSetEqual } from "@/helpers/frontend";
+import { arraysSetEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
 import { SymmetricWellPotential } from "./figures";
 import setup from "./setup";

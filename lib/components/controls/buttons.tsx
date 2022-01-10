@@ -1,5 +1,5 @@
 import { Caret } from "@/components/caret";
-import { cx, Html } from "@/helpers/frontend";
+import { cx, Html } from "@/helpers/client";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import Link, { LinkProps } from "next/link";
 import { forwardRef } from "react";

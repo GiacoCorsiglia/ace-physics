@@ -7,7 +7,7 @@ import {
   TextBox,
   Toggle,
 } from "@/components";
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";

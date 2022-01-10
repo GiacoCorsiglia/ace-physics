@@ -5,7 +5,7 @@ import {
   Prose,
   Vertical,
 } from "@/components";
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { TutorialSchema, TutorialState } from "@/schema/tutorial";
 import BodyPage from "@/tutorial/components/BodyPage";
 import { PageConfig, TutorialConfig } from "@/tutorial/config";

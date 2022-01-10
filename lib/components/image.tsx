@@ -1,4 +1,4 @@
-import { cx } from "@/helpers/css";
+import { cx } from "@/helpers/client";
 import NextImage, { ImageProps } from "next/image";
 import styles from "./image.module.scss";
 import { useActualSiblingCheck } from "./typography";

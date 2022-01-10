@@ -1,5 +1,5 @@
 import { Dropdown, LabelsLeft, M, Prose, TextBox } from "@/components";
-import { cx } from "@/helpers/frontend";
+import { cx } from "@/helpers/client";
 import { page } from "@/tutorial";
 import {
   BarrierPotential,

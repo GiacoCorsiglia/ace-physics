@@ -1,4 +1,4 @@
-import { cx, Html } from "@/helpers/frontend";
+import { cx, Html } from "@/helpers/client";
 import { forwardRef } from "react";
 import styles from "./callouts.module.scss";
 import { autoProse } from "./typography";

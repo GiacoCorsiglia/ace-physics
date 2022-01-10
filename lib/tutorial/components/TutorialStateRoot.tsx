@@ -1,6 +1,6 @@
 import { getTutorial, updateTutorial } from "@/api/client";
 import { LoadingAnimation, Prose, SectionBox } from "@/components";
-import { cx, JsxElement } from "@/helpers/frontend";
+import { cx, JsxElement } from "@/helpers/client";
 import { Updates } from "@/reactivity";
 import { TutorialState } from "@/schema/tutorial";
 import { decode } from "@/schema/types";

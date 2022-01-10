@@ -1,4 +1,4 @@
-import { AsyncResult } from "@/helpers/result";
+import { AsyncResult } from "@/result";
 import { Infer, ObjectType } from "@/schema/types";
 import { useCallback, useState } from "react";
 import useSwr, { SWRConfiguration, useSWRConfig } from "swr";

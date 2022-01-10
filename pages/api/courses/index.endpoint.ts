@@ -1,6 +1,6 @@
 import { endpoint, response, spec } from "@/api/server";
 import * as db from "@/db";
-import { sortBy } from "@/helpers/function-helpers";
+import { sortBy } from "@/helpers/server";
 
 export default endpoint(spec.Courses, {
   async GET(request) {

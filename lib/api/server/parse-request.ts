@@ -1,4 +1,4 @@
-import * as result from "@/helpers/result";
+import * as result from "@/result";
 import { decode, Infer } from "@/schema/types";
 import { NextApiRequest } from "next";
 import type { Session } from "next-auth";

@@ -1,7 +1,7 @@
 import { Footer } from "@/components/footer";
 import footerStyles from "@/components/footer.module.scss";
 import "@/design/global.scss";
-import { Html, JsxElement, resetUniqueIds } from "@/helpers/frontend";
+import { Html, JsxElement, resetUniqueIds } from "@/helpers/client";
 import { polyfill } from "@/polyfill";
 import { SessionProvider, useSession } from "next-auth/react";
 import type { AppProps } from "next/app";

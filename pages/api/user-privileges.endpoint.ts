@@ -4,7 +4,7 @@ import {
   hashEmail,
 } from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
-import { isValidEmail } from "@/helpers/function-helpers";
+import { isValidEmail } from "@/helpers/server";
 
 const adapter = HashedDynamoDBAdapter(
   db.createDocumentClient({

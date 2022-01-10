@@ -1,5 +1,4 @@
-import { cx } from "@/helpers/css";
-import { Html } from "@/helpers/frontend";
+import { cx, Html } from "@/helpers/client";
 import { forwardRef } from "react";
 import styles from "./tables.module.scss";
 

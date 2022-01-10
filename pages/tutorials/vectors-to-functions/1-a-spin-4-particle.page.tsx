@@ -10,7 +10,7 @@ import {
   Toggle,
   VariableLengthColumn,
 } from "@/components";
-import { deepEqual, range } from "@/helpers/frontend";
+import { deepEqual, range } from "@/helpers/client";
 import { Axes, Bar, DragHandle, Grid, Indicator, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
 import { Fragment } from "react";

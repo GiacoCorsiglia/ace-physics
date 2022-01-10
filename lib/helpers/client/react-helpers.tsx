@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { scrollToElement } from "./frontend";
+import { scrollToElement } from ".";
 
 const subDomain =
   process.env.NEXT_PUBLIC_ACE_ENV === "development"

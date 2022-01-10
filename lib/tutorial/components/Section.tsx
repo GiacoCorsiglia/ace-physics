@@ -1,5 +1,5 @@
 import { Button, Callout, Guidance, SectionBox, Vertical } from "@/components";
-import { cx, Html, useScrollIntoView } from "@/helpers/frontend";
+import { cx, Html, useScrollIntoView } from "@/helpers/client";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
 import { GuidanceMessageConfig, SectionConfig } from "../config";

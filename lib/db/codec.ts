@@ -1,4 +1,5 @@
-import { isObject, isSuccess } from "@/helpers/backend";
+import { isObject } from "@/helpers/server";
+import { isSuccess } from "@/result";
 import * as t from "@/schema/types";
 import { expressionAttributes, updateExpression } from "./helpers";
 import { KeyGSI1, KeyPrimary, Keys } from "./table";

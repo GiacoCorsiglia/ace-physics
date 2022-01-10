@@ -1,6 +1,6 @@
 import { UserMenu } from "@/auth/client";
 import { Header } from "@/components";
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import * as urls from "@/urls";
 import {
   ArrowLeftIcon,

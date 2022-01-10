@@ -1,4 +1,4 @@
-import { arraysSetEqual, Html } from "@/helpers/frontend";
+import { arraysSetEqual, Html } from "@/helpers/client";
 import type { Choice, Choices } from "@/schema/fields";
 import { Answer } from "../answers";
 import { Prose } from "../typography";

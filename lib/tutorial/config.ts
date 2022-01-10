@@ -1,4 +1,4 @@
-import type { Html } from "@/helpers/frontend";
+import type { Html } from "@/helpers/client";
 import type { Model } from "@/reactivity";
 import type { Infer } from "@/schema/fields";
 import type { TutorialSchema, TutorialState } from "@/schema/tutorial";

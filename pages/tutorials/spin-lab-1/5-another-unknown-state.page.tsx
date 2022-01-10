@@ -9,7 +9,7 @@ import {
   TextBox,
   Toggle,
 } from "@/components";
-import { deepEqual } from "@/helpers/frontend";
+import { deepEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
 import setup from "./setup";
 

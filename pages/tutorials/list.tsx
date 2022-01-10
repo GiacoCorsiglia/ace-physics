@@ -1,4 +1,4 @@
-import { Html } from "@/helpers/react-helpers";
+import { Html } from "@/helpers/client";
 
 /**
  * List of all tutorials for display on different pages.

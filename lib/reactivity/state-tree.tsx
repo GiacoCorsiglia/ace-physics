@@ -5,7 +5,7 @@ import {
   Path,
   TypeAtPath,
   useForceUpdate,
-} from "@/helpers/frontend";
+} from "@/helpers/client";
 import {
   createContext,
   memo,

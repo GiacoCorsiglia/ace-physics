@@ -1,4 +1,4 @@
-import { combineRefs, cx, Html, useUniqueId } from "@/helpers/frontend";
+import { combineRefs, cx, Html, useUniqueId } from "@/helpers/client";
 import { forwardRef, useEffect, useRef } from "react";
 import { useDisabled } from "./disabled";
 import { InputControl, InputControlProps } from "./input";

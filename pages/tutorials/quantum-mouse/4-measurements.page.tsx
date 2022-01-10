@@ -10,7 +10,7 @@ import {
   TextBox,
   Toggle,
 } from "@/components";
-import { approxEquals } from "@/helpers/frontend";
+import { approxEquals } from "@/helpers/client";
 import { page } from "@/tutorial";
 import setup from "./setup";
 

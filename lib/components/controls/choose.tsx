@@ -4,7 +4,7 @@ import {
   styled,
   useSyncedState,
   useUniqueId,
-} from "@/helpers/frontend";
+} from "@/helpers/client";
 import { useRef } from "react";
 import { autoProse } from "../typography";
 import { ChoicesConfigUnion, validateChoices } from "./choice-helpers";

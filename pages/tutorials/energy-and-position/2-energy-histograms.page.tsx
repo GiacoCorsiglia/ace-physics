@@ -7,7 +7,7 @@ import {
   TextBox,
   Toggle,
 } from "@/components";
-import { approxEquals, range } from "@/helpers/frontend";
+import { approxEquals, range } from "@/helpers/client";
 import { Axes, Bar, DragHandle, GridLine, Plot, Tick } from "@/plots";
 import { page } from "@/tutorial";
 import { Fragment } from "react";

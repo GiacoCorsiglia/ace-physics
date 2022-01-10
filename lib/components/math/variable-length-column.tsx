@@ -1,4 +1,4 @@
-import { Html, isReactElement, styled } from "@/helpers/frontend";
+import { Html, isReactElement, styled } from "@/helpers/client";
 import { Model, useModel } from "@/reactivity";
 import { ArrayField, Field } from "@/schema/fields";
 import { PlusIcon, XIcon } from "@primer/octicons-react";

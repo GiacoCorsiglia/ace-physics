@@ -9,7 +9,7 @@ import {
   TextBox,
   Toggle,
 } from "@/components";
-import { approxEquals, norm } from "@/helpers/frontend";
+import { approxEquals, norm } from "@/helpers/client";
 import { page } from "@/tutorial";
 import setup from "./setup";
 

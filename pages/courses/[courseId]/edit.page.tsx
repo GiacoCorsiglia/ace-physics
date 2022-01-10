@@ -16,7 +16,7 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
-import { arraysEqual, isValidEmailList } from "@/helpers/function-helpers";
+import { arraysEqual, isValidEmailList } from "@/helpers/client";
 import { Course } from "@/schema/api";
 import { tutorialList } from "@pages/tutorials/list";
 import { CheckCircleIcon, UploadIcon } from "@primer/octicons-react";

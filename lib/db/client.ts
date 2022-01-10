@@ -1,4 +1,4 @@
-import { asyncResult, failure, Result } from "@/helpers/result";
+import { asyncResult, failure, Result } from "@/result";
 import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument, TranslateConfig } from "@aws-sdk/lib-dynamodb";
 

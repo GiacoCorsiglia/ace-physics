@@ -1,4 +1,4 @@
-import { asIndex } from "@/helpers/frontend";
+import { asIndex } from "@/helpers/client";
 import type * as f from "@/schema/fields";
 import { Infer } from "@/schema/types";
 import type { ModelContext } from "./model-state-tree";

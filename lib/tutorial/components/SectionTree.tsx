@@ -1,4 +1,4 @@
-import { Html } from "@/helpers/frontend";
+import { Html } from "@/helpers/client";
 import { Setter } from "@/reactivity";
 import { TutorialState } from "@/schema/tutorial";
 import { useCallback, useEffect, useMemo } from "react";

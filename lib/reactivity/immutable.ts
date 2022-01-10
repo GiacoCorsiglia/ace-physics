@@ -1,4 +1,4 @@
-import { isIndex, isObject, Path, TypeAtPath } from "@/helpers/frontend";
+import { isIndex, isObject, Path, TypeAtPath } from "@/helpers/client";
 
 /**
  * Safely get the value in `o` at `path`.
@@ -81,5 +81,5 @@ export const set = <T, P extends Path<T>>(
     }
   }
 
-  return (newValue as unknown) as T;
+  return newValue as unknown as T;
 };
