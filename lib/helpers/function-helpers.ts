@@ -258,3 +258,13 @@ export const sortBy = <T>(array: T[], property: keyof T) =>
 
 const emailX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const isValidEmail = (email: string) => emailX.test(email);
+
+export const isValidEmailList = (emails: string) => {
+  for (let email of emails.split("\n")) {
+    email = email.trim();
+    if (email && !isValidEmail(email)) {
+      return false;
+    }
+  }
+  return true;
+};

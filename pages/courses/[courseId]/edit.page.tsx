@@ -16,7 +16,7 @@ import {
   Vertical,
 } from "@/components";
 import { Breadcrumb } from "@/components/breadcrumb";
-import { arraysEqual, isValidEmail } from "@/helpers/function-helpers";
+import { arraysEqual, isValidEmailList } from "@/helpers/function-helpers";
 import { Course } from "@/schema/api";
 import { tutorialList } from "@pages/tutorials/list";
 import { CheckCircleIcon, UploadIcon } from "@primer/octicons-react";
@@ -232,16 +232,6 @@ const CourseForm = ({ course }: { course: Course }) => {
   );
 };
 
-const validateEmails = (emails: string) => {
-  for (let email of emails.split("\n")) {
-    email = email.trim();
-    if (email && !isValidEmail(email)) {
-      return false;
-    }
-  }
-  return true;
-};
-
 const CourseUsersForm = ({ course }: { course: Course }) => {
   const mutation = useUpdateCourseUsers();
 
@@ -251,8 +241,8 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
 
   const isEmpty = !studentEmails && (!wantsInstructors || !instructorEmails);
   const isValid =
-    validateEmails(studentEmails) &&
-    (!wantsInstructors || validateEmails(instructorEmails));
+    isValidEmailList(studentEmails) &&
+    (!wantsInstructors || isValidEmailList(instructorEmails));
 
   const isDisabled = mutation.status === "loading" || isEmpty || !isValid;
 
@@ -454,7 +444,7 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
             </>
           )}
 
-          {(wantsInstructors || (data && data.newInstructors.length)) &&
+          {(wantsInstructors || (data && !!data.newInstructors.length)) &&
             actions}
         </Vertical>
       </form>
