@@ -1,4 +1,5 @@
 import {
+  Breadcrumb,
   Button,
   Justify,
   LinkCard,
@@ -21,6 +22,8 @@ export default function Index() {
       </Head>
 
       <MainContentBox marginTop="small">
+        <Breadcrumb items={[{ link: "/", label: "Home" }]} />
+
         <Prose>
           <h1>Adaptable Curricular Exercises for Physics</h1>
 

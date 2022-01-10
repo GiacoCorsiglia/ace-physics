@@ -2,6 +2,7 @@ import { useCourse } from "@/api/client";
 import { useAuth, UserMenu } from "@/auth/client";
 import {
   AuthGuard,
+  Breadcrumb,
   Button,
   Callout,
   Header,
@@ -11,7 +12,6 @@ import {
   Prose,
   Vertical,
 } from "@/components";
-import { Breadcrumb } from "@/components/breadcrumb";
 import { TutorialList } from "@/tutorial/components/tutorial-list";
 import { tutorialList } from "@pages/tutorials/list";
 import { GearIcon, StackIcon } from "@primer/octicons-react";

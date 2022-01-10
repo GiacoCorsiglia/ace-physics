@@ -2,6 +2,7 @@ import { useCourses, useCreateCourse } from "@/api/client";
 import { useAuth, UserMenu } from "@/auth/client";
 import {
   AuthGuard,
+  Breadcrumb,
   Button,
   Callout,
   Header,
@@ -15,7 +16,6 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
-import { Breadcrumb } from "@/components/breadcrumb";
 import { Course } from "@/schema/api";
 import { ArrowRightIcon, PlusIcon } from "@primer/octicons-react";
 import { useState } from "react";

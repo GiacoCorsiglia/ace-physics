@@ -2,6 +2,7 @@ import { useUpdateUserPrivileges } from "@/api/client";
 import { useAuth, UserMenu } from "@/auth/client";
 import {
   AuthGuard,
+  Breadcrumb,
   Button,
   Callout,
   DropdownControl,
@@ -15,7 +16,6 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
-import { Breadcrumb } from "@/components/breadcrumb";
 import { isValidEmail } from "@/helpers/function-helpers";
 import { useState } from "react";
 
