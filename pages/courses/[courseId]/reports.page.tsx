@@ -2,6 +2,7 @@ import { useCourse, usePostReports } from "@/api/client";
 import { useAuth, UserMenu } from "@/auth/client";
 import {
   AuthGuard,
+  Breadcrumb,
   Button,
   Callout,
   DropdownControl,
@@ -15,7 +16,6 @@ import {
   TextBoxControl,
   Vertical,
 } from "@/components";
-import { Breadcrumb } from "@/components/breadcrumb";
 import { isValidEmailList } from "@/helpers/function-helpers";
 import { Course } from "@/schema/api";
 import { tutorialList } from "@pages/tutorials/list";

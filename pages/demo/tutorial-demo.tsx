@@ -1,4 +1,10 @@
-import { Button, MainContentBox, Prose, Vertical } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  MainContentBox,
+  Prose,
+  Vertical,
+} from "@/components";
 import { Html } from "@/helpers/frontend";
 import { TutorialSchema, TutorialState } from "@/schema/tutorial";
 import BodyPage from "@/tutorial/components/BodyPage";
@@ -47,6 +53,13 @@ export const TutorialDemoPage = <S extends TutorialSchema>({
       </Head>
 
       <MainContentBox marginTop="small">
+        <Breadcrumb
+          items={[
+            { link: "/", label: "Home" },
+            { link: "/demo", label: "Demo" },
+          ]}
+        />
+
         <Prose>
           <h4>
             Demo: <em>{title}</em>

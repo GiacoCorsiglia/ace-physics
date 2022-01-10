@@ -1,5 +1,6 @@
 export * from "./answers";
 export * from "./auth-guard";
+export * from "./breadcrumb";
 export * from "./callouts";
 export * from "./controls";
 export * from "./header";

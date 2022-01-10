@@ -2,6 +2,7 @@ import { useCourse, useUpdateCourse, useUpdateCourseUsers } from "@/api/client";
 import { useAuth, UserMenu } from "@/auth/client";
 import {
   AuthGuard,
+  Breadcrumb,
   Button,
   Callout,
   ChooseControl,
@@ -15,7 +16,6 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
-import { Breadcrumb } from "@/components/breadcrumb";
 import { arraysEqual, isValidEmailList } from "@/helpers/function-helpers";
 import { Course } from "@/schema/api";
 import { tutorialList } from "@pages/tutorials/list";
