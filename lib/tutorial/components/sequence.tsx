@@ -3,9 +3,9 @@ import { SequenceConfig } from "../config";
 import { CommitAction, isMarkedVisible, nodeKey } from "../section-logic";
 import { useTracked } from "../state-tree";
 import { useInstructorMode } from "./mode-manager";
-import SectionTreeNode from "./SectionTreeNode";
+import { SectionTreeNode } from "./section-tree-node";
 
-export default function Sequence({
+export const Sequence = ({
   config,
   first,
   prepend,
@@ -17,7 +17,7 @@ export default function Sequence({
   prepend?: Html;
   enumerateSections: boolean;
   commit: CommitAction;
-}) {
+}) => {
   const instructorMode = useInstructorMode();
 
   const visibleNodes = useTracked((state) =>
@@ -38,4 +38,4 @@ export default function Sequence({
   ));
 
   return <>{nodeComponents}</>;
-}
+};

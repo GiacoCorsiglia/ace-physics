@@ -8,9 +8,9 @@ import {
 } from "../section-logic";
 import { useTracked } from "../state-tree";
 import { useInstructorMode } from "./mode-manager";
-import SectionTreeNode from "./SectionTreeNode";
+import { SectionTreeNode } from "./section-tree-node";
 
-export default function OneOf({
+export const OneOf = ({
   config,
   first,
   prepend,
@@ -22,7 +22,7 @@ export default function OneOf({
   prepend?: Html;
   enumerateSections: boolean;
   commit: CommitAction;
-}) {
+}) => {
   const instructorMode = useInstructorMode();
 
   // *Normally*, at most one subNode will be visible at a time, but we'll be
@@ -53,4 +53,4 @@ export default function OneOf({
   ));
 
   return <>{nodeComponents}</>;
-}
+};

@@ -9,11 +9,11 @@ import debounce from "lodash.debounce";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TutorialConfig } from "../config";
 import { Root } from "../state-tree";
-import styles from "./TutorialStateRoot.module.scss";
+import styles from "./tutorial-state-root.module.scss";
 
 type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
 
-export function TutorialStateRoot({
+export const TutorialStateRoot = ({
   config,
   routeElement,
   courseId,
@@ -22,7 +22,7 @@ export function TutorialStateRoot({
   routeElement: JsxElement;
   /** No `courseId` means Instructor Mode. */
   courseId: string | undefined;
-}) {
+}) => {
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
     "loading"
   );
@@ -249,7 +249,7 @@ export function TutorialStateRoot({
         </>
       );
   }
-}
+};
 
 function SavedStatus({
   subscribe,

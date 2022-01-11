@@ -12,13 +12,13 @@ import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
 import { IntroConfig, TutorialConfig } from "../config";
 
-export default function IntroPage({
+export const IntroPage = ({
   config,
   tutorialConfig,
 }: {
   config: IntroConfig;
   tutorialConfig: TutorialConfig;
-}) {
+}) => {
   return (
     <SectionBox>
       <Head>
@@ -105,4 +105,4 @@ export default function IntroPage({
       </Vertical.Space>
     </SectionBox>
   );
-}
+};

@@ -12,13 +12,13 @@ import { useRouter } from "next/router";
 import { TutorialConfig } from "../config";
 import { Mode } from "./mode-manager";
 
-export default function TutorialHeader({
+export const TutorialHeader = ({
   config,
   mode,
 }: {
   config: TutorialConfig;
   mode: Mode | undefined;
-}) {
+}) => {
   const router = useRouter();
 
   const isIntroduction = router.pathname.endsWith(`/${config.link}`);
@@ -138,4 +138,4 @@ export default function TutorialHeader({
       }}
     />
   );
-}
+};

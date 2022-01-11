@@ -1,11 +1,11 @@
 import { Html } from "@/helpers/client";
 import { NodeConfig } from "../config";
 import { CommitAction } from "../section-logic";
-import OneOf from "./OneOf";
-import Section from "./Section";
-import Sequence from "./Sequence";
+import { OneOf } from "./one-of";
+import { Section } from "./section";
+import { Sequence } from "./sequence";
 
-export default function SectionTreeNode({
+export const SectionTreeNode = ({
   node,
   first,
   prepend,
@@ -17,7 +17,7 @@ export default function SectionTreeNode({
   prepend?: Html;
   enumerateSections: boolean;
   commit: CommitAction;
-}) {
+}) => {
   switch (node.kind) {
     case "section":
       return (
@@ -52,4 +52,4 @@ export default function SectionTreeNode({
         />
       );
   }
-}
+};

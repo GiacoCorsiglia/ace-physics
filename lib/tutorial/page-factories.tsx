@@ -1,11 +1,11 @@
 import { JsxElement } from "@/helpers/client";
 import { TutorialSchema } from "@/schema/tutorial";
 import { cloneElement } from "react";
-import BodyPage from "./components/BodyPage";
-import FeedbackPage from "./components/FeedbackPage";
-import IntroPage from "./components/IntroPage";
-import PretestPage from "./components/PretestPage";
-import TutorialRoot from "./components/TutorialRoot";
+import { BodyPage } from "./components/body-page";
+import { FeedbackPage } from "./components/feedback-page";
+import { IntroPage } from "./components/intro-page";
+import { PretestPage } from "./components/pretest-page";
+import { TutorialRoot } from "./components/tutorial-root";
 import * as c from "./config";
 
 const id = (x: any) => x;

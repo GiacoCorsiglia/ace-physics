@@ -6,9 +6,9 @@ import { GuidanceMessageConfig, SectionConfig } from "../config";
 import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
 import { useInstructorMode } from "./mode-manager";
-import styles from "./Section.module.scss";
+import styles from "./section.module.scss";
 
-export default tracked(function Section(
+export const Section = tracked(function Section(
   {
     config,
     first,

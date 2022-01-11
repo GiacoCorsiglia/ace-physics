@@ -5,7 +5,7 @@ import { TutorialSchema } from "@/schema/tutorial";
 import { PretestSectionConfig } from "../config";
 import { tracked } from "../state-tree";
 
-export default tracked(function PretestSection(
+export const PretestSection = tracked(function PretestSection(
   {
     config,
     modelsTracker,
