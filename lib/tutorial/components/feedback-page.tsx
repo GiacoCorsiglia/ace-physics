@@ -15,11 +15,11 @@ import Head from "next/head";
 import { TutorialConfig } from "../config";
 import { useRootModel } from "../state-tree";
 
-export default function FeedbackPage({
+export const FeedbackPage = ({
   tutorialConfig,
 }: {
   tutorialConfig: TutorialConfig;
-}) {
+}) => {
   const rootModel = useRootModel();
   const m = rootModel.properties.feedback.properties;
 
@@ -195,7 +195,7 @@ export default function FeedbackPage({
       </SectionGroup>
     </>
   );
-}
+};
 
 const materialsChoices = [
   ["no", "Not at all"],

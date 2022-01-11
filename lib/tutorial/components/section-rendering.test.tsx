@@ -7,7 +7,7 @@ import { TutorialState } from "@/schema/tutorial";
 import { Root, useRootModel, useStore } from "@/tutorial/state-tree";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { NodeConfig } from "../config";
-import SectionTree from "./SectionTree";
+import { SectionTree } from "./section-tree";
 
 // window.scroll isn't implemented in JSDOM, but it's fired when sections are
 // rendered, so add a stub here.

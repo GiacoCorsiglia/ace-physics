@@ -23,9 +23,9 @@ import { useCallback, useEffect } from "react";
 import { PageConfig, TutorialConfig } from "../config";
 import { useRootModel, useValue } from "../state-tree";
 import { useInstructorMode } from "./mode-manager";
-import SectionTree from "./SectionTree";
+import { SectionTree } from "./section-tree";
 
-export default function BodyPage({
+export const BodyPage = ({
   config,
   tutorialConfig,
   showWhenComplete,
@@ -33,7 +33,7 @@ export default function BodyPage({
   config: PageConfig;
   tutorialConfig: TutorialConfig;
   showWhenComplete?: Html;
-}) {
+}) => {
   const [status, setStatus] = useValue(["pages", config.name, "status"]);
 
   // Mark this page as revealed if it wasn't already.
@@ -125,7 +125,7 @@ export default function BodyPage({
       />
     </AnswerVisibility>
   );
-}
+};
 
 function ContinueToNextPage({
   config,

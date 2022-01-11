@@ -16,15 +16,15 @@ import { AlertIcon, ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
 import { PretestConfig, TutorialConfig } from "../config";
 import { tracked, useRootModel, useTracked } from "../state-tree";
-import PretestSection from "./PretestSection";
+import { PretestSection } from "./pretest-section";
 
-export default function PretestPage({
+export const PretestPage = ({
   config,
   tutorialConfig,
 }: {
   config: PretestConfig;
   tutorialConfig: TutorialConfig;
-}) {
+}) => {
   const isDisabled = useTracked((state) => {
     const sections = state.sections || {};
     for (const sectionName in sections) {
@@ -100,7 +100,7 @@ export default function PretestPage({
       />
     </SectionGroup>
   );
-}
+};
 
 const ContinueSection = tracked(function ContinueSection(
   {

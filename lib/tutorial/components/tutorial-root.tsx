@@ -23,16 +23,16 @@ import {
   Mode,
   ModeManager,
 } from "./mode-manager";
-import TutorialHeader from "./TutorialHeader";
-import { TutorialStateRoot } from "./TutorialStateRoot";
+import { TutorialHeader } from "./tutorial-header";
+import { TutorialStateRoot } from "./tutorial-state-root";
 
-export default function TutorialRoot({
+export const TutorialRoot = ({
   config,
   routeElement,
 }: {
   config: TutorialConfig;
   routeElement: JsxElement;
-}) {
+}) => {
   const auth = useAuth();
   const { data: courses, error } = useCourses({
     revalidateOnFocus: false,
@@ -134,7 +134,7 @@ export default function TutorialRoot({
       </Vertical>
     </>
   );
-}
+};
 
 const SignedOut = () => (
   <MainContentBox as="section" marginTop="large">

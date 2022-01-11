@@ -7,7 +7,7 @@ import {
 } from "@/components";
 import { Html } from "@/helpers/client";
 import { TutorialSchema, TutorialState } from "@/schema/tutorial";
-import BodyPage from "@/tutorial/components/BodyPage";
+import { BodyPage } from "@/tutorial/components/body-page";
 import { PageConfig, TutorialConfig } from "@/tutorial/config";
 import { Root } from "@/tutorial/state-tree";
 import { ArrowLeftIcon, IssueReopenedIcon } from "@primer/octicons-react";

@@ -10,9 +10,9 @@ import {
   nextSectionToReveal,
 } from "../section-logic";
 import { useStore } from "../state-tree";
-import Sequence from "./Sequence";
+import { Sequence } from "./sequence";
 
-export default function SectionTree({
+export const SectionTree = ({
   sections,
   complete,
   prepend,
@@ -20,7 +20,7 @@ export default function SectionTree({
   sections: readonly NodeConfig[];
   complete: () => void;
   prepend?: Html;
-}) {
+}) => {
   const store = useStore();
 
   const rootSequence = useMemo(() => sequence({ sections }), [sections]);
@@ -78,7 +78,7 @@ export default function SectionTree({
       commit={commit}
     />
   );
-}
+};
 
 const revealSection = (
   state: TutorialState,
