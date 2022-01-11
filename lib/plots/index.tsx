@@ -10,7 +10,7 @@ import {
   shift,
 } from "./positioning";
 
-export { default as DragHandle } from "./DragHandle";
+export { DragHandle } from "./drag-handle";
 
 interface PlotContext {
   width: number;
