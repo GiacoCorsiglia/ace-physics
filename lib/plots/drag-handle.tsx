@@ -5,7 +5,7 @@ import { useState } from "react";
 import { usePlot } from ".";
 import styles from "./plots.module.scss";
 
-export default function DragHandle({
+export const DragHandle = ({
   direction = "both",
   snap,
   snapPoints,
@@ -23,7 +23,7 @@ export default function DragHandle({
   xModel?: Model<NumberField>;
   yModel?: Model<NumberField>;
   disabled?: boolean;
-}) {
+}) => {
   const plot = usePlot();
 
   // This should be fine, the models shouldn't be changing with each render.
@@ -174,7 +174,7 @@ export default function DragHandle({
       />
     </g>
   );
-}
+};
 
 const snapTo = (
   value: number,
