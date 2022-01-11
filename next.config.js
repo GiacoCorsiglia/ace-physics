@@ -4,6 +4,8 @@ const { withSentryConfig } = require("@sentry/nextjs");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+
   // Only create routes for those files in the `pages` directory that end with
   // these extensions.  This way we can put non-route files in the pages
   // directory, allowing us to colocate such files with the relevant routes.
