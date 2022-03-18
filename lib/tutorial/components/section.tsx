@@ -1,4 +1,11 @@
-import { Button, Callout, Guidance, SectionBox, Vertical } from "@/components";
+import {
+  Button,
+  Callout,
+  Guidance,
+  Prose,
+  SectionBox,
+  Vertical,
+} from "@/components";
 import { cx, Html, useScrollIntoView } from "@/helpers/client";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
@@ -197,11 +204,25 @@ const SectionGuidance = tracked(function SectionGuidance(
   },
   state
 ) {
+  const showAllMessages = useInstructorMode()?.showAllSections;
+
   const guidance = config.guidance;
 
   if (!guidance) {
     return null;
   }
+
+  const allMessagesHtml = showAllMessages ? (
+    <Vertical>
+      <Prose size="smallest" faded>
+        Available guidance messages:
+      </Prose>
+
+      {Object.entries(guidance.messages).map(([key, message]) => (
+        <GuidanceMessage key={key} config={message} />
+      ))}
+    </Vertical>
+  ) : null;
 
   const revealedMessages = state.sections?.[
     config.name
@@ -212,6 +233,10 @@ const SectionGuidance = tracked(function SectionGuidance(
   );
 
   if (!revealedMessages || !revealedMessages.length) {
+    if (showAllMessages) {
+      return allMessagesHtml;
+    }
+
     return null;
   }
 
@@ -237,6 +262,9 @@ const SectionGuidance = tracked(function SectionGuidance(
 
   return (
     <>
+      {showAllMessages && allMessagesHtml}
+      {showAllMessages && allMessagesHtml && <hr />}
+
       <Vertical className={styles.guidanceMessages}>
         {revealedMessages.map((messageName, i) => (
           <GuidanceMessage

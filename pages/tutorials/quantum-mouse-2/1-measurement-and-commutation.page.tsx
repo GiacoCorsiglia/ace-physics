@@ -1,4 +1,4 @@
-import { Image, M, Prose, TextBox, Toggle } from "@/components";
+import { Guidance, Image, M, Prose, TextBox, Toggle } from "@/components";
 import { page } from "@/tutorial";
 import { hint } from "@/tutorial/config";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "measurementAndCommutation",
   label: "Measurement & Commutation",
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "measurementAndCommutationIntro",
@@ -22,7 +22,7 @@ export default page(setup, ({ section }) => ({
           </p>
 
           <p>
-            Observable #1 was <strong>“eye size,”</strong> the corresponding
+            Observable #1 was <strong>“eye size”</strong>, the corresponding
             Hermitian Operator was <M t="\hat{S}" />, where
           </p>
 
@@ -47,8 +47,8 @@ export default page(setup, ({ section }) => ({
           </p>
 
           <p>
-            Observable #2 was <strong>“quantum mood,”</strong> with associated
-            Hermitian operatory
+            Observable #2 was <strong>“quantum mood”</strong>, with associated
+            Hermitian operator
             <M t="\hat{M}" />, for which we had eigenstates satisfying
             <M
               display
@@ -59,7 +59,7 @@ export default page(setup, ({ section }) => ({
           <p>These eigenstates were related in the following ways.</p>
 
           <p>
-            For the “small-eyed state,”
+            For the “small-eyed state”,
             <M
               display
               t="
@@ -68,12 +68,12 @@ export default page(setup, ({ section }) => ({
                 \doteq \frac{1}{\sqrt{5}} \begin{pmatrix} 2 \\ -1 \end{pmatrix}
               "
             />
-            where the column vector is written in the “happy basis.” (We
+            where the column vector is written in the “mood basis”. (We
             interpreted this as something like “Small eyed (sleepy?) mice are
-            mostly content.)
+            mostly content.”)
           </p>
           <p>
-            For the “big-eyed state,” which is orthonormal to
+            For the “big-eyed state”, which is orthonormal to
             <M t="\ket{\smalleye}" />
             ,
             <M
@@ -81,12 +81,12 @@ export default page(setup, ({ section }) => ({
               t="\ket{\wideye} = \frac{1}{\sqrt{5}} \ket{\smiley} + \frac{2}{\sqrt{5}} \ket{\frownie}"
             />
             (Which we interpreted as “wide-eyed (caffeinated?) quantum-mice are
-            rather stressed”)
+            rather stressed”.)
           </p>
 
           <p>
             Finally, we found the representations of the two operators (all in
-            the “happy basis”):
+            the “mood basis”):
             <M
               display
               t="
@@ -139,6 +139,64 @@ export default page(setup, ({ section }) => ({
           ),
         }),
       ],
+      guidance: {
+        nextMessage(r, { hints }) {
+          if (r.eyeSizeMeasAffectsHappinessPredict?.selected === "yes") {
+            return "correct";
+          }
+
+          if (
+            hints?.eyeSizeMeasAffectsHappinessPredict?.status === "revealed"
+          ) {
+            return "incorrectStrong";
+          }
+
+          return "incorrectHint";
+        },
+        messages: {
+          incorrectHint: {
+            body: (
+              <Guidance.Disagree>
+                You thought about this in the first quantum mouse tutorial. If
+                you can’t recall, start with a definitely happy mouse, measure{" "}
+                <M t="\hat{S}" />, assume some particular result, then see what
+                a new happiness measurement gives
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          incorrectStrong: {
+            body: (
+              <Guidance.Disagree>
+                <p>
+                  Suppose you start with a “happy” mouse, in the state{" "}
+                  <M t="\ket{\smiley}" />. You know for certain that, if you
+                  measure this mouse’s mood, you will get “happy” 100% of the
+                  time.
+                </p>
+
+                <p>
+                  Suppose you measure the mouse’s eye size. After this
+                  measurement, the mouse will either be in the small-eyed state,{" "}
+                  <M t="\ket{\smalleye}" />, or the wide-eyed state,{" "}
+                  <M t="\ket{\wideye}" />.
+                </p>
+
+                <p>
+                  If you measure the mouse’s mood now, after the eye size
+                  measurement, you might get happy, but you also might get sad.
+                  You can no longer say which for sure.
+                </p>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          correct: {
+            body: <Guidance.Agree>We agree!</Guidance.Agree>,
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -149,8 +207,7 @@ export default page(setup, ({ section }) => ({
             model={m.mAndSCommute}
             label={
               <Prose>
-                Do <M t="\hat{M}" /> and <M t="\hat{S}" /> commute? (Check on
-                scrap paper!)
+                Do <M t="\hat{M}" /> and <M t="\hat{S}" /> commute?
               </Prose>
             }
             choices={[
@@ -163,7 +220,7 @@ export default page(setup, ({ section }) => ({
               [
                 "no",
                 <>
-                  No, (<M t="\hat{M}\hat{S} \neq \hat{S}\hat{M}" />)
+                  No, <M t="\hat{M}\hat{S} \neq \hat{S}\hat{M}" />
                 </>,
               ],
             ]}
@@ -193,6 +250,33 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          if (r.mAndSCommute?.selected === "yes") {
+            return "commutationIncorrect";
+          }
+          return null;
+        },
+        messages: {
+          commutationIncorrect: {
+            body: (
+              <Guidance.Disagree>
+                Check the commutation of <M t="\hat{M}" /> and <M t="\hat{S}" />{" "}
+                on scrap paper!
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          simultaneousEigenvectorsIncorrect: {
+            body: (
+              <Guidance.Disagree>
+                Operators that don’t commute do not share eigenvectors.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     section({

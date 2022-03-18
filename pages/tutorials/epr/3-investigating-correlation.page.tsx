@@ -21,7 +21,7 @@ export default page(setup, ({ section }) => ({
               “Measuring a <strong>1</strong>” means “<strong>spin down</strong>
               ”
             </li>
-            <li>“SG” means “Stern-Gerlach device“</li>
+            <li>“SG” means “Stern-Gerlach device”</li>
           </ul>
 
           <p>
