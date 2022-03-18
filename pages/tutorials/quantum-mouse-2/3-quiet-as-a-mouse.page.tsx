@@ -4,6 +4,7 @@ import {
   M,
   Matrix,
   Prose,
+  Reminder,
   TextBox,
   TextLine,
   Toggle,
@@ -54,29 +55,29 @@ export default page(setup, ({ section }) => ({
 
             <p>
               Invent your own “ket” notation for (normalized) noise eigenstates,
-              represent them in the happy basis.
+              represent them in the mood basis.
             </p>
           </Prose>
 
           <div className={styles.basisGrid}>
-            <p>Noisy ket:</p>
+            <p className={styles.basisGridLabel}>Noisy ket:</p>
             <KetLabel>
               <TextLine model={m.notationNoisyState} maxWidth />
             </KetLabel>
             <M t="=" />
             <TextLine
               model={m.noisyStateHappinessBasis}
-              placeholder="Happiness basis representation"
+              placeholder="Mood basis representation"
             />
 
-            <p>Quiet ket:</p>
+            <p className={styles.basisGridLabel}>Quiet ket:</p>
             <KetLabel>
               <TextLine model={m.notationQuietState} maxWidth />
             </KetLabel>
             <M t="=" />
             <TextLine
               model={m.quietStateHappinessBasis}
-              placeholder="Happiness basis representation"
+              placeholder="Mood basis representation"
             />
           </div>
 
@@ -106,7 +107,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            Also write the representation of the N operator (again, in the happy
+            Also write the representation of the N operator (again, in the mood
             basis).
           </Prose>
 
@@ -116,6 +117,14 @@ export default page(setup, ({ section }) => ({
               <Decimal model={c} />
             ))}
           />
+
+          <Reminder>
+            In the mood basis, we represent the “happy” ket as{" "}
+            <M
+              display
+              t="\ket{\smiley} \dot{=} \begin{pmatrix}1 \\ 0\end{pmatrix}"
+            />
+          </Reminder>
         </>
       ),
     }),

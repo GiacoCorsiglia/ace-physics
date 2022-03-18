@@ -21,16 +21,31 @@ export default s.tutorial({
   },
   sections: {
     measurementAndCommutationIntro: s.section(),
-    eyeSizeMeasAffectsHappinessPredict: s.section(),
-    mAndSCompatibility: s.section(),
+    eyeSizeMeasAffectsHappinessPredict: s.section({
+      messages: ["correct", "incorrectHint", "incorrectStrong"],
+    }),
+    mAndSCompatibility: s.section({
+      messages: ["commutationIncorrect", "simultaneousEigenvectorsIncorrect"],
+    }),
     canKnowEyeSizeHappinessSimultaneous: s.section(),
 
     aMischiefOfMiceIntro: s.section(),
     expValUncertaintyS: s.section(),
-    signExpValM: s.section(),
+    signExpValM: s.section({
+      messages: ["encouragement"],
+    }),
     extremaMagnitudeExpValM: s.section(),
     extremaUncertaintyM: s.section(),
-    expValUncertaintyM: s.section(),
+    expValUncertaintyM: s.section({
+      messages: [
+        // Right now we're just checking expectation value.
+        "expValCorrectSignPredictionIncorrect",
+        "expValCorrectBoundsIncorrect",
+        "expValIncorrectPredictionsCorrect",
+        "expValSomePredictionsIncorrect",
+        "allCorrect",
+      ],
+    }),
 
     quietAsAMouseIntro: s.section(),
     representationNStates: s.section(),
@@ -118,5 +133,6 @@ export default s.tutorial({
   },
   hints: {
     eyeSizeMeasAffectsHappinessPredict: s.hint(),
+    expValUncertaintyS: s.hint(),
   },
 });
