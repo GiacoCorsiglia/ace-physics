@@ -3,6 +3,8 @@
   "files.trimTrailingWhitespace": true,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
+  "editor.wordWrapColumn": 80,
+  "editor.rulers": [80],
   "diffEditor.ignoreTrimWhitespace": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
