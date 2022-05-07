@@ -6,6 +6,7 @@ import {
   MainContentBox,
   Page,
   Prose,
+  Vertical,
 } from "@/components";
 import { MailIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -40,55 +41,58 @@ export default function Index() {
           <p>We have two tutorial pages for you to try out:</p>
         </Prose>
 
-        <ol>
-          <li>
-            <LinkCard
-              label={
-                <>
-                  Changing Basis — <i>click here to try it out</i>
-                </>
-              }
-              link="/demo/quantum-basis"
-            >
-              <p>
-                Relate quantum state vectors to 2D Cartesian vectors, and
-                practice using projection inner products to change basis.
-              </p>
+        <Vertical.Space after={200}>
+          <ol>
+            <li>
+              <LinkCard
+                label={
+                  <>
+                    Changing Basis — <i>click here to try it out</i>
+                  </>
+                }
+                link="/demo/quantum-basis"
+              >
+                <p>
+                  Relate quantum state vectors to 2D Cartesian vectors, and
+                  practice using projection inner products to change basis.
+                </p>
 
-              <p>
-                <em>
-                  Note: the guidance on this page is more heavy-handed. The
-                  answers to these questions help with the rest of the tutorial.
-                </em>
-              </p>
-            </LinkCard>
-          </li>
+                <p>
+                  <em>
+                    Note: the guidance on this page is more heavy-handed. The
+                    answers to these questions help with the rest of the
+                    tutorial.
+                  </em>
+                </p>
+              </LinkCard>
+            </li>
 
-          <li>
-            <LinkCard
-              label={
-                <>
-                  Quantum Mouse — <i>click here to try it out</i>
-                </>
-              }
-              link="/demo/quantum-mouse"
-            >
-              <p>
-                Practice with Dirac notation, interpretation and solving of
-                eigen-equations, and the basic quantum rules involving
-                probability amplitudes.
-              </p>
+            <li>
+              <LinkCard
+                label={
+                  <>
+                    Quantum Mouse — <i>click here to try it out</i>
+                  </>
+                }
+                link="/demo/quantum-mouse"
+              >
+                <p>
+                  Practice with Dirac notation, interpretation and solving of
+                  eigen-equations, and the basic quantum rules involving
+                  probability amplitudes.
+                </p>
 
-              <p>
-                <em>
-                  Note: the guidance on this page is less heavy-handed. Students
-                  will grapple with similar questions as the tutorial
-                  progresses.
-                </em>
-              </p>
-            </LinkCard>
-          </li>
-        </ol>
+                <p>
+                  <em>
+                    Note: the guidance on this page is less heavy-handed.
+                    Students will grapple with similar questions as the tutorial
+                    progresses.
+                  </em>
+                </p>
+              </LinkCard>
+            </li>
+          </ol>
+        </Vertical.Space>
 
         <Prose>
           <p>
