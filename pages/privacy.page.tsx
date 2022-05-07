@@ -25,21 +25,21 @@ export default function Privacy() {
           </p>
 
           <p>
-            We are intent on protecting our users' privacy on ACEPhysics.net.
-            For this reason, your account is identified exclusively by a random
-            six-digit code. Your account is linked to the answers you input into
-            the online tutorial worksheets, or anywhere else on the site that
-            asks for your input. We currently do not ask you to input your name,
-            email address, professor's name, the name of your school, or any
-            other identifying information like that.
+            We are intent on protecting our users’ privacy on ACEPhysics.net.
+            For this reason, your account is identified exclusively by
+            cryptographic hash of your email address. Your account is linked to
+            the answers you input anywhere on the site that asks for your input,
+            including the online tutorial worksheets. We currently do not ask
+            you to input your name, professor’s name, the name of your school,
+            or any other identifying information like that.
           </p>
 
           <p>
-            You should note that if you are using ACEPhysics.net as part of a
-            class, and if your instructor gave you your account code, then they
-            will have access to everything you input on ACEPhysics.net, and will
-            be able to associate your input with your name (even though your
-            name is not stored anywhere on the ACEPhysics.net system).
+            You should be aware that if you are using ACEPhysics.net as part of
+            a class, then your instructor will have access to everything you
+            input on ACEPhysics.net, and will be able to associate your input
+            with your name (even though your name is not stored anywhere on the
+            ACEPhysics.net system).
           </p>
 
           <p>

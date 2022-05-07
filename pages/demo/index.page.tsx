@@ -93,8 +93,8 @@ export default function Index() {
         <Prose>
           <p>
             If you want to explore the full versions of all of our tutorials,
-            you can{" "}
-            <Link href="/create-account">create an anonymous account</Link>.
+            you can <Link href="/auth/signin">sign in</Link> with your email.
+            Don’t worry—we won’t send you any emails except a sign-in link.
           </p>
 
           <p>
