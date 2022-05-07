@@ -61,5 +61,6 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "css-modules-companion.fileType": "scss"
+  "css-modules-companion.fileExtension": "scss",
+  "css-modules-companion.importName": "styles"
 }
