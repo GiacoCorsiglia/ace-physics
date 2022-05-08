@@ -44,7 +44,7 @@ export default function Index() {
               </Button>
             </Horizontal>
 
-            <Prose justify="center">
+            <Prose justify="center" size="small">
               You can sign in with your email address.
             </Prose>
           </Vertical>
@@ -67,7 +67,7 @@ export default function Index() {
               </Button>
             </Horizontal>
 
-            <Prose justify="center">
+            <Prose justify="center" size="small">
               <p>No sign in required.</p>
             </Prose>
           </Vertical>
