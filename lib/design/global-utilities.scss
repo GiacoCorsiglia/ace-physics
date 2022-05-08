@@ -43,28 +43,34 @@
 }
 
 // Fading.
-.text-faded {
-  color: colors.$neutral-600;
+@mixin _text-color($color) {
+  color: colors.shade($color, 600);
 
-  a#{&} {
-    color: colors.$neutral-600 !important;
+  @at-root {
+    a#{&} {
+      color: colors.shade($color, 700);
 
-    &:hover {
-      color: colors.$neutral-700 !important;
+      &:hover {
+        color: colors.shade($color, 800);
+      }
     }
   }
 }
 
+.text-faded {
+  @include _text-color(colors.$neutral);
+}
+
 // Colors.
 .text-green {
-  color: colors.$green-600;
+  @include _text-color(colors.$green);
 }
 .text-blue {
-  color: colors.$blue-600;
+  @include _text-color(colors.$blue);
 }
 .text-red {
-  color: colors.$red-600;
+  @include _text-color(colors.$red);
 }
 .text-yellow {
-  color: colors.$yellow-600;
+  @include _text-color(colors.$yellow);
 }

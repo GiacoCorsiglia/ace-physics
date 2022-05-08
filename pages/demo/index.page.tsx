@@ -1,16 +1,21 @@
 import {
   Breadcrumb,
   Button,
-  Justify,
+  Callout,
+  Horizontal,
   LinkCard,
   MainContentBox,
   Page,
   Prose,
   Vertical,
 } from "@/components";
-import { ArrowLeftIcon, MailIcon } from "@primer/octicons-react";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  MailIcon,
+} from "@primer/octicons-react";
+import { signIn } from "next-auth/react";
 import Head from "next/head";
-import Link from "next/link";
 
 export default function Index() {
   return (
@@ -37,7 +42,10 @@ export default function Index() {
         />
 
         <Prose>
-          <h1>Adaptable Curricular Exercises for Physics</h1>
+          <h1>
+            <abbr title="Adaptable Curricular Exercises for Physics">ACE</abbr>{" "}
+            Physics
+          </h1>
 
           <p>
             We’re developing a suite of online activities—<em>tutorials</em>—for
@@ -46,8 +54,6 @@ export default function Index() {
             Please note this is <strong>beta software</strong>—we need your help
             to improve it!
           </p>
-
-          <p>We have two tutorial pages for you to try out:</p>
         </Prose>
 
         <Vertical.Space after={200}>
@@ -103,41 +109,32 @@ export default function Index() {
           </ol>
         </Vertical.Space>
 
-        <Prose>
-          <p>
-            If you want to explore the full versions of all of our tutorials,
-            you can <Link href="/auth/signin">sign in</Link> with your email.
-            Don’t worry—we won’t send you anything but a sign-in link.
-          </p>
-
-          <p>
-            <strong>Contact us to use ACE Physics</strong> in your classroom.
-            This isn’t required, but we can enable <em>instructor mode</em> for
-            your account, which allows you to manage your courses and access
-            student work.
-          </p>
-        </Prose>
-
         <Vertical.Space before={200} after={200}>
-          <Vertical>
-            <Justify center>
-              <Button
-                color="green"
-                link="mailto:hello@acephysics.net"
-                iconLeft={<MailIcon />}
-              >
-                Email us
-              </Button>
-            </Justify>
+          <Callout color="green">
+            <Vertical>
+              <Prose justify="center">
+                <strong>
+                  Contact us to use ACE Physics in your classroom.
+                </strong>
+              </Prose>
 
-            <Prose justify="center" faded>
-              You can reach Giaco at{" "}
-              <a href="mailto:hello@acephysics.net" className="text-faded">
-                hello@acephysics.net
-              </a>
-              .
-            </Prose>
-          </Vertical>
+              <Horizontal justify="center">
+                <Button
+                  color="green"
+                  link="mailto:hello@acephysics.net"
+                  iconLeft={<MailIcon />}
+                >
+                  Email us
+                </Button>
+              </Horizontal>
+
+              <Prose size="small" justify="center">
+                This isn’t required, but we can enable <em>instructor mode</em>{" "}
+                for your account, which allows you to manage your courses and
+                access student work.
+              </Prose>
+            </Vertical>
+          </Callout>
         </Vertical.Space>
 
         <Prose>
@@ -146,6 +143,36 @@ export default function Index() {
           do get in touch if you might like to use these activities in your
           classes.
         </Prose>
+
+        <Vertical.Space before={200} after={200}>
+          <Callout color="blue">
+            <Vertical>
+              <Prose justify="center">
+                <strong>
+                  Want to explore the full versions of all our tutorials?
+                </strong>
+              </Prose>
+
+              <Horizontal justify="center">
+                <Button
+                  color="blue"
+                  onClick={() =>
+                    signIn(undefined, {
+                      callbackUrl: "/tutorials",
+                    })
+                  }
+                  iconRight={<ArrowRightIcon />}
+                >
+                  Sign in
+                </Button>
+              </Horizontal>
+
+              <Prose size="small" justify="center">
+                You can sign in with your email address.
+              </Prose>
+            </Vertical>
+          </Callout>
+        </Vertical.Space>
       </MainContentBox>
     </Page>
   );

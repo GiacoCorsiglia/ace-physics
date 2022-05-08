@@ -1,11 +1,13 @@
 import { useAuth, UserMenu } from "@/auth/client";
 import {
   Button,
+  Callout,
   Header,
-  Justify,
+  Horizontal,
   MainContentBox,
   Page,
   Prose,
+  Vertical,
 } from "@/components";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
@@ -26,52 +28,50 @@ export default function Index() {
       <Header title="ACE Physics" popovers={<UserMenu />} />
 
       <MainContentBox vertical={200}>
-        <Prose>
+        <Prose justify="center">
           <h1>Interactive Online Activities for Physics Learners</h1>
-
-          <p>
-            Welcome to ACE Physics:{" "}
-            <em>Adaptable Curricular Exercises for Physics.</em>
-          </p>
         </Prose>
 
-        <Justify center>
-          <Button color="green" link={link} iconRight={<ArrowRightIcon />}>
-            Get started
-          </Button>
-        </Justify>
+        <Callout color="green">
+          <Vertical>
+            <Prose justify="center">
+              <strong>Here to learn quantum mechanics?</strong>
+            </Prose>
 
-        <Prose>
-          <p>
-            ACE Physics is home to interactive activities—
-            <em>tutorials</em>—for physics students studying quantum mechanics.
-          </p>
+            <Horizontal justify="center">
+              <Button color="green" link={link} iconRight={<ArrowRightIcon />}>
+                Get started
+              </Button>
+            </Horizontal>
 
-          <p>
-            <strong>Considering using ACE Physics in your classroom?</strong>{" "}
-            Check out the instructor demo below—no sign in required.
-          </p>
+            <Prose justify="center">
+              You can sign in with your email address.
+            </Prose>
+          </Vertical>
+        </Callout>
+
+        <Prose justify="center">
+          ACE Physics is <strong>free</strong> for all to use. We hope you find
+          it useful!
         </Prose>
 
-        <Justify center>
-          <Button color="blue" link="/demo" iconRight={<ArrowRightIcon />}>
-            Instructor demo
-          </Button>
-        </Justify>
+        <Callout color="blue">
+          <Vertical>
+            <Prose justify="center">
+              <strong>Considering ACE Physics for your classroom?</strong>
+            </Prose>
 
-        <Prose>
-          <p>
-            <a href="mailto:hello@acephysics.net">Contact us</a> to use ACE
-            Physics in your classroom. We can enable <em>instructor mode</em>{" "}
-            for your account, which allows you to manage your courses and access
-            your students’ work.
-          </p>
+            <Horizontal justify="center">
+              <Button color="blue" link="/demo" iconRight={<ArrowRightIcon />}>
+                Instructor demo
+              </Button>
+            </Horizontal>
 
-          <p>
-            ACE Physics is <strong>free</strong> for all to use. We hope you
-            find it useful!
-          </p>
-        </Prose>
+            <Prose justify="center">
+              <p>No sign in required.</p>
+            </Prose>
+          </Vertical>
+        </Callout>
       </MainContentBox>
     </Page>
   );
