@@ -1,6 +1,6 @@
 import { UserMenu } from "@/auth/client";
-import { Header, MainContentBox, Page, Prose } from "@/components";
-import Link from "next/link";
+import { Breadcrumb, Header, MainContentBox, Page, Prose } from "@/components";
+import { ArrowLeftIcon } from "@primer/octicons-react";
 
 export default function Privacy() {
   return (
@@ -8,6 +8,19 @@ export default function Privacy() {
       <Header title="Privacy on ACE Physics" popovers={<UserMenu />} />
 
       <MainContentBox>
+        <Breadcrumb
+          items={[
+            {
+              link: "/",
+              label: (
+                <>
+                  <ArrowLeftIcon /> Home
+                </>
+              ),
+            },
+          ]}
+        />
+
         <Prose>
           <h1>Privacy on ACEPhysics.net</h1>
 
@@ -37,13 +50,9 @@ export default function Privacy() {
           <p>
             You should be aware that if you are using ACEPhysics.net as part of
             a class, then your instructor will have access to everything you
-            input on ACEPhysics.net, and will be able to associate your input
-            with your name (even though your name is not stored anywhere on the
-            ACEPhysics.net system).
-          </p>
-
-          <p>
-            <Link href="/">Return to the ACEPhysics.net homepage</Link>
+            input on ACEPhysic&#8288;s.net, and will be able to associate your
+            input with your name (even though your name is not stored anywhere
+            on the ACEPhysics.net system).
           </p>
         </Prose>
       </MainContentBox>

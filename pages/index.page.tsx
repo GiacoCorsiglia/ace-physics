@@ -43,10 +43,8 @@ export default function Index() {
 
         <Prose>
           <p>
-            Today, ACE Physics is home to a handful of interactive activities—
+            ACE Physics is home to interactive activities—
             <em>tutorials</em>—for physics students studying quantum mechanics.
-            Perhaps one day this website will hold an extensive suite of such
-            activities for all physics learners.
           </p>
 
           <p>
@@ -62,7 +60,17 @@ export default function Index() {
         </Justify>
 
         <Prose>
-          ACE Physics is free for all to use. We hope you find it useful!
+          <p>
+            <a href="mailto:hello@acephysics.net">Contact us</a> to use ACE
+            Physics in your classroom. We can enable <em>instructor mode</em>{" "}
+            for your account, which allows you to manage your courses and access
+            your students’ work.
+          </p>
+
+          <p>
+            ACE Physics is <strong>free</strong> for all to use. We hope you
+            find it useful!
+          </p>
         </Prose>
       </MainContentBox>
     </Page>

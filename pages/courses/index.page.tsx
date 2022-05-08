@@ -17,7 +17,11 @@ import {
   Vertical,
 } from "@/components";
 import { Course } from "@/schema/api";
-import { ArrowRightIcon, PlusIcon } from "@primer/octicons-react";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  PlusIcon,
+} from "@primer/octicons-react";
 import { useState } from "react";
 
 export default function Courses() {
@@ -32,7 +36,18 @@ export default function Courses() {
       <Header title="Your Courses" popovers={<UserMenu />} />
 
       <MainContentBox>
-        <Breadcrumb items={[{ link: "/", label: "Home" }]} />
+        <Breadcrumb
+          items={[
+            {
+              link: "/",
+              label: (
+                <>
+                  <ArrowLeftIcon /> Home
+                </>
+              ),
+            },
+          ]}
+        />
 
         <AuthGuard auth={auth} allowed={true} loading={!courses && !error}>
           <Prose>

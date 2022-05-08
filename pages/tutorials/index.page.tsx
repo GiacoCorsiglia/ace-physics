@@ -1,6 +1,7 @@
 import { UserMenu } from "@/auth/client";
-import { Header, MainContentBox, Page, Prose } from "@/components";
+import { Breadcrumb, Header, MainContentBox, Page, Prose } from "@/components";
 import { TutorialList } from "@/tutorial/components/tutorial-list";
+import { ArrowLeftIcon } from "@primer/octicons-react";
 import { tutorialList } from "./list";
 
 export default function TutorialsIndex() {
@@ -9,6 +10,19 @@ export default function TutorialsIndex() {
       <Header title="All Tutorials" popovers={<UserMenu />} />
 
       <MainContentBox>
+        <Breadcrumb
+          items={[
+            {
+              link: "/",
+              label: (
+                <>
+                  <ArrowLeftIcon /> Home
+                </>
+              ),
+            },
+          ]}
+        />
+
         <Prose>
           <h1>
             <em>Tutorials</em> about Quantum Mechanics
@@ -16,16 +30,9 @@ export default function TutorialsIndex() {
 
           <p>
             Here’s a set of interactive activities for people studying quantum
-            mechanics. If you’re here on this website, good chance you’re one of
-            those people! We hope you find them useful—and we’ll be interested
-            to know what you think.
-          </p>
-
-          <p>
-            If your professor sent you here, they can probably tell you which
-            tutorial is most relevant to whatever you’re covering in class this
-            week. You should probably check in with them (or maybe refer to your
-            course’s webpage). Of course, you’re always welcome to explore!
+            mechanics. If your professor sent you here, they can probably tell
+            you which tutorial is most relevant for your class—but you’re always
+            welcome to explore!
           </p>
         </Prose>
 

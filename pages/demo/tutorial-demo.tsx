@@ -75,8 +75,8 @@ export const TutorialDemoPage = <S extends TutorialSchema>({
 
           <p>
             Typically, there would be a table of contents for you to navigate
-            between the tutorial’s pages, but this demo only includes this one
-            page. Otherwise, this demo is identical to the actual tutorial page.
+            between the tutorial’s pages, but this demo only includes one page.
+            Otherwise, this demo is identical to the actual tutorial page.
           </p>
         </Prose>
 

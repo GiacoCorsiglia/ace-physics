@@ -8,7 +8,7 @@ import {
   Prose,
   Vertical,
 } from "@/components";
-import { MailIcon } from "@primer/octicons-react";
+import { ArrowLeftIcon, MailIcon } from "@primer/octicons-react";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -23,12 +23,21 @@ export default function Index() {
       </Head>
 
       <MainContentBox marginTop="small">
-        <Breadcrumb items={[{ link: "/", label: "Home" }]} />
+        <Breadcrumb
+          items={[
+            {
+              link: "/",
+              label: (
+                <>
+                  <ArrowLeftIcon /> Home
+                </>
+              ),
+            },
+          ]}
+        />
 
         <Prose>
           <h1>Adaptable Curricular Exercises for Physics</h1>
-
-          <p>Welcome to ACE Physics! Thanks for visiting.</p>
 
           <p>
             We’re developing a suite of online activities—<em>tutorials</em>—for
@@ -98,30 +107,44 @@ export default function Index() {
           <p>
             If you want to explore the full versions of all of our tutorials,
             you can <Link href="/auth/signin">sign in</Link> with your email.
-            Don’t worry—we won’t send you any emails except a sign-in link.
+            Don’t worry—we won’t send you anything but a sign-in link.
           </p>
 
           <p>
-            Whether you’re considering using ACE Physics in your classroom, or
-            if you’re just exploring,{" "}
-            <strong>we’re interested in your feedback.</strong> Please do get in
-            touch if you might like to use these activities in your classes.
+            <strong>Contact us to use ACE Physics</strong> in your classroom.
+            This isn’t required, but we can enable <em>instructor mode</em> for
+            your account, which allows you to manage your courses and access
+            student work.
           </p>
         </Prose>
 
-        <Justify center>
-          <Button
-            color="green"
-            link="mailto:hello@acephysics.net"
-            iconLeft={<MailIcon />}
-          >
-            Email us
-          </Button>
-        </Justify>
+        <Vertical.Space before={200} after={200}>
+          <Vertical>
+            <Justify center>
+              <Button
+                color="green"
+                link="mailto:hello@acephysics.net"
+                iconLeft={<MailIcon />}
+              >
+                Email us
+              </Button>
+            </Justify>
 
-        <Prose justify="center">
-          You can contact Giaco at{" "}
-          <a href="mailto:hello@acephysics.net">hello@acephysics.net</a>.
+            <Prose justify="center" faded>
+              You can reach Giaco at{" "}
+              <a href="mailto:hello@acephysics.net" className="text-faded">
+                hello@acephysics.net
+              </a>
+              .
+            </Prose>
+          </Vertical>
+        </Vertical.Space>
+
+        <Prose>
+          Whether you’re considering using ACE Physics, or if you’re just
+          exploring, <strong>we’re interested in your feedback.</strong> Please
+          do get in touch if you might like to use these activities in your
+          classes.
         </Prose>
       </MainContentBox>
     </Page>

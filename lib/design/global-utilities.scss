@@ -45,6 +45,14 @@
 // Fading.
 .text-faded {
   color: colors.$neutral-600;
+
+  a#{&} {
+    color: colors.$neutral-600 !important;
+
+    &:hover {
+      color: colors.$neutral-700 !important;
+    }
+  }
 }
 
 // Colors.

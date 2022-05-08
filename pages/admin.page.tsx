@@ -17,6 +17,7 @@ import {
   Vertical,
 } from "@/components";
 import { isValidEmail } from "@/helpers/client";
+import { ArrowLeftIcon } from "@primer/octicons-react";
 import { useState } from "react";
 
 export default function Courses() {
@@ -29,7 +30,18 @@ export default function Courses() {
       <Header title="Your Courses" popovers={<UserMenu />} />
 
       <MainContentBox>
-        <Breadcrumb items={[{ link: "/", label: "Home" }]} />
+        <Breadcrumb
+          items={[
+            {
+              link: "/",
+              label: (
+                <>
+                  <ArrowLeftIcon /> Home
+                </>
+              ),
+            },
+          ]}
+        />
 
         <AuthGuard
           auth={auth}
