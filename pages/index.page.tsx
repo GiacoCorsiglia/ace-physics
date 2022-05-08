@@ -16,6 +16,11 @@ export default function Index() {
   const auth = useAuth();
 
   const link = auth.status === "authenticated" ? "/courses" : "/tutorials";
+  const verb =
+    auth.status === "authenticated" &&
+    (auth.user.role === "instructor" || auth.user.role === "admin")
+      ? "teach"
+      : "learn";
 
   return (
     <Page>
@@ -35,7 +40,7 @@ export default function Index() {
         <Callout color="green">
           <Vertical>
             <Prose justify="center">
-              <strong>Here to learn quantum mechanics?</strong>
+              <strong>Here to {verb} quantum mechanics?</strong>
             </Prose>
 
             <Horizontal justify="center">
