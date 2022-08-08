@@ -2,7 +2,7 @@ import { CourseReports } from "@/api/isomorphic/specs";
 import { parseRequest, response, sendResponse } from "@/api/server";
 import { hashEmail } from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
-import { TutorialState } from "@/schema/tutorial";
+import { TutorialFeedback, TutorialState } from "@/schema/tutorial";
 import { QueryCommandInput } from "@aws-sdk/lib-dynamodb";
 import { tutorialSchemas } from "@pages/tutorials/schemas";
 import { withSentry } from "@sentry/nextjs";
@@ -20,7 +20,13 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, session } = parsed.value;
 
   const { courseId } = query;
-  const { tutorialId, unhashedStudentEmails, locale, timeZone } = body;
+  const {
+    tutorialId,
+    unhashedStudentEmails,
+    locale,
+    timeZone,
+    includeFeedback,
+  } = body;
 
   const includePretests = body.includePretests && tutorialId !== "";
 
@@ -95,6 +101,8 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
     responsePercentage: number;
   }
 
+  type CompleteRow = Row & Record<string, string | number>;
+
   const dateFormatter = new Intl.DateTimeFormat(locale, {
     timeZone,
     dateStyle: "short",
@@ -106,8 +114,27 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
     ? Object.keys(singleSchema.properties.pretest.properties)
     : [];
 
+  const feedbackProperties = Object.keys(TutorialFeedback.properties);
+
+  const objectToRows = (
+    properties: string[],
+    prefix: string,
+    state: Record<string, any> | undefined
+  ) => {
+    return Object.fromEntries(
+      properties.map((prop) => {
+        let val: any = state?.[prop];
+        if (val?.selected && !val?.other) {
+          // Quick hack for choose fields.
+          val = val.selected;
+        }
+        return [`${prefix}.${prop}`, stringifyAsJSONIfNecessary(val)];
+      })
+    );
+  };
+
   const rows = tutorialStates
-    .map((ts): (Row & Record<string, string | number>) | null => {
+    .map((ts): CompleteRow | null => {
       const schema = tutorialSchemas.get(ts.tutorialId);
       if (!schema) {
         return null;
@@ -145,19 +172,14 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
       );
 
       // Append pretest responses if requested.
-      let pretestValues = {};
-      if (includePretests) {
-        pretestValues = Object.fromEntries(
-          pretestProperties.map((prop) => {
-            let val: any = state?.pretest?.[prop];
-            if (val?.selected && !val?.other) {
-              // Quick hack for choose fields.
-              val = val.selected;
-            }
-            return [`pretest.${prop}`, stringifyAsJSONIfNecessary(val)];
-          })
-        );
-      }
+      const pretestValues = includePretests
+        ? objectToRows(pretestProperties, "pretest", state?.pretest)
+        : {};
+
+      // Append feedback responses if requested.
+      const feedbackValues = includeFeedback
+        ? objectToRows(feedbackProperties, "feedback", state?.feedback)
+        : {};
 
       return {
         courseId,
@@ -169,9 +191,10 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
         completedPages,
         responsePercentage,
         ...pretestValues,
+        ...feedbackValues,
       };
     })
-    .filter((row) => !!row);
+    .filter((row): row is CompleteRow => !!row);
 
   const columns: { key: keyof Row; header: string }[] = [
     { key: "courseId", header: "Course ID" },
@@ -189,6 +212,19 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
       ...pretestProperties.map((prop) => ({
         key: `pretest.${prop}` as unknown as keyof Row,
         header: `Pretest: ${prop}`,
+      }))
+    );
+  }
+
+  if (includeFeedback) {
+    const nonEmptyFeedbackProperties = feedbackProperties.filter((prop) =>
+      rows.some((row) => row[`feedback.${prop}`] !== undefined)
+    );
+
+    columns.push(
+      ...nonEmptyFeedbackProperties.map((prop) => ({
+        key: `feedback.${prop}` as unknown as keyof Row,
+        header: `Feedback: ${prop}`,
       }))
     );
   }
