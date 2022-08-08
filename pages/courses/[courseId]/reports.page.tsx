@@ -178,6 +178,7 @@ const StudentResponsesForm = ({ course }: { course: Course }) => {
   const [tutorialId, setTutorialId] = useState<string>();
   const [emails, setEmails] = useState("");
   const [includePretests, setIncludePretests] = useState(false);
+  const [includeFeedback, setIncludeFeedback] = useState(false);
 
   const isValid =
     tutorialId !== undefined && !!emails.length && isValidEmailList(emails);
@@ -207,6 +208,7 @@ const StudentResponsesForm = ({ course }: { course: Course }) => {
             locale: options.locale,
             timeZone: options.timeZone,
             includePretests: includePretests && tutorialId !== "",
+            includeFeedback: includeFeedback,
           }
         ).then((result) => {
           if (!result.failed && result.value) {
@@ -256,6 +258,18 @@ const StudentResponsesForm = ({ course }: { course: Course }) => {
             </Prose.SubText>
           </Prose>
         )}
+
+        <Horizontal as="label" spacing={50}>
+          <div>
+            <input
+              type="checkbox"
+              checked={includeFeedback}
+              onChange={(e) => setIncludeFeedback(e.target.checked)}
+            />
+          </div>
+
+          <Prose>Include feedback survey responses in report.</Prose>
+        </Horizontal>
 
         <TextBoxControl
           label={

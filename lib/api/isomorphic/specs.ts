@@ -104,6 +104,7 @@ export const CourseReports = spec({
       locale: t.string(),
       timeZone: t.string(),
       includePretests: t.boolean(),
+      includeFeedback: t.boolean(),
     }),
     Response: t.string(), // It's a CSV
   },
