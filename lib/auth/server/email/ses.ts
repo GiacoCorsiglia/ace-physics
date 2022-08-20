@@ -18,7 +18,7 @@ export const sesProvider: EmailProvider = {
       Destination: {
         ToAddresses: options.toAddresses,
       },
-      FromEmailAddress: options.fromAddress,
+      FromEmailAddress: `"${options.fromName}" <${options.fromAddress}>`,
       Content: {
         Simple: {
           Subject: {
