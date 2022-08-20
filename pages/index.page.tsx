@@ -22,6 +22,11 @@ export default function Index() {
       ? "teach"
       : "learn";
 
+  const message =
+    auth.status === "authenticated"
+      ? "You’re signed in and ready to go."
+      : "You can sign in with your email address.";
+
   return (
     <Page>
       <Head>
@@ -50,7 +55,7 @@ export default function Index() {
             </Horizontal>
 
             <Prose justify="center" size="small">
-              You can sign in with your email address.
+              {message}
             </Prose>
           </Vertical>
         </Callout>
