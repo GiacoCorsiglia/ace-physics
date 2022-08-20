@@ -13,7 +13,8 @@ declare namespace NodeJS {
     readonly ACE_TABLE_NAME: string;
     // See: https://next-auth.js.org/configuration/options#secret
     readonly ACE_NEXT_AUTH_SECRET: string | undefined;
-    readonly ACE_EMAIL_PROVIDER: "disabled" | "ses";
+    readonly ACE_EMAIL_PROVIDER: "disabled" | "ses" | "sendgrid";
+    readonly SENDGRID_API_KEY: string;
 
     // Public.
     readonly NEXT_PUBLIC_ACE_ENV: "production" | "staging" | "development";

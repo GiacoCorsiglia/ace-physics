@@ -1,12 +1,18 @@
 // See https://next-auth.js.org/providers/email#customizing-emails
 // Since we're using AWS SES, we don't need to use nodemailer, and can override
 // this function to just use the SES API directly.
+import { sendgridProvider } from "./sendgrid";
 import { sesProvider } from "./ses";
 import { SendEmailOptions } from "./types";
 
 const PROVIDER = process.env.ACE_EMAIL_PROVIDER;
 
-const defaultProvider = PROVIDER === "ses" ? sesProvider : null;
+const defaultProvider =
+  PROVIDER === "ses"
+    ? sesProvider
+    : PROVIDER === "sendgrid"
+    ? sendgridProvider
+    : null;
 
 export const sendVerificationRequest = async ({
   identifier: email,
@@ -26,6 +32,7 @@ export const sendVerificationRequest = async ({
   const options: SendEmailOptions = {
     toAddresses: [email],
     fromAddress: "no-reply@acephysics.net",
+    fromName: "ACE Physics",
     subject: `Sign in to ${host}`,
     htmlBody: html({ url, host, email }),
     textBody: text({ url, host }),
