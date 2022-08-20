@@ -1,18 +1,18 @@
 // See https://next-auth.js.org/providers/email#customizing-emails
 // Since we're using AWS SES, we don't need to use nodemailer, and can override
 // this function to just use the SES API directly.
-import { SendEmailCommand, SESv2Client } from "@aws-sdk/client-sesv2";
+import { sendgridProvider } from "./sendgrid";
+import { sesProvider } from "./ses";
+import { SendEmailOptions } from "./types";
 
-const client = new SESv2Client({
-  // We never specify the endpoint because we always use real AWS for email.
-  region: process.env.ACE_AWS_REGION,
-  credentials: {
-    accessKeyId:
-      process.env.ACE_AWS_SES_ACCESS_KEY || process.env.ACE_AWS_ACCESS_KEY,
-    secretAccessKey:
-      process.env.ACE_AWS_SES_SECRET_KEY || process.env.ACE_AWS_SECRET_KEY,
-  },
-});
+const PROVIDER = process.env.ACE_EMAIL_PROVIDER;
+
+const defaultProvider =
+  PROVIDER === "ses"
+    ? sesProvider
+    : PROVIDER === "sendgrid"
+    ? sendgridProvider
+    : null;
 
 export const sendVerificationRequest = async ({
   identifier: email,
@@ -21,7 +21,7 @@ export const sendVerificationRequest = async ({
   identifier: string;
   url: string;
 }) => {
-  if (process.env.NODE_ENV === "development") {
+  if (!defaultProvider) {
     console.log(`Log in as ${email} with this link:`);
     console.log(url);
     return;
@@ -29,32 +29,16 @@ export const sendVerificationRequest = async ({
 
   const { host } = new URL(url);
 
-  const command = new SendEmailCommand({
-    Destination: {
-      ToAddresses: [email],
-    },
-    FromEmailAddress: "no-reply@acephysics.net",
-    Content: {
-      Simple: {
-        Subject: {
-          Data: `Sign in to ${host}`,
-          Charset: "UTF-8",
-        },
-        Body: {
-          Html: {
-            Data: html({ url, host, email }),
-            Charset: "UTF-8",
-          },
-          Text: {
-            Data: text({ url, host }),
-            Charset: "UTF-8",
-          },
-        },
-      },
-    },
-  });
+  const options: SendEmailOptions = {
+    toAddresses: [email],
+    fromAddress: "no-reply@acephysics.net",
+    fromName: "ACE Physics",
+    subject: `Sign in to ${host}`,
+    htmlBody: html({ url, host, email }),
+    textBody: text({ url, host }),
+  };
 
-  await client.send(command);
+  await defaultProvider.send(options);
 };
 
 // The below is only slightly modified from Next Auth.
