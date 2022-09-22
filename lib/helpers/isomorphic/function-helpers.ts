@@ -143,6 +143,12 @@ export function normalize<Ns extends readonly (number | undefined)[]>(
   return ns.map((n) => (n === undefined ? undefined : n / norm_)) as any;
 }
 
+export const round = (number: number, decimalPlaces: number): number => {
+  const adjustment = 10 ** decimalPlaces;
+  const rounded = Math.round(number * adjustment);
+  return rounded / adjustment;
+};
+
 export const roundToNearest = (number: number, nearest: number): number =>
   nearest * Math.round(number / nearest);
 
