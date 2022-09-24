@@ -94,21 +94,24 @@ export const useModel = <F extends f.Field>(
   model: Model<F>,
   onExternalUpdate?: (newValue: Infer<F["type"]> | undefined) => void
 ): GetSetTuple<Infer<F["type"]> | undefined> => {
+  type T = Infer<F["type"]> | undefined;
+
   const store = useContext(model.Context).useStore();
   const source = useUniqueSymbol();
 
   const setValue = useCallback(
-    (next) => {
+    (next: T | ((prev: T) => T)) => {
       store.transaction((set) => {
-        set(model.path as any, next);
+        set(model.path as any, next as any);
       }, source);
     },
     [model, store, source]
   );
 
-  const [tuple, setTuple] = useState<GetSetTuple<Infer<F["type"]> | undefined>>(
-    () => [get(store.state, model.path as any), setValue]
-  );
+  const [tuple, setTuple] = useState<GetSetTuple<T>>(() => [
+    get(store.state, model.path as any),
+    setValue,
+  ]);
 
   // Make sure we always have the latest version of the callback in the
   // subscription, but avoid re-triggering the effect on every render (in case
