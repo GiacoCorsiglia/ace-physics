@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useInsertionEffect,
   useLayoutEffect,
   useReducer,
   useRef,
@@ -52,6 +53,9 @@ export const combineRefs =
 
 export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+export const useIsomorphicInsertionEffect =
+  typeof window !== "undefined" ? useInsertionEffect : useEffect;
 
 export const useToggle = <E extends Element = HTMLElement>(
   initial: boolean = false

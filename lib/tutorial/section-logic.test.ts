@@ -7,17 +7,19 @@ import {
   nodeKey,
 } from "./section-logic";
 
+const body = () => null;
+
 describe("nodeKey", () => {
   const section1: SectionConfig = {
     kind: "section",
     name: "sectionName1",
-    body() {},
+    body,
   };
 
   const section2: SectionConfig = {
     kind: "section",
     name: "sectionName2",
-    body() {},
+    body,
   };
 
   const sequence1: SequenceConfig = {
@@ -55,13 +57,13 @@ describe("isMarkedVisible", () => {
   const section1: SectionConfig = {
     kind: "section",
     name: "section1",
-    body() {},
+    body,
   };
 
   const section2: SectionConfig = {
     kind: "section",
     name: "section2",
-    body() {},
+    body,
   };
 
   const sequence1: SequenceConfig = {
@@ -148,20 +150,20 @@ describe("nextSectionToReveal", () => {
   const section1: SectionConfig = {
     kind: "section",
     name: "section1",
-    body() {},
+    body,
   };
 
   const section2: SectionConfig = {
     kind: "section",
     name: "section2",
-    body() {},
+    body,
   };
 
   const section3: SectionConfig = {
     kind: "section",
     name: "section3",
     when: (r) => !!r.showSection3,
-    body() {},
+    body,
   };
 
   it("chooses first section if none are visible or committed", () => {
@@ -201,7 +203,7 @@ describe("nextSectionToReveal", () => {
         {
           kind: "section",
           name: "sectionA",
-          body() {},
+          body,
           when,
         },
       ],
@@ -249,7 +251,7 @@ describe("nextSectionToReveal", () => {
         {
           kind: "section",
           name: "sectionA",
-          body() {},
+          body,
           when,
         },
       ],
@@ -263,7 +265,7 @@ describe("nextSectionToReveal", () => {
     const sequence: SequenceConfig = {
       kind: "sequence",
       sections: [
-        { kind: "section", name: "sectionA", body() {} },
+        { kind: "section", name: "sectionA", body },
         {
           kind: "sequence",
           sections: [section1, section2],
@@ -331,8 +333,8 @@ describe("nextSectionToReveal", () => {
   });
 
   it("passes over sequence with condition if when() fails", () => {
-    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
-    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+    const sectionA: SectionConfig = { kind: "section", name: "A", body };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body };
     const sequence: SequenceConfig = {
       kind: "sequence",
       sections: [
@@ -353,8 +355,8 @@ describe("nextSectionToReveal", () => {
   });
 
   it("chooses sequence with condition if when() passes", () => {
-    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
-    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+    const sectionA: SectionConfig = { kind: "section", name: "A", body };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body };
     const sequence: SequenceConfig = {
       kind: "sequence",
       sections: [
@@ -428,8 +430,8 @@ describe("nextSectionToReveal", () => {
   });
 
   it("chooses section in sequence that is marked visible even if sequence's when() fails", () => {
-    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
-    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+    const sectionA: SectionConfig = { kind: "section", name: "A", body };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body };
     const sequence: SequenceConfig = {
       kind: "sequence",
       sections: [
@@ -453,8 +455,8 @@ describe("nextSectionToReveal", () => {
   });
 
   it("skips eligible section if subsequent sections have already been committed", () => {
-    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
-    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+    const sectionA: SectionConfig = { kind: "section", name: "A", body };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body };
 
     const sequence: SequenceConfig = {
       kind: "sequence",
@@ -471,8 +473,8 @@ describe("nextSectionToReveal", () => {
   });
 
   it("skips eligible nested section if subsequent sections have already been committed", () => {
-    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
-    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+    const sectionA: SectionConfig = { kind: "section", name: "A", body };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body };
 
     const sequence: SequenceConfig = {
       kind: "sequence",
@@ -552,7 +554,7 @@ describe("nextSectionToReveal", () => {
         {
           kind: "oneOf",
           sections: {
-            a: { kind: "section", name: "A", body() {} },
+            a: { kind: "section", name: "A", body },
           },
           which: (r) => null,
         },
@@ -564,8 +566,8 @@ describe("nextSectionToReveal", () => {
   });
 
   it("chooses nested oneOf section according to which(), regardless of whether other sections in the oneOf are committed", () => {
-    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
-    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+    const sectionA: SectionConfig = { kind: "section", name: "A", body };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body };
 
     const sequence: SequenceConfig = {
       kind: "sequence",
@@ -610,8 +612,8 @@ describe("nextSectionToReveal", () => {
   });
 
   it("chooses section after oneOf if current oneOf node determined by which() is committed", () => {
-    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
-    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+    const sectionA: SectionConfig = { kind: "section", name: "A", body };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body };
 
     const sequence: SequenceConfig = {
       kind: "sequence",
@@ -640,8 +642,8 @@ describe("nextSectionToReveal", () => {
   });
 
   it("chooses section after oneOf if which() is null but any oneOf node is committed", () => {
-    const sectionA: SectionConfig = { kind: "section", name: "A", body() {} };
-    const sectionB: SectionConfig = { kind: "section", name: "B", body() {} };
+    const sectionA: SectionConfig = { kind: "section", name: "A", body };
+    const sectionB: SectionConfig = { kind: "section", name: "B", body };
 
     const sequence: SequenceConfig = {
       kind: "sequence",
@@ -738,7 +740,7 @@ describe("nextMessageToReveal", () => {
     const section: SectionConfig = {
       kind: "section",
       name: "section",
-      body() {},
+      body,
     };
     expect(nextMessageToReveal({}, section)).toBeNull();
   });
@@ -753,7 +755,7 @@ describe("nextMessageToReveal", () => {
         },
         messages: {
           theMessage: {
-            body() {},
+            body,
             onContinue: "nextMessage",
           },
         },
@@ -772,7 +774,7 @@ describe("nextMessageToReveal", () => {
         },
         messages: {
           theMessage: {
-            body() {},
+            body,
             onContinue: "nextMessage",
           },
         },

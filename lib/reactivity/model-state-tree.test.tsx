@@ -3,7 +3,8 @@
  */
 import { Html } from "@/helpers/client";
 import * as f from "@/schema/fields";
-import { act, renderHook } from "@testing-library/react-hooks";
+import { act, renderHook } from "@testing-library/react";
+import { useEffect } from "react";
 import { model } from "./model";
 import { modelStateTree, useModel } from "./model-state-tree";
 
@@ -160,6 +161,42 @@ describe("modelStateTree and useModel", () => {
 
       expect(renderCount).toBe(1);
       expect(result.current[1][0]).toBe("nested_1");
+    });
+
+    it("rerenders after immediate in-line update", () => {
+      let renderCount = 0;
+      const { result } = rh(() => {
+        const store = useStore();
+        const tuple = useModel(useRootModel().properties.k2.properties.nested);
+        const [, setValue] = tuple;
+        if (renderCount === 0) {
+          //
+          setValue("nested_2");
+        }
+
+        return [store, tuple, renderCount++] as const;
+      });
+
+      expect(renderCount).toBe(2);
+      expect(result.current[1][0]).toBe("nested_2");
+    });
+
+    it("rerenders after in-effect update", () => {
+      let renderCount = 0;
+      const { result } = rh(() => {
+        const store = useStore();
+        const tuple = useModel(useRootModel().properties.k2.properties.nested);
+        const [, setValue] = tuple;
+
+        useEffect(() => {
+          setValue("nested_2");
+        }, [setValue]);
+
+        return [store, tuple, renderCount++] as const;
+      });
+
+      expect(renderCount).toBe(2);
+      expect(result.current[1][0]).toBe("nested_2");
     });
 
     it("fires onExternalUpdate callback only on external updates", () => {
