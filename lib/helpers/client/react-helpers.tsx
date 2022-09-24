@@ -6,7 +6,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { scrollToElement } from ".";
+import { cx } from "./css";
+import { scrollToElement } from "./scroll";
 
 const subDomain =
   process.env.NEXT_PUBLIC_ACE_ENV === "development"
@@ -164,4 +165,27 @@ export const useBoolean = (
   const toggle = useCallback(() => setValue((v) => !v), []);
 
   return [value, setTrue, setFalse, toggle];
+};
+
+export const useActualSiblingCheck = (when: () => boolean, deps: any[]) => {
+  const elRef = useRef<HTMLDivElement>(null);
+  const classesRef = useRef("");
+
+  useIsomorphicLayoutEffect(() => {
+    const el = elRef.current;
+    if (!el || !when()) {
+      return;
+    }
+    // If this is display math, determine if this element is the first/last
+    // child of its parent *including text nodes* (which CSS is incapable of).
+    const firstChild = !el.previousSibling;
+    const lastChild = !el.nextSibling;
+    classesRef.current = cx(
+      firstChild && "prose-actual-first-child",
+      lastChild && "prose-actual-last-child"
+    );
+    el.className += " " + classesRef.current;
+  }, deps);
+
+  return [elRef, classesRef.current] as const;
 };

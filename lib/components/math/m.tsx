@@ -1,9 +1,12 @@
-import { cx, useIsomorphicLayoutEffect } from "@/helpers/client";
+import {
+  cx,
+  useActualSiblingCheck,
+  useIsomorphicLayoutEffect,
+} from "@/helpers/client";
 import { result } from "@/result";
 import type { KatexOptions, ParseError } from "katex";
 import "katex/dist/katex.css";
 import { useState } from "react";
-import { useActualSiblingCheck } from "..";
 import styles from "./m.module.scss";
 import { macros } from "./macros";
 
@@ -48,7 +51,7 @@ export const M = ({
     // it at the top of this file.
     import("katex").then((KaTeX) => {
       const html = result<ParseError>(() =>
-        KaTeX.renderToString(tex, {
+        KaTeX.default.renderToString(tex, {
           ...options,
           displayMode: display,
         })
