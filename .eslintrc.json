@@ -46,7 +46,11 @@
     "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
     "@typescript-eslint/prefer-as-const": "warn",
     "@typescript-eslint/prefer-function-type": "warn",
-    "@typescript-eslint/unified-signatures": "warn"
+    "@typescript-eslint/unified-signatures": "warn",
+
+    // Jest.
+    // This would be useful but doesn't work with `{ it, describe }= setupDB()`.
+    "jest/no-standalone-expect": "off"
   },
   "ignorePatterns": [
     "**/*.js",

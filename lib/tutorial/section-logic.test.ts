@@ -793,7 +793,7 @@ describe("nextMessageToReveal", () => {
     };
 
     nextMessageToReveal(state, section);
-    expect(mock).toBeCalledTimes(1);
-    expect(mock).toBeCalledWith(state.responses, state);
+    expect(mock).toHaveBeenCalledTimes(1);
+    expect(mock).toHaveBeenCalledWith(state.responses, state);
   });
 });
