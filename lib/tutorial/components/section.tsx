@@ -71,7 +71,7 @@ export const Section = tracked(function Section(
       ));
 
   // End tracking accessed models.
-  const affected = modelsTracker.resetTracking();
+  const affected = modelsTracker.currentAccessed;
 
   // Is the move on button enabled?  By default, every model field accessed in
   // the rendering of the body and hints must be filled out.
