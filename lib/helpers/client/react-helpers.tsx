@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useId,
   useInsertionEffect,
   useLayoutEffect,
   useReducer,
@@ -90,23 +91,11 @@ export const useToggle = <E extends Element = HTMLElement>(
   return [toggled, toggleHandler, ref] as const;
 };
 
-let uniqueId = 0;
 /**
  * Creates a unique ID that's self-contained to the lifetime of this component
  * but otherwise doesn't matter.
  */
-export const useUniqueId = () => {
-  const idRef = useRef<number>();
-  return idRef.current || (idRef.current = ++uniqueId);
-};
-
-/**
- * Resets the unique ID counter. Used for SSR.
- * SEE: https://github.com/downshift-js/downshift#faq
- */
-export const resetUniqueIds = () => {
-  uniqueId = 0;
-};
+export const useUniqueId = useId;
 
 /**
  * Creates a unique Symbol that's self-contained to the lifetime of this
