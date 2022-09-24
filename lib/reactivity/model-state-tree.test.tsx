@@ -170,7 +170,6 @@ describe("modelStateTree and useModel", () => {
         const tuple = useModel(useRootModel().properties.k2.properties.nested);
         const [, setValue] = tuple;
         if (renderCount === 0) {
-          //
           setValue("nested_2");
         }
 
