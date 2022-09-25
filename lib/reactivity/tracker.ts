@@ -13,10 +13,10 @@ export const tracker = <T extends object>(
   recursive: boolean = true
 ): Tracker<T> => {
   let accessed = new Set<string>();
-  let proxyCache = new WeakMap<object, object>();
+  let proxyCache = recursive ? new WeakMap<object, object>() : null;
 
   const proxify = <T extends object>(o: T, rootPath: string = ""): T => {
-    const cached = proxyCache.get(o);
+    const cached = proxyCache?.get(o);
     if (cached) {
       return cached as T;
     }
@@ -63,7 +63,7 @@ export const tracker = <T extends object>(
       },
     });
 
-    proxyCache.set(o, proxy);
+    proxyCache?.set(o, proxy);
     return proxy;
   };
 

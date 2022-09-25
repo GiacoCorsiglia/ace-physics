@@ -5,9 +5,8 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useRef,
-  useState,
+  useSyncExternalStore,
 } from "react";
 import { get } from "./immutable";
 import { model, Model } from "./model";
@@ -94,20 +93,23 @@ export const useModel = <F extends f.Field>(
   model: Model<F>,
   onExternalUpdate?: (newValue: Infer<F["type"]> | undefined) => void
 ): GetSetTuple<Infer<F["type"]> | undefined> => {
+  type T = Infer<F["type"]> | undefined;
+
   const store = useContext(model.Context).useStore();
   const source = useUniqueSymbol();
 
+  // This should be referentially stable across renders until the value actually
+  // changes, after which the reference should change as well, because our
+  // stores are immutable.
+  const getValue = () => get(store.state, model.path as any);
+
   const setValue = useCallback(
-    (next) => {
+    (next: T | ((prev: T) => T)) => {
       store.transaction((set) => {
-        set(model.path as any, next);
+        set(model.path as any, next as any);
       }, source);
     },
     [model, store, source]
-  );
-
-  const [tuple, setTuple] = useState<GetSetTuple<Infer<F["type"]> | undefined>>(
-    () => [get(store.state, model.path as any), setValue]
   );
 
   // Make sure we always have the latest version of the callback in the
@@ -116,31 +118,19 @@ export const useModel = <F extends f.Field>(
   const onExternalUpdateRef = useRef(onExternalUpdate);
   onExternalUpdateRef.current = onExternalUpdate;
 
-  // Subscribe immediately so there's no race condition between subscribing
-  // and the state being changed in some async callback elsewhere (including
-  // in other effects in this component).
-  const unsubscribe = useRef<() => void>();
-  const subscriptionModel = useRef<Model>();
-  if (subscriptionModel.current !== model) {
-    if (unsubscribe.current) {
-      // unsubscribe from old subscription.
-      unsubscribe.current();
-    }
-
-    subscriptionModel.current = model;
-    unsubscribe.current = store.subscribe(
-      model.path as any,
-      (newValue, updateSource) => {
-        setTuple([newValue, setValue]);
+  const subscribe = useCallback(
+    (onStoreChange: () => void) =>
+      store.subscribe(model.path as any, (newValue, updateSource) => {
+        onStoreChange();
 
         if (updateSource !== source && onExternalUpdateRef.current) {
           onExternalUpdateRef.current(newValue);
         }
-      }
-    );
-  }
-  // Unsubscribe from the latest subscription on unmount.
-  useEffect(() => () => unsubscribe.current && unsubscribe.current(), []);
+      }),
+    [store, model, source]
+  );
 
-  return tuple;
+  const value = useSyncExternalStore(subscribe, getValue, getValue);
+
+  return [value, setValue];
 };

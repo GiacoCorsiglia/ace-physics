@@ -1,7 +1,6 @@
-import { cx } from "@/helpers/client";
+import { cx, useActualSiblingCheck } from "@/helpers/client";
 import NextImage, { ImageProps } from "next/image";
 import styles from "./image.module.scss";
-import { useActualSiblingCheck } from "./typography";
 
 // This is a simple wrapper around the Next.js Image component that  facilitates
 // styling (sadly we need more divs).

@@ -1,8 +1,9 @@
 import { Footer } from "@/components/footer";
 import footerStyles from "@/components/footer.module.scss";
 import "@/design/global.scss";
-import { Html, JsxElement, resetUniqueIds } from "@/helpers/client";
+import { Html, JsxElement } from "@/helpers/client";
 import { polyfill } from "@/polyfill";
+import type { Session } from "next-auth";
 import { SessionProvider, useSession } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { useMemo, useRef } from "react";
@@ -13,14 +14,9 @@ polyfill();
 export default function AceApp({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps) {
-  if (typeof window === "undefined") {
-    // If rendering on the server, reset this at the start of every render. This
-    // way we can avoid mismatching unique ids between the server and client.
-    // SEE: https://github.com/downshift-js/downshift#faq
-    resetUniqueIds();
-  }
-
+}: AppProps<{
+  session: Session | null;
+}>) {
   // Avoid rerenders when the providers do.  The components that actually use
   // the contexts from these providers will rerender appropriately regardless.
   const pageContent = useMemo(() => {

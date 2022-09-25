@@ -5,7 +5,7 @@
 import * as s from "@/schema/tutorial";
 import { TutorialState } from "@/schema/tutorial";
 import { Root, useRootModel, useStore } from "@/tutorial/state-tree";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { NodeConfig } from "../config";
 import { SectionTree } from "./section-tree";
 
@@ -65,6 +65,8 @@ const SectionsInContext = ({
   </Root>
 );
 
+const body = () => <div></div>;
+
 describe("SectionTree", () => {
   it("reveals first section immediately", () => {
     const sections: NodeConfig[] = [
@@ -110,7 +112,7 @@ describe("Section body", () => {
         kind: "section",
         name: "s1",
         body(_, state) {
-          return state.responses?.r1;
+          return state.responses?.r1 as string;
         },
       },
     ];
@@ -125,8 +127,10 @@ describe("Section body", () => {
     // Initial value first.
     screen.getByText("Test value 1");
     // Update state.
-    context.store!.transaction((set) => {
-      set(["responses", "r1"], "Test value 2");
+    act(() => {
+      context.store!.transaction((set) => {
+        set(["responses", "r1"], "Test value 2");
+      });
     });
     // Expect updated value.
     screen.getByText("Test value 2");
@@ -139,7 +143,7 @@ describe("Section continue button", () => {
       {
         kind: "section",
         name: "s1",
-        body() {},
+        body,
       },
     ];
     render(<SectionsInContext sections={sections} />);
@@ -151,7 +155,7 @@ describe("Section continue button", () => {
       {
         kind: "section",
         name: "s1",
-        body() {},
+        body,
         continue: { label: "Test label" },
       },
     ];
@@ -164,7 +168,7 @@ describe("Section continue button", () => {
       {
         kind: "section",
         name: "s1",
-        body() {},
+        body,
         continue: { allowed: ({ responses }) => responses?.r1 === "allow" },
       },
     ];
@@ -175,7 +179,9 @@ describe("Section continue button", () => {
     // But it's still present.
     screen.getByText("Move on");
     // Update the state.
-    context.store?.transaction((set) => set(["responses", "r1"], "allow"));
+    act(() => {
+      context.store?.transaction((set) => set(["responses", "r1"], "allow"));
+    });
     // Now it's enabled.
     screen.getByRole("button", { name: "Move on" });
   });
@@ -190,7 +196,7 @@ describe("Section continue button", () => {
           nextMessage() {
             return "m1";
           },
-          messages: { m1: { body() {}, onContinue: "nextMessage" } },
+          messages: { m1: { body: null, onContinue: "nextMessage" } },
         },
       },
     ];
@@ -240,7 +246,7 @@ describe("Section continue button", () => {
       {
         kind: "section",
         name: "s1",
-        body() {},
+        body,
       },
     ];
     render(

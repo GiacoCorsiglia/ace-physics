@@ -4,7 +4,7 @@ import { execSync } from "child_process";
 import { randomBytes } from "crypto";
 import tableConfig from "./ddb.json";
 
-const currentTest = () => expect.getState().currentTestName;
+const getCurrentTest = () => expect.getState().currentTestName;
 
 const originalEnv = process.env;
 const testEnv = {
@@ -47,12 +47,13 @@ export const setupDB = () => {
   });
 
   beforeEach(async () => {
-    if (skipDbTests) {
+    const currentTest = getCurrentTest();
+    if (skipDbTests || !currentTest) {
       return;
     }
 
     const TableName = `Test_${randomBytes(16).toString("base64url")}`;
-    tables.set(currentTest(), TableName);
+    tables.set(currentTest, TableName);
     process.env = {
       ...originalEnv,
       ...testEnv,
@@ -63,14 +64,15 @@ export const setupDB = () => {
   });
 
   afterEach(async () => {
-    if (skipDbTests) {
+    const currentTest = getCurrentTest();
+    if (skipDbTests || !currentTest) {
       return;
     }
 
     process.env = originalEnv;
     _destroyClient();
 
-    const TableName = tables.get(currentTest());
+    const TableName = tables.get(currentTest);
     if (TableName) {
       await client.deleteTable({ TableName });
     }

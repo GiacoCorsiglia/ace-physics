@@ -26,13 +26,13 @@ export const eventsFromUpdates = (
             if (newValue === "committed") {
               return {
                 kind: "section.committed",
-                section: path[1],
+                section: path[1]!, // path[1] exists if path[2] does.
                 timestamp,
               };
             } else if (newValue === "revealed") {
               return {
                 kind: "section.revealed",
-                section: path[1],
+                section: path[1]!, // path[1] exists if path[2] does.
                 timestamp,
               };
             } else {

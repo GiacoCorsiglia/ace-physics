@@ -4,7 +4,7 @@ import {
   JsxElement,
   Path,
   TypeAtPath,
-  useForceUpdate,
+  useIsomorphicInsertionEffect,
 } from "@/helpers/client";
 import {
   createContext,
@@ -13,18 +13,17 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
+  useSyncExternalStore,
 } from "react";
-import { unstable_batchedUpdates } from "react-dom";
 import { useDevTools } from "./dev-tools";
 import { get } from "./immutable";
+import { pathToString, stringToPath } from "./path";
 import { Store, store, Updates } from "./store";
-import { Tracker, tracker } from "./tracker";
+import { tracker } from "./tracker";
 
 export const stateTree = <T extends object>(displayName: string) => {
   interface Context {
     readonly store: Store<T>;
-    tracker?: Tracker<Immutable<T>>;
   }
 
   const Context = createContext<Context>(undefined as any);
@@ -42,17 +41,8 @@ export const stateTree = <T extends object>(displayName: string) => {
     const ctx = useRef<Context>();
 
     if (ctx.current === undefined) {
-      const s = store(initial);
-      const origTransaction = s.transaction;
-      s.transaction = (...args) => {
-        let ret!: Immutable<T>;
-        unstable_batchedUpdates(() => {
-          ret = origTransaction(...args);
-        });
-        return ret;
-      };
       ctx.current = {
-        store: s,
+        store: store(initial),
       };
     }
 
@@ -72,8 +62,17 @@ export const stateTree = <T extends object>(displayName: string) => {
 
   type NextSetter<T> = T | ((prev: T) => T);
 
-  const useValue = <P extends Path<Immutable<T>>>(path: P) => {
+  const useValue = <P extends Path<Immutable<T>>>(
+    path: P
+  ): readonly [
+    TypeAtPath<Immutable<T>, P>,
+    (setter: NextSetter<TypeAtPath<Immutable<T>, P>>) => void
+  ] => {
     const store = useStore();
+
+    const getValue = () => get(store.state, path);
+
+    const pathString = pathToString(path);
 
     const setValue = useCallback(
       (next: NextSetter<TypeAtPath<Immutable<T>, P>>) => {
@@ -82,72 +81,65 @@ export const stateTree = <T extends object>(displayName: string) => {
         });
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [store, path.join("/")]
+      [store, pathString]
     );
 
-    const [tuple, setTuple] = useState(
-      () => [get(store.state, path), setValue] as const
+    const subscribe = useCallback(
+      (onStoreChange: () => void) =>
+        store.subscribe(path as Path<T>, () => onStoreChange()),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [store, pathString]
     );
 
-    // Subscribe immediately so there's no race condition between subscribing
-    // and the state being changed in some async callback elsewhere (including
-    // in other effects in this component).
-    const unsubscribe = useRef<() => void>();
-    const subscriptionPath = useRef<string>();
-    if (subscriptionPath.current !== path.join("/")) {
-      if (unsubscribe.current) {
-        // unsubscribe from old subscription.
-        unsubscribe.current();
-      }
+    const value = useSyncExternalStore(subscribe, getValue, getValue);
 
-      subscriptionPath.current = path.join("/");
-      unsubscribe.current = store.subscribe(path as Path<T>, (newValue) =>
-        setTuple([newValue as TypeAtPath<Immutable<T>, P>, setValue])
-      );
-    }
-    // Unsubscribe from the latest subscription on unmount.
-    useEffect(() => () => unsubscribe.current && unsubscribe.current(), []);
-
-    return tuple;
+    return [value, setValue] as const;
   };
 
   const useTracked = <R extends any>(func: (state: Immutable<T>) => R): R => {
-    const forceUpdate = useForceUpdate();
-    const ctx = useContext(Context);
-    const store = ctx.store;
+    const store = useStore();
 
-    const unsubscribersRef = useRef<Map<string, () => void>>();
-    if (!unsubscribersRef.current) {
-      unsubscribersRef.current = new Map();
-    }
-    const unsubscribers = unsubscribersRef.current;
+    const lastPaths = useRef<Set<string>>();
 
-    if (ctx.tracker === undefined || ctx.tracker.original !== store.state) {
-      ctx.tracker = tracker(store.state);
-    }
-    const trk = ctx.tracker;
-    trk.resetTracking();
+    const trk = tracker(store.state);
     const ret = func(trk.proxy);
-    const paths = trk.resetTracking();
+    const nextPaths = trk.currentAccessed;
 
-    unsubscribers.forEach((unsubscribe, path) => {
-      if (!paths.has(path)) {
-        unsubscribe();
-        unsubscribers.delete(path);
-      }
-    });
+    // We use `useSyncExternalStore` as a subscription mechanism but we don't
+    // actually need it to get the state for us.
 
-    paths.forEach((path) => {
-      if (!unsubscribers.has(path)) {
-        unsubscribers.set(path, store.subscribe(path + "", forceUpdate));
-      }
-    });
-
-    useEffect(
-      () => () =>
-        unsubscribersRef.current!.forEach((unsubscribe) => unsubscribe()),
-      []
+    // Sadly we can't do targeted subscriptions here; we target in the snapshot
+    // instead b/c that's what React requires.
+    const subscribe = useCallback(
+      (onStoreChange: () => void) =>
+        store.subscribe([], () => {
+          onStoreChange();
+        }),
+      [store]
     );
+    let inRender = true;
+    const getSnapshot = () => {
+      const paths = inRender ? nextPaths : lastPaths.current || nextPaths;
+      let string = "";
+      for (const path of paths) {
+        string +=
+          path +
+          ":" +
+          JSON.stringify(get(store.state, stringToPath(path) as any)) +
+          ",";
+      }
+      // We just need a unique string every time the state selection changes.
+      return string;
+    };
+    useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+    inRender = false;
+    useIsomorphicInsertionEffect(() => {
+      // Only register this if the render actually went through.  This needs to
+      // be an insertion effect because `useSyncExternalStore` calls the
+      // snapshot function again after the render, and we need to register this
+      // update before that happens.
+      lastPaths.current = nextPaths;
+    });
 
     return ret;
   };
