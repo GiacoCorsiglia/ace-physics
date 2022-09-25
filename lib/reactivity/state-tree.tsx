@@ -91,7 +91,7 @@ export const stateTree = <T extends object>(displayName: string) => {
       [store, pathString]
     );
 
-    const value = useSyncExternalStore(subscribe, getValue);
+    const value = useSyncExternalStore(subscribe, getValue, getValue);
 
     return [value, setValue] as const;
   };
@@ -118,7 +118,7 @@ export const stateTree = <T extends object>(displayName: string) => {
       [store]
     );
     let inRender = true;
-    useSyncExternalStore(subscribe, () => {
+    const getSnapshot = () => {
       const paths = inRender ? nextPaths : lastPaths.current || nextPaths;
       let string = "";
       for (const path of paths) {
@@ -130,7 +130,8 @@ export const stateTree = <T extends object>(displayName: string) => {
       }
       // We just need a unique string every time the state selection changes.
       return string;
-    });
+    };
+    useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
     inRender = false;
     useIsomorphicInsertionEffect(() => {
       // Only register this if the render actually went through.  This needs to

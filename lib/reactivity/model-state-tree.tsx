@@ -130,7 +130,7 @@ export const useModel = <F extends f.Field>(
     [store, model, source]
   );
 
-  const value = useSyncExternalStore(subscribe, getValue);
+  const value = useSyncExternalStore(subscribe, getValue, getValue);
 
   return [value, setValue];
 };
