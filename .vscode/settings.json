@@ -34,7 +34,9 @@
     "sendgrid",
     "unhashed"
   ],
-  "jestrunner.jestCommand": "yarn test",
+  "markdown.extension.toc.omittedFromToc": {
+    "README.md": ["# ACE Physics", "## Quick Reminders", "## Contents"]
+  },
   "typescript.tsdk": "node_modules/typescript/lib",
   "[typescript]": {
     "editor.formatOnPaste": true,

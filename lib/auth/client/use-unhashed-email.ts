@@ -1,4 +1,4 @@
-import { safeLocalStorage } from "@/helpers/client";
+import { isValidEmail, safeLocalStorage } from "@/helpers/client";
 import { asyncResult } from "@/result";
 import { useEffect, useState } from "react";
 
@@ -26,6 +26,11 @@ export const clearSavedUnhashedEmail = () =>
   safeLocalStorage.removeItem(localStorageKey);
 
 const getEmailForHash = async (hash: string): Promise<null | string> => {
+  if (isValidEmail(hash)) {
+    // Already unhashed!
+    return hash;
+  }
+
   const stored = safeLocalStorage.getItem(localStorageKey);
   if (!stored) {
     return null;
