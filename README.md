@@ -4,7 +4,7 @@ Adaptable Curricular Exercises for Physics—online at [acephysics.net](https://
 
 This [repository](https://github.com/GiacoCorsiglia/ace-physics) holds all the source code powering the ACE Physics website.
 
-This README document describes some of the technology underlying ACE Physics and includes instructions for how to work on the ACE Physics code.
+This README document describes some of the technology underlying ACE Physics and includes instructions for working on the ACE Physics code.
 
 ## Quick Reminders
 
