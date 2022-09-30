@@ -53,7 +53,7 @@ const SignedInView = ({ errorHtml }: { errorHtml?: Html }) => {
 
       <Prose>
         <p>
-          You’re currently signed in
+          You’re signed in to ACE Physics
           {unhashedEmail && " as "}
           {unhashedEmail && <strong>{unhashedEmail}</strong>}.
         </p>
