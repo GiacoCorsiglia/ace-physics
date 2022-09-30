@@ -125,14 +125,14 @@ Follow the instructions here to download and install: <https://code.visualstudio
 > If using Homebrew:
 >
 > ```sh
-> brew install node@14
-> brew link node@14
+> brew install node@16
+> brew link node@16
 > npm -g install npm@8
 > ```
 
 ACE Physics is primarily written in the JavaScript programming language. JavaScript typically runs inside your web browser, but Node.js allows you to execute JavaScript code outside of a web browser, too (similar to how you might execute a Python script).
 
-**Download Node.js here**: https://nodejs.org/en/download/. **You must install _Version 14_**. If necessary, find old releases [here](https://github.com/nodejs/release#release-schedule).
+**Download Node.js here**: https://nodejs.org/en/download/. **You must install _Version 16_**. If necessary, find old releases [here](https://github.com/nodejs/release#release-schedule).
 
 **Once Node.js is installed**, run the following command in a command line (you can use the “Terminal” in VS Code for this—documentation [here](https://code.visualstudio.com/docs/terminal/basics)):
 
