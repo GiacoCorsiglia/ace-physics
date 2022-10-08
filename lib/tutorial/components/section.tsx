@@ -92,8 +92,10 @@ export const Section = tracked(function Section(
 
   // Label for the move on button.
   const continueLabel = config.continue?.label;
-  const continueLabelHtml =
+  let continueLabelHtml =
     continueLabel instanceof Function ? continueLabel(state) : continueLabel;
+  continueLabelHtml ||=
+    hasBody && config.guidance ? "Let’s check in" : "Move on";
 
   // Should this section be enumerated?  By default, sections rendered
   // conditionally  (with a `when()` or embedded in sequences or oneOf's) are
@@ -136,7 +138,7 @@ export const Section = tracked(function Section(
               commit(config, { skipRemainingMessages: false });
             }}
           >
-            {continueLabelHtml || "Move on"} <ArrowDownIcon />
+            {continueLabelHtml} <ArrowDownIcon />
           </Button>
         )}
 
