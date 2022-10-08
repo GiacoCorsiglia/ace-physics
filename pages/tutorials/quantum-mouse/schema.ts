@@ -62,7 +62,9 @@ export default s.tutorial({
       ],
     }),
     whyWideStressed: s.section(),
-    smallEyeBasisChange: s.section(),
+    smallEyeBasisChange: s.section({
+      messages: ["abNotNormalized", "abIncorrect", "abCorrect"],
+    }),
     abUnique: s.section(),
     abNotNormalized: s.section(),
     abIncorrect: s.section(),

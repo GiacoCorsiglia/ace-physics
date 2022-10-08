@@ -3,6 +3,7 @@ import {
   ChooseOne,
   Decimal,
   Guidance,
+  InstructorMessage,
   LabelsLeft,
   M,
   Prose,
@@ -89,9 +90,6 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           ]}
         />
       ),
-      continue: {
-        label: "Let’s check in",
-      },
       guidance: {
         nextMessage(r) {
           const selected = r.coefficientsVsEigenvalues?.selected;
@@ -234,6 +232,28 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           ),
         }),
       ],
+      guidance: {
+        nextMessage: (r) => abFeedback(r.smallEyeA, r.smallEyeB),
+        messages: {
+          abCorrect: {
+            body: (
+              <Guidance.Agree>
+                Nicely done! We agree with your values for <M t="a" /> and{" "}
+                <M t="b" />.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          abIncorrect: {
+            body: () => <CoefficientsIncorrectMessage />,
+            onContinue: "nextMessage",
+          },
+          abNotNormalized: {
+            body: () => <CoefficientsNotNormalizedMessage />,
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     section({
@@ -273,31 +293,17 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           ),
         }),
       ],
-      continue: { label: "Let’s check in" },
     }),
 
     oneOf({
       which: (r) => {
-        const a = 2 / Math.sqrt(5);
-        const b = -1 / Math.sqrt(5);
-
-        const isNormalized = approxEquals(norm(r.smallEyeA, r.smallEyeB), 1);
-
-        const rightRatio = approxEquals(
-          a / b,
-          (r.smallEyeA || NaN) / (r.smallEyeB || NaN)
-        );
-
-        if (isNormalized && rightRatio) {
-          // a & b are correct!
+        if (abFeedback(r.smallEyeA, r.smallEyeB) === "abCorrect") {
+          // We'll only show this if you got the orthonormality question correct.
+          // Keeping it in this `oneOf` for backwards compatibility.
           return "abAlternative";
-        } else if (!isNormalized && rightRatio) {
-          // a & b are not normalized.
-          return "abNotNormalized";
-        } else {
-          // Something else is wrong.
-          return "abIncorrect";
         }
+
+        return null;
       },
       sections: {
         abAlternative: section({
@@ -313,7 +319,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
                     t={`a = ${
                       responses?.smallEyeA! > 0 ? "+" : "-"
                     } \\frac{2}{\\sqrt{5}} \\text{ and } b = ${
-                      responses?.smallEyeB! > 0 ? "+" : "-"
+                      responses?.smallEyeB! < 0 ? "-" : "+"
                     } \\frac{1}{\\sqrt{5}}`}
                   />
                   Are any of these options valid answers too? Check ALL that
@@ -348,35 +354,82 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           ),
         }),
 
+        // Preserving this section for backwards compatibility.
         abNotNormalized: section({
           name: "abNotNormalized",
-          body: (
-            <Guidance.Disagree>
-              The state <M t="\ket{\smalleye}" /> is <em>normalized</em>, so
-              your coefficients should satisfy
-              <M display t="|a|^2 + |b|^2 = 1" />
-              You may want to check up on that before moving on.
-            </Guidance.Disagree>
+          body: () => (
+            <>
+              <DeprecatedSectionMessage />
+              <CoefficientsNotNormalizedMessage />
+            </>
           ),
         }),
-
+        // Preserving this section for backwards compatibility.
         abIncorrect: section({
           name: "abIncorrect",
-          body: (
-            <Guidance.Disagree>
-              You might want to check up on your coefficients <M t="a" /> and{" "}
-              <M t="b" /> before moving on. You can double check the following
-              relations:
-              <M display t="\braket{\smalleye|\smalleye} = |a|^2 + |b|^2 = 1" />
-              and
-              <M
-                display
-                t="\braket{\wideye|\smalleye} = \left(\frac{1}{\sqrt{5}} \bra{\smiley} + \frac{2}{\sqrt{5}} \bra{\frownie}\right) \left(a \ket{\smiley} + b \ket{\frownie}\right) = 0"
-              />
-            </Guidance.Disagree>
+          body: () => (
+            <>
+              <DeprecatedSectionMessage />
+              <CoefficientsIncorrectMessage />
+            </>
           ),
         }),
       },
     }),
   ],
 }));
+
+const abFeedback = (
+  smallEyeA: number | undefined,
+  smallEyeB: number | undefined
+) => {
+  const a = 2 / Math.sqrt(5);
+  const b = -1 / Math.sqrt(5);
+
+  const isNormalized = approxEquals(norm(smallEyeA, smallEyeB), 1);
+
+  const rightRatio = approxEquals(
+    a / b,
+    (smallEyeA || NaN) / (smallEyeB || NaN)
+  );
+
+  // We'll only show this if you got the orthonormality question correct.
+  // Keeping it in this `oneOf` for backwards compatibility.
+
+  if (isNormalized && rightRatio) {
+    // a & b are correct!
+    return "abCorrect";
+  } else if (rightRatio) {
+    return "abNotNormalized";
+  } else {
+    return "abIncorrect";
+  }
+};
+
+const DeprecatedSectionMessage = () => (
+  <InstructorMessage>
+    Students won’t see this guidance here; it will be shown above instead.
+  </InstructorMessage>
+);
+
+const CoefficientsNotNormalizedMessage = () => (
+  <Guidance.Disagree>
+    The state <M t="\ket{\smalleye}" /> is <em>normalized</em>, so your
+    coefficients should satisfy
+    <M display t="|a|^2 + |b|^2 = 1" />
+    You may want to check up on that before moving on.
+  </Guidance.Disagree>
+);
+
+const CoefficientsIncorrectMessage = () => (
+  <Guidance.Disagree>
+    You might want to check up on your coefficients <M t="a" /> and <M t="b" />{" "}
+    before moving on. You can double check the following relations:
+    <M display t="\braket{\smalleye|\smalleye} = |a|^2 + |b|^2 = 1" />
+    and
+    <M
+      display
+      t="\braket{\wideye|\smalleye} = \left(\frac{1}{\sqrt{5}} \bra{\smiley} + \frac{2}{\sqrt{5}} \bra{\frownie}\right) \left(a \ket{\smiley} + b \ket{\frownie}\right) = 0"
+    />
+  </Guidance.Disagree>
+);
