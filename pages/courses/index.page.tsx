@@ -16,6 +16,7 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
+import { isInstructor } from "@/helpers/server";
 import { Course } from "@/schema/api";
 import {
   ArrowLeftIcon,
@@ -95,8 +96,7 @@ export default function Courses() {
 
               {isLoading && <LoadingAnimation size="small" />}
 
-              {(auth.user.role === "instructor" ||
-                auth.user.role === "admin") && <CreateCourseForm />}
+              {isInstructor(auth.user) && <CreateCourseForm />}
             </>
           )}
         </AuthGuard>

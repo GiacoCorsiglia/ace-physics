@@ -3,4 +3,5 @@
  * in scripts (i.e., anywhere that React shouldn't be imported).
  */
 export * from "../isomorphic/function-helpers";
+export * from "../isomorphic/model-helpers";
 export * from "../isomorphic/type-helpers";

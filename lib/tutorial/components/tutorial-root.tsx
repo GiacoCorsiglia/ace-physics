@@ -10,7 +10,7 @@ import {
   Prose,
   Vertical,
 } from "@/components";
-import { Html, JsxElement } from "@/helpers/client";
+import { Html, isInstructor, JsxElement } from "@/helpers/client";
 import { TUTORIAL_STATE_NO_COURSE } from "@/schema/db";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
 import { signIn } from "next-auth/react";
@@ -114,9 +114,7 @@ export const TutorialRoot = ({
               {mode && (
                 <InstructorModeProvider
                   value={
-                    mode.type === "InstructorMode" &&
-                    (auth.user.role === "instructor" ||
-                      auth.user.role === "admin")
+                    mode.type === "InstructorMode" && isInstructor(auth.user)
                       ? mode.options
                       : null
                   }

@@ -9,6 +9,7 @@ import {
   Prose,
   Vertical,
 } from "@/components";
+import { isInstructor } from "@/helpers/server";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
 
@@ -17,8 +18,7 @@ export default function Index() {
 
   const link = auth.status === "authenticated" ? "/courses" : "/tutorials";
   const verb =
-    auth.status === "authenticated" &&
-    (auth.user.role === "instructor" || auth.user.role === "admin")
+    auth.status === "authenticated" && isInstructor(auth.user)
       ? "teach"
       : "learn";
 
