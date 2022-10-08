@@ -1,5 +1,6 @@
 import {
   ChooseAll,
+  ChooseOne,
   Decimal,
   Guidance,
   LabelsLeft,
@@ -47,11 +48,130 @@ export default page(setup, ({ section, oneOf, hint }) => ({
     }),
 
     section({
+      name: "coefficientsVsEigenvalues",
+      body: (m) => (
+        <ChooseOne
+          model={m.coefficientsVsEigenvalues}
+          label={
+            <Prose>
+              In the equation above, the coefficient{" "}
+              <M t="\frac{2}{\sqrt{5}}" /> is an example of which of the
+              following?
+            </Prose>
+          }
+          choices={[
+            [
+              "eigenvalue",
+              <>
+                <M t="\frac{2}{\sqrt{5}}" /> is an <strong>eigenvalue</strong>
+              </>,
+            ],
+            [
+              "measurement outcome",
+              <>
+                <M t="\frac{2}{\sqrt{5}}" /> is a possible{" "}
+                <strong>measurement outcome</strong>
+              </>,
+            ],
+            [
+              "probability",
+              <>
+                <M t="\frac{2}{\sqrt{5}}" /> is a <strong>probability</strong>
+              </>,
+            ],
+            [
+              "probability amplitude",
+              <>
+                <M t="\frac{2}{\sqrt{5}}" /> is a{" "}
+                <strong>probability amplitude</strong>
+              </>,
+            ],
+          ]}
+        />
+      ),
+      continue: {
+        label: "Let’s check in",
+      },
+      guidance: {
+        nextMessage(r) {
+          const selected = r.coefficientsVsEigenvalues?.selected;
+          if (selected) {
+            return selected;
+          }
+          // Otherwise they must have input an "other" answer.
+          return "other";
+        },
+        messages: {
+          eigenvalue: {
+            body: (
+              <Guidance.Disagree>
+                We disagree. Eigen-equations usually look like:
+                <M
+                  display
+                  t="(\text{operator}) (\text{eigenvector}) = (\text{eigenvalue}) \cdot (\text{eigenvector})"
+                />
+                There is no operator in the equation above for{" "}
+                <M t="\ket{\wideye}" />, and there are two terms on the right
+                hand side.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "measurement outcome": {
+            body: (
+              <Guidance.Disagree>
+                We disagree. What are the possible measurement outcomes for the
+                mood and eye size operators? Is <M t="\frac{2}{\sqrt{5}}" /> one
+                of those possibilities?
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          probability: {
+            body: (
+              <Guidance.Disagree>
+                We don’t quite agree. Do you have to take any additional steps
+                to calculate a probability from the <M t="\frac{2}{\sqrt{5}}" />{" "}
+                coefficient?
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "probability amplitude": {
+            body: (
+              <Guidance.Agree>
+                We agree! <M t="\frac{2}{\sqrt{5}}" /> is a probability
+                amplitude. You must square it to calculate the corresponding
+                probability.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          other: {
+            body: (
+              <Guidance.HeadsUp>
+                This software can’t analyze what you’ve written, but we think
+                one of our provided answers is accurate.
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextMessage",
+            skipAllowed: () => true,
+          },
+        },
+      },
+    }),
+
+    section({
       name: "whyWideStressed",
       body: (m) => (
         <TextBox
           label={
             <Prose>
+              Above, we said
+              <M
+                display
+                t="\ket{\wideye} = \frac{1}{\sqrt{5}} \ket{\smiley} + \frac{2}{\sqrt{5}} \ket{\frownie}"
+              />
               This suggests that wide-eyed mice are rather <em>stressed</em>.
               Briefly, why might I say that?
             </Prose>
@@ -65,9 +185,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           body: (
             <Prose>
               Look at the equation above. If you asked a wide-eyed mouse (
-              <M t="\ket{\wideye}" prespace={false} />) how they felt, which
-              would you <em>probably</em> expect them to say: <em>happy</em> or{" "}
-              <em>sad</em>?
+              <M t="\ket{\wideye}" prespace={false} />) how they felt, what
+              would they most likely say: <em>happy</em> or <em>sad</em>?
             </Prose>
           ),
         }),
