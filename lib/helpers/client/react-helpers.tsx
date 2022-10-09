@@ -182,3 +182,50 @@ export const useActualSiblingCheck = (when: () => boolean, deps: any[]) => {
 
   return [elRef, classesRef.current] as const;
 };
+
+export const useTimeout = (action: () => void, timeoutMs: number) => {
+  const actionRef = useRef<() => void>();
+  useEffect(() => {
+    actionRef.current = action;
+  });
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      actionRef.current!();
+    }, timeoutMs);
+
+    return () => clearTimeout(timeoutId);
+  }, [timeoutMs]);
+};
+
+export const useBodyScrollLock = (enabled: boolean = true) => {
+  useLayoutEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
+    const body = document.body;
+    const scrollPosition = window.pageYOffset;
+    const scrollbarWidth = window.innerWidth - body.offsetWidth;
+
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollPosition}px`;
+    body.style.left = "0";
+    body.style.right = `${scrollbarWidth}px`;
+
+    return () => {
+      body.style.removeProperty("overflow");
+      body.style.removeProperty("position");
+      body.style.removeProperty("top");
+      body.style.removeProperty("left");
+      body.style.removeProperty("right");
+
+      // Temporarily disable smooth scrolling smdh.  Setting `behavior` in the
+      // `scrollTo` options doesn't do the trick.
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, scrollPosition);
+      document.documentElement.style.removeProperty("scroll-behavior");
+    };
+  }, [enabled]);
+};
