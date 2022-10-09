@@ -187,8 +187,9 @@ export const FeedbackPage = ({
                 tutorialConfig.link,
                 "finished"
               )}
+              iconRight={<ArrowRightIcon />}
             >
-              I’m done <ArrowRightIcon />
+              I’m done
             </Button>
           </Justify>
         </SectionBox>

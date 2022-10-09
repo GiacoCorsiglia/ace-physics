@@ -98,8 +98,9 @@ export const IntroPage = ({
                 ? "before-you-start"
                 : tutorialConfig.pages[0].link
             )}
+            iconRight={<ArrowRightIcon />}
           >
-            Let’s get going <ArrowRightIcon />
+            Let’s get going
           </Button>
         </Justify>
       </Vertical.Space>

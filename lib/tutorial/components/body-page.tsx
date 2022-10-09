@@ -215,8 +215,8 @@ function ContinueToNextPage({
         showWhenComplete
       ) : (
         <Justify end>
-          <Button color="green" link={fullLink}>
-            Move on to the next page <ArrowRightIcon />
+          <Button color="green" link={fullLink} iconRight={<ArrowRightIcon />}>
+            Move on to the next page
           </Button>
         </Justify>
       )}
@@ -307,9 +307,9 @@ const RevealAnswersSection = ({
                 onClick={() => {
                   complete();
                 }}
+                iconRight={<ArrowDownIcon />}
               >
                 Move on
-                <ArrowDownIcon />
               </Button>
             </Justify>
           )}

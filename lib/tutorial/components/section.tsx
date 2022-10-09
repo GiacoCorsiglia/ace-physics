@@ -140,8 +140,9 @@ export const Section = tracked(function Section(
             onClick={() => {
               commit(config, { skipRemainingMessages: false });
             }}
+            iconRight={<ArrowDownIcon />}
           >
-            {continueLabelHtml} <ArrowDownIcon />
+            {continueLabelHtml}
           </Button>
         )}
 
@@ -293,16 +294,18 @@ const SectionGuidance = tracked(function SectionGuidance(
                   latestMessage.onContinue === "nextSection",
               })
             }
+            iconRight={<ArrowDownIcon />}
           >
-            {continueLabelHtml || continueLabelDefault} <ArrowDownIcon />
+            {continueLabelHtml || continueLabelDefault}
           </Button>
 
           {isSkipAllowed && latestMessage.onContinue !== "nextSection" && (
             <Button
               color="yellow"
               onClick={() => commit(config, { skipRemainingMessages: true })}
+              iconRight={<ArrowDownIcon />}
             >
-              Move on anyway <ArrowDownIcon />
+              Move on anyway
             </Button>
           )}
         </div>

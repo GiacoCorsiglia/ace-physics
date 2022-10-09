@@ -82,8 +82,12 @@ export default function FinishedPage() {
               Go back
             </Button>
 
-            <Button color="green" link="/tutorials">
-              See other tutorials <ArrowRightIcon />
+            <Button
+              color="green"
+              link="/tutorials"
+              iconRight={<ArrowRightIcon />}
+            >
+              See other tutorials
             </Button>
           </Horizontal>
         </Vertical.Space>

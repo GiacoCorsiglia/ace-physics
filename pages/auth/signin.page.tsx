@@ -177,8 +177,9 @@ const SignInWithEmail = () => {
                   ? "Please enter a valid email address before signing in."
                   : undefined
               }
+              iconRight={<ArrowRightIcon />}
             >
-              Sign in <ArrowRightIcon />
+              Sign in
             </Button>
           </Vertical>
         </form>
@@ -237,8 +238,9 @@ const SignInWithMockProvider = () => {
             })
             .finally(() => setIsSigningIn(false));
         }}
+        iconRight={<ArrowRightIcon />}
       >
-        Sign in as Test User <ArrowRightIcon />
+        Sign in as Test User
       </Button>
 
       <Prose size="small" faded>
