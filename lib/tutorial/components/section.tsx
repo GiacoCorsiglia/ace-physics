@@ -108,6 +108,9 @@ export const Section = tracked(function Section(
 
   return (
     <SectionBox
+      className={cx(
+        status !== "committed" && !showAllSections && styles.activeSection
+      )}
       animateIn={!first && !showAllSections}
       enumerate={enumerate}
       ref={scrollRef}
@@ -164,7 +167,7 @@ const SectionHintButtons = tracked(function SectionHintButtons(
 
   return (
     <>
-      {config.hints.map((hintConfigs) => {
+      {config.hints.map((hintConfigs, i) => {
         const arr = Array.isArray(hintConfigs) ? hintConfigs : [hintConfigs];
 
         for (const { name, when, label } of arr) {
@@ -176,6 +179,7 @@ const SectionHintButtons = tracked(function SectionHintButtons(
           if (!when || when(state.responses || {}, state)) {
             return (
               <Button
+                className={cx(i === 0 && styles.firstHint)}
                 key={name}
                 color="yellow"
                 onClick={() =>

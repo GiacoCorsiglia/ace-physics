@@ -65,3 +65,36 @@
     transition-duration: 150ms;
   }
 }
+
+// Make the hint button wiggle on the active section after a few minutes.
+.activeSection {
+  .firstHint {
+    animation: {
+      delay: 60s * 3;
+      name: wiggle;
+      duration: 2300ms;
+      iteration-count: 1;
+    }
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  20% {
+    transform: rotate(7deg) translate(-0.25rem, 0);
+  }
+  40% {
+    transform: rotate(-7deg) translate(0.25rem, 0);
+  }
+  60% {
+    transform: rotate(14deg) translate(-0.25rem, 0);
+  }
+  80% {
+    transform: rotate(-3deg) translate(0.25rem, 0);
+  }
+  100% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+}
