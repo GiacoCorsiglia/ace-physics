@@ -345,8 +345,9 @@ describe("Section messages", () => {
     screen.getByText("Section 2: Body");
     // But no messages should be visible yet
     expect(screen.queryByText("Section 2: Message 1")).toBeNull();
-    // Click the next continue button.
-    fireEvent.click(screen.getByRole("button", { name: "Move on" }));
+    // Click the next continue button.  It should be labeled "Let’s check in"
+    // because this section has messages.
+    fireEvent.click(screen.getByRole("button", { name: "Let’s check in" }));
     // Now the message should be revealed!
     screen.getByText("Section 2: Message 1");
   });
