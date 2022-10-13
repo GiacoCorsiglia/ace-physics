@@ -229,3 +229,60 @@ export const useBodyScrollLock = (enabled: boolean = true) => {
     };
   }, [enabled]);
 };
+
+let emptyBackgroundColor: string | null = null;
+/**
+ * Creates a test element and temporarily adds it to the DOM to determine what
+ * `getComputedStyle(element).backgroundColor` will be when the element doesn't
+ * actually have a background color set.  In FireFox, at least, this turns out
+ * to be "rgba(0,0,0,0)".
+ */
+const getEmptyBackgroundColor = () => {
+  if (emptyBackgroundColor !== null) {
+    return emptyBackgroundColor;
+  }
+  const element = document.createElement("div");
+  // Have to add it to the DOM for `getComputedStyle` to be realistic.
+  document.body.appendChild(element);
+
+  const style = getComputedStyle(element);
+  // Cache the value.
+  emptyBackgroundColor = style.backgroundColor;
+  // Remove it from the DOM again.
+  element.remove();
+
+  return emptyBackgroundColor;
+};
+
+/**
+ * Walks up the DOM tree until it finds an element with a background color.
+ */
+export const useAncestorBackgroundColor = <
+  E extends Element = HTMLElement
+>() => {
+  const ref = useRef<E>(null);
+  const [backgroundColor, setBackgroundColor] = useState<string>("");
+
+  useEffect(() => {
+    if (!ref.current) {
+      console.error("useComputedBackgroundColor: ref not set");
+      return;
+    }
+
+    let element = ref.current.parentElement;
+    while (element) {
+      const color = getComputedStyle(element).backgroundColor;
+      if (
+        color &&
+        color !== "transparent" &&
+        color !== getEmptyBackgroundColor()
+      ) {
+        setBackgroundColor(color);
+        break;
+      }
+      element = element.parentElement;
+    }
+  }, []);
+
+  return [ref, backgroundColor] as const;
+};

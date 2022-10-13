@@ -18,7 +18,22 @@
 
   > .mathElement {
     pointer-events: auto;
-    background: rgba(colors.$neutral-100, 0.9);
+
+    // We want a background color that's slightly transparent, but the color is
+    // in a CSS variable so we can't modify it.
+    &::before {
+      content: "";
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: var(--plot-ancestor-background, #{colors.$neutral-100});
+      opacity: 0.85;
+      border-radius: 3px;
+      pointer-events: none;
+    }
   }
 }
 

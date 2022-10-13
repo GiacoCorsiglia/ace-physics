@@ -1,5 +1,10 @@
 import { M, MPropTypes } from "@/components";
-import { Html, range, useUniqueId } from "@/helpers/client";
+import {
+  Html,
+  range,
+  useAncestorBackgroundColor,
+  useUniqueId,
+} from "@/helpers/client";
 import { createContext, memo, useContext, useMemo } from "react";
 import styles from "./plots.module.scss";
 import {
@@ -116,6 +121,8 @@ export function Plot({
       ? height
       : _origin[1] * yScale;
 
+  const [ref, backgroundColor] = useAncestorBackgroundColor<SVGSVGElement>();
+
   const plot: PlotContext = useMemo(
     () => ({
       width,
@@ -166,6 +173,14 @@ export function Plot({
       height={plot.outerHeight}
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
+      ref={ref}
+      style={
+        backgroundColor
+          ? ({
+              "--plot-ancestor-background": backgroundColor,
+            } as React.CSSProperties)
+          : undefined
+      }
     >
       <PlotContext.Provider value={plot}>{children}</PlotContext.Provider>
     </svg>
