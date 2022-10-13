@@ -17,7 +17,16 @@
 
   &.hasIcon {
     display: flex;
-    align-items: center;
+
+    &.iconTop {
+      align-items: flex-start;
+    }
+    &.iconMiddle {
+      align-items: center;
+    }
+    &.iconBottom {
+      align-items: flex-end;
+    }
 
     > * + * {
       margin-left: spacing.$space-150;
