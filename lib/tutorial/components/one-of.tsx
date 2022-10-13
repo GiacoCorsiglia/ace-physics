@@ -3,6 +3,7 @@ import { OneOfConfig } from "../config";
 import {
   CommitAction,
   isMarkedVisible,
+  isVisibleInInstructorMode,
   nodeKey,
   revealedAt,
 } from "../section-logic";
@@ -33,7 +34,9 @@ export const OneOf = ({
   const visibleNodes = useTracked((state) =>
     Object.values(config.sections)
       .filter((node) =>
-        instructorMode?.showAllSections ? true : isMarkedVisible(state, node)
+        instructorMode?.showAllSections
+          ? isVisibleInInstructorMode(state, node)
+          : isMarkedVisible(state, node)
       )
       // This array was just created, so we can use the in-place sort.
       .sort(
