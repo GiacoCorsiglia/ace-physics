@@ -3,7 +3,6 @@ import {
   ChooseOne,
   Decimal,
   Guidance,
-  InstructorMessage,
   LabelsLeft,
   M,
   Prose,
@@ -357,22 +356,14 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         // Preserving this section for backwards compatibility.
         abNotNormalized: section({
           name: "abNotNormalized",
-          body: () => (
-            <>
-              <DeprecatedSectionMessage />
-              <CoefficientsNotNormalizedMessage />
-            </>
-          ),
+          isLegacy: true,
+          body: () => <CoefficientsNotNormalizedMessage />,
         }),
         // Preserving this section for backwards compatibility.
         abIncorrect: section({
           name: "abIncorrect",
-          body: () => (
-            <>
-              <DeprecatedSectionMessage />
-              <CoefficientsIncorrectMessage />
-            </>
-          ),
+          isLegacy: true,
+          body: () => <CoefficientsIncorrectMessage />,
         }),
       },
     }),
@@ -405,12 +396,6 @@ const abFeedback = (
     return "abIncorrect";
   }
 };
-
-const DeprecatedSectionMessage = () => (
-  <InstructorMessage>
-    Students won’t see this guidance here; it will be shown above instead.
-  </InstructorMessage>
-);
 
 const CoefficientsNotNormalizedMessage = () => (
   <Guidance.Disagree>
