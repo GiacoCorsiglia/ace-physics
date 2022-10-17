@@ -37,12 +37,17 @@ export default s.tutorial({
   },
   sections: {
     timeEvolutionInfiniteSquareWellPotentialIntro: s.section(),
-    groundStateSketch: s.section(),
+    groundStateGraph: s.section(),
     timeEvolvedGroundState: s.section(),
+    timeEvolvedGroundStateChoice: s.section(),
     timeEvolutionDescription: s.section(),
     probDensPlot: s.section(),
-    difTimePlot: s.section(),
+    difTimePlot: s.section({
+      messages: ["answer"],
+    }),
     wholeFunctionTimeDependencePlot: s.section(),
+    // Legacy sections.
+    groundStateSketch: s.section(),
 
     anEnergyEigenstateIntro: s.section(),
     simSetup: s.section(),
@@ -78,9 +83,18 @@ export default s.tutorial({
     connectSimWithCorrectDescription: s.section(),
   },
   responses: {
+    groundStateGraph: s.chooseOne(["psi1", "psi2", "psi2^2"]),
     timeEvolvedGroundState: s.string(),
+    groundStateTimeDependence: s.chooseOne([
+      "none",
+      "-E_1",
+      "+E_1",
+      "-E_n",
+      "+E_n",
+    ]),
     timeEvolutionDescription: s.string(),
     probDensRelationshipToProbAmp: s.string(),
+    probDensDependsOnTime: s.boolean(),
     exp3PiOver2: s.string(),
     difTimePlotAxisX: s.string(),
     difTimePlotAxisY: s.string(),

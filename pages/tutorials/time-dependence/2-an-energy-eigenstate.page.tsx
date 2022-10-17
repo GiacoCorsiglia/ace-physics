@@ -40,18 +40,12 @@ export default page(setup, ({ section, oneOf }) => ({
 
           <Prose>
             <p>
-              Play with the simulation for a couple of minutes.{" "}
-              <strong>Someone share your screen</strong>, and discuss with your
-              partners what each graph represents and the relationships between
-              each pair of graphs. Then continue with the rest of the questions.
+              <strong>Play with the simulation for a couple of minutes.</strong>{" "}
+              Consider what each graph represents as well as the relationships
+              between each pair of graphs.
             </p>
 
-            <p>
-              Feel free to revisit the simulation while answering these
-              questions. Don’t worry if you don’t get too far in this
-              Tutorial—it’s long, and the important part is to make sense of
-              what the sim is showing!
-            </p>
+            <p>Revisit the simulation while answering these questions.</p>
           </Prose>
         </>
       ),
@@ -336,7 +330,7 @@ export default page(setup, ({ section, oneOf }) => ({
             student="B"
             quote={
               <>
-                <M t="\psi_1" /> oscillates up and down like a standing wave..
+                <M t="\psi_1" /> oscillates up and down like a standing wave.
               </>
             }
             agreementModel={m.agreementStudentB}
@@ -406,6 +400,13 @@ export default page(setup, ({ section, oneOf }) => ({
           >
             disagree with Student B. <M t="\psi_1" /> <strong>rotates</strong>{" "}
             in the complex plane, it does not merely oscillate up and down.
+            {responses?.agreementStudentB?.selected !== "agree" && (
+              <p>
+                Look again at the sim and convince yourself that the upper-left
+                graph shows the wave function rotating in and out of your
+                screen, kind of like a jump rope!
+              </p>
+            )}
           </OurResponse>
 
           <OurResponse
