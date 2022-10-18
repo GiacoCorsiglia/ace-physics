@@ -353,21 +353,14 @@ $border-width: 2px;
   }
 
   .navProgressItemLink:hover & {
-    box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+    box-shadow: 0 2px 6px colors.alpha(colors.$neutral-900, 0.25);
     color: #{colors.$neutral-700}; // Don't change progress connector color.
   }
 }
 
 .navProgressItemLabel {
-  display: block;
-  position: absolute;
-  z-index: 1000;
-  top: 100%;
-  left: 0;
-  right: 0;
-  margin-top: spacing.$space-50;
-  margin-left: math.div(-1 * spacing.$space-1200, 2) + 1.5rem; // Centered.
-  width: spacing.$space-1200;
+  margin-top: spacing.$space-75;
+  max-width: spacing.$space-1200;
   padding: spacing.$space-50 spacing.$space-75;
 
   text-align: center;
@@ -375,33 +368,12 @@ $border-width: 2px;
   border-radius: borders.$radius-large;
   background: colors.$neutral-100;
   border: 1px solid colors.$neutral-700;
-  box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+  box-shadow: 0 2px 6px colors.alpha(colors.$neutral-900, 0.25);
 
   @include fonts.ui-small;
-
-  visibility: hidden;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(-2px);
-  transition: opacity, transform;
-  transition-duration: 200ms;
-  transition-timing-function: ease-in;
-
-  .navProgressItemLink:hover & {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-    transition-timing-function: ease-out;
-  }
 }
 
 .svgCaret {
-  pointer-events: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  bottom: 100%;
   fill: colors.$neutral-100;
   stroke: colors.$neutral-700;
 }

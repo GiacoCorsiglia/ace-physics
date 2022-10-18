@@ -1,8 +1,8 @@
 import { cx, Html, OptionalList, styled, useToggle } from "@/helpers/client";
 import { ThreeBarsIcon, XIcon } from "@primer/octicons-react";
 import Link from "next/link";
-import { Caret } from "./caret";
 import styles from "./header.module.scss";
+import { Tooltip, useTooltip } from "./tooltip";
 
 interface NavConfig {
   readonly title: Html;
@@ -158,25 +158,33 @@ const NavProgress = ({ items }: { items: OptionalList<NavItemWithStatus> }) => (
   </ol>
 );
 
-const NavProgressItem = ({ item }: { item: NavItemWithStatus }) => (
-  <li
-    className={cx(
-      styles.navProgressItem,
-      item.status === "complete" && styles.complete,
-      item.status === "active" && styles.active,
-      item.status === "incomplete" && styles.incomplete
-    )}
-  >
-    <Link href={item.link}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className={styles.navProgressItemLink}>
-        <span className={styles.navProgressItemIcon}>{item.icon}</span>
+const NavProgressItem = ({ item }: { item: NavItemWithStatus }) => {
+  const { triggerProps, tooltipProps } = useTooltip<HTMLAnchorElement>();
 
-        <span className={styles.navProgressItemLabel}>
-          <Caret className={styles.svgCaret} />
-          {item.label}
-        </span>
-      </a>
-    </Link>
-  </li>
-);
+  return (
+    <li
+      className={cx(
+        styles.navProgressItem,
+        item.status === "complete" && styles.complete,
+        item.status === "active" && styles.active,
+        item.status === "incomplete" && styles.incomplete
+      )}
+    >
+      <Link href={item.link}>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <a className={styles.navProgressItemLink} {...triggerProps}>
+          <span className={styles.navProgressItemIcon}>{item.icon}</span>
+
+          <Tooltip
+            {...tooltipProps}
+            contentClassName={styles.navProgressItemLabel}
+            caretClassName={styles.svgCaret}
+            alwaysVisiblyHidden
+          >
+            {item.label}
+          </Tooltip>
+        </a>
+      </Link>
+    </li>
+  );
+};

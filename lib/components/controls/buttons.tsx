@@ -1,8 +1,8 @@
-import { Caret } from "@/components/caret";
-import { cx, Html } from "@/helpers/client";
+import { combineRefs, cx, Html } from "@/helpers/client";
 import { LinkExternalIcon } from "@primer/octicons-react";
 import Link, { LinkProps } from "next/link";
 import { forwardRef } from "react";
+import { Tooltip, useTooltip } from "../tooltip";
 import styles from "./buttons.module.scss";
 import { useDisabled } from "./disabled";
 
@@ -36,6 +36,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) {
     props.disabled = useDisabled(props);
 
+    const { triggerRef, triggerProps, tooltipProps } =
+      useTooltip<HTMLButtonElement>(props.disabled && !!disabledExplanation);
+
+    Object.assign(props, triggerProps);
+
+    (props as any).ref = combineRefs(ref, triggerRef);
+
     const isExternalLink =
       !!link &&
       typeof link === "string" &&
@@ -48,16 +55,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       iconRight = iconRight ?? <LinkExternalIcon />;
     }
 
+    const colorClass = styles[color];
+
     const childrenWithIcons = (
       <>
         {iconLeft}
         {children}
         {iconRight}
         {props.disabled && disabledExplanation && (
-          <span className={styles.disabledExplanation}>
-            <Caret className={styles.svgCaret} />
+          <Tooltip
+            {...tooltipProps}
+            contentClassName={cx(styles.disabledExplanation, colorClass)}
+            caretClassName={styles.svgCaret}
+          >
             {disabledExplanation}
-          </span>
+          </Tooltip>
         )}
       </>
     );
@@ -69,14 +81,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       iconRight && styles.iconLast,
       size === "normal" && styles.normal,
       size === "small" && styles.small,
-      color === "green" && styles.green,
-      color === "blue" && styles.blue,
-      color === "yellow" && styles.yellow
+      colorClass
     );
 
     if (!link || props.disabled) {
       return (
-        <button {...props} type={props.type || "button"} ref={ref as any}>
+        <button {...props} type={props.type || "button"}>
           {childrenWithIcons}
         </button>
       );
@@ -87,7 +97,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           href={link as string}
           target={openNewTab ? "_blank" : undefined}
           rel={openNewTab ? "noreferrer noopener" : undefined}
-          ref={ref as any}
         >
           {childrenWithIcons}
         </a>
@@ -96,31 +105,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <Link href={link}>
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/anchor-has-content */}
-          <a {...(props as JSX.IntrinsicElements["a"])} ref={ref as any}>
-            {childrenWithIcons}
-          </a>
+          <a {...(props as JSX.IntrinsicElements["a"])}>{childrenWithIcons}</a>
         </Link>
       );
     }
   }
-);
-
-// Thanks, GitHub.
-// https://github.com/primer/components/blob/main/src/Caret.tsx
-
-const size = 8;
-const a = [-size, 0];
-const b = [0, size];
-const c = [size, 0];
-const triangle = `M${a}L${b}L${c}L${a}Z`;
-const line = `M${a}L${b}L${c}`;
-const caret = (
-  <svg width={size * 2} height={size * 2} className={styles.svgCaret}>
-    <g transform={`translate(${[size, size * 2]}) rotate(180)`}>
-      <path d={triangle} className={styles.svgTriangle} />
-      <path d={line} fill="none" className={styles.svgLine} />
-    </g>
-  </svg>
 );
 
 type LinkButtonProps = JSX.IntrinsicElements["button"];

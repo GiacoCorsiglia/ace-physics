@@ -63,107 +63,70 @@
   }
 }
 
-@mixin button($color) {
-  background: colors.shade($color, 500);
-  border-color: colors.shade($color, 600);
+@each $color-name in "green", "blue", "yellow" {
+  $color: colors.color($color-name);
 
   $shadow-color: colors.shade($color, 800);
-
-  box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.15),
-    0px 2px 7px colors.alpha($shadow-color, 0.18);
-
   $hover-shadow: 0px 2px 4px colors.alpha($shadow-color, 0.2),
     0px 3px 8px colors.alpha($shadow-color, 0.22);
 
-  &:hover {
-    background: colors.shade($color, 600);
-    border-color: colors.shade($color, 700);
-    box-shadow: $hover-shadow;
-  }
+  .button.#{$color-name} {
+    background: colors.shade($color, 500);
+    border-color: colors.shade($color, 600);
 
-  &:active {
-    background: colors.shade($color, 700);
-    border-color: colors.shade($color, 700);
-    box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.2),
-      0px 2px 8px colors.alpha($shadow-color, 0.22);
-  }
+    box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.15),
+      0 2px 7px colors.alpha($shadow-color, 0.18);
 
-  &:focus {
-    box-shadow:
+    &:hover {
+      background: colors.shade($color, 600);
+      border-color: colors.shade($color, 700);
+      box-shadow: $hover-shadow;
+    }
+
+    &:active {
+      background: colors.shade($color, 700);
+      border-color: colors.shade($color, 700);
+      box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.2),
+        0 2px 8px colors.alpha($shadow-color, 0.22);
+    }
+
+    &:focus {
+      box-shadow:
       // Thicker border:
-      0 0 0 2px colors.shade($color, 600),
-      0 1px 6px colors.alpha(colors.shade($color, 600), 0.3),
-      // Actual shadow:
-      $hover-shadow;
+        0 0 0 2px colors.shade($color, 600),
+        0 1px 6px colors.alpha(colors.shade($color, 600), 0.3),
+        // Actual shadow:
+        $hover-shadow;
+    }
+
+    &:disabled {
+      background: colors.shade($color, 300);
+      border-color: colors.shade($color, 400);
+      box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.1);
+    }
   }
 
-  &:disabled {
-    background: colors.shade($color, 300);
-    border-color: colors.shade($color, 400);
-    box-shadow: 0px 1px 4px colors.alpha($shadow-color, 0.1);
-  }
-
-  .disabledExplanation {
+  .disabledExplanation.#{$color-name} {
     background: colors.shade($color, 100);
     border: 1px solid colors.shade($color, 300);
-    box-shadow: 0px 2px 6px 1px colors.alpha($shadow-color, 0.1);
+    box-shadow: 0 2px 6px 1px colors.alpha($shadow-color, 0.1);
     color: colors.shade($color, 900);
-  }
 
-  .svgCaret {
-    fill: colors.shade($color, 100);
-    stroke: colors.shade($color, 300);
+    .svgCaret {
+      fill: colors.shade($color, 100);
+      stroke: colors.shade($color, 300);
+    }
   }
-}
-
-.green {
-  @include button(colors.$green);
-}
-.blue {
-  @include button(colors.$blue);
-}
-.yellow {
-  @include button(colors.$yellow);
 }
 
 .disabledExplanation {
-  @include fonts.ui-small;
-  position: absolute;
-  z-index: 1000;
-  top: calc(100% + #{spacing.$space-75});
-  width: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(3px);
-  margin: 0 auto;
+  margin-top: spacing.$space-75;
+  max-width: 10rem;
   padding: spacing.$space-75 spacing.$space-50;
   border-radius: borders.$radius;
 
-  visibility: hidden;
-  pointer-events: none;
-  opacity: 0;
-
-  transition: {
-    property: opacity, visibility, transform;
-    duration: 150ms;
-    timing-function: ease-in;
-  }
-
-  .button:hover &,
-  .button:focus & {
-    visibility: visible;
-    opacity: 1;
-    transition-timing-function: ease-out;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-.svgCaret {
-  pointer-events: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  bottom: 100%;
+  text-align: center;
+  @include fonts.ui-small;
 }
 
 .linkButton {

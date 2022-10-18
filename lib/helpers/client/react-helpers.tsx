@@ -40,7 +40,7 @@ export const isReactElement = (o: any): o is React.ReactElement =>
   !!o.props;
 
 export const combineRefs =
-  <T,>(...refs: React.Ref<T>[]): React.Ref<T> =>
+  <T,>(...refs: (React.Ref<T> | undefined)[]): React.Ref<T> =>
   (node: T | null): void => {
     // https://stackoverflow.com/questions/62238716/using-ref-current-in-react-forwardref
     refs.forEach((ref) => {

@@ -110,6 +110,18 @@ $red: (
   900: $red-900,
 );
 
+$colors: (
+  "neutral": $neutral,
+  "blue": $blue,
+  "green": $green,
+  "yellow": $yellow,
+  "red": $red,
+);
+
+@function color($color) {
+  @return map.get($colors, $color);
+}
+
 @function alpha($color, $alpha) {
   @return color.change($color, $alpha: $alpha);
 }
