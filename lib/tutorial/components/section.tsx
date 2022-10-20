@@ -103,9 +103,9 @@ export const Section = tracked(function Section(
   // not enumerated.  Neither is the first section, nor are sections without a
   // body (e.g., just messages).
   const enumerate =
-    config.enumerate === undefined
-      ? !first && config.when === undefined && hasBody && enumerateDefault
-      : config.enumerate;
+    !config.isLegacy &&
+    (config.enumerate ??
+      (enumerateDefault && !first && hasBody && config.when === undefined));
 
   return (
     <SectionBox
