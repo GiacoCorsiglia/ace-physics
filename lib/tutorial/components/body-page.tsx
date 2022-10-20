@@ -95,10 +95,8 @@ export const BodyPage = ({
                   {tutorialConfig.pretest ? "From now on, we" : "We"} encourage
                   you to{" "}
                   <strong>
-                    discuss all of your answers with your peers immediately
-                    before moving on
-                  </strong>{" "}
-                  (if you’re working with a group today).
+                    discuss all of your answers with your peers while you work.
+                  </strong>
                 </Callout>
                 <hr />
               </>
