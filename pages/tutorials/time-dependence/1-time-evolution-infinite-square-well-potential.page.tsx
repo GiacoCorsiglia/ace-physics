@@ -63,6 +63,30 @@ export default page(setup, ({ section }) => ({
           ]}
         />
       ),
+      guidance: {
+        nextMessage(r) {
+          if (r.groundStateGraph?.selected === "psi1") {
+            return "correct";
+          } else {
+            return "nodes";
+          }
+        },
+        messages: {
+          correct: {
+            body: <Guidance.Agree>Agreed!</Guidance.Agree>,
+            onContinue: "nextSection",
+          },
+          nodes: {
+            body: (
+              <Guidance.Disagree>
+                Careful—how many nodes should the ground state have? A node is a
+                point where the function hits the horizontal axis.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     section({
@@ -131,19 +155,100 @@ export default page(setup, ({ section }) => ({
           model={m.groundStateTimeDependence}
           label={
             <Prose>
-              Choose the expression that gives the time evolution of the ground
-              state.
+              Choose the expression that best matches the answer you just typed
+              in.
             </Prose>
           }
           choices={[
-            ["none", "The ground state does not evolve with time."],
-            ["-E_1", <M t="\psi_1(x,t) = e^{-iE_1t/\hbar}\psi_1(x)" />],
+            [
+              "no time dependence",
+              "The ground state does not evolve with time.",
+            ],
             ["+E_1", <M t="\psi_1(x,t) = e^{+iE_1t/\hbar}\psi_1(x)" />],
+            ["-E_1", <M t="\psi_1(x,t) = e^{-iE_1t/\hbar}\psi_1(x)" />],
+            ["+E_n", <M t="\psi_1(x,t) = e^{+iE_nt/\hbar}\psi_1(x)" />],
             ["-E_n", <M t="\psi_1(x,t) = e^{-iE_nt/\hbar}\psi_1(x)" />],
-            ["+E_n", <M t="\psi_1(x,t) = e^{+Et/\hbar}\psi_1(x)" />],
+            ["none", "None of these answers match mine."],
           ]}
         />
       ),
+      guidance: {
+        nextMessage(r) {
+          const choice = r.groundStateTimeDependence?.selected;
+          switch (choice) {
+            case "+E_n":
+            case "-E_n":
+              return "E_n";
+            case "+E_1":
+            case "-E_1":
+            case "no time dependence":
+            case "none":
+              return choice;
+            case undefined:
+              return "none";
+          }
+        },
+        messages: {
+          "no time dependence": {
+            body: (
+              <Guidance.Disagree>
+                <p>Consider these three statements:</p>
+
+                <blockquote>
+                  <strong>Student A:</strong> The ground state wave function
+                  does not evolve with time in any way. The{" "}
+                  <M t="\psi_1(x,t)" /> function doesn’t need a <M t="t" /> in
+                  it.
+                </blockquote>
+
+                <blockquote>
+                  <strong>Student B:</strong> The time-evolved ground state wave
+                  function has a complex exponential term out front, but this is
+                  just a global phase, so we can safely ignore it.
+                </blockquote>
+
+                <blockquote>
+                  <strong>Student C:</strong> The complex exponential will
+                  disappear when we square the wave function to find the
+                  probability density <M t="|\psi_1(x, t)|^2" />, but we still
+                  need to keep track of it when writing the wave function
+                  itself.
+                </blockquote>
+
+                <p>Decide who you agree with and check in again.</p>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          E_n: {
+            body: (
+              <Guidance.Disagree>
+                Which energy level corresponds with the ground state?
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "+E_1": {
+            body: (
+              <Guidance.Disagree>Double check your signs.</Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "-E_1": {
+            body: <Guidance.Agree>Looks good to us!</Guidance.Agree>,
+            onContinue: "nextSection",
+          },
+          none: {
+            body: (
+              <Guidance.HeadsUp>
+                We think one of our provided answers correctly expresses the
+                time evolution for the ground state.
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     section({
@@ -265,6 +370,50 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          if (r.probDensDependsOnTime === false) {
+            return "false";
+          } else {
+            return "true";
+          }
+        },
+        messages: {
+          true: {
+            body: (
+              <Guidance.Disagree>
+                Double check your answer using the expression for{" "}
+                <M t="\psi_1(x,t)" /> we found above:
+                <M
+                  display
+                  t="|\psi_1(x,t)|^2 = |e^{-iE_1t/\hbar}\psi_1(x)|^2"
+                />
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          false: {
+            body: (
+              <Guidance.Agree>
+                <p>
+                  Agreed! The probability density of an energy eigenstate does
+                  not change with time. That’s why we call them “stationary
+                  states”.
+                </p>
+
+                <p>
+                  The time evolution of a single energy eigenstate is a global
+                  phase (complex exponential factor) that disappears when
+                  calculating the probability density <M t="|\psi_1(x, t)|^2" />
+                  , but you should still write that global phase down like we
+                  did above! The rest of the tutorial explore this further.
+                </p>
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -272,7 +421,8 @@ export default page(setup, ({ section }) => ({
       body: (m, { responses }) => (
         <>
           <Prose>
-            Using <M t="e^{ix} = \cos x + i \sin x" /> or otherwise, determine
+            Using <M t="e^{ix} = \cos x + i \sin x" /> or another method,
+            determine
             <M t="e^{-i3\pi/2}" />.
           </Prose>
 
@@ -324,10 +474,41 @@ export default page(setup, ({ section }) => ({
         </>
       ),
       guidance: {
-        nextMessage() {
+        nextMessage(r, s) {
+          const exp3PiOver2 = r.exp3PiOver2?.trim() || "";
+          if (!/^\+?\s*i$/i.test(exp3PiOver2)) {
+            // Because this feedback is imperfect, we never show this message twice.
+            const alreadyPresented =
+              s.sections?.difTimePlot?.revealedMessages?.includes(
+                "exp(-i 3pi/ 2) feedback"
+              );
+            if (!alreadyPresented) {
+              return "exp(-i 3pi/ 2) feedback";
+            }
+          }
+
           return "answer";
         },
         messages: {
+          "exp(-i 3pi/ 2) feedback": {
+            body: (
+              <Guidance.Disagree>
+                <p>
+                  Double-check your answer, we got
+                  <M display t="e^{-i3\pi/2} = +i" />
+                  If you got something different, update your answer and
+                  reconsider your axis labels before checking in again.
+                </p>
+
+                <p>
+                  Note: it’s possible that your answer is equivalent to{" "}
+                  <M t="+i" /> but this software isn’t clever enough to realize!
+                  If so, just click ahead to check in on your axis labels.
+                </p>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
           answer: {
             body: (
               <Guidance.HeadsUp>
@@ -368,7 +549,11 @@ export default page(setup, ({ section }) => ({
             minRows={3}
           />
 
-          <Prose faded>
+          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
+            Break out some scrap paper to test your ideas!
+          </Callout>
+
+          <Prose>
             On the next page, we’ll explore one such representation.
           </Prose>
         </>

@@ -1,0 +1,18 @@
+@use "colors";
+@use "spacing";
+
+.table {
+  thead td {
+    background: hsl(0, 0, 90%);
+  }
+
+  tbody td {
+    background: colors.$neutral-50;
+  }
+}
+
+.timeHeader {
+  background: hsl(0, 0, 95%);
+  padding: spacing.$space-25 spacing.$space-50 !important;
+  font-weight: normal !important;
+}

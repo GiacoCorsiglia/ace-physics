@@ -74,6 +74,7 @@ export default page(setup, ({ section }) => ({
 
     section({
       name: "explainWhyGraphIncorrect",
+      isLegacy: true,
       body: (m) => (
         <>
           <Prose>

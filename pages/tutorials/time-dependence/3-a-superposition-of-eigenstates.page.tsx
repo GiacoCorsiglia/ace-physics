@@ -1,4 +1,5 @@
 import {
+  Callout,
   ControlGroup,
   Decimal,
   Dropdown,
@@ -6,17 +7,21 @@ import {
   Image,
   M,
   Prose,
+  Reminder,
   Table,
   TextBox,
   Toggle,
 } from "@/components";
-import { approxEquals, deepEqual } from "@/helpers/client";
+import { approxEquals, cx, deepEqual, Html } from "@/helpers/client";
+import { isSet } from "@/reactivity";
 import { page } from "@/tutorial";
-import { Fragment } from "react";
+import styles from "./3-a-superposition-of-eigenstates.page.module.scss";
+import aSuperpositionOfEigenstatesIntroImg from "./assets/a-superposition-of-eigenstates-intro.png";
 import tableGraph1 from "./assets/table-graph-1.png";
 import tableGraph2 from "./assets/table-graph-2.png";
 import tableGraph3 from "./assets/table-graph-3.png";
-import setup, { Responses } from "./setup";
+import xSliderHalfLImg from "./assets/x-slider-half-l.png";
+import setup, { ResponseModels, Responses } from "./setup";
 
 export default page(setup, ({ section, oneOf }) => ({
   name: "aSuperpositionOfEigenstates",
@@ -28,8 +33,13 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (
         <Prose>
           Set up the sim to consider the state
-          <M t="\psi_A = \frac{1}{\sqrt{2}} (\psi_1 + \psi_2)" />. Use the{" "}
-          <em>stop</em> and <em>step</em> controls as needed.
+          <M t="\psi_A = \frac{1}{\sqrt{2}} (\psi_1 + \psi_2)" />. Also, move
+          the slider to select the point <M t="x_0 = 0.25L" />. It should look
+          something like this:
+          <Image
+            src={aSuperpositionOfEigenstatesIntroImg}
+            alt="Screenshot of sim setup."
+          />
         </Prose>
       ),
     }),
@@ -94,153 +104,224 @@ export default page(setup, ({ section, oneOf }) => ({
             }
           />
 
-          <Prose faded>
-            You can set the slider to fix <M t="x=L/2" /> in the sim
-          </Prose>
+          <Callout color="yellow">
+            You can use the slider to fix <M t="x = L/2" /> in the sim:
+            <Image
+              src={xSliderHalfLImg}
+              alt="Screenshot of sim setup."
+              maxWidth="300px"
+            />
+          </Callout>
         </>
       ),
     }),
 
     section({
-      name: "table",
-      body: (m) => {
-        const table = m.table.properties;
-        const phaseChoices = [
-          ["pi/2", <M t="\pi/2" />],
-          ["pi", <M t="\pi" />],
-          ["0", <M t="0" />],
-          ["-pi/2", <M t="-\pi/2" />],
-        ] as const;
+      name: "tableTime0",
+      body: (m) => (
+        <>
+          <Prose>
+            <p>
+              The following table describes the state
+              <M t="\psi_A = \frac{1}{\sqrt{2}} ( \psi_1 + \psi_2 )" /> at time
+              <M t="t = 0" />.
+            </p>
 
-        const equationProbAmpChoices = [
-          ["iψ1 + ψ2", <M t="\frac{1}{\sqrt{2}}(i\psi_1 + \psi_2)" />],
-          ["ψ1 + ψ2", <M t="\frac{1}{\sqrt{2}}(\psi_1 + \psi_2)" />],
-          ["-ψ1 + ψ2", <M t="\frac{1}{\sqrt{2}}(-\psi_1 + \psi_2)" />],
-          ["-iψ1 + ψ2", <M t="\frac{1}{\sqrt{2}}(-i\psi_1 + \psi_2)" />],
-        ] as const;
+            <p>
+              <M t="\Delta" /> is the phase difference (rotation angle) between
+              <M t="\psi_1" /> and <M t="\psi_2" />:
+              <M
+                display
+                t="\Delta \equiv (\text{phase of } \psi_2) -  (\text{phase of } \psi_1)"
+              />
+              If you rotate <M t="\psi_1" /> by <M t="\Delta" />{" "}
+              <em>counterclockwise</em>, you should get to <M t="\psi_2" />.
+            </p>
+          </Prose>
 
-        const equationProbDensChoices = [
-          [
-            "ψ1^2 + ψ2^2 + ψ1ψ2",
-            <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 + 2\psi_1\psi_2)" />,
-          ],
-          [
-            "ψ1^2 + ψ2^2 - ψ1ψ2",
-            <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 - 2\psi_1\psi_2)" />,
-          ],
-          ["ψ1^2 + ψ2^2", <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2)" />],
-        ] as const;
+          <TimeEvolutionTable>
+            <TimeEvolutionTableRow
+              time="t = 0.000 h/E_1"
+              delta={<M t="0" />}
+              probAmp={<M t="\frac{1}{\sqrt{2}}(\psi_1 + \psi_2)" />}
+              probDens={
+                <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 + 2\psi_1\psi_2)" />
+              }
+              graphProbDens={<Image alt="" src={tableGraph1} />}
+            />
+          </TimeEvolutionTable>
 
-        const graphChoices = [
-          ["t025", <Image alt="" src={tableGraph2} />],
-          ["t050", <Image alt="" src={tableGraph3} />],
-          ["t000", <Image alt="" src={tableGraph1} />],
-        ] as const;
+          <TextBox
+            model={m.explainProbDensAtTime0}
+            label={
+              <Prose>
+                Reset the sim to <M t="t = 0" /> and confirm that the Sketch of
+                <M t="|\psi_A|^2" /> is correct for this time. Why is the
+                probability density larger on the left and smaller on the right
+                at this time?
+              </Prose>
+            }
+          />
+        </>
+      ),
+    }),
 
-        return (
-          <>
-            <Prose>
-              <p>
-                Use the simulation for state
-                <M t="\psi_A = \frac{1}{\sqrt{2}} ( \psi_1 + \psi_2 )" /> to
-                fill out the table below. Note that the <M t="\psi_n" /> are
-                real, so <M t="\psi_n^*(x) = \psi_n(x)" />.
-              </p>
+    section({
+      name: "tableTime25",
+      body: (m) => (
+        <>
+          <Prose>
+            <p>
+              Complete the table for <M t="t= 0.25 h/E_1" />.
+            </p>
 
-              <p>
-                <M t="\Delta" /> is the phase difference (rotation angle)
-                between
-                <M t="\psi_1" /> and <M t="\psi_2" />:
-                <M
-                  display
-                  t="\Delta \equiv (\text{phase of } \psi_2) -  (\text{phase of } \psi_1)"
-                />
-                If you rotate <M t="\psi_1" /> by <M t="\Delta" />{" "}
-                <em>counterclockwise</em>, you should get to <M t="\psi_2" />.
-              </p>
-            </Prose>
+            <p>
+              Note that the <M t="\psi_n" /> are real, so{" "}
+              <M t="\psi_n^*(x) = \psi_n(x)" />.
+            </p>
+          </Prose>
 
-            <Table className="text-small text-left" columns={[16, 25, 29, 30]}>
-              <thead
-                className="text-center"
-                style={{ background: "hsl(0, 0%, 90%)" }}
-              >
-                <tr>
-                  <th>
-                    <M t="\Delta" />
-                  </th>
+          <TimeEvolutionTable>
+            <EditableTimeEvolutionTableRow
+              time="t = 0.250 h/E_1"
+              models={m}
+              row="t025"
+            />
+          </TimeEvolutionTable>
 
-                  <th>
-                    Equation for <M t="\psi_A" />
-                  </th>
-
-                  <th>
-                    Equation for <M t="|\psi_A|^2" />
-                  </th>
-
-                  <th>
-                    Sketch of <M t="|\psi_A|^2" />
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {(["t000", "t025", "t050", "t075"] as const).map((row) => (
-                  <Fragment key={row}>
-                    <tr style={{ background: "hsl(0, 0%, 95%)" }}>
-                      <th
-                        colSpan={4}
-                        style={{
-                          padding: "0.25rem 0.5rem",
-                          fontWeight: "normal",
-                        }}
-                        className="text-left text-smaller text-faded"
-                      >
-                        At time <M t={`t = 0.${row.substring(2)}0\\ h / E_1`} />
-                        :
-                      </th>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        <Dropdown
-                          model={table[row].properties.phaseDifference}
-                          choices={phaseChoices}
-                        />
-                      </td>
-
-                      <td>
-                        <Dropdown
-                          model={table[row].properties.equationProbAmp}
-                          choices={equationProbAmpChoices}
-                        />
-                      </td>
-
-                      <td>
-                        <Dropdown
-                          model={table[row].properties.equationProbDens}
-                          choices={equationProbDensChoices}
-                        />
-                      </td>
-
-                      <td>
-                        <Dropdown
-                          model={table[row].properties.graphProbDens}
-                          choices={graphChoices}
-                        />
-                      </td>
-                    </tr>
-                  </Fragment>
-                ))}
-              </tbody>
-            </Table>
-          </>
-        );
+          <Reminder>
+            <M
+              display
+              t="\Delta \equiv (\text{phase of } \psi_2) -  (\text{phase of } \psi_1)"
+            />
+          </Reminder>
+        </>
+      ),
+      continue: {
+        allowed: (s, _, m) =>
+          isSet(m.table.properties.t025, s.responses?.table?.t025),
       },
     }),
 
     section({
+      name: "tableTime50",
+      body: (m) => (
+        <>
+          <Prose>
+            Now complete the table for <M t="t = 0.5 h/E_1" />.
+          </Prose>
+
+          <TimeEvolutionTable>
+            <EditableTimeEvolutionTableRow
+              time="t = 0.500 h/E_1"
+              models={m}
+              row="t050"
+            />
+          </TimeEvolutionTable>
+        </>
+      ),
+      continue: {
+        allowed: (s, _, m) =>
+          isSet(m.table.properties.t050, s.responses?.table?.t050),
+      },
+    }),
+
+    section({
+      name: "completeTable",
+      enumerate: false,
+      body: () => (
+        <>
+          <Prose>
+            Here is the complete table for four different times. You can use it
+            to check your answers above.
+          </Prose>
+
+          <TimeEvolutionTable>
+            <TimeEvolutionTableRow
+              time="t = 0.000 h/E_1"
+              delta={<M t="0" />}
+              probAmp={<M t="\frac{1}{\sqrt{2}}(\psi_1 + \psi_2)" />}
+              probDens={
+                <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 + 2\psi_1\psi_2)" />
+              }
+              graphProbDens={<Image alt="" src={tableGraph1} />}
+            />
+
+            <TimeEvolutionTableRow
+              time="t = 0.250 h/E_1"
+              delta={<M t="\pi / 2" />}
+              probAmp={<M t="\frac{1}{\sqrt{2}}(-i\psi_1 + \psi_2)" />}
+              probDens={<M t="\frac{1}{2}(\psi_1^2 + \psi_2^2)" />}
+              graphProbDens={<Image alt="" src={tableGraph2} />}
+            />
+
+            <TimeEvolutionTableRow
+              time="t = 0.500 h/E_1"
+              delta={<M t="\pi" />}
+              probAmp={<M t="\frac{1}{\sqrt{2}}(-\psi_1 + \psi_2)" />}
+              probDens={
+                <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 - 2\psi_1\psi_2)" />
+              }
+              graphProbDens={<Image alt="" src={tableGraph3} />}
+            />
+
+            <TimeEvolutionTableRow
+              time="t = 0.750 h/E_1"
+              delta={<M t="- \pi / 2" />}
+              probAmp={<M t="\frac{1}{\sqrt{2}}(i\psi_1 + \psi_2)" />}
+              probDens={<M t="\frac{1}{2}(\psi_1^2 + \psi_2^2)" />}
+              graphProbDens={<Image alt="" src={tableGraph2} />}
+            />
+          </TimeEvolutionTable>
+        </>
+      ),
+      continue: {
+        label: "Looks good",
+      },
+    }),
+
+    section({
+      name: "table",
+      isLegacy: true,
+      body: (m) => (
+        <>
+          <Prose>
+            <p>
+              Use the simulation for state
+              <M t="\psi_A = \frac{1}{\sqrt{2}} ( \psi_1 + \psi_2 )" /> to fill
+              out the table below.Note that the <M t="\psi_n" /> are real, so{" "}
+              <M t="\psi_n^*(x) = \psi_n(x)" />.
+            </p>
+
+            <p>
+              <M t="\Delta" /> is the phase difference (rotation angle) between
+              <M t="\psi_1" /> and <M t="\psi_2" />:
+              <M
+                display
+                t="\Delta \equiv (\text{phase of } \psi_2) -  (\text{phase of } \psi_1)"
+              />
+              If you rotate <M t="\psi_1" /> by <M t="\Delta" />{" "}
+              <em>counterclockwise</em>, you should get to <M t="\psi_2" />.
+            </p>
+          </Prose>
+
+          <TimeEvolutionTable>
+            {(["t000", "t025", "t050", "t075"] as const).map((row) => (
+              <EditableTimeEvolutionTableRow
+                key={row}
+                models={m}
+                row={row}
+                time={`t = 0.${row.substring(2)}0\\ h / E_1`}
+              />
+            ))}
+          </TimeEvolutionTable>
+        </>
+      ),
+    }),
+
+    section({
       name: "tableGuidance",
+      isLegacy: true,
       enumerate: false,
       body: (_, { responses }) => {
         const table = responses?.table || {};
@@ -352,8 +433,11 @@ export default page(setup, ({ section, oneOf }) => ({
         return (
           <>
             <Prose>
-              For the next few questions, we’re going to generalize your results
-              from the table.
+              Notice that in the table, the Sketch of <M t="|\psi_A|^2" /> is
+              sometimes symmetric about the center of the well (about{" "}
+              <M t="x = L/2" />
+              ), but sometimes it’s asymmetric. Let’s think about the pattern
+              here.
             </Prose>
 
             <Prose>
@@ -406,7 +490,7 @@ export default page(setup, ({ section, oneOf }) => ({
                 </p>
 
                 <p>
-                  Using the “Equation for <M t="|\psi_A|^2" />” column in your
+                  Using the “Equation for <M t="|\psi_A|^2" />” column in the
                   table, explain how this symmetry arises in the probability
                   density even though <M t="\psi_2" /> is antisymmetric.
                 </p>
@@ -443,9 +527,34 @@ export default page(setup, ({ section, oneOf }) => ({
           </Prose>
         </>
       ),
+      guidance: {
+        nextMessage: (r) =>
+          approxEquals(r.periodOfProbDens, 1 / 3)
+            ? "periodOfProbDensCorrect"
+            : "periodOfProbDensIncorrect",
+        messages: {
+          periodOfProbDensCorrect: {
+            body: (
+              <Guidance.Agree>
+                We agree! <M t="T_A = \frac{1}{3} \times \frac{h}{E_1}" />.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          periodOfProbDensIncorrect: {
+            body: (
+              <Guidance.Disagree>
+                Heads up: we got a different value for <M t="T_A" />.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     oneOf({
+      isLegacy: true,
       which: (r) =>
         approxEquals(r.periodOfProbDens, 1 / 3)
           ? "periodOfProbDensCorrect"
@@ -471,3 +580,141 @@ export default page(setup, ({ section, oneOf }) => ({
     }),
   ],
 }));
+
+const TimeEvolutionTable = ({ children }: { children?: Html }) => {
+  return (
+    <Table
+      className={cx(styles.table, "text-small text-left")}
+      columns={[16, 25, 29, 30]}
+    >
+      <thead className="text-center">
+        <tr>
+          <td>
+            <M t="\Delta" />
+          </td>
+
+          <td>
+            Equation for <M t="\psi_A" />
+          </td>
+
+          <td>
+            Equation for <M t="|\psi_A|^2" />
+          </td>
+
+          <td>
+            Sketch of <M t="|\psi_A|^2" />
+          </td>
+        </tr>
+      </thead>
+      <tbody>{children}</tbody>
+    </Table>
+  );
+};
+
+const TimeEvolutionTableRow = ({
+  time,
+  delta,
+  probAmp,
+  probDens,
+  graphProbDens,
+}: {
+  time: string;
+  delta: Html;
+  probAmp: Html;
+  probDens: Html;
+  graphProbDens: Html;
+}) => {
+  return (
+    <>
+      <tr>
+        <th
+          colSpan={4}
+          className={cx(styles.timeHeader, "text-left text-smaller text-faded")}
+        >
+          At time <M t={time} />:
+        </th>
+      </tr>
+
+      <tr>
+        <td>{delta}</td>
+
+        <td>{probAmp}</td>
+
+        <td>{probDens}</td>
+
+        <td>{graphProbDens}</td>
+      </tr>
+    </>
+  );
+};
+
+const EditableTimeEvolutionTableRow = ({
+  time,
+  models,
+  row,
+}: {
+  time: string;
+  models: ResponseModels;
+  row: keyof ResponseModels["table"]["properties"];
+}) => {
+  const rowProperties = models.table.properties[row].properties;
+
+  const phaseChoices = [
+    ["pi/2", <M t="\pi/2" />],
+    ["pi", <M t="\pi" />],
+    ["0", <M t="0" />],
+    ["-pi/2", <M t="-\pi/2" />],
+  ] as const;
+
+  const equationProbAmpChoices = [
+    ["iψ1 + ψ2", <M t="\frac{1}{\sqrt{2}}(i\psi_1 + \psi_2)" />],
+    ["ψ1 + ψ2", <M t="\frac{1}{\sqrt{2}}(\psi_1 + \psi_2)" />],
+    ["-ψ1 + ψ2", <M t="\frac{1}{\sqrt{2}}(-\psi_1 + \psi_2)" />],
+    ["-iψ1 + ψ2", <M t="\frac{1}{\sqrt{2}}(-i\psi_1 + \psi_2)" />],
+  ] as const;
+
+  const equationProbDensChoices = [
+    [
+      "ψ1^2 + ψ2^2 + ψ1ψ2",
+      <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 + 2\psi_1\psi_2)" />,
+    ],
+    [
+      "ψ1^2 + ψ2^2 - ψ1ψ2",
+      <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2 - 2\psi_1\psi_2)" />,
+    ],
+    ["ψ1^2 + ψ2^2", <M t="\frac{1}{2}(\psi_1^2 + \psi_2^2)" />],
+  ] as const;
+
+  const graphChoices = [
+    ["t025", <Image alt="" src={tableGraph2} />],
+    ["t050", <Image alt="" src={tableGraph3} />],
+    ["t000", <Image alt="" src={tableGraph1} />],
+  ] as const;
+
+  return (
+    <TimeEvolutionTableRow
+      time={time}
+      delta={
+        <Dropdown
+          model={rowProperties.phaseDifference}
+          choices={phaseChoices}
+        />
+      }
+      probAmp={
+        <Dropdown
+          model={rowProperties.equationProbAmp}
+          choices={equationProbAmpChoices}
+        />
+      }
+      probDens={
+        <Dropdown
+          model={rowProperties.equationProbDens}
+          choices={equationProbDensChoices}
+        />
+      }
+      graphProbDens={
+        <Dropdown model={rowProperties.graphProbDens} choices={graphChoices} />
+      }
+    />
+  );
+};

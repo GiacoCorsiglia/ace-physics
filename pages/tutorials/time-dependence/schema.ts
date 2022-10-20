@@ -37,13 +37,19 @@ export default s.tutorial({
   },
   sections: {
     timeEvolutionInfiniteSquareWellPotentialIntro: s.section(),
-    groundStateGraph: s.section(),
+    groundStateGraph: s.section({
+      messages: ["nodes", "correct"],
+    }),
     timeEvolvedGroundState: s.section(),
-    timeEvolvedGroundStateChoice: s.section(),
+    timeEvolvedGroundStateChoice: s.section({
+      messages: ["no time dependence", "none", "+E_1", "-E_1", "E_n"],
+    }),
     timeEvolutionDescription: s.section(),
-    probDensPlot: s.section(),
+    probDensPlot: s.section({
+      messages: ["true", "false"],
+    }),
     difTimePlot: s.section({
-      messages: ["answer"],
+      messages: ["exp(-i 3pi/ 2) feedback", "answer"],
     }),
     wholeFunctionTimeDependencePlot: s.section(),
     // Legacy sections.
@@ -53,29 +59,46 @@ export default s.tutorial({
     simSetup: s.section(),
     prevGraphComparison: s.section(),
     simGraphComparison: s.section(),
-    rotationPeriods: s.section(),
+    rotationPeriods: s.section({
+      messages: [
+        "rotationPeriodsOffByFactor",
+        "rotationPeriodsIncorrect",
+        "rotationPeriodsCorrect",
+        "rotationPeriodsClose",
+      ],
+    }),
+    comparePeriodicPsi2: s.section({
+      messages: ["comparePeriodicPsi2Correct", "comparePeriodicPsi2Incorrect"],
+    }),
+    verifyRotationPeriod2: s.section(),
+    studentStatementsOnTimeEvolution: s.section(),
+    studentStatementsOnTimeEvolutionGuidance: s.section(),
+    // Legacy.
     rotationPeriodsCorrect: s.section(),
     rotationPeriodsClose: s.section(),
     rotationPeriodsOffByFactor: s.section(),
     rotationPeriodsIncorrect: s.section(),
-    comparePeriodicPsi2: s.section(),
     comparePeriodicPsi2Correct: s.section(),
     comparePeriodicPsi2Incorrect: s.section(),
-    verifyRotationPeriod2: s.section(),
-    studentStatementsOnTimeEvolution: s.section(),
-    studentStatementsOnTimeEvolutionGuidance: s.section(),
 
     aSuperpositionOfEigenstatesIntro: s.section(),
     meaningOfRedLineInSim: s.section(),
     explainTimeDependenceOfProbDens: s.section(),
     behaviorOfProbDensAtMidpoint: s.section(),
-    table: s.section(),
-    tableGuidance: s.section(),
+    tableTime0: s.section(),
+    tableTime25: s.section(),
+    tableTime50: s.section(),
+    completeTable: s.section(),
     symmetry: s.section(),
     explainSymmetryWhenPerp: s.section(),
-    periodOfProbDens: s.section(),
+    periodOfProbDens: s.section({
+      messages: ["periodOfProbDensCorrect", "periodOfProbDensIncorrect"],
+    }),
+    // Legacy.
     periodOfProbDensCorrect: s.section(),
     periodOfProbDensIncorrect: s.section(),
+    table: s.section(),
+    tableGuidance: s.section(),
 
     timeEvolutionIntro: s.section(),
     incorrectStatementsWrapUp: s.section(),
@@ -87,6 +110,7 @@ export default s.tutorial({
     timeEvolvedGroundState: s.string(),
     groundStateTimeDependence: s.chooseOne([
       "none",
+      "no time dependence",
       "-E_1",
       "+E_1",
       "-E_n",
@@ -106,7 +130,7 @@ export default s.tutorial({
     rotationPeriod2: s.number(),
     comparePeriodicPsi2: s.chooseOne(["same", "different"]),
     comparePeriodicPsi2Difference: s.string(),
-    verifyRotationPeriod2: s.string(),
+    verifyRotationPeriod2: s.string(), // Legacy.
     agreementStudentA: s.chooseOne(["agree", "disagree"]),
     explainStudentA: s.string(),
     agreementStudentB: s.chooseOne(["agree", "disagree"]),
@@ -119,6 +143,7 @@ export default s.tutorial({
     meaningOfRedLineInSim: s.string(),
     explainTimeDependenceOfProbDens: s.string(),
     behaviorOfProbDensAtMidpoint: s.string(),
+    explainProbDensAtTime0: s.string(),
     table: s.object({
       t000: TableRow,
       t025: TableRow,
@@ -137,5 +162,6 @@ export default s.tutorial({
   },
   hints: {
     // Hints here.
+    verifyRotationPeriod2: s.hint(),
   },
 });

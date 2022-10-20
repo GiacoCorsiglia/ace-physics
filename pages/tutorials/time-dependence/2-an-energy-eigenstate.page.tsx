@@ -1,8 +1,10 @@
 import {
   Button,
+  Callout,
   ControlGroup,
   Decimal,
   Guidance,
+  Image,
   Justify,
   M,
   Prose,
@@ -11,9 +13,11 @@ import {
 } from "@/components";
 import { approxEquals, Html } from "@/helpers/client";
 import { page } from "@/tutorial";
+import { PencilIcon } from "@primer/octicons-react";
+import simSetupImg from "./assets/sim-setup.png";
 import setup, { ResponseModels, Responses } from "./setup";
 
-export default page(setup, ({ section, oneOf }) => ({
+export default page(setup, ({ section, oneOf, hint }) => ({
   name: "anEnergyEigenstate",
   label: "An Energy Eigenstate",
   answers: "checked-some",
@@ -53,13 +57,12 @@ export default page(setup, ({ section, oneOf }) => ({
 
     section({
       name: "simSetup",
-      body: (m) => (
-        <>
-          <Prose>
-            Set up the sim to consider (1st) the ground state. Use the bottom
-            left stop and step controls as needed.
-          </Prose>
-        </>
+      body: () => (
+        <Prose>
+          Set up the sim to consider the ground state. It should look something
+          like this:
+          <Image src={simSetupImg} alt="Screenshot of sim setup." />
+        </Prose>
       ),
     }),
 
@@ -71,19 +74,17 @@ export default page(setup, ({ section, oneOf }) => ({
             model={m.prevGraphComparison}
             label={
               <Prose>
-                <p>
-                  Explain how the top right graph in the simulation relates to
-                  your graph of the time evolution of
-                  <M t="\psi_1(x=L/2,t)" /> (question C on the previous page).
-                </p>
-
-                <p>
-                  Improve your graph if needed; in particular consider the sense
-                  of rotation.
-                </p>
+                Explain how the top right graph in the simulation relates to
+                your graph of the time evolution of
+                <M t="\psi_1(x=L/2,t)" /> from question D on the previous page.
               </Prose>
             }
           />
+
+          <Prose>
+            Improve your graph if needed; in particular consider the sense of
+            rotation.
+          </Prose>
         </>
       ),
     }),
@@ -149,38 +150,56 @@ export default page(setup, ({ section, oneOf }) => ({
           </Prose>
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          return rotationPeriodGuidance(r.rotationPeriod1, r.rotationPeriod2);
+        },
+        messages: {
+          rotationPeriodsOffByFactor: {
+            body: (
+              <Guidance.Disagree>
+                You’re close, but at least one of your values is off by a factor
+                of 2 or 4.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          rotationPeriodsIncorrect: {
+            body: (
+              <Guidance.Disagree>
+                Heads up—at least one of your values is mistaken.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          rotationPeriodsCorrect: {
+            body: (
+              <Guidance.Agree>
+                Nice—we agree with those values for <M t="T_1" /> and{" "}
+                <M t="T_2" />.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+
+          rotationPeriodsClose: {
+            body: (
+              <Guidance.Disagree>
+                You’re close, but at least one of your values is slightly off.
+                Make sure you use the time step arrows and both of the upper
+                plots to identify the exact periods.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     oneOf({
-      which: (r) => {
-        const t1Correct = 1;
-        const t2Correct = 0.25;
-        const t1 = r.rotationPeriod1;
-        const t2 = r.rotationPeriod2;
-
-        if (
-          t1 === 0.25 * t1Correct ||
-          t1 === 2 * t1Correct ||
-          t1 === 4 * t1Correct ||
-          t2 === 0.25 * t2Correct ||
-          t2 === 0.5 * t2Correct ||
-          t2 === 2 * t2Correct ||
-          t2 === 4 * t2Correct
-        ) {
-          return "rotationPeriodsOffByFactor";
-        } else if (
-          !approxEquals(t1, t1Correct) ||
-          !approxEquals(t2, t2Correct)
-        ) {
-          return "rotationPeriodsIncorrect";
-        } else if (t1 === t1Correct && t2 === t2Correct) {
-          return "rotationPeriodsCorrect";
-        } else if (approxEquals(t1, t1Correct) || approxEquals(t2, t2Correct)) {
-          return "rotationPeriodsClose";
-        }
-
-        return null;
-      },
+      isLegacy: true,
+      which: (r) =>
+        rotationPeriodGuidance(r.rotationPeriod1, r.rotationPeriod2),
       sections: {
         rotationPeriodsCorrect: section({
           name: "rotationPeriodsCorrect",
@@ -248,9 +267,32 @@ export default page(setup, ({ section, oneOf }) => ({
           )}
         </>
       ),
+      guidance: {
+        nextMessage: (r) =>
+          r.comparePeriodicPsi2?.selected === "same"
+            ? "comparePeriodicPsi2Correct"
+            : "comparePeriodicPsi2Incorrect",
+        messages: {
+          comparePeriodicPsi2Correct: {
+            body: <Guidance.Agree>They look identical to us!</Guidance.Agree>,
+            onContinue: "nextSection",
+          },
+          comparePeriodicPsi2Incorrect: {
+            body: (
+              <Guidance.HeadsUp>
+                This software can’t analyze what you’ve written, but the two
+                graphs look identical to us! We’re using{" "}
+                <M t="T_2 = 0.25 h/E_1" />.
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     oneOf({
+      isLegacy: true,
       which: (r) =>
         r.comparePeriodicPsi2?.selected === "same"
           ? "comparePeriodicPsi2Correct"
@@ -275,25 +317,34 @@ export default page(setup, ({ section, oneOf }) => ({
 
     section({
       name: "verifyRotationPeriod2",
-      body: (m) => (
+      body: () => (
         <>
-          <TextBox
-            model={m.verifyRotationPeriod2}
-            label={
-              <Prose>
-                Mathematically, the period is the time <M t="T" /> for which
-                <M t="\psi(x,0) = \psi(x,T)" />. Use the value you found
-                previously for <M t="T_2" /> to verify this equation for{" "}
-                <M t="\psi_2" />.
-              </Prose>
-            }
-          />
+          <Prose>
+            Mathematically, the period is the time <M t="T" /> for which
+            <M t="\psi(x,0) = \psi(x,T)" />. Use the value you found for{" "}
+            <M t="T_2" /> above to verify this equation for <M t="\psi_2" />.
+          </Prose>
 
-          <Prose faded>
+          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
+            Do this on scrap paper.
+          </Callout>
+
+          <Prose>
             Recall that <M t="E_n = n^2 E_1" /> and <M t="\hbar = h/2 \pi" /> .
           </Prose>
         </>
       ),
+      hints: [
+        hint({
+          name: "verifyRotationPeriod2",
+          body: (
+            <>
+              In other words, check that
+              <M display t={`\\psi_2(x,0) = \\psi_2(x, 0.25 h/E_1)`} />
+            </>
+          ),
+        }),
+      ],
     }),
 
     section({
@@ -365,6 +416,7 @@ export default page(setup, ({ section, oneOf }) => ({
         </>
       ),
       continue: {
+        label: "Let’s check in",
         allowed: ({ responses }) => {
           const allowedA =
             responses?.agreementStudentA?.selected === "agree" ||
@@ -431,6 +483,34 @@ export default page(setup, ({ section, oneOf }) => ({
     }),
   ],
 }));
+
+const rotationPeriodGuidance = (
+  t1: number | undefined,
+  t2: number | undefined
+) => {
+  const t1Correct = 1;
+  const t2Correct = 0.25;
+
+  if (
+    t1 === 0.25 * t1Correct ||
+    t1 === 2 * t1Correct ||
+    t1 === 4 * t1Correct ||
+    t2 === 0.25 * t2Correct ||
+    t2 === 0.5 * t2Correct ||
+    t2 === 2 * t2Correct ||
+    t2 === 4 * t2Correct
+  ) {
+    return "rotationPeriodsOffByFactor";
+  } else if (!approxEquals(t1, t1Correct) || !approxEquals(t2, t2Correct)) {
+    return "rotationPeriodsIncorrect";
+  } else if (t1 === t1Correct && t2 === t2Correct) {
+    return "rotationPeriodsCorrect";
+  } else if (approxEquals(t1, t1Correct) || approxEquals(t2, t2Correct)) {
+    return "rotationPeriodsClose";
+  }
+
+  return null;
+};
 
 const Agreement = ({
   student,
