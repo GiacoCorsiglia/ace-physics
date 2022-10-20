@@ -146,7 +146,7 @@ export const Tooltip = ({
   }, [isVisible, triggerRef]);
 
   if (alwaysVisiblyHidden && !isVisible) {
-    return <VisiblyHidden>{props.children}</VisiblyHidden>;
+    return <VisiblyHidden as="span">{props.children}</VisiblyHidden>;
   }
 
   if (!tooltipPortalElement || !isVisible) {
