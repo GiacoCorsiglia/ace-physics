@@ -11,7 +11,7 @@ import {
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
-  CheckCircleFillIcon,
+  CheckCircleIcon,
 } from "@primer/octicons-react";
 import * as fs from "fs";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -57,8 +57,8 @@ export default function FinishedPage() {
       <MainContentBox>
         <Prose justify="center">
           <p>
-            <CheckCircleFillIcon
-              size="medium"
+            <CheckCircleIcon
+              size="large"
               verticalAlign="middle"
               className="text-green"
             />
@@ -66,10 +66,9 @@ export default function FinishedPage() {
 
           <p>Nice job, and thanks for the feedback!</p>
 
-          <p>
-            Come back to see or update your work anytime (even if you close this
-            window).
-          </p>
+          <p>Come back to see or update your work anytime.</p>
+
+          <p>You can safely close this window.</p>
         </Prose>
 
         <Vertical.Space before={200}>
