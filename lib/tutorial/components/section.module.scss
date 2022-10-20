@@ -1,20 +1,53 @@
-@use "spacing";
 @use "colors";
+@use "borders";
+@use "fonts";
+@use "spacing";
 
-.previewNoticeVisible,
-.previewNoticeHidden {
+// Visiblity symobls.
+
+.sectionVisibilitySymbol {
   grid-column: full-start / full-end;
   position: absolute;
   top: spacing.$space-100;
   right: spacing.$space-100;
 }
 
-.previewNoticeHidden {
-  color: colors.$red-600;
+.guidanceMessageVisibilitySymbol {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) translateX(-50%);
 }
 
-.previewNoticeVisible {
+.hiddenIcon {
+  color: colors.$red-600;
+}
+.visibleIcon {
   color: colors.$green-600;
+}
+
+.guidanceMessageContainer {
+  position: relative;
+}
+
+.visibilityTooltip {
+  margin: spacing.$space-75 0;
+  max-width: spacing.$space-1200;
+  padding: spacing.$space-50 spacing.$space-75;
+
+  text-align: center;
+  color: colors.$neutral-700;
+  border-radius: borders.$radius-large;
+  background: colors.$neutral-100;
+  border: 1px solid colors.$neutral-700;
+  box-shadow: 0 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+
+  @include fonts.ui-small;
+}
+
+.svgCaret {
+  fill: colors.$neutral-100;
+  stroke: colors.$neutral-700;
 }
 
 .hintsVertical:not(:empty) {
