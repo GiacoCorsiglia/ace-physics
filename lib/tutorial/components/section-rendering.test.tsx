@@ -175,7 +175,7 @@ describe("Section continue button", () => {
     const context: Context = {};
     render(<SectionsInContext sections={sections} context={context} />);
     // First it's disabled.
-    expect(screen.queryByRole("button", { name: "Move on" })).toBeNull();
+    expect(screen.queryByRole("button", { name: /Move on/ })).toBeDisabled();
     // But it's still present.
     screen.getByText("Move on");
     // Update the state.
