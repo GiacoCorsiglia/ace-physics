@@ -228,7 +228,11 @@ export interface SectionConfig<
      * @param allowed The original determination of whether the button should be
      * enabled based on the default logic.
      */
-    readonly allowed?: (state: TutorialState<S>, allowed: boolean) => boolean;
+    readonly allowed?: (
+      state: TutorialState<S>,
+      allowed: boolean,
+      models: Models<S>["responses"]["properties"]
+    ) => boolean;
     /**
      * Conditional logic dictating when the continue button should be visible.
      * By default, it is always visible (even if it is disabled).

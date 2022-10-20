@@ -81,7 +81,7 @@ export const Section = tracked(function Section(
   );
   const continueAllowed = config.continue?.allowed;
   const isContinueAllowed = continueAllowed
-    ? continueAllowed(state, isComplete)
+    ? continueAllowed(state, isComplete, models)
     : isComplete;
 
   // Should the move on button even be rendered?
