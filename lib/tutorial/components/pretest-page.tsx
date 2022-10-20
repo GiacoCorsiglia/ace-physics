@@ -89,7 +89,7 @@ export const PretestPage = ({
 
         <Prose boldColor="blue">
           <p>
-            <strong>Don‘t spend more than 5 minutes</strong> on this page.
+            <strong>Don’t spend more than 5 minutes</strong> on this page.
           </p>
 
           <p>
