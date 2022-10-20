@@ -73,12 +73,10 @@ export const PretestPage = ({
           <h1>Before You Start</h1>
 
           <p>
-            Here are some quick warm-up questions.{" "}
-            <strong>
-              If you don’t know all the answers, that’s totally OK.
-            </strong>{" "}
-            Actually, we expect you may not. Today's tutorial will talk about a
-            lot of these concepts!
+            Here are some warm-up questions.{" "}
+            <strong>It’s OK if you don’t know the answers.</strong> We expect
+            you may not. Today's tutorial will talk about a lot of these
+            concepts!
           </p>
         </Prose>
 
@@ -88,16 +86,8 @@ export const PretestPage = ({
         </Callout>
 
         <Prose boldColor="blue">
-          <p>
-            <strong>Don’t spend more than 5 minutes</strong> on this page.
-          </p>
-
-          <p>
-            <strong>Just do your best!</strong> Answer every question with your
-            best guess, and then move on to the tutorial.
-          </p>
-
-          <p>Thanks :)</p>
+          <strong>Don’t spend more than 5 minutes</strong> on this page. Answer
+          every question with your best guess, and then move on to the tutorial.
         </Prose>
       </SectionBox>
 
