@@ -50,8 +50,12 @@ export default function SignOut() {
             </Prose>
 
             <div>
-              <Button color="green" link="/auth/signin">
-                Sign in <ArrowRightIcon />
+              <Button
+                color="green"
+                link="/auth/signin"
+                iconRight={<ArrowRightIcon />}
+              >
+                Sign in
               </Button>
             </div>
           </>

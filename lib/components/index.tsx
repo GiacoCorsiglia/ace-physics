@@ -5,6 +5,7 @@ export * from "./callouts";
 export * from "./controls";
 export * from "./header";
 export * from "./image";
+export * from "./instructor-message";
 export * from "./layout";
 export * from "./link-card";
 export * from "./loading";

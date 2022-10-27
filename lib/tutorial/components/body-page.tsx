@@ -95,10 +95,8 @@ export const BodyPage = ({
                   {tutorialConfig.pretest ? "From now on, we" : "We"} encourage
                   you to{" "}
                   <strong>
-                    discuss all of your answers with your peers immediately
-                    before moving on
-                  </strong>{" "}
-                  (if you’re working with a group today).
+                    discuss all of your answers with your peers while you work.
+                  </strong>
                 </Callout>
                 <hr />
               </>
@@ -215,8 +213,8 @@ function ContinueToNextPage({
         showWhenComplete
       ) : (
         <Justify end>
-          <Button color="green" link={fullLink}>
-            Move on to the next page <ArrowRightIcon />
+          <Button color="green" link={fullLink} iconRight={<ArrowRightIcon />}>
+            Move on to the next page
           </Button>
         </Justify>
       )}
@@ -307,9 +305,9 @@ const RevealAnswersSection = ({
                 onClick={() => {
                   complete();
                 }}
+                iconRight={<ArrowDownIcon />}
               >
                 Move on
-                <ArrowDownIcon />
               </Button>
             </Justify>
           )}

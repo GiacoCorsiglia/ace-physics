@@ -198,6 +198,13 @@ export interface SectionConfig<
    */
   readonly when?: When<S>;
   /**
+   * Indicates that the section is only preserved for historical reasons.  The
+   * section will never be shown (including in instructor mode) unless it was
+   * already marked as visible in the tutorial state.  This might happen if a
+   * student did the tutorial *before* the `isLegacy` was set to `true`.
+   */
+  readonly isLegacy?: boolean;
+  /**
    * Controls the numbered/lettered label for the section.
    */
   readonly enumerate?: boolean;
@@ -221,7 +228,11 @@ export interface SectionConfig<
      * @param allowed The original determination of whether the button should be
      * enabled based on the default logic.
      */
-    readonly allowed?: (state: TutorialState<S>, allowed: boolean) => boolean;
+    readonly allowed?: (
+      state: TutorialState<S>,
+      allowed: boolean,
+      models: Models<S>["responses"]["properties"]
+    ) => boolean;
     /**
      * Conditional logic dictating when the continue button should be visible.
      * By default, it is always visible (even if it is disabled).
@@ -296,6 +307,12 @@ export interface SequenceConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly when?: When<S>;
   /**
+   * Indicates that the sequence is only preserved for historical reasons.  The
+   * oneOf will never be shown (including in instructor mode) unless any
+   * descendent section was already marked as visible in the tutorial state.
+   */
+  readonly isLegacy?: boolean;
+  /**
    * The sections inside this sequence.
    */
   readonly sections: readonly NodeConfig<S>[];
@@ -317,6 +334,12 @@ export interface OneOfConfig<
    * Conditional logic dictating when the oneOf should be revealed.
    */
   readonly when?: When<S>;
+  /**
+   * Indicates that the oneOf is only preserved for historical reasons.  The
+   * oneOf will never be shown (including in instructor mode) unless any
+   * descendent section was already marked as visible in the tutorial state.
+   */
+  readonly isLegacy?: boolean;
   /**
    * Logic Determining which of the nested sections should be revealed.  Return
    * `null` to skip this group of sections entirely.

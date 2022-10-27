@@ -1,4 +1,5 @@
 import { useIsomorphicLayoutEffect } from "@/helpers/client";
+import { pathToString } from "./path";
 import { Store } from "./store";
 
 // https://medium.com/@zalmoxis/redux-devtools-without-redux-or-how-to-have-a-predictable-state-with-any-architecture-61c5f5a7716f
@@ -33,7 +34,7 @@ export const useDevTools = (store: Store<any>, displayName: string) => {
         }
 
         const updateStr = updates
-          .map(([path]) => (path.length === 0 ? "[]" : path.join("/")))
+          .map(([path]) => (path.length === 0 ? "[]" : pathToString(path)))
           .join(", ");
         const actionName = updates.length === 1 ? updateStr : `[${updateStr}]`;
 
@@ -42,7 +43,7 @@ export const useDevTools = (store: Store<any>, displayName: string) => {
             type: actionName,
             updateCount: updates.length,
             updates: updates.map(([path, value]) => ({
-              path: path.join("/"),
+              path: pathToString(path),
               value,
             })),
           },

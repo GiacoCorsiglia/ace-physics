@@ -240,8 +240,9 @@ export default page(setup, ({ section }) => ({
                 onClick={() => setAddMorePoints(true)}
                 color="blue"
                 disabled={addMorePoints}
+                iconRight={<ArrowUpIcon />}
               >
-                Add even more points <ArrowUpIcon />
+                Add even more points
               </Button>
             </Justify>
 
@@ -254,8 +255,9 @@ export default page(setup, ({ section }) => ({
                     onClick={() => setSmooth(true)}
                     color="blue"
                     disabled={smooth}
+                    iconRight={<ArrowUpIcon />}
                   >
-                    Replace the points with a continuous curve <ArrowUpIcon />
+                    Replace the points with a continuous curve
                   </Button>
                 </Justify>
               </>

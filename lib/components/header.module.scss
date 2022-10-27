@@ -26,7 +26,7 @@ $header-height: 2rem;
   z-index: 10000;
   height: $header-height;
   background: colors.$neutral-100;
-  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.05);
+  box-shadow: 0 1px 3px colors.alpha(colors.$neutral-900, 0.05);
   border-bottom: 1px solid colors.$neutral-300;
 }
 
@@ -74,14 +74,14 @@ $header-height: 2rem;
   &:hover {
     color: colors.$neutral-500;
     border-color: colors.$neutral-400;
-    box-shadow: 0px 2px 4px colors.alpha(colors.$neutral-900, 0.1);
+    box-shadow: 0 2px 4px colors.alpha(colors.$neutral-900, 0.1);
   }
 
   &:focus {
     color: colors.$neutral-500;
     border-color: colors.$blue-500;
     box-shadow: 0 0 0 1px colors.$blue-500,
-      0px 2px 4px colors.alpha(colors.$neutral-900, 0.1);
+      0 2px 4px colors.alpha(colors.$neutral-900, 0.1);
   }
 
   svg {
@@ -133,7 +133,7 @@ $header-height: 2rem;
   border-width: 0 1px 1px 1px;
   border-bottom-left-radius: borders.$radius;
   background: colors.$neutral-100;
-  box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.15);
+  box-shadow: 0 1px 4px colors.alpha(colors.$neutral-900, 0.15);
   color: colors.$neutral-800;
   @include fonts.ui;
 
@@ -179,7 +179,7 @@ $header-height: 2rem;
   border-width: 0 1px 0 0;
   border-style: solid;
   border-color: colors.$neutral-300;
-  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.15);
+  box-shadow: 0 1px 3px colors.alpha(colors.$neutral-900, 0.15);
 
   @include fonts.small;
 
@@ -341,33 +341,26 @@ $border-width: 2px;
   transition-duration: 200ms;
 
   .complete & {
-    box-shadow: 0px 1px 4px colors.alpha(colors.$green-900, 0.05);
+    box-shadow: 0 1px 4px colors.alpha(colors.$green-900, 0.05);
   }
 
   .active & {
-    box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05);
+    box-shadow: 0 1px 4px colors.alpha(colors.$neutral-900, 0.05);
   }
 
   .incomplete & {
-    box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.05);
+    box-shadow: 0 1px 3px colors.alpha(colors.$neutral-900, 0.05);
   }
 
   .navProgressItemLink:hover & {
-    box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+    box-shadow: 0 2px 6px colors.alpha(colors.$neutral-900, 0.25);
     color: #{colors.$neutral-700}; // Don't change progress connector color.
   }
 }
 
 .navProgressItemLabel {
-  display: block;
-  position: absolute;
-  z-index: 1000;
-  top: 100%;
-  left: 0;
-  right: 0;
-  margin-top: spacing.$space-50;
-  margin-left: math.div(-1 * spacing.$space-1200, 2) + 1.5rem; // Centered.
-  width: spacing.$space-1200;
+  margin: spacing.$space-75 0;
+  max-width: spacing.$space-1200;
   padding: spacing.$space-50 spacing.$space-75;
 
   text-align: center;
@@ -375,33 +368,12 @@ $border-width: 2px;
   border-radius: borders.$radius-large;
   background: colors.$neutral-100;
   border: 1px solid colors.$neutral-700;
-  box-shadow: 0px 2px 6px colors.alpha(colors.$neutral-900, 0.25);
+  box-shadow: 0 2px 6px colors.alpha(colors.$neutral-900, 0.25);
 
   @include fonts.ui-small;
-
-  visibility: hidden;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(-2px);
-  transition: opacity, transform;
-  transition-duration: 200ms;
-  transition-timing-function: ease-in;
-
-  .navProgressItemLink:hover & {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-    transition-timing-function: ease-out;
-  }
 }
 
 .svgCaret {
-  pointer-events: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  bottom: 100%;
   fill: colors.$neutral-100;
   stroke: colors.$neutral-700;
 }

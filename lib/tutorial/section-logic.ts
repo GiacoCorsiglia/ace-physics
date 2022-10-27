@@ -40,7 +40,8 @@ export const nextSectionToReveal = (
 
   const responses = state.responses || {};
 
-  const failsCondition = node.when && !node.when(responses, state);
+  const failsCondition =
+    node.isLegacy || (node.when && !node.when(responses, state));
   if (failsCondition && !isMarkedVisible(state, node)) {
     // If it was already marked visible, we should continue with this node
     // regardless of visibility logic.
@@ -111,6 +112,11 @@ const isCommitted = (state: TutorialState, node: NodeConfig): boolean => {
     }
   }
 };
+
+export const isVisibleInInstructorMode = (
+  state: TutorialState,
+  node: NodeConfig
+) => isMarkedVisible(state, node) || !node.isLegacy;
 
 export const isMarkedVisible = (
   state: TutorialState,

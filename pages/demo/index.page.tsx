@@ -50,9 +50,7 @@ export default function Index() {
           <p>
             We’re developing a suite of online activities—<em>tutorials</em>—for
             middle/upper-division quantum mechanics. They’re{" "}
-            <strong>freely available</strong> for anyone to use and explore.
-            Please note this is <strong>beta software</strong>—we need your help
-            to improve it!
+            <strong>freely available</strong> for anyone to use.
           </p>
         </Prose>
 

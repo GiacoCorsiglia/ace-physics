@@ -10,131 +10,151 @@ import {
   courseUserIsStudent,
 } from "@/schema/api";
 
-export default endpoint(spec.CourseUsers, {
-  async GET(request) {
-    const { user } = request.session;
-    const { courseId } = request.query;
+export default endpoint(
+  spec.CourseUsers,
+  {
+    async GET(request) {
+      const { user } = request.session;
+      const { courseId } = request.query;
 
-    // First make sure the user can even access this course.
-    const permissionResult = await userHasPermission(user, courseId);
-    if (permissionResult.failed) {
-      return response.error(permissionResult.error);
-    } else if (!permissionResult.value) {
-      return response.notFound();
-    }
+      // First make sure the user can even access this course.
+      const permissionResult = await userHasPermission(user, courseId);
+      if (permissionResult.failed) {
+        return response.error(permissionResult.error);
+      } else if (!permissionResult.value) {
+        return response.notFound();
+      }
 
-    // Now fetch all the users.
-    const allUsersResult = await fetchAllUsers(courseId);
+      // Now fetch all the users.
+      const allUsersResult = await fetchAllUsers(courseId);
 
-    if (allUsersResult.failed) {
-      return response.error(
-        "Unable to fetch CourseUsers",
-        allUsersResult.error
+      if (allUsersResult.failed) {
+        return response.error(
+          "Unable to fetch CourseUsers",
+          allUsersResult.error
+        );
+      }
+
+      const allUsers = allUsersResult.value;
+
+      return response.success({
+        instructors: sortBy(
+          allUsers.filter(courseUserIsInstructor),
+          "createdAt"
+        ),
+        students: sortBy(allUsers.filter(courseUserIsStudent), "createdAt"),
+      });
+    },
+
+    async PUT(request) {
+      const { user } = request.session;
+      const { courseId } = request.query;
+
+      // First make sure the user can even access this course.
+      const permissionResult = await userHasPermission(user, courseId);
+      if (permissionResult.failed) {
+        return response.error(permissionResult.error);
+      } else if (!permissionResult.value) {
+        return response.forbidden();
+      }
+
+      // Now parse the input.
+      const [studentEmails, unhashedRejectedStudentEmails] = parseAndHashEmails(
+        request.body.unhashedStudentEmails
       );
-    }
+      const [instructorEmails, unhashedRejectedInstructorEmails] =
+        parseAndHashEmails(request.body.unhashedInstructorEmails);
 
-    const allUsers = allUsersResult.value;
+      // Load existing users to avoid overwriting any.  Sadly the BatchWriteItem
+      // command doesn't support conditions on Puts, so this is the best way.
+      const existingUsersResult = await fetchAllUsers(courseId);
+      if (existingUsersResult.failed) {
+        return response.error(
+          "Unable to load existing users",
+          existingUsersResult.error
+        );
+      }
 
-    return response.success({
-      instructors: sortBy(allUsers.filter(courseUserIsInstructor), "createdAt"),
-      students: sortBy(allUsers.filter(courseUserIsStudent), "createdAt"),
-    });
-  },
-
-  async PUT(request) {
-    const { user } = request.session;
-    const { courseId } = request.query;
-
-    // First make sure the user can even access this course.
-    const permissionResult = await userHasPermission(user, courseId);
-    if (permissionResult.failed) {
-      return response.error(permissionResult.error);
-    } else if (!permissionResult.value) {
-      return response.forbidden();
-    }
-
-    // Now parse the input.
-    const [studentEmails, unhashedRejectedStudentEmails] = parseAndHashEmails(
-      request.body.unhashedStudentEmails
-    );
-    const [instructorEmails, unhashedRejectedInstructorEmails] =
-      parseAndHashEmails(request.body.unhashedInstructorEmails);
-
-    // Load existing users to avoid overwriting any.  Sadly the BatchWriteItem
-    // command doesn't support conditions on Puts, so this is the best way.
-    const existingUsersResult = await fetchAllUsers(courseId);
-    if (existingUsersResult.failed) {
-      return response.error(
-        "Unable to load existing users",
-        existingUsersResult.error
+      const existingUserEmails = new Set(
+        existingUsersResult.value.map((user) => user.userEmail)
       );
-    }
 
-    const existingUserEmails = new Set(
-      existingUsersResult.value.map((user) => user.userEmail)
-    );
+      // Create new user objects---but filter out any that already exist!
+      const createdAt = db.now();
+      const newStudents = studentEmails
+        .filter((studentEmail) => !existingUserEmails.has(studentEmail))
+        .map(
+          (studentEmail): CourseStudent => ({
+            courseId,
+            createdAt,
+            userEmail: studentEmail,
+            role: "student",
+          })
+        );
+      const newInstructors = instructorEmails
+        .filter((instructorEmail) => !existingUserEmails.has(instructorEmail))
+        .map(
+          (instructorEmail): CourseInstructor => ({
+            courseId,
+            createdAt,
+            userEmail: instructorEmail,
+            role: "instructor",
+          })
+        );
 
-    // Create new user objects---but filter out any that already exist!
-    const createdAt = db.now();
-    const newStudents = studentEmails
-      .filter((studentEmail) => !existingUserEmails.has(studentEmail))
-      .map(
-        (studentEmail): CourseStudent => ({
-          courseId,
-          createdAt,
-          userEmail: studentEmail,
-          role: "student",
+      // Write new user objects to the database.
+      const writeRequests = [...newStudents, ...newInstructors].map(
+        (courseUser) => ({
+          PutRequest: {
+            Item: db.codec.CourseUser.encode(courseUser),
+          },
         })
       );
-    const newInstructors = instructorEmails
-      .filter((instructorEmail) => !existingUserEmails.has(instructorEmail))
-      .map(
-        (instructorEmail): CourseInstructor => ({
-          courseId,
-          createdAt,
-          userEmail: instructorEmail,
-          role: "instructor",
-        })
+      const client = db.client();
+      const chunkSize = 25; // This is determined by DynamoDB
+      const results = await Promise.all(
+        Array.from(
+          (function* () {
+            for (let i = 0; i < writeRequests.length; i += chunkSize) {
+              yield client.batchWrite({
+                RequestItems: {
+                  [db.tableName()]: writeRequests.slice(i, i + chunkSize),
+                },
+              });
+            }
+          })()
+        )
       );
 
-    // Write new user objects to the database.
-    const writeRequests = [...newStudents, ...newInstructors].map(
-      (courseUser) => ({
-        PutRequest: {
-          Item: db.codec.CourseUser.encode(courseUser),
-        },
-      })
-    );
-    const client = db.client();
-    const chunkSize = 25; // This is determined by DynamoDB
-    const results = await Promise.all(
-      Array.from(
-        (function* () {
-          for (let i = 0; i < writeRequests.length; i += chunkSize) {
-            yield client.batchWrite({
-              RequestItems: {
-                [db.tableName()]: writeRequests.slice(i, i + chunkSize),
-              },
-            });
-          }
-        })()
-      )
-    );
+      if (results.some(isFailure)) {
+        return response.error("Course user creation failed");
+      }
 
-    if (results.some(isFailure)) {
-      return response.error("Course user creation failed");
-    }
-
-    return response.success({
-      newStudents,
-      newInstructors,
-      unhashedRejectedEmails: [
-        ...unhashedRejectedInstructorEmails,
-        ...unhashedRejectedStudentEmails,
-      ],
-    });
+      return response.success({
+        newStudents,
+        newInstructors,
+        unhashedRejectedEmails: [
+          ...unhashedRejectedInstructorEmails,
+          ...unhashedRejectedStudentEmails,
+        ],
+      });
+    },
   },
-});
+  {
+    async GET() {
+      return response.success({
+        instructors: [],
+        students: [],
+      });
+    },
+
+    async PUT() {
+      return response.error(
+        "Courses cannot be edited when database is disabled."
+      );
+    },
+  }
+);
 
 const parseAndHashEmails = (
   list: string

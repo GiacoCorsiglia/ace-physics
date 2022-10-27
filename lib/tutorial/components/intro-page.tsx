@@ -46,27 +46,22 @@ export const IntroPage = ({
           <strong>
             This activity is not about “right” or “wrong” answers,
           </strong>{" "}
-          it’s about helping you to think about challenging ideas.
+          it’s about engaging with challenging ideas.
         </p>
 
         <p>And it won’t be graded (except maybe for participation credit).</p>
 
         <p>
-          <strong>
-            Take your time. If you get stuck, try the hints, and then give it
-            your best guess.
-          </strong>{" "}
-          There might be some follow-up questions that clear things up for you.
-          Go back and change your answers if you want. Or—feel confident, and
-          don’t!
+          <strong>Take your time.</strong> But if you get stuck, try the hints,
+          and then give it your best guess and move on.
         </p>
 
         <p>
           <strong>
             Learning doesn’t stop once you’ve submitted your answers.
           </strong>{" "}
-          We hope this activity helps you learn something today. If it does,
-          it’ll be thanks to you, not us.
+          There might be some follow-up questions that clear things up for you.
+          Go back and change your answers if you want.
         </p>
 
         <p>
@@ -77,11 +72,13 @@ export const IntroPage = ({
         <p>Good luck!</p>
 
         <p>
-          <em>- Giaco, Ben, Steve, Gina, and Homeyra</em>
+          <em>— Giaco, Ben, Gina, Homeyra, and Steve</em>
         </p>
 
         <p>
-          <em>P.S. Your work will be saved automatically.</em>
+          <em>
+            P.S. <strong>Your work will be saved automatically.</strong>
+          </em>
         </p>
       </Prose>
 
@@ -98,8 +95,9 @@ export const IntroPage = ({
                 ? "before-you-start"
                 : tutorialConfig.pages[0].link
             )}
+            iconRight={<ArrowRightIcon />}
           >
-            Let’s get going <ArrowRightIcon />
+            Let’s get going
           </Button>
         </Justify>
       </Vertical.Space>

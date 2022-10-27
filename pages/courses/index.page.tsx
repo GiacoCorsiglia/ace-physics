@@ -1,4 +1,4 @@
-import { useCourses, useCreateCourse } from "@/api/client";
+import { ResponseError, useCourses, useCreateCourse } from "@/api/client";
 import { useAuth, UserMenu } from "@/auth/client";
 import {
   AuthGuard,
@@ -16,6 +16,7 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
+import { isInstructor } from "@/helpers/server";
 import { Course } from "@/schema/api";
 import {
   ArrowLeftIcon,
@@ -95,8 +96,7 @@ export default function Courses() {
 
               {isLoading && <LoadingAnimation size="small" />}
 
-              {(auth.user.role === "instructor" ||
-                auth.user.role === "admin") && <CreateCourseForm />}
+              {isInstructor(auth.user) && <CreateCourseForm />}
             </>
           )}
         </AuthGuard>
@@ -150,7 +150,11 @@ const CreateCourseForm = () => {
             onSubmit={(e) => {
               e.preventDefault();
 
-              mutation.mutate({ displayName }).then(() => {
+              mutation.mutate({ displayName }).then((result) => {
+                if (result.failed) {
+                  // Keep the form open if it failed.
+                  return;
+                }
                 setDisplayName("");
                 setIsCreating(false);
                 mutation.reset();
@@ -196,12 +200,23 @@ const CreateCourseForm = () => {
               </Horizontal>
 
               {mutation.status === "error" && (
-                <Callout color="red">Sorry, that didn’t seem to work.</Callout>
+                <ErrorMessage error={mutation.error} />
               )}
             </Vertical>
           </form>
         </Callout>
       )}
     </>
+  );
+};
+
+const ErrorMessage = ({ error }: { error: ResponseError | undefined }) => {
+  const message =
+    error?.type === "500 SERVER ERROR" ? error.body?.message : null;
+
+  return (
+    <Callout color="red">
+      {message || "Sorry, that didn’t seem to work."}
+    </Callout>
   );
 };

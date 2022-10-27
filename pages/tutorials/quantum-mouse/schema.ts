@@ -52,8 +52,19 @@ export default s.tutorial({
     happySadCorrection: s.section(),
 
     superpositionsIntro: s.section(),
+    coefficientsVsEigenvalues: s.section({
+      messages: [
+        "eigenvalue",
+        "measurement outcome",
+        "probability",
+        "probability amplitude",
+        "other",
+      ],
+    }),
     whyWideStressed: s.section(),
-    smallEyeBasisChange: s.section(),
+    smallEyeBasisChange: s.section({
+      messages: ["abNotNormalized", "abIncorrect", "abCorrect"],
+    }),
     abUnique: s.section(),
     abNotNormalized: s.section(),
     abIncorrect: s.section(),
@@ -123,6 +134,15 @@ export default s.tutorial({
     happySadInnerProductExplain: s.string(),
 
     // Superpositions.
+    coefficientsVsEigenvalues: s.chooseOne(
+      [
+        "eigenvalue",
+        "measurement outcome",
+        "probability",
+        "probability amplitude",
+      ],
+      s.string()
+    ),
     whyWideStressed: s.string(),
     smallEyeA: s.number(),
     smallEyeB: s.number(),

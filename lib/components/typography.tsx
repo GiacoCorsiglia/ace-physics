@@ -1,5 +1,5 @@
-import { cx, Html, styled, useIsomorphicLayoutEffect } from "@/helpers/client";
-import { Children, forwardRef, useRef } from "react";
+import { cx, Html, styled } from "@/helpers/client";
+import { Children, forwardRef } from "react";
 import { Image } from "./image";
 import { M } from "./math";
 import styles from "./typography.module.scss";
@@ -120,26 +120,3 @@ export const autoProse = (children: Html) => {
 export const PageTitle = styled.h1(styles.pageTitle);
 
 export const Vocabulary = styled.strong(styles.vocabulary);
-
-export const useActualSiblingCheck = (when: () => boolean, deps: any[]) => {
-  const elRef = useRef<HTMLDivElement>(null);
-  const classesRef = useRef("");
-
-  useIsomorphicLayoutEffect(() => {
-    const el = elRef.current;
-    if (!el || !when()) {
-      return;
-    }
-    // If this is display math, determine if this element is the first/last
-    // child of its parent *including text nodes* (which CSS is incapable of).
-    const firstChild = !el.previousSibling;
-    const lastChild = !el.nextSibling;
-    classesRef.current = cx(
-      firstChild && "prose-actual-first-child",
-      lastChild && "prose-actual-last-child"
-    );
-    el.className += " " + classesRef.current;
-  }, deps);
-
-  return [elRef, classesRef.current] as const;
-};

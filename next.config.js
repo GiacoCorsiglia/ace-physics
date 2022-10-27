@@ -14,6 +14,10 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "lib/design")],
   },
+
+  sentry: {
+    hideSourceMaps: true,
+  },
 };
 
 // Sentry's should be the last plugin added.

@@ -1,12 +1,25 @@
-import { LabelsLeft, M, Prose, TextBox, TextLine } from "@/components";
-import { Axes, Label, Plot, WithPlot } from "@/plots";
+import {
+  BooleanToggle,
+  Callout,
+  ChooseOne,
+  Guidance,
+  LabelsLeft,
+  M,
+  Prose,
+  TextBox,
+  TextLine,
+  Vertical,
+} from "@/components";
+import { Axes, Curve, Label, Plot, Tick, WithPlot } from "@/plots";
 import { page } from "@/tutorial";
+import { PencilIcon } from "@primer/octicons-react";
+import { memo } from "react";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "timeEvolutionInfiniteSquareWellPotential",
   label: "Time Evolution in the Infinite Square Well Potential",
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "timeEvolutionInfiniteSquareWellPotentialIntro",
@@ -21,15 +34,75 @@ export default page(setup, ({ section }) => ({
           <p>
             The <M t="\psi_n(x)" /> are the spatial parts of the energy
             eigenfunctions with energy values <M t="E_n" />, such that
-            <M t="E_n = n^2 E_1" />. Consider a particle in the ground state at
-            time t=0 given by <M t="\psi_1(x)" />.
+            <M t="E_n = n^2 E_1" />.
+          </p>
+
+          <p>
+            Consider a particle in the ground state at time <M t="t=0" /> given
+            by <M t="\psi_1(x)" />.
           </p>
         </Prose>
       ),
     }),
 
     section({
+      name: "groundStateGraph",
+      body: (m) => (
+        <ChooseOne
+          label={
+            <Prose>
+              Which graph represents the ground state energy eigenfunction,{" "}
+              <M t="\psi_1(x)" />, at time <M t="t=0" />?
+            </Prose>
+          }
+          model={m.groundStateGraph}
+          choices={[
+            ["psi2", <Psi2 />],
+            ["psi1", <Psi1 />],
+            ["psi1^2", <Psi1Squared />],
+            ["psi2^2", <Psi2Squared />],
+          ]}
+        />
+      ),
+      guidance: {
+        nextMessage(r) {
+          if (r.groundStateGraph?.selected === "psi1") {
+            return "correct";
+          } else {
+            return "nodes";
+          }
+        },
+        messages: {
+          correct: {
+            body: <Guidance.Agree>Agreed!</Guidance.Agree>,
+            onContinue: "nextSection",
+          },
+          "sin^2": {
+            body: (
+              <Guidance.Disagree>
+                Heads up—do you meant to plot <M t="\sin(x)" /> or{" "}
+                <M t="\sin^2(x)" />? How are those two graphs different?{" "}
+                <em>Hint: imagine extending the graph beyond one period.</em>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          nodes: {
+            body: (
+              <Guidance.Disagree>
+                Careful—how many nodes should the ground state have? A node is a
+                point where the function hits the horizontal axis.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
+    }),
+
+    section({
       name: "groundStateSketch",
+      isLegacy: true,
       body: (m) => (
         <>
           <Prose>
@@ -87,6 +160,109 @@ export default page(setup, ({ section }) => ({
     }),
 
     section({
+      name: "timeEvolvedGroundStateChoice",
+      body: (m) => (
+        <ChooseOne
+          model={m.groundStateTimeDependence}
+          label={
+            <Prose>
+              Choose the expression that best matches the answer you just typed
+              in.
+            </Prose>
+          }
+          choices={[
+            [
+              "no time dependence",
+              "The ground state does not evolve with time.",
+            ],
+            ["+E_1", <M t="\psi_1(x,t) = e^{+iE_1t/\hbar}\psi_1(x)" />],
+            ["-E_1", <M t="\psi_1(x,t) = e^{-iE_1t/\hbar}\psi_1(x)" />],
+            ["+E_n", <M t="\psi_1(x,t) = e^{+iE_nt/\hbar}\psi_1(x)" />],
+            ["-E_n", <M t="\psi_1(x,t) = e^{-iE_nt/\hbar}\psi_1(x)" />],
+            ["none", "None of these answers match mine."],
+          ]}
+        />
+      ),
+      guidance: {
+        nextMessage(r) {
+          const choice = r.groundStateTimeDependence?.selected;
+          switch (choice) {
+            case "+E_n":
+            case "-E_n":
+              return "E_n";
+            case "+E_1":
+            case "-E_1":
+            case "no time dependence":
+            case "none":
+              return choice;
+            case undefined:
+              return "none";
+          }
+        },
+        messages: {
+          "no time dependence": {
+            body: (
+              <Guidance.Disagree>
+                <p>Consider these three statements:</p>
+
+                <blockquote>
+                  <strong>Student A:</strong> The ground state wave function
+                  does not evolve with time in any way. The{" "}
+                  <M t="\psi_1(x,t)" /> function doesn’t need a <M t="t" /> in
+                  it.
+                </blockquote>
+
+                <blockquote>
+                  <strong>Student B:</strong> The time-evolved ground state wave
+                  function has a complex exponential term out front, but this is
+                  just a global phase, so we can safely ignore it.
+                </blockquote>
+
+                <blockquote>
+                  <strong>Student C:</strong> The complex exponential will
+                  disappear when we square the wave function to find the
+                  probability density <M t="|\psi_1(x, t)|^2" />, but we still
+                  need to keep track of it when writing the wave function
+                  itself.
+                </blockquote>
+
+                <p>Decide who you agree with and check in again.</p>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          E_n: {
+            body: (
+              <Guidance.Disagree>
+                Which energy level corresponds with the ground state?
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "+E_1": {
+            body: (
+              <Guidance.Disagree>Double check your signs.</Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "-E_1": {
+            body: <Guidance.Agree>Looks good to us!</Guidance.Agree>,
+            onContinue: "nextSection",
+          },
+          none: {
+            body: (
+              <Guidance.HeadsUp>
+                We think one of our provided answers correctly expresses the
+                time evolution for the ground state.
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
+    }),
+
+    section({
       name: "timeEvolutionDescription",
       body: (m) => (
         <>
@@ -94,26 +270,37 @@ export default page(setup, ({ section }) => ({
             <p>
               Consider <M t="\psi_1" /> at the point <M t="x = L/2" />. Plot the
               time evolution of <M t="\psi_1(x=L/2,t)" /> on a graph of the
-              complex plane. (Use Zoom annotations/scrap paper again.)
-            </p>
-
-            <p>
-              <em>
-                Hint: Try plotting the values of
-                <M t="e^{-i E_1 t /\hbar}" /> for{" "}
-                <M t="E_1 t/ ħ = 0,\pi/2,\pi,3\pi/2" /> on the graph and
-                interpolate between them.
-              </em>
+              complex plane.
             </p>
           </Prose>
 
-          <Plot width={400} height={400}>
-            <Axes yLabel="\text{Im}" xLabel="\text{Re}" />
-          </Plot>
+          <Callout
+            color="blue"
+            iconLeft={<PencilIcon size="medium" />}
+            iconAlignment="top"
+          >
+            <Vertical>
+              <Prose>
+                <p>Draw your plot on scrap paper.</p>
 
-          <Prose>
-            <strong>Take a screenshot of your graph when you’re done.</strong>
-          </Prose>
+                <p>Start with real and imaginary axes, like this:</p>
+              </Prose>
+
+              <Plot width={200} height={200}>
+                <Axes yLabel="\text{Im}" xLabel="\text{Re}" />
+              </Plot>
+            </Vertical>
+          </Callout>
+
+          <Callout color="yellow" title="Hint">
+            On your paper, try plotting the values of
+            <M t="e^{-i E_1 t /\hbar}" /> when
+            <M
+              display
+              t="\frac{E_1 t}{\hbar} = 0,\ \pi/2,\ \pi,\ \text{and}\ 3\pi/2"
+            />
+            then interpolate between them.
+          </Callout>
 
           <TextBox
             model={m.timeEvolutionDescription}
@@ -125,23 +312,15 @@ export default page(setup, ({ section }) => ({
 
     section({
       name: "probDensPlot",
-      body: (m) => (
+      body: (m, state) => (
         <>
           <Prose>
             <p>
               Your plot should be a circle in the complex plane, like below.
             </p>
-
-            <p>
-              Now consider the probability density <M t="|\psi_1(x)|^2" /> at
-              the point <M t="x = L/2" />.{" "}
-              <strong>Plot the value of the probability density</strong> on
-              these same axes for the same times,
-              <M t="E_1 t/ ħ = 0,\pi/2,\pi,3\pi/2" prespace={false} />:
-            </p>
           </Prose>
 
-          <Plot width={400} height={400}>
+          <Plot width={300} height={300} scale={65}>
             <Axes yLabel="\text{Im}" xLabel="\text{Re}" />
 
             <WithPlot>
@@ -171,16 +350,92 @@ export default page(setup, ({ section }) => ({
             />
           </Plot>
 
-          <TextBox
-            model={m.probDensRelationshipToProbAmp}
+          <hr />
+
+          <Prose>
+            Now consider the probability density <M t="|\psi_1(x, t)|^2" /> at
+            the same point, <M t="x = L/2" />.
+          </Prose>
+
+          {/* Legacy field. */}
+          {!!state.responses?.probDensRelationshipToProbAmp && (
+            <TextBox
+              model={m.probDensRelationshipToProbAmp}
+              label={
+                <Prose>
+                  How is this value related to the value of <M t="\psi_1" />?
+                </Prose>
+              }
+            />
+          )}
+
+          <BooleanToggle
+            model={m.probDensDependsOnTime}
             label={
               <Prose>
-                How is this value related to the value of <M t="\psi_1" />?
+                True or false: The probability density changes with time.
               </Prose>
             }
+            yes="True"
+            no="False"
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "probDensPlot",
+          body: (
+            <Prose>
+              Recall that <M t="\psi_1" /> is an energy eigenstate.
+            </Prose>
+          ),
+        }),
+      ],
+      guidance: {
+        nextMessage(r) {
+          if (r.probDensDependsOnTime === false) {
+            return "false";
+          } else {
+            return "true";
+          }
+        },
+        messages: {
+          true: {
+            body: (
+              <Guidance.Disagree>
+                Double check your answer using the expression for{" "}
+                <M t="\psi_1(x,t)" /> we found above:
+                <M
+                  display
+                  t="|\psi_1(x,t)|^2 = |e^{-iE_1t/\hbar}\psi_1(x)|^2"
+                />
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          false: {
+            body: (
+              <Guidance.Agree>
+                <p>
+                  Agreed! The probability density of an energy eigenstate does
+                  not change with time. That’s why we call them “stationary
+                  states”.
+                </p>
+
+                <p>
+                  The time evolution of a single energy eigenstate is a global
+                  phase (complex exponential factor) that disappears when
+                  calculating the probability density <M t="|\psi_1(x, t)|^2" />
+                  , it's important to keep track of that global phase when you
+                  might have superpose this state with another energy
+                  eigenstate. The rest of the tutorial explore this further.
+                </p>
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -188,7 +443,8 @@ export default page(setup, ({ section }) => ({
       body: (m, { responses }) => (
         <>
           <Prose>
-            Using <M t="e^{ix} = \cos x + i \sin x" /> or otherwise, determine
+            Using <M t="e^{ix} = \cos x + i \sin x" /> or another method,
+            determine
             <M t="e^{-i3\pi/2}" />.
           </Prose>
 
@@ -197,14 +453,38 @@ export default page(setup, ({ section }) => ({
           </LabelsLeft>
 
           <Prose>
-            <p>
-              Sketch the energy eigenfunction
-              <M t="\psi_1(x,t)" /> for the time where
-              <M t="E_1 t/\hbar = 3\pi/2" />.
-            </p>
-
-            <p>How should the axes be labeled?</p>
+            Here’s a sketch of the energy eigenfunction
+            <M t="\psi_1(x,t)" /> for the time where
+            <M t="E_1 t/\hbar = 3\pi/2" />. Notice that the axes are unlabeled.
           </Prose>
+
+          <Plot width={380} height={250} origin={[0.3, 2]} scale={[65, 80]}>
+            <Axes
+              xLabel={
+                responses?.difTimePlotAxisX
+                  ? `\\text{${responses?.difTimePlotAxisX.replace(
+                      /\\|\$/g,
+                      ""
+                    )}}`
+                  : undefined
+              }
+              yLabel={
+                responses?.difTimePlotAxisY
+                  ? `\\text{${responses?.difTimePlotAxisY
+                      .replace(/\\|\$/g, "")
+                      .replace(/\bpsi\b/, "$\\psi$")}}`
+                  : undefined
+              }
+            />
+
+            <Curve f={(x) => Math.sin((Math.PI * x) / L)} from={0} to={L} />
+
+            <Tick x={0} label="0" />
+            <Tick x={L / 2} label="L/2" />
+            <Tick x={L} label="L" />
+          </Plot>
+
+          <Prose>How should the axes be labeled?</Prose>
 
           <LabelsLeft>
             <TextLine
@@ -213,27 +493,57 @@ export default page(setup, ({ section }) => ({
             />
             <TextLine model={m.difTimePlotAxisY} label="Vertical axis label:" />
           </LabelsLeft>
-
-          <Prose>
-            Now complete the sketch using Zoom annotation or on scrap paper.
-          </Prose>
-
-          <Plot width={560} height={400} origin={[0.2, "center"]}>
-            <Axes
-              xLabel={
-                responses?.difTimePlotAxisX
-                  ? `\\text{${responses?.difTimePlotAxisX.replace(/\\/g, "")}}`
-                  : undefined
-              }
-              yLabel={
-                responses?.difTimePlotAxisY
-                  ? `\\text{${responses?.difTimePlotAxisY.replace(/\\/g, "")}}`
-                  : undefined
-              }
-            />
-          </Plot>
         </>
       ),
+      guidance: {
+        nextMessage(r, s) {
+          const exp3PiOver2 = r.exp3PiOver2?.trim() || "";
+          if (!/^\+?\s*i$/i.test(exp3PiOver2)) {
+            // Because this feedback is imperfect, we never show this message twice.
+            const alreadyPresented =
+              s.sections?.difTimePlot?.revealedMessages?.includes(
+                "exp(-i 3pi/ 2) feedback"
+              );
+            if (!alreadyPresented) {
+              return "exp(-i 3pi/ 2) feedback";
+            }
+          }
+
+          return "answer";
+        },
+        messages: {
+          "exp(-i 3pi/ 2) feedback": {
+            body: (
+              <Guidance.Disagree>
+                <p>
+                  Double-check your answer, we got
+                  <M display t="e^{-i3\pi/2} = +i" />
+                  If you got something different, update your answer and
+                  reconsider your axis labels before checking in again.
+                </p>
+
+                <p>
+                  Note: it’s possible that your answer is equivalent to{" "}
+                  <M t="+i" /> but this software isn’t clever enough to realize!
+                  If so, just click ahead to check in on your axis labels.
+                </p>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                This software can’t interpret what you’ve written, but we
+                suggest <M t="x" /> for the horizontal axis label, and
+                <M t="\operatorname{Im} \psi" /> (the imaginary part of
+                <M t="\psi" />) for the vertical axis label.
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -247,8 +557,9 @@ export default page(setup, ({ section }) => ({
                 <p>
                   Earlier, you plotted the time evolution for a single value of
                   <M t="x" /> of the eigenfunction <M t="\psi_1(x,t)" />. How
-                  would you plot the time evolution for the entire function
-                  using a three-dimensional representation?
+                  might you plot the time evolution for the{" "}
+                  <em>entire function</em> using a three-dimensional
+                  representation?
                 </p>
 
                 <p>
@@ -257,9 +568,14 @@ export default page(setup, ({ section }) => ({
                 </p>
               </Prose>
             }
+            minRows={3}
           />
 
-          <Prose faded>
+          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
+            Break out some scrap paper to test your ideas!
+          </Callout>
+
+          <Prose>
             On the next page, we’ll explore one such representation.
           </Prose>
         </>
@@ -267,3 +583,43 @@ export default page(setup, ({ section }) => ({
     }),
   ],
 }));
+
+const L = 4;
+
+const EnergyEigenstate = ({
+  f,
+  isOffset = false,
+}: {
+  f: (x: number) => number;
+  isOffset?: boolean;
+}) => (
+  <Plot
+    origin={[isOffset ? "center" : 0.5, "center"]}
+    scale={50}
+    width={250}
+    height={150}
+  >
+    <Axes xLabel="x" />
+    <Curve
+      f={(x) => f(x + (isOffset ? L / 2 : 0))}
+      from={isOffset ? -L / 2 : 0}
+      to={isOffset ? L / 2 : L}
+    />
+    <Tick x={0} label="0" />
+    <Tick x={L / 2} label="L/2" />
+    {isOffset ? <Tick x={-L / 2} label="-L/2" /> : <Tick x={L} label="L" />}
+  </Plot>
+);
+
+const Psi1 = memo(() => (
+  <EnergyEigenstate f={(x) => Math.sin((x * Math.PI) / L)} />
+));
+const Psi1Squared = memo(() => (
+  <EnergyEigenstate f={(x) => Math.sin((x * Math.PI) / L) ** 2} />
+));
+const Psi2 = memo(() => (
+  <EnergyEigenstate f={(x) => Math.sin((2 * x * Math.PI) / L)} />
+));
+const Psi2Squared = memo(() => (
+  <EnergyEigenstate f={(x) => Math.sin((2 * x * Math.PI) / L) ** 2} />
+));

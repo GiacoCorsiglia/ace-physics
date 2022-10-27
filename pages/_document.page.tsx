@@ -41,6 +41,12 @@ export default class AceDocument extends Document {
         <body>
           <Main />
 
+          {/* Portal element for <Modal> component. */}
+          <div id="ace-modal" />
+
+          {/* Portal element for <Tooltip> component. */}
+          <div id="ace-tooltip" />
+
           <NextScript />
         </body>
       </Html>

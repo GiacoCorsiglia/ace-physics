@@ -1,6 +1,11 @@
 import { Html } from "@/helpers/client";
 import { SequenceConfig } from "../config";
-import { CommitAction, isMarkedVisible, nodeKey } from "../section-logic";
+import {
+  CommitAction,
+  isMarkedVisible,
+  isVisibleInInstructorMode,
+  nodeKey,
+} from "../section-logic";
 import { useTracked } from "../state-tree";
 import { useInstructorMode } from "./mode-manager";
 import { SectionTreeNode } from "./section-tree-node";
@@ -22,7 +27,9 @@ export const Sequence = ({
 
   const visibleNodes = useTracked((state) =>
     config.sections.filter((node) =>
-      instructorMode?.showAllSections ? true : isMarkedVisible(state, node)
+      instructorMode?.showAllSections
+        ? isVisibleInInstructorMode(state, node)
+        : isMarkedVisible(state, node)
     )
   );
 

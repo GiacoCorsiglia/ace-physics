@@ -7,6 +7,7 @@ type CalloutProps = {
   title?: Html;
   iconLeft?: Html;
   iconRight?: Html;
+  iconAlignment?: "top" | "middle" | "bottom";
   animateIn?: boolean;
 } & Omit<JSX.IntrinsicElements["aside"], "title" | "color" | "ref">;
 
@@ -24,6 +25,7 @@ export const Callout = forwardRef<
     title,
     iconLeft,
     iconRight,
+    iconAlignment = "middle",
     animateIn,
     ...props
   },
@@ -38,6 +40,9 @@ export const Callout = forwardRef<
         styles.callout,
         animateIn && styles.animateIn,
         (iconLeft || iconRight) && styles.hasIcon,
+        iconAlignment === "top" && styles.iconTop,
+        iconAlignment === "middle" && styles.iconMiddle,
+        iconAlignment === "bottom" && styles.iconBottom,
         color === "green" && styles.green,
         color === "blue" && styles.blue,
         color === "yellow" && styles.yellow,

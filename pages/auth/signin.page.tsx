@@ -9,6 +9,7 @@ import {
   TextInputControl,
   Vertical,
 } from "@/components";
+import { Html } from "@/helpers/client";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -16,22 +17,79 @@ import { useState } from "react";
 
 const simpleEmailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
 
-export default function SignIn() {
-  const session = useSession();
-  const unhashedEmail = useUnhashedEmail(session.data?.user?.email);
-
-  const [email, setEmail] = useState("");
+const useCallbackUrl = () => {
   const router = useRouter();
-
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [signInError, setSignInError] = useState<any>();
 
   const callbackUrlQ = router.query.callbackUrl;
   const callbackUrl = Array.isArray(callbackUrlQ)
     ? callbackUrlQ[0]
     : callbackUrlQ;
 
+  return callbackUrl;
+};
+
+const SignInPageContent = ({ children }: { children?: Html }) => {
+  return (
+    <Page title="Sign In">
+      <MainContentBox marginTop="small" className="text-center">
+        {children}
+      </MainContentBox>
+    </Page>
+  );
+};
+
+const SignedInView = ({ errorHtml }: { errorHtml?: Html }) => {
+  const session = useSession();
+  const unhashedEmail = useUnhashedEmail(session.data?.user?.email);
+  const callbackUrl = useCallbackUrl();
+
+  return (
+    <SignInPageContent>
+      <Prose>
+        <h1>You’re signed in</h1>
+      </Prose>
+
+      {errorHtml}
+
+      <Prose>
+        <p>
+          You’re signed in to ACE Physics
+          {unhashedEmail && " as "}
+          {unhashedEmail && <strong>{unhashedEmail}</strong>}.
+        </p>
+      </Prose>
+
+      <Vertical.Space before={300}>
+        <Horizontal justify="center">
+          <Button color="yellow" link="/auth/signout">
+            Sign out
+          </Button>
+
+          <Button
+            color="green"
+            link={callbackUrl || "/"}
+            iconRight={<ArrowRightIcon />}
+          >
+            Stay signed in
+          </Button>
+        </Horizontal>
+      </Vertical.Space>
+    </SignInPageContent>
+  );
+};
+
+const SignInWithEmail = () => {
+  const session = useSession();
+
+  const [email, setEmail] = useState("");
+
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [signInError, setSignInError] = useState<any>();
+
+  const callbackUrl = useCallbackUrl();
+
   // Errors.
+  const router = useRouter();
   const errorQ = router.query.error;
   const errorType = Array.isArray(errorQ) ? errorQ[0] : errorQ;
   // This is lifted directly from NextAuth .
@@ -65,114 +123,135 @@ export default function SignIn() {
   const isEmailValid = simpleEmailPattern.test(email);
 
   if (session.status === "authenticated") {
-    return (
-      <Page title="Sign In">
-        <MainContentBox marginTop="small" className="text-center">
-          <Prose>
-            <h1>You’re signed in</h1>
-          </Prose>
-
-          {errorHtml}
-
-          <Prose>
-            <p>
-              You’re currently signed in
-              {unhashedEmail && " as "}
-              {unhashedEmail && <strong>{unhashedEmail}</strong>}.
-            </p>
-          </Prose>
-
-          <Vertical.Space before={300}>
-            <Horizontal justify="center">
-              <Button color="yellow" link="/auth/signout">
-                Sign out
-              </Button>
-
-              <Button
-                color="green"
-                link={callbackUrl || "/"}
-                iconRight={<ArrowRightIcon />}
-              >
-                Stay signed in
-              </Button>
-            </Horizontal>
-          </Vertical.Space>
-        </MainContentBox>
-      </Page>
-    );
+    return <SignedInView errorHtml={errorHtml} />;
   }
 
   return (
-    <Page title="Sign In">
-      <MainContentBox marginTop="small" className="text-center">
-        <Prose>
-          <h1>Sign in to ACE Physics</h1>
-        </Prose>
+    <SignInPageContent>
+      <Prose>
+        <h1>Sign in to ACE Physics</h1>
+      </Prose>
 
-        {errorHtml}
+      {errorHtml}
 
-        <Prose>
-          <p>Sign in with your email below.</p>
+      <Prose>
+        <p>Sign in with your email below.</p>
 
-          <p>If you’re a student, use your educational email.</p>
-        </Prose>
+        <p>If you’re a student, use your educational email.</p>
+      </Prose>
 
-        <Vertical.Space before={200} after={200}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              saveUnhashedEmail(email);
-              setIsSigningIn(true);
-              signIn("email", {
-                email,
-                callbackUrl,
-              })
-                .catch((e) => setSignInError(e))
-                .finally(() => setIsSigningIn(false));
-            }}
-          >
-            <Vertical>
-              <TextInputControl
-                value={email}
-                onChange={setEmail}
-                placeholder="email@example.com"
-                aria-label="Your email address"
-                style={{
-                  maxWidth: "24rem",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  textAlign: "center",
-                }}
-              />
+      <Vertical.Space before={200} after={200}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            saveUnhashedEmail(email);
+            setIsSigningIn(true);
+            signIn("email", {
+              email,
+              callbackUrl,
+            })
+              .catch((e) => setSignInError(e))
+              .finally(() => setIsSigningIn(false));
+          }}
+        >
+          <Vertical>
+            <TextInputControl
+              value={email}
+              onChange={setEmail}
+              placeholder="email@example.com"
+              aria-label="Your email address"
+              style={{
+                maxWidth: "24rem",
+                marginLeft: "auto",
+                marginRight: "auto",
+                textAlign: "center",
+              }}
+            />
 
-              <Button
-                color="green"
-                type="submit"
-                disabled={!isEmailValid || isSigningIn}
-                disabledExplanation={
-                  !isEmailValid
-                    ? "Please enter a valid email address before signing in."
-                    : undefined
-                }
-              >
-                Sign in <ArrowRightIcon />
-              </Button>
-            </Vertical>
-          </form>
-        </Vertical.Space>
+            <Button
+              color="green"
+              type="submit"
+              disabled={!isEmailValid || isSigningIn}
+              disabledExplanation={
+                !isEmailValid
+                  ? "Please enter a valid email address before signing in."
+                  : undefined
+              }
+              iconRight={<ArrowRightIcon />}
+            >
+              Sign in
+            </Button>
+          </Vertical>
+        </form>
+      </Vertical.Space>
 
-        <Prose size="small" faded>
-          <p>
-            You’ll receive a message with a link to sign in, but we’ll never
-            send you anything else.
-          </p>
+      <Prose size="small" faded>
+        <p>
+          You’ll receive a message with a link to sign in, but we’ll never send
+          you anything else.
+        </p>
 
-          <p>
-            If it’s your first time here, an account will be created for you
-            automatically.
-          </p>
-        </Prose>
-      </MainContentBox>
-    </Page>
+        <p>
+          If it’s your first time here, an account will be created for you
+          automatically.
+        </p>
+      </Prose>
+    </SignInPageContent>
   );
-}
+};
+
+const SignInWithMockProvider = () => {
+  const session = useSession();
+
+  const callbackUrl = useCallbackUrl();
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [signInError, setSignInError] = useState<any>();
+
+  if (session.status === "authenticated") {
+    return <SignedInView />;
+  }
+
+  return (
+    <SignInPageContent>
+      <Prose>
+        <h1>Sign in to ACE Physics</h1>
+      </Prose>
+
+      {signInError && (
+        <Callout color="red">There was an error signing in.</Callout>
+      )}
+
+      <Prose size="small" faded>
+        In Development Mode, you must sign in as Test User to see the tutorials.
+      </Prose>
+
+      <Button
+        color="green"
+        disabled={isSigningIn}
+        onClick={() => {
+          signIn("credentials", {
+            callbackUrl,
+          })
+            .catch((e) => {
+              console.error("Sign in error:", e);
+              return setSignInError(e);
+            })
+            .finally(() => setIsSigningIn(false));
+        }}
+        iconRight={<ArrowRightIcon />}
+      >
+        Sign in as Test User
+      </Button>
+
+      <Prose size="small" faded>
+        You’ll be signed in immediately, no email required.
+      </Prose>
+    </SignInPageContent>
+  );
+};
+
+const SignIn =
+  process.env.NEXT_PUBLIC_ACE_DATABASE_ENABLED === "no"
+    ? SignInWithMockProvider
+    : SignInWithEmail;
+export default SignIn;

@@ -6,6 +6,7 @@ import {
   SectionBox,
   Vertical,
 } from "@/components";
+import { Tooltip, useTooltip } from "@/components/tooltip";
 import { cx, Html, useScrollIntoView } from "@/helpers/client";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
@@ -71,7 +72,7 @@ export const Section = tracked(function Section(
       ));
 
   // End tracking accessed models.
-  const affected = modelsTracker.resetTracking();
+  const affected = modelsTracker.currentAccessed;
 
   // Is the move on button enabled?  By default, every model field accessed in
   // the rendering of the body and hints must be filled out.
@@ -80,7 +81,7 @@ export const Section = tracked(function Section(
   );
   const continueAllowed = config.continue?.allowed;
   const isContinueAllowed = continueAllowed
-    ? continueAllowed(state, isComplete)
+    ? continueAllowed(state, isComplete, models)
     : isComplete;
 
   // Should the move on button even be rendered?
@@ -92,31 +93,36 @@ export const Section = tracked(function Section(
 
   // Label for the move on button.
   const continueLabel = config.continue?.label;
-  const continueLabelHtml =
+  let continueLabelHtml =
     continueLabel instanceof Function ? continueLabel(state) : continueLabel;
+  continueLabelHtml ||=
+    hasBody && config.guidance ? "Let’s check in" : "Move on";
 
   // Should this section be enumerated?  By default, sections rendered
   // conditionally  (with a `when()` or embedded in sequences or oneOf's) are
   // not enumerated.  Neither is the first section, nor are sections without a
   // body (e.g., just messages).
   const enumerate =
-    config.enumerate === undefined
-      ? !first && config.when === undefined && hasBody && enumerateDefault
-      : config.enumerate;
+    !config.isLegacy &&
+    (config.enumerate ??
+      (enumerateDefault && !first && hasBody && config.when === undefined));
 
   return (
     <SectionBox
+      className={cx(
+        status !== "committed" && !showAllSections && styles.activeSection
+      )}
       animateIn={!first && !showAllSections}
       enumerate={enumerate}
       ref={scrollRef}
       vertical={false}
     >
-      {showAllSections &&
-        (isMarkedVisible(state, config) ? (
-          <EyeIcon className={styles.previewNoticeVisible} />
-        ) : (
-          <EyeClosedIcon className={styles.previewNoticeHidden} />
-        ))}
+      {showAllSections && (
+        <VisibilitySymbol
+          isVisible={isMarkedVisible(state, config)}
+          className={styles.sectionVisibilitySymbol}
+        />
+      )}
 
       <Vertical>
         {prepend}
@@ -135,8 +141,9 @@ export const Section = tracked(function Section(
             onClick={() => {
               commit(config, { skipRemainingMessages: false });
             }}
+            iconRight={<ArrowDownIcon />}
           >
-            {continueLabelHtml || "Move on"} <ArrowDownIcon />
+            {continueLabelHtml}
           </Button>
         )}
 
@@ -162,7 +169,7 @@ const SectionHintButtons = tracked(function SectionHintButtons(
 
   return (
     <>
-      {config.hints.map((hintConfigs) => {
+      {config.hints.map((hintConfigs, i) => {
         const arr = Array.isArray(hintConfigs) ? hintConfigs : [hintConfigs];
 
         for (const { name, when, label } of arr) {
@@ -174,6 +181,7 @@ const SectionHintButtons = tracked(function SectionHintButtons(
           if (!when || when(state.responses || {}, state)) {
             return (
               <Button
+                className={cx(i === 0 && styles.firstHint)}
                 key={name}
                 color="yellow"
                 onClick={() =>
@@ -212,6 +220,15 @@ const SectionGuidance = tracked(function SectionGuidance(
     return null;
   }
 
+  // If we're showing all messages in instructor mode, indicate which one
+  // applies to the currently selected answers (if any).  Since all response
+  // state is nullable, it should be safe to call this function even if there
+  // are no responses yet.
+  // TODO: Figure out how to not subscribe to all `state.responses` here?
+  const currentlyVisibleMessage = showAllMessages
+    ? guidance.nextMessage(state.responses || {}, state)
+    : null;
+
   const allMessagesHtml = showAllMessages ? (
     <Vertical>
       <Prose size="smallest" faded>
@@ -219,7 +236,11 @@ const SectionGuidance = tracked(function SectionGuidance(
       </Prose>
 
       {Object.entries(guidance.messages).map(([key, message]) => (
-        <GuidanceMessage key={key} config={message} />
+        <GuidanceMessage
+          key={key}
+          config={message}
+          isNextMessageForInstructorMode={key === currentlyVisibleMessage}
+        />
       ))}
     </Vertical>
   ) : null;
@@ -287,16 +308,18 @@ const SectionGuidance = tracked(function SectionGuidance(
                   latestMessage.onContinue === "nextSection",
               })
             }
+            iconRight={<ArrowDownIcon />}
           >
-            {continueLabelHtml || continueLabelDefault} <ArrowDownIcon />
+            {continueLabelHtml || continueLabelDefault}
           </Button>
 
           {isSkipAllowed && latestMessage.onContinue !== "nextSection" && (
             <Button
               color="yellow"
               onClick={() => commit(config, { skipRemainingMessages: true })}
+              iconRight={<ArrowDownIcon />}
             >
-              Move on anyway <ArrowDownIcon />
+              Move on anyway
             </Button>
           )}
         </div>
@@ -306,13 +329,69 @@ const SectionGuidance = tracked(function SectionGuidance(
 });
 
 const GuidanceMessage = tracked(function GuidanceMessage(
-  { config }: { config: GuidanceMessageConfig },
+  {
+    config,
+    isNextMessageForInstructorMode,
+  }: {
+    config: GuidanceMessageConfig;
+    isNextMessageForInstructorMode?: boolean;
+  },
   state
 ) {
   const body = config.body;
   return (
-    <Guidance.AnimateIn>
-      {body instanceof Function ? body(state) : body}
-    </Guidance.AnimateIn>
+    <div className={styles.guidanceMessageContainer}>
+      {isNextMessageForInstructorMode !== undefined && (
+        <VisibilitySymbol
+          isVisible={isNextMessageForInstructorMode}
+          className={styles.guidanceMessageVisibilitySymbol}
+        />
+      )}
+
+      <Guidance.AnimateIn>
+        {body instanceof Function ? body(state) : body}
+      </Guidance.AnimateIn>
+    </div>
   );
 });
+
+const VisibilitySymbol = ({
+  isVisible,
+  className,
+}: {
+  isVisible: boolean;
+  className?: string;
+}) => {
+  const { triggerProps, tooltipProps } = useTooltip<HTMLDivElement>();
+
+  return (
+    <>
+      <div {...triggerProps} className={className}>
+        {isVisible ? (
+          <EyeIcon className={styles.visibleIcon} />
+        ) : (
+          <EyeClosedIcon className={styles.hiddenIcon} />
+        )}
+      </div>
+
+      <Tooltip
+        {...tooltipProps}
+        contentClassName={styles.visibilityTooltip}
+        caretClassName={styles.svgCaret}
+        alwaysVisiblyHidden
+      >
+        {isVisible ? (
+          <>
+            Students <b>would</b> see this element if their responses were the
+            same as yours.
+          </>
+        ) : (
+          <>
+            Students <b>would not</b> see this element yet if their responses
+            were the same as yours.
+          </>
+        )}
+      </Tooltip>
+    </>
+  );
+};

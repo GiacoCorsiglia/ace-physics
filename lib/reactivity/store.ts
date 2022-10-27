@@ -1,5 +1,6 @@
 import type { Immutable, Path, TypeAtPath } from "@/helpers/client";
 import { get, set } from "./immutable";
+import { pathToString, stringToPath } from "./path";
 
 type Source = string | symbol;
 
@@ -35,8 +36,7 @@ export type Setter<T> = <P extends Path<T>>(
     | ((oldValue: TypeAtPath<T, P>) => TypeAtPath<T, P>)
 ) => T;
 
-const pathString = (path: readonly PropertyKey[]) => path.join("/");
-const splitPathString = (path: string) => (path === "" ? [] : path.split("/"));
+const unset = {};
 
 export const store = <T extends object>(initial: T): Store<T> => {
   // All the updates are immutable so it's fine to not clone here.
@@ -97,7 +97,7 @@ export const store = <T extends object>(initial: T): Store<T> => {
         if (newState !== self.transactionState) {
           // Only record the change if...something actually changed.
           self.transactionState = newState;
-          self.setPaths.add(pathString(path));
+          self.setPaths.add(pathToString(path));
         }
         return newState;
       }, startingState);
@@ -143,12 +143,11 @@ export const store = <T extends object>(initial: T): Store<T> => {
           return;
         }
 
-        const unset = {};
         let newValue: any = unset;
         listeners.forEach((listener) => {
           const needsValue = listener.length > 0;
           if (needsValue && newValue === unset) {
-            newValue = get(currentState, splitPathString(listenerPath) as any);
+            newValue = get(currentState, stringToPath(listenerPath) as any);
           }
           listener(needsValue ? newValue : undefined, source);
         });
@@ -163,7 +162,7 @@ export const store = <T extends object>(initial: T): Store<T> => {
     },
 
     subscribe(path, listener) {
-      const str = typeof path === "string" ? path : pathString(path);
+      const str = typeof path === "string" ? path : pathToString(path);
 
       let listenerSet = subscriptions.get(str);
       if (!listenerSet) {

@@ -7,6 +7,7 @@ import {
   Prose,
   Vertical,
 } from "@/components";
+import { isAdmin } from "@/helpers/client";
 import { PersonIcon } from "@primer/octicons-react";
 import { signIn } from "next-auth/react";
 import { useAuth } from "./use-auth";
@@ -33,7 +34,7 @@ export const UserMenu = () => {
           </Callout>
 
           <Horizontal justify="stretch" spacing={50}>
-            {auth.user.role === "admin" && (
+            {isAdmin(auth.user) && (
               <Button color="yellow" size="small" link="/admin">
                 Admin
               </Button>

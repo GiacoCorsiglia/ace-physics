@@ -18,8 +18,7 @@ declare namespace NodeJS {
 
     // Public.
     readonly NEXT_PUBLIC_ACE_ENV: "production" | "staging" | "development";
-    // Public, for local.
-    readonly NEXT_PUBLIC_LOCAL_API: "yes" | "no" | undefined;
+    readonly NEXT_PUBLIC_ACE_DATABASE_ENABLED: "yes" | "no" | undefined;
   }
 }
 

@@ -1,3 +1,4 @@
+import { DATABASE_ENABLED } from "@/db";
 import { Infer, Type } from "@/schema/types";
 import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -49,8 +50,13 @@ type Handlers<S extends ApiSpec> = (S["GET"] extends null
 
 export const endpoint = <S extends ApiSpec>(
   spec: S,
-  handlers: Handlers<S>
+  databaseEnabledHandlers: Handlers<S>,
+  databaseDisabledHandlers: Handlers<S>
 ): ReturnType<typeof withSentry> & { handlers: Handlers<S> } => {
+  const handlers = DATABASE_ENABLED
+    ? databaseEnabledHandlers
+    : databaseDisabledHandlers;
+
   const wrapped = async (req: NextApiRequest): Promise<response.Response> => {
     const parsedRequest = await parseRequest(spec, req);
     if (parsedRequest.failed) {

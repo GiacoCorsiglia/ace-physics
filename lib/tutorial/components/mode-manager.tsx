@@ -9,7 +9,7 @@ import {
   ToggleControl,
   Vertical,
 } from "@/components";
-import { Html, useBoolean } from "@/helpers/client";
+import { Html, isInstructor, useBoolean } from "@/helpers/client";
 import { Course } from "@/schema/api";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -44,7 +44,7 @@ export const isValidMode = (
 ): boolean => {
   if (mode.type === "InstructorMode") {
     // Only these users are allowed to use instructor mode.
-    return user.role === "instructor" || user.role === "admin";
+    return isInstructor(user);
   }
   if (mode.type === "CourseMode") {
     // Check to see if it's a course the user has access to.
@@ -61,7 +61,7 @@ export const defaultMode = (
   user: AuthUser,
   courses: readonly Course[]
 ): Mode | undefined => {
-  if (user.role === "instructor" || user.role === "admin") {
+  if (isInstructor(user)) {
     // If it's an instructor, they probably want instructor mode by default.
     return { type: "InstructorMode", options: { showAllSections: true } };
   } else if (courses.length === 0) {
@@ -113,8 +113,7 @@ const ModeDisplay = ({
   startEditing,
 }: Props & { startEditing: () => void }) => {
   const hasCourses = !!courses.length;
-  const isInstructor = user.role === "instructor" || user.role === "admin";
-  const hasOptions = hasCourses || isInstructor;
+  const hasOptions = hasCourses || isInstructor(user);
 
   const changeButton = (
     <LinkButton onClick={() => startEditing()}>Change</LinkButton>
@@ -191,14 +190,13 @@ const ModeEditor = ({
   const [newMode, setNewMode] = useState<Partial<Mode> | undefined>(mode);
 
   const hasCourses = !!courses.length;
-  const isInstructor = user.role === "instructor" || user.role === "admin";
 
   const typeChoices: [ModeType, Html][] = [];
   if (hasCourses) {
     typeChoices.push(["CourseMode", "For Course Credit"]);
   }
   typeChoices.push(["ExplorationMode", "Personal Exploration"]);
-  if (isInstructor) {
+  if (isInstructor(user)) {
     typeChoices.push(["InstructorMode", "Instructor Mode"]);
   }
 
