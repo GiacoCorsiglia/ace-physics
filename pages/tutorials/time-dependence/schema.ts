@@ -1,7 +1,7 @@
 import * as s from "@/schema/tutorial";
 
 const TableRow = s.object({
-  phaseDifference: s.chooseOne(["0", "pi/2", "pi", "-pi/2"]),
+  phaseDifference: s.chooseOne(["0", "pi/2", "pi", "-pi/2", "other"]),
   equationProbAmp: s.chooseOne([
     "ψ1 + ψ2",
     "-iψ1 + ψ2",
@@ -38,7 +38,7 @@ export default s.tutorial({
   sections: {
     timeEvolutionInfiniteSquareWellPotentialIntro: s.section(),
     groundStateGraph: s.section({
-      messages: ["nodes", "correct"],
+      messages: ["nodes", "correct", "sin^2"],
     }),
     timeEvolvedGroundState: s.section(),
     timeEvolvedGroundStateChoice: s.section({
@@ -86,7 +86,15 @@ export default s.tutorial({
     explainTimeDependenceOfProbDens: s.section(),
     behaviorOfProbDensAtMidpoint: s.section(),
     tableTime0: s.section(),
-    tableTime25: s.section(),
+    tableTime25: s.section({
+      messages: [
+        "prob amp incorrect",
+        "prob dens incorrect",
+        "graph incorrect",
+        "phase difference incorrect",
+        "correct",
+      ],
+    }),
     tableTime50: s.section(),
     completeTable: s.section(),
     symmetry: s.section(),
@@ -106,7 +114,7 @@ export default s.tutorial({
     connectSimWithCorrectDescription: s.section(),
   },
   responses: {
-    groundStateGraph: s.chooseOne(["psi1", "psi2", "psi2^2"]),
+    groundStateGraph: s.chooseOne(["psi1", "psi2", "psi1^2", "psi2^2"]),
     timeEvolvedGroundState: s.string(),
     groundStateTimeDependence: s.chooseOne([
       "none",
@@ -162,6 +170,11 @@ export default s.tutorial({
   },
   hints: {
     // Hints here.
+    probDensPlot: s.hint(),
+    prevGraphComparison: s.hint(),
+    simGraphComparison: s.hint(),
+    hbar: s.hint(),
     verifyRotationPeriod2: s.hint(),
+    explainProbDensAtTime0: s.hint(),
   },
 });

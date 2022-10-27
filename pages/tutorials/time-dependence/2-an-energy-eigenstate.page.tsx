@@ -87,6 +87,17 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           </Prose>
         </>
       ),
+      hints: [
+        hint({
+          name: "prevGraphComparison",
+          body: (
+            <Prose>
+              The red line in the upper right graph in the sim represents the
+              probability amplitude at a specific point <M t="x_0" />.
+            </Prose>
+          ),
+        }),
+      ],
     }),
 
     section({
@@ -113,6 +124,17 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "simGraphComparison",
+          body: (
+            <Prose>
+              Move the slider in the sim’s “Main Controls” to explore this
+              relationship.
+            </Prose>
+          ),
+        }),
+      ],
     }),
 
     section({
@@ -150,6 +172,16 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           </Prose>
         </>
       ),
+      hints: [
+        hint({
+          name: "hbar",
+          body: (
+            <Prose>
+              We define <M t="\hbar = h/2\pi" />.
+            </Prose>
+          ),
+        }),
+      ],
       guidance: {
         nextMessage(r) {
           return rotationPeriodGuidance(r.rotationPeriod1, r.rotationPeriod2);

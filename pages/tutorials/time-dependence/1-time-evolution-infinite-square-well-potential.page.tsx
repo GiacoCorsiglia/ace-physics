@@ -16,7 +16,7 @@ import { PencilIcon } from "@primer/octicons-react";
 import { memo } from "react";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "timeEvolutionInfiniteSquareWellPotential",
   label: "Time Evolution in the Infinite Square Well Potential",
   answers: "checked-some",
@@ -59,6 +59,7 @@ export default page(setup, ({ section }) => ({
           choices={[
             ["psi2", <Psi2 />],
             ["psi1", <Psi1 />],
+            ["psi1^2", <Psi1Squared />],
             ["psi2^2", <Psi2Squared />],
           ]}
         />
@@ -75,6 +76,16 @@ export default page(setup, ({ section }) => ({
           correct: {
             body: <Guidance.Agree>Agreed!</Guidance.Agree>,
             onContinue: "nextSection",
+          },
+          "sin^2": {
+            body: (
+              <Guidance.Disagree>
+                Heads up—do you meant to plot <M t="\sin(x)" /> or{" "}
+                <M t="\sin^2(x)" />? How are those two graphs different?{" "}
+                <em>Hint: imagine extending the graph beyond one period.</em>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
           },
           nodes: {
             body: (
@@ -370,6 +381,16 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "probDensPlot",
+          body: (
+            <Prose>
+              Recall that <M t="\psi_1" /> is an energy eigenstate.
+            </Prose>
+          ),
+        }),
+      ],
       guidance: {
         nextMessage(r) {
           if (r.probDensDependsOnTime === false) {
@@ -405,8 +426,9 @@ export default page(setup, ({ section }) => ({
                   The time evolution of a single energy eigenstate is a global
                   phase (complex exponential factor) that disappears when
                   calculating the probability density <M t="|\psi_1(x, t)|^2" />
-                  , but you should still write that global phase down like we
-                  did above! The rest of the tutorial explore this further.
+                  , it's important to keep track of that global phase when you
+                  might have superpose this state with another energy
+                  eigenstate. The rest of the tutorial explore this further.
                 </p>
               </Guidance.Agree>
             ),
@@ -591,6 +613,9 @@ const EnergyEigenstate = ({
 
 const Psi1 = memo(() => (
   <EnergyEigenstate f={(x) => Math.sin((x * Math.PI) / L)} />
+));
+const Psi1Squared = memo(() => (
+  <EnergyEigenstate f={(x) => Math.sin((x * Math.PI) / L) ** 2} />
 ));
 const Psi2 = memo(() => (
   <EnergyEigenstate f={(x) => Math.sin((2 * x * Math.PI) / L)} />

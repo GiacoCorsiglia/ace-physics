@@ -23,7 +23,7 @@ import tableGraph3 from "./assets/table-graph-3.png";
 import xSliderHalfLImg from "./assets/x-slider-half-l.png";
 import setup, { ResponseModels, Responses } from "./setup";
 
-export default page(setup, ({ section, oneOf }) => ({
+export default page(setup, ({ section, oneOf, hint }) => ({
   name: "aSuperpositionOfEigenstates",
   label: "A Superposition of Eigenstates",
   answers: "checked-some",
@@ -164,6 +164,19 @@ export default page(setup, ({ section, oneOf }) => ({
           />
         </>
       ),
+
+      hints: [
+        hint({
+          name: "explainProbDensAtTime0",
+          body: (
+            <Prose>
+              To think about <M t="|\psi_A|^2" />, first imagine a sketch of{" "}
+              <M t="\psi_A" /> itself. How do <M t="\psi_1" /> and{" "}
+              <M t="\psi_2" /> superpose at this time?
+            </Prose>
+          ),
+        }),
+      ],
     }),
 
     section({
@@ -201,6 +214,84 @@ export default page(setup, ({ section, oneOf }) => ({
         allowed: (s, _, m) =>
           isSet(m.table.properties.t025, s.responses?.table?.t025),
       },
+      guidance: {
+        nextMessage(r) {
+          const row = r.table?.t025;
+          const correctRow = correctTable.t025;
+
+          if (!deepEqual(row?.equationProbAmp, correctRow?.equationProbAmp)) {
+            return "prob amp incorrect";
+          } else if (
+            !deepEqual(row?.equationProbDens, correctRow?.equationProbDens)
+          ) {
+            return "prob dens incorrect";
+          } else if (
+            !deepEqual(row?.graphProbDens, correctRow?.graphProbDens)
+          ) {
+            return "graph incorrect";
+          } else if (
+            !deepEqual(row?.phaseDifference, correctRow?.phaseDifference)
+          ) {
+            return "phase difference incorrect";
+          } else {
+            return "correct";
+          }
+        },
+        messages: {
+          "prob amp incorrect": {
+            body: (
+              <Guidance.Disagree>
+                We disagree with your Equation for <M t="\psi_A" />. Double
+                check your phase factors (<M t="e^{-E_nt/\hbar}" />
+                )—which energy levels should you be using for <M t="\psi_1" />{" "}
+                and <M t="\psi_2" />?
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "prob dens incorrect": {
+            body: (
+              <Guidance.Disagree>
+                Check your algebra for <M t="|\psi_A|^2" />. Watch your{" "}
+                <M t="i" />
+                ’s and minus signs!
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "graph incorrect": {
+            body: (
+              <Guidance.Disagree>
+                Heads up—the graph of <M t="|\psi_A|^2" /> doesn’t look like
+                that. You can use the sim to see what the (lower left) graph
+                looks like at this time!
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          "phase difference incorrect": {
+            body: (
+              <Guidance.Disagree>
+                We disagree with your selection for <M t="\Delta" />. Consider
+                both <M t="\psi_1" /> (blue line in the sim) and{" "}
+                <M t="\psi_2" /> (red line in the sim) in the complex plane
+                (upper right graph in the sim). If you rotate <M t="\psi_1" />{" "}
+                <em>counterclockwise</em> by <M t="\Delta" />, you should get to{" "}
+                <M t="\psi_2" />.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          correct: {
+            body: (
+              <Guidance.Agree>
+                Nice! Your table looks good to us.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -232,8 +323,15 @@ export default page(setup, ({ section, oneOf }) => ({
       body: () => (
         <>
           <Prose>
-            Here is the complete table for four different times. You can use it
-            to check your answers above.
+            <p>Here is the complete table for four different times.</p>
+
+            <p>
+              Use it to check your table for <M t="t=0.5 h/E_1" />.
+            </p>
+
+            <p>
+              Then, consider all 4 times and see if you notice any patterns.
+            </p>
           </Prose>
 
           <TimeEvolutionTable>
@@ -325,32 +423,6 @@ export default page(setup, ({ section, oneOf }) => ({
       enumerate: false,
       body: (_, { responses }) => {
         const table = responses?.table || {};
-        const correctTable: Responses["table"] = {
-          t000: {
-            phaseDifference: { selected: "0" },
-            equationProbAmp: { selected: "ψ1 + ψ2" },
-            equationProbDens: { selected: "ψ1^2 + ψ2^2 + ψ1ψ2" },
-            graphProbDens: { selected: "t000" },
-          },
-          t025: {
-            phaseDifference: { selected: "pi/2" },
-            equationProbAmp: { selected: "-iψ1 + ψ2" },
-            graphProbDens: { selected: "t025" },
-            equationProbDens: { selected: "ψ1^2 + ψ2^2" },
-          },
-          t050: {
-            phaseDifference: { selected: "pi" },
-            equationProbAmp: { selected: "-ψ1 + ψ2" },
-            equationProbDens: { selected: "ψ1^2 + ψ2^2 - ψ1ψ2" },
-            graphProbDens: { selected: "t050" },
-          },
-          t075: {
-            phaseDifference: { selected: "-pi/2" },
-            equationProbAmp: { selected: "iψ1 + ψ2" },
-            graphProbDens: { selected: "t025" },
-            equationProbDens: { selected: "ψ1^2 + ψ2^2" },
-          },
-        };
 
         const times = ["t000", "t025", "t050", "t075"] as const;
         const corrects = times.map((t) => deepEqual(table[t], correctTable[t]));
@@ -585,14 +657,10 @@ const TimeEvolutionTable = ({ children }: { children?: Html }) => {
   return (
     <Table
       className={cx(styles.table, "text-small text-left")}
-      columns={[16, 25, 29, 30]}
+      columns={[25, 30, 29, 16]}
     >
       <thead className="text-center">
         <tr>
-          <td>
-            <M t="\Delta" />
-          </td>
-
           <td>
             Equation for <M t="\psi_A" />
           </td>
@@ -603,6 +671,10 @@ const TimeEvolutionTable = ({ children }: { children?: Html }) => {
 
           <td>
             Sketch of <M t="|\psi_A|^2" />
+          </td>
+
+          <td>
+            <M t="\Delta" />
           </td>
         </tr>
       </thead>
@@ -636,13 +708,13 @@ const TimeEvolutionTableRow = ({
       </tr>
 
       <tr>
-        <td>{delta}</td>
-
         <td>{probAmp}</td>
 
         <td>{probDens}</td>
 
         <td>{graphProbDens}</td>
+
+        <td>{delta}</td>
       </tr>
     </>
   );
@@ -664,6 +736,7 @@ const EditableTimeEvolutionTableRow = ({
     ["pi", <M t="\pi" />],
     ["0", <M t="0" />],
     ["-pi/2", <M t="-\pi/2" />],
+    ["other", "Other"],
   ] as const;
 
   const equationProbAmpChoices = [
@@ -717,4 +790,31 @@ const EditableTimeEvolutionTableRow = ({
       }
     />
   );
+};
+
+const correctTable: NonNullable<Responses["table"]> = {
+  t000: {
+    phaseDifference: { selected: "0" },
+    equationProbAmp: { selected: "ψ1 + ψ2" },
+    equationProbDens: { selected: "ψ1^2 + ψ2^2 + ψ1ψ2" },
+    graphProbDens: { selected: "t000" },
+  },
+  t025: {
+    phaseDifference: { selected: "pi/2" },
+    equationProbAmp: { selected: "-iψ1 + ψ2" },
+    graphProbDens: { selected: "t025" },
+    equationProbDens: { selected: "ψ1^2 + ψ2^2" },
+  },
+  t050: {
+    phaseDifference: { selected: "pi" },
+    equationProbAmp: { selected: "-ψ1 + ψ2" },
+    equationProbDens: { selected: "ψ1^2 + ψ2^2 - ψ1ψ2" },
+    graphProbDens: { selected: "t050" },
+  },
+  t075: {
+    phaseDifference: { selected: "-pi/2" },
+    equationProbAmp: { selected: "iψ1 + ψ2" },
+    graphProbDens: { selected: "t025" },
+    equationProbDens: { selected: "ψ1^2 + ψ2^2" },
+  },
 };
