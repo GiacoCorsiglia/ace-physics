@@ -112,11 +112,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-type LinkButtonProps = JSX.IntrinsicElements["button"];
+type LinkButtonProps = JSX.IntrinsicElements["button"] & {
+  link?: LinkProps["href"];
+};
 
 export const LinkButton = forwardRef<HTMLButtonElement, LinkButtonProps>(
-  function LinkButton({ children, ...props }, ref) {
+  function LinkButton({ children, link, ...props }, ref) {
     props.className = cx(props.className, styles.linkButton);
+
+    if (link && !props.disabled) {
+      return (
+        <Link href={link}>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a {...(props as JSX.IntrinsicElements["a"])}>{children}</a>
+        </Link>
+      );
+    }
 
     return (
       <button {...props} type={props.type || "button"} ref={ref}>
