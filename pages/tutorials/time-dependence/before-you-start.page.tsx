@@ -7,9 +7,9 @@ export default pretest(setup, ({ section }) => ({
     section({
       body: (
         <Prose>
-          All questions below refer to a single particle is in an infinite
-          square well. The energy eigenfunctions are named <M t="\phi_n(x)" />,
-          with corresponding energies <M t="E_n" />. The ground state is{" "}
+          All questions below refer to a single particle in an infinite square
+          well. The energy eigenfunctions are named <M t="\phi_n(x)" />, with
+          corresponding energies <M t="E_n" />. The ground state is{" "}
           <M t="\phi_1(x)" />.
         </Prose>
       ),
