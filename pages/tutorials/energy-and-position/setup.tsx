@@ -18,6 +18,7 @@ export default tutorialSetup({
   link: "energy-and-position",
   label: "Energy & Position",
   pretest: true,
+  posttest: false,
   pages: [
     {
       link: "1-energy-basis",

@@ -17,6 +17,7 @@ export default tutorialSetup({
   link: "vectors-to-functions",
   label: "Vectors to Functions",
   pretest: false,
+  posttest: false,
   pages: [
     {
       link: "1-a-spin-4-particle",

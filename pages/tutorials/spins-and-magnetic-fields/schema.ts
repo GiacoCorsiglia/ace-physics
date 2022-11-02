@@ -22,6 +22,7 @@ export default s.tutorial({
     ]),
     orientationOfSpinExitingMagneticFieldExplain: s.string(),
   },
+  posttest: {},
   sections: {
     explorationIntro: s.section(),
     simSetup: s.section(),

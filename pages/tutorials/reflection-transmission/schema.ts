@@ -15,6 +15,7 @@ export default s.tutorial({
     reflectWhenEAboveVFromLeft: ReflectionAmountChoice,
     reflectWhenEBelowVFromLeft: ReflectionAmountChoice,
   },
+  posttest: {},
   sections: {
     symmetricPotentialWellIntro: s.section(),
     unitsOfV0: s.section(),

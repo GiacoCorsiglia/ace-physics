@@ -18,6 +18,7 @@ export default tutorialSetup({
   link: "epr",
   label: "EPR and Entangled States",
   pretest: true,
+  posttest: false,
   info: (
     <Prose faded size="smallest">
       <em>

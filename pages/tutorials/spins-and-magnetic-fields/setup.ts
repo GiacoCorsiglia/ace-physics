@@ -17,6 +17,7 @@ export default tutorialSetup({
   link: "spins-and-magnetic-fields",
   label: "Spins & Magnetic Fields",
   pretest: true,
+  posttest: false,
   pages: [
     {
       link: "1-exploration",

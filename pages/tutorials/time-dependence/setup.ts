@@ -17,6 +17,7 @@ export default tutorialSetup({
   link: "time-dependence",
   label: "Time Dependence",
   pretest: true,
+  posttest: true,
   pages: [
     {
       link: "1-time-evolution-infinite-square-well-potential",

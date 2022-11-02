@@ -17,6 +17,7 @@ export default tutorialSetup({
   link: "quantum-mouse-2",
   label: "Quantum Mouse 2",
   pretest: true,
+  posttest: false,
   pages: [
     {
       link: "1-measurement-and-commutation",

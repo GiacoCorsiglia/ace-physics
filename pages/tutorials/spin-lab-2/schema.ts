@@ -53,6 +53,7 @@ export default s.tutorial({
     doesREffectAllVectorsSame: s.chooseOne(["yes", "no"]),
     doesREffectAllVectorsSameExplain: s.string(),
   },
+  posttest: {},
   sections: {
     threeAnalyzersIntro: s.section(),
     averageMinsMaxes: s.section(),

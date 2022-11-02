@@ -5,6 +5,7 @@ import * as urls from "@/urls";
 import {
   ArrowLeftIcon,
   ChecklistIcon,
+  MortarBoardIcon,
   StarIcon,
   ThumbsupIcon,
 } from "@primer/octicons-react";
@@ -25,6 +26,7 @@ export const TutorialHeader = ({
   const isPretest = router.pathname.endsWith(
     `/${config.link}/before-you-start`
   );
+  const isPosttest = router.pathname.endsWith(`/${config.link}/review`);
   const isFeedback = router.pathname.endsWith(`/${config.link}/feedback`);
   const currentPage = config.pages.findIndex((page) =>
     router.pathname.endsWith(`/${page.link}`)
@@ -40,6 +42,8 @@ export const TutorialHeader = ({
       return "Feedback";
     } else if (isPretest) {
       return "Before You Start";
+    } else if (isPosttest) {
+      return "Review";
     } else if (currentPage > -1) {
       return config.pages[currentPage].label;
     }
@@ -49,6 +53,7 @@ export const TutorialHeader = ({
     page:
       | "introduction"
       | "pretest"
+      | "posttest"
       | "feedback"
       | TutorialConfig["pages"][number]
   ): "complete" | "active" | "incomplete" => {
@@ -58,12 +63,15 @@ export const TutorialHeader = ({
     if (page === "pretest") {
       return isPretest ? "active" : isIntroduction ? "incomplete" : "complete";
     }
+    if (page === "posttest") {
+      return isPosttest ? "active" : isFeedback ? "complete" : "incomplete";
+    }
     if (page === "feedback") {
       return isFeedback ? "active" : "incomplete";
     }
 
     // Now for regular pages.
-    if (isFeedback) {
+    if (isPosttest || isFeedback) {
       return "complete";
     }
 
@@ -128,6 +136,14 @@ export const TutorialHeader = ({
             link: url(page.link),
             label: page.label,
           })),
+          config.posttest && {
+            status: pageStatus("posttest"),
+            link: url("review"),
+            // I don't know what the hell a "mortar board" is, but this is a
+            // graduation cap icon.
+            icon: <MortarBoardIcon />,
+            label: "Review",
+          },
           {
             status: pageStatus("feedback"),
             icon: <ThumbsupIcon />,

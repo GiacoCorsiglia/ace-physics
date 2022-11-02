@@ -2,19 +2,26 @@ import { SectionBox } from "@/components";
 import { Model } from "@/reactivity";
 import { Tracker } from "@/reactivity/tracker";
 import { TutorialSchema } from "@/schema/tutorial";
-import { PretestSectionConfig } from "../config";
+import { PosttestSectionConfig, PretestSectionConfig } from "../config";
 import { tracked } from "../state-tree";
 
-export const PretestSection = tracked(function PretestSection(
+export const PreOrPostTestSection = tracked(function PreOrPostTestSection(
   {
     config,
     modelsTracker,
-  }: {
-    config: PretestSectionConfig;
-    modelsTracker: Tracker<
-      Model<TutorialSchema>["properties"]["pretest"]["properties"]
-    >;
-  },
+  }:
+    | {
+        config: PretestSectionConfig;
+        modelsTracker: Tracker<
+          Model<TutorialSchema>["properties"]["pretest"]["properties"]
+        >;
+      }
+    | {
+        config: PosttestSectionConfig;
+        modelsTracker: Tracker<
+          Model<TutorialSchema>["properties"]["posttest"]["properties"]["responses"]["properties"]
+        >;
+      },
   state
 ) {
   const modelsAccessedBefore = modelsTracker.currentAccessed.size;

@@ -35,6 +35,10 @@ export default s.tutorial({
     ),
     superpositionProbE2Changes: s.chooseOne(["true", "false"], s.string()),
   },
+  posttest: {
+    firstExcitedProbRightHalfChanges: s.chooseOne(["true", "false"]),
+    superpositionProbE2Changes: s.chooseOne(["true", "false"]),
+  },
   sections: {
     timeEvolutionInfiniteSquareWellPotentialIntro: s.section(),
     groundStateGraph: s.section({

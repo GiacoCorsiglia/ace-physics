@@ -20,6 +20,7 @@ const nonPageFiles = new Set([
   "index.page.tsx",
   "feedback.page.tsx",
   "before-you-start.page.tsx",
+  "review.page.tsx",
 ]);
 
 const findAllSections = (nodes: readonly NodeConfig[]): SectionConfig[] =>
@@ -118,6 +119,20 @@ fs.readdirSync(tutorialsDir)
           expect(pretest.tutorialConfig).toBe(setup);
           expect(typeof pretest === "function").toBe(true);
           expect(pretest.displayName).toMatch("Pretest");
+        });
+      }
+
+      if (!setup.posttest) {
+        it("doesn't have posttest page (because setup.posttest === false)", () => {
+          expect(t.files).not.toContain("review.page.tsx");
+        });
+      } else {
+        it("posttest page", () => {
+          expect(t.files).toContain("review.page.tsx");
+          const posttest = importDefault("review.page.tsx");
+          expect(posttest.tutorialConfig).toBe(setup);
+          expect(typeof posttest === "function").toBe(true);
+          expect(posttest.displayName).toMatch("Posttest");
         });
       }
 

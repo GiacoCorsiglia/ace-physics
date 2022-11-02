@@ -16,6 +16,7 @@ export * from "./fields";
 export type TutorialSchema<
   Pages extends Dict<PageSchema> = Dict<PageSchema>,
   Pretest extends f.Properties = f.Properties,
+  Posttest extends f.Properties = f.Properties,
   Responses extends f.Properties = f.Properties,
   Message extends string = string,
   Sections extends Dict<SectionSchema<readonly Message[]>> = Dict<
@@ -25,6 +26,9 @@ export type TutorialSchema<
 > = f.ObjectField<{
   pages: f.ObjectField<Pages>;
   pretest: f.ObjectField<Pretest>;
+  posttest: f.ObjectField<{
+    responses: f.ObjectField<Posttest>;
+  }>;
   responses: f.ObjectField<Responses>;
   sections: f.ObjectField<Sections>;
   hints: f.ObjectField<Hints>;
@@ -49,6 +53,7 @@ interface Dict<S> {
 export const tutorial = <
   Pages extends Dict<PageSchema>,
   Pretest extends f.Properties,
+  Posttest extends f.Properties,
   Responses extends f.Properties,
   Message extends string,
   Sections extends Dict<SectionSchema<readonly Message[]>>,
@@ -56,19 +61,32 @@ export const tutorial = <
 >({
   pages,
   pretest,
+  posttest,
   responses,
   sections,
   hints,
 }: {
   pages: Pages;
   pretest: Pretest;
+  posttest: Posttest;
   responses: Responses;
   sections: Sections;
   hints: Hints;
-}): TutorialSchema<Pages, Pretest, Responses, Message, Sections, Hints> => {
+}): TutorialSchema<
+  Pages,
+  Pretest,
+  Posttest,
+  Responses,
+  Message,
+  Sections,
+  Hints
+> => {
   return f.object({
     pages: f.object(pages),
     pretest: f.object(pretest),
+    posttest: f.object({
+      responses: f.object(posttest),
+    }),
     responses: f.object(responses),
     sections: f.object(sections),
     hints: f.object(hints),

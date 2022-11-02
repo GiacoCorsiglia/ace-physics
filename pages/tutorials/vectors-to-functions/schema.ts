@@ -20,6 +20,7 @@ export default s.tutorial({
   pretest: {
     // No pretest.
   },
+  posttest: {},
   sections: {
     aSpin4ParticleIntro: s.section(),
     spin4Colum: s.section(),

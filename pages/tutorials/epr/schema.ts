@@ -16,6 +16,7 @@ export default s.tutorial({
     aliceSpinUpZAfter: PretestAnswer,
     aliceNoMeasurement: PretestAnswer,
   },
+  posttest: {},
   sections: {
     marblesIntro: s.section(),
     compareToEPR: s.section(),

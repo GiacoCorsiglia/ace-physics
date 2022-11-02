@@ -44,6 +44,9 @@ export default s.tutorial({
   pretest: {
     // Pretest fields here.
   },
+  posttest: {
+    // Posttest fields here.
+  },
   sections: {
     // Sections here.
   },
@@ -75,6 +78,7 @@ export default tutorialSetup({
   link: "${name}",
   label: "TODO",
   pretest: false,
+  posttest: false,
   pages: [
     {
       link: "1-TODO",

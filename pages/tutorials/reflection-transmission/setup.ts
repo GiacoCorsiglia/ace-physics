@@ -17,6 +17,7 @@ export default tutorialSetup({
   link: "reflection-transmission",
   label: "Reflecting on Transmission",
   pretest: true,
+  posttest: false,
   pages: [
     {
       link: "1-symmetric-potential-well",

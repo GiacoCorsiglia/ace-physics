@@ -34,6 +34,7 @@ export default s.tutorial({
     measureA: s.string(),
     afterMeasureA: s.string(),
   },
+  posttest: {},
   sections: {
     whatIsAQuantumMouseIntro: s.section(),
     size: s.section(),
