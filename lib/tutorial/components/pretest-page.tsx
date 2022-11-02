@@ -37,6 +37,7 @@ export const PretestPage = ({
       getModels={(rootModel) => rootModel.properties.pretest.properties}
       getState={(state) => state.pretest}
       isDisabled={isDisabled}
+      isContinueAlwaysAllowed={isDisabled}
       continueLink={continueLink}
       intro={
         <>

@@ -37,6 +37,7 @@ export const PreOrPostTestPage = ({
   getModels,
   getState,
   isDisabled,
+  isContinueAlwaysAllowed,
   continueLink,
   intro,
   timesUpModalTitle,
@@ -47,6 +48,7 @@ export const PreOrPostTestPage = ({
   getModels: (rootModel: Model<TutorialSchema>) => Models;
   getState: GetState;
   isDisabled: boolean;
+  isContinueAlwaysAllowed: boolean;
   continueLink: string;
   intro: Html;
   timesUpModalTitle: Html;
@@ -93,7 +95,7 @@ export const PreOrPostTestPage = ({
         getState={getState}
         modelsTracker={modelsTracker}
         continueLink={continueLink}
-        isAlwaysAllowed={didTimeout || isDisabled}
+        isAlwaysAllowed={didTimeout || isContinueAlwaysAllowed}
       />
     </SectionGroup>
   );

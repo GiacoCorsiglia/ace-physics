@@ -39,6 +39,7 @@ export const PosttestPage = ({
       }
       getState={(state) => state.posttest?.responses}
       isDisabled={isDisabled}
+      isContinueAlwaysAllowed={false}
       continueLink={continueLink}
       intro={
         <>
