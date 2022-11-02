@@ -76,6 +76,7 @@ export default s.tutorial({
     createdNewState: s.chooseOne(["true", "false"]),
     createdNewStateExplain: s.string(),
   },
+  posttest: {},
   sections: {
     probabilityAndProjectionIntro: s.section(),
     meaningOfCoefficients: s.section(),

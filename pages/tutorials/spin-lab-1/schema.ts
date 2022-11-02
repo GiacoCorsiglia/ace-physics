@@ -26,6 +26,7 @@ export default s.tutorial({
     readingsExplain: s.string(),
     xSpinAtDetectorA: s.string(),
   },
+  posttest: {},
   sections: {
     // spinZExperiment.
     spinZIntro: s.section(),

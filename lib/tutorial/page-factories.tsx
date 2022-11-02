@@ -4,6 +4,7 @@ import { cloneElement } from "react";
 import { BodyPage } from "./components/body-page";
 import { FeedbackPage } from "./components/feedback-page";
 import { IntroPage } from "./components/intro-page";
+import { PosttestPage } from "./components/posttest-page";
 import { PretestPage } from "./components/pretest-page";
 import { TutorialRoot } from "./components/tutorial-root";
 import * as c from "./config";
@@ -86,6 +87,30 @@ export const pretest = <S extends TutorialSchema>(
       />
     ),
     displayName: `TutorialRoute:Pretest`,
+    config,
+    tutorialConfig,
+  });
+};
+
+/**
+ * Creates the posttest page for the given tutorial setup.
+ */
+export const posttest = <S extends TutorialSchema>(
+  tutorialConfig: c.TutorialConfig<S>,
+  factory: (constructors: {
+    /** Creates a section in the posttest. */
+    section: (c: c.PosttestSectionConfig<S>) => c.PosttestSectionConfig<S>;
+  }) => c.PosttestConfig<S>
+) => {
+  const config = factory({ section: id });
+  return routeComponent({
+    element: (
+      <PosttestPage
+        config={config as c.PosttestConfig<TutorialSchema>}
+        tutorialConfig={tutorialConfig}
+      />
+    ),
+    displayName: `TutorialRoute:Posttest`,
     config,
     tutorialConfig,
   });

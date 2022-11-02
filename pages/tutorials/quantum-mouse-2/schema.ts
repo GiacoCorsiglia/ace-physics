@@ -19,6 +19,7 @@ export default s.tutorial({
     doAAndCCommute: s.chooseOne(["yes", "no"]),
     doAAndCCommuteExplain: s.string(),
   },
+  posttest: {},
   sections: {
     measurementAndCommutationIntro: s.section(),
     eyeSizeMeasAffectsHappinessPredict: s.section({

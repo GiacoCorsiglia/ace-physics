@@ -21,6 +21,7 @@ const schema = s.tutorial({
     page2: s.page(),
   },
   pretest: {},
+  posttest: {},
   sections: {
     s1: s.section(),
     s2: s.section({

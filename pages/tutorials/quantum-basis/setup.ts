@@ -17,6 +17,7 @@ export default tutorialSetup({
   link: "quantum-basis",
   label: "Visualizing a Vector in a Different Basis — Main Edition",
   pretest: true,
+  posttest: false,
   pages: [
     {
       link: "1-probability-and-projection",

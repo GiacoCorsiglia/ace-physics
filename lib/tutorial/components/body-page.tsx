@@ -161,7 +161,8 @@ function ContinueToNextPage({
       currentPageIndex === -1
         ? undefined
         : tutorialConfig.pages[currentPageIndex + 1];
-    const nextLink = nextPage?.link ?? "feedback";
+    const nextLink =
+      nextPage?.link ?? (tutorialConfig.posttest ? "review" : "feedback");
 
     return urls.join(urls.Tutorials.link, tutorialConfig.link, nextLink);
   })();

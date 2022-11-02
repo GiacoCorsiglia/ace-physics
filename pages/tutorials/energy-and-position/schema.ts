@@ -15,6 +15,7 @@ export default s.tutorial({
     probUpXEqual: s.chooseOne(["true", "false"]),
     howToNormalizeWaveFunction: s.string(),
   },
+  posttest: {},
   sections: {
     energyBasisIntro: s.section(),
     psiAMeasurements: s.section(),

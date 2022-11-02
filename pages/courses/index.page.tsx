@@ -8,6 +8,7 @@ import {
   Header,
   Horizontal,
   Justify,
+  LinkButton,
   LinkCard,
   LoadingAnimation,
   MainContentBox,
@@ -58,11 +59,19 @@ export default function Courses() {
           {auth.status === "authenticated" && courses && (
             <>
               {!!courses.length && (
-                <ul>
-                  {courses.map((course) => (
-                    <CourseCard key={course.id} course={course} />
-                  ))}
-                </ul>
+                <>
+                  <ul>
+                    {courses.map((course) => (
+                      <CourseCard key={course.id} course={course} />
+                    ))}
+                  </ul>
+
+                  <p>
+                    <LinkButton link="/tutorials">
+                      View all tutorials
+                    </LinkButton>
+                  </p>
+                </>
               )}
 
               {!courses.length && (

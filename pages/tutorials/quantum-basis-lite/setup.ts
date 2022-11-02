@@ -17,6 +17,7 @@ export default tutorialSetup({
   link: "quantum-basis-lite",
   label: "Visualizing a Vector in a Different Basis — Lite Edition",
   pretest: true,
+  posttest: false,
   pages: [
     {
       link: "1-defining-basis",

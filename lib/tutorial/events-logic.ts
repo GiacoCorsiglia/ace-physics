@@ -47,6 +47,7 @@ export const eventsFromUpdates = (
           return null;
 
         case "pretest":
+        case "posttest":
         case "feedback":
         case "responses":
           const field: Field = (path as readonly (string | number)[]).reduce(

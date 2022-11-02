@@ -36,6 +36,10 @@ export interface TutorialConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly pretest: boolean;
   /**
+   * Whether the tutorial has a posttest page.
+   */
+  readonly posttest: boolean;
+  /**
    * The list of pages in the tutorial to include in the sidebar.
    */
   readonly pages: readonly {
@@ -70,7 +74,7 @@ export interface IntroConfig<S extends TutorialSchema = TutorialSchema> {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Pretests.
+// Pretests and Posttests.
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -120,6 +124,57 @@ export interface PretestSectionConfig<
     | Html
     | ((
         models: Models<S>["pretest"]["properties"],
+        state: TutorialState<S>
+      ) => Html);
+}
+
+/**
+ * Configuration for the posttest page.
+ */
+export interface PosttestConfig<S extends TutorialSchema = TutorialSchema> {
+  /**
+   * The sections in the posttest.
+   */
+  readonly sections: readonly PosttestSectionConfig<S>[];
+  /**
+   * Settings for the "Submit and move on" button.
+   */
+  readonly continue?: {
+    /**
+     * List of optional fields.
+     */
+    readonly optional?: readonly StringKeys<
+      S["properties"]["posttest"]["properties"]["responses"]["properties"]
+    >[];
+    /**
+     * Conditional logic dictating when the continue button should be enabled.
+     * By default, the button will only be enabled when all models used in the
+     * pretest body are set.
+     * @param state The current TutorialState.
+     * @param allowed The original determination of whether the button should be
+     * enabled based on the default logic.
+     */
+    readonly allowed?: (state: TutorialState<S>, allowed: boolean) => boolean;
+  };
+}
+
+/**
+ * Configuration for a section on the posttest page.
+ */
+export interface PosttestSectionConfig<
+  S extends TutorialSchema = TutorialSchema
+> {
+  /**
+   * Controls the numbered/lettered label for the section.
+   */
+  readonly enumerate?: boolean;
+  /**
+   * The contents of this section.
+   */
+  readonly body:
+    | Html
+    | ((
+        models: Models<S>["posttest"]["properties"]["responses"]["properties"],
         state: TutorialState<S>
       ) => Html);
 }
