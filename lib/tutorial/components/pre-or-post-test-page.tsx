@@ -39,6 +39,7 @@ export const PreOrPostTestPage = ({
   isDisabled,
   isContinueAlwaysAllowed,
   continueLink,
+  onContinue,
   intro,
   timesUpModalTitle,
   timesUpModalContent,
@@ -50,6 +51,7 @@ export const PreOrPostTestPage = ({
   isDisabled: boolean;
   isContinueAlwaysAllowed: boolean;
   continueLink: string;
+  onContinue?: () => void;
   intro: Html;
   timesUpModalTitle: Html;
   timesUpModalContent: Html;
@@ -95,6 +97,7 @@ export const PreOrPostTestPage = ({
         getState={getState}
         modelsTracker={modelsTracker}
         continueLink={continueLink}
+        onContinue={onContinue}
         isAlwaysAllowed={didTimeout || isContinueAlwaysAllowed}
       />
     </SectionGroup>
@@ -108,6 +111,7 @@ const ContinueSection = tracked(function ContinueSection(
     getState,
     modelsTracker,
     continueLink,
+    onContinue,
     isAlwaysAllowed,
   }: {
     config: PretestConfig | PosttestConfig;
@@ -115,6 +119,7 @@ const ContinueSection = tracked(function ContinueSection(
     getState: GetState;
     modelsTracker: Tracker<Models>;
     continueLink: string;
+    onContinue: (() => void) | undefined;
     isAlwaysAllowed: boolean;
   },
   state
@@ -136,6 +141,7 @@ const ContinueSection = tracked(function ContinueSection(
         <Button
           color="green"
           link={continueLink}
+          onClick={onContinue}
           disabled={!isContinueAllowed && !isAlwaysAllowed}
           disabledExplanation="Please respond to every question before moving on"
           iconRight={<ArrowRightIcon />}

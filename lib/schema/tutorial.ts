@@ -27,6 +27,8 @@ export type TutorialSchema<
   pages: f.ObjectField<Pages>;
   pretest: f.ObjectField<Pretest>;
   posttest: f.ObjectField<{
+    status: f.CasesField<["revealed", "completed"]>;
+    completedPages: f.ArrayField<f.StringField>;
     responses: f.ObjectField<Posttest>;
   }>;
   responses: f.ObjectField<Responses>;
@@ -85,6 +87,8 @@ export const tutorial = <
     pages: f.object(pages),
     pretest: f.object(pretest),
     posttest: f.object({
+      status: f.cases("revealed", "completed"),
+      completedPages: f.array(f.string()),
       responses: f.object(posttest),
     }),
     responses: f.object(responses),
