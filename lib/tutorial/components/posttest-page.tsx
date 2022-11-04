@@ -1,8 +1,9 @@
 import { Callout, Prose, Vertical } from "@/components";
 import * as urls from "@/urls";
 import { AlertIcon, ClockIcon } from "@primer/octicons-react";
+import { useEffect } from "react";
 import { PosttestConfig, TutorialConfig } from "../config";
-import { useTracked } from "../state-tree";
+import { useStore, useTracked } from "../state-tree";
 import { PreOrPostTestPage } from "./pre-or-post-test-page";
 
 export const PosttestPage = ({
@@ -12,17 +13,19 @@ export const PosttestPage = ({
   config: PosttestConfig;
   tutorialConfig: TutorialConfig;
 }) => {
-  // TODO: Disable the post test after it has been submitted.
-  const isDisabled = useTracked((state) => {
-    // Require that every page has been completed before allowing the pretest to
-    // be completed.  TODO: This might be heavy handed?
-    const pageNames = Object.keys(
-      tutorialConfig.schema.properties.pages.properties
-    );
-    return !pageNames.every(
-      (pageName) => state.pages?.[pageName]?.status === "completed"
-    );
-  });
+  // Disable the post test after it has been submitted.
+  const isDisabled = useTracked(
+    (state) => state.posttest?.status === "completed"
+  );
+
+  const store = useStore();
+
+  // Mark the posttest as revealed if it wasn't already.
+  useEffect(() => {
+    store.transaction((set) => {
+      set(["posttest", "status"], (oldStatus) => oldStatus ?? "revealed");
+    });
+  }, [store]);
 
   const continueLink = urls.join(
     urls.Tutorials.link,
@@ -41,6 +44,22 @@ export const PosttestPage = ({
       isDisabled={isDisabled}
       isContinueAlwaysAllowed={false}
       continueLink={continueLink}
+      onContinue={() => {
+        store.transaction((set, initialState) => {
+          // Mark the posttest as submitted.
+          set(["posttest", "status"], "completed");
+
+          // Save the set of pages that had already been completed when the
+          // posttest was submitted.
+          const pageNames = Object.keys(
+            tutorialConfig.schema.properties.pages.properties
+          );
+          const completedPages = pageNames.filter(
+            (pageName) => initialState.pages?.[pageName]?.status === "completed"
+          );
+          set(["posttest", "completedPages"], (prev) => prev ?? completedPages);
+        });
+      }}
       intro={
         <>
           <Prose>
