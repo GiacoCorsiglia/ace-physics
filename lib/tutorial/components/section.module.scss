@@ -27,6 +27,9 @@
 }
 
 .guidanceMessageContainer {
+  // Apply callout bleed.
+  composes: callout from "../../components/layout.module.scss";
+
   position: relative;
 }
 
