@@ -435,7 +435,7 @@ export const oneOf = <
 /**
  * Configuration for a hint.
  */
-export interface HintConfig<S extends TutorialSchema> {
+export interface HintConfig<S extends TutorialSchema = TutorialSchema> {
   /**
    * The internal name of the hint.
    */
