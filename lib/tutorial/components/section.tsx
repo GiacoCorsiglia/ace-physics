@@ -10,7 +10,7 @@ import { Tooltip, useTooltip } from "@/components/tooltip";
 import { cx, Html, useScrollIntoView } from "@/helpers/client";
 import { isSet, tracker } from "@/reactivity";
 import { ArrowDownIcon, EyeClosedIcon, EyeIcon } from "@primer/octicons-react";
-import { GuidanceMessageConfig, SectionConfig } from "../config";
+import { GuidanceMessageConfig, HintConfig, SectionConfig } from "../config";
 import { CommitAction, isMarkedVisible } from "../section-logic";
 import { tracked, useRootModel, useStore } from "../state-tree";
 import { useInstructorMode } from "./mode-manager";
@@ -56,20 +56,35 @@ export const Section = tracked(function Section(
 
   const hasBody = !!bodyHtml || !!prepend;
 
+  // Hints.
+  const renderHint = ({ name, body }: HintConfig) => (
+    <Callout key={name} color="yellow" animateIn>
+      {body instanceof Function ? body(modelsTracker.proxy, state) : body}
+    </Callout>
+  );
+
+  const flatHints = config.hints?.flat();
+
   // Revealed hints.
-  const revealedHintsHtml =
-    config.hints &&
-    config.hints
-      .flat()
-      .filter(
-        ({ name, body }) =>
-          state.hints?.[name]?.status === "revealed" && body !== "disable"
-      )
-      .map(({ name, body }) => (
-        <Callout key={name} color="yellow" animateIn>
-          {body instanceof Function ? body(modelsTracker.proxy, state) : body}
-        </Callout>
-      ));
+  const revealedHintsHtml = flatHints
+    ?.filter(
+      ({ name, body }) =>
+        state.hints?.[name]?.status === "revealed" && body !== "disable"
+    )
+    .map(renderHint);
+
+  // All hints (for instructor mode).
+  const showAllHints = showAllSections;
+  const allHintsHtml =
+    showAllHints && flatHints?.length ? (
+      <Vertical>
+        <Prose size="smallest" faded>
+          Available hints:
+        </Prose>
+
+        {flatHints.map(renderHint)}
+      </Vertical>
+    ) : null;
 
   // End tracking accessed models.
   const affected = modelsTracker.currentAccessed;
@@ -149,6 +164,9 @@ export const Section = tracked(function Section(
 
         <SectionHintButtons config={config} />
       </div>
+
+      {showAllHints && allHintsHtml && <hr />}
+      {showAllHints && allHintsHtml}
 
       {hasBody && config.guidance && <hr className={styles.guidanceHr} />}
 
