@@ -41,6 +41,13 @@ export default s.tutorial({
     firstExcitedProbRightHalfChangesExplain: s.string(),
     superpositionProbE2Changes: s.chooseOne(["true", "false"]),
     superpositionProbE2ChangesExplain: s.string(),
+    superpositionGroundSecondExcitedState: s.chooseOne([
+      "maximal",
+      "=0, minimal",
+      ">0, minimal",
+      "between minimum and maximum",
+    ]),
+    superpositionGroundSecondExcitedStateExplain: s.string(),
   },
   sections: {
     timeEvolutionInfiniteSquareWellPotentialIntro: s.section(),
