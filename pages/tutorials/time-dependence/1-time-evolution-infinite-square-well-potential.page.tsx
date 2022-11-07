@@ -99,7 +99,7 @@ export default page(setup, ({ section, hint }) => ({
                 <p>
                   You correctly chose the graph for <M t="\sin(x)" />. The
                   other, similar looking option instead shows{" "}
-                  <M t="\sin^2(x)" />. We’re plotting probability{" "}
+                  <M t="\sin^2(x)" />. We’re plotting probability density{" "}
                   <em>amplitude</em> here, so no squaring necessary.
                 </p>
               </Guidance.Agree>
