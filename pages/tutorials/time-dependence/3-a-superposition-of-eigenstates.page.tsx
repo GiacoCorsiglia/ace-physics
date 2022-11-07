@@ -105,7 +105,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           />
 
           <Callout color="yellow">
-            You can use the slider to fix <M t="x = L/2" /> in the sim:
+            You can use the slider in the sim’s “Main Controls” to fix{" "}
+            <M t="x = L/2" />:
             <Image
               src={xSliderHalfLImg}
               alt="Screenshot of sim setup."
@@ -185,7 +186,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         <>
           <Prose>
             <p>
-              Complete the table for <M t="t= 0.25 h/E_1" />.
+              Complete the table for <M t="t = 0.25 h/E_1" />.
             </p>
 
             <p>
@@ -214,6 +215,74 @@ export default page(setup, ({ section, oneOf, hint }) => ({
         allowed: (s, _, m) =>
           isSet(m.table.properties.t025, s.responses?.table?.t025),
       },
+      hints: [
+        [
+          hint({
+            name: "table025PsiA1",
+            label: "Hmm…",
+            body: (
+              <Prose>
+                Starting with
+                <M
+                  display
+                  t="\psi_A(x) = \frac{1}{\sqrt{2}}(\psi_1(x) + \psi_2(x))"
+                />
+                add the appropriate phase factors (<M t="e^{-E_nt/\hbar}" />) to
+                find <M t="\psi_A(x, t)" />.
+              </Prose>
+            ),
+          }),
+          hint({
+            name: "table025PsiA2",
+            label: "Another hint",
+            body: (
+              <Prose>
+                Adding the phase factors gives
+                <M
+                  display
+                  t="\psi_A(x, t) = \frac{1}{\sqrt{2}}
+                  \left(
+                    e^{-E_1t/\hbar} \psi_1(x)
+                    +
+                    e^{-E_2t/\hbar} \psi_2(x)
+                  \right)"
+                />
+                where <M t="E_2 = 4 E_1" /> for the infinite square well.
+              </Prose>
+            ),
+          }),
+          hint({
+            name: "table025PsiA3",
+            label: "One more hint",
+            body: (
+              <Prose>
+                <p>
+                  To evaluate <M t="e^{-E_1t/\hbar}" /> at{" "}
+                  <M t="t= 0.25 h/E_1" />
+                  , recall <M t="\hbar = h/2\pi" />.
+                </p>
+
+                <p>Work this out on scrap paper!</p>
+              </Prose>
+            ),
+          }),
+          hint({
+            name: "table025Delta",
+            label: (
+              <>
+                What about <M t="\Delta" />?
+              </>
+            ),
+            body: (
+              <Prose>
+                One way to find <M t="\Delta" /> is to find the angle between{" "}
+                <M t="\psi_1" /> (blue line) and <M t="\psi_2" /> (red line) in
+                the upper right graph in the sim.
+              </Prose>
+            ),
+          }),
+        ],
+      ],
       guidance: {
         nextMessage(r) {
           const row = r.table?.t025;
@@ -241,10 +310,14 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           "prob amp incorrect": {
             body: (
               <Guidance.Disagree>
-                We disagree with your Equation for <M t="\psi_A" />. Double
-                check your phase factors (<M t="e^{-E_nt/\hbar}" />
-                )—which energy levels should you be using for <M t="\psi_1" />{" "}
-                and <M t="\psi_2" />?
+                <p>
+                  We disagree with your Equation for <M t="\psi_A" />. Double
+                  check your phase factors (<M t="e^{-E_nt/\hbar}" />
+                  )—which energy levels should you be using for <M t="\psi_1" />{" "}
+                  and <M t="\psi_2" />?
+                </p>
+
+                <p>Click the “Hmm…” button for a little hint!</p>
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",

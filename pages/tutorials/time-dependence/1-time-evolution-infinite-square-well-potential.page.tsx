@@ -64,17 +64,46 @@ export default page(setup, ({ section, hint }) => ({
           ]}
         />
       ),
+      hints: [
+        hint({
+          name: "groundStateGraph",
+          label: "Remind me",
+          body: (
+            <Prose>
+              The energy eigenstates for an infinite square well ranging from{" "}
+              <M t="x = 0" /> to <M t="x = L" /> look like
+              <M
+                display
+                t="\psi_n(x) = \sqrt{\frac{2}{L}} \sin\left( \frac{n \pi x}{L} \right)"
+              />
+            </Prose>
+          ),
+        }),
+      ],
       guidance: {
         nextMessage(r) {
           if (r.groundStateGraph?.selected === "psi1") {
             return "correct";
+          } else if (r.groundStateGraph?.selected === "psi1^2") {
+            return "sin^2";
           } else {
             return "nodes";
           }
         },
         messages: {
           correct: {
-            body: <Guidance.Agree>Agreed!</Guidance.Agree>,
+            body: (
+              <Guidance.Agree>
+                <p>Agreed!</p>
+
+                <p>
+                  You correctly chose the graph for <M t="\sin(x)" />. The
+                  other, similar looking option instead shows{" "}
+                  <M t="\sin^2(x)" />. We’re plotting probability{" "}
+                  <em>amplitude</em> here, so no squaring necessary.
+                </p>
+              </Guidance.Agree>
+            ),
             onContinue: "nextSection",
           },
           "sin^2": {
@@ -153,7 +182,13 @@ export default page(setup, ({ section, hint }) => ({
           </LabelsLeft>
 
           <Prose faded>
-            To type <M t="\psi_1(x)" />, copy-paste this: ψ1(x)
+            <p>Don’t worry about formatting.</p>
+
+            <p>
+              To type <M t="\psi_1(x)" /> or <M t="\hbar" />, copy-paste from
+              here: <span style={{ marginLeft: "1rem" }}>ψ1(x)</span>
+              <span style={{ marginLeft: "1rem" }}>ħ</span>
+            </p>
           </Prose>
         </>
       ),
@@ -297,7 +332,10 @@ export default page(setup, ({ section, hint }) => ({
             <M t="e^{-i E_1 t /\hbar}" /> when
             <M
               display
-              t="\frac{E_1 t}{\hbar} = 0,\ \pi/2,\ \pi,\ \text{and}\ 3\pi/2"
+              t="t = 0 \times \frac{\hbar}{E_1},\
+              \frac{\pi}{2} \times \frac{\hbar}{E_1},\
+              \pi \times \frac{\hbar}{E_1},\
+              \text{and}\ \frac{3\pi}{2} \times \frac{\hbar}{E_1}"
             />
             then interpolate between them.
           </Callout>
@@ -403,30 +441,16 @@ export default page(setup, ({ section, hint }) => ({
       ],
       guidance: {
         nextMessage(r) {
-          return r.rotationDirection?.selected || null;
+          return "delayedFeedback";
         },
         messages: {
-          clockwise: {
+          delayedFeedback: {
             body: (
-              <Guidance.Agree>
-                Agreed: the rotation is <strong>clockwise</strong> because of
-                the minus sign in the complex exponent.
-              </Guidance.Agree>
+              <Guidance.HeadsUp>
+                We haven’t checked your answer: you’ll have the opportunity to
+                double check this for yourself on the next page!
+              </Guidance.HeadsUp>
             ),
-            onContinue: "nextSection",
-          },
-          counterclockwise: {
-            body: (
-              <Guidance.Disagree>
-                The rotation is <strong>clockwise</strong> because of the minus
-                sign in the complex exponent. You can double check that when{" "}
-                <M t="E_1 t/\hbar = \pi/2" />, the exponent becomes{" "}
-                <M t="e^{-i E_1 t /\hbar} = -i" />, which is on the negative
-                imaginary axis.
-              </Guidance.Disagree>
-            ),
-            // It's wrong, but it's a binary, so no reason to make them "check
-            // in again".
             onContinue: "nextSection",
           },
         },
@@ -533,6 +557,10 @@ export default page(setup, ({ section, hint }) => ({
             <M t="e^{-i3\pi/2}" />.
           </Prose>
 
+          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
+            Do this on scrap paper.
+          </Callout>
+
           <LabelsLeft>
             <TextLine model={m.exp3PiOver2} label={<M t="e^{-i3\pi/2} = " />} />
           </LabelsLeft>
@@ -621,8 +649,8 @@ export default page(setup, ({ section, hint }) => ({
               <Guidance.HeadsUp>
                 This software can’t interpret what you’ve written, but we
                 suggest <M t="x" /> for the horizontal axis label, and
-                <M t="\operatorname{Im} \psi" /> (the imaginary part of
-                <M t="\psi" />) for the vertical axis label.
+                <M t="\operatorname{Im} \psi_1" /> (the imaginary part of
+                <M t="\psi_1" />) for the vertical axis label.
               </Guidance.HeadsUp>
             ),
             onContinue: "nextSection",
