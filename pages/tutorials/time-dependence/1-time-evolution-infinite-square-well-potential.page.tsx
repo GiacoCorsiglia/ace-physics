@@ -311,8 +311,8 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "probDensPlot",
-      body: (m, state) => (
+      name: "rotationDirection",
+      body: (m) => (
         <>
           <Prose>
             <p>
@@ -320,7 +320,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <Plot width={300} height={300} scale={65}>
+          <Plot width={200} height={200} scale={45}>
             <Axes yLabel="\text{Im}" xLabel="\text{Re}" />
 
             <WithPlot>
@@ -343,15 +343,100 @@ export default page(setup, ({ section, hint }) => ({
             </WithPlot>
 
             <Label
-              t="\color{green} \psi(x,t)"
-              x={-1.5 / Math.sqrt(2)}
+              t="\color{green} \psi_1(x,t)"
+              x={-0.8 / Math.sqrt(2)}
               y={1.5 / Math.sqrt(2)}
               anchor="bottomRight"
             />
           </Plot>
 
-          <hr />
+          <Prose>
+            The phase factor <M t="e^{-i E_1 t /\hbar}" /> means that
+            <M t="\psi_1(x, t)" /> rotates in the complex plane over time, but
+            its magnitude remains constant.
+          </Prose>
 
+          <ChooseOne
+            model={m.rotationDirection}
+            label={
+              <Prose>
+                Which direction does <M t="\psi_1(x, t)" /> rotate?
+              </Prose>
+            }
+            choices={[
+              [
+                "clockwise",
+                <Vertical>
+                  <Prose>
+                    <M t="\psi_1(x, t)" /> rotates <strong>clockwise</strong> in
+                    the complex plane:
+                  </Prose>
+
+                  <RotatingPsi1 direction={1} />
+                </Vertical>,
+              ],
+              [
+                "counterclockwise",
+                <Vertical>
+                  <Prose>
+                    <M t="\psi_1(x, t)" /> rotates{" "}
+                    <strong>counterclockwise</strong> in the complex plane:
+                  </Prose>
+
+                  <RotatingPsi1 direction={-1} />
+                </Vertical>,
+              ],
+            ]}
+          />
+        </>
+      ),
+      hints: [
+        hint({
+          name: "rotationDirection",
+          body: (
+            <>
+              What does <M t="e^{-i E_1 t /\hbar}" /> evaluate to when
+              <M t="E_1 t/\hbar = \pi/2" />?
+            </>
+          ),
+        }),
+      ],
+      guidance: {
+        nextMessage(r) {
+          return r.rotationDirection?.selected || null;
+        },
+        messages: {
+          clockwise: {
+            body: (
+              <Guidance.Agree>
+                Agreed: the rotation is <strong>clockwise</strong> because of
+                the minus sign in the complex exponent.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          counterclockwise: {
+            body: (
+              <Guidance.Disagree>
+                The rotation is <strong>clockwise</strong> because of the minus
+                sign in the complex exponent. You can double check that when{" "}
+                <M t="E_1 t/\hbar = \pi/2" />, the exponent becomes{" "}
+                <M t="e^{-i E_1 t /\hbar} = -i" />, which is on the negative
+                imaginary axis.
+              </Guidance.Disagree>
+            ),
+            // It's wrong, but it's a binary, so no reason to make them "check
+            // in again".
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+
+    section({
+      name: "probDensPlot",
+      body: (m, state) => (
+        <>
           <Prose>
             Now consider the probability density <M t="|\psi_1(x, t)|^2" /> at
             the same point, <M t="x = L/2" />.
@@ -623,3 +708,45 @@ const Psi2 = memo(() => (
 const Psi2Squared = memo(() => (
   <EnergyEigenstate f={(x) => Math.sin((2 * x * Math.PI) / L) ** 2} />
 ));
+
+// direction === 1  => clockwise
+// direction === -1 => counterclockwise
+const RotatingPsi1 = ({ direction }: { direction: 1 | -1 }) => (
+  <Plot width={200} height={200} scale={45} justifySelf="left">
+    <Axes yLabel="\text{Im}" xLabel="\text{Re}" />
+
+    <WithPlot>
+      {(plot) => (
+        <>
+          <line
+            x1={0}
+            y1={0}
+            x2={plot.x(1.5)}
+            y2={0}
+            stroke="green"
+            strokeWidth={4}
+          >
+            <animateTransform
+              attributeName="transform"
+              attributeType="XML"
+              type="rotate"
+              from="0 0 0"
+              to={`${direction * 360} 0 0`}
+              dur="30s"
+              repeatCount="indefinite"
+            />
+          </line>
+
+          <circle
+            cx={0}
+            cy={0}
+            r={plot.x(1.5)}
+            fill="none"
+            stroke="lightgrey"
+            strokeWidth={1}
+          />
+        </>
+      )}
+    </WithPlot>
+  </Plot>
+);

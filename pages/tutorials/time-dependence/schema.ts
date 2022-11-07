@@ -52,6 +52,9 @@ export default s.tutorial({
       messages: ["no time dependence", "none", "+E_1", "-E_1", "E_n"],
     }),
     timeEvolutionDescription: s.section(),
+    rotationDirection: s.section({
+      messages: ["counterclockwise", "clockwise"],
+    }),
     probDensPlot: s.section({
       messages: ["true", "false"],
     }),
@@ -132,6 +135,7 @@ export default s.tutorial({
       "+E_n",
     ]),
     timeEvolutionDescription: s.string(),
+    rotationDirection: s.chooseOne(["clockwise", "counterclockwise"]),
     probDensRelationshipToProbAmp: s.string(),
     probDensDependsOnTime: s.boolean(),
     exp3PiOver2: s.string(),
@@ -177,6 +181,7 @@ export default s.tutorial({
   },
   hints: {
     // Hints here.
+    rotationDirection: s.hint(),
     probDensPlot: s.hint(),
     prevGraphComparison: s.hint(),
     simGraphComparison: s.hint(),
