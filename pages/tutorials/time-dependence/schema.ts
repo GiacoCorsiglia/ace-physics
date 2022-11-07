@@ -52,6 +52,9 @@ export default s.tutorial({
       messages: ["no time dependence", "none", "+E_1", "-E_1", "E_n"],
     }),
     timeEvolutionDescription: s.section(),
+    rotationDirection: s.section({
+      messages: ["delayedFeedback"],
+    }),
     probDensPlot: s.section({
       messages: ["true", "false"],
     }),
@@ -65,11 +68,14 @@ export default s.tutorial({
     anEnergyEigenstateIntro: s.section(),
     simSetup: s.section(),
     prevGraphComparison: s.section(),
+    rotationDirectionFeedback: s.section(),
     simGraphComparison: s.section(),
     rotationPeriods: s.section({
       messages: [
         "rotationPeriodsOffByFactor",
         "rotationPeriodsIncorrect",
+        "rotationPeriod1Incorrect",
+        "rotationPeriod2Incorrect",
         "rotationPeriodsCorrect",
         "rotationPeriodsClose",
       ],
@@ -132,6 +138,7 @@ export default s.tutorial({
       "+E_n",
     ]),
     timeEvolutionDescription: s.string(),
+    rotationDirection: s.chooseOne(["clockwise", "counterclockwise"]),
     probDensRelationshipToProbAmp: s.string(),
     probDensDependsOnTime: s.boolean(),
     exp3PiOver2: s.string(),
@@ -176,12 +183,20 @@ export default s.tutorial({
     connectSimWithCorrectDescription: s.string(),
   },
   hints: {
-    // Hints here.
+    groundStateGraph: s.hint(),
+    rotationDirection: s.hint(),
+    rotationDirectionFeedback: s.hint(),
     probDensPlot: s.hint(),
     prevGraphComparison: s.hint(),
     simGraphComparison: s.hint(),
     hbar: s.hint(),
     verifyRotationPeriod2: s.hint(),
     explainProbDensAtTime0: s.hint(),
+
+    // Finding psiA in tableTime25.
+    table025PsiA1: s.hint(),
+    table025PsiA2: s.hint(),
+    table025PsiA3: s.hint(),
+    table025Delta: s.hint(),
   },
 });

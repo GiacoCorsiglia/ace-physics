@@ -101,6 +101,33 @@ export default page(setup, ({ section, oneOf, hint }) => ({
     }),
 
     section({
+      name: "rotationDirectionFeedback",
+      when: (r) => r.rotationDirection?.selected === "counterclockwise",
+      body: (
+        <>
+          <Prose>
+            On the previous page, you said <M t="\psi_1(x, t)" /> rotates{" "}
+            <em>counterclockwise</em> in the complex plane, but the sim shows it
+            rotating <em>clockwise</em> instead. Double check your work to
+            decide which answer is correct—and why.
+          </Prose>
+        </>
+      ),
+      hints: [
+        hint({
+          name: "rotationDirectionFeedback",
+          body: (
+            <Prose>
+              What does <M t="e^{-i E_1 t /\hbar}" /> evaluate to when
+              <M t="E_1 t/\hbar = \pi/2" />? Is this value on the positive
+              imaginary axis or the negative imaginary axis?
+            </Prose>
+          ),
+        }),
+      ],
+    }),
+
+    section({
       name: "simGraphComparison",
       body: (m) => (
         <>
@@ -196,6 +223,22 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             ),
             onContinue: "nextMessage",
           },
+          rotationPeriod1Incorrect: {
+            body: (
+              <Guidance.Disagree>
+                Heads up—your value for <M t="T_1" /> is mistaken.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          rotationPeriod2Incorrect: {
+            body: (
+              <Guidance.Disagree>
+                Heads up—your value for <M t="T_2" /> is mistaken.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
           rotationPeriodsIncorrect: {
             body: (
               <Guidance.Disagree>
@@ -230,8 +273,19 @@ export default page(setup, ({ section, oneOf, hint }) => ({
 
     oneOf({
       isLegacy: true,
-      which: (r) =>
-        rotationPeriodGuidance(r.rotationPeriod1, r.rotationPeriod2),
+      which: (r) => {
+        const which = rotationPeriodGuidance(
+          r.rotationPeriod1,
+          r.rotationPeriod2
+        );
+        if (
+          which === "rotationPeriod1Incorrect" ||
+          which === "rotationPeriod2Incorrect"
+        ) {
+          return "rotationPeriodsIncorrect";
+        }
+        return which;
+      },
       sections: {
         rotationPeriodsCorrect: section({
           name: "rotationPeriodsCorrect",
@@ -413,7 +467,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             student="B"
             quote={
               <>
-                <M t="\psi_1" /> oscillates up and down like a standing wave.
+                <M t="\psi_1" /> oscillates up and down like a standing wave—it
+                looks like a wiggling string.
               </>
             }
             agreementModel={m.agreementStudentB}
@@ -533,8 +588,10 @@ const rotationPeriodGuidance = (
     t2 === 4 * t2Correct
   ) {
     return "rotationPeriodsOffByFactor";
-  } else if (!approxEquals(t1, t1Correct) || !approxEquals(t2, t2Correct)) {
-    return "rotationPeriodsIncorrect";
+  } else if (!approxEquals(t1, t1Correct)) {
+    return "rotationPeriod1Incorrect";
+  } else if (!approxEquals(t2, t2Correct)) {
+    return "rotationPeriod2Incorrect";
   } else if (t1 === t1Correct && t2 === t2Correct) {
     return "rotationPeriodsCorrect";
   } else if (approxEquals(t1, t1Correct) || approxEquals(t2, t2Correct)) {

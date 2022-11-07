@@ -64,17 +64,46 @@ export default page(setup, ({ section, hint }) => ({
           ]}
         />
       ),
+      hints: [
+        hint({
+          name: "groundStateGraph",
+          label: "Remind me",
+          body: (
+            <Prose>
+              The energy eigenstates for an infinite square well ranging from{" "}
+              <M t="x = 0" /> to <M t="x = L" /> look like
+              <M
+                display
+                t="\psi_n(x) = \sqrt{\frac{2}{L}} \sin\left( \frac{n \pi x}{L} \right)"
+              />
+            </Prose>
+          ),
+        }),
+      ],
       guidance: {
         nextMessage(r) {
           if (r.groundStateGraph?.selected === "psi1") {
             return "correct";
+          } else if (r.groundStateGraph?.selected === "psi1^2") {
+            return "sin^2";
           } else {
             return "nodes";
           }
         },
         messages: {
           correct: {
-            body: <Guidance.Agree>Agreed!</Guidance.Agree>,
+            body: (
+              <Guidance.Agree>
+                <p>Agreed!</p>
+
+                <p>
+                  You correctly chose the graph for <M t="\sin(x)" />. The
+                  other, similar looking option instead shows{" "}
+                  <M t="\sin^2(x)" />. We’re plotting probability density{" "}
+                  <em>amplitude</em> here, so no squaring necessary.
+                </p>
+              </Guidance.Agree>
+            ),
             onContinue: "nextSection",
           },
           "sin^2": {
@@ -153,7 +182,13 @@ export default page(setup, ({ section, hint }) => ({
           </LabelsLeft>
 
           <Prose faded>
-            To type <M t="\psi_1(x)" />, copy-paste this: ψ1(x)
+            <p>Don’t worry about formatting.</p>
+
+            <p>
+              To type <M t="\psi_1(x)" /> or <M t="\hbar" />, copy-paste from
+              here: <span style={{ marginLeft: "1rem" }}>ψ1(x)</span>
+              <span style={{ marginLeft: "1rem" }}>ħ</span>
+            </p>
           </Prose>
         </>
       ),
@@ -297,7 +332,10 @@ export default page(setup, ({ section, hint }) => ({
             <M t="e^{-i E_1 t /\hbar}" /> when
             <M
               display
-              t="\frac{E_1 t}{\hbar} = 0,\ \pi/2,\ \pi,\ \text{and}\ 3\pi/2"
+              t="t = 0 \times \frac{\hbar}{E_1},\
+              \frac{\pi}{2} \times \frac{\hbar}{E_1},\
+              \pi \times \frac{\hbar}{E_1},\
+              \text{and}\ \frac{3\pi}{2} \times \frac{\hbar}{E_1}"
             />
             then interpolate between them.
           </Callout>
@@ -311,8 +349,8 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "probDensPlot",
-      body: (m, state) => (
+      name: "rotationDirection",
+      body: (m) => (
         <>
           <Prose>
             <p>
@@ -320,7 +358,7 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <Plot width={300} height={300} scale={65}>
+          <Plot width={200} height={200} scale={45}>
             <Axes yLabel="\text{Im}" xLabel="\text{Re}" />
 
             <WithPlot>
@@ -343,15 +381,86 @@ export default page(setup, ({ section, hint }) => ({
             </WithPlot>
 
             <Label
-              t="\color{green} \psi(x,t)"
-              x={-1.5 / Math.sqrt(2)}
+              t="\color{green} \psi_1(x,t)"
+              x={-0.8 / Math.sqrt(2)}
               y={1.5 / Math.sqrt(2)}
               anchor="bottomRight"
             />
           </Plot>
 
-          <hr />
+          <Prose>
+            The phase factor <M t="e^{-i E_1 t /\hbar}" /> means that
+            <M t="\psi_1(x, t)" /> rotates in the complex plane over time, but
+            its magnitude remains constant.
+          </Prose>
 
+          <ChooseOne
+            model={m.rotationDirection}
+            label={
+              <Prose>
+                Which direction does <M t="\psi_1(x, t)" /> rotate?
+              </Prose>
+            }
+            choices={[
+              [
+                "clockwise",
+                <Vertical>
+                  <Prose>
+                    <M t="\psi_1(x, t)" /> rotates <strong>clockwise</strong> in
+                    the complex plane:
+                  </Prose>
+
+                  <RotatingPsi1 direction={1} />
+                </Vertical>,
+              ],
+              [
+                "counterclockwise",
+                <Vertical>
+                  <Prose>
+                    <M t="\psi_1(x, t)" /> rotates{" "}
+                    <strong>counterclockwise</strong> in the complex plane:
+                  </Prose>
+
+                  <RotatingPsi1 direction={-1} />
+                </Vertical>,
+              ],
+            ]}
+          />
+        </>
+      ),
+      hints: [
+        hint({
+          name: "rotationDirection",
+          body: (
+            <>
+              What does <M t="e^{-i E_1 t /\hbar}" /> evaluate to when
+              <M t="E_1 t/\hbar = \pi/2" />?
+            </>
+          ),
+        }),
+      ],
+      guidance: {
+        nextMessage(r) {
+          return "delayedFeedback";
+        },
+        messages: {
+          delayedFeedback: {
+            body: (
+              <Guidance.HeadsUp>
+                We haven’t checked your answer: you’ll have the opportunity to
+                double check this for yourself on the next page!
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+
+    section({
+      name: "probDensPlot",
+      body: (m, state) => (
+        <>
           <Prose>
             Now consider the probability density <M t="|\psi_1(x, t)|^2" /> at
             the same point, <M t="x = L/2" />.
@@ -448,6 +557,10 @@ export default page(setup, ({ section, hint }) => ({
             <M t="e^{-i3\pi/2}" />.
           </Prose>
 
+          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
+            Do this on scrap paper.
+          </Callout>
+
           <LabelsLeft>
             <TextLine model={m.exp3PiOver2} label={<M t="e^{-i3\pi/2} = " />} />
           </LabelsLeft>
@@ -536,8 +649,8 @@ export default page(setup, ({ section, hint }) => ({
               <Guidance.HeadsUp>
                 This software can’t interpret what you’ve written, but we
                 suggest <M t="x" /> for the horizontal axis label, and
-                <M t="\operatorname{Im} \psi" /> (the imaginary part of
-                <M t="\psi" />) for the vertical axis label.
+                <M t="\operatorname{Im} \psi_1" /> (the imaginary part of
+                <M t="\psi_1" />) for the vertical axis label.
               </Guidance.HeadsUp>
             ),
             onContinue: "nextSection",
@@ -623,3 +736,45 @@ const Psi2 = memo(() => (
 const Psi2Squared = memo(() => (
   <EnergyEigenstate f={(x) => Math.sin((2 * x * Math.PI) / L) ** 2} />
 ));
+
+// direction === 1  => clockwise
+// direction === -1 => counterclockwise
+const RotatingPsi1 = ({ direction }: { direction: 1 | -1 }) => (
+  <Plot width={200} height={200} scale={45} justifySelf="left">
+    <Axes yLabel="\text{Im}" xLabel="\text{Re}" />
+
+    <WithPlot>
+      {(plot) => (
+        <>
+          <line
+            x1={0}
+            y1={0}
+            x2={plot.x(1.5)}
+            y2={0}
+            stroke="green"
+            strokeWidth={4}
+          >
+            <animateTransform
+              attributeName="transform"
+              attributeType="XML"
+              type="rotate"
+              from="0 0 0"
+              to={`${direction * 360} 0 0`}
+              dur="30s"
+              repeatCount="indefinite"
+            />
+          </line>
+
+          <circle
+            cx={0}
+            cy={0}
+            r={plot.x(1.5)}
+            fill="none"
+            stroke="lightgrey"
+            strokeWidth={1}
+          />
+        </>
+      )}
+    </WithPlot>
+  </Plot>
+);

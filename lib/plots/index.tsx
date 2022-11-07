@@ -1,5 +1,6 @@
 import { M, MPropTypes } from "@/components";
 import {
+  cx,
   Html,
   range,
   useAncestorBackgroundColor,
@@ -73,6 +74,7 @@ export function Plot({
   scale = 90,
   origin: _origin = "center",
   padding = 0,
+  justifySelf = "center",
   children,
 }: {
   /** Width of the plot in pixels.  (Really max-width.) */
@@ -93,6 +95,8 @@ export function Plot({
     | "center";
   /** */
   padding?: number | readonly [x: number, y: number];
+  /** Where to horizontally align relative to the parent element. */
+  justifySelf?: "left" | "center" | "right";
   children?: Html;
 }) {
   const [xScale, yScale] = typeof scale === "number" ? [scale, scale] : scale;
@@ -168,7 +172,7 @@ export function Plot({
 
   return (
     <svg
-      className={styles.plot}
+      className={cx(styles.plot, styles[justifySelf])}
       width={plot.outerWidth}
       height={plot.outerHeight}
       viewBox={viewBox}
