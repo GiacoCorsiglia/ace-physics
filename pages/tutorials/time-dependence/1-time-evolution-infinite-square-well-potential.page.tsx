@@ -109,7 +109,7 @@ export default page(setup, ({ section, hint }) => ({
           "sin^2": {
             body: (
               <Guidance.Disagree>
-                Heads up—do you meant to plot <M t="\sin(x)" /> or{" "}
+                Heads up—do you mean to plot <M t="\sin(x)" /> or{" "}
                 <M t="\sin^2(x)" />? How are those two graphs different?{" "}
                 <em>Hint: imagine extending the graph beyond one period.</em>
               </Guidance.Disagree>
