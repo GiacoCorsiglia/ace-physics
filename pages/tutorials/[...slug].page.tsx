@@ -51,7 +51,7 @@ export default function FinishedPage() {
   const router = useRouter();
 
   return (
-    <Page title="Done">
+    <Page title="Done For Today">
       <Header title="Done For Today" popovers={<UserMenu />} />
 
       <MainContentBox>
