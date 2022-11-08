@@ -31,7 +31,7 @@ export default function Index() {
     <Page>
       <Head>
         <title>
-          ACEPhysics.net - Interactive Online Activities for Physics Learners
+          ACE Physics - Interactive Online Activities for Physics Learners
         </title>
       </Head>
 

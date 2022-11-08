@@ -11,14 +11,15 @@ import {
 import { cx } from "./css";
 import { scrollToElement } from "./scroll";
 
-const subDomain =
+const titleEnv =
   process.env.NEXT_PUBLIC_ACE_ENV === "development"
-    ? "local."
+    ? " (local)"
     : process.env.NEXT_PUBLIC_ACE_ENV === "staging"
-    ? "beta."
+    ? " (beta)"
     : "";
+const titleBase = `ACE Physics${titleEnv}`;
 export const htmlTitle = (title: string) =>
-  `${title} | ${subDomain}ACEPhysics.net`;
+  title ? `${title} | ${titleBase}` : titleBase;
 
 export type Css = React.CSSProperties & {
   [key: string]: string | number | Css;

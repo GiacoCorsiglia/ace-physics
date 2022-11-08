@@ -332,10 +332,10 @@ export default page(setup, ({ section, hint }) => ({
             <M t="e^{-i E_1 t /\hbar}" /> when
             <M
               display
-              t="t = 0 \times \frac{\hbar}{E_1},\
-              \frac{\pi}{2} \times \frac{\hbar}{E_1},\
-              \pi \times \frac{\hbar}{E_1},\
-              \text{and}\ \frac{3\pi}{2} \times \frac{\hbar}{E_1}"
+              t="t = 0,\
+              \frac{\pi\hbar}{2E_1},\
+              \pi \frac{\hbar}{E_1},\
+              \text{and}\ \frac{3\pi\hbar}{2E_1}"
             />
             then interpolate between them.
           </Callout>

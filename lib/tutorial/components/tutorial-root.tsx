@@ -10,10 +10,11 @@ import {
   Prose,
   Vertical,
 } from "@/components";
-import { Html, isInstructor, JsxElement } from "@/helpers/client";
+import { Html, htmlTitle, isInstructor, JsxElement } from "@/helpers/client";
 import { TUTORIAL_STATE_NO_COURSE } from "@/schema/db";
 import { ArrowRightIcon, LockIcon } from "@primer/octicons-react";
 import { signIn } from "next-auth/react";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import { TutorialConfig } from "../config";
 import {
@@ -72,27 +73,47 @@ export const TutorialRoot = ({
       <Vertical as="main" space={300} style={{ counterReset: "section" }}>
         {((): Html => {
           if (auth.status === "unauthenticated") {
-            return <SignedOut />;
+            return (
+              <>
+                <Head>
+                  <title>{htmlTitle("Please Sign In")}</title>
+                </Head>
+
+                <SignedOut />
+              </>
+            );
           }
 
           if (auth.status === "loading" || (!courses && !error)) {
             return (
-              <div style={{ marginTop: "3rem" }}>
-                <LoadingAnimation size="large" />
-              </div>
+              <>
+                <Head>
+                  <title>{htmlTitle("")}</title>
+                </Head>
+
+                <div style={{ marginTop: "3rem" }}>
+                  <LoadingAnimation size="large" />
+                </div>
+              </>
             );
           }
 
           // The `!courses` makes TypeScript happy but is not needed.
           if (error || !courses) {
             return (
-              <Vertical.Space after={100}>
-                <ApplyContentBox>
-                  <Callout as="section" color="red">
-                    We couldn't load this tutorial for you.
-                  </Callout>
-                </ApplyContentBox>
-              </Vertical.Space>
+              <>
+                <Head>
+                  <title>{htmlTitle("Error")}</title>
+                </Head>
+
+                <Vertical.Space after={100}>
+                  <ApplyContentBox>
+                    <Callout as="section" color="red">
+                      We couldn't load this tutorial for you.
+                    </Callout>
+                  </ApplyContentBox>
+                </Vertical.Space>
+              </>
             );
           }
 
