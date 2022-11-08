@@ -18,6 +18,25 @@ const nextConfig = {
   sentry: {
     hideSourceMaps: true,
   },
+
+  async headers() {
+    const headers = [];
+
+    // Ensure search engines don't crawl beta.acephysics.net.
+    if (process.env.NEXT_PUBLIC_ACE_ENV !== "production") {
+      headers.push({
+        source: "/:path*",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex",
+          },
+        ],
+      });
+    }
+
+    return headers;
+  },
 };
 
 // Sentry's should be the last plugin added.
