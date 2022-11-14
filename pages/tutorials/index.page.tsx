@@ -6,7 +6,10 @@ import { tutorialList } from "./list";
 
 export default function TutorialsIndex() {
   return (
-    <Page title="Tutorials">
+    <Page
+      title="Tutorials"
+      metaDescription="All the tutorials available on ACE Physics.  ACE Physics provides a set of interactive tutorial activities for teaching quantum mechanics and quantum information."
+    >
       <Header title="All Tutorials" popovers={<UserMenu />} />
 
       <MainContentBox>

@@ -9,6 +9,7 @@ import {
   Prose,
   Vertical,
 } from "@/components";
+import { htmlTitle } from "@/helpers/client";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -21,10 +22,12 @@ export default function Index() {
   return (
     <Page>
       <Head>
-        <title>
-          ACEPhysics.net Demo - Interactive Online Activities for Physics
-          Learners
-        </title>
+        <title>{htmlTitle("Demo")}</title>
+
+        <meta
+          name="description"
+          content="Interactive demos for the freely available physics instructional tutorials on ACE Physics.  No sign-in required."
+        />
       </Head>
 
       <MainContentBox marginTop="small">
