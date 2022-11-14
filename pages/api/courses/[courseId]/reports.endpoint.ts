@@ -29,6 +29,7 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
   } = body;
 
   const includePretests = body.includePretests && tutorialId !== "";
+  const includePosttests = includePretests;
 
   // Validate tutorialIds.
   if (tutorialId && !tutorialSchemas.has(tutorialId)) {
@@ -114,6 +115,12 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
     ? Object.keys(singleSchema.properties.pretest.properties)
     : [];
 
+  const posttestProperties = singleSchema
+    ? Object.keys(
+        singleSchema.properties.posttest.properties.responses.properties
+      )
+    : [];
+
   const feedbackProperties = Object.keys(TutorialFeedback.properties);
 
   const objectToRows = (
@@ -176,6 +183,14 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
         ? objectToRows(pretestProperties, "pretest", state?.pretest)
         : {};
 
+      const posttestValues = includePosttests
+        ? objectToRows(
+            posttestProperties,
+            "posttest",
+            state?.posttest?.responses
+          )
+        : {};
+
       // Append feedback responses if requested.
       const feedbackValues = includeFeedback
         ? objectToRows(feedbackProperties, "feedback", state?.feedback)
@@ -191,6 +206,7 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
         completedPages,
         responsePercentage,
         ...pretestValues,
+        ...posttestValues,
         ...feedbackValues,
       };
     })
@@ -212,6 +228,15 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
       ...pretestProperties.map((prop) => ({
         key: `pretest.${prop}` as unknown as keyof Row,
         header: `Pretest: ${prop}`,
+      }))
+    );
+  }
+
+  if (includePosttests) {
+    columns.push(
+      ...posttestProperties.map((prop) => ({
+        key: `posttest.${prop}` as unknown as keyof Row,
+        header: `Posttest: ${prop}`,
       }))
     );
   }

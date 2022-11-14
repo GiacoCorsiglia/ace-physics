@@ -33,6 +33,11 @@ export default function Index() {
         <title>
           ACE Physics - Interactive Online Activities for Physics Learners
         </title>
+
+        <meta
+          name="description"
+          content="Interactive tutorials about quantum mechanics and quantum information science.  The tutorials are free, can be used in or outside the classroom,and are primarily designed for middle- and upper-division undergraduates."
+        />
       </Head>
 
       <Header title="ACE Physics" popovers={<UserMenu />} />

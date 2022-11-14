@@ -246,7 +246,7 @@ const StudentResponsesForm = ({ course }: { course: Course }) => {
           </div>
 
           <Prose faded={tutorialId === ""}>
-            Include pretest responses in report.
+            Include pre- and posttest responses in report.
           </Prose>
         </Horizontal>
 
