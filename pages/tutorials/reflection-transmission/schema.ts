@@ -48,11 +48,11 @@ export default s.tutorial({
     variationsInPhysicsFromSim: s.section(),
   },
   responses: {
-    unitsOfV0: s.string(),
+    unitsOfV0: s.string(false),
     generalSolution: s.object({
-      regionI: s.string(),
-      regionII: s.string(),
-      regionIII: s.string(),
+      regionI: s.string(false),
+      regionII: s.string(false),
+      regionIII: s.string(false),
     }),
     fromRightNonzeroTerms: s.object({
       regionI: s.chooseAll(["leftward", "rightward"]),
@@ -73,8 +73,8 @@ export default s.tutorial({
     energyAfterTunneling: s.chooseOne(["lost", "not lost", "depends"]),
     energyAfterTunnelingExplain: s.string(),
 
-    unitsOfT: s.string(),
-    unitsOfl: s.string(),
+    unitsOfT: s.string(false),
+    unitsOfl: s.string(false),
     tVersusALimits: s.string(),
     wellPotential: s.chooseOne(["T/R #1", "T/R #2"]),
     barrierPotential: s.chooseOne(["T/R #1", "T/R #2"]),

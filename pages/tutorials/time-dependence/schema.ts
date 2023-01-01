@@ -135,7 +135,7 @@ export default s.tutorial({
   },
   responses: {
     groundStateGraph: s.chooseOne(["psi1", "psi2", "psi1^2", "psi2^2"]),
-    timeEvolvedGroundState: s.string(),
+    timeEvolvedGroundState: s.string(false),
     groundStateTimeDependence: s.chooseOne([
       "none",
       "no time dependence",
@@ -148,9 +148,9 @@ export default s.tutorial({
     rotationDirection: s.chooseOne(["clockwise", "counterclockwise"]),
     probDensRelationshipToProbAmp: s.string(),
     probDensDependsOnTime: s.boolean(),
-    exp3PiOver2: s.string(),
-    difTimePlotAxisX: s.string(),
-    difTimePlotAxisY: s.string(),
+    exp3PiOver2: s.string(false),
+    difTimePlotAxisX: s.string(false),
+    difTimePlotAxisY: s.string(false),
     wholeFunctionTimeDependencePlot: s.string(),
 
     prevGraphComparison: s.string(),

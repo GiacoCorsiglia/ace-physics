@@ -24,9 +24,9 @@ export default s.tutorial({
     challenge: s.page(),
   },
   pretest: {
-    operatorLabel: s.string(),
-    eigenstateLabel: s.string(),
-    eigenvalueLabel: s.string(),
+    operatorLabel: s.string(false),
+    eigenstateLabel: s.string(false),
+    eigenvalueLabel: s.string(false),
     A: s.tuple(
       s.tuple(s.number(), s.number()),
       s.tuple(s.number(), s.number())
@@ -186,8 +186,8 @@ export default s.tutorial({
     sadVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
     smallVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
     wideVector: s.tuple(MoodVectorComponentChoice, MoodVectorComponentChoice),
-    happyEigenequation: s.string(),
-    sadEigenequation: s.string(),
+    happyEigenequation: s.string(false),
+    sadEigenequation: s.string(false),
     moodMatrix: s.tuple(
       s.tuple(s.number(), s.number()),
       s.tuple(s.number(), s.number())

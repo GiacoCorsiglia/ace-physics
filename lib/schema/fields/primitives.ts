@@ -50,12 +50,27 @@ export const number = constant<NumberField>({
 export interface StringField {
   readonly kind: "string";
   readonly type: t.StringType;
+  /**
+   * Indicates that this string field is actually a written response field
+   * (e.g., "explain your answer") as opposed to just a free-form equation.
+   * This has no impact on rendering but is useful for analysis.
+   */
+  readonly isWrittenResponse: boolean;
 }
+
+const stringIsWritten: StringField = {
+  kind: "string",
+  type: t.string(),
+  isWrittenResponse: true,
+};
+const stringIsNotWritten: StringField = {
+  kind: "string",
+  type: t.string(),
+  isWrittenResponse: false,
+};
 
 /**
  * Creates a Field for a string value (any arbitrary text input).
  */
-export const string = constant<StringField>({
-  kind: "string",
-  type: t.string(),
-});
+export const string = (isWrittenResponse: boolean = true): StringField =>
+  isWrittenResponse ? stringIsWritten : stringIsNotWritten;

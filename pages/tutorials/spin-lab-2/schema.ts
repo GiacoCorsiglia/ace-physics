@@ -138,7 +138,7 @@ export default s.tutorial({
     doPQCommute: s.chooseOne(["do commute", "do not commute"]),
     doPQCommuteExplain: s.string(),
 
-    challengeConclusion: s.tuple(s.string(), s.string()),
+    challengeConclusion: s.tuple(s.string(false), s.string(false)),
     challengeProbabilityTable: s.object({
       spinUp: s.object({ x: s.number(), y: s.number(), z: s.number() }),
       spinDown: s.object({ x: s.number(), y: s.number(), z: s.number() }),

@@ -142,7 +142,7 @@ export default s.tutorial({
         choice
       );
     })(),
-    key: s.string(),
+    key: s.string(false),
 
     eveCertainty: s.chooseOne([
       "certain if X",

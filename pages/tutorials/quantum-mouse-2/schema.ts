@@ -9,7 +9,7 @@ export default s.tutorial({
     interpretingOperatorsInQuantumMechanics: s.page(),
   },
   pretest: {
-    SzTimesPsi: s.string(),
+    SzTimesPsi: s.string(false),
     interpretSzTimesPsi: s.chooseOne([
       "experimental value",
       "resulting state",
@@ -94,10 +94,10 @@ export default s.tutorial({
     expValM: s.number(),
     uncertaintyM: s.number(),
 
-    notationNoisyState: s.string(),
-    notationQuietState: s.string(),
-    noisyStateHappinessBasis: s.string(),
-    quietStateHappinessBasis: s.string(),
+    notationNoisyState: s.string(false),
+    notationQuietState: s.string(false),
+    noisyStateHappinessBasis: s.string(false),
+    quietStateHappinessBasis: s.string(false),
     representationNOperator: s.tuple(
       s.tuple(s.number(), s.number()),
       s.tuple(s.number(), s.number())
@@ -128,7 +128,7 @@ export default s.tutorial({
     doesSzTimesPlusXConnectToMeasurementExplain: s.string(),
     canPredictSzForPlusX: s.chooseOne(["yes", "no"]),
     canPredictFinalState: s.chooseOne(["yes", "no"]),
-    SzTimesArbitraryKet: s.string(),
+    SzTimesArbitraryKet: s.string(false),
     studentInterpretationsOfSzTimesPsi: s.string(),
     whyOperatorTimesStateIsNotMeasurement: s.string(),
   },

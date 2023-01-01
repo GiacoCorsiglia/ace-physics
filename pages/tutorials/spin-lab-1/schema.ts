@@ -104,8 +104,8 @@ export default s.tutorial({
       downY: OutInTableRow,
     }),
 
-    unknown2CoefficientA: s.string(),
-    unknown2CoefficientB: s.string(),
+    unknown2CoefficientA: s.string(false),
+    unknown2CoefficientB: s.string(false),
     unknown2Measurements: s.string(),
     javaSimExploration: s.string(),
 

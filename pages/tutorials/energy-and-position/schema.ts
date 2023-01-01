@@ -72,8 +72,8 @@ export default s.tutorial({
     isPsiAEnergyEigenstate: s.chooseOne(["yes", "no"]),
     isPsiAEnergyEigenstateExplain: s.string(),
     psiAEnergyExpectation: s.string(),
-    columnE2: s.array(s.string()),
-    columnPsiA: s.array(s.string()),
+    columnE2: s.array(s.string(false)),
+    columnPsiA: s.array(s.string(false)),
     dotDotDotMeaning: s.string(),
 
     interpretVerticalAxis: s.string(),

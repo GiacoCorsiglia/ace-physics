@@ -181,7 +181,8 @@ const analyzeResponses: Analyzer<"responses"> = ($responses, responses) => {
 
   const stringKeys = keys.filter((k) => {
     const schema = $responses.properties[k];
-    return schema.kind === "string";
+    // Ignore string fields that are just equation inputs.
+    return schema.kind === "string" && schema.isWrittenResponse;
   });
 
   const textBoxes = stringKeys.length;
