@@ -133,6 +133,12 @@ export const tutorialList: readonly TutorialListing[] = [
       </>
     ),
   },
+  {
+    id: "IntroductionToQuantumGates",
+    link: "introduction-to-quantum-gates",
+    label: "Introduction to Quantum Gates",
+    blurb: <>Your first step in learning about quantum computing.</>,
+  },
 ];
 
 export interface TutorialListing {

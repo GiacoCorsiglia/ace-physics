@@ -97,3 +97,8 @@ export const M = ({
     />
   );
 };
+
+export const QC = ({ t }: { t: string }) => {
+  const tex = t.replaceAll("&", "");
+  return <M display t={`\\qcircuit{${tex}}`} />;
+};

@@ -31,3 +31,20 @@
   composes: circled;
   @include spacing(0.18em, 0.05em);
 }
+
+.qw {
+  display: none;
+}
+
+.lstick {
+  margin-right: 1em;
+}
+
+.rstick {
+  margin-left: 1em;
+}
+
+.gate {
+  margin-left: -0.5em;
+  margin-right: -0.5em;
+}

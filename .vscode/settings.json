@@ -29,9 +29,12 @@
     "eigenequations",
     "eigenstate",
     "eigenstates",
+    "hadamard",
     "linaria",
     "posttest",
     "posttests",
+    "qubit",
+    "qubits",
     "rerender",
     "sendgrid",
     "unhashed"

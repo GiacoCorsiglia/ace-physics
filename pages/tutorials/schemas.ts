@@ -1,6 +1,7 @@
 import { TutorialSchema } from "@/schema/tutorial";
 import EnergyAndPosition from "./energy-and-position/schema";
 import EPR from "./epr/schema";
+import IntroductionToQuantumGates from "./introduction-to-quantum-gates/schema";
 import QuantumBasisLite from "./quantum-basis-lite/schema";
 import QuantumBasisMain from "./quantum-basis/schema";
 import QuantumMouse2 from "./quantum-mouse-2/schema";
@@ -25,4 +26,5 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["SpinsAndMagneticFields", SpinsAndMagneticFields],
   ["TimeDependence", TimeDependence],
   ["VectorsToFunctions", VectorsToFunctions],
+  ["IntroductionToQuantumGates", IntroductionToQuantumGates],
 ]);
