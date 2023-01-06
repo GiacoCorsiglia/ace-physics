@@ -16,6 +16,10 @@ $margin: spacing.$space-75;
 
 .button {
   pointer-events: auto;
+
+  svg {
+    transform: scale(1.35);
+  }
 }
 
 $bg-color: colors.$neutral-100;

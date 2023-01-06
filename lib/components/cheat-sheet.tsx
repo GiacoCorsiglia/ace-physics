@@ -70,7 +70,7 @@ export const CheatSheet = ({
         aria-controls={isOpen ? id : undefined}
         aria-label={isOpen ? "Hide cheat sheet" : "Show cheat sheet"}
       >
-        <InfoIcon />
+        <InfoIcon size="medium" />
       </Button>
     </div>,
     portalElement
