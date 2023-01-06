@@ -69,10 +69,13 @@ describe("autoProse", () => {
     expect(wrapped.props.children).toBe(original);
   });
 
-  it("Wraps string and prose-safe children with <Prose>", () => {
+  it("Wraps string and prose-safe children with <Prose>, including Fragments", () => {
     const original = (
       <>
         <strong>Test 1</strong> Test 2 {3} {false} {true} {undefined} {null}
+        <>
+          <em>Test 3</em> Test 4
+        </>
       </>
     ).props.children;
     const wrapped: any = autoProse(original);
@@ -90,6 +93,18 @@ describe("autoProse", () => {
     const original = (
       <>
         <strong>Test 1</strong> Test 2 <SomeComponent /> Test 4
+      </>
+    ).props.children;
+    const wrapped: any = autoProse(original);
+    expect(wrapped).toBe(original);
+  });
+
+  it("Does not wrap mix of nested prose-safe and unsafe children with <Prose>", () => {
+    const original = (
+      <>
+        <>
+          <strong>Test 1</strong> Test 2 <SomeComponent /> Test 4
+        </>
       </>
     ).props.children;
     const wrapped: any = autoProse(original);

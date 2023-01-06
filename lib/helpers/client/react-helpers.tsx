@@ -1,4 +1,7 @@
 import {
+  Children,
+  Fragment,
+  isValidElement,
   useCallback,
   useEffect,
   useId,
@@ -287,3 +290,16 @@ export const useAncestorBackgroundColor = <
 
   return [ref, backgroundColor] as const;
 };
+
+/**
+ * Like React's `Children.forEach` but recurses into Fragments in a depth-first
+ * manner.  The `fn` will *not* be called with the Fragments themselves.
+ */
+export const forEachChild = (children: Html, fn: (child: Html) => void): void =>
+  Children.forEach(children, (child) => {
+    if (isValidElement<{ children?: Html }>(child) && child.type === Fragment) {
+      forEachChild(child.props.children, fn);
+    } else {
+      fn(child);
+    }
+  });

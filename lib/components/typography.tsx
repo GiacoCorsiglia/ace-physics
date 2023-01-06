@@ -1,5 +1,10 @@
-import { cx, Html, styled } from "@/helpers/client";
-import { Children, forwardRef } from "react";
+import { cx, forEachChild, Html, styled } from "@/helpers/client";
+import {
+  Children,
+  forwardRef,
+  isValidElement,
+  JSXElementConstructor,
+} from "react";
 import { Image } from "./image";
 import { M } from "./math";
 import styles from "./typography.module.scss";
@@ -17,7 +22,7 @@ const blockLevelElements = new Set([
   "p",
 ]);
 
-const proseSafeElements = new Set([
+const proseSafeElements = new Set<string | JSXElementConstructor<any>>([
   ...blockLevelElements,
   "strong",
   "em",
@@ -98,23 +103,22 @@ export const Prose = Object.assign(ProseComponent, {
   SubText,
 });
 
-export const autoProse = (children: Html) => {
+export const autoProse = (children: Html, props?: Omit<ProseProps, "ref">) => {
   let empty = true;
   let proseSafe = true;
-  Children.forEach(children, (child) => {
+  forEachChild(children, (child) => {
     if (empty && child) {
       empty = false;
     }
     if (
       proseSafe &&
-      typeof child === "object" &&
-      child !== null &&
-      !proseSafeElements.has((child as any).type)
+      isValidElement(child) &&
+      !proseSafeElements.has(child.type)
     ) {
       proseSafe = false;
     }
   });
-  return !empty && proseSafe ? <Prose>{children}</Prose> : children;
+  return !empty && proseSafe ? <Prose {...props}>{children}</Prose> : children;
 };
 
 export const PageTitle = styled.h1(styles.pageTitle);
