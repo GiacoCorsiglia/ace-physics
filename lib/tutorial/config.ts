@@ -201,6 +201,13 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly answers?: "none" | "checked-some" | "checked-all" | "provided";
   /**
+   * Configures the page's cheat sheet (a widget with reminders that's available
+   * on the whole page).
+   */
+  readonly cheatSheet?: {
+    body: Html;
+  };
+  /**
    * The sections (or nested sequences of sections) in the page.
    */
   readonly sections: readonly NodeConfig<S>[];

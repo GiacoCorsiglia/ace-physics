@@ -9,6 +9,7 @@ import {
   SectionBox,
   TextBox,
 } from "@/components";
+import { CheatSheet } from "@/components/cheat-sheet";
 import { Html, htmlTitle, useScrollIntoView } from "@/helpers/client";
 import * as urls from "@/urls";
 import {
@@ -64,6 +65,8 @@ export const BodyPage = ({
     config.answers === "provided" &&
     (status === "answersRevealed" || status === "completed");
 
+  const { cheatSheet } = config;
+
   return (
     <AnswerVisibility visible={answersRevealed}>
       <Head>
@@ -73,6 +76,8 @@ export const BodyPage = ({
           )}
         </title>
       </Head>
+
+      {cheatSheet && <CheatSheet isInitiallyOpen>{cheatSheet.body}</CheatSheet>}
 
       <SectionTree
         sections={config.sections}

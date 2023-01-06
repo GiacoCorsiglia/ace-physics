@@ -1,0 +1,62 @@
+@use "spacing";
+@use "colors";
+@use "borders";
+@use "fonts";
+
+$margin: spacing.$space-75;
+
+.container {
+  position: fixed;
+  z-index: 5000;
+  left: $margin;
+  bottom: $margin;
+
+  pointer-events: none;
+}
+
+.button {
+  pointer-events: auto;
+}
+
+$bg-color: colors.$neutral-100;
+$border-color: colors.$neutral-500;
+$padding: spacing.$space-150;
+
+.cheatSheet {
+  pointer-events: auto;
+
+  position: relative;
+  margin-bottom: $margin;
+  padding: $padding;
+  max-width: 20rem;
+  background: colors.$neutral-100;
+  border: 1px solid $border-color;
+  border-radius: borders.$radius;
+
+  animation: pop-in 350ms;
+
+  $shadow-color: colors.$neutral-800;
+  box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.15),
+    0 2px 7px colors.alpha($shadow-color, 0.18);
+}
+
+.svgCaret {
+  position: absolute;
+  left: spacing.$space-100;
+  top: 100%;
+  transform: rotateZ(180deg);
+
+  fill: $bg-color;
+  stroke: $border-color;
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
