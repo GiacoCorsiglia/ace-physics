@@ -77,7 +77,7 @@ export const BodyPage = ({
         </title>
       </Head>
 
-      {cheatSheet && <CheatSheet isInitiallyOpen>{cheatSheet.body}</CheatSheet>}
+      {cheatSheet && <CheatSheet>{cheatSheet.body}</CheatSheet>}
 
       <SectionTree
         sections={config.sections}
