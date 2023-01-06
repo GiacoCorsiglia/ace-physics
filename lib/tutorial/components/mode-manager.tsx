@@ -258,6 +258,7 @@ const ModeEditor = ({
             }
           }}
           disabled={!isCompleteMode(newMode)}
+          size="small"
         >
           Change
         </Button>
