@@ -1,10 +1,16 @@
 import { Html, useLocalStorage } from "@/helpers/client";
 import { InfoIcon } from "@primer/octicons-react";
 import { useId } from "react";
+import { createPortal } from "react-dom";
 import { Caret } from "./caret";
 import styles from "./cheat-sheet.module.scss";
 import { Button } from "./controls";
 import { autoProse } from "./typography";
+
+const portalElement =
+  typeof window !== "undefined"
+    ? document.getElementById("ace-cheat-sheet")
+    : null;
 
 export const CheatSheet = ({ children }: { children?: Html }) => {
   const id = `cheat-sheet-${useId()}`;
@@ -17,7 +23,12 @@ export const CheatSheet = ({ children }: { children?: Html }) => {
   //    you managed to manually close it.
   const [isOpen, setOpen] = useLocalStorage("ace-is-cheat-sheet-open", true);
 
-  return (
+  if (!portalElement) {
+    // Should just be in SSR.
+    return null;
+  }
+
+  return createPortal(
     <div className={styles.container}>
       {isOpen && (
         <div className={styles.cheatSheet} id={id}>
@@ -37,6 +48,7 @@ export const CheatSheet = ({ children }: { children?: Html }) => {
       >
         <InfoIcon />
       </Button>
-    </div>
+    </div>,
+    portalElement
   );
 };
