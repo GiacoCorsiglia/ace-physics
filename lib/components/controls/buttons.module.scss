@@ -14,7 +14,6 @@
   border-radius: controls.$border-radius;
   border-style: solid;
   border-width: 1px;
-  color: colors.$white;
 
   &.normal {
     @include fonts.ui;
@@ -26,7 +25,7 @@
   }
 
   transition: {
-    property: box-shadow, background-color, border-color;
+    property: color, box-shadow, background-color, border-color;
     duration: controls.$transition-duration;
   }
 
@@ -63,29 +62,52 @@
   }
 }
 
-@each $color-name in "green", "blue", "yellow" {
+@each $color-name in "neutral", "green", "blue", "yellow" {
   $color: colors.color($color-name);
+
+  $text-color: colors.$white;
+  $background: colors.shade($color, 500);
+  $border-color: colors.shade($color, 600);
+  $hover-text-color: colors.$white;
+  $hover-background: colors.shade($color, 600);
+  $hover-border-color: colors.shade($color, 700);
+  $active-background: colors.shade($color, 700);
+  $active-border-color: colors.shade($color, 700);
+  $focus-border-color: colors.shade($color, 600);
+
+  // Overrides for neutral.
+  @if ($color-name == "neutral") {
+    $text-color: colors.$neutral-700;
+    $hover-text-color: colors.$neutral-900;
+    $background: colors.shade($color, 100);
+    $border-color: colors.shade($color, 400);
+    $hover-background: colors.shade($color, 100);
+    $active-background: colors.shade($color, 100);
+    $focus-border-color: colors.shade($color, 500);
+  }
 
   $shadow-color: colors.shade($color, 800);
   $hover-shadow: 0px 2px 4px colors.alpha($shadow-color, 0.2),
     0px 3px 8px colors.alpha($shadow-color, 0.22);
 
   .button.#{$color-name} {
-    background: colors.shade($color, 500);
-    border-color: colors.shade($color, 600);
+    color: $text-color;
+    background: $background;
+    border-color: $border-color;
 
     box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.15),
       0 2px 7px colors.alpha($shadow-color, 0.18);
 
     &:hover {
-      background: colors.shade($color, 600);
-      border-color: colors.shade($color, 700);
+      color: $hover-text-color;
+      background: $hover-background;
+      border-color: $hover-border-color;
       box-shadow: $hover-shadow;
     }
 
     &:active {
-      background: colors.shade($color, 700);
-      border-color: colors.shade($color, 700);
+      background: $active-background;
+      border-color: $active-border-color;
       box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.2),
         0 2px 8px colors.alpha($shadow-color, 0.22);
     }
@@ -93,7 +115,7 @@
     &:focus {
       box-shadow:
       // Thicker border:
-        0 0 0 2px colors.shade($color, 600),
+        0 0 0 2px $focus-border-color,
         0 1px 6px colors.alpha(colors.shade($color, 600), 0.3),
         // Actual shadow:
         $hover-shadow;
