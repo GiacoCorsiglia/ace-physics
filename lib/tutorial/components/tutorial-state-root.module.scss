@@ -6,9 +6,9 @@
 .savedStatus {
   position: fixed;
   z-index: 100000;
-  left: 0;
+  right: 0;
   bottom: 0;
-  border-top-right-radius: borders.$radius-large;
+  border-top-left-radius: borders.$radius-large;
   @include fonts.ui-small;
 
   background: colors.$neutral-100;
@@ -16,7 +16,7 @@
   border-style: solid;
   border-color: colors.$neutral-300;
   border-width: 1px 1px 0 0;
-  box-shadow: 0px 1px 3px colors.alpha(colors.$neutral-900, 0.03);
+  box-shadow: 0 1px 3px colors.alpha(colors.$neutral-900, 0.03);
 
   padding: spacing.$space-50 spacing.$space-75;
 
