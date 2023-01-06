@@ -1,5 +1,5 @@
 import { Html, useLocalStorage } from "@/helpers/client";
-import { InfoIcon } from "@primer/octicons-react";
+import { InfoIcon, XIcon } from "@primer/octicons-react";
 import { useId } from "react";
 import { createPortal } from "react-dom";
 import { Caret } from "./caret";
@@ -12,7 +12,13 @@ const portalElement =
     ? document.getElementById("ace-cheat-sheet")
     : null;
 
-export const CheatSheet = ({ children }: { children?: Html }) => {
+export const CheatSheet = ({
+  title = "Cheat Sheet",
+  children,
+}: {
+  title?: Html;
+  children?: Html;
+}) => {
   const id = `cheat-sheet-${useId()}`;
 
   // Saving this state in local storage has two effects:
@@ -31,10 +37,28 @@ export const CheatSheet = ({ children }: { children?: Html }) => {
   return createPortal(
     <div className={styles.container}>
       {isOpen && (
-        <div className={styles.cheatSheet} id={id}>
+        <section className={styles.cheatSheet} id={id}>
           <Caret className={styles.svgCaret} />
-          {autoProse(children, { size: "smallest" })}
-        </div>
+
+          <div className={styles.header}>
+            {title && <h2 className={styles.title}>{title}</h2>}
+
+            <button
+              type="button"
+              className={styles.close}
+              onClick={() => setOpen(false)}
+              aria-expanded={true}
+              aria-controls={id}
+              aria-label="Hide cheat sheet"
+            >
+              <XIcon />
+            </button>
+          </div>
+
+          <div className={styles.content}>
+            {autoProse(children, { size: "smallest" })}
+          </div>
+        </section>
       )}
 
       <Button
