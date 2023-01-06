@@ -6,6 +6,16 @@ export default page(setup, ({ section }) => ({
   name: "morePractice",
   label: "More Practice",
   answers: "none",
+  cheatSheet: {
+    body: (
+      <>
+        <M display t="Z\ket{0} = \ket{0},\, Z\ket{1} = -\ket{1}" />
+        <M display t="X\ket{0} = \ket{1},\, X\ket{1} = \ket{0}" />
+        <M display t="H\ket{0} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})" />
+        <M display t="H\ket{1} = \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})" />
+      </>
+    ),
+  },
   sections: [
     section({
       name: "morePracticeIntro",

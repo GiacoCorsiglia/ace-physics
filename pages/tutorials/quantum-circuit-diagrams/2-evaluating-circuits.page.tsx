@@ -7,6 +7,14 @@ export default page(setup, ({ section }) => ({
   name: "evaluatingCircuits",
   label: "Evaluating Circuits",
   answers: "none",
+  cheatSheet: {
+    body: (
+      <>
+        <M display t="Z\ket{0} = \ket{0},\, Z\ket{1} = -\ket{1}" />
+        <M display t="X\ket{0} = \ket{1},\, X\ket{1} = \ket{0}" />
+      </>
+    ),
+  },
   sections: [
     section({
       name: "evaluatingCircuitsIntro",

@@ -15,6 +15,14 @@ export default page(setup, ({ section }) => ({
   name: "circuitDiagrams",
   label: "Circuit Diagrams",
   answers: "none",
+  cheatSheet: {
+    body: (
+      <>
+        <M display t="Z = \frac{1}{\sqrt{2}}\pmatrix{1 & 0 \\ 0 & -1}" />
+        <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
+      </>
+    ),
+  },
   sections: [
     section({
       name: "circuitDiagramsIntro",
