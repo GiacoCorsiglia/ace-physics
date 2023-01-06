@@ -50,25 +50,6 @@ export default page(setup, ({ section }) => ({
     }),
 
     section({
-      name: "isOperatorIdentity",
-      body: (m) => (
-        <TextBox
-          model={m.isOperatorIdentity}
-          label={
-            <Prose>
-              We have seen that <M t="Z\ket{0}=\ket{0}" /> and that{" "}
-              <M t="H^2\ket{0}=\ket{0}" />. At first glance, you might think
-              that this means both <M t="Z" /> and
-              <M t="H^2" /> are equal to <M t="I" />. However, we know that
-              <M t="Z \neq I" /> (but it turns out that <M t="H^2 = I" />
-              ). How do you decide if an operator is equal to the identity?
-            </Prose>
-          }
-        />
-      ),
-    }),
-
-    section({
       name: "xAndZSquaredEqualsI",
       body: (m) => (
         <>

@@ -13,31 +13,23 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  id: "IntroductionToQuantumGates",
-  link: "introduction-to-quantum-gates",
-  label: "Introduction to Quantum Gates",
+  id: "QuantumCircuitDiagrams",
+  link: "quantum-circuit-diagrams",
+  label: "Quantum Circuit Diagrams",
   pretest: false,
   posttest: false,
   pages: [
     {
-      link: "1-quantum-bits",
-      label: "Quantum Bits",
+      link: "1-circuit-diagrams",
+      label: "Circuit Diagrams",
     },
     {
-      link: "2-the-x-gate",
-      label: "The X Gate",
+      link: "2-evaluating-circuits",
+      label: "Evaluating Circuits",
     },
     {
-      link: "3-the-z-gate",
-      label: "The Z Gate",
-    },
-    {
-      link: "4-the-hadamard-gate",
-      label: "The Hadamard Gate",
-    },
-    {
-      link: "5-the-identity-gate",
-      label: "The Identity Gate",
+      link: "3-more-practice",
+      label: "More Practice",
     },
   ],
 });

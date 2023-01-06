@@ -87,6 +87,12 @@ export default page(setup, ({ section }) => ({
           <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
             Do this on scrap paper.
           </Callout>
+
+          <Prose>
+            We use the convention that <M t="i = \sqrt{-1}" />.
+          </Prose>
+
+          {/* TODO: Possible mistakes, minus sign, not squaring, neglecting 1/5  */}
         </>
       ),
     }),
@@ -100,9 +106,11 @@ export default page(setup, ({ section }) => ({
             <Prose>
               What about the probability of measuring <M t="\ket{1}" />?
             </Prose>
+            // TODO: Clarify the same state as before
           }
         />
       ),
+      // TODO: Add feedback message about normalization (why is the 1/5 out front).
     }),
   ],
 }));

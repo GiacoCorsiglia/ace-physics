@@ -57,6 +57,8 @@ export default page(setup, ({ section }) => ({
             takes a <M t="\ket{0}" /> or a <M t="\ket{1}" /> input state and
             turns them into superposition states.
           </p>
+
+          {/* TODO: Define |+> and |-> */}
         </Prose>
       ),
     }),
@@ -76,6 +78,7 @@ export default page(setup, ({ section }) => ({
               <TextLine model={r} />
             ))}
           />
+          {/* TODO: Grade this */}
         </>
       ),
     }),
@@ -97,6 +100,8 @@ export default page(setup, ({ section }) => ({
             Note: this can also be written as <M t="H(H\ket{0})" /> or{" "}
             <M t="H^2\ket{0}" />.
           </Prose>
+
+          {/* TODO: Convert to multiple choice  */}
         </>
       ),
     }),

@@ -4,6 +4,7 @@ import EPR from "./epr/schema";
 import IntroductionToQuantumGates from "./introduction-to-quantum-gates/schema";
 import QuantumBasisLite from "./quantum-basis-lite/schema";
 import QuantumBasisMain from "./quantum-basis/schema";
+import QuantumCircuitDiagrams from "./quantum-circuit-diagrams/schema";
 import QuantumMouse2 from "./quantum-mouse-2/schema";
 import QuantumMouse from "./quantum-mouse/schema";
 import ReflectionTransmission from "./reflection-transmission/schema";
@@ -16,8 +17,10 @@ import VectorsToFunctions from "./vectors-to-functions/schema";
 export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["EnergyAndPosition", EnergyAndPosition],
   ["EPR", EPR],
-  ["QuantumBasisMain", QuantumBasisMain],
+  ["IntroductionToQuantumGates", IntroductionToQuantumGates],
   ["QuantumBasisLite", QuantumBasisLite],
+  ["QuantumBasisMain", QuantumBasisMain],
+  ["QuantumCircuitDiagrams", QuantumCircuitDiagrams],
   ["QuantumMouse", QuantumMouse],
   ["QuantumMouse2", QuantumMouse2],
   ["ReflectionTransmission", ReflectionTransmission],
@@ -26,5 +29,4 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["SpinsAndMagneticFields", SpinsAndMagneticFields],
   ["TimeDependence", TimeDependence],
   ["VectorsToFunctions", VectorsToFunctions],
-  ["IntroductionToQuantumGates", IntroductionToQuantumGates],
 ]);

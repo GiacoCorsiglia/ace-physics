@@ -139,6 +139,14 @@ export const tutorialList: readonly TutorialListing[] = [
     label: "Introduction to Quantum Gates",
     blurb: <>Your first step in learning about quantum computing.</>,
   },
+  {
+    id: "QuantumCircuitDiagrams",
+    link: "quantum-circuit-diagrams",
+    label: "Quantum Circuit Diagrams",
+    blurb: (
+      <>Practice with single-qubit gates represented as circuit diagrams.</>
+    ),
+  },
 ];
 
 export interface TutorialListing {

@@ -43,8 +43,11 @@ export default page(setup, ({ section, hint }) => ({
 
           <p>
             The <M t="X" /> gate performs the function of a NOT gate, taking a{" "}
-            <M t="\ket{0}" /> to a <M t="\ket{1}" /> and vice versa. The
-            mathematical expression that matches this sentence is{" "}
+            <M t="\ket{0}" /> to a <M t="\ket{1}" /> and vice versa.
+          </p>
+
+          <p>
+            The mathematical expression that matches this sentence is{" "}
             <M t="X\ket{0}=\ket{1}" />.
           </p>
 
@@ -94,6 +97,8 @@ export default page(setup, ({ section, hint }) => ({
             </Prose>
           ),
         }),
+        // TODO: Show answer after moving, show steps for matrices and equations.
+        // Include distribute (linear operators)
       ],
     }),
 
@@ -150,10 +155,18 @@ export default page(setup, ({ section, hint }) => ({
             </>
           ),
           body: (
-            <>
-              When we say “Act <M t="X" /> on the state”, we mean calculate the
-              result of multiplying <M t="X" /> times the state.
-            </>
+            <Prose>
+              <p>
+                When we say “Act <M t="X" /> on the state”, we mean calculate
+                the result of multiplying <M t="X" /> times the state.
+              </p>
+
+              <p>
+                A gate (like <M t="X" />) is an <strong>action</strong> that can
+                be performed on a state, which produces a new, potentially
+                altered state.
+              </p>
+            </Prose>
           ),
         }),
       ],

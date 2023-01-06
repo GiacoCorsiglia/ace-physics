@@ -27,29 +27,15 @@ export default page(setup, ({ section }) => ({
       name: "zGateIntro",
       body: (
         <Prose>
-          The <M t="Z" /> gate (or “Phase gate”, or <M t="U_Z" />) adds a phase
-          of <M t="-1" /> to the <M t="\ket{1}" /> state. It is written in
-          matrix form as
+          The <M t="Z" /> gate (or “Phase gate”, or <M t="U_Z" />) adds a{" "}
+          <strong>phase</strong> of <M t="-1" /> to the <M t="\ket{1}" /> state.
+          It is written in matrix form as{" "}
           <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
           Take a moment to verify (using matrix multiplication) that
-          <M t="Z\ket{0} = \ket{0}" /> <M t="Z\ket{1} = -\ket{1}" />.
+          <M t="Z\ket{0} = \ket{0}" /> and <M t="Z\ket{1} = -\ket{1}" />.
         </Prose>
       ),
-    }),
-
-    section({
-      name: "zTimesArbitraryKet",
-      body: (m) => (
-        <TextBox
-          model={m.zTimesArbitraryKet}
-          label={
-            <Prose>
-              What is <M t="Z (a\ket{0} + b\ket{1})" />? Can you answer this
-              without using matrices?
-            </Prose>
-          }
-        />
-      ),
+      // TODO: Hint about the word "Phase"
     }),
 
     section({
@@ -70,6 +56,22 @@ export default page(setup, ({ section }) => ({
 
           <Prose>Is there more than one way to do this?</Prose>
         </>
+      ),
+      // TODO: Make this multiple choice (dropdowns for each component)
+    }),
+
+    section({
+      name: "zTimesArbitraryKet",
+      body: (m) => (
+        <TextBox
+          model={m.zTimesArbitraryKet}
+          label={
+            <Prose>
+              What is <M t="Z (a\ket{0} + b\ket{1})" />? Can you answer this
+              without using matrices?
+            </Prose>
+          }
+        />
       ),
     }),
 
