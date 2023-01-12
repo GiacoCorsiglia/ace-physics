@@ -25,6 +25,8 @@ export default pretest(setup, ({ section }) => ({
             choices={confidenceChoices}
           />
 
+          <Prose>Input your answer here:</Prose>
+
           <TextBox
             model={m.xHXTimesPlus}
             aria-labelledby="pretest-x-h-x-times-plus"
@@ -42,6 +44,8 @@ export default pretest(setup, ({ section }) => ({
           </Prose>
 
           <ChooseOne model={m.prob1Confidence} choices={confidenceChoices} />
+
+          <Prose>Input your answer here:</Prose>
 
           <TextBox model={m.prob1} aria-labelledby="pretest-prob-1" />
         </>
