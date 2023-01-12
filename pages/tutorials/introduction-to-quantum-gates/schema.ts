@@ -1,5 +1,7 @@
 import * as s from "@/schema/tutorial";
 
+const PretestConfidence = s.chooseOne(["unable", "unsure", "confident"]);
+
 const ZTimesKetElement = s.chooseOne(["3i/5", "-3i/5", "4/5", "-4/5"]);
 
 export default s.tutorial({
@@ -11,10 +13,14 @@ export default s.tutorial({
     identityGate: s.page(),
   },
   pretest: {
-    // Pretest fields here.
+    xHXTimesPlus: s.string(),
+    xHXTimesPlusConfidence: PretestConfidence,
+    prob1: s.string(),
+    prob1Confidence: PretestConfidence,
   },
   posttest: {
-    // Posttest fields here.
+    xHXTimesPlus: s.string(),
+    prob1: s.string(),
   },
   sections: {
     quantumBitsIntro: s.section(),

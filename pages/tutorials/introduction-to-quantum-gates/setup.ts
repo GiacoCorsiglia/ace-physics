@@ -16,8 +16,8 @@ export default tutorialSetup({
   id: "IntroductionToQuantumGates",
   link: "introduction-to-quantum-gates",
   label: "Introduction to Quantum Gates",
-  pretest: false,
-  posttest: false,
+  pretest: true,
+  posttest: true,
   pages: [
     {
       link: "1-quantum-bits",
