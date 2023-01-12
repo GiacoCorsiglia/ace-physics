@@ -83,6 +83,20 @@ export const tutorialList: readonly TutorialListing[] = [
     ),
   },
   {
+    id: "IntroductionToQuantumGates",
+    link: "introduction-to-quantum-gates",
+    label: "Introduction to Quantum Gates",
+    blurb: <>Your first step in learning about quantum computing.</>,
+  },
+  {
+    id: "QuantumCircuitDiagrams",
+    link: "quantum-circuit-diagrams",
+    label: "Quantum Circuit Diagrams",
+    blurb: (
+      <>Practice with single-qubit gates represented as circuit diagrams.</>
+    ),
+  },
+  {
     id: "EPR",
     link: "epr",
     label: "EPR and Entanglement",
@@ -131,20 +145,6 @@ export const tutorialList: readonly TutorialListing[] = [
         Explore the phenomena of reflection and transmission from 1D potential
         barriers.
       </>
-    ),
-  },
-  {
-    id: "IntroductionToQuantumGates",
-    link: "introduction-to-quantum-gates",
-    label: "Introduction to Quantum Gates",
-    blurb: <>Your first step in learning about quantum computing.</>,
-  },
-  {
-    id: "QuantumCircuitDiagrams",
-    link: "quantum-circuit-diagrams",
-    label: "Quantum Circuit Diagrams",
-    blurb: (
-      <>Practice with single-qubit gates represented as circuit diagrams.</>
     ),
   },
 ];
