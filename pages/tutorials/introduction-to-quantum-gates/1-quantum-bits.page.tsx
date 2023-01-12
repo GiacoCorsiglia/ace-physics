@@ -1,9 +1,9 @@
-import { Callout, Decimal, M, Prose } from "@/components";
+import { Callout, Decimal, Guidance, M, Prose } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "quantumBits",
   label: "Quantum Bits (Qubits)",
   answers: "none",
@@ -18,6 +18,7 @@ export default page(setup, ({ section }) => ({
             <M t="\ket{1}" />. A unique feature of a quantum computer is that a
             qubit can exist in a superposition state:
             <M display t="\ket{\psi} = a\ket{0}+b\ket{1}" />
+            where a and b are complex numbers of magnitude <M t="\leq 1" />.
           </p>
 
           <p>
@@ -91,10 +92,84 @@ export default page(setup, ({ section }) => ({
           <Prose>
             We use the convention that <M t="i = \sqrt{-1}" />.
           </Prose>
-
-          {/* TODO: Possible mistakes, minus sign, not squaring, neglecting 1/5  */}
         </>
       ),
+      hints: [
+        hint({
+          name: "probability",
+          label: "Probability?",
+          body: (
+            <>
+              If the state is <M t="\ket{\psi} = a\ket{0}+b\ket{1}" />, the
+              probability of measuring <M t="\ket{1}" /> is <M t="|b|^2" />.
+              Note that <M t="|i|^2 = +1" />.
+            </>
+          ),
+        }),
+      ],
+      guidance: {
+        nextMessage(r) {
+          const correct = (3 / 5) ** 2;
+          const prob = r.qubitProb0;
+
+          if (prob === undefined) {
+            return null;
+          }
+
+          if (prob === correct) {
+            return "correct";
+          } else if (prob === -correct) {
+            return "negativeCorrect";
+          } else if (prob === 3 / 5 || prob === -3 / 5) {
+            return "unsquared";
+          } else if (prob < 0 || prob > 1) {
+            return "outOfRange";
+          } else {
+            return "incorrect";
+          }
+        },
+        messages: {
+          correct: {
+            body: <Guidance.Agree>We agree with your answer!</Guidance.Agree>,
+            onContinue: "nextSection",
+          },
+          negativeCorrect: {
+            body: (
+              <Guidance.Disagree>
+                Heads up: <M t="|i|^2 = +1" />, so your answer should be
+                positive.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          unsquared: {
+            body: (
+              <Guidance.Disagree>
+                Close, but you need to square the coefficient when calculating
+                probability.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          outOfRange: {
+            body: (
+              <Guidance.Disagree>
+                Your answer should be between 0 and 1.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                We disagree with your answer. Check your calculation then click
+                “Check in Again”.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     section({
@@ -104,13 +179,54 @@ export default page(setup, ({ section }) => ({
           model={m.qubitProb1}
           label={
             <Prose>
-              What about the probability of measuring <M t="\ket{1}" />?
+              What about the probability of measuring <M t="\ket{1}" /> (for the
+              same state as the last question)?
             </Prose>
-            // TODO: Clarify the same state as before
           }
         />
       ),
-      // TODO: Add feedback message about normalization (why is the 1/5 out front).
+      guidance: {
+        nextMessage(r) {
+          const correct = (4 / 5) ** 2;
+          const prob = r.qubitProb1;
+
+          if (prob === correct) {
+            return "correct";
+          } else {
+            return "incorrect";
+          }
+        },
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>
+                <p>We agree with your answer.</p>
+
+                <p>
+                  You can confirm that the probabilities for <M t="\ket{0}" />{" "}
+                  (which you found above) and <M t="\ket{1}" /> add up to 1.
+                  This is always the case: you must have 100% probability of
+                  measuring <em>something</em>.
+                </p>
+
+                <p>
+                  The <M t="1/5" /> coefficient in front of the column vector
+                  ensures that this is true.
+                </p>
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                <p>Heads up—double check your calculation.</p>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
   ],
 }));

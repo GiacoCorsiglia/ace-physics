@@ -17,8 +17,18 @@ export default s.tutorial({
   sections: {
     quantumBitsIntro: s.section(),
     qubitsAsColumns: s.section(),
-    qubitProb0: s.section(),
-    qubitProb1: s.section(),
+    qubitProb0: s.section({
+      messages: [
+        "correct",
+        "negativeCorrect",
+        "unsquared",
+        "outOfRange",
+        "incorrect",
+      ],
+    }),
+    qubitProb1: s.section({
+      messages: ["correct", "incorrect"],
+    }),
 
     xGateIntro: s.section(),
     xGate: s.section(),
@@ -62,6 +72,7 @@ export default s.tutorial({
     xAndZSquaredEqualsI: s.chooseOne(["true", "false"]),
   },
   hints: {
+    probability: s.hint(),
     withoutMatrices: s.hint(),
     actX: s.hint(),
   },
