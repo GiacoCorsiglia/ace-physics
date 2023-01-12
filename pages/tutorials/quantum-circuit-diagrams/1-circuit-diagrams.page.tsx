@@ -18,7 +18,7 @@ export default page(setup, ({ section }) => ({
   cheatSheet: {
     body: (
       <>
-        <M display t="Z = \frac{1}{\sqrt{2}}\pmatrix{1 & 0 \\ 0 & -1}" />
+        <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
         <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
       </>
     ),
