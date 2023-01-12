@@ -1,5 +1,7 @@
 import * as s from "@/schema/tutorial";
 
+const ZTimesKetElement = s.chooseOne(["3i/5", "-3i/5", "4/5", "-4/5"]);
+
 export default s.tutorial({
   pages: {
     quantumBits: s.page(),
@@ -32,24 +34,41 @@ export default s.tutorial({
 
     xGateIntro: s.section(),
     xGate: s.section(),
-    xTimesArbitraryKet: s.section(),
+    xTimesArbitraryKet: s.section({
+      messages: ["answer"],
+    }),
     xTimesKet: s.section(),
-    xTimesPlus: s.section(),
+    xTimesPlus: s.section({
+      messages: ["answer"],
+    }),
 
     zGateIntro: s.section(),
+    zTimesKet: s.section({
+      messages: ["correct", "incorrect"],
+    }),
     zTimesArbitraryKet: s.section(),
-    zTimesKet: s.section(),
-    zTimesPlus: s.section(),
+    zTimesPlus: s.section({
+      messages: ["answer"],
+    }),
 
     hadamardGateIntro: s.section(),
     hTimes0And1: s.section(),
     hTimes0And1Answer: s.section(),
-    hTimesKet: s.section(),
-    hTimesHTimesKet: s.section(),
+    plusMinus: s.section(),
+    hTimesKet: s.section({
+      messages: ["correct", "incorrect"],
+    }),
+    hTimesHTimesKet: s.section({
+      messages: ["correct", "signError", "plus", "incorrect"],
+    }),
 
     identityGateIntro: s.section(),
-    identityGateTimesKet: s.section(),
-    xAndZSquaredEqualsI: s.section(),
+    identityTimesKet: s.section({
+      messages: ["answer"],
+    }),
+    xAndZSquaredEqualsI: s.section({
+      messages: ["answer"],
+    }),
   },
   responses: {
     qubitProb0: s.number(),
@@ -59,21 +78,31 @@ export default s.tutorial({
     xTimesKet: s.tuple(s.string(), s.string()),
     xTimesPlus: s.chooseOne(["yes", "no"]),
 
+    zTimesKet: s.tuple(ZTimesKetElement, ZTimesKetElement),
     zTimesArbitraryKet: s.string(),
-    zTimesKet: s.tuple(s.string(), s.string()),
     zTimesPlus: s.chooseOne(["yes", "no"]),
 
     hTimes0: s.string(),
     hTimes1: s.string(),
     hTimesKet: s.tuple(s.string(), s.string()),
-    hTimesHTimesKet: s.string(),
+    hTimesHTimesKet: s.chooseOne([
+      "|0>",
+      "|1>",
+      "|+>",
+      "|->",
+      "-|0>",
+      "-|1>",
+      "-|+>",
+      "-|->",
+    ]),
 
-    identityGateTimesKet: s.chooseOne(["yes", "no"]),
+    identityTimesKet: s.chooseOne(["yes", "no"]),
     xAndZSquaredEqualsI: s.chooseOne(["true", "false"]),
   },
   hints: {
     probability: s.hint(),
     withoutMatrices: s.hint(),
     actX: s.hint(),
+    phase: s.hint(),
   },
 });

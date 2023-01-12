@@ -6,7 +6,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "quantumBits",
   label: "Quantum Bits (Qubits)",
-  answers: "none",
+  answers: "checked-all",
   sections: [
     section({
       name: "quantumBitsIntro",

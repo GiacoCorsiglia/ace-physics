@@ -1,17 +1,18 @@
 import {
   Callout,
+  Dropdown,
+  Guidance,
   M,
   Matrix,
   Prose,
   TextBox,
-  TextLine,
   Toggle,
 } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "zGate",
   label: {
     html: (
@@ -21,7 +22,7 @@ export default page(setup, ({ section }) => ({
     ),
     title: "The Z Gate",
   },
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "zGateIntro",
@@ -35,7 +36,19 @@ export default page(setup, ({ section }) => ({
           <M t="Z\ket{0} = \ket{0}" /> and <M t="Z\ket{1} = -\ket{1}" />.
         </Prose>
       ),
-      // TODO: Hint about the word "Phase"
+      hints: [
+        hint({
+          name: "phase",
+          label: "Phase?",
+          body: (
+            <>
+              A “phase” is any complex coefficient of magnitude 1—i.e., of the
+              form <M t="e^{i\theta}" />. This includes <M t="1, -1, i" /> and{" "}
+              <M t="-i" />.
+            </>
+          ),
+        }),
+      ],
     }),
 
     section({
@@ -49,29 +62,70 @@ export default page(setup, ({ section }) => ({
 
           <Matrix
             label={<M display t="Z \frac{1}{5}\pmatrix{3i \\ -4} = " />}
-            column={Matrix.modelToColumn(m.zTimesKet, (r) => (
-              <TextLine model={r} />
+            column={Matrix.modelToColumn(m.zTimesKet, (row) => (
+              <Dropdown
+                model={row}
+                choices={[
+                  ["3i/5", <M t="3i/5" />],
+                  ["-3i/5", <M t="-3i/5" />],
+                  ["4/5", <M t="4/5" />],
+                  ["-4/5", <M t="-4/5" />],
+                ]}
+              />
             ))}
           />
 
           <Prose>Is there more than one way to do this?</Prose>
         </>
       ),
-      // TODO: Make this multiple choice (dropdowns for each component)
+      guidance: {
+        nextMessage(r) {
+          const a = r.zTimesKet?.[0]?.selected;
+          const b = r.zTimesKet?.[1]?.selected;
+
+          if (a === "3i/5" && b === "4/5") {
+            return "correct";
+          }
+
+          return "incorrect";
+        },
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                Please double-check your answer.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     section({
       name: "zTimesArbitraryKet",
       body: (m) => (
-        <TextBox
-          model={m.zTimesArbitraryKet}
-          label={
-            <Prose>
-              What is <M t="Z (a\ket{0} + b\ket{1})" />? Can you answer this
-              without using matrices?
-            </Prose>
-          }
-        />
+        <>
+          <TextBox
+            model={m.zTimesArbitraryKet}
+            label={
+              <Prose>
+                What is <M t="Z (a\ket{0} + b\ket{1})" />? Can you answer this
+                without using matrices?
+              </Prose>
+            }
+          />
+
+          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
+            Scrap paper is your friend!
+          </Callout>
+        </>
       ),
     }),
 
@@ -81,12 +135,8 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             Compute
-            <M t="Z \left( \frac{1}{\sqrt{2}} (\ket{0}+\ket{1}) \right)" />.
+            <M t="Z \left[ \frac{1}{\sqrt{2}} (\ket{0}+\ket{1}) \right]" />.
           </Prose>
-
-          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
-            Do this on scrap paper.
-          </Callout>
 
           <Toggle
             model={m.zTimesPlus}
@@ -102,6 +152,27 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.zTimesPlus?.selected === "yes"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                The resulting state is{" "}
+                <M t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1})" />, which is a
+                different state!
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
   ],
 }));

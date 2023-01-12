@@ -1,5 +1,6 @@
 import {
   Callout,
+  Guidance,
   M,
   Matrix,
   Prose,
@@ -14,17 +15,17 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "xGate",
   label: "Gates",
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "xGateIntro",
       body: (
         <Prose>
-          In order to do calculations, we need to apply “gates” (like in a
-          classical computer where we have the NOT gate and the OR gate). When a
-          gate acts on a state, the result is another state. These gates take
-          the form of quantum mechanical operators. We will go over some of the
-          more common gates for quantum computers.
+          To perform any tasks on our quantum computer, we need to apply “gates”
+          (like in a classical computer, where we have the NOT gate and the OR
+          gate). When a gate acts on a state, the result is another state. These
+          gates take the form of quantum mechanical operators. We will go over
+          some of the more common gates for quantum computers.
         </Prose>
       ),
       continue: {
@@ -42,8 +43,8 @@ export default page(setup, ({ section, hint }) => ({
           </h3>
 
           <p>
-            The <M t="X" /> gate performs the function of a NOT gate, taking a{" "}
-            <M t="\ket{0}" /> to a <M t="\ket{1}" /> and vice versa.
+            The <M t="X" /> gate performs the function of a NOT gate, changing{" "}
+            <M t="\ket{0}" /> to <M t="\ket{1}" /> and vice versa.
           </p>
 
           <p>
@@ -97,9 +98,33 @@ export default page(setup, ({ section, hint }) => ({
             </Prose>
           ),
         }),
-        // TODO: Show answer after moving, show steps for matrices and equations.
-        // Include distribute (linear operators)
       ],
+      guidance: {
+        nextMessage() {
+          return "answer";
+        },
+        messages: {
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                <p>
+                  Our answer is: <M t="a\ket{1} + b\ket{0}" />.
+                </p>
+
+                <p>
+                  Here’s how we did it, using the rules given above for{" "}
+                  <M t="X" />:
+                  <M display t="X (a\ket{0} + b\ket{1})" />
+                  <M display t="= Xa\ket{0} + Xb\ket{1}" />
+                  <M display t="= aX\ket{0} + bX\ket{1}" />
+                  <M display t="= a\ket{1} + b\ket{0}" />
+                </p>
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -170,6 +195,28 @@ export default page(setup, ({ section, hint }) => ({
           ),
         }),
       ],
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.xTimesPlus?.selected === "no"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                It’s the same state, because the coefficients for{" "}
+                <M t="\ket{0}" /> and <M t="\ket{1}" /> are both{" "}
+                <M t="1/\sqrt{2}" />, so swapping the coefficients has no
+                effect.
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
   ],
 }));

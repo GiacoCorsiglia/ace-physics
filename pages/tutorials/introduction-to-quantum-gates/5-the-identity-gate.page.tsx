@@ -1,4 +1,4 @@
-import { Callout, M, Prose, TextBox, Toggle } from "@/components";
+import { Callout, Guidance, M, Prose, Toggle } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
@@ -7,6 +7,14 @@ export default page(setup, ({ section }) => ({
   name: "identityGate",
   label: "The Identity Gate",
   answers: "none",
+  cheatSheet: {
+    body: (
+      <>
+        <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
+        <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
+      </>
+    ),
+  },
   sections: [
     section({
       name: "identityGateIntro",
@@ -21,7 +29,7 @@ export default page(setup, ({ section }) => ({
     }),
 
     section({
-      name: "identityGateTimesKet",
+      name: "identityTimesKet",
       body: (m) => (
         <>
           <Prose>
@@ -34,7 +42,7 @@ export default page(setup, ({ section }) => ({
           </Callout>
 
           <Toggle
-            model={m.identityGateTimesKet}
+            model={m.identityTimesKet}
             label={
               <Prose>
                 Did acting with <M t="I" /> change this state?
@@ -47,6 +55,26 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.identityTimesKet?.selected === "no"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                The identity gate acting on any state always produces the same
+                state.
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -71,6 +99,25 @@ export default page(setup, ({ section }) => ({
           </Callout>
         </>
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.xAndZSquaredEqualsI?.selected === "true"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                Turns out <M t="X^2 = Z^2 = H^2 = I" />!
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
   ],
 }));
