@@ -1,4 +1,5 @@
 import { Callout, Decimal, Guidance, M, Prose } from "@/components";
+import { approxEquals } from "@/helpers/server";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
@@ -116,9 +117,9 @@ export default page(setup, ({ section, hint }) => ({
             return null;
           }
 
-          if (prob === correct) {
+          if (approxEquals(prob, correct, 0.01)) {
             return "correct";
-          } else if (prob === -correct) {
+          } else if (approxEquals(prob, -correct, 0.01)) {
             return "negativeCorrect";
           } else if (prob === 3 / 5 || prob === -3 / 5) {
             return "unsquared";
@@ -190,7 +191,7 @@ export default page(setup, ({ section, hint }) => ({
           const correct = (4 / 5) ** 2;
           const prob = r.qubitProb1;
 
-          if (prob === correct) {
+          if (approxEquals(prob, correct, 0.01)) {
             return "correct";
           } else {
             return "incorrect";
