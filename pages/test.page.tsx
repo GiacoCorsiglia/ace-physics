@@ -12,6 +12,7 @@ import {
   Matrix,
   NumericInputControl,
   Prose,
+  QuantumCircuit,
   SectionBox,
   Table,
   TextBoxControl,
@@ -48,6 +49,10 @@ export default function TestPage() {
 
   return (
     <Vertical space={300}>
+      <QuantumCircuitTest />
+
+      <LatexTest />
+
       <SectionBox>
         <Button color="green" onClick={() => setDisabled((d) => !d)}>
           {disabled ? "Enable" : "Disable"} Controls
@@ -491,3 +496,67 @@ export default function TestPage() {
     </Vertical>
   );
 }
+
+const LatexTest = () => {
+  const [tex, setTex] = useState("");
+  const [isDisplay, setDisplay] = useState<boolean | undefined>(true);
+
+  return (
+    <SectionBox>
+      <Prose>
+        <h2>LaTeX Test</h2>
+      </Prose>
+
+      <ToggleControl
+        value={isDisplay}
+        onChange={setDisplay}
+        choices={[
+          [true, "Display mode"],
+          [false, "Inline mode"],
+        ]}
+      />
+
+      <TextBoxControl
+        value={tex}
+        onChange={setTex}
+        label="LaTeX Code"
+        style={{ fontFamily: "monospace", fontSize: 13 }}
+      />
+
+      <Prose>
+        <p>Preview:</p>
+
+        <p>
+          <M display={isDisplay} t={tex} renderErrorOnDev />
+        </p>
+      </Prose>
+    </SectionBox>
+  );
+};
+
+const QuantumCircuitTest = () => {
+  const [tex, setTex] = useState("");
+
+  return (
+    <SectionBox>
+      <Prose>
+        <h2>Quantum Circuit Test</h2>
+      </Prose>
+
+      <TextBoxControl
+        value={tex}
+        onChange={setTex}
+        label="Quantum Circuit Code"
+        style={{ fontFamily: "monospace", fontSize: 13 }}
+      />
+
+      <Prose>
+        <p>Preview:</p>
+
+        <p>
+          <QuantumCircuit t={tex} />
+        </p>
+      </Prose>
+    </SectionBox>
+  );
+};

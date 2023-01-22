@@ -29,8 +29,9 @@ export const macros = {
   // Temporary quantum circuit stuff.
   // "\\qcircuit": t`\begin{array}{c}#1\end{array}`,
   "\\qcircuit": t`#1`,
-  "\\qw": t`\htmlClass{${styles.qw}}{\text{\textemdash}}`,
-  "\\lstick": t`\htmlClass{${styles.lstick}}{#1}`,
-  "\\rstick": t`\htmlClass{${styles.rstick}}{#1}`,
-  "\\gate": t`\htmlClass{${styles.gate}}{\text{\textemdash}\boxed{#1}\text{\textemdash}}`,
+  // "\\qw": t`\htmlClass{${styles.qw}}{\text{\textemdash}}`,
+  // "\\lstick": t`\htmlClass{${styles.lstick}}{#1}`,
+  // "\\rstick": t`\htmlClass{${styles.rstick}}{#1}`,
+  // "\\gate": t`\htmlClass{${styles.gate}}{\text{\textemdash}\boxed{#1}\text{\textemdash}}`,
+  "\\gate": t`\boxed{#1}`,
 };
