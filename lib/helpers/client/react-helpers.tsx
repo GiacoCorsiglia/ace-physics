@@ -164,8 +164,13 @@ export const useBoolean = (
   return [value, setTrue, setFalse, toggle];
 };
 
-export const useActualSiblingCheck = (when: () => boolean, deps: any[]) => {
-  const elRef = useRef<HTMLDivElement>(null);
+export const useActualSiblingCheck = <
+  Element extends HTMLElement = HTMLDivElement
+>(
+  when: () => boolean,
+  deps: any[]
+) => {
+  const elRef = useRef<Element>(null);
   const classesRef = useRef("");
 
   useIsomorphicLayoutEffect(() => {

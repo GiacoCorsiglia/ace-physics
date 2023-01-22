@@ -1,4 +1,11 @@
-import { cx, Html, styled, useAncestorBackgroundColor } from "@/helpers/client";
+import {
+  combineRefs,
+  cx,
+  Html,
+  styled,
+  useActualSiblingCheck,
+  useAncestorBackgroundColor,
+} from "@/helpers/client";
 import { memo } from "react";
 import { M } from "./m";
 import styles from "./quantum-circuit.module.scss";
@@ -10,18 +17,27 @@ import styles from "./quantum-circuit.module.scss";
  * https://mirror2.sandyriver.net/pub/ctan/graphics/qcircuit/qcircuit.pdf
  */
 export const QuantumCircuit = memo(function QuantumCircuit({
-  t,
+  t: tex,
 }: {
   t: string;
 }) {
-  const [ref, backgroundColor] = useAncestorBackgroundColor<HTMLTableElement>();
+  const [siblingRef, classes] = useActualSiblingCheck<HTMLTableElement>(
+    () => true,
+    []
+  );
 
-  const cells = parse(t);
+  const [bgRef, backgroundColor] =
+    useAncestorBackgroundColor<HTMLTableElement>();
 
+  const cells = parse(tex);
+
+  // TODO: Using a real <table> produces invalid DOM nesting when used inside
+  // <Prose>...but we want <td rowspan> so there's not much we can do.  Maybe we
+  // could switch to grid?
   return (
     <table
-      className={styles.quantumCircuit}
-      ref={ref}
+      className={cx(styles.quantumCircuit, classes)}
+      ref={combineRefs(siblingRef, bgRef)}
       style={
         backgroundColor
           ? ({
