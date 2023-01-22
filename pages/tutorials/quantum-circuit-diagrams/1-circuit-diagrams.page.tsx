@@ -4,7 +4,7 @@ import {
   Guidance,
   M,
   Prose,
-  QC,
+  QuantumCircuit,
   Toggle,
 } from "@/components";
 import { page } from "@/tutorial";
@@ -31,7 +31,7 @@ export default page(setup, ({ section }) => ({
           <p>
             A pictorial way to represent the operation <M t="Z \ket{0}" /> is
             with a <strong>circuit diagram</strong>:
-            <QC t="\lstick{ \ket{0}} & \gate{Z} & \qw & \rstick{\ket{\psi_{out}}}" />
+            <QuantumCircuit t="\lstick{ \ket{0}} & \gate{Z} & \qw & \rstick{\ket{\psi_{out}}}" />
             where the wire shows the progression of the qubit from left to
             right.
           </p>
@@ -142,7 +142,7 @@ export default page(setup, ({ section }) => ({
 
             <p>Consider the circuit diagram shown here:</p>
 
-            <QC t="\lstick{\ket{\psi}} & \gate{Z} & \gate{X} & \qw" />
+            <QuantumCircuit t="\lstick{\ket{\psi}} & \gate{Z} & \gate{X} & \qw" />
           </Prose>
 
           <ChooseOne

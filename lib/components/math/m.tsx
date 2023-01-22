@@ -103,19 +103,5 @@ export const M = ({
   );
 };
 
-export const QC = ({
-  t,
-  renderErrorOnDev,
-}: {
-  t: string;
-  renderErrorOnDev?: boolean;
-}) => {
-  const tex = t.replaceAll("&", "");
-
-  return (
-    <M display t={`\\qcircuit{${tex}}`} renderErrorOnDev={renderErrorOnDev} />
-  );
-};
-
 const escapeHtml = (html: string) =>
   html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
