@@ -1,4 +1,4 @@
-import { ChooseOne, M, Prose, QC, TextBox } from "@/components";
+import { ChooseOne, M, Prose, QuantumCircuit, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -40,7 +40,7 @@ export default page(setup, ({ section }) => ({
                   behave as shown no matter what the input state is?
                 </p>
 
-                <QC t="\lstick{ \ket{\psi} }& \gate{X} & \gate{?} & \qw & \rstick{\ket{\psi}}" />
+                <QuantumCircuit t="\lstick{ \ket{\psi} }& \gate{X} & \gate{?} & \qw & \rstick{\ket{\psi}}" />
               </Prose>
             }
             choices={[
@@ -69,7 +69,7 @@ export default page(setup, ({ section }) => ({
             label={
               <Prose>
                 What is the output of the following circuit?
-                <QC t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{H} & \gate{Z} & \qw" />
+                <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{H} & \gate{Z} & \qw" />
               </Prose>
             }
           />
@@ -87,7 +87,7 @@ export default page(setup, ({ section }) => ({
             label={
               <Prose>
                 What is the output of the following circuit?
-                <QC t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{Z} & \gate{H} & \qw" />
+                <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{Z} & \gate{H} & \qw" />
               </Prose>
             }
           />

@@ -25,12 +25,4 @@ export const macros = {
   "\\wideye": t`\htmlClass{${styles.wideye}}{\large \ast}`,
   "\\smiley": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \smile}}`,
   "\\frownie": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \frown}}`,
-
-  // Temporary quantum circuit stuff.
-  // "\\qcircuit": t`\begin{array}{c}#1\end{array}`,
-  "\\qcircuit": t`#1`,
-  "\\qw": t`\htmlClass{${styles.qw}}{\text{\textemdash}}`,
-  "\\lstick": t`\htmlClass{${styles.lstick}}{#1}`,
-  "\\rstick": t`\htmlClass{${styles.rstick}}{#1}`,
-  "\\gate": t`\htmlClass{${styles.gate}}{\text{\textemdash}\boxed{#1}\text{\textemdash}}`,
 };

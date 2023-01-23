@@ -28,6 +28,7 @@ export interface MPropTypes {
   prespace?: boolean;
   postspace?: boolean;
   color?: string;
+  renderErrorOnDev?: boolean;
 }
 
 export const M = ({
@@ -36,6 +37,7 @@ export const M = ({
   prespace = true,
   postspace = false,
   color,
+  renderErrorOnDev = false,
 }: MPropTypes) => {
   prespace = prespace && !display;
   postspace = postspace && !display;
@@ -61,16 +63,19 @@ export const M = ({
         // Make these loud on local; for the most part these should just be
         // LaTeX compilation errors (from KaTeX), which we can fix.
         const message = html.error.message.replace(": ", ":\n  ");
+        if (renderErrorOnDev) {
+          setHtml({
+            __html: `<span class="text-red">${escapeHtml(message)}</span>`,
+          });
+          return;
+        }
         throw new Error(`\n${message}\nProblematic LaTeX code:\n  ${tex}`);
       } else if (html.failed) {
         // We shouldn't get here due to the throwOnError setting above, although
         // KaTeX could always just blow it.  In that case, presumably users will
         // get more out of the raw LaTeX code than a generic "Math Rendering
         // Failed" error message, even though it may break the layout.
-        const escapedTex = tex
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;");
+        const escapedTex = escapeHtml(tex);
         setHtml({
           __html: `${prespace ? " " : ""}${escapedTex}${postspace ? " " : ""}`,
         });
@@ -98,7 +103,5 @@ export const M = ({
   );
 };
 
-export const QC = ({ t }: { t: string }) => {
-  const tex = t.replaceAll("&", "");
-  return <M display t={`\\qcircuit{${tex}}`} />;
-};
+const escapeHtml = (html: string) =>
+  html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

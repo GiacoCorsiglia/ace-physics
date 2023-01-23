@@ -1,4 +1,4 @@
-import { Callout, M, Prose, QC, TextBox } from "@/components";
+import { Callout, M, Prose, QuantumCircuit, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
@@ -38,7 +38,7 @@ export default page(setup, ({ section }) => ({
           label={
             <Prose>
               What is the output of the following circuit?
-              <QC t="\lstick{\ket{1}} & \gate{X} & \gate{Z} & \qw" />
+              <QuantumCircuit t="\lstick{\ket{1}} & \gate{X} & \gate{Z} & \qw" />
             </Prose>
           }
         />
@@ -56,7 +56,7 @@ export default page(setup, ({ section }) => ({
             label={
               <Prose>
                 What is the output of the following circuit?
-                <QC t="\lstick{\ket{1}} & \gate{Z} & \gate{X} & \qw" />
+                <QuantumCircuit t="\lstick{\ket{1}} & \gate{Z} & \gate{X} & \qw" />
               </Prose>
             }
           />

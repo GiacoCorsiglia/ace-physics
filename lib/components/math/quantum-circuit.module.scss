@@ -1,0 +1,211 @@
+@use "colors";
+
+.quantumCircuit {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: var(--display-math-margin-top);
+  margin-bottom: var(--display-math-margin-bottom);
+
+  border-collapse: separate;
+
+  // Default value.
+  --circuit-ancestor-background: #{colors.$neutral-200};
+
+  > tr > td {
+    // Don't shift if we render borders.
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+  }
+}
+
+$space-between-cells: 0.4em;
+
+.cell {
+  position: relative;
+  padding: $space-between-cells 0;
+  vertical-align: middle;
+  height: 100%;
+
+  &::before,
+  &::after {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1px;
+    background: currentColor;
+  }
+
+  &.hasWireAbove::before {
+    content: "";
+    display: block;
+    top: 0;
+    bottom: 50%;
+  }
+
+  &.hasWireBelow::after {
+    content: "";
+    display: block;
+    top: 50%;
+    bottom: 0;
+  }
+}
+
+// Need !important because of specificity of direct descendent selector for td.
+.borderTop {
+  border-top: 1px dashed currentColor !important;
+}
+.borderBottom {
+  border-bottom: 1px dashed currentColor !important;
+}
+.borderLeft {
+  border-left: 1px dashed currentColor !important;
+}
+.borderRight {
+  border-right: 1px dashed currentColor !important;
+}
+
+.multiGateContent {
+  position: relative;
+  z-index: 3;
+  display: block;
+  padding: 0 0.3em;
+}
+
+.multiGateLines {
+  // Make it fill the table cell.
+  position: absolute;
+  top: $space-between-cells;
+  left: 0;
+  right: 0;
+  bottom: $space-between-cells;
+  background: var(--circuit-ancestor-background);
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.multiGateBorder {
+  flex: 1;
+  border: 0.5px solid currentColor;
+}
+
+.cellContent {
+  min-height: 1em;
+
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+
+  background: var(--circuit-ancestor-background);
+
+  &.alignLeft {
+    text-align: left;
+    grid-template-columns: 0 auto 1fr;
+  }
+
+  &.alignRight {
+    text-align: right;
+    grid-template-columns: 1fr auto 0;
+  }
+}
+
+.horizontalWireCell {
+  vertical-align: middle;
+
+  .horizontalWire {
+    min-width: 0.5em;
+  }
+}
+
+.horizontalWireGrid {
+  display: flex;
+  align-items: center;
+
+  .horizontalWire {
+    flex: 1;
+  }
+}
+
+.horizontalWire {
+  display: block;
+  height: 1px;
+  background: currentColor;
+}
+
+.verticalWire {
+  position: relative;
+  min-height: 0.5em;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 1px;
+    background: currentColor;
+    transform: translateY(1px); // Seems to be off center by a pixel.
+  }
+}
+
+.ctrl {
+  display: block;
+  background: currentColor;
+  border-radius: 100%;
+  width: 0.5em;
+  height: 0.5em;
+}
+
+.targ {
+  position: relative;
+  display: block;
+  border-radius: 100%;
+  border: 1px solid currentColor;
+  width: 0.8em;
+  height: 0.8em;
+
+  &::before,
+  &::after {
+    content: "";
+    background: currentColor;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &::before {
+    height: 1px;
+    margin: auto 0;
+  }
+
+  &::after {
+    width: 1px;
+    margin: 0 auto;
+  }
+}
+
+.gate {
+  display: block;
+  padding: 0.1em 0.4em;
+  border: 0.5px solid currentColor;
+
+  > :first-child {
+    // The rendered math is slightly off center.
+    transform: translateY(1px);
+  }
+}
+
+.renderedTex {
+  display: block;
+  padding: 0.1em 0.3em;
+}

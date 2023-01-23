@@ -13,6 +13,12 @@ export async function run() {
 
   const tutorialStates = codecItems(codecs.TutorialState, json);
 
+  const textBoxRows: {
+    tutorial: string;
+    courseId: string;
+    textBoxLength: number;
+  }[] = [];
+
   const rows = tutorialStates.map((item) => {
     const tutorial = item.tutorialId;
     const schema = tutorialSchemas.get(tutorial);
@@ -20,6 +26,17 @@ export async function run() {
     if (!schema) {
       throw new Error(`Missing schema for '${tutorial}'.`);
     }
+
+    textBoxLengths(
+      schema.properties.responses,
+      item.state.responses || {}
+    ).forEach((length) => {
+      textBoxRows.push({
+        tutorial,
+        courseId: item.courseId,
+        textBoxLength: length,
+      });
+    });
 
     return {
       tutorial,
@@ -38,6 +55,13 @@ export async function run() {
   const file = `${dataFile.split(".json")[0]}-STATS.csv`;
   console.log("Writing to file:", file);
   fs.writeFileSync(file, csv);
+
+  const textBoxCsv = stringify(textBoxRows, {
+    header: true,
+  });
+  const textBoxFile = `${dataFile.split(".json")[0]}-STATS-TEXT-BOXES.csv`;
+  console.log("Writing to file:", textBoxFile);
+  fs.writeFileSync(textBoxFile, textBoxCsv);
 }
 
 const divideToZero = (a: number, b: number) => {
@@ -195,4 +219,21 @@ const analyzeResponses: Analyzer<"responses"> = ($responses, responses) => {
     textBoxes,
     textBoxResponseLength,
   };
+};
+
+const textBoxLengths = (
+  $responses: TutorialSchema["properties"]["responses"],
+  responses: TutorialState["responses"]
+) => {
+  const keys = Object.keys($responses.properties);
+
+  const stringKeys = keys.filter((k) => {
+    const schema = $responses.properties[k];
+    // Ignore string fields that are just equation inputs.
+    return schema.kind === "string" && schema.isWrittenResponse;
+  });
+
+  return stringKeys.map(
+    (k) => (responses?.[k] as string | undefined)?.length || 0
+  );
 };
