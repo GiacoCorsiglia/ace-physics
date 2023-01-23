@@ -6,6 +6,7 @@ import {
   LabelsLeft,
   M,
   Prose,
+  QuantumCircuit,
   TextBox,
   Toggle,
 } from "@/components";
@@ -211,7 +212,12 @@ export default page(setup, ({ section, hint }) => ({
           </p>
           <p>
             We can also think of these two gates as a single, two-qubit gate:
-            <M display t="TODO" />
+            <QuantumCircuit
+              t="
+              \lstick{\ket{\psi}} & \qw & \gate{Z} & \qw \\
+              \lstick{\ket{\phi}} & \qw & \gate{X} & \qw \gategroup{1}{2}{2}{3}{.7em}{--} \\
+              "
+            />
             In this picture (which is equivalent to the one above), we can write
             the two-qubit operator as <M t="Z\otimes X" />. Then the output
             state can be written as{" "}
