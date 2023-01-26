@@ -23,5 +23,17 @@ export default tutorialSetup({
       link: "1-adding-a-second-qubit",
       label: "Adding a Second Qubit",
     },
+    {
+      link: "2-operators",
+      label: "Operators",
+    },
+    {
+      link: "3-summary-questions",
+      label: "Summary Questions",
+    },
+    {
+      link: "4-two-qubit-vector-space",
+      label: "The Two Qubit Vector Space",
+    },
   ],
 });

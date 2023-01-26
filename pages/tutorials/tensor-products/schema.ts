@@ -1,8 +1,13 @@
 import * as s from "@/schema/tutorial";
 
+const Point4D = s.tuple(s.number(), s.number());
+
 export default s.tutorial({
   pages: {
     addingASecondQubit: s.page(),
+    operators: s.page(),
+    summaryQuestions: s.page(),
+    twoQubitVectorSpace: s.page(),
   },
   pretest: {
     // Pretest fields here.
@@ -22,12 +27,19 @@ export default s.tutorial({
     representsOutputState: s.section(),
     differentRedrawnCircuit: s.section(),
     // Section 1.3
+    summaryIntro: s.section(),
     firstBoldedI: s.section(),
     twoQubitStateResult: s.section(),
     followingIsTFOne: s.section(),
     followingIsTFTwo: s.section(),
     representCircuitBelow: s.section(),
     outputStateOfCircuit: s.section(),
+    // Section 2.1
+    twoQubitVectorSpaceIntro: s.section(),
+    probMeasureTwoQubitState: s.section(),
+    fourDColumnVector: s.section(),
+    outputStatefourDColVector: s.section(),
+    probTwoQubitSystem: s.section(),
   },
   responses: {
     write2QubitState: s.string(),
@@ -53,6 +65,11 @@ export default s.tutorial({
     followingIsTFTwoChoice: s.chooseOne(["yes", "no"]),
     representCircuitBelowText: s.string(),
     outputStateOfCircuitText: s.string(),
+    // Section 2.1
+    probMeasureTwoQubitState: s.number(),
+    fourDColumnVectorResult: Point4D,
+
+    probTwoQubitSystem: s.number(),
   },
   hints: {
     probability: s.hint(),

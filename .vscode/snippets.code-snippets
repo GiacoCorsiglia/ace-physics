@@ -10,5 +10,11 @@
     "scope": "javascriptreact,typescriptreact",
     "prefix": "MM",
     "body": ["<M t=\"${1:${TM_SELECTED_TEXT/ψ/\\psi/g}}\" />$2"]
+  },
+  "Section component": {
+    "scope": "javascriptreact,typescriptreact",
+    "prefix": "mkSec",
+    "body": ["section({ name: \"\", body: (m) => (<></>),}),"],
+    "description": "Instantly create a new section template"
   }
 }
