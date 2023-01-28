@@ -35,5 +35,9 @@ export default tutorialSetup({
       link: "4-two-qubit-vector-space",
       label: "The Two Qubit Vector Space",
     },
+    {
+      link: "5-two-qubit-operators",
+      label: "Two Qubit Operators",
+    },
   ],
 });

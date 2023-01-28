@@ -41,23 +41,16 @@ export default page(setup, ({ section, hint }) => ({
           </p>
           <p>
             We write the <i>two-qubit state</i> describing this system as{" "}
-            <M
-              t="\ket{1}\otimes \ket
-            {0}"
-            />
-            , or using the shorthand <M t="\ket{1}\!\ket{0}" /> or just{" "}
-            <M t="\ket{10}" />. Order matters, the first bit is listed first in
-            all three notations, and is the topmost bit in the circuit diagram.
+            <M t="\ket{1}\otimes \ket {0}" />, or using the shorthand{" "}
+            <M t="\ket{1}\!\ket{0}" /> or just <M t="\ket{10}" />. Order
+            matters, the first bit is listed first in all three notations, and
+            is the topmost bit in the circuit diagram.
           </p>
           <p>
             The <M t="\otimes" /> is called a "tensor product", and serves as a
             visual separator with the first particle on the left, and the 2nd on
             the right. (This could be generalized to 3 particles, e.g.{" "}
-            <M
-              t="\ket{1}
-            \otimes \ket{0} \otimes\ket{1}"
-            />
-            .
+            <M t="\ket{1} \otimes \ket{0} \otimes\ket{1}" />.
           </p>
         </Prose>
       ),
@@ -127,21 +120,16 @@ export default page(setup, ({ section, hint }) => ({
       body: (m) => (
         <>
           <Prose>
-            <p>
-              In the previous question, what is the probability that a
-              measurement of the full 2-qubit state results in{" "}
-              <M t="\ket{10}" />? What about
-              <M t="\ket{01}" />?
-            </p>
+            In the previous question, what is the probability that a measurement
+            of the full 2-qubit state results in <M t="\ket{10}" />? What about{" "}
+            <M t="\ket{01}" />?
           </Prose>
           <LabelsLeft>
             <Decimal
               model={m.probabilityOfKet10}
               label={
                 <Prose>
-                  <p>
-                    Probability of <M t="\ket{10}" />:
-                  </p>
+                  Probability of <M t="\ket{10}" />:{" "}
                 </Prose>
               }
             />
@@ -149,9 +137,7 @@ export default page(setup, ({ section, hint }) => ({
               model={m.probabilityOfKet01}
               label={
                 <Prose>
-                  <p>
-                    Probability of <M t="\ket{01}" />:
-                  </p>
+                  Probability of <M t="\ket{01}" />:{" "}
                 </Prose>
               }
             />
@@ -164,20 +150,16 @@ export default page(setup, ({ section, hint }) => ({
       body: (m) => (
         <>
           <Prose>
-            <p>
-              What is the probability that a measurement of the{" "}
-              <i>first qubit only</i> results in a <M t="\ket{0}" />? Same
-              question for the second qubit?
-            </p>
+            What is the probability that a measurement of the{" "}
+            <i>first qubit only</i> results in a <M t="\ket{0}" />? Same
+            question for the second qubit?
           </Prose>
           <LabelsLeft>
             <Decimal
               model={m.resultIsKet0FirstQubit}
               label={
                 <Prose>
-                  <p>
-                    <i>First</i> qubit:
-                  </p>
+                  <i>First</i> qubit:{" "}
                 </Prose>
               }
             />
@@ -185,9 +167,7 @@ export default page(setup, ({ section, hint }) => ({
               model={m.resultIsKet0SecondQubit}
               label={
                 <Prose>
-                  <p>
-                    <i>Second</i> qubit:
-                  </p>
+                  <i>Second</i> qubit:
                 </Prose>
               }
             />
@@ -200,10 +180,8 @@ export default page(setup, ({ section, hint }) => ({
           label: "Probability?",
           body: (
             <Prose>
-              <p>
-                Can you see how to get this both from the circuit diagram
-                picture and also from the 2-state equations you selected?
-              </p>
+              Can you see how to get this both from the circuit diagram picture
+              and also from the 2-state equations you selected?
             </Prose>
           ),
         }),

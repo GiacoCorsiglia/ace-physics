@@ -31,7 +31,7 @@ export default page(setup, ({ section }) => ({
             In this example, the output state of the first qubit is{" "}
             <M t="Z\ket{\psi}" /> and the output of the second qubit is{" "}
             <M t="X\ket{\phi}" />. The 2-qubit state can therefore be written
-            <M display t="(Z\ket{\psi}) \otimes (X\ket{\phi})" />.
+            <M display t="(Z\ket{\psi}) \otimes (X\ket{\phi})" />
           </p>
           <p>
             We can also think of these two gates as a single, two-qubit gate:
@@ -44,7 +44,7 @@ export default page(setup, ({ section }) => ({
             In this picture (which is equivalent to the one above), we can write
             the two-qubit operator as <M t="Z\otimes X" />. Then the output
             state can be written as:{" "}
-            <M display t="(Z\otimes X)(\ket{\psi}\otimes \ket{\phi})" />.
+            <M display t="(Z\otimes X)(\ket{\psi}\otimes \ket{\phi})" />
           </p>
         </Prose>
       ),
@@ -110,12 +110,10 @@ export default page(setup, ({ section }) => ({
           model={m.firstBoldedI}
           label={
             <Prose>
-              <p>
-                Consider the very first <M t="I" /> in the following expression:{" "}
-                <M t="(Z\otimes \mathbf{I})(I\otimes X) (\ket{\psi} \otimes \ket{\phi} )" />
-                . Which gate in the circuit above is that first (bolded){" "}
-                <M t="I" /> referring to?
-              </p>
+              Consider the very first <M t="I" /> in the following expression:{" "}
+              <M t="(Z\otimes \mathbf{I})(I\otimes X) (\ket{\psi} \otimes \ket{\phi} )" />
+              . Which gate in the circuit above is that first (bolded){" "}
+              <M t="I" /> referring to?
             </Prose>
           }
           choices={[

@@ -19,7 +19,7 @@ export default page(setup, ({ section }) => ({
       name: "twoQubitStateResult",
       body: (m) => (
         <TextBox
-          model={m.twoQubitStateFinalResult}
+          model={m.twoQubitStateResult}
           label={
             <>
               <Prose>
@@ -41,7 +41,7 @@ export default page(setup, ({ section }) => ({
       name: "followingIsTFOne",
       body: (m) => (
         <Toggle
-          model={m.followingIsTFOneChoice}
+          model={m.followingIsTFOne}
           label={
             <Prose>
               <p>
@@ -64,7 +64,7 @@ export default page(setup, ({ section }) => ({
       name: "followingIsTFTwo",
       body: (m) => (
         <Toggle
-          model={m.followingIsTFTwoChoice}
+          model={m.followingIsTFTwo}
           label={
             <Prose>
               <p>
