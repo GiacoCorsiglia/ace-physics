@@ -123,26 +123,23 @@ const NavItem = ({ item }: { item: NavItem | NavItemWithStatus }) => {
 
   return (
     <li className={cx(styles.navItem, status === "active" && styles.active)}>
-      <Link href={item.link}>
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a
+      <Link
+        href={item.link}
+        className={cx(
+          styles.navItemLink,
+          status === "complete" && styles.complete,
+          status === "active" && styles.active
+        )}
+      >
+        <span
           className={cx(
-            styles.navItemLink,
-            status === "complete" && styles.complete,
-            status === "active" && styles.active
+            styles.navItemIcon,
+            typeof item.icon === "number" && styles.navItemNumberIcon
           )}
         >
-          <span
-            className={cx(
-              styles.navItemIcon,
-              typeof item.icon === "number" && styles.navItemNumberIcon
-            )}
-          >
-            {item.icon}
-          </span>
-
-          <span className={styles.navItemLabel}>{item.label}</span>
-        </a>
+          {item.icon}
+        </span>
+        <span className={styles.navItemLabel}>{item.label}</span>
       </Link>
     </li>
   );
@@ -170,20 +167,22 @@ const NavProgressItem = ({ item }: { item: NavItemWithStatus }) => {
         item.status === "incomplete" && styles.incomplete
       )}
     >
-      <Link href={item.link}>
+      <Link
+        href={item.link}
+        className={styles.navProgressItemLink}
+        {...triggerProps}
+      >
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a className={styles.navProgressItemLink} {...triggerProps}>
-          <span className={styles.navProgressItemIcon}>{item.icon}</span>
 
-          <Tooltip
-            {...tooltipProps}
-            contentClassName={styles.navProgressItemLabel}
-            caretClassName={styles.svgCaret}
-            alwaysVisiblyHidden
-          >
-            {item.label}
-          </Tooltip>
-        </a>
+        <span className={styles.navProgressItemIcon}>{item.icon}</span>
+        <Tooltip
+          {...tooltipProps}
+          contentClassName={styles.navProgressItemLabel}
+          caretClassName={styles.svgCaret}
+          alwaysVisiblyHidden
+        >
+          {item.label}
+        </Tooltip>
       </Link>
     </li>
   );

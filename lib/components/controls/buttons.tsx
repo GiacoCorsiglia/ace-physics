@@ -103,9 +103,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       );
     } else {
       return (
-        <Link href={link}>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid, jsx-a11y/anchor-has-content */}
-          <a {...(props as JSX.IntrinsicElements["a"])}>{childrenWithIcons}</a>
+        <Link {...(props as LinkProps)} href={link}>
+          {childrenWithIcons}
         </Link>
       );
     }
@@ -122,9 +121,9 @@ export const LinkButton = forwardRef<HTMLButtonElement, LinkButtonProps>(
 
     if (link && !props.disabled) {
       return (
-        <Link href={link}>
+        <Link href={link} {...(props as JSX.IntrinsicElements["a"])}>
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a {...(props as JSX.IntrinsicElements["a"])}>{children}</a>
+          {children}
         </Link>
       );
     }
