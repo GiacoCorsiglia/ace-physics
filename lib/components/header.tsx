@@ -1,6 +1,6 @@
 import { cx, Html, OptionalList, styled, useToggle } from "@/helpers/client";
 import { ThreeBarsIcon, XIcon } from "@primer/octicons-react";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import styles from "./header.module.scss";
 import { Tooltip, useTooltip } from "./tooltip";
 
@@ -168,13 +168,12 @@ const NavProgressItem = ({ item }: { item: NavItemWithStatus }) => {
       )}
     >
       <Link
+        {...(triggerProps as LinkProps)}
         href={item.link}
         className={styles.navProgressItemLink}
-        {...triggerProps}
       >
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-
         <span className={styles.navProgressItemIcon}>{item.icon}</span>
+
         <Tooltip
           {...tooltipProps}
           contentClassName={styles.navProgressItemLabel}

@@ -121,8 +121,7 @@ export const LinkButton = forwardRef<HTMLButtonElement, LinkButtonProps>(
 
     if (link && !props.disabled) {
       return (
-        <Link href={link} {...(props as JSX.IntrinsicElements["a"])}>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <Link {...(props as LinkProps)} href={link}>
           {children}
         </Link>
       );
