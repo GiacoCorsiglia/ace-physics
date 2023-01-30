@@ -27,7 +27,7 @@
     "@aws-sdk/lib-dynamodb": "^3.259.0",
     "@emotion/is-prop-valid": "^1.2.0",
     "@next-auth/dynamodb-adapter": "^1.2.0",
-    "@next/eslint-plugin-next": "^12.3.1",
+    "@next/eslint-plugin-next": "^13.1.6",
     "@primer/octicons-react": "^17.11.1",
     "@sendgrid/mail": "^7.7.0",
     "@sentry/nextjs": "^7.34.0",
