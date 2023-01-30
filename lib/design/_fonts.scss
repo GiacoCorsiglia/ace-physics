@@ -19,7 +19,7 @@ $base-size: 16; // This is 1rem in px (for normal browsers)
 // Families.
 $sans: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue,
   helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-$serif: "Bitter", serif;
+$serif: var(--font-bitter), serif;
 
 // Weights.
 $regular: 400;

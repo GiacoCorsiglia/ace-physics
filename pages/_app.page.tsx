@@ -3,6 +3,7 @@ import footerStyles from "@/components/footer.module.scss";
 import "@/design/global.scss";
 import { Html, JsxElement } from "@/helpers/client";
 import { polyfill } from "@/polyfill";
+import { Bitter } from "@next/font/google";
 import type { Session } from "next-auth";
 import { SessionProvider, useSession } from "next-auth/react";
 import type { AppProps } from "next/app";
@@ -10,6 +11,10 @@ import { useMemo, useRef } from "react";
 import { SWRConfig } from "swr";
 
 polyfill();
+
+const bitter = Bitter({
+  subsets: ["latin"],
+});
 
 export default function AceApp({
   Component,
@@ -26,6 +31,12 @@ export default function AceApp({
 
     return (
       <>
+        <style jsx global>{`
+          html {
+            --font-bitter: ${bitter.style.fontFamily};
+          }
+        `}</style>
+
         <div className={footerStyles.bodyContent}>
           {layout(Component, pageProps)}
         </div>
