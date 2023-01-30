@@ -1,15 +1,10 @@
 import { cx, forEachChild, Html, styled } from "@/helpers/client";
-import {
-  Children,
-  forwardRef,
-  isValidElement,
-  JSXElementConstructor,
-} from "react";
+import { forwardRef, isValidElement, JSXElementConstructor } from "react";
 import { Image } from "./image";
 import { M } from "./math";
 import styles from "./typography.module.scss";
 
-const blockLevelElements = new Set([
+const blockLevelElements = new Set<string | JSXElementConstructor<any>>([
   "h1",
   "h2",
   "h3",
@@ -52,11 +47,14 @@ const ProseComponent = forwardRef<HTMLParagraphElement, ProseProps>(
     // Otherwise, just wrap everything in a <div>.  (The prop types for "p" and
     // "div" are identical.)
     let Container: "p" | "div" = "p";
-    Children.forEach(props.children, (child) => {
+    forEachChild(props.children, (child) => {
+      if (Container !== "p" || !isValidElement(child)) {
+        return;
+      }
+
       if (
-        child &&
-        Container === "p" &&
-        blockLevelElements.has((child as any).type)
+        blockLevelElements.has(child.type) ||
+        !proseSafeElements.has(child.type)
       ) {
         Container = "div";
       }
