@@ -16,8 +16,8 @@ export default tutorialSetup({
   id: "QuantumCircuitDiagrams",
   link: "quantum-circuit-diagrams",
   label: "Quantum Circuit Diagrams",
-  pretest: false,
-  posttest: false,
+  pretest: true,
+  posttest: true,
   pages: [
     {
       link: "1-circuit-diagrams",
