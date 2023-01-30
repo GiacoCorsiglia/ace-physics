@@ -8,7 +8,7 @@ import type { Session } from "next-auth";
 import { SessionProvider, useSession } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { useMemo, useRef } from "react";
-import { SWRConfig } from "swr";
+import { Cache, SWRConfig } from "swr";
 
 polyfill();
 
@@ -59,8 +59,8 @@ const PerUserSwrCache = ({ children }: { children?: Html }) => {
   const latestEmail = useSession().data?.user?.email;
 
   const cacheEmail = useRef<string | null | undefined>();
-  const cache = useRef<Map<unknown, unknown>>();
-  const cacheProvider = useRef<() => Map<unknown, unknown>>();
+  const cache = useRef<Cache>();
+  const cacheProvider = useRef<() => Cache>();
 
   if (!cache.current || cacheEmail.current !== latestEmail) {
     cacheEmail.current = latestEmail;
