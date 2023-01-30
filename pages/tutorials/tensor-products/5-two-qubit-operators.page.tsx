@@ -3,6 +3,7 @@ import {
   ChooseOne,
   Decimal,
   Guidance,
+  Horizontal,
   M,
   Matrix,
   Prose,
@@ -156,7 +157,18 @@ export default page(setup, ({ section }) => ({
                 Select ALL of the expressions which correctly match the diagram
                 below.
               </p>
-              <QuantumCircuit t="& \gate{H} &  \gate{X} & \qw \\ & \gate{Z} & \qw & \qw \\" />
+
+              <Horizontal justify="center">
+                <div>
+                  <QuantumCircuit t="& \gate{H} &  \gate{X} & \qw \\ & \gate{Z} & \qw & \qw \\" />
+                </div>
+                <div>
+                  <M t="=" />
+                </div>
+                <div>
+                  <QuantumCircuit t="& \multigate{1}{A} & \qw \\ & \ghost{A} & \qw \\" />
+                </div>
+              </Horizontal>
             </Prose>
           }
           choices={[

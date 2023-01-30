@@ -111,7 +111,7 @@ export default page(setup, ({ section }) => ({
           label={
             <Prose>
               Consider the very first <M t="I" /> in the following expression:{" "}
-              <M t="(Z\otimes \mathbf{I})(I\otimes X) (\ket{\psi} \otimes \ket{\phi} )" />
+              <M t="(Z\otimes I)(I \otimes X) (\ket{\psi} \otimes \ket{\phi} )" />
               . Which gate in the circuit above is that first (bolded){" "}
               <M t="I" /> referring to?
             </Prose>
