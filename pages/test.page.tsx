@@ -553,9 +553,7 @@ const QuantumCircuitTest = () => {
       <Prose>
         <p>Preview:</p>
 
-        <p>
-          <QuantumCircuit t={tex} />
-        </p>
+        <QuantumCircuit t={tex} />
       </Prose>
     </SectionBox>
   );
