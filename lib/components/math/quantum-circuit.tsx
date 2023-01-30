@@ -445,8 +445,10 @@ const handleGateGroups = (cells: Cell[][], gateGroups: GateGroup[]) => {
   }
 };
 
-// Match "% foo" but not "\% foo" via negative lookbehind.
-const comment = /(?<!\\)\%.*/g;
+// TODO: Match "% foo" but not "\% foo" via negative lookbehind.
+// /(?<!\\)\%.*/g
+// but this isn't supported in safari.
+const comment = /\%.*/g;
 
 const parse = (tex: string): Cell[][] => {
   // Remove comments.
