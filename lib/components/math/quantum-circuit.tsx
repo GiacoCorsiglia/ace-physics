@@ -326,12 +326,10 @@ const parseCell = (tex: string): Cell => {
 
 const parseCells = (tex: string): Cell[][] =>
   // Split on new line command, \\, then on new column command, &.
-  tex.split("\\\\").map((line) =>
-    line
-      .split("&")
-      .filter((line) => !!line.trim())
-      .map(parseCell)
-  );
+  tex
+    .split("\\\\")
+    .filter((line) => !!line.trim())
+    .map((line) => line.split("&").map(parseCell));
 
 /**
  * Finds the cell that will be actually rendered at (row, col), accounting for
