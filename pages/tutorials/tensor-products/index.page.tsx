@@ -5,7 +5,8 @@ import setup from "./setup";
 export default intro(setup, () => ({
   body: (
     <Prose>
-      TODO
+      Use the tensor product operation to describe systems with multiple qubits
+      mathematically.
     </Prose>
   ),
 }));
