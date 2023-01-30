@@ -2,12 +2,12 @@ import {
   ChooseAll,
   ChooseOne,
   Decimal,
-  Guidance,
   Horizontal,
   M,
   Matrix,
   Prose,
   QuantumCircuit,
+  TextLine,
 } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
@@ -30,11 +30,12 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
+
     section({
-      name: "representZOTimesX",
+      name: "representZxX",
       body: (m) => (
         <ChooseOne
-          model={m.representZOTimesX}
+          model={m.representZxX}
           label={
             <Prose>
               <p>
@@ -78,11 +79,9 @@ export default page(setup, ({ section }) => ({
       name: "twoOperatorsRule",
       enumerate: false,
       body: (
-        <Guidance.HeadsUp>
-          <p>
-            Given two operators, you can represent their tensor product by
-            following this "rule":
-          </p>
+        <Prose>
+          Given two operators, you can represent their tensor product by
+          following this "rule":
           <M
             display
             t="\left(\begin{array}{cc} a & b \\ c & d \end{array}\right)  \otimes \left(\begin{array}{cc} e & f\\ g & h \end{array}\right) =
@@ -92,11 +91,11 @@ export default page(setup, ({ section }) => ({
             display
             t="= \left(\begin{array}{cccc} ae & af & be & bf \\ ag & ah & bg & bf \\ ce & cf & de& df \\ cg & ch & dg& df \end{array}\right)"
           />
-        </Guidance.HeadsUp>
+        </Prose>
       ),
     }),
     section({
-      name: "representAs4x4Matrix",
+      name: "representZxXAs4x4Matrix",
       body: (m) => (
         <Prose>
           <p>
@@ -104,53 +103,57 @@ export default page(setup, ({ section }) => ({
             matrix?
           </p>
           <Matrix
-            matrix={Matrix.modelToMatrix(m.representAs4x4Matrix, (c) => (
+            matrix={Matrix.modelToMatrix(m.representZxXAs4x4Matrix, (c) => (
               <Decimal model={c} />
             ))}
           />
         </Prose>
       ),
     }),
+
     section({
-      name: "writeInTwoDifferentWays",
+      name: "columnZ0xX1",
       body: (m) => (
         <Prose>
           <p>
             Write the output state of the following circuit diagram as a
             4-component column vector.
           </p>
+
           <QuantumCircuit t="\lstick{\ket{0}} & \gate{Z} &   \qw \\ \lstick{\ket{1}} & \gate{X} & \qw \\" />
+
           <p>
             Please solve this two DIFFERENT ways (you should get the same
             answer):
           </p>
+
           <ol>
             <li>
               Use the diagram to determine the output of each qubit, then write
               the result as a column vector.
             </li>
+
             <li>
               Write <M t="Z\otimes X" /> as a <M t="4 \times 4" /> matrix
               (previous question!) and write the input state <M t="\ket{01}" />
               as a 4-D column vector, then matrix multiply.
             </li>
           </ol>
+
           <Matrix
-            matrix={Matrix.modelToMatrix(
-              m.writeInTwoDifferentWaysMatrix,
-              (c) => (
-                <Decimal model={c} />
-              )
-            )}
+            label={<M t="\text{Output state} = " />}
+            column={Matrix.modelToColumn(m.columnZ0xX1, (c, i) => (
+              <TextLine model={c} placeholder={`Component ${i + 1}`} />
+            ))}
           />
         </Prose>
       ),
     }),
     section({
-      name: "expressionMatchDiagram",
+      name: "circuitAsOperator",
       body: (m) => (
         <ChooseAll
-          model={m.expressionMatchDiagram}
+          model={m.circuitAsOperator}
           label={
             <Prose>
               <p>

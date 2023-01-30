@@ -19,14 +19,14 @@ export default page(setup, ({ section, hint }) => ({
       name: "addingASecondQubitIntro",
       body: (
         <Prose>
-          <h2>States</h2>
           <p>
             In a circuit diagram, a qubit is represented as a single horizontal
-            line (or wire). E.g.,
+            line (or wire). For example,
             <QuantumCircuit t="\lstick{\ket{1}} & \qw &  \qw & \qw \\" />
             represents a qubit in the
             <M t="\ket{1}" /> state.
           </p>
+
           <p>
             We can stack wires vertically to represent a circuit with two (or
             more) qubits:
@@ -39,6 +39,7 @@ export default page(setup, ({ section, hint }) => ({
             In this system, qubit #1 is in state <M t="\ket{1}" /> , and qubit
             #2 is in state <M t="\ket{0}" />.
           </p>
+
           <p>
             We write the <i>two-qubit state</i> describing this system as{" "}
             <M t="\ket{1}\otimes \ket {0}" />, or using the shorthand{" "}
@@ -46,40 +47,60 @@ export default page(setup, ({ section, hint }) => ({
             matters, the first bit is listed first in all three notations, and
             is the topmost bit in the circuit diagram.
           </p>
+
           <p>
             The <M t="\otimes" /> is called a "tensor product", and serves as a
             visual separator with the first particle on the left, and the 2nd on
-            the right. (This could be generalized to 3 particles, e.g.{" "}
+            the right. This could be generalized to 3 particles, e.g.{" "}
             <M t="\ket{1} \otimes \ket{0} \otimes\ket{1}" />.
           </p>
         </Prose>
       ),
     }),
+
     section({
-      name: "write2QubitState",
+      name: "arbitrary2QubitState",
       body: (m) => (
-        <TextBox
-          model={m.write2QubitState}
-          label={
-            <Prose>
-              <p>Given the circuit diagram</p>
-              <QuantumCircuit
-                t="
-                \lstick{\ket{\psi}} & \qw & \qw & \qw \\ \\
+        <>
+          <TextBox
+            model={m.arbitrary2QubitState}
+            label={
+              <Prose>
+                <p>Given the circuit diagram</p>
+                <QuantumCircuit
+                  t="
+                \lstick{\ket{\psi}} & \qw & \qw & \qw \\
                 \lstick{\ket{\phi}} & \qw & \qw & \qw \\
                 "
-              />
-              <p>How would you write the 2-qubit state?</p>
-            </Prose>
-          }
-        />
+                />
+                <p>How would you write the 2-qubit state?</p>
+              </Prose>
+            }
+          />
+
+          <Prose faded size="small">
+            <p>Don’t worry about formatting.</p>
+
+            <p>
+              You can write kets using the <code>|</code> and <code>{">"}</code>{" "}
+              characters.
+            </p>
+
+            <p>
+              Copy-paste these symbols if useful:{" "}
+              <span style={{ marginLeft: "1rem" }}>ψ</span>
+              <span style={{ marginLeft: "1rem" }}>⊗</span>
+            </p>
+          </Prose>
+        </>
       ),
     }),
+
     section({
-      name: "write2QubitStateSelectAll",
+      name: "plusTimes0",
       body: (m) => (
         <ChooseAll
-          model={m.write2QubitStateSelectAll}
+          model={m.plusTimes0}
           label={
             <Prose>
               <p>Given the circuit diagram</p>
@@ -115,8 +136,9 @@ export default page(setup, ({ section, hint }) => ({
         />
       ),
     }),
+
     section({
-      name: "full2QubitProbability",
+      name: "plusTimes0Probabilities",
       body: (m) => (
         <>
           <Prose>
@@ -124,20 +146,22 @@ export default page(setup, ({ section, hint }) => ({
             of the full 2-qubit state results in <M t="\ket{10}" />? What about{" "}
             <M t="\ket{01}" />?
           </Prose>
+
           <LabelsLeft>
             <Decimal
               model={m.probabilityOfKet10}
               label={
                 <Prose>
-                  Probability of <M t="\ket{10}" />:{" "}
+                  Probability of <M t="\ket{10}" />:
                 </Prose>
               }
             />
+
             <Decimal
               model={m.probabilityOfKet01}
               label={
                 <Prose>
-                  Probability of <M t="\ket{01}" />:{" "}
+                  Probability of <M t="\ket{01}" />:
                 </Prose>
               }
             />
@@ -145,8 +169,9 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
+
     section({
-      name: "probabilityFirstQubitOnly",
+      name: "plusTimes0SingleProbabilities",
       body: (m) => (
         <>
           <Prose>
@@ -154,17 +179,19 @@ export default page(setup, ({ section, hint }) => ({
             <i>first qubit only</i> results in a <M t="\ket{0}" />? Same
             question for the second qubit?
           </Prose>
+
           <LabelsLeft>
             <Decimal
-              model={m.resultIsKet0FirstQubit}
+              model={m.probabilityKet0FirstQubit}
               label={
                 <Prose>
-                  <i>First</i> qubit:{" "}
+                  <i>First</i> qubit:
                 </Prose>
               }
             />
+
             <Decimal
-              model={m.resultIsKet0SecondQubit}
+              model={m.probabilityKet0SecondQubit}
               label={
                 <Prose>
                   <i>Second</i> qubit:

@@ -1,5 +1,14 @@
-import { M, Prose, QuantumCircuit, TextBox, Toggle } from "@/components";
+import {
+  Callout,
+  ChooseAll,
+  M,
+  Prose,
+  QuantumCircuit,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
+import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -14,105 +23,181 @@ export default page(setup, ({ section }) => ({
           <p>Let’s practice with this new notation.</p>
         </Prose>
       ),
+      continue: {
+        label: "Let’s do it",
+      },
     }),
+
     section({
-      name: "twoQubitStateResult",
-      body: (m) => (
-        <TextBox
-          model={m.twoQubitStateResult}
-          label={
-            <>
-              <Prose>
-                <p>
-                  What would the circuit for the following two-qubit state look
-                  like?
-                </p>
-                <M
-                  display
-                  t="(X\otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )"
-                />
-              </Prose>
-            </>
-          }
-        />
+      name: "sketchHxIZxXPsi1xPsi2",
+      body: () => (
+        <>
+          <Prose>
+            <p>
+              What would the circuit for the following two-qubit state look
+              like?
+            </p>
+            <M
+              display
+              t="(H \otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )"
+            />
+          </Prose>
+
+          <Callout color="blue" iconLeft={<PencilIcon />}>
+            Draw the circuit on scrap paper.
+          </Callout>
+        </>
       ),
+      continue: {
+        label: "I drew the circuit",
+      },
     }),
+
     section({
-      name: "followingIsTFOne",
+      name: "selectHxIZxXPsi1xPsi2",
       body: (m) => (
-        <Toggle
-          model={m.followingIsTFOne}
+        <ChooseAll
           label={
             <Prose>
-              <p>
-                Is the following <i>true</i> or <i>false</i>?
-              </p>
-              <M
-                display
-                t="(X\otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )  = (X Z)\otimes (I X )  (\ket{\psi_1} \otimes \ket{\psi_2} )"
-              />
+              Select ALL circuit diagrams that are equivalent to your drawing
+              (there may be more than one):
             </Prose>
           }
+          model={m.selectHxIZxXPsi1xPsi2}
           choices={[
-            ["yes", "Yes"],
-            ["no", "No"],
-          ]}
-        />
-      ),
-    }),
-    section({
-      name: "followingIsTFTwo",
-      body: (m) => (
-        <Toggle
-          model={m.followingIsTFTwo}
-          label={
-            <Prose>
-              <p>
-                Is the following <i>true</i> or <i>false</i>?
-              </p>
-              <M
-                display
-                t="(X\otimes Z ) (X \otimes Z) (\ket{\psi_1} \otimes \ket{\psi_2} )  = X Z\ket{\psi_1}\otimes  X Z \ket{\psi_2}"
-              />
-            </Prose>
-          }
-          choices={[
-            ["yes", "Yes"],
-            ["no", "No"],
-          ]}
-        />
-      ),
-    }),
-    section({
-      name: "representCircuitBelow",
-      body: (m) => (
-        <TextBox
-          model={m.representCircuitBelowText}
-          label={
-            <Prose>
-              <p>Represent the circuit shown below as an equation:</p>
+            [
+              "(I⊗H) (X⊗Z) (|ψ2>⊗|ψ1>)",
               <QuantumCircuit
                 t="
-                \lstick{\ket{1}} & \gate{H} &  \gate{X} & \qw \\
-                \lstick{\ket{1}} & \gate{Z} & \qw & \qw \\
+                \lstick{\ket{\psi2}} & \gate{X} & \gate{I} \\
+                \lstick{\ket{\psi1}} & \gate{Z} & \gate{H}
                 "
-              />
-            </Prose>
-          }
+              />,
+            ],
+            [
+              "(H⊗_) (Z⊗X) (|ψ1>⊗|ψ2>)",
+              <QuantumCircuit
+                t="
+                \lstick{\ket{\psi1}} & \gate{Z} & \gate{H} \\
+                \lstick{\ket{\psi2}} & \qw & \gate{X}
+                "
+              />,
+            ],
+            [
+              "(Z⊗X) (H⊗_) (|ψ1>⊗|ψ2>)",
+              <QuantumCircuit
+                t="
+                \lstick{\ket{\psi1}} & \gate{H} & \gate{Z} \\
+                \lstick{\ket{\psi2}} & \gate{I} & \gate{X}
+                "
+              />,
+            ],
+            [
+              "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)",
+              <QuantumCircuit
+                t="
+                \lstick{\ket{\psi1}} & \gate{Z} & \gate{H} \\
+                \lstick{\ket{\psi2}} & \gate{X} & \gate{I}
+                "
+              />,
+            ],
+            [
+              "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+              <QuantumCircuit
+                t="
+                \lstick{\ket{\psi1}} & \gate{X} & \qw \\
+                \lstick{\ket{\psi2}} & \gate{Z} & \gate{H}
+                "
+              />,
+            ],
+          ]}
         />
       ),
     }),
+
     section({
-      name: "outputStateOfCircuit",
+      name: "XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2",
       body: (m) => (
-        <TextBox
-          model={m.outputStateOfCircuitText}
+        <Toggle
+          model={m.XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2}
           label={
             <Prose>
-              <p>
-                If <M t="\ket{\psi}=\ket{1}" /> and <M t="\ket{\phi}=\ket{1}" />
-                , what is the output state of the above circuit?
-              </p>
+              Is the following <i>true</i> or <i>false</i>?
+              <M
+                display
+                t="(X \otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )  = (X Z)\otimes (I X )  (\ket{\psi_1} \otimes \ket{\psi_2} )"
+              />
+            </Prose>
+          }
+          choices={[
+            ["true", "True"],
+            ["false", "False"],
+          ]}
+        />
+      ),
+    }),
+
+    section({
+      name: "XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2",
+      body: (m) => (
+        <Toggle
+          model={m.XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2}
+          label={
+            <Prose>
+              Is the following <i>true</i> or <i>false</i>?
+              <M
+                display
+                t="(X \otimes Z ) (X \otimes Z) (\ket{\psi_1} \otimes \ket{\psi_2} )  = X Z\ket{\psi_1}\otimes  X Z \ket{\psi_2}"
+              />
+            </Prose>
+          }
+          choices={[
+            ["true", "True"],
+            ["false", "False"],
+          ]}
+        />
+      ),
+    }),
+
+    section({
+      name: "equationXHPsixZPhi",
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.equationXHPsixZPhi}
+            label={
+              <Prose>
+                <p>Represent the circuit shown below as an equation:</p>
+
+                <QuantumCircuit
+                  t="
+                \lstick{\ket{\psi}} & \gate{H} &  \gate{X} & \qw \\
+                \lstick{\ket{\phi}} & \gate{Z} & \qw & \qw \\
+                "
+                />
+              </Prose>
+            }
+          />
+
+          <Prose faded size="small">
+            Copy-paste these symbols if useful:{" "}
+            <span style={{ marginLeft: "1rem" }}>ϕ</span>
+            <span style={{ marginLeft: "1rem" }}>ψ</span>
+            <span style={{ marginLeft: "1rem" }}>⊗</span>
+          </Prose>
+        </>
+      ),
+    }),
+
+    section({
+      name: "outputXH1xZ1",
+      body: (m) => (
+        <TextBox
+          model={m.outputXH1xZ1}
+          label={
+            <Prose>
+              If <M t="\ket{\psi}=\ket{1}" /> and <M t="\ket{\phi}=\ket{1}" />,
+              what is the output state of the above circuit?
             </Prose>
           }
         />

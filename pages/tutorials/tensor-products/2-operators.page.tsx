@@ -1,11 +1,4 @@
-import {
-  ChooseAll,
-  ChooseOne,
-  Guidance,
-  M,
-  Prose,
-  QuantumCircuit,
-} from "@/components";
+import { ChooseAll, ChooseOne, M, Prose, QuantumCircuit } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -27,12 +20,14 @@ export default page(setup, ({ section }) => ({
               "
             />
           </p>
+
           <p>
             In this example, the output state of the first qubit is{" "}
             <M t="Z\ket{\psi}" /> and the output of the second qubit is{" "}
             <M t="X\ket{\phi}" />. The 2-qubit state can therefore be written
             <M display t="(Z\ket{\psi}) \otimes (X\ket{\phi})" />
           </p>
+
           <p>
             We can also think of these two gates as a single, two-qubit gate:
             <QuantumCircuit
@@ -49,20 +44,23 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
+
     section({
-      name: "representsOutputState",
+      name: "arbitraryOutputZxI",
       body: (m) => (
         <ChooseAll
-          model={m.representsOutputStateSelectAll}
+          model={m.arbitraryOutputZxI}
           label={
             <Prose>
-              <p>Consider the following circuit. </p>
+              <p>Consider the following circuit.</p>
+
               <QuantumCircuit
                 t="
                 \lstick{\ket{\psi_1}} & \gate{Z} & \qw \\
                 \lstick{\ket{\psi_2}} & \qw & \qw \\
                 "
               />
+
               <p>
                 Which represents the output state? Select all correct
                 expressions.
@@ -84,52 +82,75 @@ export default page(setup, ({ section }) => ({
         />
       ),
     }),
+
     section({
-      name: "differentRedrawnCircuit",
+      name: "redrawnZxI",
       enumerate: false,
       body: (
-        <Guidance.HeadsUp>
+        <>
+          <p>At the top of this page, we introduced the following circuit:</p>
+
+          <QuantumCircuit
+            t="
+              \lstick{\ket{\psi}} & \gate{Z} & \qw \\
+              \lstick{\ket{\phi}} & \gate{X} & \qw \\
+              "
+          />
+
           <p>
-            The equation at the top of the page can be redrawn in circuit form
-            below, with some <M t="I" /> (identity) gates added. (Do you see
-            that this circuit is functionally equivalent to the previous one?)
+            This circuit can be redrawn with some <M t="I" /> (identity) gates
+            added:
           </p>
+
           <QuantumCircuit
             t="
               \lstick{\ket{\psi}} & \gate{Z} & \gate{I} & \qw \\
               \lstick{\ket{\phi}} & \gate{I} & \gate{X} & \qw \\
               "
           />
-        </Guidance.HeadsUp>
+
+          <p>
+            Do you see that this circuit is functionally equivalent to the
+            previous one?
+          </p>
+        </>
       ),
+      continue: {
+        label: "Interesting",
+      },
     }),
+
     section({
-      name: "firstBoldedI",
+      name: "findIInCircuit",
       body: (m) => (
         <ChooseOne
-          model={m.firstBoldedI}
+          model={m.findIInCircuit}
           label={
             <Prose>
-              Consider the very first <M t="I" /> in the following expression:{" "}
-              <M t="(Z\otimes I)(I \otimes X) (\ket{\psi} \otimes \ket{\phi} )" />
-              . Which gate in the circuit above is that first (bolded){" "}
-              <M t="I" /> referring to?
+              Consider the first <M t="{\color{blue} \mathbf{I}}" /> in the
+              following expression:{" "}
+              <M
+                display
+                t="(Z\otimes {\color{blue} \mathbf{I}})(I \otimes X) (\ket{\psi} \otimes \ket{\phi} )"
+              />
+              Which gate in the circuit above is the{" "}
+              <M t="{\color{blue} \mathbf{I}}" /> referring to?
             </Prose>
           }
           choices={[
             [
               "top",
-              <p>
-                The <M t="I" /> on the top qubit (qubit 1)
-              </p>,
+              <>
+                The <M t="I" /> on the top wire (qubit 1)
+              </>,
             ],
             [
               "bottom",
-              <p>
-                The <M t="I" /> on the bottom qubit (qubit 2)
-              </p>,
+              <>
+                The <M t="I" /> on the bottom wire (qubit 2)
+              </>,
             ],
-            ["ambiguous", <p>It is ambiguous</p>],
+            ["ambiguous", <>It’s ambiguous</>],
           ]}
         />
       ),
