@@ -19,9 +19,8 @@ export const Breadcrumb = ({
         <li
           key={typeof item.link === "string" ? item.link : item.link?.pathname}
         >
-          <Link href={item.link}>
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a className={styles.link}>{item.label}</a>
+          <Link href={item.link} className={styles.link}>
+            {item.label}
           </Link>
         </li>
       ))}

@@ -7,10 +7,27 @@ export default s.tutorial({
     morePractice: s.page(),
   },
   pretest: {
-    // Pretest fields here.
+    outputOfCircuit: s.string(),
+    circuitAsDirac: s.chooseAll([
+      "HZZX|1>",
+      "XZZH|1>",
+      "HX|1>",
+      "HIX|1>",
+      "XH|1>",
+      "XIH|1>",
+      "unsure",
+    ]),
   },
   posttest: {
-    // Posttest fields here.
+    outputOfCircuit: s.string(),
+    circuitAsDirac: s.chooseAll([
+      "HZZX|1>",
+      "XZZH|1>",
+      "HX|1>",
+      "HIX|1>",
+      "XH|1>",
+      "XIH|1>",
+    ]),
   },
   sections: {
     circuitDiagramsIntro: s.section(),

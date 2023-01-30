@@ -1,5 +1,5 @@
 import { cx, useActualSiblingCheck } from "@/helpers/client";
-import NextImage, { ImageProps } from "next/image";
+import NextImage, { ImageProps } from "next/legacy/image";
 import styles from "./image.module.scss";
 
 // This is a simple wrapper around the Next.js Image component that  facilitates
@@ -30,9 +30,9 @@ export const Image = ({
     // inline-block`.  We still want one wrapper to facilitate styling (the
     // NextImage wrapper has margins set to 0 in inline styles).
     return (
-      <div ref={wrapperRef} className={cx(styles.image, wrapperClasses)}>
+      <span ref={wrapperRef} className={cx(styles.image, wrapperClasses)}>
         {theImage}
-      </div>
+      </span>
     );
   }
 
@@ -40,13 +40,13 @@ export const Image = ({
   // centered up to its max width (which may either be defined explicitly, or
   // determined by the size of the image.)  Then we need two wrappers.
   return (
-    <div
+    <span
       ref={wrapperRef}
       className={cx("text-center", styles.image, wrapperClasses)}
     >
-      <div className={styles.ib} style={maxWidth ? { maxWidth } : undefined}>
+      <span className={styles.ib} style={maxWidth ? { maxWidth } : undefined}>
         {theImage}
-      </div>
-    </div>
+      </span>
+    </span>
   );
 };

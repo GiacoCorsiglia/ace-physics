@@ -5,11 +5,10 @@ import * as db from "@/db";
 import { TutorialFeedback, TutorialState } from "@/schema/tutorial";
 import { QueryCommandInput } from "@aws-sdk/lib-dynamodb";
 import { tutorialSchemas } from "@pages/tutorials/schemas";
-import { withSentry } from "@sentry/nextjs";
 import { stringify } from "csv-stringify/sync";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const parsed = await parseRequest(CourseReports, req);
 
   if (parsed.failed) {
@@ -262,7 +261,7 @@ export default withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
   res.setHeader("Content-Type", "text/csv");
   res.setHeader("Content-Disposition", "attachment;filename=responses.csv");
   res.status(200).send(csv);
-});
+};
 
 const parseISOString = (s: string) => {
   const b = s.split(/\D+/) as unknown as number[];

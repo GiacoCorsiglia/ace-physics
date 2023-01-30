@@ -1,7 +1,6 @@
-import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default withSentry((req: NextApiRequest, res: NextApiResponse) => {
+export default (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     res.status(200).json({ ok: true });
   } else {
@@ -12,4 +11,4 @@ export default withSentry((req: NextApiRequest, res: NextApiResponse) => {
       method: req.method,
     });
   }
-});
+};

@@ -14,19 +14,14 @@ export const LinkCard = ({
   children?: Html;
 }) => {
   return (
-    <Link href={link}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className={styles.linkCard}>
-        <p className={styles.label}>{label}</p>
-
-        <div className={styles.arrow}>
-          <ChevronRightIcon />
-        </div>
-
-        <Prose size="small" hyphenate={false}>
-          {children}
-        </Prose>
-      </a>
+    <Link href={link} className={styles.linkCard}>
+      <p className={styles.label}>{label}</p>
+      <div className={styles.arrow}>
+        <ChevronRightIcon />
+      </div>
+      <Prose size="small" hyphenate={false}>
+        {children}
+      </Prose>
     </Link>
   );
 };

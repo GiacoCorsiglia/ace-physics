@@ -86,6 +86,11 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly sections: readonly PretestSectionConfig<S>[];
   /**
+   * Configures the posttest page's cheat sheet (a widget with reminders that's
+   * available on the whole page).
+   */
+  readonly cheatSheet?: CheatSheetConfig;
+  /**
    * Settings for the "Submit and move on" button.
    */
   readonly continue?: {
@@ -136,6 +141,11 @@ export interface PosttestConfig<S extends TutorialSchema = TutorialSchema> {
    * The sections in the posttest.
    */
   readonly sections: readonly PosttestSectionConfig<S>[];
+  /**
+   * Configures the posttest page's cheat sheet (a widget with reminders that's
+   * available on the whole page).
+   */
+  readonly cheatSheet?: CheatSheetConfig;
   /**
    * Settings for the "Submit and move on" button.
    */
@@ -204,9 +214,7 @@ export interface PageConfig<S extends TutorialSchema = TutorialSchema> {
    * Configures the page's cheat sheet (a widget with reminders that's available
    * on the whole page).
    */
-  readonly cheatSheet?: {
-    body: Html;
-  };
+  readonly cheatSheet?: CheatSheetConfig;
   /**
    * The sections (or nested sequences of sections) in the page.
    */
@@ -493,3 +501,7 @@ type Models<S extends TutorialSchema> = Model<S>["properties"];
 
 type StringsOnly<T> = T extends string ? T : never;
 type StringKeys<T> = StringsOnly<keyof T>;
+
+interface CheatSheetConfig {
+  body: Html;
+}

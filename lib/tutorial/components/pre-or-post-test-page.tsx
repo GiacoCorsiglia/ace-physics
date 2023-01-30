@@ -7,6 +7,7 @@ import {
   SectionBox,
   SectionGroup,
 } from "@/components";
+import { CheatSheet } from "@/components/cheat-sheet";
 import { Modal } from "@/components/modal";
 import { Html, htmlTitle, useTimeout } from "@/helpers/client";
 import { isSet, Model } from "@/reactivity";
@@ -63,11 +64,15 @@ export const PreOrPostTestPage = ({
   // Begin tracking accessed models.
   const modelsTracker = tracker(models, false);
 
+  const { cheatSheet } = config;
+
   return (
     <SectionGroup>
       <Head>
         <title>{htmlTitle(pageTitle)}</title>
       </Head>
+
+      {cheatSheet && <CheatSheet>{cheatSheet.body}</CheatSheet>}
 
       {!isDisabled && (
         <TimesUpModal

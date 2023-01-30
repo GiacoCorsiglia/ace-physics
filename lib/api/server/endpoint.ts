@@ -1,6 +1,5 @@
 import { DATABASE_ENABLED } from "@/db";
 import { Infer, Type } from "@/schema/types";
-import { withSentry } from "@sentry/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { sendResponse } from ".";
 import { ApiSpec } from "../isomorphic/spec";
@@ -52,7 +51,7 @@ export const endpoint = <S extends ApiSpec>(
   spec: S,
   databaseEnabledHandlers: Handlers<S>,
   databaseDisabledHandlers: Handlers<S>
-): ReturnType<typeof withSentry> & { handlers: Handlers<S> } => {
+) => {
   const handlers = DATABASE_ENABLED
     ? databaseEnabledHandlers
     : databaseDisabledHandlers;
@@ -83,7 +82,7 @@ export const endpoint = <S extends ApiSpec>(
     }
   };
 
-  const ret = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
+  const ret = async (req: NextApiRequest, res: NextApiResponse) => {
     const isHead = req.method === "HEAD";
     if (isHead) {
       req.method = "GET";
@@ -92,7 +91,7 @@ export const endpoint = <S extends ApiSpec>(
     const responseObject = await wrapped(req);
 
     sendResponse(res, responseObject, isHead);
-  });
+  };
 
   return Object.assign(ret, { handlers });
 };
