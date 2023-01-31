@@ -8,6 +8,7 @@ import {
   Horizontal,
   InputControl,
   Justify,
+  LoadingAnimation,
   M,
   Matrix,
   NumericInputControl,
@@ -22,6 +23,15 @@ import {
 } from "@/components";
 import { AlertIcon, ArrowDownIcon } from "@primer/octicons-react";
 import { useState } from "react";
+
+// Hide this page on prod.
+export const getStaticProps = () => {
+  return {
+    props: {
+      notFound: process.env.NODE_ENV === "production",
+    },
+  };
+};
 
 export default function TestPage() {
   const [selected, setSelected] = useState<"a" | "b">();
@@ -52,6 +62,12 @@ export default function TestPage() {
       <QuantumCircuitTest />
 
       <LatexTest />
+
+      <SectionBox>
+        <LoadingAnimation size="small" />
+        <LoadingAnimation size="medium" />
+        <LoadingAnimation size="large" />
+      </SectionBox>
 
       <SectionBox>
         <Button color="green" onClick={() => setDisabled((d) => !d)}>
