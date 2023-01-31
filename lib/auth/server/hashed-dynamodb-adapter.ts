@@ -51,7 +51,7 @@ export const HashedDynamoDBAdapter = (
     // Avoid spreading ...ddb so we are forced to consider every method.
     // We only need to hash inbound data.
     createUser(user) {
-      if (user.email && acephysicsEmailX.test(user.email as string)) {
+      if (user.email && acephysicsEmailX.test(user.email)) {
         // Special case: automatically make users with acephysics emails admins.
         user = { ...user, role: "admin" };
       }
