@@ -8,7 +8,11 @@ export default pretest(setup, ({ section }) => ({
     section({
       body: (
         <>
-          <Image src={entangledStatesSvg} layout="responsive" />
+          <Image
+            src={entangledStatesSvg}
+            responsive
+            alt="A pair of entangled particles is split up, with each particle sent to a different detector."
+          />
 
           <Prose>
             <p>

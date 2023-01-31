@@ -4,6 +4,16 @@
   margin-bottom: var(--image-margin-bottom);
 }
 
+.maxWidth {
+  max-width: 100%;
+  height: auto;
+}
+
+.responsive {
+  width: 100%;
+  height: auto;
+}
+
 .ib {
   display: inline-block;
 }

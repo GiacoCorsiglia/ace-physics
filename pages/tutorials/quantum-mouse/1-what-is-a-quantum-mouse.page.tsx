@@ -286,7 +286,7 @@ function SmallEyeMouseKet() {
   return (
     <>
       <M t="\large|" />
-      <Image src={mouseSmallEyeSvg} inline />
+      <Image src={mouseSmallEyeSvg} inline alt="Mouse with small eyes" />
       <M t="\large\rangle" />
     </>
   );
@@ -296,7 +296,7 @@ function BigEyeMouseKet() {
   return (
     <>
       <M t="\large|" />
-      <Image src={mouseBigEyeSvg} inline />
+      <Image src={mouseBigEyeSvg} inline alt="Mouse with wide eyes" />
       <M t="\large\rangle" />
     </>
   );

@@ -28,7 +28,11 @@ export default page(setup, ({ section }) => ({
       name: "eavesdroppingDetectionIntro",
       body: (
         <>
-          <Image src={eavesdroppingProtectionSvg} layout="responsive" />
+          <Image
+            src={eavesdroppingProtectionSvg}
+            responsive
+            alt="A pair of entangled particles is emitted and split up, with each particle sent to a different detector.  The rightward detector emits a particle based on the result of its measurement and sends that new particle to a third detector."
+          />
 
           <Prose>
             <p>Now there is a third party, Eve.</p>

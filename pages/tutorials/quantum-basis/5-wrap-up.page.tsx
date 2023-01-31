@@ -25,7 +25,12 @@ export default page(setup, ({ section }) => ({
             down a hill.
           </Prose>
 
-          <Image src={carSvg} className={styles.carFigure} maxWidth="266px" />
+          <Image
+            src={carSvg}
+            className={styles.carFigure}
+            maxWidth="266px"
+            alt="Sketch of a car driving down a steep hill."
+          />
         </>
       ),
     }),

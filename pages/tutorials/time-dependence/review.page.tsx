@@ -81,7 +81,10 @@ export default posttest(setup, ({ section }) => ({
             model={m.superpositionGroundSecondExcitedState}
             label={
               <Prose>
-                <Image src={groundThirdSuperpositionImg} />
+                <Image
+                  src={groundThirdSuperpositionImg}
+                  alt="The ground state and the second excited state of the particle in a box at an instance in time when both states have the same phase (i, the imaginary unit, meaning both wave functions are fully imaginary at this moment)."
+                />
                 The graph shows a superposition of the ground state{" "}
                 <M t="\psi_1" /> with the <strong>second</strong> excited state{" "}
                 <M t="\psi_3" /> at one instance in time.
