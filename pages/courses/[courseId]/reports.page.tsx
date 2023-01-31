@@ -80,7 +80,8 @@ export default function CourseReports() {
           <Table>
             <thead className="text-left">
               <tr>
-                <td>Column</td> <td>Description</td>
+                <td>Column</td>
+                <td>Description</td>
               </tr>
             </thead>
 
