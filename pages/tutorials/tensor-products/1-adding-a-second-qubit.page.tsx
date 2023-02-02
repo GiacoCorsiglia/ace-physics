@@ -1,7 +1,8 @@
 import {
+  Answer,
   ChooseAll,
   Decimal,
-  LabelsLeft,
+  Horizontal,
   M,
   Prose,
   QuantumCircuit,
@@ -13,7 +14,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "addingASecondQubit",
   label: "Adding a Second Qubit",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "addingASecondQubitIntro",
@@ -60,7 +61,7 @@ export default page(setup, ({ section, hint }) => ({
 
     section({
       name: "arbitrary2QubitState",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <TextBox
             model={m.arbitrary2QubitState}
@@ -90,8 +91,17 @@ export default page(setup, ({ section, hint }) => ({
               Copy-paste these symbols if useful:{" "}
               <span style={{ marginLeft: "1rem" }}>ψ</span>
               <span style={{ marginLeft: "1rem" }}>⊗</span>
+              <span style={{ marginLeft: "1rem" }}>ϕ</span>
             </p>
           </Prose>
+
+          <Answer correct={responses?.arbitrary2QubitState === "|ψ> ⊗ |ϕ>"}>
+            <M t="\ket{\psi} \otimes \ket{\phi}" />
+            <Prose faded size="small">
+              Note: if you got the same answer but it says it is wrong check
+              that your answer includes the space between the ket's.
+            </Prose>
+          </Answer>
         </>
       ),
     }),
@@ -133,13 +143,14 @@ export default page(setup, ({ section, hint }) => ({
               <M t="\frac{1}{\sqrt{2}} (\ket{0}\!\ket{0} \otimes \ket{1}\!\ket{0})" />,
             ],
           ]}
+          answer={["1/root2(|0> + |1>) x |0>", "1/root2(|00> + |10>)"]}
         />
       ),
     }),
 
     section({
       name: "plusTimes0Probabilities",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Prose>
             In the previous question, what is the probability that a measurement
@@ -147,7 +158,7 @@ export default page(setup, ({ section, hint }) => ({
             <M t="\ket{01}" />?
           </Prose>
 
-          <LabelsLeft>
+          <Horizontal align="center" justify="start">
             <Decimal
               model={m.probabilityOfKet10}
               label={
@@ -156,7 +167,9 @@ export default page(setup, ({ section, hint }) => ({
                 </Prose>
               }
             />
-
+            <Answer correct={responses?.probabilityOfKet10 === 50}>50%</Answer>
+          </Horizontal>
+          <Horizontal align="center" justify="start">
             <Decimal
               model={m.probabilityOfKet01}
               label={
@@ -165,14 +178,15 @@ export default page(setup, ({ section, hint }) => ({
                 </Prose>
               }
             />
-          </LabelsLeft>
+            <Answer correct={responses?.probabilityOfKet01 === 0}>0</Answer>
+          </Horizontal>
         </>
       ),
     }),
 
     section({
       name: "plusTimes0SingleProbabilities",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Prose>
             What is the probability that a measurement of the{" "}
@@ -180,7 +194,7 @@ export default page(setup, ({ section, hint }) => ({
             question for the second qubit?
           </Prose>
 
-          <LabelsLeft>
+          <Horizontal align="center" justify="start">
             <Decimal
               model={m.probabilityKet0FirstQubit}
               label={
@@ -189,7 +203,12 @@ export default page(setup, ({ section, hint }) => ({
                 </Prose>
               }
             />
+            <Answer correct={responses?.probabilityKet0FirstQubit === 50}>
+              50%
+            </Answer>
+          </Horizontal>
 
+          <Horizontal align="center" justify="start">
             <Decimal
               model={m.probabilityKet0SecondQubit}
               label={
@@ -198,7 +217,10 @@ export default page(setup, ({ section, hint }) => ({
                 </Prose>
               }
             />
-          </LabelsLeft>
+            <Answer correct={responses?.probabilityKet0SecondQubit === 100}>
+              100%
+            </Answer>
+          </Horizontal>
         </>
       ),
       hints: [

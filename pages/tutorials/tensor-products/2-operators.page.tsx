@@ -5,7 +5,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "operators",
   label: "Operators",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "operatorsIntro",
@@ -79,6 +79,7 @@ export default page(setup, ({ section }) => ({
               <M t="(I\otimes Z)(\ket{\psi} \otimes \ket{\phi})" />,
             ],
           ]}
+          answer={["(Z |ψ1⟩) ⊗ |ψ2⟩", "(Z ⊗ I)(|ψ1⟩ ⊗ |ψ2⟩)"]}
         />
       ),
     }),
@@ -152,6 +153,7 @@ export default page(setup, ({ section }) => ({
             ],
             ["ambiguous", <>It’s ambiguous</>],
           ]}
+          answer={"bottom"}
         />
       ),
     }),

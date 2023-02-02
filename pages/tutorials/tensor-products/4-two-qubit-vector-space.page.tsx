@@ -1,4 +1,5 @@
 import {
+  Answer,
   Decimal,
   LabelsLeft,
   M,
@@ -7,13 +8,14 @@ import {
   QuantumCircuit,
   TextLine,
 } from "@/components";
+import { arraysEqual } from "@/helpers/server";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
   name: "twoQubitVectorSpace",
   label: "The Two Qubit Vector Space",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "twoQubitVectorSpaceIntro",
@@ -70,6 +72,8 @@ export default page(setup, ({ section, hint }) => ({
               }
             />
           </LabelsLeft>
+
+          <Answer>TODO, Do not understand what the answer is in the pdf</Answer>
         </>
       ),
     }),
@@ -127,21 +131,37 @@ export default page(setup, ({ section, hint }) => ({
 
     section({
       name: "fourDColumnVector",
-      body: (m) => (
-        <Prose>
-          <p>
-            What is{" "}
-            <M t="\frac{1}{\sqrt{2}}( \ket{0}+i\ket{1})\otimes \frac{1}{\sqrt{2}}( \ket{0}-\ket{1}) " />{" "}
-            written as a 4-dimensional column vector?
-          </p>
+      body: (m, { responses }) => (
+        <>
+          <Prose>
+            <p>
+              What is{" "}
+              <M t="\frac{1}{\sqrt{2}}( \ket{0}+i\ket{1})\otimes \frac{1}{\sqrt{2}}( \ket{0}-\ket{1}) " />{" "}
+              written as a 4-dimensional column vector?
+            </p>
 
-          <Matrix
-            labelTex="\frac{1}{\sqrt{2}}( \ket{0}+i\ket{1})\otimes \frac{1}{\sqrt{2}}( \ket{0}-\ket{1})"
-            column={Matrix.modelToColumn(m.fourDColumnVector, (c, i) => (
-              <TextLine model={c} placeholder={`Component ${i + 1}`} />
-            ))}
-          />
-        </Prose>
+            <Matrix
+              labelTex="\frac{1}{\sqrt{2}}( \ket{0}+i\ket{1})\otimes \frac{1}{\sqrt{2}}( \ket{0}-\ket{1})"
+              column={Matrix.modelToColumn(m.fourDColumnVector, (c, i) => (
+                <TextLine model={c} placeholder={`Component ${i + 1}`} />
+              ))}
+            />
+          </Prose>
+
+          <Answer
+            correct={arraysEqual(responses?.fourDColumnVector, [
+              "1",
+              "-1",
+              "i",
+              "-i",
+            ])}
+          >
+            <M
+              display
+              t="\frac{1}{5}\left( \begin{array}{c}1  \\ -1 \\ i \\ -i\end{array} \right)"
+            />
+          </Answer>
+        </>
       ),
       hints: [
         hint({
@@ -162,31 +182,47 @@ export default page(setup, ({ section, hint }) => ({
 
     section({
       name: "circuitOutputAsColumnVector",
-      body: (m) => (
-        <Prose>
-          <p>
-            What is the output state of the following circuit, written as a
-            4-dimensional column vector?
-          </p>
+      body: (m, { responses }) => (
+        <>
+          <Prose>
+            <p>
+              What is the output state of the following circuit, written as a
+              4-dimensional column vector?
+            </p>
 
-          <QuantumCircuit t="\lstick{\ket{0}} & \gate{H} &   \qw \\ \lstick{\ket{1}} & \gate{X} & \qw \\" />
+            <QuantumCircuit t="\lstick{\ket{0}} & \gate{H} &   \qw \\ \lstick{\ket{1}} & \gate{X} & \qw \\" />
 
-          <Matrix
-            label={<M t="\text{Output state} = " />}
-            column={Matrix.modelToColumn(
-              m.circuitOutputAsColumnVector,
-              (c, i) => (
-                <TextLine model={c} placeholder={`Component ${i + 1}`} />
-              )
-            )}
-          />
-        </Prose>
+            <Matrix
+              label={<M t="\text{Output state} = " />}
+              column={Matrix.modelToColumn(
+                m.circuitOutputAsColumnVector,
+                (c, i) => (
+                  <TextLine model={c} placeholder={`Component ${i + 1}`} />
+                )
+              )}
+            />
+          </Prose>
+
+          <Answer
+            correct={arraysEqual(responses?.circuitOutputAsColumnVector, [
+              "1",
+              "0",
+              "1",
+              "0",
+            ])}
+          >
+            <M
+              display
+              t="\frac{1}{\sqrt{2}}\left( \begin{array}{c}1  \\ 0 \\ 1 \\ 0\end{array} \right)"
+            />
+          </Answer>
+        </>
       ),
     }),
 
     section({
       name: "probTwoQubitSystem",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Prose>
             For the output of the circuit above, what is the probability that
@@ -199,6 +235,11 @@ export default page(setup, ({ section, hint }) => ({
               label={<Prose>Probability:</Prose>}
             />
           </LabelsLeft>
+
+          <Answer correct={responses?.probTwoQubitSystem === 0}>
+            Zero, the second entry vanishes. Check from the diagram second qubit
+            is <M t="\ket{0}" />
+          </Answer>
         </>
       ),
     }),

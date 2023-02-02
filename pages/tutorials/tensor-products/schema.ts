@@ -2,12 +2,7 @@ import * as s from "@/schema/tutorial";
 
 const fourDCol = s.tuple(s.string(), s.string(), s.string(), s.string());
 
-const fourXFourMatrix = s.tuple(
-  s.tuple(s.number(), s.number(), s.number(), s.number()),
-  s.tuple(s.number(), s.number(), s.number(), s.number()),
-  s.tuple(s.number(), s.number(), s.number(), s.number()),
-  s.tuple(s.number(), s.number(), s.number(), s.number())
-);
+const fourXFourMatrix = s.tuple(fourDCol, fourDCol, fourDCol, fourDCol);
 
 export default s.tutorial({
   pages: {

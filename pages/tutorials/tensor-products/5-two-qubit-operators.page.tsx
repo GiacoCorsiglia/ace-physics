@@ -1,7 +1,7 @@
 import {
+  Answer,
   ChooseAll,
   ChooseOne,
-  Decimal,
   Horizontal,
   M,
   Matrix,
@@ -9,13 +9,14 @@ import {
   QuantumCircuit,
   TextLine,
 } from "@/components";
+import { arraysEqual } from "@/helpers/server";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "twoQubitOperators",
   label: "Two Qubit Operators",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "twoQubitOperatorsIntro",
@@ -72,6 +73,7 @@ export default page(setup, ({ section }) => ({
               </p>,
             ],
           ]}
+          answer={"2x2"}
         />
       ),
     }),
@@ -96,57 +98,86 @@ export default page(setup, ({ section }) => ({
     }),
     section({
       name: "representZxXAs4x4Matrix",
-      body: (m) => (
-        <Prose>
-          <p>
-            What is <M t="(Z\otimes X)" /> expressed as a <M t="4 \times 4" />{" "}
-            matrix?
-          </p>
-          <Matrix
-            matrix={Matrix.modelToMatrix(m.representZxXAs4x4Matrix, (c) => (
-              <Decimal model={c} />
-            ))}
-          />
-        </Prose>
+      body: (m, { responses }) => (
+        <>
+          <Prose>
+            <p>
+              What is <M t="(Z\otimes X)" /> expressed as a <M t="4 \times 4" />{" "}
+              matrix?
+            </p>
+            <Matrix
+              matrix={Matrix.modelToMatrix(m.representZxXAs4x4Matrix, (c) => (
+                <TextLine model={c} placeholder={"Number"} />
+              ))}
+            />
+          </Prose>
+
+          <Answer
+            correct={arraysEqual(responses?.representZxXAs4x4Matrix, [
+              ["0", "1", "0", "0"],
+              ["1", "0", "0", "0"],
+              ["0", "0", "0", "-1"],
+              ["0", "0", "-1", "0"],
+            ])}
+          >
+            TODO, DOES NOT RERENDER OR VALIDATE THAT THE USER INPUT IS CORRECT
+            <M
+              display
+              t="\begin{bmatrix} 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & -1 \\ 0 & 0 & -1 & 0 \\ \end{bmatrix}"
+            />
+          </Answer>
+        </>
       ),
     }),
 
     section({
       name: "columnZ0xX1",
-      body: (m) => (
-        <Prose>
-          <p>
-            Write the output state of the following circuit diagram as a
-            4-component column vector.
-          </p>
+      body: (m, { responses }) => (
+        <>
+          <Prose>
+            <p>
+              Write the output state of the following circuit diagram as a
+              4-component column vector.
+            </p>
 
-          <QuantumCircuit t="\lstick{\ket{0}} & \gate{Z} &   \qw \\ \lstick{\ket{1}} & \gate{X} & \qw \\" />
+            <QuantumCircuit t="\lstick{\ket{0}} & \gate{Z} &   \qw \\ \lstick{\ket{1}} & \gate{X} & \qw \\" />
 
-          <p>
-            Please solve this two DIFFERENT ways (you should get the same
-            answer):
-          </p>
+            <p>
+              Please solve this two DIFFERENT ways (you should get the same
+              answer):
+            </p>
 
-          <ol>
-            <li>
-              Use the diagram to determine the output of each qubit, then write
-              the result as a column vector.
-            </li>
+            <ol>
+              <li>
+                Use the diagram to determine the output of each qubit, then
+                write the result as a column vector.
+              </li>
 
-            <li>
-              Write <M t="Z\otimes X" /> as a <M t="4 \times 4" /> matrix
-              (previous question!) and write the input state <M t="\ket{01}" />
-              as a 4-D column vector, then matrix multiply.
-            </li>
-          </ol>
+              <li>
+                Write <M t="Z\otimes X" /> as a <M t="4 \times 4" /> matrix
+                (previous question!) and write the input state{" "}
+                <M t="\ket{01}" />
+                as a 4-D column vector, then matrix multiply.
+              </li>
+            </ol>
 
-          <Matrix
-            label={<M t="\text{Output state} = " />}
-            column={Matrix.modelToColumn(m.columnZ0xX1, (c, i) => (
-              <TextLine model={c} placeholder={`Component ${i + 1}`} />
-            ))}
-          />
-        </Prose>
+            <Matrix
+              label={<M t="\text{Output state} = " />}
+              column={Matrix.modelToColumn(m.columnZ0xX1, (c, i) => (
+                <TextLine model={c} placeholder={`Component ${i + 1}`} />
+              ))}
+            />
+          </Prose>
+
+          <Answer
+            correct={arraysEqual(responses?.columnZ0xX1, ["1", "0", "0", "0"])}
+          >
+            <M
+              display
+              t="\left( \begin{array}{c}1  \\ 0 \\ 0 \\ 0\end{array} \right)"
+            />
+          </Answer>
+        </>
       ),
     }),
     section({
@@ -183,6 +214,7 @@ export default page(setup, ({ section }) => ({
             ["(H ⊗ X) Z", <M t="A = (H \otimes X) \ Z" />],
             ["X (H ⊗ Z)", <M t="A = X\  (H \otimes Z)" />],
           ]}
+          answer={["XH ⊗ Z", "(X ⊗ I)(H ⊗ Z)"]}
         />
       ),
     }),

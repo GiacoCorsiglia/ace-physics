@@ -1,4 +1,5 @@
 import {
+  Answer,
   Callout,
   ChooseAll,
   M,
@@ -14,7 +15,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "summaryQuestions",
   label: "Summary Questions",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "summaryIntro",
@@ -133,6 +134,13 @@ export default page(setup, ({ section }) => ({
             ["true", "True"],
             ["false", "False"],
           ]}
+          answer={"true"}
+          explanation={
+            <>
+              The diagram is: <QuantumCircuit t="TODO, I-CANT-READ-PDF" /> for{" "}
+              <i>either</i> expression!
+            </>
+          }
         />
       ),
     }),
@@ -155,6 +163,14 @@ export default page(setup, ({ section }) => ({
             ["true", "True"],
             ["false", "False"],
           ]}
+          answer={"false"}
+          explanation={
+            <>
+              The <M t="Z" />
+              's on <M t="TODO-I-CANT-READ-PDF" /> are <i>only</i> on{" "}
+              <M t="\ket{\psi_2}" />
+            </>
+          }
         />
       ),
     }),
@@ -171,9 +187,9 @@ export default page(setup, ({ section }) => ({
 
                 <QuantumCircuit
                   t="
-                \lstick{\ket{\psi}} & \gate{H} &  \gate{X} & \qw \\
-                \lstick{\ket{\phi}} & \gate{Z} & \qw & \qw \\
-                "
+                  \lstick{\ket{\psi}} & \gate{H} &  \gate{X} & \qw \\
+                  \lstick{\ket{\phi}} & \gate{Z} & \qw & \qw \\
+                  "
                 />
               </Prose>
             }
@@ -185,6 +201,15 @@ export default page(setup, ({ section }) => ({
             <span style={{ marginLeft: "1rem" }}>ψ</span>
             <span style={{ marginLeft: "1rem" }}>⊗</span>
           </Prose>
+
+          <Answer>
+            We found that either of the following equations below are correct.
+            <M display t="((X H) \otimes Z) (\ket{\psi_1} x \ket{\phi})" />
+            <M
+              display
+              t="(X \otimes I) (H \otimes Z) (\ket{\psi_1} \otimes \ket{\phi})"
+            />
+          </Answer>
         </>
       ),
     }),
@@ -192,15 +217,36 @@ export default page(setup, ({ section }) => ({
     section({
       name: "outputXH1xZ1",
       body: (m) => (
-        <TextBox
-          model={m.outputXH1xZ1}
-          label={
-            <Prose>
-              If <M t="\ket{\psi}=\ket{1}" /> and <M t="\ket{\phi}=\ket{1}" />,
-              what is the output state of the above circuit?
-            </Prose>
-          }
-        />
+        <>
+          <TextBox
+            model={m.outputXH1xZ1}
+            label={
+              <Prose>
+                If <M t="\ket{\psi}=\ket{1}" /> and <M t="\ket{\phi}=\ket{1}" />
+                , what is the output state of the above circuit?
+              </Prose>
+            }
+          />
+
+          <Prose faded size="small">
+            Copy-paste these symbols if useful:{" "}
+            <span style={{ marginLeft: "1rem" }}>ϕ</span>
+            <span style={{ marginLeft: "1rem" }}>ψ</span>
+            <span style={{ marginLeft: "1rem" }}>⊗</span>
+          </Prose>
+
+          <Answer>
+            We found that either of the following equations below are correct.
+            <M
+              display
+              t="\frac{-1}{\sqrt{2}} \ket{11} + \frac{1}{\sqrt{2}} \ket{01}"
+            />
+            <M
+              display
+              t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1}) \otimes \ket{1}"
+            />
+          </Answer>
+        </>
       ),
     }),
   ],
