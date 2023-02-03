@@ -97,6 +97,17 @@ export const tutorialList: readonly TutorialListing[] = [
     ),
   },
   {
+    id: "TensorProducts",
+    link: "tensor-products",
+    label: "Tensor Products",
+    blurb: (
+      <>
+        Use the tensor product operation to describe systems with multiple
+        qubits mathematically.
+      </>
+    ),
+  },
+  {
     id: "EPR",
     link: "epr",
     label: "EPR and Entanglement",

@@ -1,7 +1,7 @@
 import { cx, forEachChild, Html, styled } from "@/helpers/client";
 import { forwardRef, isValidElement, JSXElementConstructor } from "react";
 import { Image } from "./image";
-import { M } from "./math";
+import { M, QuantumCircuit } from "./math";
 import styles from "./typography.module.scss";
 
 const blockLevelElements = new Set<string | JSXElementConstructor<any>>([
@@ -15,6 +15,7 @@ const blockLevelElements = new Set<string | JSXElementConstructor<any>>([
   "ol",
   "blockquote",
   "p",
+  QuantumCircuit,
 ]);
 
 const proseSafeElements = new Set<string | JSXElementConstructor<any>>([
@@ -27,6 +28,7 @@ const proseSafeElements = new Set<string | JSXElementConstructor<any>>([
   "img",
   "span",
   M,
+  QuantumCircuit,
   Image,
 ]);
 
