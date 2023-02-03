@@ -46,13 +46,15 @@ export const QuantumCircuit = memo(function QuantumCircuit({
           : undefined
       }
     >
-      {cells.map((row, i) => (
-        <tr key={i}>
-          {row.map((cell, j) => (
-            <Cell key={j} cell={cell} />
-          ))}
-        </tr>
-      ))}
+      <tbody>
+        {cells.map((row, i) => (
+          <tr key={i}>
+            {row.map((cell, j) => (
+              <Cell key={j} cell={cell} />
+            ))}
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 });
