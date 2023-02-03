@@ -14,10 +14,34 @@ export default s.tutorial({
     moreThanTwoQubits: s.page(),
   },
   pretest: {
-    // Pretest fields here.
+    probQubit1Is1: s.number(),
+    outputZxXZxH011: s.string(),
+    equivalentOperatorToCircuitDiagram: s.chooseAll([
+      "H ⊗ XZ",
+      "H ⊗ ZX",
+      "HZ ⊗ X",
+      "(H ⊗ Z)(I ⊗ X)",
+      "(I ⊗ X)(H ⊗ Z)",
+      "(H ⊗ X)(I ⊗ Z)",
+      "H(Z ⊗ X)",
+      "(H ⊗ Z)X",
+    ]),
+    outputHxXZ00: s.string(),
   },
   posttest: {
-    // Posttest fields here.
+    probQubit1Is1: s.number(),
+    outputZxXZxH011: s.string(),
+    equivalentOperatorToCircuitDiagram: s.chooseAll([
+      "H ⊗ XZ",
+      "H ⊗ ZX",
+      "HZ ⊗ X",
+      "(H ⊗ Z)(I ⊗ X)",
+      "(I ⊗ X)(H ⊗ Z)",
+      "(H ⊗ X)(I ⊗ Z)",
+      "H(Z ⊗ X)",
+      "(H ⊗ Z)X",
+    ]),
+    outputHxXZ00: s.string(),
   },
   sections: {
     addingASecondQubitIntro: s.section(),

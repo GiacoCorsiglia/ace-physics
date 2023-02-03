@@ -16,8 +16,8 @@ export default tutorialSetup({
   id: "TensorProducts",
   link: "tensor-products",
   label: "Tensor Products",
-  pretest: false,
-  posttest: false,
+  pretest: true,
+  posttest: true,
   pages: [
     {
       link: "1-adding-a-second-qubit",
