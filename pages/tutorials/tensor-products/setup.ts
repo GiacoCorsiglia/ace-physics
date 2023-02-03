@@ -39,5 +39,9 @@ export default tutorialSetup({
       link: "5-two-qubit-operators",
       label: "Two Qubit Operators",
     },
+    {
+      link: "6-more-than-two-qubits",
+      label: "More Than Two Qubits",
+    },
   ],
 });

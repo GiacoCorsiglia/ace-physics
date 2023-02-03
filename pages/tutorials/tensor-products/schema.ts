@@ -11,6 +11,7 @@ export default s.tutorial({
     summaryQuestions: s.page(),
     twoQubitVectorSpace: s.page(),
     twoQubitOperators: s.page(),
+    moreThanTwoQubits: s.page(),
   },
   pretest: {
     // Pretest fields here.
@@ -56,6 +57,14 @@ export default s.tutorial({
     representZxXAs4x4Matrix: s.section(),
     columnZ0xX1: s.section(),
     circuitAsOperator: s.section(),
+
+    moreThanTwoQubitsIntro: s.section(),
+    dimension3QubitSpace: s.section(),
+    dimensionNQubitSpace: s.section(),
+    outputZxXZxI000: s.section(),
+    nQubitExample: s.section(),
+    nQubitProbAll0: s.section(),
+    nQubitProbFirst0: s.section(),
   },
   responses: {
     arbitrary2QubitState: s.string(),
@@ -109,6 +118,12 @@ export default s.tutorial({
       "(H ⊗ X) Z",
       "X (H ⊗ Z)",
     ]),
+
+    dimension3QubitSpace: s.number(),
+    dimensionNQubitSpace: s.string(),
+    outputZxXZxI000: s.string(),
+    nQubitProbAll0: s.string(),
+    nQubitProbFirst0: s.string(),
   },
   hints: {
     probability: s.hint(),
