@@ -9,7 +9,7 @@ import {
   QuantumCircuit,
   TextLine,
 } from "@/components";
-import { arraysEqual } from "@/helpers/server";
+import { arraysEqual, deepEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -23,7 +23,9 @@ export default page(setup, ({ section }) => ({
       body: (
         <Prose>
           <p>Recall the example from before:</p>
+
           <QuantumCircuit t="\lstick{\ket{\psi}} & \gate{Z} & \qw \\ \lstick{\ket{\phi}} & \gate{X} & \qw \\" />
+
           <p>
             We said that one way to represent the output of this circuit is:{" "}
             <M display t="(Z\otimes X) (\ket{\psi} \otimes \ket{\phi} )" />.
@@ -50,33 +52,34 @@ export default page(setup, ({ section }) => ({
             ["scalar", <p>scalar (constant) multiplier</p>],
             [
               "1x4",
-              <p>
+              <>
                 <M t="1 \times 4" /> column vector
-              </p>,
+              </>,
             ],
             [
               "4x1",
-              <p>
+              <>
                 <M t="4 \times 1" /> row vector
-              </p>,
+              </>,
             ],
             [
               "4x4",
-              <p>
+              <>
                 <M t="4 \times 4" /> matrix
-              </p>,
+              </>,
             ],
             [
               "2x2",
-              <p>
+              <>
                 <M t="2 \times 2" /> matrix
-              </p>,
+              </>,
             ],
           ]}
           answer={"2x2"}
         />
       ),
     }),
+
     section({
       name: "twoOperatorsRule",
       enumerate: false,
@@ -87,7 +90,7 @@ export default page(setup, ({ section }) => ({
           <M
             display
             t="\left(\begin{array}{cc} a & b \\ c & d \end{array}\right)  \otimes \left(\begin{array}{cc} e & f\\ g & h \end{array}\right) =
-\left(\begin{array}{cc} a\left(\begin{array}{cc} e & f\\ g & h \end{array}\right) & b\left(\begin{array}{cc} e & f\\ g & h \end{array}\right) \\ c \left(\begin{array}{cc} e & f\\ g & h \end{array}\right)& d \left(\begin{array}{cc} e & f\\ g & h \end{array}\right)\end{array}\right)"
+    \left(\begin{array}{cc} a\left(\begin{array}{cc} e & f\\ g & h \end{array}\right) & b\left(\begin{array}{cc} e & f\\ g & h \end{array}\right) \\ c \left(\begin{array}{cc} e & f\\ g & h \end{array}\right)& d \left(\begin{array}{cc} e & f\\ g & h \end{array}\right)\end{array}\right)"
           />
           <M
             display
@@ -96,6 +99,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
+
     section({
       name: "representZxXAs4x4Matrix",
       body: (m, { responses }) => (
@@ -105,22 +109,22 @@ export default page(setup, ({ section }) => ({
               What is <M t="(Z\otimes X)" /> expressed as a <M t="4 \times 4" />{" "}
               matrix?
             </p>
-            <Matrix
-              matrix={Matrix.modelToMatrix(m.representZxXAs4x4Matrix, (c) => (
-                <TextLine model={c} placeholder={"Number"} />
-              ))}
-            />
           </Prose>
 
+          <Matrix
+            matrix={Matrix.modelToMatrix(m.representZxXAs4x4Matrix, (c) => (
+              <TextLine model={c} placeholder={"Number"} />
+            ))}
+          />
+
           <Answer
-            correct={arraysEqual(responses?.representZxXAs4x4Matrix, [
+            correct={deepEqual(responses?.representZxXAs4x4Matrix, [
               ["0", "1", "0", "0"],
               ["1", "0", "0", "0"],
               ["0", "0", "0", "-1"],
               ["0", "0", "-1", "0"],
             ])}
           >
-            TODO, DOES NOT RERENDER OR VALIDATE THAT THE USER INPUT IS CORRECT
             <M
               display
               t="\begin{bmatrix} 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & -1 \\ 0 & 0 & -1 & 0 \\ \end{bmatrix}"

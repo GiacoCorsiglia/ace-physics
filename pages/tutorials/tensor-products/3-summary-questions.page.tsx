@@ -137,8 +137,14 @@ export default page(setup, ({ section }) => ({
           answer={"true"}
           explanation={
             <>
-              The diagram is: <QuantumCircuit t="TODO, I-CANT-READ-PDF" /> for{" "}
-              <i>either</i> expression!
+              The diagram is:
+              <QuantumCircuit
+                t="
+                \lstick{\ket{\psi_1}} & \gate{Z} & \gate{X} \\
+                \lstick{\ket{\psi_2}} & \gate{X} & \qw \\
+                "
+              />
+              for <i>either</i> expression!
             </>
           }
         />
@@ -166,9 +172,10 @@ export default page(setup, ({ section }) => ({
           answer={"false"}
           explanation={
             <>
-              The <M t="Z" />
-              's on <M t="TODO-I-CANT-READ-PDF" /> are <i>only</i> on{" "}
-              <M t="\ket{\psi_2}" />
+              Both <M t="Z" /> operators are on the right hand side of the{" "}
+              <M t="\otimes" /> symbol, meaning that they both should be applied
+              to <M t="\ket{\psi_2}" />, because it is also on the right hand
+              side of the <M t="\otimes" /> symbol.
             </>
           }
         />

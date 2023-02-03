@@ -50,7 +50,7 @@ export default page(setup, ({ section, hint }) => ({
     }),
     section({
       name: "probMeasureTwoQubitState",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Prose>
             Consider the state
@@ -73,7 +73,17 @@ export default page(setup, ({ section, hint }) => ({
             />
           </LabelsLeft>
 
-          <Answer>TODO, Do not understand what the answer is in the pdf</Answer>
+          <Answer
+            correct={
+              responses?.probMeasureTwoQubitState === 0.4 ||
+              responses?.probMeasureTwoQubitState === 40
+            }
+          >
+            <M
+              display
+              t="\left|\frac{i\sqrt{2}}{\sqrt{5}} \right|^2 = \frac{2}{5} = 0.4"
+            />
+          </Answer>
         </>
       ),
     }),
