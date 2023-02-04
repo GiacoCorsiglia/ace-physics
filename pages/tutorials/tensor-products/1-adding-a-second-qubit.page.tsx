@@ -50,7 +50,7 @@ export default page(setup, ({ section, hint }) => ({
           </p>
 
           <p>
-            The <M t="\otimes" /> is called a "tensor product", and serves as a
+            The <M t="\otimes" /> is called a “tensor product”, and serves as a
             visual separator with the first particle on the left, and the 2nd on
             the right. This could be generalized to 3 particles, e.g.{" "}
             <M t="\ket{1} \otimes \ket{0} \otimes\ket{1}" />.
@@ -61,7 +61,7 @@ export default page(setup, ({ section, hint }) => ({
 
     section({
       name: "arbitrary2QubitState",
-      body: (m, { responses }) => (
+      body: (m) => (
         <>
           <TextBox
             model={m.arbitrary2QubitState}
@@ -95,12 +95,8 @@ export default page(setup, ({ section, hint }) => ({
             </p>
           </Prose>
 
-          <Answer correct={responses?.arbitrary2QubitState === "|ψ> ⊗ |ϕ>"}>
+          <Answer>
             <M t="\ket{\psi} \otimes \ket{\phi}" />
-            <Prose faded size="small">
-              Note: if you got the same answer but it says it is wrong check
-              that your answer includes the space between the ket's.
-            </Prose>
           </Answer>
         </>
       ),
@@ -167,7 +163,14 @@ export default page(setup, ({ section, hint }) => ({
                 </Prose>
               }
             />
-            <Answer correct={responses?.probabilityOfKet10 === 50}>50%</Answer>
+            <Answer
+              correct={
+                responses?.probabilityOfKet10 === 50 ||
+                responses?.probabilityOfKet10 === 0.5
+              }
+            >
+              50%
+            </Answer>
           </Horizontal>
           <Horizontal align="center" justify="start">
             <Decimal
@@ -178,7 +181,7 @@ export default page(setup, ({ section, hint }) => ({
                 </Prose>
               }
             />
-            <Answer correct={responses?.probabilityOfKet01 === 0}>0</Answer>
+            <Answer correct={responses?.probabilityOfKet01 === 0.0}>0</Answer>
           </Horizontal>
         </>
       ),
@@ -203,7 +206,12 @@ export default page(setup, ({ section, hint }) => ({
                 </Prose>
               }
             />
-            <Answer correct={responses?.probabilityKet0FirstQubit === 50}>
+            <Answer
+              correct={
+                responses?.probabilityKet0FirstQubit === 50 ||
+                responses?.probabilityKet0FirstQubit === 0.5
+              }
+            >
               50%
             </Answer>
           </Horizontal>
@@ -217,7 +225,12 @@ export default page(setup, ({ section, hint }) => ({
                 </Prose>
               }
             />
-            <Answer correct={responses?.probabilityKet0SecondQubit === 100}>
+            <Answer
+              correct={
+                responses?.probabilityKet0SecondQubit === 100 ||
+                responses?.probabilityKet0SecondQubit === 1
+              }
+            >
               100%
             </Answer>
           </Horizontal>

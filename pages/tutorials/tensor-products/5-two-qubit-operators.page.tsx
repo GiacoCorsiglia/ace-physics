@@ -86,7 +86,7 @@ export default page(setup, ({ section }) => ({
       body: (
         <Prose>
           Given two operators, you can represent their tensor product by
-          following this "rule":
+          following this “rule”:
           <M
             display
             t="\left(\begin{array}{cc} a & b \\ c & d \end{array}\right)  \otimes \left(\begin{array}{cc} e & f\\ g & h \end{array}\right) =

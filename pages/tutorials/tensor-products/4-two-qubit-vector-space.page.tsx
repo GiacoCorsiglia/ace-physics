@@ -129,7 +129,7 @@ export default page(setup, ({ section, hint }) => ({
           <p>(Please check for yourself that we got all 4 terms correct)</p>
 
           <p>
-            This is equivalent to remembering the following "rule":
+            This is equivalent to remembering the following “rule”:
             <M
               display
               t="\left(\begin{array}{c} a \\ b \end{array}\right)  \otimes \left(\begin{array}{c} c \\ d \end{array}\right) = \left(\begin{array}{c} a \left(\begin{array}{c} c \\ d \end{array}\right) \\ b \left(\begin{array}{c} c \\ d \end{array}\right) \end{array}\right) =  \left( \begin{array}{c}ac   \\ ad  \\ bc \\ bd \end{array} \right)"
@@ -214,12 +214,12 @@ export default page(setup, ({ section, hint }) => ({
           </Prose>
 
           <Answer
-            correct={arraysEqual(responses?.circuitOutputAsColumnVector, [
-              "1",
-              "0",
-              "1",
-              "0",
-            ])}
+            correct={arraysEqual(
+              responses?.circuitOutputAsColumnVector?.map((component) =>
+                component?.trim()
+              ),
+              ["1", "0", "1", "0"]
+            )}
           >
             <M
               display

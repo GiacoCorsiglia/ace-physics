@@ -212,6 +212,7 @@ export default page(setup, ({ section }) => ({
           <Answer>
             We found that either of the following equations below are correct.
             <M display t="((X H) \otimes Z) (\ket{\psi_1} x \ket{\phi})" />
+            <Prose justify="center">or</Prose>
             <M
               display
               t="(X \otimes I) (H \otimes Z) (\ket{\psi_1} \otimes \ket{\phi})"

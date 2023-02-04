@@ -14,7 +14,7 @@
   "Section component": {
     "scope": "javascriptreact,typescriptreact",
     "prefix": "mkSec",
-    "body": ["section({ name: \"\", body: (m) => (<></>),}),"],
+    "body": ["section({ name: \"$1\", body: (m) => (<>$2</>),}),"],
     "description": "Instantly create a new section template"
   }
 }
