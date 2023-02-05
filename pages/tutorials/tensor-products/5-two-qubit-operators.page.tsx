@@ -89,12 +89,12 @@ export default page(setup, ({ section }) => ({
           following this “rule”:
           <M
             display
-            t="\left(\begin{array}{cc} a & b \\ c & d \end{array}\right)  \otimes \left(\begin{array}{cc} e & f\\ g & h \end{array}\right) =
-    \left(\begin{array}{cc} a\left(\begin{array}{cc} e & f\\ g & h \end{array}\right) & b\left(\begin{array}{cc} e & f\\ g & h \end{array}\right) \\ c \left(\begin{array}{cc} e & f\\ g & h \end{array}\right)& d \left(\begin{array}{cc} e & f\\ g & h \end{array}\right)\end{array}\right)"
+            t="\pmatrix{\enspace a & b \enspace \\ \enspace c & d \enspace} \otimes \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} =
+            \pmatrix{\; a \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} & b \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} \; \\ \; c \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} & d \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} \;}"
           />
           <M
             display
-            t="= \left(\begin{array}{cccc} ae & af & be & bf \\ ag & ah & bg & bf \\ ce & cf & de& df \\ cg & ch & dg& df \end{array}\right)"
+            t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bf \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & df \;}"
           />
         </Prose>
       ),
@@ -127,7 +127,7 @@ export default page(setup, ({ section }) => ({
           >
             <M
               display
-              t="\begin{bmatrix} 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & -1 \\ 0 & 0 & -1 & 0 \\ \end{bmatrix}"
+              t="\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}"
             />
           </Answer>
         </>
@@ -176,10 +176,7 @@ export default page(setup, ({ section }) => ({
           <Answer
             correct={arraysEqual(responses?.columnZ0xX1, ["1", "0", "0", "0"])}
           >
-            <M
-              display
-              t="\left( \begin{array}{c}1  \\ 0 \\ 0 \\ 0\end{array} \right)"
-            />
+            <M display t="\pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}" />
           </Answer>
         </>
       ),

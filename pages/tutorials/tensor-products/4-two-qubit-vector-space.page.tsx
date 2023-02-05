@@ -39,10 +39,10 @@ export default page(setup, ({ section, hint }) => ({
           <M
             display
             t="
-            \ket{00} = \left( \begin{array}{c}1 \\ 0 \\ 0 \\ 0 \end{array} \right) \;\;
-            \ket{01} = \left( \begin{array}{c}0 \\ 1 \\ 0 \\ 0 \end{array} \right) \;\;
-            \ket{10} = \left( \begin{array}{c}0 \\ 0 \\ 1 \\ 0 \end{array} \right) \;\;
-            \ket{11} = \left( \begin{array}{c}0 \\ 0 \\ 0 \\ 1 \end{array} \right)
+            \ket{00} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0} \;\;
+            \ket{01} = \pmatrix{\enspace 0 \enspace \\ 1 \\ 0 \\ 0} \;\;
+            \ket{10} = \pmatrix{\enspace 0 \enspace \\ 0 \\ 1 \\ 0} \;\;
+            \ket{11} = \pmatrix{\enspace 0 \enspace \\ 0 \\ 0 \\ 1} \;\;
             "
           />
         </Prose>
@@ -56,7 +56,7 @@ export default page(setup, ({ section, hint }) => ({
             Consider the state
             <M
               display
-              t="\ket{\psi} = \frac{1}{\sqrt{5}}\left( \begin{array}{c}1  \\ -1 \\ i \sqrt{2} \\ i\end{array} \right)"
+              t="\ket{\psi} = \frac{1}{\sqrt{5}}\pmatrix{\quad 1 \quad \\ -1 \\ i \sqrt{2} \\ i}"
             />
             What is the probability of measuring this 2-qubit state to be
             <M t="\ket{10}" />?
@@ -99,7 +99,7 @@ export default page(setup, ({ section, hint }) => ({
           </p>
           <M
             display
-            t="\ket{\psi} = \frac{1}{\sqrt{5}}\left( \begin{array}{c}1  \\ -1 \\ i\sqrt{2} \\ i\end{array} \right) \begin{array}{c} \leftarrow \ket{00} \\ \leftarrow \ket{01} \\ \leftarrow \ket{10} \\ \leftarrow \ket{11} \end{array}"
+            t="\ket{\psi} = \frac{1}{\sqrt{5}}\pmatrix{\quad 1 \quad \\ -1 \\ i \sqrt{2} \\ i} \begin{array}{c} \leftarrow \ket{00} \\ \leftarrow \ket{01} \\ \leftarrow \ket{10} \\ \leftarrow \ket{11} \end{array}"
           />
         </Prose>
       ),
@@ -112,9 +112,8 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           <p>
             If given two vectors, e.g.{" "}
-            <M t="\ket{\psi} = \left(\begin{array}{c}a  \\ b\end{array}\right)" />
-            and{" "}
-            <M t="\ket{\phi} = \left(\begin{array}{c} c  \\ d\end{array}\right)" />
+            <M t="\ket{\psi} = \pmatrix{\; a \; \\ b}" />
+            and <M t="\ket{\phi} = \pmatrix{\; c \; \\ d}" />
             , you can find the tensor product of them like this:
             <M
               display
@@ -132,7 +131,7 @@ export default page(setup, ({ section, hint }) => ({
             This is equivalent to remembering the following “rule”:
             <M
               display
-              t="\left(\begin{array}{c} a \\ b \end{array}\right)  \otimes \left(\begin{array}{c} c \\ d \end{array}\right) = \left(\begin{array}{c} a \left(\begin{array}{c} c \\ d \end{array}\right) \\ b \left(\begin{array}{c} c \\ d \end{array}\right) \end{array}\right) =  \left( \begin{array}{c}ac   \\ ad  \\ bc \\ bd \end{array} \right)"
+              t="\pmatrix{\; a \; \\ b}  \otimes \pmatrix{\; c \; \\ d} = \pmatrix{\; a \, \pmatrix{\; c \; \\ d} \; \\ b \, \pmatrix{\; c \; \\ d}} =  \pmatrix{\enspace ac \enspace \\ ad \\ bc \\ bd}"
             />
           </p>
         </Prose>
@@ -168,7 +167,7 @@ export default page(setup, ({ section, hint }) => ({
           >
             <M
               display
-              t="\frac{1}{5}\left( \begin{array}{c}1  \\ -1 \\ i \\ -i\end{array} \right)"
+              t="\frac{1}{5}\pmatrix{\quad 1 \quad \\ -1 \\ i \\ -i}"
             />
           </Answer>
         </>
@@ -223,7 +222,7 @@ export default page(setup, ({ section, hint }) => ({
           >
             <M
               display
-              t="\frac{1}{\sqrt{2}}\left( \begin{array}{c}1  \\ 0 \\ 1 \\ 0\end{array} \right)"
+              t="\frac{1}{\sqrt{2}}\pmatrix{\quad 1 \quad \\ 0 \\ 1 \\ 0}"
             />
           </Answer>
         </>
