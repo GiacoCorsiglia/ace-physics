@@ -75,7 +75,7 @@ export default page(setup, ({ section }) => ({
               </>,
             ],
           ]}
-          answer={"2x2"}
+          answer="4x4"
         />
       ),
     }),
