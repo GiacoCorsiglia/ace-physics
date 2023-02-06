@@ -167,7 +167,7 @@ export default page(setup, ({ section, hint }) => ({
           >
             <M
               display
-              t="\frac{1}{5}\pmatrix{\quad 1 \quad \\ -1 \\ i \\ -i}"
+              t="\frac{1}{2}\pmatrix{\quad 1 \quad \\ -1 \\ i \\ -i}"
             />
           </Answer>
         </>
