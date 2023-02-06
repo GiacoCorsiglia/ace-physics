@@ -112,6 +112,7 @@ export default page(setup, ({ section }) => ({
               />,
             ],
           ]}
+          answer={["(H⊗_) (Z⊗X) (|ψ1>⊗|ψ2>)", "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)"]}
         />
       ),
     }),
@@ -235,13 +236,6 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
           />
-
-          <Prose faded size="small">
-            Copy-paste these symbols if useful:{" "}
-            <span style={{ marginLeft: "1rem" }}>ϕ</span>
-            <span style={{ marginLeft: "1rem" }}>ψ</span>
-            <span style={{ marginLeft: "1rem" }}>⊗</span>
-          </Prose>
 
           <Answer>
             We found that either of the following equations below are correct.
