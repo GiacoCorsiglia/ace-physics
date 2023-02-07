@@ -8,7 +8,6 @@ import {
   QuantumCircuit,
   TextLine,
 } from "@/components";
-import { arraysEqual } from "@/helpers/server";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -140,7 +139,7 @@ export default page(setup, ({ section, hint }) => ({
 
     section({
       name: "fourDColumnVector",
-      body: (m, { responses }) => (
+      body: (m) => (
         <>
           <Prose>
             <p>
@@ -157,14 +156,7 @@ export default page(setup, ({ section, hint }) => ({
             />
           </Prose>
 
-          <Answer
-            correct={arraysEqual(responses?.fourDColumnVector, [
-              "1",
-              "-1",
-              "i",
-              "-i",
-            ])}
-          >
+          <Answer>
             <M
               display
               t="\frac{1}{2}\pmatrix{\quad 1 \quad \\ -1 \\ i \\ -i}"
@@ -191,7 +183,7 @@ export default page(setup, ({ section, hint }) => ({
 
     section({
       name: "circuitOutputAsColumnVector",
-      body: (m, { responses }) => (
+      body: (m) => (
         <>
           <Prose>
             <p>
@@ -212,14 +204,7 @@ export default page(setup, ({ section, hint }) => ({
             />
           </Prose>
 
-          <Answer
-            correct={arraysEqual(
-              responses?.circuitOutputAsColumnVector?.map((component) =>
-                component?.trim()
-              ),
-              ["1", "0", "1", "0"]
-            )}
-          >
+          <Answer>
             <M
               display
               t="\frac{1}{\sqrt{2}}\pmatrix{\quad 1 \quad \\ 0 \\ 1 \\ 0}"

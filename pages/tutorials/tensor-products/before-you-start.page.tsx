@@ -82,14 +82,14 @@ export default pretest(setup, ({ section }) => ({
             </Prose>
           }
           choices={[
-            ["H ⊗ XZ", <M t="H \otimes XZ" />],
-            ["H ⊗ ZX", <M t="H \otimes ZX" />],
-            ["HZ ⊗ X", <M t="HZ \otimes X" />],
-            ["(H ⊗ Z)(I ⊗ X)", <M t="(H \otimes Z)(I \otimes X)" />],
-            ["(I ⊗ X)(H ⊗ Z)", <M t="(I \otimes X)(H \otimes Z)" />],
-            ["(H ⊗ X)(I ⊗ Z)", <M t="(H \otimes X)(I \otimes Z)" />],
-            ["H(Z ⊗ X)", <M t="H(Z \otimes X)" />],
-            ["(H ⊗ Z)X", <M t="(H \otimes Z)X" />],
+            ["H ⊗ XZ", <M t="A = H \otimes XZ" />],
+            ["H ⊗ ZX", <M t="A = H \otimes ZX" />],
+            ["HZ ⊗ X", <M t="A = HZ \otimes X" />],
+            ["(H ⊗ Z)(I ⊗ X)", <M t="A = (H \otimes Z)(I \otimes X)" />],
+            ["(I ⊗ X)(H ⊗ Z)", <M t="A = (I \otimes X)(H \otimes Z)" />],
+            ["(H ⊗ X)(I ⊗ Z)", <M t="A = (H \otimes X)(I \otimes Z)" />],
+            ["H(Z ⊗ X)", <M t="A = H(Z \otimes X)" />],
+            ["(H ⊗ Z)X", <M t="A = (H \otimes Z)X" />],
           ]}
         />
       ),
