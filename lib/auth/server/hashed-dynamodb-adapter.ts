@@ -6,9 +6,9 @@
  * alleviates the IRB burden by making it unreasonably difficult for us as
  * researchers to ascertain the identity of students in our database.
  */
-import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter";
+import { DynamoDBAdapter, format } from "@next-auth/dynamodb-adapter";
 import { createHash } from "crypto";
-import type { Adapter } from "next-auth/adapters";
+import { Adapter, VerificationToken } from "next-auth/adapters";
 
 export const hashEmail = (email: string): string => {
   if (!email.includes("@")) {
@@ -47,6 +47,9 @@ export const HashedDynamoDBAdapter = (
 ): Adapter => {
   const ddb = DynamoDBAdapter(...args);
 
+  const [client, options] = args;
+  const TableName = options?.tableName || "next-auth";
+
   return {
     // Avoid spreading ...ddb so we are forced to consider every method.
     // We only need to hash inbound data.
@@ -82,11 +85,30 @@ export const HashedDynamoDBAdapter = (
           return ddb.createVerificationToken!(verificationToken);
         }
       : undefined,
-    useVerificationToken: ddb.useVerificationToken
-      ? (params) => {
-          params = hashProperty("identifier", params);
-          return ddb.useVerificationToken!(params);
-        }
-      : undefined,
+    // HACK: We have encountered issues where verification tokens are marked as
+    // used even before the user clicks the sign in link.  My guess is that spam
+    // filters in university are preloading the link which is invalidating it?
+    // Maybe?  Not sure.  But security on ACE Physics isn't particularly
+    // important, so I'm hacking this function to be a no-op so that
+    // verification tokens are never marked as used (i.e., never deleted),
+    // meaning sign in links can be used more than once.  They should still
+    // expire and be removed from the database (thanks to DynamoDB TTL) after 24
+    // hours, so I think this is fine.
+    async useVerificationToken(params) {
+      params = hashProperty("identifier", params);
+
+      const { identifier, token } = params;
+
+      const data = await client.get({
+        TableName,
+        Key: {
+          // https://github.com/nextauthjs/next-auth/blob/v4/packages/adapter-dynamodb/src/index.ts#L307
+          pk: `VT#${identifier}`,
+          sk: `VT#${token}`,
+        },
+      });
+
+      return format.from<VerificationToken>(data.Item);
+    },
   };
 };

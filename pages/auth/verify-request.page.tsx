@@ -13,6 +13,11 @@ export default function VerifyRequest() {
           </p>
 
           <p>A sign in link has been sent to your email address.</p>
+
+          <p>
+            The email may take a few minutes to arrive, and you may need to
+            check your spam folder.
+          </p>
         </Prose>
 
         <Prose size="small" faded>
