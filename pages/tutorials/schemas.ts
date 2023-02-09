@@ -1,4 +1,5 @@
 import { TutorialSchema } from "@/schema/tutorial";
+import CnotEntanglement from "./cnot-entanglement/schema";
 import EnergyAndPosition from "./energy-and-position/schema";
 import EPR from "./epr/schema";
 import IntroductionToQuantumGates from "./introduction-to-quantum-gates/schema";
@@ -16,6 +17,7 @@ import TimeDependence from "./time-dependence/schema";
 import VectorsToFunctions from "./vectors-to-functions/schema";
 
 export const tutorialSchemas = new Map<string, TutorialSchema>([
+  ["CnotEntanglement", CnotEntanglement],
   ["EnergyAndPosition", EnergyAndPosition],
   ["EPR", EPR],
   ["IntroductionToQuantumGates", IntroductionToQuantumGates],
