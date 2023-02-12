@@ -23,5 +23,9 @@ export default tutorialSetup({
       link: "1-other-two-qubit-gates",
       label: "Other Two-Qubit Gates",
     },
+    {
+      link: "2-entanglement",
+      label: "Entanglement",
+    },
   ],
 });
