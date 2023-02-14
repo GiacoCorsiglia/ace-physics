@@ -4,6 +4,7 @@ export default s.tutorial({
   pages: {
     otherTwoQubitGates: s.page(),
     entanglement: s.page(),
+    consequencesOfEntanglement: s.page(),
   },
   pretest: {
     // Pretest fields here.
@@ -31,6 +32,12 @@ export default s.tutorial({
     resultingStateOfQubitOne: s.section(),
     differenceBetweenQuestionsComment: s.section(),
     probabilityMeasuresToKetOne: s.section(),
+    bellBasisContext: s.section(),
+    beforeAndAfterEnteringCNOTGate: s.section(),
+    circuitEntangled: s.section(),
+    // Section 3
+    consequencesOfEntanglementIntro: s.section(),
+    aliceSentMessageToBob: s.section(),
   },
   responses: {
     // Section 1
@@ -55,6 +62,17 @@ export default s.tutorial({
 
     probabilityMeasuresToKetOne: s.number(),
     resultingStateOfParticleOne: s.number(),
+
+    beforeEnteringCNOTGate: s.chooseOne(["yes", "no"]),
+    afterEnteringCNOTGate: s.chooseOne(["yes", "no"]),
+
+    circuitStateInputEntangled: s.chooseOne(["yes", "no"]),
+    twoQubitStateEntangled: s.chooseOne(["yes", "no"]),
+    outputStateOfCircuit: s.string(),
+    outputStateOfCircuitEntangled: s.chooseOne(["yes", "no"]),
+    // Section 3
+    aliceSentMessageToBob: s.string(),
+    fasterThanLight: s.string(),
   },
   hints: {
     gateIsLinear: s.hint(),
