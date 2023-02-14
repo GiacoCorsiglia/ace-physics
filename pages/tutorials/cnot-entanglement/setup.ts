@@ -27,5 +27,9 @@ export default tutorialSetup({
       link: "2-entanglement",
       label: "Entanglement",
     },
+    {
+      link: "3-consequences-of-entanglement",
+      label: "Consequences of Entanglement",
+    },
   ],
 });
