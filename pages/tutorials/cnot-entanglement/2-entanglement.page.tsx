@@ -280,8 +280,10 @@ export default page(setup, ({ section }) => ({
           />
           <p>Above, you discovered that the output of:</p>
           <QuantumCircuit
-            t="\lstick{\ket{0}} \gate{H} \ctrl{1}  \qw \\
-\lstick{\ket{0}} \qw \targ \qw"
+            t="
+              \lstick{\ket{0}} & \gate{H} & \ctrl{1} & \qw \\
+              \lstick{\ket{0}} & \qw & \targ & \qw
+              "
           />
           <p>
             was{" "}
@@ -337,12 +339,17 @@ export default page(setup, ({ section }) => ({
             model={m.circuitStateInputEntangled}
             label={
               <Prose>
-                <p>Consider the circuit shown below:</p>
+                <p>
+                  Consider the circuit shown below, with an input state of{" "}
+                  <M t="\ket{\beta_{00}}" />:
+                </p>
                 <QuantumCircuit
+                  // TODO: Support \inputgroupv
                   t="
-                \lstick{}   \ctrl{1}   \gate{H}  \qw \\
-                \lstick{}  \targ   \qw   \qw
-                \inputgroupv{1}{2}{0.5em}{1em}{\ket{\beta_{00}}}"
+                  \lstick{} &  \ctrl{1} & \gate{H} & \qw \\
+                  \lstick{} & \targ & \qw & \qw \\
+                  %\inputgroupv{1}{2}{0.5em}{1em}{\ket{\beta_{00}}}
+                  "
                 />
                 <p>Is the input state entangled?</p>
               </Prose>
