@@ -81,6 +81,9 @@ interface CellType<U extends object> {
     hasWireRight?: boolean;
     hasWireLeft?: boolean;
     align?: "left" | "right";
+
+    valign?: "center";
+    hideBackground?: boolean;
   };
 }
 
@@ -105,6 +108,8 @@ const Ctrl = CellType({
   render() {
     return {
       content: <span className={styles.ctrl} />,
+      valign: "center",
+      hideBackground: false,
     };
   },
 });
@@ -217,6 +222,8 @@ const Targ = CellType({
   render() {
     return {
       content: <span className={styles.targ} />,
+      hideBackground: false,
+      valign: "center",
     };
   },
 });
@@ -487,8 +494,15 @@ const Cell = ({ cell }: { cell: Cell }) => {
   const hasWireAbove = cell.verticalWireAbove > 0;
   const hasWireBelow = cell.verticalWireBelow > 0;
 
+  const hideBackground = renderOptions.hideBackground ?? true;
+
   const gridElement = renderOptions.gridElement ?? (
-    <span>
+    <span
+      className={cx(
+        styles.gridElement,
+        renderOptions.valign === "center" && styles.alignCenter
+      )}
+    >
       {renderOptions.tex ? (
         <span className={styles.renderedTex}>
           <M t={renderOptions.tex} />
@@ -517,6 +531,7 @@ const Cell = ({ cell }: { cell: Cell }) => {
           <span
             className={cx(
               styles.cellContent,
+              hideBackground && styles.hideBackground,
               renderOptions.align === "left" && styles.alignLeft,
               renderOptions.align === "right" && styles.alignRight
             )}
