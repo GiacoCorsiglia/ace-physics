@@ -4,6 +4,7 @@ export default s.tutorial({
   pages: {
     otherTwoQubitGates: s.page(),
     entanglement: s.page(),
+    anEntangledBasis: s.page(),
     consequencesOfEntanglement: s.page(),
   },
   pretest: {
@@ -15,6 +16,7 @@ export default s.tutorial({
   sections: {
     // Section 1
     otherTwoQubitGatesIntro: s.section(),
+    writeUCNOTAsMatrix: s.section(),
     writtenAsTensorProduct: s.section(),
     outputOfCircuit: s.section(),
     probMeasuringKet0: s.section(),
@@ -32,15 +34,21 @@ export default s.tutorial({
     resultingStateOfQubitOne: s.section(),
     differenceBetweenQuestionsComment: s.section(),
     probabilityMeasuresToKetOne: s.section(),
-    bellBasisContext: s.section(),
+    // Section 3
+    anEntangledBasisIntro: s.section(),
     beforeAndAfterEnteringCNOTGate: s.section(),
     circuitEntangled: s.section(),
-    // Section 3
+    // Section 4
     consequencesOfEntanglementIntro: s.section(),
     aliceSentMessageToBob: s.section(),
   },
   responses: {
     // Section 1
+    writeUCNOTAsMatrixTopLeft: s.number(),
+    writeUCNOTAsMatrixTopRight: s.number(),
+    writeUCNOTAsMatrixBotLeft: s.number(),
+    writeUCNOTAsMatrixBotRight: s.number(),
+
     writtenAsTensorProduct: s.chooseOne(["yes", "no"]),
     outputOfCircuit: s.string(),
     probMeasuringKet0: s.number(),
@@ -57,12 +65,12 @@ export default s.tutorial({
     probabilityMeasureKetZeroQubitOne: s.number(),
     probabilityMeasureKetZeroQubitTwo: s.number(),
 
-    resultingStateOfQubitOne: s.number(),
+    resultingStateOfQubitOne: s.string(),
     resultingStateOfQubitOneProbability: s.number(),
 
     probabilityMeasuresToKetOne: s.number(),
     resultingStateOfParticleOne: s.number(),
-
+    // Section 3
     beforeEnteringCNOTGate: s.chooseOne(["yes", "no"]),
     afterEnteringCNOTGate: s.chooseOne(["yes", "no"]),
 
@@ -70,7 +78,8 @@ export default s.tutorial({
     twoQubitStateEntangled: s.chooseOne(["yes", "no"]),
     outputStateOfCircuit: s.string(),
     outputStateOfCircuitEntangled: s.chooseOne(["yes", "no"]),
-    // Section 3
+
+    // Section 4
     aliceSentMessageToBob: s.string(),
     fasterThanLight: s.string(),
   },
