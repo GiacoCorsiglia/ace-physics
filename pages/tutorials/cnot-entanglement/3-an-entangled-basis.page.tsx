@@ -33,15 +33,29 @@ export default page(setup, ({ section }) => ({
               "
           />
           <p>
-            was{" "}
-            <M t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) = \ket{\beta_{00}}" />{" "}
-            . This circuit is commonly used to entangle states. Check for
-            yourself that if you input the other three basis states{" "}
-            <M t="(\ket{01},\ket{10}, and \ket{11})" /> this same circuit gives
-            the corresponding Bell output states.
+            was:{" "}
+            <M
+              display
+              t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) = \ket{\beta_{00}}"
+            />{" "}
           </p>
         </Prose>
       ),
+    }),
+    section({
+      name: "anEntangledBasisCheck",
+      enumerate: false,
+      body: (
+        <Prose>
+          This circuit is commonly used to entangle states. Check for yourself
+          that if you input the other three basis states{" "}
+          <M t="(\ket{01},\ket{10}, and \ket{11})" /> this same circuit gives
+          the corresponding Bell output states.{" "}
+        </Prose>
+      ),
+      continue: {
+        label: "I checked it!",
+      },
     }),
     section({
       name: "beforeAndAfterEnteringCNOTGate",

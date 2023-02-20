@@ -8,10 +8,22 @@ export default s.tutorial({
     consequencesOfEntanglement: s.page(),
   },
   pretest: {
-    // Pretest fields here.
+    twoQubitOutputState: s.string(),
+    isFinalOutputStateEntangled: s.chooseOne(["yes", "no"]),
+    threeQubitOutputStateEntangled: s.chooseOne([
+      "entangled",
+      "not entangled",
+      "it depends",
+    ]),
   },
   posttest: {
-    // Posttest fields here.
+    twoQubitOutputState: s.string(),
+    isFinalOutputStateEntangled: s.chooseOne(["yes", "no"]),
+    threeQubitOutputStateEntangled: s.chooseOne([
+      "entangled",
+      "not entangled",
+      "it depends",
+    ]),
   },
   sections: {
     // Section 1
@@ -36,6 +48,7 @@ export default s.tutorial({
     probabilityMeasuresToKetOne: s.section(),
     // Section 3
     anEntangledBasisIntro: s.section(),
+    anEntangledBasisCheck: s.section(),
     beforeAndAfterEnteringCNOTGate: s.section(),
     circuitEntangled: s.section(),
     // Section 4
