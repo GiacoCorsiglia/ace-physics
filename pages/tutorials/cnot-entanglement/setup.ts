@@ -28,7 +28,11 @@ export default tutorialSetup({
       label: "Entanglement",
     },
     {
-      link: "3-consequences-of-entanglement",
+      link: "3-an-entangled-basis",
+      label: "An Entangled Basis",
+    },
+    {
+      link: "4-consequences-of-entanglement",
       label: "Consequences of Entanglement",
     },
   ],

@@ -2,6 +2,7 @@ import {
   Decimal,
   Horizontal,
   M,
+  Matrix,
   Prose,
   QuantumCircuit,
   TextBox,
@@ -51,17 +52,41 @@ export default page(setup, ({ section, hint }) => ({
             (Stare for a second, make sure you agree that these formulas match
             the description above)
           </p>
+        </Prose>
+      ),
+    }),
+    section({
+      name: "writeUCNOTAsMatrix",
+      body: (m) => (
+        <Prose>
           <p>
             If we want to write <M t="U_{CNOT}" /> as a 4x4 matrix in the
             computational basis, it will look like this:
           </p>
-          <M
-            display
-            t="\pmatrix{\; 1 & 0 & 0 & 0 \;\\\; 0 & 1 & 0 & 0 \;\\\; 0 & 0 & ? & ? \;\\\; 0 & 0 & ? & ?\;}"
+          <Matrix
+            matrix={[
+              ["1", "0", "0", "0"],
+              ["1", "1", "0", "0"],
+              [
+                "0",
+                "0",
+                <Decimal placeholder="?" model={m.writeUCNOTAsMatrixTopLeft} />,
+                <Decimal
+                  placeholder="?"
+                  model={m.writeUCNOTAsMatrixTopRight}
+                />,
+              ],
+              [
+                "0",
+                "0",
+                <Decimal placeholder="?" model={m.writeUCNOTAsMatrixBotLeft} />,
+                <Decimal
+                  placeholder="?"
+                  model={m.writeUCNOTAsMatrixBotRight}
+                />,
+              ],
+            ]}
           />
-          <p>
-            ⭐⭐⭐Fill in the bottom right corner of the matrix (above).⭐⭐ ⭐
-          </p>
         </Prose>
       ),
     }),
@@ -79,8 +104,13 @@ export default page(setup, ({ section, hint }) => ({
             </Prose>
           }
           choices={[
-            ["yes", "Yes"],
-            ["no", "No"],
+            ["yes", "Yes, it can be written as a tensor product"],
+            [
+              "no",
+              <p>
+                No, <M t="U_{CNOT} \neq O_1 \otimes O_2" />{" "}
+              </p>,
+            ],
           ]}
         />
       ),
