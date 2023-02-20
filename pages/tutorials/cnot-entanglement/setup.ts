@@ -16,8 +16,8 @@ export default tutorialSetup({
   id: "CnotEntanglement",
   link: "cnot-entanglement",
   label: "CNOT and Entanglement",
-  pretest: false,
-  posttest: false,
+  pretest: true,
+  posttest: true,
   pages: [
     {
       link: "1-other-two-qubit-gates",
