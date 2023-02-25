@@ -1,11 +1,19 @@
-import { Decimal, Horizontal, M, Prose, TextBox, Toggle } from "@/components";
+import {
+  Answer,
+  Decimal,
+  Horizontal,
+  M,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "entanglement",
   label: "Entanglement",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "entanglementIntro",
@@ -27,15 +35,22 @@ export default page(setup, ({ section }) => ({
           </p>
           <M
             display
-            t="\ket{\psi_{\text{separable}}} = \ket{\psi_1} \otimes \ket{\psi_2} \\
-               \ket{\psi_{\text{entangled}}} \neq \ket{\psi_1} \otimes \ket{\psi_2} \text{for \it any } \ket{\psi_1} \text{or} \ket{\psi_2}"
+            t="\ket{\psi_{\text{separable}}} = \ket{\psi_1} \otimes \ket{\psi_2}"
+          />
+          <M
+            display
+            t="\ket{\psi_{\text{entangled}}} \neq \ket{\psi_1} \otimes \ket{\psi_2}"
+          />
+          <M
+            display
+            t="\text{for \it any } \ket{\psi_1} \text{or} \ket{\psi_2}"
           />
         </Prose>
       ),
     }),
     section({
       name: "isEquationEntangledOne",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Toggle
             model={m.isEquationEntangledOneTF}
@@ -48,22 +63,33 @@ export default page(setup, ({ section }) => ({
               ["yes", "Yes, it is entangled"],
               ["no", "No, it is not entangled"],
             ]}
+            answer="no"
           />
-          <TextBox
-            model={m.isEquationEntangledOneExplanation}
-            label={
-              <Prose>
-                (If so, how do you know? If not, what is the state of each qubit
-                separately?)
-              </Prose>
-            }
-          />
+          {responses?.isEquationEntangledOneTF && (
+            <TextBox
+              model={m.isEquationEntangledOneExplanation}
+              label={
+                <Prose>
+                  (If so, how do you know? If not, what is the state of each
+                  qubit separately?)
+                </Prose>
+              }
+            />
+          )}
+          <Answer>
+            <p>You can seperate it as follows:</p>
+            <M
+              display
+              t="\ket{0} \otimes [\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})] ="
+            />
+            <M display t="\ket{0} \otimes \ket{+}" />
+          </Answer>
         </>
       ),
     }),
     section({
       name: "isEquationEntangledTwo",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Toggle
             model={m.isEquationEntangledTwoTF}
@@ -76,16 +102,20 @@ export default page(setup, ({ section }) => ({
               ["yes", "Yes, it is entangled"],
               ["no", "No, it is not entangled"],
             ]}
+            answer="yes"
           />
-          <TextBox
-            model={m.isEquationEntangledTwoExplanation}
-            label={
-              <Prose>
-                (If so, how do you know? If not, what is the state of each qubit
-                separately?)
-              </Prose>
-            }
-          />
+          {responses?.isEquationEntangledTwoTF && (
+            <TextBox
+              model={m.isEquationEntangledTwoExplanation}
+              label={
+                <Prose>
+                  (If so, how do you know? If not, what is the state of each
+                  qubit separately?)
+                </Prose>
+              }
+            />
+          )}
+          <Answer>Yes, you cannot seperate.</Answer>
         </>
       ),
     }),
@@ -108,6 +138,7 @@ export default page(setup, ({ section }) => ({
               ["yes", "Yes, the probability is 50-50"],
               ["no", "No, qubit 1 cannot be 50-50"],
             ]}
+            answer="yes"
           />
           {responses?.isProbabilityFiftyFiftyOne && (
             <Toggle
@@ -128,6 +159,7 @@ export default page(setup, ({ section }) => ({
                 ],
                 ["no", "No, it does not equate to that"],
               ]}
+              answer="no"
             />
           )}
           {responses?.isProbabilityFiftyFiftyTwo && (
@@ -150,6 +182,7 @@ export default page(setup, ({ section }) => ({
                   </p>,
                 ],
               ]}
+              answer="no"
             />
           )}
         </>
@@ -157,7 +190,7 @@ export default page(setup, ({ section }) => ({
     }),
     section({
       name: "probabilityMeasuresToKetZero",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Prose>
             For the state <M t="\frac{1}{\sqrt{2}}(\ket{01} -\ket{10})" />: what
@@ -171,12 +204,28 @@ export default page(setup, ({ section }) => ({
               model={m.probabilityMeasureKetZeroQubitOne}
               label={<Prose>Probability of Qubit 1:</Prose>}
             />
+            <Answer
+              correct={
+                responses?.probabilityMeasureKetZeroQubitOne === 0.5 ||
+                responses?.probabilityMeasureKetZeroQubitOne === 50
+              }
+            >
+              50%
+            </Answer>
           </Horizontal>
           <Horizontal align="center" justify="start">
             <Decimal
               model={m.probabilityMeasureKetZeroQubitTwo}
               label={<Prose>Probability of Qubit 2:</Prose>}
             />
+            <Answer
+              correct={
+                responses?.probabilityMeasureKetZeroQubitOne === 0.5 ||
+                responses?.probabilityMeasureKetZeroQubitOne === 50
+              }
+            >
+              50%
+            </Answer>
           </Horizontal>
         </>
       ),
@@ -191,22 +240,28 @@ export default page(setup, ({ section }) => ({
             resulting state of qubit 1?
           </Prose>
           <TextBox model={m.resultingStateOfQubitOne} />
-          {responses?.resultingStateOfQubitOne && (
-            <>
-              <Prose>
-                With that in mind, what is the subsequent probability (given the
-                fact that qubit 2 was measured to be <M t="\ket{0}" />) that
-                qubit 1 will be measured to be <M t="\ket{0}" />?
-              </Prose>
 
-              <Horizontal align="center" justify="start">
-                <Decimal
-                  model={m.resultingStateOfQubitOneProbability}
-                  label={<Prose>Probability:</Prose>}
-                />
-              </Horizontal>
-            </>
-          )}
+          <Answer>
+            The resulting state for qubit 1 would equate to <M t="\ket{1}" />
+          </Answer>
+
+          <Prose>
+            With that in mind, what is the subsequent probability (given the
+            fact that qubit 2 was measured to be <M t="\ket{0}" />) that qubit 1
+            will be measured to be <M t="\ket{0}" />?
+          </Prose>
+
+          <Horizontal align="center" justify="start">
+            <Decimal
+              model={m.resultingStateOfQubitOneProbability}
+              label={<Prose>Probability:</Prose>}
+            />
+            <Answer
+              correct={responses?.resultingStateOfQubitOneProbability === 0.0}
+            >
+              0%
+            </Answer>
+          </Horizontal>
         </>
       ),
     }),
@@ -240,21 +295,27 @@ export default page(setup, ({ section }) => ({
               label={<Prose>Probability:</Prose>}
             />
           </Horizontal>
-          {responses?.probabilityMeasuresToKetOne && (
-            <>
+          <Answer correct={responses?.probabilityMeasuresToKetOne === 0.6}>
+            <M
+              display
+              t="\bigg|\frac{2}{\sqrt{10}}\bigg|^2 + \bigg|\frac{2}{\sqrt{10}}\bigg|^2 ="
+            />
+            <M display t="\frac{4}{10} + \frac{2}{10} = \frac{6}{10} = " />
+            <M display t="\frac{3}{5} \text{ or 0.6}" />
+          </Answer>
+
+          <TextBox
+            model={m.resultingStateOfParticleOne}
+            label={
               <Prose>
                 Assuming observer 2 measures <M t="\ket{1}" /> what is the
                 resulting (normalized) state of particle 1?
               </Prose>
-
-              <Horizontal align="center" justify="start">
-                <Decimal
-                  model={m.resultingStateOfParticleOne}
-                  label={<Prose>Resulting State:</Prose>}
-                />
-              </Horizontal>
-            </>
-          )}
+            }
+          />
+          <Answer>
+            <M display t="\frac{1}{\sqrt{3}}(\sqrt{2}\ket{0}+\ket{1}" />
+          </Answer>
         </>
       ),
     }),

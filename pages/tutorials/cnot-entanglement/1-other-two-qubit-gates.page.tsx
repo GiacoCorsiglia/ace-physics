@@ -1,4 +1,5 @@
 import {
+  Answer,
   Decimal,
   Horizontal,
   M,
@@ -14,7 +15,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "otherTwoQubitGates",
   label: "Other Two-Qubit Gates",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "otherTwoQubitGatesIntro",
@@ -57,37 +58,58 @@ export default page(setup, ({ section, hint }) => ({
     }),
     section({
       name: "writeUCNOTAsMatrix",
-      body: (m) => (
-        <Prose>
-          <p>
-            If we want to write <M t="U_{CNOT}" /> as a 4x4 matrix in the
-            computational basis, it will look like this:
-          </p>
-          <Matrix
-            matrix={[
-              ["1", "0", "0", "0"],
-              ["1", "1", "0", "0"],
-              [
-                "0",
-                "0",
-                <Decimal placeholder="?" model={m.writeUCNOTAsMatrixTopLeft} />,
-                <Decimal
-                  placeholder="?"
-                  model={m.writeUCNOTAsMatrixTopRight}
-                />,
-              ],
-              [
-                "0",
-                "0",
-                <Decimal placeholder="?" model={m.writeUCNOTAsMatrixBotLeft} />,
-                <Decimal
-                  placeholder="?"
-                  model={m.writeUCNOTAsMatrixBotRight}
-                />,
-              ],
-            ]}
-          />
-        </Prose>
+      body: (m, { responses }) => (
+        <>
+          <Prose>
+            <p>
+              If we want to write <M t="U_{CNOT}" /> as a 4x4 matrix in the
+              computational basis, it will look like this:
+            </p>
+            <Matrix
+              matrix={[
+                ["1", "0", "0", "0"],
+                ["1", "1", "0", "0"],
+                [
+                  "0",
+                  "0",
+                  <Decimal
+                    placeholder="?"
+                    model={m.writeUCNOTAsMatrixTopLeft}
+                  />,
+                  <Decimal
+                    placeholder="?"
+                    model={m.writeUCNOTAsMatrixTopRight}
+                  />,
+                ],
+                [
+                  "0",
+                  "0",
+                  <Decimal
+                    placeholder="?"
+                    model={m.writeUCNOTAsMatrixBotLeft}
+                  />,
+                  <Decimal
+                    placeholder="?"
+                    model={m.writeUCNOTAsMatrixBotRight}
+                  />,
+                ],
+              ]}
+            />
+          </Prose>
+          <Answer
+            correct={
+              responses?.writeUCNOTAsMatrixTopLeft === 0.0 &&
+              responses?.writeUCNOTAsMatrixTopRight === 1 &&
+              responses?.writeUCNOTAsMatrixBotLeft === 1 &&
+              responses?.writeUCNOTAsMatrixBotRight === 0.0
+            }
+          >
+            <M
+              display
+              t="\pmatrix{\enspace 1 & 0 & 0 & 0 \enspace \\ \enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 0 & 0 & 0 & 1 \enspace \\ \enspace 0 & 0 & 1 & 0 \enspace}"
+            />
+          </Answer>
+        </>
       ),
     }),
     section({
@@ -112,24 +134,36 @@ export default page(setup, ({ section, hint }) => ({
               </p>,
             ],
           ]}
+          answer="no"
         />
       ),
     }),
     section({
       name: "outputOfCircuit",
       body: (m) => (
-        <TextBox
-          model={m.outputOfCircuit}
-          label={
-            <Prose>
-              What is the output of this circuit?{" "}
-              <QuantumCircuit
-                t="\lstick{\ket{0}} & \gate{H} & \ctrl{1}  & \qw \\
-                   \lstick{\ket{0}} & \qw & \targ & \qw"
-              />
-            </Prose>
-          }
-        />
+        <>
+          <TextBox
+            model={m.outputOfCircuit}
+            label={
+              <Prose>
+                What is the output of this circuit?{" "}
+                <QuantumCircuit
+                  t="\lstick{\ket{0}} & \gate{H} & \ctrl{1}  & \qw \\
+                    \lstick{\ket{0}} & \qw & \targ & \qw"
+                />
+              </Prose>
+            }
+          />
+          <Answer>
+            <M display t="(U_{CNOT})(H \otimes I)(100) =" />
+            <M display t="U_{CNOT}(\ket{+}\otimes\ket{0}) =" />
+            <M
+              display
+              t="U_{CNOT}(\frac{1}{\sqrt{2}}[\ket{00} + \ket{10}]) ="
+            />
+            <M display t="\frac{1}{\sqrt{2}}[\ket{00} + \ket{11}]" />
+          </Answer>
+        </>
       ),
       hints: [
         [
@@ -138,10 +172,8 @@ export default page(setup, ({ section, hint }) => ({
             body: (
               <Prose>
                 The <M t="U_{CNOT}" /> gate is linear, which means that e.g.{" "}
-                <M
-                  display
-                  t="U_{CNOT}(a \ket{00} + b\ket{10}) = a \   U_{CNOT} \ket{00} + b\ U_{CNOT}\ket{10}"
-                />
+                <M display t="U_{CNOT}(a \ket{00} + b\ket{10}) =" />
+                <M display t="a \ U_{CNOT} \ket{00} + b\ U_{CNOT}\ket{10}" />
               </Prose>
             ),
           }),
@@ -150,7 +182,7 @@ export default page(setup, ({ section, hint }) => ({
     }),
     section({
       name: "probMeasuringKet0",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Prose>
             In the circuit just above, what is the probability of measuring a
@@ -162,12 +194,20 @@ export default page(setup, ({ section, hint }) => ({
               label={<Prose>First Qubit: </Prose>}
             />
           </Horizontal>
+          <Answer
+            correct={
+              responses?.probMeasuringKet0 === 0.5 ||
+              responses?.probMeasuringKet0 === 50
+            }
+          >
+            50%
+          </Answer>
         </>
       ),
     }),
     section({
       name: "probMeasuringKet1",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Prose>
             Adding to the previous question, what is the probability of
@@ -180,12 +220,20 @@ export default page(setup, ({ section, hint }) => ({
               label={<Prose>Second Qubit: </Prose>}
             />
           </Horizontal>
+          <Answer
+            correct={
+              responses?.probMeasuringKet1 === 0.5 ||
+              responses?.probMeasuringKet1 === 50
+            }
+          >
+            50%
+          </Answer>
         </>
       ),
     }),
     section({
       name: "probMeasuringKet01",
-      body: (m) => (
+      body: (m, { responses }) => (
         <>
           <Prose>
             Finally, what is the probability of measuring a
@@ -197,6 +245,7 @@ export default page(setup, ({ section, hint }) => ({
               label={<Prose>Second Qubit: </Prose>}
             />
           </Horizontal>
+          <Answer correct={responses?.probMeasuringKet01 === 0.0}>0%</Answer>
         </>
       ),
     }),
@@ -211,8 +260,8 @@ export default page(setup, ({ section, hint }) => ({
             <M t="\ket{01}" /> outcome to be <M t="1/2 \times 1/2 = 0.25" />.
           </p>
           <p>
-            There is something very interesting about this output state. Let’s
-            explore this in the coming problems.
+            There is something <em> very interesting</em> about this output
+            state. Let’s explore this in the coming problems.
           </p>
         </Prose>
       ),

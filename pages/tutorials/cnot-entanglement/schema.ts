@@ -82,7 +82,7 @@ export default s.tutorial({
     resultingStateOfQubitOneProbability: s.number(),
 
     probabilityMeasuresToKetOne: s.number(),
-    resultingStateOfParticleOne: s.number(),
+    resultingStateOfParticleOne: s.string(),
     // Section 3
     beforeEnteringCNOTGate: s.chooseOne(["yes", "no"]),
     afterEnteringCNOTGate: s.chooseOne(["yes", "no"]),
