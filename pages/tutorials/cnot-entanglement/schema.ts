@@ -53,7 +53,9 @@ export default s.tutorial({
     circuitEntangled: s.section(),
     // Section 4
     consequencesOfEntanglementIntro: s.section(),
+    problemContext: s.section(),
     aliceSentMessageToBob: s.section(),
+    fasterThanLight: s.section(),
   },
   responses: {
     // Section 1
