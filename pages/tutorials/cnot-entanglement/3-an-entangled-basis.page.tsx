@@ -1,11 +1,18 @@
-import { M, Prose, QuantumCircuit, TextBox, Toggle } from "@/components";
+import {
+  Answer,
+  M,
+  Prose,
+  QuantumCircuit,
+  TextBox,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "anEntangledBasis",
   label: "An Entangled Basis",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "anEntangledBasisIntro",
@@ -74,6 +81,7 @@ export default page(setup, ({ section }) => ({
               ["yes", "Yes, it does have a definite state"],
               ["no", "No, it does not have one before"],
             ]}
+            answer="yes"
           />
           {responses?.beforeEnteringCNOTGate && (
             <Toggle
@@ -87,6 +95,7 @@ export default page(setup, ({ section }) => ({
                 ["yes", "Yes, it has one after"],
                 ["no", "No, it does not have a definite state after"],
               ]}
+              answer="no"
             />
           )}
         </>
@@ -119,6 +128,7 @@ export default page(setup, ({ section }) => ({
               ["yes", "Yes, it is entangled"],
               ["no", "No, it is not entangled"],
             ]}
+            answer="yes"
           />
 
           {responses?.circuitStateInputEntangled && (
@@ -134,25 +144,29 @@ export default page(setup, ({ section }) => ({
                 ["yes", "Yes, it is entangled just before"],
                 ["no", "No, it is not before entering Hadamard"],
               ]}
+              answer="no"
             />
           )}
 
           {responses?.twoQubitStateEntangled && (
-            <TextBox
-              model={m.outputOfCircuit}
-              label={<Prose>What is the output state?</Prose>}
-            />
-          )}
-
-          {responses?.outputOfCircuit && (
-            <Toggle
-              model={m.outputStateOfCircuitEntangled}
-              label={<Prose>Is it entangled?</Prose>}
-              choices={[
-                ["yes", "Yes, it is entangled"],
-                ["no", "No, it is not entangled"],
-              ]}
-            />
+            <>
+              <TextBox
+                model={m.outputOfCircuit}
+                label={<Prose>What is the output state?</Prose>}
+              />
+              <Answer>
+                <M t="\ket{00}" />
+              </Answer>
+              <Toggle
+                model={m.outputStateOfCircuitEntangled}
+                label={<Prose>Is it entangled?</Prose>}
+                choices={[
+                  ["yes", "Yes, it is entangled"],
+                  ["no", "No, it is not entangled"],
+                ]}
+                answer="no"
+              />
+            </>
           )}
         </>
       ),

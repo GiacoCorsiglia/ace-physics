@@ -1,11 +1,11 @@
-import { M, Prose, TextBox } from "@/components";
+import { Answer, M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "consequencesOfEntanglement",
   label: "Consequences of Entanglement",
-  answers: "none",
+  answers: "provided",
   sections: [
     section({
       name: "consequencesOfEntanglementIntro",
@@ -13,8 +13,8 @@ export default page(setup, ({ section }) => ({
         <Prose>
           <p>
             When discussing two-particle states, we often consider what happens
-            when the two par- ticles are physically separated. Below, we refer
-            to the person who has the first qubit is “observer 1” and the person
+            when the two particles are physically separated. Below, we refer to
+            the person who has the first qubit is “observer 1” and the person
             who has the second qubit is “observer 2”.
           </p>
           <p>
@@ -22,6 +22,15 @@ export default page(setup, ({ section }) => ({
             if it is not possible to write the quantum state for each qubit
             independently!
           </p>
+        </Prose>
+      ),
+      continue: { label: "Onwards!" },
+    }),
+    section({
+      name: "problemContext",
+      enumerate: false,
+      body: (
+        <Prose>
           <p>
             Let’s give our two observers names. Observer 1 is Alice and observer
             2 is Bob.
@@ -39,7 +48,7 @@ export default page(setup, ({ section }) => ({
     }),
     section({
       name: "aliceSentMessageToBob",
-      body: (m, { responses }) => (
+      body: (m) => (
         <>
           <TextBox
             model={m.aliceSentMessageToBob}
@@ -51,17 +60,30 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
           />
-          {responses?.aliceSentMessageToBob && (
-            <TextBox
-              model={m.fasterThanLight}
-              label={
-                <Prose>
-                  Bob is far away, could this be an example of faster-
-                  than-light communication? Why?
-                </Prose>
-              }
-            />
-          )}
+          <Answer>
+            No, Alice has not sent Bob a message. Although Alice knows what Bob
+            will measure, Bob himself does <em> not </em> know until he makes
+            the measurement.
+          </Answer>
+        </>
+      ),
+    }),
+    section({
+      name: "fasterThanLight",
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.fasterThanLight}
+            label={
+              <Prose>
+                Bob is far away, could this be an example of faster- than-light
+                communication? Why?
+              </Prose>
+            }
+          />
+          <Answer>
+            Faster-than-light communication is impossible (as far as we know).
+          </Answer>
         </>
       ),
     }),
