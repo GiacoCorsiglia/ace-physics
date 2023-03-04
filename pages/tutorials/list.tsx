@@ -108,6 +108,17 @@ export const tutorialList: readonly TutorialListing[] = [
     ),
   },
   {
+    id: "CnotEntanglement",
+    link: "cnot-entanglement",
+    label: "CNOT and Entanglement",
+    blurb: (
+      <>
+        An introduction to the Controlled NOT (CNOT) gate and the related
+        concept of entanglement.
+      </>
+    ),
+  },
+  {
     id: "EPR",
     link: "epr",
     label: "EPR and Entanglement",

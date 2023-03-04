@@ -5,7 +5,8 @@ import setup from "./setup";
 export default intro(setup, () => ({
   body: (
     <Prose>
-      TODO
+      An introduction to the Controlled NOT (CNOT) gate and the related concept
+      of entanglement.
     </Prose>
   ),
 }));
