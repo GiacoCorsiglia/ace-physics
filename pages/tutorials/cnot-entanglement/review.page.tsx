@@ -26,26 +26,34 @@ export default posttest(setup, ({ section }) => ({
             (Note that the CNOT gate is inverted compared to many of our
             previous examples - it is the 2nd qubit which is the control here)
           </p>
-          <TextBox
-            model={m.twoQubitOutputState}
-            label={<p>i) What is the output state?</p>}
-          />
-
-          <Toggle
-            model={m.isFinalOutputStateEntangled}
-            label={
-              <p>
-                ii) Is the final output state in the previous part entangled?
-              </p>
-            }
-            choices={[
-              ["yes", "Yes it is entangled"],
-              ["no", "No it is not entangled"],
-            ]}
-          />
         </Prose>
       ),
     }),
+
+    section({
+      body: (m) => (
+        <TextBox
+          model={m.outputIHCNOT11}
+          label={<Prose>What is the output state of the circuit above?</Prose>}
+        />
+      ),
+    }),
+
+    section({
+      body: (m) => (
+        <Toggle
+          model={m.isOutputIHCNOT11Entangled}
+          label={
+            <p>Is the final output state in the previous part entangled?</p>
+          }
+          choices={[
+            ["entangled", "Yes it is entangled"],
+            ["not entangled", "No it is not entangled"],
+          ]}
+        />
+      ),
+    }),
+
     section({
       body: (m) => (
         <ChooseOne
@@ -63,13 +71,12 @@ export default posttest(setup, ({ section }) => ({
             </Prose>
           }
           choices={[
-            ["entangled", "entangled"],
-            ["not entangled", "not entangled?"],
+            ["entangled", "Entangled"],
+            ["not entangled", "Not entangled"],
             [
               "it depends",
               <p>
-                {" "}
-                It still depends on other details of the input state{" "}
+                It depends on other details of the input state{" "}
                 <M t="\ket{\psi}" /> (besides the given fact that it is
                 initially not entangled)
               </p>,

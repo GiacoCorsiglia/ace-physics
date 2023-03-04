@@ -1,5 +1,6 @@
 import {
   Answer,
+  Horizontal,
   M,
   Prose,
   QuantumCircuit,
@@ -25,6 +26,7 @@ export default page(setup, ({ section }) => ({
             consists of four linearly independent entangled states (known as the
             Bell states).
           </p>
+
           <M
             display
             t="\ket{\beta_{00}} = \frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) \\
@@ -32,68 +34,77 @@ export default page(setup, ({ section }) => ({
                \ket{\beta_{10}} = \frac{1}{\sqrt{2}} (\ket{00} - \ket{11}) \\
                \ket{\beta_{11}} = \frac{1}{\sqrt{2}} (\ket{01} - \ket{10})"
           />
-          <p>Above, you discovered that the output of:</p>
-          <QuantumCircuit
-            t="
-              \lstick{\ket{0}} & \gate{H} & \ctrl{1} & \qw \\
-              \lstick{\ket{0}} & \qw & \targ & \qw
-              "
-          />
-          <p>
-            was:{" "}
-            <M
-              display
-              t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) = \ket{\beta_{00}}"
-            />{" "}
-          </p>
         </Prose>
       ),
     }),
+
     section({
-      name: "anEntangledBasisCheck",
+      name: "circuitToGenerateBellStates",
       enumerate: false,
       body: (
         <Prose>
-          This circuit is commonly used to entangle states. Check for yourself
-          that if you input the other three basis states{" "}
-          <M t="(\ket{01},\ket{10}, and \ket{11})" /> this same circuit gives
-          the corresponding Bell output states.{" "}
+          <p>
+            On the previous page, you discovered that the output of:
+            <QuantumCircuit
+              t="
+              \lstick{\ket{0}} & \gate{H} & \ctrl{1} & \qw \\
+              \lstick{\ket{0}} & \qw & \targ & \qw
+              "
+            />
+            was:
+            <M
+              display
+              t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) = \ket{\beta_{00}}"
+            />
+          </p>
+
+          <p>This circuit is commonly used to entangle states.</p>
+
+          <p>
+            <strong>Check for yourself</strong> that if you input the other
+            three basis states (
+            <M prespace={false} t="\ket{01}" />, <M t="\ket{10}" />, and{" "}
+            <M t="\ket{11}" />) this same circuit gives the corresponding Bell
+            output states.
+          </p>
         </Prose>
       ),
       continue: {
         label: "I checked it!",
       },
     }),
+
     section({
-      name: "beforeAndAfterEnteringCNOTGate",
+      name: "beforeAndAfterCNOT",
       body: (m, { responses }) => (
         <>
           <Toggle
-            model={m.beforeEnteringCNOTGate}
+            model={m.beforeCNOT}
             label={
               <Prose>
-                In the circuit shown above, with <M t="\ket{00}" /> as input,
-                does qubit 1 have a definite state just <i>before</i> entering
-                the <M t="U_{CNOT}" /> gate?
+                In the circuit shown above, with <M t="\ket{00}" /> as input (as
+                shown above), does qubit 1 have a definite state just{" "}
+                <i>before</i> entering the <M t="U_{CNOT}" /> gate?
               </Prose>
             }
             choices={[
-              ["yes", "Yes, it does have a definite state"],
-              ["no", "No, it does not have one before"],
+              ["yes", "Yes, qubit 1 has a definite state"],
+              ["no", "No, it does not"],
             ]}
             answer="yes"
           />
-          {responses?.beforeEnteringCNOTGate && (
+
+          {responses?.beforeCNOT && (
             <Toggle
-              model={m.afterEnteringCNOTGate}
+              model={m.afterCNOT}
               label={
                 <Prose>
                   How about just <i>after</i> exiting that gate?
                 </Prose>
               }
               choices={[
-                ["yes", "Yes, it has one after"],
-                ["no", "No, it does not have a definite state after"],
+                ["yes", "Yes, qubit 1 has a definite state"],
+                ["no", "No, it does not"],
               ]}
               answer="no"
             />
@@ -101,26 +112,37 @@ export default page(setup, ({ section }) => ({
         </>
       ),
     }),
+
     section({
-      name: "circuitEntangled",
+      name: "circuitToDisentangleBeta00",
       body: (m, { responses }) => (
         <>
           <Toggle
-            model={m.circuitStateInputEntangled}
+            model={m.isBeta00Entangled}
             label={
               <Prose>
                 <p>
                   Consider the circuit shown below, with an input state of{" "}
                   <M t="\ket{\beta_{00}}" />:
                 </p>
-                <QuantumCircuit
-                  // TODO: Support \inputgroupv
-                  t="
-                  \lstick{} &  \ctrl{1} & \gate{H} & \qw \\
-                  \lstick{} & \targ & \qw & \qw \\
-                  %\inputgroupv{1}{2}{0.5em}{1em}{\ket{\beta_{00}}}
-                  "
-                />
+
+                <Horizontal justify="center">
+                  <div>
+                    <M t="\ket{\beta_{00}}" />
+                  </div>
+
+                  <div>
+                    <QuantumCircuit
+                      // TODO: Support \inputgroupv
+                      t="
+                        \lstick{} &  \ctrl{1} & \gate{H} & \qw \\
+                        \lstick{} & \targ & \qw & \qw \\
+                        %\inputgroupv{1}{2}{0.5em}{1em}{\ket{\beta_{00}}}
+                      "
+                    />
+                  </div>
+                </Horizontal>
+
                 <p>Is the input state entangled?</p>
               </Prose>
             }
@@ -131,9 +153,9 @@ export default page(setup, ({ section }) => ({
             answer="yes"
           />
 
-          {responses?.circuitStateInputEntangled && (
+          {responses?.isBeta00Entangled && (
             <Toggle
-              model={m.twoQubitStateEntangled}
+              model={m.isBeta00EntangledAfterCNOT}
               label={
                 <Prose>
                   Is the 2-qubit state entangled just BEFORE entering the
@@ -148,17 +170,19 @@ export default page(setup, ({ section }) => ({
             />
           )}
 
-          {responses?.twoQubitStateEntangled && (
+          {responses?.isBeta00EntangledAfterCNOT && (
             <>
               <TextBox
-                model={m.outputOfCircuit}
+                model={m.outputBeta00CNOTHI}
                 label={<Prose>What is the output state?</Prose>}
               />
+
               <Answer>
                 <M t="\ket{00}" />
               </Answer>
+
               <Toggle
-                model={m.outputStateOfCircuitEntangled}
+                model={m.isOutputBeta00CNOTHIEntangled}
                 label={<Prose>Is it entangled?</Prose>}
                 choices={[
                   ["yes", "Yes, it is entangled"],
