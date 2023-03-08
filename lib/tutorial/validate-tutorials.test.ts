@@ -263,7 +263,7 @@ fs.readdirSync(tutorialsDir)
         });
 
         const allAccessedSet = new Set(allAccessedModels);
-        const uniques = [...new Set(allAccessedModels)];
+        const uniques = [...allAccessedSet];
         expect(allAccessedModels).toStrictEqual(uniques);
 
         // Also make sure we don't have any that were flagged as "repeated"
