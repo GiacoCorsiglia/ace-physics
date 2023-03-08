@@ -14,6 +14,17 @@ export default page(setup, ({ section }) => ({
   name: "anEntangledBasis",
   label: "An Entangled Basis",
   answers: "provided",
+  cheatSheet: {
+    body: (
+      <M
+        display
+        t="\ket{\beta_{00}} = \frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) \\
+               \ket{\beta_{01}} = \frac{1}{\sqrt{2}} (\ket{01} + \ket{10}) \\
+               \ket{\beta_{10}} = \frac{1}{\sqrt{2}} (\ket{00} - \ket{11}) \\
+               \ket{\beta_{11}} = \frac{1}{\sqrt{2}} (\ket{01} - \ket{10})"
+      />
+    ),
+  },
   sections: [
     section({
       name: "anEntangledBasisIntro",

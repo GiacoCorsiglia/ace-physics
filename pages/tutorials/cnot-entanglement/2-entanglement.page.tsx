@@ -307,7 +307,7 @@ export default page(setup, ({ section }) => ({
       enumerate: false,
       body: (
         <Prose>
-          Note the difference between this answer and the previous one. Before
+          Your answers to the previous two questions should be different. Before
           qubit 2 is measured, the probabilities for qubit 1 are 50/50. After
           qubit 2 is measured, we say “the state has collapsed”, and qubit 1’s
           outcome is now certain. The specific result of that outcome depends on
