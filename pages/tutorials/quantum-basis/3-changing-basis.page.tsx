@@ -16,6 +16,7 @@ import { approxEquals } from "@/helpers/client";
 import { Axes, Plot, Tick, Vector } from "@/plots";
 import { page } from "@/tutorial";
 import { DemoOnly } from "@pages/demo/tutorial-demo";
+import { PencilIcon } from "@primer/octicons-react";
 import setup, { Responses } from "./setup";
 
 export default page(setup, ({ section, oneOf, hint }) => ({
@@ -309,23 +310,21 @@ export default page(setup, ({ section, oneOf, hint }) => ({
       body: (
         <>
           <Prose>
-            <p>
-              Change the basis for <M t="\ket{u}" /> to the <M t="\ket{v_1}" />
-              -and-
-              <M prespace={false} t="\ket{v_2}" /> basis. In other words,
-              calculate numerical values for <M t="a" /> and <M t="b" />.
-            </p>
+            Change the basis for <M t="\ket{u}" /> to the <M t="\ket{v_1}" />
+            -and-
+            <M prespace={false} t="\ket{v_2}" /> basis. In other words,
+            calculate numerical values for <M t="a" /> and <M t="b" />.
+          </Prose>
 
-            <p>
-              <strong>Do this on scrap paper</strong> and click to move on once
-              you’re done!
-            </p>
+          <Callout color="blue" iconLeft={<PencilIcon />}>
+            <strong>Do this on scrap paper</strong> and click to move on once
+            you’re done.
+          </Callout>
 
-            <p>
-              You’ll need the values of <M t="a" /> and <M t="b" /> as decimals
-              when you move on, and you'll be able to check your answers in a
-              moment.
-            </p>
+          <Prose>
+            You’ll need the values of <M t="a" /> and <M t="b" /> as decimals
+            when you move on, and you'll be able to check your answers in a
+            moment.
           </Prose>
 
           <Reminder>
