@@ -44,6 +44,13 @@ $comma-width: 0.65rem;
   svg:nth-child(2) {
     flex-grow: 1;
   }
+
+  // Cheat the bottom of the parenthesis up because sometimes a funny gap gets
+  // rendered between the middle and bottom.
+  svg:last-child {
+    position: relative;
+    top: -1px;
+  }
 }
 
 .leftParen {
