@@ -366,8 +366,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           comparePeriodicPsi2Incorrect: {
             body: (
               <Guidance.HeadsUp>
-                This software can’t analyze what you’ve written, but the two
-                graphs look identical to us! We’re using{" "}
+                This software is not designed to analyze what you’ve written,
+                but the two graphs look identical to us! We’re using{" "}
                 <M t="T_2 = 0.25 h/E_1" />.
               </Guidance.HeadsUp>
             ),
@@ -392,8 +392,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           name: "comparePeriodicPsi2Incorrect",
           body: (
             <Guidance.HeadsUp>
-              This software can’t analyze what you’ve written, but the two
-              graphs look identical to us! We’re using{" "}
+              This software is not designed to analyze what you’ve written, but
+              the two graphs look identical to us! We’re using{" "}
               <M t="T_2 = 0.25 h/E_1" />.
             </Guidance.HeadsUp>
           ),

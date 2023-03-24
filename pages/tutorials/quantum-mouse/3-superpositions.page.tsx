@@ -147,8 +147,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           other: {
             body: (
               <Guidance.HeadsUp>
-                This software can’t analyze what you’ve written, but we think
-                one of our provided answers is accurate.
+                This software is not designed to analyze what you’ve written,
+                but we think one of our provided answers is accurate.
               </Guidance.HeadsUp>
             ),
             onContinue: "nextMessage",

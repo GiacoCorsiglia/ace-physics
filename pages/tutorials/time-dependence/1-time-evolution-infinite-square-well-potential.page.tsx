@@ -647,8 +647,8 @@ export default page(setup, ({ section, hint }) => ({
           answer: {
             body: (
               <Guidance.HeadsUp>
-                This software can’t interpret what you’ve written, but we
-                suggest <M t="x" /> for the horizontal axis label, and
+                This software is not designed to interpret what you’ve written,
+                but we suggest <M t="x" /> for the horizontal axis label, and
                 <M t="\operatorname{Im} \psi_1" /> (the imaginary part of
                 <M t="\psi_1" />) for the vertical axis label.
               </Guidance.HeadsUp>
