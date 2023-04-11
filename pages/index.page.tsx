@@ -14,47 +14,93 @@ import {
 import { isInstructor } from "@/helpers/server";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
-export default function Index() {
+function UserValidation(loadingMessage: String) {
   const auth = useAuth();
   const courses = useCourses();
 
-  const verb =
-    auth.status === "authenticated" && isInstructor(auth.user)
-      ? "teach"
-      : "learn";
+  if (auth.status === "loading" && courses.isLoading) {
+    return (
+      <Callout color="yellow">
+        <Prose justify="center">
+          <strong>Loading User Account</strong>
+        </Prose>
+        <LoadingAnimation size="large" message={loadingMessage} />
+      </Callout>
+    );
+  } else if (auth.status === "authenticated" && courses.data) {
+    // check if instructor
+    let verb = "";
+    let link = "";
+    let buttonText = "";
 
-  const message =
-    auth.status === "authenticated"
-      ? "You’re signed in and ready to go."
-      : "You can sign in with your email address.";
+    if (isInstructor(auth.user)) {
+      verb = "teach";
+      link = "/courses";
+      buttonText = "Let's Teach!";
+    } else {
+      // Is a student
+      verb = "learn";
+      if (courses.data?.length > 2) {
+        link = "/courses";
+        buttonText = "Jump to courses";
+      } else if (courses.data?.length === 1) {
+        link = `/courses/${courses.data[0]?.id}`;
+        buttonText = `Let's learn ${courses.data[0]?.id}!`;
+      } else {
+        // will have 0 courses
+        link = "/tutorials";
+        buttonText = "Get Started!";
+      }
+    }
 
-  // Notes:
-  // courses.data should return the array of courses however it really trips up
-  // over if the value is undefined. So i added a check before to account for that error
-  // however that seems more like a hack than a solution.
+    return (
+      <Callout color="green">
+        <Vertical>
+          <Prose justify="center">
+            <strong>Here to {verb} quantum mechanics?</strong>
+          </Prose>
+          <Horizontal justify="center">
+            <Button color="green" link={link} iconRight={<ArrowRightIcon />}>
+              {buttonText}
+            </Button>
+          </Horizontal>
+          <Prose justify="center" size="small">
+            You’re signed in and ready to go.
+          </Prose>
+        </Vertical>
+      </Callout>
+    );
+  } else if (courses.error) {
+    return (
+      <Callout color="red">
+        <Prose justify="center" size="large">
+          <b>Something went wrong...</b>
+        </Prose>
+        <Prose justify="center" size="small">
+          Error: {courses.error.type}
+        </Prose>
+      </Callout>
+    );
+  }
+}
 
-  // Additionally it does not like "isInstructor(auth.user)" since it believes
-  // that .user is not a valid method to call even though it works above
+export default function Index() {
+  const loadingMessages: String[] = [
+    "Counting particles...",
+    "Questioning physics...",
+    "Untangling...",
+  ];
+  const [message, setMessage] = useState<String>("loading...");
 
-  let link =
-    courses.data !== undefined
-      ? "/#"
-      : courses.data?.length >= 2 || isInstructor(auth.user)
-      ? "/courses"
-      : courses.data?.length === 1
-      ? `/courses/${courses.data[0]?.id}`
-      : "/tutorials";
+  useEffect(() => {
+    setMessage(
+      loadingMessages[Math.floor(Math.random() * loadingMessages.length)]
+    );
+  }, []);
 
-  let getStartedButton =
-    courses.data !== undefined &&
-    (isInstructor(auth.user)
-      ? "Let's Teach!"
-      : courses.data?.length >= 2
-      ? "Jump to courses"
-      : courses.data?.length === 1
-      ? `Let's learn ${courses.data[0]?.id}!`
-      : "Get Started!");
+  // ;
 
   return (
     <Page>
@@ -76,36 +122,7 @@ export default function Index() {
           <h1>Interactive Online Activities for Physics Learners</h1>
         </Prose>
 
-        {auth.status === "loading" && courses.isLoading ? (
-          <Callout color="yellow">
-            <Prose justify="center">
-              <strong>Loading User Account</strong>
-            </Prose>
-            <LoadingAnimation size="large" message="Counting particles..." />
-          </Callout>
-        ) : (
-          <Callout color="green">
-            <Vertical>
-              <Prose justify="center">
-                <strong>Here to {verb} quantum mechanics?</strong>
-              </Prose>
-
-              <Horizontal justify="center">
-                <Button
-                  color="green"
-                  link={link}
-                  iconRight={<ArrowRightIcon />}
-                >
-                  {getStartedButton}
-                </Button>
-              </Horizontal>
-
-              <Prose justify="center" size="small">
-                {message}
-              </Prose>
-            </Vertical>
-          </Callout>
-        )}
+        {UserValidation(message)}
 
         <Prose justify="center">
           ACE Physics is <strong>free</strong> for all to use. We hope you find
