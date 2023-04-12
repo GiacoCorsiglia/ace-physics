@@ -308,3 +308,8 @@ export const forEachChild = (children: Html, fn: (child: Html) => void): void =>
       fn(child);
     }
   });
+
+export const useConstant = <T,>(init: () => T): T => {
+  const [value] = useState(init);
+  return value;
+};
