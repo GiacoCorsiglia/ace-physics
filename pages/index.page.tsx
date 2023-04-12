@@ -16,7 +16,7 @@ import { ArrowRightIcon } from "@primer/octicons-react";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
-function UserValidation(loadingMessage: String) {
+function UserValidation({ loadingMessage }: { loadingMessage: string }) {
   const auth = useAuth();
   const courses = useCourses();
 
@@ -84,23 +84,25 @@ function UserValidation(loadingMessage: String) {
       </Callout>
     );
   }
+
+  return null;
 }
 
-export default function Index() {
-  const loadingMessages: String[] = [
-    "Counting particles...",
-    "Questioning physics...",
-    "Untangling...",
-  ];
-  const [message, setMessage] = useState<String>("loading...");
+const loadingMessages: readonly string[] = [
+  "Counting particles...",
+  "Questioning physics...",
+  "Untangling...",
+];
 
+export default function Index() {
+  // Using this unfortunate approach so that the initial rendered version is the
+  // same on both the server and the client.
+  const [message, setMessage] = useState<string>("");
   useEffect(() => {
     setMessage(
       loadingMessages[Math.floor(Math.random() * loadingMessages.length)]
     );
   }, []);
-
-  // ;
 
   return (
     <Page>
@@ -122,7 +124,7 @@ export default function Index() {
           <h1>Interactive Online Activities for Physics Learners</h1>
         </Prose>
 
-        {UserValidation(message)}
+        <UserValidation loadingMessage={message} />
 
         <Prose justify="center">
           ACE Physics is <strong>free</strong> for all to use. We hope you find
