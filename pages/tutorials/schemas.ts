@@ -6,6 +6,7 @@ import IntroductionToQuantumGates from "./introduction-to-quantum-gates/schema";
 import QuantumBasisLite from "./quantum-basis-lite/schema";
 import QuantumBasisMain from "./quantum-basis/schema";
 import QuantumCircuitDiagrams from "./quantum-circuit-diagrams/schema";
+import QuantumCryptography from "./quantum-cryptography/schema";
 import QuantumMouse2 from "./quantum-mouse-2/schema";
 import QuantumMouse from "./quantum-mouse/schema";
 import ReflectionTransmission from "./reflection-transmission/schema";
@@ -25,6 +26,7 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["QuantumBasisLite", QuantumBasisLite],
   ["QuantumBasisMain", QuantumBasisMain],
   ["QuantumCircuitDiagrams", QuantumCircuitDiagrams],
+  ["QuantumCryptography", QuantumCryptography],
   ["QuantumMouse", QuantumMouse],
   ["QuantumMouse2", QuantumMouse2],
   ["ReflectionTransmission", ReflectionTransmission],
