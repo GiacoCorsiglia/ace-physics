@@ -14,8 +14,8 @@ export default page(setup, ({ section }) => ({
           <p>
             When discussing two-qubit states, we often consider what happens
             when the two qubits are physically separated. Below, we refer to the
-            person who has the first qubit is “observer 1” and the person who
-            has the second qubit is “observer 2”.
+            person who receives the first qubit is “observer 1” and the person
+            who receives the second qubit is “observer 2”.
           </p>
 
           <p>
@@ -43,7 +43,7 @@ export default page(setup, ({ section }) => ({
             determined previously that Alice has a 50-50 chance of measuring
             either a <M t="\ket{0}" /> or a <M t="\ket{1}" />. These odds are
             the same for Bob. But if Alice measures first and gets a{" "}
-            <M t="\ket{0}" /> , she instantly knows that Bob will get a{" "}
+            <M t="\ket{0}" />, she instantly knows that Bob will get a{" "}
             <M t="\ket{1}" /> (even if he is very far away).
           </p>
         </Prose>
@@ -54,12 +54,13 @@ export default page(setup, ({ section }) => ({
       name: "didAliceSendMessageToBob",
       body: (m) => (
         <>
+          {/* TODO: Make this multiple choice */}
           <TextBox
             model={m.didAliceSendMessageToBob}
             label={
               <Prose>
-                In the situation above, would you say Alice has sent Bob a
-                message to Bob (here, the message would be “
+                In the situation above, would you say Alice has sent a message
+                to Bob (here, the message would be “
                 <M prespace={false} t="\ket{1}" />
                 ”)?
               </Prose>
@@ -68,9 +69,8 @@ export default page(setup, ({ section }) => ({
 
           <Answer>
             No, Alice has not sent Bob a message. Although Alice knows what Bob
-            will measure, Bob himself does <em> not </em> know until he makes
-            the measurement. From Bob’s perspective, his odds are 50-50
-            regardless of whether Alice made a measurement or not.
+            will measure, Bob himself does <em>not</em> know until he makes the
+            measurement.
           </Answer>
         </>
       ),
@@ -85,7 +85,7 @@ export default page(setup, ({ section }) => ({
             label={
               <Prose>
                 Bob is far away, could this be an example of faster-than-light
-                communication? Why?
+                communication? Explain.
               </Prose>
             }
           />

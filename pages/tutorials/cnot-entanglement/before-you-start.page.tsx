@@ -64,9 +64,10 @@ export default pretest(setup, ({ section }) => ({
                 Consider a 3-qubit state <M t="\ket{\psi}" /> which is{" "}
                 <b>not</b> entangled.
               </p>
+
               <p>
-                Is the output state after applying{" "}
-                <M t="Z\otimes XZ \otimes H to \ket{\psi}" /> ... (choose one)
+                What is the output state after applying{" "}
+                <M t="Z\otimes XZ \otimes H" /> to <M t=" \ket{\psi}" />?
               </p>
             </Prose>
           }

@@ -16,6 +16,7 @@ export default page(setup, ({ section }) => ({
   answers: "provided",
   cheatSheet: {
     body: (
+      // TODO: Maybe increase line spacing here:
       <M
         display
         t="\ket{\beta_{00}} = \frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) \\
@@ -103,6 +104,12 @@ export default page(setup, ({ section }) => ({
               ["no", "No, it does not"],
             ]}
             answer="yes"
+            explanation={
+              <>
+                The state is
+                <M t="H\ket{0} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})" />
+              </>
+            }
           />
 
           {responses?.beforeCNOT && (
@@ -118,6 +125,7 @@ export default page(setup, ({ section }) => ({
                 ["no", "No, it does not"],
               ]}
               answer="no"
+              explanation="Qubit 1 is now entangled with qubit 2."
             />
           )}
         </>
@@ -162,6 +170,7 @@ export default page(setup, ({ section }) => ({
               ["no", "No, it is not entangled"],
             ]}
             answer="yes"
+            explanation="All four of the Bell basis states are entangled."
           />
 
           {responses?.isBeta00Entangled && (
@@ -175,9 +184,15 @@ export default page(setup, ({ section }) => ({
               }
               choices={[
                 ["yes", "Yes, it is entangled just before"],
-                ["no", "No, it is not before entering Hadamard"],
+                ["no", "No, it is not"],
               ]}
               answer="no"
+              explanation={
+                <>
+                  After the CNOT, the 2-qubit state is
+                  <M t="CNOT\ket{\beta_{00}} = \frac{1}{2}(\ket{00} + \ket{10}) \\ = \frac{1}{2}(\ket{0} + \ket{1})\otimes\ket{0}" />
+                </>
+              }
             />
           )}
 

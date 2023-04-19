@@ -210,7 +210,7 @@ export default page(setup, ({ section, hint }) => ({
       body: (m, { responses }) => (
         <>
           <Prose>
-            Adding to the previous question, what is the probability of
+            Going back to the circuit above, what is the probability of
             measuring a
             <M t="\ket{1}" /> on the second output qubit?
           </Prose>
@@ -257,6 +257,7 @@ export default page(setup, ({ section, hint }) => ({
       ),
     }),
 
+    // TODO: Don't reveal this until after the answers are shown.
     section({
       name: "interestingProbComment",
       body: (

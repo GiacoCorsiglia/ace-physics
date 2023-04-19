@@ -23,11 +23,11 @@ export default page(setup, ({ section }) => ({
           <p>
             The state we found above,{" "}
             <M t="\frac{1}{\sqrt{2}} ( \ket{00} + \ket{11})" /> is{" "}
-            <i>entangled</i> It cannot be “factorized”, i.e. it cannot be
+            <em>entangled</em>. It cannot be “factorized”, i.e. it cannot be
             written as{" "}
             <M t="(a\ket{0}+b\ket{1}) \otimes (c\ket{0} + d\ket{1})" />. You
-            CANNOT write the state of either single qubit by itself -- you can
-            only write the combined two-qubit state.
+            CANNOT write the state of either single qubit by itself—you can only
+            write the combined two-qubit state.
           </p>
 
           <p>
@@ -86,12 +86,11 @@ export default page(setup, ({ section }) => ({
           )}
 
           <Answer>
-            <p>You can seperate it as follows:</p>
+            <p>You can separate it as follows:</p>
             <M
               display
-              t="\ket{0} \otimes [\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})] ="
+              t="\ket{0} \otimes [\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})] = \ket{0} \otimes \ket{+}"
             />
-            <M display t="\ket{0} \otimes \ket{+}" />
           </Answer>
         </>
       ),
@@ -128,7 +127,11 @@ export default page(setup, ({ section }) => ({
             />
           )}
 
-          <Answer>You cannot write the state of each qubit separately.</Answer>
+          <Answer>
+            You cannot write the state of each qubit separately. In addition,
+            measuring one of the qubits affects the measurement probabilities
+            for the second qubit.
+          </Answer>
         </>
       ),
     }),
@@ -173,6 +176,7 @@ export default page(setup, ({ section }) => ({
                   ["no", "No, that’s incorrect "],
                 ]}
                 answer="no"
+                explanation="The original state is entangled, qubit 1 does not a definite state by itself."
               />
             </>
           )}
@@ -198,6 +202,7 @@ export default page(setup, ({ section }) => ({
                   ["no", "No, that’s incorrect "],
                 ]}
                 answer="no"
+                explanation="The original state is entangled, qubit 1 does not have a definite state by itself."
               />
             </>
           )}
@@ -277,7 +282,7 @@ export default page(setup, ({ section }) => ({
           <TextBox model={m.stateOfQubit1WhenBeta11Qubit2is0} />
 
           <Answer>
-            The resulting state for qubit 1 would equate to <M t="\ket{1}" />
+            The resulting state for qubit 1 would be <M t="\ket{1}" />.
           </Answer>
 
           <Prose>
@@ -362,7 +367,7 @@ export default page(setup, ({ section }) => ({
           />
 
           <Answer>
-            <M display t="\frac{1}{\sqrt{3}}(\sqrt{2}\ket{0}+\ket{1}" />
+            <M display t="\frac{1}{\sqrt{3}}( \sqrt{2}\ket{0} + \ket{1})" />
           </Answer>
         </>
       ),
