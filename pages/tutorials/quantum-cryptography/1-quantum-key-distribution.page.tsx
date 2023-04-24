@@ -67,7 +67,7 @@ export default page(setup, ({ section }) => ({
             If she sends a <M t="{\ket{0}}" /> through a Hadamard, Bob receives
             a <M t="{\ket{+}}" />, etc. She keeps a record of both her choices.
           </p>
-          [There is a qubit circuit drawn here]
+          <h1>[There is a qubit circuit drawn here]</h1>
         </Prose>
       ),
     }),
