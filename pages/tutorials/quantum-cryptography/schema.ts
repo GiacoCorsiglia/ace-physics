@@ -17,10 +17,10 @@ export default s.tutorial({
     aliceSendsSeriesOfQubits: s.section(),
     stateAliceHasSentBob: s.section(),
     bobRandomChoiceOnEachQubit: s.section(),
-    // nature thing
+    natureEffectBobBitAfterMeasurement: s.section(),
     amountOfBitStringsAgree: s.section(),
     fractionOfBitStringsAgree: s.section(),
-    doesAliceBobShareKeyCheckOne: s.section(),
+    fractionOfBitStringsAgreeExplanation: s.section(),
     frequencyTheyDiscardBit: s.section(),
     keepOrDiscardTableRow: s.section(),
     doesAliceBobShareKeyCheckTwo: s.section(),
@@ -42,6 +42,20 @@ export default s.tutorial({
   },
   responses: {
     // Response fields here.
+    amountOfBitStringsAgree: s.number(),
+    fractionOfBitStringsAgree: s.chooseOne([
+      "0%",
+      "25%",
+      "50%",
+      "75%",
+      "100%",
+      "other",
+    ]),
+    doesAliceBobShareKeyCheckOne: s.chooseOne(["yes", "no"]),
+    frequencyTheyDiscardBit: s.chooseOne(["25%", "50%", "75%"]),
+    doesAliceBobShareKeyCheckTwo: s.chooseOne(["yes", "no"]),
+    whatIsTheSharedKey: s.number(),
+    doesPublicInfoGiveInfoAboutBitString: s.chooseOne(["yes", "no"]),
   },
   hints: {
     // Hints here.
