@@ -31,17 +31,18 @@ export default s.tutorial({
     theEffectsOfAnEavesdropperIntro: s.section(),
     isPossibleEveMakeMeasurement: s.section(),
     evesBitAfterMeasurement: s.section(),
-    // nature thing
+    natureEffectAfterEveSends: s.section(),
     qubitStateEveSendsToBob: s.section(),
     bobsMeasurementAfterEveSends: s.section(),
-    // nature thing
+    tableValidationAndNatureNotice: s.section(),
+    natureEffectToBobMeasurements: s.section(),
     fractionOfMismatchedComparedSampleBits: s.section(),
     fractionOfMismatchedComparedBits: s.section(),
     chanceOfEveBeingDetected: s.section(),
     oddsOfBobAliceFailToNotice: s.section(),
   },
   responses: {
-    // Response fields here.
+    // Section 1
     amountOfBitStringsAgree: s.number(),
     fractionOfBitStringsAgree: s.chooseOne([
       "0%",
@@ -56,6 +57,13 @@ export default s.tutorial({
     doesAliceBobShareKeyCheckTwo: s.chooseOne(["yes", "no"]),
     whatIsTheSharedKey: s.number(),
     doesPublicInfoGiveInfoAboutBitString: s.chooseOne(["yes", "no"]),
+    // Section 2
+    isPossibleEveMakeMeasurement: s.chooseOne(["yes", "no"]),
+    ipEMMExplanation: s.string(),
+    fractionOfMismatchedComparedSampleBits: s.number(),
+    fractionOfMismatchedComparedBits: s.number(),
+    chanceOfEveBeingDetected: s.number(),
+    oddsOfBobAliceFailToNotice: s.string(),
   },
   hints: {
     // Hints here.
