@@ -1,4 +1,4 @@
-import { Answer, M, Prose, TextBox } from "@/components";
+import { Answer, M, Prose, TextBox, Toggle } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -54,8 +54,7 @@ export default page(setup, ({ section }) => ({
       name: "didAliceSendMessageToBob",
       body: (m) => (
         <>
-          {/* TODO: Make this multiple choice */}
-          <TextBox
+          <Toggle
             model={m.didAliceSendMessageToBob}
             label={
               <Prose>
@@ -65,6 +64,15 @@ export default page(setup, ({ section }) => ({
                 ”)?
               </Prose>
             }
+            choices={[
+              ["yes", "Yes, she sent a message"],
+              ["no", "No, she didn’t"],
+            ]}
+          />
+
+          <TextBox
+            model={m.didAliceSendMessageToBobExplain}
+            label="Explain your choice:"
           />
 
           <Answer>

@@ -12,19 +12,21 @@ import setup from "./setup";
 export default pretest(setup, ({ section }) => ({
   sections: [
     section({
-      body: (m) => (
+      body: (
         <Prose>
           <p>
             Consider the circuit shown below. Assume the input 2-qubit state is{" "}
             <M t="\ket{11}" />.
           </p>
+
           <QuantumCircuit
             t="\lstick{\ket{1}} & \qw & \targ & \qw \\
                \lstick{\ket{1}} & \gate{H} & \ctrl{-1} & \qw }\"
           />
+
           <p>
-            (Note that the CNOT gate is inverted compared to many of our
-            previous examples - it is the 2nd qubit which is the control here)
+            Note that the CNOT gate is inverted compared to examples you may
+            have seen previously—it is the 2nd qubit which is the control here.
           </p>
         </Prose>
       ),
@@ -47,8 +49,9 @@ export default pretest(setup, ({ section }) => ({
             <p>Is the final output state in the previous part entangled?</p>
           }
           choices={[
-            ["entangled", "Yes it is entangled"],
-            ["not entangled", "No it is not entangled"],
+            ["entangled", "Yes, it is entangled"],
+            ["not entangled", "No, it is not entangled"],
+            ["unsure", "I don’t know"],
           ]}
         />
       ),
@@ -82,6 +85,7 @@ export default pretest(setup, ({ section }) => ({
                 initially not entangled)
               </p>,
             ],
+            ["unsure", "I don’t know"],
           ]}
         />
       ),

@@ -22,10 +22,10 @@ export default page(setup, ({ section, hint }) => ({
       body: (
         <Prose>
           <p>
-            Some two-qubit operators can not be separated into a pair of
-            single-qubit operators. One important example of this is the CNOT
-            (or “<M t="U_{CNOT}" />” or “controlled-Not” gate) In circuit
-            diagrams it is drawn like this:
+            Some two-qubit operators <strong>cannot</strong> be separated into a
+            pair of single-qubit operators. One important example of this is the
+            CNOT gate (aka <M t="U_{CNOT}" /> or the “controlled-not” gate). In
+            circuit diagrams it is drawn like this:
           </p>
 
           <QuantumCircuit
@@ -34,11 +34,12 @@ export default page(setup, ({ section, hint }) => ({
           />
 
           <p>
-            The black dot shows which input qubit is the “control bit”. The
-            other input qubit is called the “target bit”. If the control qubit
-            is <M t="\ket{0}" /> then the target qubit is unaffected, but if the
+            The black dot shows which qubit is the “control bit”. The other
+            qubit is called the “target bit”. If the control qubit is{" "}
+            <M t="\ket{0}" /> then the target qubit is unaffected, but if the
             control qubit is <M t="\ket{1}" /> then the target qubit is acted on
-            by the NOT gate.
+            by the NOT gate, which flips <M t="\ket{0}" /> and <M t="\ket{1}" />
+            .
           </p>
 
           <p>
@@ -55,8 +56,8 @@ export default page(setup, ({ section, hint }) => ({
           />
 
           <p>
-            (Stare for a second, make sure you agree that these formulas match
-            the description above)
+            Stare for a second, make sure you agree that these formulas match
+            the description above.
           </p>
         </Prose>
       ),
@@ -68,7 +69,8 @@ export default page(setup, ({ section, hint }) => ({
         <>
           <Prose>
             If we want to write <M t="U_{CNOT}" /> as a 4x4 matrix in the
-            computational basis, it will look like this:
+            computational basis, it will look like this. Please fill in the
+            missing quadrant.
           </Prose>
 
           <Matrix
@@ -115,7 +117,7 @@ export default page(setup, ({ section, hint }) => ({
           label={
             <Prose>
               Can the <M t="U_{CNOT}" /> gate be written as a tensor product of
-              two single qubit operators, i.e. is{" "}
+              two single qubit operators? In other words, is{" "}
               <M t="U_{CNOT} = O_1 \otimes O_2" /> for some single qubit
               operators <M t="O_1" /> and <M t="O_2" />?
             </Prose>
@@ -142,7 +144,7 @@ export default page(setup, ({ section, hint }) => ({
             model={m.output00HICNOT}
             label={
               <Prose>
-                What is the output of this circuit?{" "}
+                What is the output state of this circuit?{" "}
                 <QuantumCircuit
                   t="\lstick{\ket{0}} & \gate{H} & \ctrl{1}  & \qw \\
                     \lstick{\ket{0}} & \qw & \targ & \qw"
@@ -168,9 +170,11 @@ export default page(setup, ({ section, hint }) => ({
             name: "gateIsLinear",
             body: (
               <Prose>
-                The <M t="U_{CNOT}" /> gate is linear, which means that e.g.{" "}
-                <M display t="U_{CNOT}(a \ket{00} + b\ket{10}) =" />
-                <M display t="a \ U_{CNOT} \ket{00} + b\ U_{CNOT}\ket{10}" />
+                The <M t="U_{CNOT}" /> gate is linear, which means that,
+                <M
+                  display
+                  t="U_{CNOT}(a \ket{00} + b\ket{10}) = a \ U_{CNOT} \ket{00} + b\ U_{CNOT}\ket{10}"
+                />
               </Prose>
             ),
           }),
@@ -251,29 +255,23 @@ export default page(setup, ({ section, hint }) => ({
           </LabelsLeft>
 
           <Answer correct={responses?.output00HICNOTProb01Qubit2 === 0.0}>
-            0%
+            <Prose>
+              <p>0%</p>
+
+              <p>
+                This answer might strike you as surprising. This is not how
+                classical probability works: if the two qubits were independent,
+                then you would expect the probability of a <M t="\ket{01}" />{" "}
+                outcome to be <M t="1/2 \times 1/2 = 0.25" />.
+              </p>
+
+              <p>
+                There is something <em> very interesting</em> about this output
+                state. Let’s explore this in the rest of the tutorial.
+              </p>
+            </Prose>
           </Answer>
         </>
-      ),
-    }),
-
-    // TODO: Don't reveal this until after the answers are shown.
-    section({
-      name: "interestingProbComment",
-      body: (
-        <Prose>
-          <p>
-            Your answer to the last question might strike you as surprising.
-            This is not how classical probability works - if the two qubits were
-            independent, then you would expect the probability of a{" "}
-            <M t="\ket{01}" /> outcome to be <M t="1/2 \times 1/2 = 0.25" />.
-          </p>
-
-          <p>
-            There is something <em> very interesting</em> about this output
-            state. Let’s explore this in the coming problems.
-          </p>
-        </Prose>
       ),
     }),
   ],

@@ -9,11 +9,16 @@ export default s.tutorial({
   },
   pretest: {
     outputIHCNOT11: s.string(),
-    isOutputIHCNOT11Entangled: s.chooseOne(["entangled", "not entangled"]),
+    isOutputIHCNOT11Entangled: s.chooseOne([
+      "entangled",
+      "not entangled",
+      "unsure",
+    ]),
     threeQubitOutputStateEntangled: s.chooseOne([
       "entangled",
       "not entangled",
       "it depends",
+      "unsure",
     ]),
   },
   posttest: {
@@ -33,7 +38,6 @@ export default s.tutorial({
     output00HICNOTProp0Qubit1: s.section(),
     output00HICNOTProp1Qubit2: s.section(),
     output00HICNOTProb01Qubit2: s.section(),
-    interestingProbComment: s.section(),
 
     entanglementIntro: s.section(),
     is00Plus01Entangled: s.section(),
@@ -87,7 +91,8 @@ export default s.tutorial({
     outputStateOfCircuit: s.string(),
     isOutputBeta00CNOTHIEntangled: s.chooseOne(["yes", "no"]),
 
-    didAliceSendMessageToBob: s.string(),
+    didAliceSendMessageToBob: s.chooseOne(["yes", "no"]),
+    didAliceSendMessageToBobExplain: s.string(),
     fasterThanLight: s.string(),
   },
   hints: {

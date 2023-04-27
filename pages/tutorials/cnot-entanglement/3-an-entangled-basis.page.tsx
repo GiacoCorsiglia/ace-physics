@@ -16,13 +16,16 @@ export default page(setup, ({ section }) => ({
   answers: "provided",
   cheatSheet: {
     body: (
-      // TODO: Maybe increase line spacing here:
       <M
         display
-        t="\ket{\beta_{00}} = \frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) \\
-               \ket{\beta_{01}} = \frac{1}{\sqrt{2}} (\ket{01} + \ket{10}) \\
-               \ket{\beta_{10}} = \frac{1}{\sqrt{2}} (\ket{00} - \ket{11}) \\
-               \ket{\beta_{11}} = \frac{1}{\sqrt{2}} (\ket{01} - \ket{10})"
+        t="
+        \begin{aligned}
+          \ket{\beta_{00}} &= \frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) \\
+          \ket{\beta_{01}} &= \frac{1}{\sqrt{2}} (\ket{01} + \ket{10}) \\
+          \ket{\beta_{10}} &= \frac{1}{\sqrt{2}} (\ket{00} - \ket{11}) \\
+          \ket{\beta_{11}} &= \frac{1}{\sqrt{2}} (\ket{01} - \ket{10})
+        \end{aligned}
+        "
       />
     ),
   },
@@ -32,19 +35,23 @@ export default page(setup, ({ section }) => ({
       body: (
         <Prose>
           <p>
-            We have already discussed how the states{" "}
-            <M t="{ \ket{00}, \ket{01}, \ket{10}, \ket{11}}" /> form a basis for
-            the two-qubit space. Another valid basis is the “Bell Basis”, which
-            consists of four linearly independent entangled states (known as the
-            Bell states).
+            We have already discussed how the states <M t="\ket{00}" />,{" "}
+            <M t="\ket{01}" />, <M t="\ket{10}" />, and <M t="\ket{11}" /> form
+            a basis for the two-qubit space. Another valid basis is the “Bell
+            Basis”, which consists of four linearly independent entangled states
+            (known as the Bell states).
           </p>
 
           <M
             display
-            t="\ket{\beta_{00}} = \frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) \\
-               \ket{\beta_{01}} = \frac{1}{\sqrt{2}} (\ket{01} + \ket{10}) \\
-               \ket{\beta_{10}} = \frac{1}{\sqrt{2}} (\ket{00} - \ket{11}) \\
-               \ket{\beta_{11}} = \frac{1}{\sqrt{2}} (\ket{01} - \ket{10})"
+            t="
+            \begin{aligned}
+              \ket{\beta_{00}} &= \frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) \\
+              \ket{\beta_{01}} &= \frac{1}{\sqrt{2}} (\ket{01} + \ket{10}) \\
+              \ket{\beta_{10}} &= \frac{1}{\sqrt{2}} (\ket{00} - \ket{11}) \\
+              \ket{\beta_{11}} &= \frac{1}{\sqrt{2}} (\ket{01} - \ket{10})
+            \end{aligned}
+            "
           />
         </Prose>
       ),
@@ -96,7 +103,7 @@ export default page(setup, ({ section }) => ({
               <Prose>
                 In the circuit shown above, with <M t="\ket{00}" /> as input (as
                 shown above), does qubit 1 have a definite state just{" "}
-                <i>before</i> entering the <M t="U_{CNOT}" /> gate?
+                <strong>before</strong> entering the <M t="U_{CNOT}" /> gate?
               </Prose>
             }
             choices={[
@@ -117,7 +124,7 @@ export default page(setup, ({ section }) => ({
               model={m.afterCNOT}
               label={
                 <Prose>
-                  How about just <i>after</i> exiting that gate?
+                  How about just <strong>after</strong> exiting that gate?
                 </Prose>
               }
               choices={[
@@ -178,8 +185,8 @@ export default page(setup, ({ section }) => ({
               model={m.isBeta00EntangledAfterCNOT}
               label={
                 <Prose>
-                  Is the 2-qubit state entangled just BEFORE entering the
-                  Hadamard?
+                  Is the 2-qubit state entangled just <strong>before</strong>{" "}
+                  entering the Hadamard?
                 </Prose>
               }
               choices={[
@@ -188,10 +195,10 @@ export default page(setup, ({ section }) => ({
               ]}
               answer="no"
               explanation={
-                <>
+                <p>
                   After the CNOT, the 2-qubit state is
                   <M t="CNOT\ket{\beta_{00}} = \frac{1}{2}(\ket{00} + \ket{10}) \\ = \frac{1}{2}(\ket{0} + \ket{1})\otimes\ket{0}" />
-                </>
+                </p>
               }
             />
           )}
@@ -209,7 +216,7 @@ export default page(setup, ({ section }) => ({
 
               <Toggle
                 model={m.isOutputBeta00CNOTHIEntangled}
-                label={<Prose>Is it entangled?</Prose>}
+                label={<Prose>Is the output state entangled?</Prose>}
                 choices={[
                   ["yes", "Yes, it is entangled"],
                   ["no", "No, it is not entangled"],

@@ -12,20 +12,17 @@ import setup from "./setup";
 export default posttest(setup, ({ section }) => ({
   sections: [
     section({
-      body: (m) => (
+      body: (
         <Prose>
           <p>
             Consider the circuit shown below. Assume the input 2-qubit state is{" "}
             <M t="\ket{11}" />.
           </p>
+
           <QuantumCircuit
             t="\lstick{\ket{1}} & \qw & \targ & \qw \\
                \lstick{\ket{1}} & \gate{H} & \ctrl{-1} & \qw }\"
           />
-          <p>
-            (Note that the CNOT gate is inverted compared to many of our
-            previous examples - it is the 2nd qubit which is the control here)
-          </p>
         </Prose>
       ),
     }),
@@ -64,9 +61,10 @@ export default posttest(setup, ({ section }) => ({
                 Consider a 3-qubit state <M t="\ket{\psi}" /> which is{" "}
                 <b>not</b> entangled.
               </p>
+
               <p>
-                Is the output state after applying{" "}
-                <M t="Z\otimes XZ \otimes H to \ket{\psi}" /> ... (choose one)
+                What is the output state after applying{" "}
+                <M t="Z\otimes XZ \otimes H" /> to <M t=" \ket{\psi}" />?
               </p>
             </Prose>
           }

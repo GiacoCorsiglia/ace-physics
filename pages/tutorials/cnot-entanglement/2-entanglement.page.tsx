@@ -25,9 +25,9 @@ export default page(setup, ({ section }) => ({
             <M t="\frac{1}{\sqrt{2}} ( \ket{00} + \ket{11})" /> is{" "}
             <em>entangled</em>. It cannot be “factorized”, i.e. it cannot be
             written as{" "}
-            <M t="(a\ket{0}+b\ket{1}) \otimes (c\ket{0} + d\ket{1})" />. You
-            CANNOT write the state of either single qubit by itself—you can only
-            write the combined two-qubit state.
+            <M t="(a\ket{0}+b\ket{1}) \otimes (c\ket{0} + d\ket{1})" />. You{" "}
+            <strong>cannot</strong> write the state of either single qubit by
+            itself—you can only write the combined two-qubit state.
           </p>
 
           <p>
@@ -312,11 +312,12 @@ export default page(setup, ({ section }) => ({
       enumerate: false,
       body: (
         <Prose>
-          Your answers to the previous two questions should be different. Before
-          qubit 2 is measured, the probabilities for qubit 1 are 50/50. After
-          qubit 2 is measured, we say “the state has collapsed”, and qubit 1’s
-          outcome is now certain. The specific result of that outcome depends on
-          the qubit 2 measurement.
+          <strong>For you to check:</strong> Your answers to the previous two
+          questions should be different. Before qubit 2 is measured, the
+          probabilities for qubit 1 are 50/50. After qubit 2 is measured, we say
+          “the state has collapsed”, and qubit 1’s outcome is now certain. The
+          specific result of that outcome depends on the original qubit 2
+          measurement.
         </Prose>
       ),
       continue: {
