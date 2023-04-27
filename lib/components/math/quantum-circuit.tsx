@@ -364,7 +364,7 @@ const attachRows = (cells: Cell[][]): void => {
       const cell = cells[row][col];
 
       if (cell.verticalWireAbove > 0) {
-        const end = Math.max(row - cell.verticalWireAbove - 1, 0);
+        const end = Math.max(row - cell.verticalWireAbove - 1, -1);
         for (let i = row - 1; i > end; i--) {
           const aboveCell = findCell(cells, i, col);
 

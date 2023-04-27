@@ -21,7 +21,7 @@ export default pretest(setup, ({ section }) => ({
 
           <QuantumCircuit
             t="\lstick{\ket{1}} & \qw & \targ & \qw \\
-               \lstick{\ket{1}} & \gate{H} & \ctrl{-1} & \qw }\"
+               \lstick{\ket{1}} & \gate{H} & \ctrl{-1} & \qw "
           />
 
           <p>
