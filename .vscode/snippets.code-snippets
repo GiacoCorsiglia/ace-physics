@@ -16,5 +16,13 @@
     "prefix": "mkSec",
     "body": ["section({ name: \"$1\", body: (m) => (<>$2</>),}),"],
     "description": "Instantly create a new section template"
+  },
+  "oneOf component": {
+    "scope": "javascriptreact,typescriptreact",
+    "prefix": "mkOneOf",
+    "body": [
+      "oneOf({ which: (response) => { return \"feedback\"; }, sections: {feedback: section({name:\"\",body: (m) => (<></>)}),}}),"
+    ],
+    "description": "Instantly create a new oneOf feedback template"
   }
 }

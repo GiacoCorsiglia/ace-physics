@@ -20,6 +20,20 @@ export default s.tutorial({
     natureEffectBobBitAfterMeasurement: s.section(),
     amountOfBitStringsAgree: s.section(),
     fractionOfBitStringsAgree: s.section(),
+    // feedback for fractionOfBitStringsAgree
+    fractionOfBitStringsAgreeCorrect: s.section(),
+    fractionOfBitStringsAgreeIncorrect: s.section(),
+    isBobResultNotRandomAgreement: s.section(),
+    howOftenNeverthelessMatch: s.section(),
+    howOftenNeverthelessMatchFeedback: s.section(),
+    fractionOfBitStringsAgreeRetry: s.section(),
+    fractionOfBitStringsAgreeRetryCorrect: s.section(),
+    fractionOfBitStringsAgreeRetryIncorrect: s.section(),
+
+    doesAliceBobShareKeyAtCurrentStage: s.section(),
+    // feedback for doesAliceBobShareKeyAtCurrentStage
+    doesAliceBobShareKeyAtCurrentStageIncorrect: s.section(),
+
     fractionOfBitStringsAgreeExplanation: s.section(),
     frequencyTheyDiscardBit: s.section(),
     keepOrDiscardTableRow: s.section(),
@@ -52,6 +66,33 @@ export default s.tutorial({
       "100%",
       "other",
     ]),
+    // feedback
+    howOftenBobResultBeRandom: s.chooseOne([
+      "0%",
+      "25%",
+      "50%",
+      "75%",
+      "100%",
+      "other",
+    ]),
+    isBobResultNotRandomAgreement: s.chooseOne(["yes", "no"]),
+    howOftenWillTheyNeverthelessMatch: s.chooseOne([
+      "0%",
+      "25%",
+      "50%",
+      "75%",
+      "100%",
+      "other",
+    ]),
+    fractionOfBitStringsAgreeRetry: s.chooseOne([
+      "0%",
+      "25%",
+      "50%",
+      "75%",
+      "100%",
+      "other",
+    ]),
+
     doesAliceBobShareKeyCheckOne: s.chooseOne(["yes", "no"]),
     frequencyTheyDiscardBit: s.chooseOne(["25%", "50%", "75%"]),
     doesAliceBobShareKeyCheckTwo: s.chooseOne(["yes", "no"]),
