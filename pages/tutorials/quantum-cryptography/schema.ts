@@ -43,6 +43,7 @@ export default s.tutorial({
     aliceAndBobPrivateKeyTable: s.section(),
     // Section 2
     theEffectsOfAnEavesdropperIntro: s.section(),
+    theEffectsOfAnEavesdropperIntroCircuit: s.section(),
     isPossibleEveMakeMeasurement: s.section(),
     evesBitAfterMeasurement: s.section(),
     natureEffectAfterEveSends: s.section(),

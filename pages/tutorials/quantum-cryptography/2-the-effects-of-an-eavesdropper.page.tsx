@@ -27,6 +27,14 @@ export default page(setup, ({ section }) => ({
             address what effect that will have to the resulting key and how
             Alice and Bob can test for an eavesdropper.
           </p>
+        </Prose>
+      ),
+    }),
+    section({
+      name: "theEffectsOfAnEavesdropperIntroCircuit",
+      enumerate: false,
+      body: (
+        <Prose>
           <p>
             Let’s assume that Eve gains complete access to all the physical
             qubits after Alice sends them, and before Bob receives them. In
@@ -35,21 +43,10 @@ export default page(setup, ({ section }) => ({
             to Bob who is unaware of her presence. But what about our qubit
             system?
           </p>
-          <p>
-            Important: Eve does NOT know whether Alice or Bob applies a Hadamard
-            when she receiveseach qubit–that information will only be
-            publiclyshared AFTER all measurements (both Eve’s and Bob’s) have
-            been made. Eve’s best chance to get any information (undetected) is
-            to “mimic” the protocol. She will intercept the qubit on its way
-            from Alice to Bob and choose to apply a Hadamard (or not) at random,
-            make a measurement, repeat thatexact same Hadamard choice, and then
-            send the resulting measured qubit to Bob.
-          </p>
           <h1>[There is a qubit circuit drawn here]</h1>
         </Prose>
       ),
     }),
-
     section({
       name: "isPossibleEveMakeMeasurement",
       body: (m, { responses }) => (
