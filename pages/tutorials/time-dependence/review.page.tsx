@@ -22,8 +22,8 @@ export default posttest(setup, ({ section }) => ({
             label={
               <Prose>
                 <p>
-                  Suppose the particle starts at <M t="t=0" /> in the first
-                  excited state <M t="\phi_2(x)" />.
+                  Suppose the particle starts at <M t="t=0" /> in the second
+                  excited state <M t="\phi_3(x)" />.
                 </p>
 
                 <p>
@@ -53,7 +53,7 @@ export default posttest(setup, ({ section }) => ({
               <Prose>
                 <p>
                   Now suppose particle started in the superposition state
-                  <M t="\frac{1}{\sqrt{2}}(\phi_1(x) + i\phi_2(x))" />.
+                  <M t="\frac{1}{\sqrt{2}}(\phi_1(x) + i\phi_3(x))" />.
                 </p>
 
                 <p>

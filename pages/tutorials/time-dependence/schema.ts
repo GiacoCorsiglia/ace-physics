@@ -132,6 +132,7 @@ export default s.tutorial({
     incorrectStatementsWrapUp: s.section(),
     explainWhyGraphIncorrect: s.section(),
     connectSimWithCorrectDescription: s.section(),
+    superpositionTimeDependence: s.section(),
   },
   responses: {
     groundStateGraph: s.chooseOne(["psi1", "psi2", "psi1^2", "psi2^2"]),
@@ -168,6 +169,8 @@ export default s.tutorial({
     explainStudentC: s.string(),
     agreementStudentD: s.chooseOne(["agree", "disagree"]),
     explainStudentD: s.string(),
+    agreementStudentE: s.chooseOne(["agree", "disagree"]),
+    explainStudentE: s.string(),
 
     meaningOfRedLineInSim: s.string(),
     explainTimeDependenceOfProbDens: s.string(),
@@ -188,6 +191,7 @@ export default s.tutorial({
     explainWhyIncorrectStudentB: s.string(),
     explainWhyGraphIncorrect: s.string(),
     connectSimWithCorrectDescription: s.string(),
+    superpositionTimeDependenceExplain: s.string(),
   },
   hints: {
     groundStateGraph: s.hint(),

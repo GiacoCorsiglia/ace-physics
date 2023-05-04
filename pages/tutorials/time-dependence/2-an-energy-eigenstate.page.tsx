@@ -477,20 +477,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           />
 
           <Agreement
+            // Lol we reordered them.
             student="C"
-            quote={
-              <>
-                <M t="\psi_1" /> does not evolve in time, as this is a
-                stationary state.
-              </>
-            }
-            agreementModel={m.agreementStudentC}
-            agreementResponse={responses?.agreementStudentC}
-            explainModel={m.explainStudentC}
-          />
-
-          <Agreement
-            student="D"
             quote={
               <>
                 <M t="\psi_1" /> dies away with time and tends to zero.
@@ -499,6 +487,33 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             agreementModel={m.agreementStudentD}
             agreementResponse={responses?.agreementStudentD}
             explainModel={m.explainStudentD}
+          />
+
+          <Agreement
+            student="D"
+            quote={
+              <>
+                <M t="\psi_1" /> does <strong>not</strong> evolve in time, as
+                this is a stationary state.
+              </>
+            }
+            agreementModel={m.agreementStudentC}
+            agreementResponse={responses?.agreementStudentC}
+            explainModel={m.explainStudentC}
+          />
+
+          <Agreement
+            student="E"
+            quote={
+              <>
+                The probability of measuring the particle to be near a position{" "}
+                <M t="x_0" /> does <strong>not</strong> evolve in time as{" "}
+                <M t="\psi_1" /> is a stationary state.
+              </>
+            }
+            agreementModel={m.agreementStudentE}
+            agreementResponse={responses?.agreementStudentE}
+            explainModel={m.explainStudentE}
           />
         </>
       ),
@@ -517,7 +532,10 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           const allowedD =
             responses?.agreementStudentD?.selected === "agree" ||
             !!responses?.explainStudentD;
-          return allowedA && allowedB && allowedC && allowedD;
+          const allowedE =
+            responses?.agreementStudentE?.selected === "agree" ||
+            !!responses?.explainStudentE;
+          return allowedA && allowedB && allowedC && allowedD && allowedE;
         },
       },
     }),
@@ -549,21 +567,30 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           </OurResponse>
 
           <OurResponse
-            correct={responses?.agreementStudentC?.selected === "disagree"}
+            correct={responses?.agreementStudentD?.selected === "disagree"}
           >
-            disagree with Student C. <M t="\psi_1" /> rotates in the complex
-            plane, which means it evolves in time. That said, <M t="\psi_1" />{" "}
-            <strong>is</strong> a stationary state. This means that the
-            probability <em>density</em> <M t="|\psi_1|^2" /> (i.e., what you
-            can physically measure) does not evolve in time. However, the wave
-            function itself still does.
+            disagree with Student C. <M t="\psi_1" /> is periodic, it does not
+            tend towards zero.
           </OurResponse>
 
           <OurResponse
-            correct={responses?.agreementStudentD?.selected === "disagree"}
+            correct={responses?.agreementStudentC?.selected === "disagree"}
           >
-            disagree with Student D. <M t="\psi_1" /> is periodic, it does not
-            tend towards zero.
+            disagree with Student D. <M t="\psi_1" /> rotates in the complex
+            plane, which means it evolves in time. That said, <M t="\psi_1" />{" "}
+            <strong>is</strong> a stationary state (i.e., energy eigenstate).
+            This means that the probability <em>density</em>{" "}
+            <M t="|\psi_1|^2" /> (i.e., what you can physically measure) does
+            not evolve in time. However, the wave function itself still does.
+          </OurResponse>
+
+          <OurResponse
+            correct={responses?.agreementStudentE?.selected === "agree"}
+          >
+            agree with Student E. The probability <em>density</em>{" "}
+            <M t="|\psi_1|^2" /> does <strong>not</strong> evolve in time,
+            meaning that the probability for position measurements is
+            time-independent for this state.
           </OurResponse>
         </>
       ),

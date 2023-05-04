@@ -1,4 +1,4 @@
-import { Image, M, Prose, TextBox } from "@/components";
+import { Image, M, Prose, Reminder, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import graphsImg from "./assets/student-graphs.png";
 import setup from "./setup";
@@ -25,8 +25,15 @@ export default page(setup, ({ section }) => ({
           <Prose>
             The following two students’ statements are both incorrect. Explain
             how each statement is inconsistent with the graphs shown in the
-            simulation.
+            simulation for <M t="\psi_A(x)" />.
           </Prose>
+
+          <Reminder>
+            <M
+              display
+              t="\psi_A(x, t=0) = \frac{1}{\sqrt{2}}\left[ \psi_1(x) + \psi_2(x)\right ]"
+            />
+          </Reminder>
 
           <TextBox
             model={m.explainWhyIncorrectStudentA}
@@ -37,10 +44,11 @@ export default page(setup, ({ section }) => ({
                 </p>
 
                 <blockquote>
-                  The wave function has a real and imaginary component, but you
-                  only need to consider the real component when determining the
-                  probability density, because the imaginary component
-                  disappears when you square the wave function.
+                  The wave function <M t="\psi_A" /> has both real and imaginary
+                  components at later times, but you only need to consider the
+                  real component when determining the probability density,
+                  because the imaginary component disappears when you square the
+                  wave function.
                 </blockquote>
 
                 <p>Explain why this statement is incorrect:</p>
@@ -60,7 +68,7 @@ export default page(setup, ({ section }) => ({
                   The time evolution of the wave function <M t="\psi_A" /> is{" "}
                   <M
                     display
-                    t="\psi_A (x,t) = e^{-iEt/\hbar} ( \psi_1(x) + \psi_2(x) )"
+                    t="\psi_A (x,t) = e^{-iEt/\hbar} \frac{1}{\sqrt{2}} \left[ \psi_1(x) + \psi_2(x) \right]"
                   />
                 </blockquote>
 
@@ -126,7 +134,7 @@ export default page(setup, ({ section }) => ({
                   The time evolution of <M t="\psi_A" /> has both real and
                   imaginary parts that change with time, due to the different
                   rotation frequencies of
-                  <M t="\psi_1" /> and <M t="\psi_1" /> in the complex plane.
+                  <M t="\psi_1" /> and <M t="\psi_2" /> in the complex plane.
                 </blockquote>
 
                 <p>How does the simulation illustrate this?</p>
@@ -134,6 +142,32 @@ export default page(setup, ({ section }) => ({
             }
           />
         </>
+      ),
+    }),
+
+    section({
+      name: "superpositionTimeDependence",
+      body: (m) => (
+        <TextBox
+          model={m.superpositionTimeDependenceExplain}
+          label={
+            <Prose>
+              <p>
+                Consider the following <strong>correct</strong> statement:
+              </p>
+
+              <blockquote>
+                Given a particle that starts in the state <M t="\psi_A" />, the
+                probability of measuring the particle to be near a position{" "}
+                <M t="x_0" /> <strong>does</strong> evolve with time, but the
+                probability of measuring the particle to have energy{" "}
+                <M t="E_2" /> <strong>does not</strong> evolve with time.
+              </blockquote>
+
+              <p>Explain why this is true:</p>
+            </Prose>
+          }
+        />
       ),
     }),
   ],
