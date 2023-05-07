@@ -75,15 +75,41 @@ export default page(setup, ({ section }) => ({
               }
             />
           )}
-          <h1>[feedback]</h1>
-          <p>
-            For any qubit where Eve makes the same Hadamard choice as Alice she
-            can measure the qubit and pass the qubit on to Bob unchanged. In
-            this case, Eve will also get the element of the key that matches
-            what Alice has.
-          </p>
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          const res = r.ipEMMExplanation;
+
+          if (res) {
+            return "discussion";
+          }
+          return null;
+        },
+        messages: {
+          discussion: {
+            body: (
+              <>
+                <Callout color="yellow">
+                  Hey, we haven't actually checked your free response answer
+                  yet!
+                </Callout>
+                <br />
+                <Callout color="blue">
+                  However, we were thinking that for any qubit where Eve makes
+                  the same Hadamard choice as Alice she can measure the qubit
+                  and pass the qubit on to Bob unchanged. In this case, Eve will
+                  also get the element of the key that matches what Alice has.
+                </Callout>
+              </>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+      continue: {
+        label: "Sounds good!",
+      },
     }),
     section({
       name: "evesBitAfterMeasurement",

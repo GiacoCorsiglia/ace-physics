@@ -153,77 +153,90 @@ export default page(setup, ({ section, oneOf }) => ({
           />
         </>
       ),
-    }),
-    oneOf({
-      which: (response) => {
-        const answer = response.fractionOfBitStringsAgree?.selected;
+      guidance: {
+        nextMessage(r) {
+          const res = r.fractionOfBitStringsAgree?.selected;
 
-        if (answer === undefined) {
-          return null;
-        } else if (answer !== "75%") {
-          return "howOftenBobResultBeRandom";
-        }
-        return "correctAnswer";
-      },
-      sections: {
-        howOftenBobResultBeRandom: section({
-          name: "fractionOfBitStringsAgreeIncorrect",
-          body: (m) => (
-            <>
+          if (res === "75%") {
+            return "correct";
+          }
+          return "detour";
+        },
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>
+                Correct! While there is some statistical fluctuations prone to
+                happen, 75% of the time the bits will agree
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          detour: {
+            body: (
               <Guidance.Disagree>
                 Not quite, let's take a small detour to break down the bigger
                 picture...
               </Guidance.Disagree>
-              <ChooseOne
-                model={m.howOftenBobResultBeRandom}
-                label={
-                  <Prose>
-                    <h3>Detour Part I</h3>
-                    <p>How often will Bob's result be random?</p>
-                  </Prose>
-                }
-                choices={[
-                  ["0%", "0%"],
-                  ["25%", "25%"],
-                  ["50%", "50%"],
-                  ["75%", "75%"],
-                  ["100%", "100%"],
-                  ["other", "something else"],
-                ]}
-              />
-            </>
-          ),
-        }),
-        correctAnswer: section({
-          name: "fractionOfBitStringsAgreeCorrect",
-          body: (
-            <Guidance.Agree>
-              Correct! While there is some statistical fluctuations prone to
-              happen, 75% of the time the bits will agree
-            </Guidance.Agree>
-          ),
-        }),
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+      //
+    }),
+    section({
+      name: "fractionOfBitStringsAgreeIncorrect",
+      when: (r) => r.fractionOfBitStringsAgree?.selected !== "75%",
+      body: (m) => (
+        <>
+          <LabelsLeft>
+            <Dropdown
+              model={m.howOftenBobResultBeRandom}
+              label={<Prose>How often will Bob's result be random?</Prose>}
+              choices={[
+                ["0%", "0%"],
+                ["25%", "25%"],
+                ["50%", "50%"],
+                ["75%", "75%"],
+                ["100%", "100%"],
+              ]}
+            />
+          </LabelsLeft>
+        </>
+      ),
+      guidance: {
+        nextMessage(r) {
+          const res = r.howOftenBobResultBeRandom?.selected;
+
+          if (res === "50%") {
+            return "correct";
+          }
+          return "incorrect";
+        },
+        messages: {
+          correct: {
+            body: <Guidance.Agree>yup u right</Guidance.Agree>,
+            onContinue: "nextSection",
+          },
+          incorrect: {
+            body: <Guidance.Disagree>Nope!</Guidance.Disagree>,
+            onContinue: "nextMessage",
+          },
+        },
       },
     }),
     section({
       name: "isBobResultNotRandomAgreement",
-      when: (r) => r.fractionOfBitStringsAgree?.selected !== "75%",
-      body: (m, { responses }) => (
+      when: (r) => r.howOftenBobResultBeRandom !== undefined,
+      body: (m) => (
         <>
-          {responses?.howOftenBobResultBeRandom?.selected === "50%" ? (
-            <Guidance.Agree>Yeah u right</Guidance.Agree>
-          ) : (
-            <Guidance.Disagree>nah its 50%</Guidance.Disagree>
-          )}
           <Toggle
             model={m.isBobResultNotRandomAgreement}
             label={
               <Prose>
-                <h3>Detour Part II</h3>
-                <p>
-                  With that in mind, if Bob's result is <b>NOT</b> random, do
-                  they agree 100% of the time?
-                </p>
+                With that in mind, if Bob's result is <b>NOT</b> random, do they
+                agree 100% of the time?
               </Prose>
             }
             choices={[
@@ -233,24 +246,37 @@ export default page(setup, ({ section, oneOf }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          const res = r.isBobResultNotRandomAgreement?.selected;
+
+          if (res === "no") {
+            return "incorrect";
+          }
+          return null;
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                Sorry! They in fact actually do agree 100% of the time
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "howOftenNeverthelessMatch",
       enumerate: false,
-      body: (m, { responses }) => (
+      when: (r) => r.isBobResultNotRandomAgreement !== undefined,
+      body: (m) => (
         <>
-          {responses?.isBobResultNotRandomAgreement?.selected === "yes" ? (
-            <Guidance.Agree>Yeah u right</Guidance.Agree>
-          ) : (
-            <Guidance.Disagree>
-              nah, bob agrees 100% of the time
-            </Guidance.Disagree>
-          )}
           <ChooseOne
             model={m.howOftenWillTheyNeverthelessMatch}
             label={
               <Prose>
-                <h3>Detour Part III</h3>
                 <p>Finally let us consider this...</p>
                 <p>
                   Of just those times that Bob's answer was Random, how often
@@ -269,28 +295,36 @@ export default page(setup, ({ section, oneOf }) => ({
           />
         </>
       ),
-    }),
-    section({
-      name: "howOftenNeverthelessMatchFeedback",
-      enumerate: false,
-      body: (m, { responses }) => (
-        <>
-          {responses?.howOftenWillTheyNeverthelessMatch?.selected === "50%" ? (
-            <Guidance.Agree>
-              Yeah you're correct, it is 50%! Congrats on finishing the detour,
-              take a moment to understand what we just practiced right now.
-            </Guidance.Agree>
-          ) : (
-            <Guidance.Disagree>
-              The answer is unfortunately 50%. Don't let it beat you up, let's
-              continue practicing this notion.
-            </Guidance.Disagree>
-          )}
-        </>
-      ),
+      guidance: {
+        nextMessage(r) {
+          const answer = r.howOftenWillTheyNeverthelessMatch?.selected;
+
+          if (answer === "50%") {
+            return "correct";
+          }
+          return "incorrect";
+        },
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                Please double-check your answer.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
     section({
       name: "fractionOfBitStringsAgreeRetry",
+      when: (r) => r.howOftenWillTheyNeverthelessMatch !== undefined,
       enumerate: false,
       body: (m) => (
         <>
@@ -316,34 +350,34 @@ export default page(setup, ({ section, oneOf }) => ({
           />
         </>
       ),
-    }),
-    oneOf({
-      which: (response) => {
-        const answer = response.fractionOfBitStringsAgreeRetry?.selected;
+      guidance: {
+        nextMessage(r) {
+          const answer = r.fractionOfBitStringsAgreeRetry?.selected;
 
-        if (answer === undefined) {
-          return null;
-        } else if (answer !== "75%") {
-          return "incorrectAnswer";
-        }
-        return "correctAnswer";
-      },
-      sections: {
-        incorrectAnswer: section({
-          name: "fractionOfBitStringsAgreeRetryIncorrect",
-          body: <Guidance.Disagree>[lengthy explanation]</Guidance.Disagree>,
-        }),
-        correctAnswer: section({
-          name: "fractionOfBitStringsAgreeRetryCorrect",
-          body: (
-            <Guidance.Agree>
-              <Prose justify="center">
-                <h1>🎉YOU DID IT🎉</h1>
-                <p>[just mention what they did]</p>
-              </Prose>
-            </Guidance.Agree>
-          ),
-        }),
+          if (answer === "75%") {
+            return "correct";
+          }
+          return "incorrect";
+        },
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>
+                Correct! While there is some statistical fluctuations prone to
+                happen, 75% of the time the bits will agree
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                Please double-check your answer.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
       },
     }),
     section({
@@ -362,44 +396,64 @@ export default page(setup, ({ section, oneOf }) => ({
           ]}
         />
       ),
-    }),
-    section({
-      name: "doesAliceBobShareKeyAtCurrentStageIncorrect",
-      when: (r) => r.doesAliceBobShareKeyCheckOne?.selected === "yes",
-      body: (
-        <Guidance.Disagree>
-          They do not share a key, a 25% error rate does not make a good shared
-          key!
-        </Guidance.Disagree>
-      ),
+      guidance: {
+        nextMessage(r) {
+          const answer = r.doesAliceBobShareKeyCheckOne?.selected;
+
+          if (answer === "yes") {
+            return "incorrect";
+          }
+          return "correct";
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                They do not share a key, consider a 25% error rate. This does
+                not make a good shared key because there are too many
+                mismatches! Let us look at this further...
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextSection",
+          },
+          correct: {
+            body: (
+              <Guidance.Agree>
+                Correct! They do not share a key, there are too many mismatches.
+                Let us look at this further...
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
-      name: "fractionOfBitStringsAgreeExplanation",
+      name: "fractionOfBitStringsAgreeExplanationPartOne",
       enumerate: false,
-      body: (m, { responses }) => (
+      body: (
         <Prose>
-          <p>
-            {responses &&
-            responses.doesAliceBobShareKeyCheckOne?.selected === "yes" ? (
-              <b>They do not share a key</b>
-            ) : (
-              <b>You're correct they do not share a key</b>
-            )}
-            , there are too many mismatches. Alice and Bob must remove every bit
-            where they could have a mismatch. To do this, after all measurements
-            have been made, they both publicly share their full record of
-            whether or not they applied an H gate. They do NOT publicly share
-            their bit values.
-          </p>
-          <p>
-            In every case where they did not both make the same decision to
-            apply the H gate or not, they both simply discard that bit. Thus,
-            all bits that remain arise only when they either both applied an H
-            gate, or neither applied an H gate.
-          </p>
+          Alice and Bob must remove every bit where they could have a mismatch.
+          To do this, <b>after all measurements have been made</b>, they both
+          publicly share their full record of whether or not they applied an H
+          gate. They do NOT publicly share their bit values.
         </Prose>
       ),
+      continue: { label: "Okay..." },
+    }),
+    section({
+      name: "fractionOfBitStringsAgreeExplanationPartTwo",
+      enumerate: false,
+      body: (
+        <Prose>
+          In everycase where they did not both make the same decision to apply
+          the H gate or not, they both simply discard that bit. Thus, all bits
+          that remain arise only when theyeither <b>both</b> applied an H gate,
+          or <b>neither</b> applied an H gate.
+        </Prose>
+      ),
+      continue: { label: "Interesting!" },
     }),
     section({
       name: "frequencyTheyDiscardBit",
@@ -440,6 +494,26 @@ export default page(setup, ({ section, oneOf }) => ({
           ]}
         />
       ),
+      guidance: {
+        nextMessage(r) {
+          const answer = r.doesAliceBobShareKeyCheckTwo?.selected;
+
+          if (answer === "no") {
+            return "incorrect";
+          }
+          return null;
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                <h1>[lengthy explanation]</h1>
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "whatIsTheSharedKey",
