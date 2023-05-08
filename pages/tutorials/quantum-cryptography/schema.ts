@@ -75,6 +75,22 @@ export default s.tutorial({
   },
   responses: {
     // Section 1
+    stateAliceHasSentBobTable: (() => {
+      const choices = s.chooseOne(["|0>", "|1>", "|+>", "|->", "other", "??"]);
+      return s.object({
+        sahs1: choices,
+        sahs2: choices,
+        sahs3: choices,
+        sahs4: choices,
+        sahs5: choices,
+        sahs6: choices,
+        sahs7: choices,
+        sahs8: choices,
+        sahs9: choices,
+        sahs10: choices,
+        sahs11: choices,
+      });
+    })(),
     amountOfBitStringsAgree: s.number(),
     fractionOfBitStringsAgree: s.chooseOne([
       "0%",

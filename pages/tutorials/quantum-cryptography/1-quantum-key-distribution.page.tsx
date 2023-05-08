@@ -7,6 +7,7 @@ import {
   LabelsLeft,
   M,
   Prose,
+  Table,
   Toggle,
 } from "@/components";
 import { page } from "@/tutorial";
@@ -49,7 +50,7 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (
         <Prose>
           <p>
-            Alice sends a series of qubits to Bobusing the following protocol
+            Alice sends a series of qubits to Bob using the following protocol
             for each qubit:
           </p>
           <p>
@@ -71,13 +72,103 @@ export default page(setup, ({ section, oneOf }) => ({
     }),
     section({
       name: "stateAliceHasSentBob",
-      body: (m) => (
-        <Prose>
-          Below is a sample of what might happen at the start of a run, with
-          Alice's random choices filled in:
-          <h1>[[[Show table]]]</h1>
-        </Prose>
-      ),
+      body: (m) => {
+        const mod = m.stateAliceHasSentBobTable.properties;
+
+        const rows = [
+          {
+            model: mod.sahs1,
+            col2: "N",
+            col3: "0",
+          },
+          {
+            model: mod.sahs2,
+            col2: "Y",
+            col3: "0",
+          },
+          {
+            model: mod.sahs3,
+            col2: "N",
+            col3: "0",
+          },
+          {
+            model: mod.sahs4,
+            col2: "N",
+            col3: "1",
+          },
+          {
+            model: mod.sahs5,
+            col2: "Y",
+            col3: "1",
+          },
+          {
+            model: mod.sahs6,
+            col2: "Y",
+            col3: "0",
+          },
+          {
+            model: mod.sahs7,
+            col2: "N",
+            col3: "0",
+          },
+          {
+            model: mod.sahs8,
+            col2: "Y",
+            col3: "1",
+          },
+          {
+            model: mod.sahs9,
+            col2: "N",
+            col3: "1",
+          },
+          {
+            model: mod.sahs10,
+            col2: "Y",
+            col3: "0",
+          },
+          {
+            model: mod.sahs11,
+            col2: "Y",
+            col3: "0",
+          },
+        ];
+
+        return (
+          <Prose>
+            Below is a sample of what might happen at the start of a run, with
+            Alice's random choices filled in:
+            <Table>
+              <thead>
+                <tr>
+                  <th>State Alice Sends?</th>
+                  <th>Did Alice Apply H?</th>
+                  <th>Alice Sends...</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {rows.map((row) => (
+                  <tr>
+                    <Dropdown
+                      model={row.model}
+                      choices={[
+                        ["|0>", <M t="\ket{0}" />],
+                        ["|1>", <M t="\ket{1}" />],
+                        ["|+>", <M t="\ket{+}" />],
+                        ["|->", <M t="\ket{-}" />],
+                        ["other", "other"],
+                        ["??", "??"],
+                      ]}
+                    />
+                    <td>{row.col2}</td>
+                    <td>{row.col3}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Prose>
+        );
+      },
     }),
     section({
       name: "bobRandomChoiceOnEachQubit",
