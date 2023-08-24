@@ -11,9 +11,24 @@ import {
   Vocabulary,
 } from "@/components";
 import { Axes, Bar, Plot, Tick, WithPlot } from "@/plots";
+import { get } from "@/reactivity/immutable";
 import { page } from "@/tutorial";
-import setup, { ResponseModels, Responses } from "./setup";
+import setup, { ResponseModels, Responses, State } from "./setup";
 import styles from "./styles.module.scss";
+
+// We need this special checker for the PlusMinusModels, because we only set
+// _some_ of the `pm.properties` in a given section, so the default continue
+// allowed behavior will always consider the root field unset.
+const isContinueAllowedChecker =
+  (keys: (keyof PlusMinusModel["properties"])[]) =>
+  (state: State, _: boolean, models: ResponseModels): boolean =>
+    [models.probability, models.probabilityAmplitude].every((pm) => {
+      const modelValue = get(state as any, pm.path as any);
+      return keys.every((key) => {
+        const value = modelValue?.[key];
+        return value !== undefined;
+      });
+    });
 
 export default page(setup, ({ section }) => ({
   name: "probabilityAndProjection",
@@ -121,6 +136,9 @@ export default page(setup, ({ section }) => ({
           </Reminder>
         </>
       ),
+      continue: {
+        allowed: isContinueAllowedChecker(["minusHeight", "plusHeight"]),
+      },
     }),
 
     section({
@@ -163,6 +181,9 @@ export default page(setup, ({ section }) => ({
           </Prose>
         </>
       ),
+      continue: {
+        allowed: isContinueAllowedChecker(["minusLabel", "plusLabel"]),
+      },
     }),
 
     section({
