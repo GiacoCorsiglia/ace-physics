@@ -31,7 +31,7 @@ export const Image = ({
   if (inline) {
     // If the image is inline, it's fine the way it is (the NextImage wrapper
     // already has `display: inline-block;`).
-    return theImage;
+    return <span className={styles.ib}>{theImage}</span>;
   } else if (responsive) {
     // If the `layout` is "responsive", then the image is supposed to fill the
     // width of the container, and will never need the centering.  Moreover, the
