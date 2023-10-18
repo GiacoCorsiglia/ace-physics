@@ -169,6 +169,16 @@ export const tutorialList: readonly TutorialListing[] = [
       </>
     ),
   },
+  {
+    id: "TestTutorial",
+    link: "test-tutorial",
+    label: "Documentation Tutorial",
+    blurb: (
+      <>
+        Edit this tutorial to test your theories about how they work!
+      </>
+    ),
+  },
 ];
 
 export interface TutorialListing {
