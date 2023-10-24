@@ -55,7 +55,9 @@ export default pretest(setup, ({section}) => ({
         <Prose>
           test
         </Prose>
-        <TextBox model={m.docTutPretestText} label={<Prose>test</Prose>} />
+        <TextBox model={m.docTutPretestText} label={<Prose>optional test
+          (you don't have to input text here to be able to press continue)
+        </Prose>} />
 
         <Decimal model={m.docTutPretestDecimal} label={"decimal test"} />
 
@@ -103,4 +105,7 @@ export default pretest(setup, ({section}) => ({
 
     })
   ],
+  continue: {
+    optional: ["docTutPretestText"]
+  }
 }));

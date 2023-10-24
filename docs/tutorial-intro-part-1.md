@@ -96,4 +96,82 @@ export default s.tutorial({
 (Notice the comma after `hints`.) We'll see later that each set of curly brackets here will contain a list, which **definitely** needs to have a comma at the end; I learned that the hard way. For now, this is enough to get TypeScript to accept your code.
 
 ### index.page.tsx
-[this section should note how the inbuilt HTML refers to other sources]
+This is the starting page of your tutorial. Here's how I wrote mine:
+
+```ts
+import { Prose } from "@/components";
+import { intro } from "@/tutorial";
+import setup from "./setup";
+
+export default intro(setup, () => ({
+  body: <Prose>Your first step in learning about Giaco's computing.</Prose>,
+}));
+```
+
+If you actually look at the starting page,you'll notice that 'Your first step...' is close to the top, but it's not *all* that's on the page. Why is that? Let's look at the actual function we're using, intro(), which is in the file `lib/tutorial/page-factories.tsx`.
+
+The second input to our function is a factory which outputs an object of the type `IntroConfig`. In my implementation, the only field in `IntroConfig` that I've specified is `IntroConfig.body`. In the definition of intro(), we define `config = factory()` (i.e. config takes on the properties you submit to `intro()`). The return value is an `<IntroPage>` element.
+
+Head to the definition of `IntroPage`: `lib/tutorial/components/intro-page.tsx`. Look at the return value. You'll notice that AcePhysics creates an IntroPage by automatically writing a bunch of stuff in. Midway down, you'll notice
+
+```ts
+{config.body}
+```
+
+That's where the contents of 'body' go. What this means is that the design of the intro page is locked. As far as I can tell, there's no way to create an intro page that doesn't have all that extra prose, which is fine, it's part of the AcePhysics design. (This information is subject to change.)
+
+### feedback.page.tsx
+
+This one's phenomenally simple. Copy the contents of /test-tutorial/feedback.page.tsx and you'll be good to go.
+
+### before-you-start.page.tsx
+
+This page will be our first introduction to the dynamic, modifiable elements of AcePhysics tutorials, which are called `models`. Before we  discuss those models, we'll just start with a basic page that works well enough for you to have a visible tutorial.
+
+```ts
+import { pretest } from "@/tutorial";
+import setup from "./setup";
+
+export default pretest(setup, ({section}) => ({
+  sections: [
+
+  ],
+}));
+```
+
+There's nothing in this, but it's enough to have a functioning page.
+
+Now to make your tutorial visible to AcePhysics internally and externally.
+
+### schemas.ts
+
+`pages/tutorials/schemas.ts` must be given an entry for your tutorial to make it fully visible to AcePhysics. Without it, your tutorial will work, but if you commit this tutorial, AcePhysics will fail to deploy and tell you to put something in this page. For my test tutorial, I added to the list:
+
+```ts
+["TestTutorial", TestTutorial],
+```
+and added the import
+```ts
+import TestTutorial from "./test-tutorial/schema";
+```
+
+The string `"TestTutorial"` refers to the `id` of your tutorial as defined in `setup.ts`. The reference `TestTutorial` is to the export of `/test-tutorial/schema.ts`.
+
+### list.tsx
+
+`tutorialList` in `pages/tutorials/list.tsx` must be given an entry so that someone can navigate to your tutorial.  Here's what I added:
+
+```ts
+{
+  id: "TestTutorial",
+  link: "test-tutorial",
+  label: "Documentation Tutorial",
+  blurb: (
+    <>
+      Edit this tutorial to test your theories about how they work!
+    </>
+  ),
+},
+```
+
+That's it for this part of the doc. Once you have a working tutorial page (or you just want to mess with mine, or an existing page) head to part 2.
