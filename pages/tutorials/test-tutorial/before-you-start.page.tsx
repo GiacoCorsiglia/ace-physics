@@ -48,7 +48,7 @@ export default pretest(setup, ({section}) => ({
           // where the keys are the strings given when we first defined
           // docTutChooseOne, i.e. "test" and "secondtest".
           // If you add an 'other' to the s.chooseOne() function in schema
-          // (notice that the second paramater is an s.string() so returns a
+          // (notice that the second parameter is an s.string() so returns a
           // string field) then you will get an 'other' option. You can put in
           // a number field instead if you want.
         />
@@ -83,9 +83,8 @@ export default pretest(setup, ({section}) => ({
       )
     }),
     section({
-      body: (m) => (
+      body: (m, s) => (
         <>
-
         <Toggle
           model={m.docTutPretestChooseOneToggle}
           choices={[
@@ -100,6 +99,11 @@ export default pretest(setup, ({section}) => ({
             ["secondtest", "You  can  write  options  in  LaTeX!"]
           ]}
         />
+        <Prose>
+          The following is an example of using the Tutorial State. Here, we check what id choice
+          the user chose: {s.pretest?.docTutPretestChooseOneToggle?.selected === "test" ? "'test'" :
+          s.pretest?.docTutPretestChooseOneToggle?.selected === "secondtest" ? "'secondtest'" : "not chosen yet"}
+        </Prose>
         </>
       )
 
