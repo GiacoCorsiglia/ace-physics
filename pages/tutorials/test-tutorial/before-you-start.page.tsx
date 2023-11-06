@@ -103,6 +103,7 @@ export default pretest(setup, ({section}) => ({
           The following is an example of using the Tutorial State. Here, we check what id choice
           the user chose: {s.pretest?.docTutPretestChooseOneToggle?.selected === "test" ? "'test'" :
           s.pretest?.docTutPretestChooseOneToggle?.selected === "secondtest" ? "'secondtest'" : "not chosen yet"}
+          "{s.pretest?.docTutPretestText}"
         </Prose>
         </>
       )

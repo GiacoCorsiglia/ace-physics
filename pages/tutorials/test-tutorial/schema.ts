@@ -5,7 +5,7 @@ export default s.tutorial({
 
   },
   pretest: {
-    docTutPretestChooseOneWithOther: s.chooseOne(["test", "secondtest"], s.string()),
+    docTutPretestChooseOneWithOther: s.chooseOne(["test", "secondtest"], s.number()),
     // the array of strings in the argument of s.chooseOne() are not the actual
     // labels.
     docTutPretestChooseOneToggle: s.chooseOne(["test", "secondtest"]),

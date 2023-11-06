@@ -118,7 +118,9 @@ Head to the definition of `IntroPage`: `lib/tutorial/components/intro-page.tsx`.
 {config.body}
 ```
 
-That's where the contents of 'body' go. What this means is that the design of the intro page is locked. As far as I can tell, there's no way to create an intro page that doesn't have all that extra prose, which is fine, it's part of the AcePhysics design. (This information is subject to change.)
+That's where the contents of 'body' go. What this means is that the design of the intro page is locked, as long as you use the `intro()` function.
+
+(There's ways to create your own entire page instead of calling a pre-built function, if you ever wanted to go that far. Future documentation may discuss this, but for now, if you understand it, this jargon suffices: intro() returns a React.js *component* function. It does so through AcePhysics' `routeComponent()` function, which nests everything into a `TutorialRoot` component which has all the basic structure of the AcePhysics website. You can always just create a `routeComponent` with your element nested inside.)
 
 ### feedback.page.tsx
 
