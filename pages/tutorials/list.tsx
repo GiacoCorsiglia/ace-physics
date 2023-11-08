@@ -3,7 +3,7 @@ import { Html } from "@/helpers/client";
 /**
  * List of all tutorials for display on different pages.
  */
-export const tutorialList: readonly TutorialListing[] = [
+export const tutorialList: TutorialListing[] = [
   {
     id: "SpinLab1",
     link: "spin-lab-1",
@@ -169,17 +169,20 @@ export const tutorialList: readonly TutorialListing[] = [
       </>
     ),
   },
-  {
+
+];
+
+if (process.env.NEXT_PUBLIC_ACE_ENV !== 'production') tutorialList.push({
     id: "TestTutorial",
     link: "test-tutorial",
     label: "Documentation Tutorial",
     blurb: (
       <>
-        Edit this tutorial to test your theories about how they work!
+        Edit this tutorial to test your theories about how they work! Environment: {process.env.NEXT_PUBLIC_ACE_ENV}
       </>
     ),
-  },
-];
+  });
+// use push to add testtutorial in !'production' environment
 
 export interface TutorialListing {
   /**
