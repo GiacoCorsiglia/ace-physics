@@ -10,6 +10,7 @@ import {
   Table,
   Toggle,
 } from "@/components";
+import { range } from "@/helpers/client";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
@@ -70,106 +71,55 @@ export default page(setup, ({ section, oneOf }) => ({
         </Prose>
       ),
     }),
+
     section({
-      name: "stateAliceHasSentBob",
-      body: (m) => {
-        const mod = m.stateAliceHasSentBobTable.properties;
-
-        const rows = [
-          {
-            model: mod.sahs1,
-            col2: "N",
-            col3: "0",
-          },
-          {
-            model: mod.sahs2,
-            col2: "Y",
-            col3: "0",
-          },
-          {
-            model: mod.sahs3,
-            col2: "N",
-            col3: "0",
-          },
-          {
-            model: mod.sahs4,
-            col2: "N",
-            col3: "1",
-          },
-          {
-            model: mod.sahs5,
-            col2: "Y",
-            col3: "1",
-          },
-          {
-            model: mod.sahs6,
-            col2: "Y",
-            col3: "0",
-          },
-          {
-            model: mod.sahs7,
-            col2: "N",
-            col3: "0",
-          },
-          {
-            model: mod.sahs8,
-            col2: "Y",
-            col3: "1",
-          },
-          {
-            model: mod.sahs9,
-            col2: "N",
-            col3: "1",
-          },
-          {
-            model: mod.sahs10,
-            col2: "Y",
-            col3: "0",
-          },
-          {
-            model: mod.sahs11,
-            col2: "Y",
-            col3: "0",
-          },
-        ];
-
-        return (
+      name: "tableWithoutEveStateAlice1",
+      body: (m) => (
+        <>
           <Prose>
             Below is a sample of what might happen at the start of a run, with
-            Alice's random choices filled in:
-            <Table>
-              <thead>
-                <tr>
-                  <th>State Alice Sends?</th>
-                  <th>Did Alice Apply H?</th>
-                  <th>Alice Sends...</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {rows.map((row) => (
-                  <tr>
-                    <Dropdown
-                      model={row.model}
-                      choices={[
-                        ["|0>", <M t="\ket{0}" />],
-                        ["|1>", <M t="\ket{1}" />],
-                        ["|+>", <M t="\ket{+}" />],
-                        ["|->", <M t="\ket{-}" />],
-                        ["other", "other"],
-                        ["??", "??"],
-                      ]}
-                    />
-                    <td>{row.col2}</td>
-                    <td>{row.col3}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            Alice’s random choices filled in:
           </Prose>
-        );
-      },
+
+          <Table className="text-small">
+            <tr>
+              <th>Initial state</th>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+
+            <tr>
+              <th>Did Alice Apply H?</th>
+              <td>N</td>
+              <td>Y</td>
+              <td>N</td>
+              <td>N</td>
+            </tr>
+
+            <tr>
+              <th>Alice sends…</th>
+
+              {range(4).map((i) => (
+                <td key={i}>
+                  <Dropdown
+                    model={m.tableWithoutEve.properties.stateAlice.elements[i]}
+                    choices={[
+                      ["|0>", <M t="\ket{0}" />],
+                      ["|1>", <M t="\ket{1}" />],
+                      ["|+>", <M t="\ket{+}" />],
+                      ["|->", <M t="\ket{-}" />],
+                    ]}
+                  />
+                </td>
+              ))}
+            </tr>
+          </Table>
+        </>
+      ),
     }),
+
     section({
       name: "bobRandomChoiceOnEachQubit",
       body: (m) => (

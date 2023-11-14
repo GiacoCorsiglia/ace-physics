@@ -1,5 +1,10 @@
 import * as s from "@/schema/tutorial";
 
+const tableRow = <T extends s.Field>(cell: T) => s.array(cell);
+
+const chooseState = s.chooseOne(["|0>", "|1>", "|+>", "|->"]);
+const chooseBit = s.chooseOne(["0", "1", "random"]);
+
 export default s.tutorial({
   pages: {
     quantumKeyDistribution: s.page(),
@@ -12,10 +17,13 @@ export default s.tutorial({
     // Posttest fields here.
   },
   sections: {
+    tableWithoutEveStateAlice1: s.section(),
+    tableWithoutEveStateAlice2: s.section(),
+    tableWithoutEveStateAliceComplete: s.section(),
+
     // Section 1
     quantumKeyDistributionIntro: s.section(),
     aliceSendsSeriesOfQubits: s.section(),
-    stateAliceHasSentBob: s.section(),
     bobRandomChoiceOnEachQubit: s.section(),
     natureEffectBobBitAfterMeasurement: s.section(),
     amountOfBitStringsAgree: s.section(),
@@ -74,23 +82,19 @@ export default s.tutorial({
     oddsOfBobAliceFailToNotice: s.section(),
   },
   responses: {
+    tableWithoutEve: s.object({
+      stateAlice: tableRow(chooseState),
+      bitBob: tableRow(chooseBit),
+      keepOrDiscard: tableRow(s.boolean()),
+    }),
+
+    tableWithEve: s.object({
+      stateEve: tableRow(chooseState),
+      bitBob: tableRow(chooseBit),
+    }),
+
     // Section 1
-    stateAliceHasSentBobTable: (() => {
-      const choices = s.chooseOne(["|0>", "|1>", "|+>", "|->", "other", "??"]);
-      return s.object({
-        sahs1: choices,
-        sahs2: choices,
-        sahs3: choices,
-        sahs4: choices,
-        sahs5: choices,
-        sahs6: choices,
-        sahs7: choices,
-        sahs8: choices,
-        sahs9: choices,
-        sahs10: choices,
-        sahs11: choices,
-      });
-    })(),
+
     amountOfBitStringsAgree: s.number(),
     fractionOfBitStringsAgree: s.chooseOne([
       "0%",
