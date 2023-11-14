@@ -2,7 +2,7 @@ import * as s from "@/schema/tutorial";
 
 const tableRow = <T extends s.Field>(cell: T) => s.array(cell);
 
-const chooseState = s.chooseOne(["|0>", "|1>", "|+>", "|->"]);
+const chooseState = s.chooseOne(["|0>", "|1>", "|+>", "|->", "??"]);
 const chooseBit = s.chooseOne(["0", "1", "random"]);
 
 export default s.tutorial({
@@ -89,6 +89,7 @@ export default s.tutorial({
     }),
 
     tableWithEve: s.object({
+      bitEve: tableRow(chooseBit),
       stateEve: tableRow(chooseState),
       bitBob: tableRow(chooseBit),
     }),

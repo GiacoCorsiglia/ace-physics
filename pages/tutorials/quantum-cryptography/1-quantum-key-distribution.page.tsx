@@ -110,6 +110,7 @@ export default page(setup, ({ section, oneOf }) => ({
                       ["|1>", <M t="\ket{1}" />],
                       ["|+>", <M t="\ket{+}" />],
                       ["|->", <M t="\ket{-}" />],
+                      ["??", "??"]
                     ]}
                   />
                 </td>
