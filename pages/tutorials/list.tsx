@@ -97,6 +97,12 @@ export const tutorialList: TutorialListing[] = [
     ),
   },
   {
+    id: "QuantumCryptography",
+    link: "quantum-cryptography",
+    label: "Quantum Cryptography",
+    blurb: <>TODO</>,
+  },
+  {
     id: "TensorProducts",
     link: "tensor-products",
     label: "Tensor Products",
@@ -169,16 +175,17 @@ export const tutorialList: TutorialListing[] = [
       </>
     ),
   },
-
 ];
 
-if (process.env.NEXT_PUBLIC_ACE_ENV !== 'production') tutorialList.push({
+if (process.env.NEXT_PUBLIC_ACE_ENV !== "production")
+  tutorialList.push({
     id: "TestTutorial",
     link: "test-tutorial",
     label: "Documentation Tutorial",
     blurb: (
       <>
-        Edit this tutorial to test your theories about how they work! Environment: {process.env.NEXT_PUBLIC_ACE_ENV}
+        Edit this tutorial to test your theories about how they work!
+        Environment: {process.env.NEXT_PUBLIC_ACE_ENV}
       </>
     ),
   });
