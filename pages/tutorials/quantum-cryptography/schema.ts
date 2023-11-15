@@ -2,7 +2,7 @@ import * as s from "@/schema/tutorial";
 
 const tableRow = <T extends s.Field>(cell: T) => s.array(cell);
 
-const chooseState = s.chooseOne(["|0>", "|1>", "|+>", "|->", "??"]);
+const chooseState = s.chooseOne(["|0>", "|1>", "|+>", "|->", "other"]);
 const chooseBit = s.chooseOne(["0", "1", "random"]);
 
 export default s.tutorial({
@@ -24,7 +24,14 @@ export default s.tutorial({
     // Section 1
     quantumKeyDistributionIntro: s.section(),
     aliceSendsSeriesOfQubits: s.section(),
-    bobRandomChoiceOnEachQubit: s.section(),
+    bobRandomChoiceOnEachQubit: s.section({
+      messages: ["correctBits", "wrongBits", "wrongBits2"],
+    }),
+    bobRandomChoiceOnEachQubitAnswers: s.section(),
+    bobRandomChoiceOnEachQubit2: s.section({
+      messages: ["correctBits", "wrongBits", "wrongBits2"],
+    }),
+    bobRandomChoiceOnEachQubitAnswers2: s.section(),
     natureEffectBobBitAfterMeasurement: s.section(),
     amountOfBitStringsAgree: s.section(),
     fractionOfBitStringsAgree: s.section({

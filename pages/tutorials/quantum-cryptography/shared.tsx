@@ -23,7 +23,7 @@ const tableWithoutEveGiven = {
   bitBobWithRandom: [<em>1</em>, 0, <em>1</em>, 1, 1, <em>1</em>, 0, 1, 1, <em>1</em>, <em>1</em>, 0],
   finalPrivateKey: ["-", 0, "-", 1, 1, "-", 0, 1, 1, "-", "-", 0]
 };
-const tableWithoutEveAnswers: Responses["tableWithoutEve"] = {
+export const tableWithoutEveAnswers: Responses["tableWithoutEve"] = {
   stateAlice: (
     [
       "|0>",

@@ -13,6 +13,7 @@ import {
 import { range } from "@/helpers/client";
 import { page } from "@/tutorial";
 import setup from "./setup";
+import * as shared from "./shared";
 
 export default page(setup, ({ section, oneOf }) => ({
   name: "quantumKeyDistribution",
@@ -33,12 +34,12 @@ export default page(setup, ({ section, oneOf }) => ({
           <p>
             <u>The goal:</u> Alice and Bob wish to share a common “key”, a long
             string of randomly generated 0’s and 1’s that they each possess, but
-            nobody else does. (Keyscan be used to encode and decode secret
-            messages at a later time, oftenusing a one-time pad.)
+            nobody else does. (Keys can be used to encode and decode secret
+            messages at a later time, often using a one-time pad.)
           </p>
           <p>
-            You might think Alice could just generate a random string andsendit
-            to Bob. But what if another partycan “eavesdrop” on the message? Our
+            You might think Alice could just generate a random string and send it
+            to Bob. But what if another party can “eavesdrop” on the message? Our
             protocol allows us to check to see if anyone else has seen the key.
           </p>
         </Prose>
@@ -57,7 +58,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <p>
             Alice first randomly chooses to send a <M t="{\ket{0}}" /> or a{" "}
             <M t="{\ket{1}}" />. Then she randomly chooses whether to send this
-            qubit through a single Hadamardgateor not.
+            qubit through a single Hadamard gate or not.
           </p>
           <p>
             For example, if she sends a <M t="{\ket{1}}" /> with no Hadamard,
@@ -74,11 +75,15 @@ export default page(setup, ({ section, oneOf }) => ({
 
     section({
       name: "tableWithoutEveStateAlice1",
-      body: (m) => (
+      body: (m, s) => (
         <>
           <Prose>
             Below is a sample of what might happen at the start of a run, with
-            Alice’s random choices filled in:
+            Alice’s random choices filled in. The first row tells you which
+            state her qubit started in--<M t="{\ket{0}}" /> or <M t="{\ket{1}}" />.
+            The second tells you whether she applied the Hadamard gate. Given
+            this information, fill out the third row with the state that actually
+            gets sent to Bob.
           </Prose>
 
           <Table className="text-small">
@@ -101,7 +106,7 @@ export default page(setup, ({ section, oneOf }) => ({
             <tr>
               <th>Alice sends…</th>
 
-              {range(4).map((i) => (
+              {range(0, 4).map((i) => (
                 <td key={i}>
                   <Dropdown
                     model={m.tableWithoutEve.properties.stateAlice.elements[i]}
@@ -110,7 +115,7 @@ export default page(setup, ({ section, oneOf }) => ({
                       ["|1>", <M t="\ket{1}" />],
                       ["|+>", <M t="\ket{+}" />],
                       ["|->", <M t="\ket{-}" />],
-                      ["??", "??"]
+                      ["other", "other"]
                     ]}
                   />
                 </td>
@@ -119,6 +124,28 @@ export default page(setup, ({ section, oneOf }) => ({
           </Table>
         </>
       ),
+      continue: {
+        allowed: (s) => (s.responses?.tableWithoutEve?.stateAlice?.slice(0, 4).length === 4)
+      }
+    }),
+
+    section({
+      name: "tableWithoutEveStateAlice2",
+      enumerate: false,
+      when: (r) => true,
+      body: (m) => (<>
+      <Prose>Looks like we disagree with some of your answers for Alice's final
+        state. Recall the effect of the Hadamard gate on a qubit:
+      </Prose>
+      <Callout color="blue">
+        <M t="{H\ket{0} = \ket{+}}" display={true}/>
+        <M t="{H\ket{1} = \ket{-}}" display={true}/>
+      </Callout>
+      <Prose>Here is a table with the next 4 bits that Alice uses, as well as
+        whether or not she applied the Hadamard gate. Fill in the dropdowns with
+        the state that got sent to Bob.
+      </Prose>
+      </>)
     }),
 
     section({
@@ -126,23 +153,183 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <>
           <Prose>
-            We have added a new row with the (random) choice Bob makes on each
-            qubit: to apply an H or not? Please fill in the last row with the
-            outcome of his subsequent measurement.
+            When the qubit makes it to Bob, he randomly decides whether to apply
+            the Hadamard gate or not. After doing so, he measures the qubit in
+            the <M t="{\ket{0}}"/>/<M  t="{\ket{1}}"/> basis.
+
+            <br />We have added a new row to the table with the (random) choice
+            Bob makes on each qubit: to apply an H or not? Please fill in the
+            last row with the outcome of his subsequent measurement. "R" means
+            his measurement is "random", with a 50% chance of getting either 0 or 1.
             <h1>[[[Show table]]]</h1>
             <h1>[[[Reactively show below once every box is filled]]]</h1>
           </Prose>
-          <Callout color="blue">
-            Your table looks good so far! Hit the “measure” button to let
-            “nature” determine the outcomes of all the cells labeled “R” for
-            random in the last row
-          </Callout>
         </>
       ),
-      continue: {
-        label: "Measure!",
+      guidance: {
+        nextMessage(r, s) {
+          if (s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes("wrongBits"))
+          return "wrongBits2"
+          if (r.tableWithoutEve?.bitBob?.slice(0, 4).filter((p, index) => {
+            p?.selected === shared.tableWithoutEveAnswers?.bitBob?.slice(0, 4).at(index)?.selected})
+          .length === 4)
+          {return "correctBits"}
+          return "wrongBits"
+        },
+        messages: {
+          "correctBits": {
+            body: <>
+            <Callout color="blue">
+              Your table looks good! Let's get some more practice with the next
+              four qubits.
+            </Callout>
+            </>,
+            onContinue: "nextSection",
+            continueLabel: "More qubits!"
+          },
+          "wrongBits": {
+            body: <>
+            <Callout color="red">
+              Looks like we disagree with some of your answers for Bob's measurements.
+              Remember that Bob is measuring in the <M t="{\ket{0}}"/>/<M  t="{\ket{1} }"/> basis,
+              <em> after</em> he either does or does not apply H. Think about
+              what state he has <em>right before</em> he measures. What happens
+              if he tries to measure <M t="{\ket{+}}"/> or <M  t="{\ket{-}}"/> in
+              that basis?
+            </Callout>
+            </>,
+            onContinue: "nextMessage",
+            continueLabel: "Try again"
+          },
+          "wrongBits2": {
+            body: <>
+            <Callout color="red">
+              Looks like we still disagree. Recall the effects of the H gate:<br />
+              <center>
+                <M t="{H\ket{0} = \ket{+}}" /> <br /><M t="{H\ket{1} = \ket{-}}" /><br />
+                <M t="{H\ket{+} = \ket{0}}" /> <br /><M t="{H\ket{-} = \ket{1}}" />
+              </center><br />
+              What are the actual states that Bob measures, after the H gate has been
+              (possibly) applied? And what are the outcomes of his measurements?
+            </Callout>
+            </>,
+            onContinue: "nextMessage",
+            continueLabel: "Check again",
+            skipAllowed: () => true
+          }
+        }
+
+
       },
+      continue: {label: "Check in!"}
     }),
+    section({
+      name: "bobRandomChoiceOnEachQubitAnswers",
+      enumerate: false,
+      when: (r) => (
+        r.tableWithoutEve?.bitBob?.slice(0, 4).filter((p, index) => {
+          p?.selected === shared.tableWithoutEveAnswers?.bitBob?.slice(0, 4).at(index)?.selected})
+          .length !== 4
+      ),
+      body: () =>(<>
+        <Prose>Here's our answers for Bob's measurements.</Prose>
+        <h1>[[Show Table]]</h1>
+        <Prose>Before we move on, let's try the next qubits Alice sends.</Prose>
+      </>),
+      continue: {
+        label: "More qubits!"
+      }
+    }),
+    section({
+      name: "bobRandomChoiceOnEachQubit2",
+      enumerate: true,
+      body: (
+        <><Prose>
+          Given the next four qubits Alice sends Bob, and whether he chooses to apply
+          a Hadamard or not, fill in the dropdowns with the outcome of Bob's measurement:
+          0, 1, or "R" for random, with a 50% chance of getting either 0 or 1.
+        </Prose>
+        </>
+      ),
+      guidance: {
+        nextMessage(r, s) {
+          if (s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes("wrongBits"))
+          return "wrongBits2"
+          if (r.tableWithoutEve?.bitBob?.slice(4, 8).filter((p, index) => {
+            p?.selected === shared.tableWithoutEveAnswers?.bitBob?.slice(4, 8).at(index)?.selected})
+          .length === 4)
+          {return "correctBits"}
+          return "wrongBits"
+        },
+        messages: {
+          "correctBits": {
+            body: <>
+            <Callout color="blue">
+              Your table looks good! Hit the “measure” button to let
+              “nature” determine the outcomes of all the cells labeled “R” for
+              random in the last row.
+            </Callout>
+            </>,
+            onContinue: "nextSection",
+            continueLabel: "Measure!"
+          },
+          "wrongBits": {
+            body: <>
+            <Callout color="red">
+              Looks like we disagree with some of your answers for Bob's measurements.
+              Remember that Bob is measuring in the <M t="{\ket{0}}"/>/<M  t="{\ket{1} }"/> basis,
+              <em> after</em> he either does or does not apply H. Think about
+              what state he has <em>right before</em> he measures. What happens
+              if he tries to measure <M t="{\ket{+}}"/> or <M  t="{\ket{-}}"/> in
+              that basis?
+            </Callout>
+            </>,
+            onContinue: "nextMessage",
+            continueLabel: "Try again"
+          },
+          "wrongBits2": {
+            body: <>
+            <Callout color="red">
+              Looks like we still disagree. Recall the effects of the H gate:<br />
+              <center>
+                <M t="{H\ket{0} = \ket{+}}" /> <br /><M t="{H\ket{1} = \ket{-}}" /><br />
+                <M t="{H\ket{+} = \ket{0}}" /> <br /><M t="{H\ket{-} = \ket{1}}" />
+              </center><br />
+              What are the actual states that Bob measures, after the H gate has been
+              (possibly) applied? And what are the outcomes of his measurements?
+            </Callout>
+            </>,
+            onContinue: "nextMessage",
+            continueLabel: "Check again",
+            skipAllowed: () => true
+          }
+        }
+
+
+      },
+      continue: {label: "Check in!"}
+    }),
+    section({
+      name: "bobRandomChoiceOnEachQubitAnswers2",
+      enumerate: false,
+      when: (r) => (
+        r.tableWithoutEve?.bitBob?.slice(4, 8).filter((p, index) => {
+          p?.selected === shared.tableWithoutEveAnswers?.bitBob?.slice(4, 8).at(index)?.selected})
+          .length !== 4
+      ),
+      body: () =>(<>
+        <Prose>Here's our answers for Bob's measurements.</Prose>
+        <h1>[[Show Table]]</h1>
+        <Prose>Hit "Measure!" to let "nature" determine the outcomes of all
+          the cells labeled "R" for random in the last row. We'll also add the
+          last four qubits from before.
+        </Prose>
+      </>),
+      continue: {
+        label: "More qubits!"
+      }
+    }),
+
     section({
       name: "natureEffectBobBitAfterMeasurement",
       enumerate: false,
@@ -157,6 +344,7 @@ export default page(setup, ({ section, oneOf }) => ({
         </>
       ),
     }),
+
     section({
       name: "amountOfBitStringsAgree",
       body: (m) => (
