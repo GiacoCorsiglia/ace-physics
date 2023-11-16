@@ -1,6 +1,6 @@
 import { Dropdown, M, Table } from "@/components";
 import { ChoicesConfig } from "@/components/controls/choice-helpers";
-import { Html } from "@/helpers/client";
+import { Html, range } from "@/helpers/client";
 import { ChooseOneField } from "@/schema/fields";
 import { ResponseModels, Responses, Schema } from "./setup";
 
@@ -265,8 +265,23 @@ const makeTable = <
           )
         : array.map(fn);
 
+    const totalNumberOfColumns =
+      "answers" in rows[0] ? rows[0].answers.length : rows[0].values.length;
+    const numberOfActiveColumns = columnIndices?.length ?? totalNumberOfColumns;
+
     return (
-      <Table className="text-small">
+      <Table
+        className="text-small"
+        columns={
+          // Set column widths explicitly when editing so the things don't jump
+          // around.  These are fr units, so setting everything to `1` means
+          // every column is the same width.  We make the header column a bit
+          // wider though.
+          editing
+            ? [1.3, ...range(numberOfActiveColumns).map(() => 1)]
+            : undefined
+        }
+      >
         {rows.map((row) => {
           const key: any = "key" in row ? row.key : row.model;
           if (!rowKeys.includes(key)) {
@@ -278,6 +293,8 @@ const makeTable = <
             return (
               <tr key={key}>
                 <th>{row.label}</th>
+
+                {mapColumns(row.values)}
               </tr>
             );
           }
