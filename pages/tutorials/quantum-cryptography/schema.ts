@@ -8,6 +8,7 @@ const chooseBit = s.chooseOne(["0", "1", "random"]);
 export default s.tutorial({
   pages: {
     quantumKeyDistribution: s.page(),
+    sharingKey: s.page(),
     theEffectsOfAnEavesdropper: s.page(),
   },
   pretest: {
@@ -60,10 +61,6 @@ export default s.tutorial({
     // feedback for doesAliceBobShareKeyAtCurrentStage
     doesAliceBobShareKeyAtCurrentStageIncorrect: s.section(),
 
-    fractionOfBitStringsAgreeExplanationPartOne: s.section(),
-    fractionOfBitStringsAgreeExplanationPartTwo: s.section(),
-
-    frequencyTheyDiscardBit: s.section(),
     keepOrDiscardTableRow: s.section(),
     doesAliceBobShareKeyCheckTwo: s.section({
       messages: ["incorrect"],
@@ -71,6 +68,15 @@ export default s.tutorial({
     whatIsTheSharedKey: s.section(),
     doesPublicInfoGiveInfoAboutBitString: s.section(),
     aliceAndBobPrivateKeyTable: s.section(),
+    // Section: "Sharing A Private Key"
+    introToSharedKey: s.section(),
+    fractionOfBitStringsAgreeExplanationPartOne: s.section(),
+    fractionOfBitStringsAgreeExplanationPartTwo: s.section(),
+
+    frequencyTheyDiscardBit: s.section({
+      messages: ["correct", "incorrect"],
+    }),
+
     // Section 2
     theEffectsOfAnEavesdropperIntro: s.section(),
     theEffectsOfAnEavesdropperIntroCircuit: s.section(),
