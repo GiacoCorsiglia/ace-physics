@@ -326,7 +326,7 @@ export default page(setup, ({ section, oneOf }) => ({
         </Prose>
       </>),
       continue: {
-        label: "More qubits!"
+        label: "Measure!!"
       }
     }),
 
@@ -396,8 +396,8 @@ export default page(setup, ({ section, oneOf }) => ({
           correct: {
             body: (
               <Guidance.Agree>
-                Correct! While there is some statistical fluctuations prone to
-                happen, 75% of the time the bits will agree
+                Correct! While some statistical fluctuations are prone to
+                happen, on average the bits will agree 75% of the time.
               </Guidance.Agree>
             ),
             onContinue: "nextSection",
@@ -405,7 +405,7 @@ export default page(setup, ({ section, oneOf }) => ({
           detour: {
             body: (
               <Guidance.Disagree>
-                Not quite, let's take a small detour to break down the bigger
+                Not quite—let's take a small detour to break down the bigger
                 picture...
               </Guidance.Disagree>
             ),
@@ -446,11 +446,18 @@ export default page(setup, ({ section, oneOf }) => ({
         },
         messages: {
           correct: {
-            body: <Guidance.Agree>yup u right</Guidance.Agree>,
+            body: <Guidance.Agree>You're right! Whenever Bob makes a different Hadamard
+              choice from Alice, the state he ends up measuring will be either
+              <M t="{\ket{+}}" /> or <M t="{\ket{-}}" />. When he measures one of those
+            states, he gets a random result. This happens 50% of the time.</Guidance.Agree>,
             onContinue: "nextSection",
           },
           incorrect: {
-            body: <Guidance.Disagree>Nope!</Guidance.Disagree>,
+            body: <Guidance.Disagree>Think about what happens when Bob makes a different
+              Hadamard choice from Alice, which happens 50% of the time. The state
+              he ends up measuring will be either <M t="{\ket{+}}" /> or <M t="{\ket{-}}" />.
+              When he measures one of those states, he gets a random result. This happens 50% of the time.
+            </Guidance.Disagree>,
             onContinue: "nextMessage",
           },
         },
@@ -470,8 +477,8 @@ export default page(setup, ({ section, oneOf }) => ({
               </Prose>
             }
             choices={[
-              ["yes", "Yes, it is."],
-              ["no", "No, it is not."],
+              ["yes", "Yes, they do."],
+              ["no", "No, they do not."],
             ]}
           />
         </>
@@ -489,7 +496,13 @@ export default page(setup, ({ section, oneOf }) => ({
           incorrect: {
             body: (
               <Guidance.Disagree>
-                Sorry! They in fact actually do agree 100% of the time
+                As it turns out, they agree 100% of the time. When Bob's result
+                is not random, it's because he is measuring
+                a <M t="{\ket{0}}" /> or <M t="{\ket{1}}" /> state. If neither
+                Alice nor Bob apply a Hadamard gate, then Bob will get the same state
+                Alice sent him. If they both apply a Hadamard gate, then Alice's H-gate
+                will be <em>reversed</em> by Bob's H-gate, leaving Bob with the same state
+                that Alice started with. Either way, his bit will be the same as Alice's.
               </Guidance.Disagree>
             ),
             onContinue: "nextSection",
@@ -544,7 +557,8 @@ export default page(setup, ({ section, oneOf }) => ({
           incorrect: {
             body: (
               <Guidance.Disagree>
-                Please double-check your answer.
+                Please double-check your answer. Remember that when Bob's result is
+                random, he is just as likely to measure a 0 as he is to measure a 1.
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
@@ -559,7 +573,7 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <>
           <Callout color="blue">
-            Taking what we just practiced right now, let's try this question one
+            Given what we've learned, let's try this question one
             more time. Remember to take your time and think it through!
           </Callout>
           <Prose>
@@ -593,8 +607,8 @@ export default page(setup, ({ section, oneOf }) => ({
           correct: {
             body: (
               <Guidance.Agree>
-                Correct! While there is some statistical fluctuations prone to
-                happen, 75% of the time the bits will agree
+                Correct! While some statistical fluctuations are prone to
+                happen, on average the bits will agree 75% of the time.
               </Guidance.Agree>
             ),
             onContinue: "nextSection",
@@ -602,7 +616,9 @@ export default page(setup, ({ section, oneOf }) => ({
           incorrect: {
             body: (
               <Guidance.Disagree>
-                Please double-check your answer.
+                Please double-check your answer. How often is Bob's result random
+                (so that they agree 50% of the time), and how often is Bob's result
+                <em>not</em> random (so that they agree 100% of the time)?
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
@@ -622,7 +638,7 @@ export default page(setup, ({ section, oneOf }) => ({
           }
           choices={[
             ["yes", "Yes, they share a key."],
-            ["no", "No, it is not possible."],
+            ["no", "No, they do not share a key."],
           ]}
         />
       ),
@@ -639,9 +655,9 @@ export default page(setup, ({ section, oneOf }) => ({
           incorrect: {
             body: (
               <Guidance.Disagree>
-                They do not share a key, consider a 25% error rate. This does
-                not make a good shared key because there are too many
-                mismatches! Let us look at this further...
+                They do not share a key, considering that they have a 25% error rate.
+                This does not make a good shared key because there are too many
+                mismatches! Let us look at this further on the next page...
               </Guidance.Disagree>
             ),
             onContinue: "nextSection",
@@ -650,7 +666,7 @@ export default page(setup, ({ section, oneOf }) => ({
             body: (
               <Guidance.Agree>
                 Correct! They do not share a key, there are too many mismatches.
-                Let us look at this further...
+                Let us look at this further on the next page...
               </Guidance.Agree>
             ),
             onContinue: "nextSection",

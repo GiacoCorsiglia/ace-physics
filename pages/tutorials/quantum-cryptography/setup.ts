@@ -24,7 +24,11 @@ export default tutorialSetup({
       label: "Quantum Key Distribution",
     },
     {
-      link: "2-the-effects-of-an-eavesdropper",
+      link: "2-sharing-a-key",
+      label: "Sharing a Private Key"
+    },
+    {
+      link: "3-the-effects-of-an-eavesdropper",
       label: "The Effects of an Eavesdropper",
     },
   ],
