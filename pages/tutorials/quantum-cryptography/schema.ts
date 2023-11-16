@@ -17,7 +17,10 @@ export default s.tutorial({
     // Posttest fields here.
   },
   sections: {
-    tableWithoutEveStateAlice1: s.section(),
+    tableWithoutEveStateAlice1: s.section({
+      // TODO: Delete these sample messages.
+      messages: ["sampleCorrect", "sampleIncorrect"],
+    }),
     tableWithoutEveStateAlice2: s.section(),
     tableWithoutEveStateAliceComplete: s.section(),
 

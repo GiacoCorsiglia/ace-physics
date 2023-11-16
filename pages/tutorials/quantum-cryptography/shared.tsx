@@ -1,9 +1,11 @@
 import { Dropdown, M, Table } from "@/components";
 import { ChoicesConfig } from "@/components/controls/choice-helpers";
 import { Html, range } from "@/helpers/client";
+import { isSet } from "@/reactivity";
 import { ChooseOneField } from "@/schema/fields";
-import { ResponseModels, Responses, Schema } from "./setup";
+import { ResponseModels, Responses, Schema, State } from "./setup";
 
+// TODO: Remove this.
 const makeChoice = <T,>(selected: T) => ({ selected });
 
 const removeGreyedColumns = <T,>(
@@ -22,78 +24,7 @@ const removeGreyedColumns = <T,>(
   }
 };
 
-const tableWithoutEveGiven = {
-  initialState: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
-  didAliceApplyH: ["N", "Y", "N", "N", "Y", "Y", "N", "Y", "N", "N", "Y", "Y"],
-  didBobApplyH: ["Y", "Y", "Y", "N", "Y", "N", "N", "Y", "N", "Y", "N", "Y"],
-  bitBobWithRandom: [
-    <em>1</em>,
-    0,
-    <em>1</em>,
-    1,
-    1,
-    <em>1</em>,
-    0,
-    1,
-    1,
-    <em>1</em>,
-    <em>1</em>,
-    0,
-  ],
-  finalPrivateKey: ["-", 0, "-", 1, 1, "-", 0, 1, 1, "-", "-", 0],
-};
-
-export const tableWithoutEveAnswers = {
-  stateAlice: (
-    [
-      "|0>",
-      "|+>",
-      "|0>",
-      "|1>",
-      "|->",
-      "|+>",
-      "|0>",
-      "|->",
-      "|1>",
-      "|1>",
-      "|+>",
-      "|+>",
-    ] as const
-  ).map(makeChoice),
-  bitBob: (
-    [
-      "random",
-      "0",
-      "random",
-      "1",
-      "1",
-      "random",
-      "0",
-      "1",
-      "1",
-      "random",
-      "random",
-      "0",
-    ] as const
-  ).map(makeChoice),
-  keepOrDiscard: (
-    [
-      "discard",
-      "keep",
-      "discard",
-      "keep",
-      "keep",
-      "discard",
-      "keep",
-      "keep",
-      "keep",
-      "discard",
-      "discard",
-      "keep",
-    ] as const
-  ).map(makeChoice),
-} satisfies Responses["tableWithoutEve"];
-
+// TODO: use makeTable.
 const tableWithEveGiven = {
   didEveApplyH: ["Y", "N", "N", "Y", "Y", "Y", "Y", "N", "N", "Y", "N", "Y"],
   bitEveWithRandom: [
@@ -162,11 +93,6 @@ const tableWithEveAnswers: Responses["tableWithEve"] = {
   ).map(makeChoice),
 };
 
-type TableWithoutEveEditableRow = keyof typeof tableWithoutEveAnswers;
-type TableWithoutEveRow =
-  | TableWithoutEveEditableRow
-  | keyof typeof tableWithoutEveGiven;
-
 type TableName = "tableWithoutEve" | "tableWithEve";
 type TableSchema<T extends TableName = TableName> =
   Schema["properties"]["responses"]["properties"][T];
@@ -184,7 +110,15 @@ interface FieldRow<
   model: M;
   label: Html;
   choices: ChoicesConfig<RowChoices<T, M>>;
+  /**
+   * The actual answers, used for answer checking.
+   */
   answers: readonly RowChoices<T, M>[number][];
+  /**
+   * Values to show when rendering a non-editable version of this row.  If not
+   * specified, it will just render the answers.
+   */
+  values?: readonly Html[];
 }
 
 // I don't understand why this conditional is necessary but it is.
@@ -201,7 +135,7 @@ const makeTable = <
   T extends TableName,
   Rs extends readonly TableRow<TableSchema<T>>[]
 >(
-  name: T,
+  tableName: T,
   makeRows: (fns: {
     givenRow: <K extends string>(
       key: K,
@@ -217,6 +151,21 @@ const makeTable = <
     givenRow: (key, options) => ({ ...options, key }),
     fieldRow: (model, options) => ({ ...options, model }),
   });
+
+  // We assume all rows have the same number of columns, so we just read this off the first row.
+  const columnsCount =
+    "answers" in rows[0] ? rows[0].answers.length : rows[0].values.length;
+  // Enforce that all other rows have the same number of columns.
+  for (const row of rows) {
+    const cols = "answers" in row ? row.answers.length : row.values.length;
+    if (cols !== columnsCount) {
+      throw new Error(
+        `Expected ${columnsCount} columns in row "${
+          ("key" in row ? row.key : row.model) as any
+        }"`
+      );
+    }
+  }
 
   // This extra type is necessary to force it to be distributive.
   type GetGivenRowKey<T> = T extends GivenRow<infer K> ? K : never;
@@ -265,9 +214,7 @@ const makeTable = <
           )
         : array.map(fn);
 
-    const totalNumberOfColumns =
-      "answers" in rows[0] ? rows[0].answers.length : rows[0].values.length;
-    const numberOfActiveColumns = columnIndices?.length ?? totalNumberOfColumns;
+    const numberOfActiveColumns = columnIndices?.length ?? columnsCount;
 
     return (
       <Table
@@ -312,7 +259,8 @@ const makeTable = <
 
               {mapColumns(row.answers, (answer, i) => {
                 if (!isEditing) {
-                  return <td key={i}>{choicesMap[answer]}</td>;
+                  const value = row.values ? row.values[i] : choicesMap[answer];
+                  return <td key={i}>{value}</td>;
                 }
 
                 return (
@@ -332,28 +280,33 @@ const makeTable = <
     );
   };
 
-  return { Component };
-};
+  const isComplete = (
+    state: State,
+    models: ResponseModels,
+    row: FieldRowKey,
+    columns: number[] = range(columnsCount)
+  ) =>
+    columns.every((column) =>
+      isSet(
+        (models[tableName].properties as any)[row].elements[column],
+        (state.responses?.[tableName] as any)?.[row]?.[column]
+      )
+    );
 
-const tablaeWithoutEveGiven = {
-  initialState: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
-  didAliceApplyH: ["N", "Y", "N", "N", "Y", "Y", "N", "Y", "N", "N", "Y", "Y"],
-  didBobApplyH: ["Y", "Y", "Y", "N", "Y", "N", "N", "Y", "N", "Y", "N", "Y"],
-  bitBobWithRandom: [
-    <em>1</em>,
-    0,
-    <em>1</em>,
-    1,
-    1,
-    <em>1</em>,
-    0,
-    1,
-    1,
-    <em>1</em>,
-    <em>1</em>,
-    0,
-  ],
-  finalPrivateKey: ["-", 0, "-", 1, 1, "-", 0, 1, 1, "-", "-", 0],
+  const isCorrect = (
+    responses: Responses,
+    row: FieldRowKey,
+    columns: number[] = range(columnsCount)
+  ) =>
+    columns.every(
+      (column) =>
+        (responses?.[tableName] as any)?.[row]?.[column]?.selected ===
+        rows.find(
+          (r): r is FieldRow<any, any> => "model" in r && r.model === row
+        )?.answers[column]
+    );
+
+  return { rows, Component, isComplete, isCorrect };
 };
 
 export const tableWithoutEve = makeTable(
@@ -365,7 +318,7 @@ export const tableWithoutEve = makeTable(
     }),
 
     givenRow("didAliceApplyH", {
-      label: "Did Alice apply H?",
+      label: <>Did Alice apply&nbsp;H?</>,
       values: ["N", "Y", "N", "N", "Y", "Y", "N", "Y", "N", "N", "Y", "Y"],
     }),
 
@@ -395,12 +348,34 @@ export const tableWithoutEve = makeTable(
     }),
 
     givenRow("didBobApplyH", {
-      label: "Did Bob Apply H?",
+      label: <>Did Bob apply&nbsp;H?</>,
       values: ["Y", "Y", "Y", "N", "Y", "N", "N", "Y", "N", "Y", "N", "Y"],
     }),
 
-    givenRow("bitBobWithRandom", {
-      label: "Bit",
+    fieldRow("bitBob", {
+      label: "Bob’s bit",
+      choices: [
+        ["0", "0"],
+        ["1", "1"],
+        ["random", "R"],
+      ],
+      // These are the answers (used for answer checking).
+      answers: [
+        "random",
+        "0",
+        "random",
+        "1",
+        "1",
+        "random",
+        "0",
+        "1",
+        "1",
+        "random",
+        "random",
+        "0",
+      ],
+      // These are the values we show when showing the complete table.  Note
+      // that we have selected a specific bit for each of the "random" cases.
       values: [
         <em>1</em>,
         0,
@@ -416,6 +391,8 @@ export const tableWithoutEve = makeTable(
         0,
       ],
     }),
+
+    // TODO: fieldRow("keepOrDiscard", ...),
 
     givenRow("finalPrivateKey", {
       label: "Key",
