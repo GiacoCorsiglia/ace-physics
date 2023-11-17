@@ -92,17 +92,40 @@ export default s.tutorial({
       messages: ["correct", "incorrect"],
     }),
 
-    // Section 2
+    // Section 3
     theEffectsOfAnEavesdropperIntro: s.section(),
     theEffectsOfAnEavesdropperIntroCircuit: s.section(),
     isPossibleEveMakeMeasurement: s.section({
       messages: ["discussion"],
     }),
-    evesBitAfterMeasurement: s.section(),
+    evesBitAfterMeasurement: s.section({
+      messages: ["correctBits", "wrongBits", "wrongBits2"],
+    }),
+    eveRandomChoiceOnEachQubitAnswers: s.section(),
+    evesBitAfterMeasurement2: s.section({
+      messages: ["correctBits", "wrongBits", "wrongBits2"],
+    }),
+    eveRandomChoiceOnEachQubitAnswers2: s.section(),
     natureEffectAfterEveSends: s.section(),
-    qubitStateEveSendsToBob: s.section(),
+    qubitStateEveSendsToBob1: s.section({
+      messages: ["correctStates", "wrongStates", "wrongStates2"],
+    }),
+    qubitStateEveSendsToBob1Answers: s.section(),
+    qubitStateEveSendsToBob2: s.section({
+      messages: ["correctStates", "wrongStates", "wrongStates2"],
+    }),
+    qubitStateEveSendsToBob2Answers: s.section(),
+    tableWithEveAndNotBobComplete: s.section(),
+    bobsBitAfterEve1: s.section({
+      messages: ["correctBits", "wrongBits", "wrongBits2"],
+    }),
+    bobsBitAfterEve1Answers: s.section(),
+    bobsBitAfterEve2: s.section({
+      messages: ["correctBits", "wrongBits", "wrongBits2"],
+    }),
+    bobsBitAfterEve2Answers: s.section(),
+
     bobsMeasurementAfterEveSends: s.section(),
-    tableValidationAndNatureNotice: s.section(),
     natureEffectToBobMeasurements: s.section(),
     fractionOfMismatchedComparedSampleBits: s.section(),
     fractionOfMismatchedComparedBits: s.section(),
@@ -159,7 +182,11 @@ export default s.tutorial({
     whatIsTheSharedKey: s.number(),
     doesPublicInfoGiveInfoAboutBitString: s.chooseOne(["yes", "no"]),
     // Section 2
-    isPossibleEveMakeMeasurement: s.chooseOne(["yes", "no"]),
+    isPossibleEveMakeMeasurement: s.chooseOne([
+      "yesAlways",
+      "yesSometimes",
+      "no",
+    ]),
     ipEMMExplanation: s.string(),
     fractionOfMismatchedComparedSampleBits: s.number(),
     fractionOfMismatchedComparedBits: s.number(),

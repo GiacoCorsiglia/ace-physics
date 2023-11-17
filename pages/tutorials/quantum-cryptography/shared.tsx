@@ -428,8 +428,6 @@ export const tableWithoutEve = makeTable(
       values: ["R", "0", "R", "1", "1", "R", "0", "1", "1", "R", "R", "0"],
     }),
 
-    // TODO: fieldRow("keepOrDiscard", ...),
-
     fieldRow("keepOrDiscard", {
       label: "Keep or discard",
       choices: [
@@ -457,6 +455,166 @@ export const tableWithoutEve = makeTable(
       values: ["-", 0, "-", 1, 1, "-", 0, 1, 1, "-", "-", 0],
     }),
   ],
+  {
+    rowKey1: "didAliceApplyH",
+    isColGrey: (val1, val2) => val1 !== val2,
+    rowKey2: "didBobApplyH",
+  }
+);
+
+export const tableWithEve = makeTable(
+  "tableWithEve",
+  ({ givenRow, fieldRow }) => [
+    givenRow("initialState", {
+      label: "Initial state",
+      values: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
+    }),
+
+    givenRow("didAliceApplyH", {
+      label: <>Did Alice apply&nbsp;H?</>,
+      values: ["N", "Y", "N", "N", "Y", "Y", "N", "Y", "N", "N", "Y", "Y"],
+    }),
+    /** TODO: make all of these 'math' kets instead of fake kets, for consistency. */
+    givenRow("stateAlice", {
+      label: "Alice sends…",
+      values: [
+        "|0>",
+        "|+>",
+        "|0>",
+        "|1>",
+        "|->",
+        "|+>",
+        "|0>",
+        "|->",
+        "|1>",
+        "|1>",
+        "|+>",
+        "|+>",
+      ],
+    }),
+
+    givenRow("didEveApplyH", {
+      label: <>Did Eve apply H?</>,
+      values: ["Y", "N", "N", "Y", "Y", "Y", "Y", "N", "N", "Y", "N", "Y"],
+    }),
+
+    fieldRow("bitEve", {
+      label: "Eve's bit",
+      choices: [
+        ["0", "0"],
+        ["1", "1"],
+        ["random", "R"],
+      ],
+      answers: [
+        "random",
+        "random",
+        "0",
+        "random",
+        "1",
+        "0",
+        "random",
+        "random",
+        "1",
+        "random",
+        "random",
+        "0",
+      ],
+      values: [
+        <em>1</em>,
+        <em>1</em>,
+        0,
+        <em>1</em>,
+        1,
+        0,
+        <em>1</em>,
+        <em>0</em>,
+        1,
+        <em>1</em>,
+        <em>1</em>,
+        0,
+      ],
+    }),
+
+    givenRow("bitEveBeforeNature", {
+      label: "Eve's bit",
+      values: ["R", "R", "0", "R", "1", "0", "R", "R", "1", "R", "R", "0"],
+    }),
+
+    fieldRow("stateEve", {
+      label: "Eve sends…",
+      choices: [
+        ["|0>", <M t="\ket{0}" />],
+        ["|1>", <M t="\ket{1}" />],
+        ["|+>", <M t="\ket{+}" />],
+        ["|->", <M t="\ket{-}" />],
+        ["other", "other"],
+      ],
+      answers: [
+        "|->",
+        "|1>",
+        "|0>",
+        "|->",
+        "|->",
+        "|+>",
+        "|->",
+        "|0>",
+        "|1>",
+        "|->",
+        "|1>",
+        "|+>",
+      ],
+    }),
+
+    givenRow("didBobApplyH", {
+      label: <>Did Bob apply&nbsp;H?</>,
+      values: ["Y", "Y", "Y", "N", "Y", "N", "N", "Y", "N", "Y", "N", "Y"],
+    }),
+
+    fieldRow("bitBob", {
+      label: "Bob’s bit",
+      choices: [
+        ["0", "0"],
+        ["1", "1"],
+        ["random", "R"],
+      ],
+      // These are the answers (used for answer checking).
+      answers: [
+        "random",
+        "random",
+        "random",
+        "random",
+        "1",
+        "random",
+        "random",
+        "random",
+        "1",
+        "1",
+        "1",
+        "0",
+      ],
+      // These are the values we show when showing the complete table.  Note
+      // that we have selected a specific bit for each of the "random" cases.
+      values: [
+        <em>1</em>,
+        <em>0</em>,
+        <em>1</em>,
+        <em>1</em>,
+        1,
+        <em>0</em>,
+        <em>1</em>,
+        <em>0</em>,
+        1,
+        1,
+        1,
+        0,
+      ],
+    }),
+    givenRow("bitBobBeforeNature", {
+      label: "Bob's bit",
+      values: ["R", "R", "R", "R", "1", "R", "R", "R", "1", "1", "1", "0"],
+    }),
+  ],
+
   {
     rowKey1: "didAliceApplyH",
     isColGrey: (val1, val2) => val1 !== val2,
