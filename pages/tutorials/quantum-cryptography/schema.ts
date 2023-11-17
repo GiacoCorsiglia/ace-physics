@@ -68,7 +68,6 @@ export default s.tutorial({
     // feedback for doesAliceBobShareKeyAtCurrentStage
     doesAliceBobShareKeyAtCurrentStageIncorrect: s.section(),
 
-    keepOrDiscardTableRow: s.section(),
     doesAliceBobShareKeyCheckTwo: s.section({
       messages: ["incorrect"],
     }),
@@ -79,6 +78,15 @@ export default s.tutorial({
     introToSharedKey: s.section(),
     fractionOfBitStringsAgreeExplanationPartOne: s.section(),
     fractionOfBitStringsAgreeExplanationPartTwo: s.section(),
+    keepOrDiscardTableRow1: s.section({
+      messages: ["incorrect"],
+    }),
+    keepOrDiscardTableRow1Answers: s.section(),
+    keepOrDiscardTableRow2: s.section({
+      messages: ["incorrect"],
+    }),
+    keepOrDiscardTableRow2Answers: s.section(),
+    keepOrDiscardTableRowComplete: s.section(),
 
     frequencyTheyDiscardBit: s.section({
       messages: ["correct", "incorrect"],

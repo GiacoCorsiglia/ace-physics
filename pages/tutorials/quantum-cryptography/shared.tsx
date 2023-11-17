@@ -145,7 +145,15 @@ const makeTable = <
       model: M,
       options: Omit<FieldRow<TableSchema<T>, M>, "model">
     ) => FieldRow<TableSchema<T>, M>;
-  }) => Rs
+  }) => Rs,
+  greyColFn?: {
+    rowKey1: string;
+    /**
+     * @isColGrey Predicate that returns true if the column should be hidden later on.
+     */
+    isColGrey: (val1: any, val2?: any) => boolean;
+    rowKey2?: string;
+  }
 ) => {
   const rows = makeRows({
     givenRow: (key, options) => ({ ...options, key }),
@@ -166,6 +174,23 @@ const makeTable = <
       );
     }
   }
+  const nonGreyedCols: number[] = [];
+  const rowsToCheck = [
+    rows.find((v) =>
+      "key" in v ? v.key === greyColFn?.rowKey1 : v.model === greyColFn?.rowKey1
+    ),
+    rows.find((v) =>
+      "key" in v ? v.key === greyColFn?.rowKey2 : v.model === greyColFn?.rowKey2
+    ),
+  ];
+  const rowValues = rowsToCheck.map((row) =>
+    row ? ("key" in row ? row.values : row.answers) : undefined
+  );
+  range(columnsCount).forEach((c) => {
+    greyColFn?.isColGrey(rowValues[0]?.at(c), rowValues[1]?.at(c))
+      ? null
+      : nonGreyedCols.push(c);
+  });
 
   // This extra type is necessary to force it to be distributive.
   type GetGivenRowKey<T> = T extends GivenRow<infer K> ? K : never;
@@ -312,7 +337,7 @@ const makeTable = <
         )?.answers[column]
     );
 
-  return { rows, Component, isComplete, isCorrect };
+  return { rows, Component, isComplete, isCorrect, nonGreyedCols };
 };
 
 export const tableWithoutEve = makeTable(
@@ -405,9 +430,36 @@ export const tableWithoutEve = makeTable(
 
     // TODO: fieldRow("keepOrDiscard", ...),
 
+    fieldRow("keepOrDiscard", {
+      label: "Keep or discard",
+      choices: [
+        ["keep", "K"],
+        ["discard", "D"],
+      ],
+      answers: [
+        "discard",
+        "keep",
+        "discard",
+        "keep",
+        "keep",
+        "discard",
+        "keep",
+        "keep",
+        "keep",
+        "discard",
+        "discard",
+        "keep",
+      ],
+    }),
+
     givenRow("finalPrivateKey", {
       label: "Key",
       values: ["-", 0, "-", 1, 1, "-", 0, 1, 1, "-", "-", 0],
     }),
-  ]
+  ],
+  {
+    rowKey1: "didAliceApplyH",
+    isColGrey: (val1, val2) => val1 !== val2,
+    rowKey2: "didBobApplyH",
+  }
 );

@@ -10,6 +10,7 @@ import {
 } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
+import { tableWithoutEve } from "./shared";
 
 export default page(setup, ({ section, oneOf }) => ({
   name: "sharingKey",
@@ -17,7 +18,7 @@ export default page(setup, ({ section, oneOf }) => ({
   sections: [
     section({
       name: "introToSharedKey",
-      body: (
+      body: (m) => (
         <Prose>
           On the previous page, we explained a quantum cryptographic protocol
           that transmitted a series of bits to Bob. However, Bob and Alice only
@@ -28,6 +29,21 @@ export default page(setup, ({ section, oneOf }) => ({
           <br />
           <br />
           Here's the full table from the previous page:
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+            ]}
+          />
+          <Prose>
+            Note that in all cases where the outcome was “random”, nature has
+            picked a 0 or 1. We highlighted those above in italics to remind you
+            that those could have come out different. But this is what Bob got!
+          </Prose>
         </Prose>
       ),
     }),
@@ -113,17 +129,197 @@ export default page(setup, ({ section, oneOf }) => ({
       },
     }),
     section({
-      name: "keepOrDiscardTableRow",
+      name: "keepOrDiscardTableRow1",
       body: (m) => (
-        <Prose>
-          Fill in the following table, stating whether Alice and Bob should keep
-          (K) or discard (D) their bit. After you submit your choices for the
-          first four qubits, we'll have you practice with the next four qubits
-          in another table.
-          <h1>[[[Show table]]]</h1>
-        </Prose>
+        <>
+          <Prose>
+            Fill in the following table, stating whether Alice and Bob should
+            keep (K) or discard (D) their bit. After you submit your choices for
+            the first four qubits, we'll have you practice with the next four
+            qubits in another table.
+          </Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+              "keepOrDiscard",
+            ]}
+            columns={[0, 1, 2, 3]}
+            editing={"keepOrDiscard"}
+          />
+        </>
       ),
+      guidance: {
+        nextMessage(r) {
+          if (!tableWithoutEve.isCorrect(r, "keepOrDiscard", [0, 1, 2, 3])) {
+            return "incorrect";
+          }
+          return null;
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <>
+                <Guidance.Disagree>
+                  Remember that if both Alice and Bob apply the Hadamard gate,
+                  Bob measures the same state Alice started with. If neither of
+                  them apply the gate, Bob measures the same state Alice started
+                  with. In those cases, can we trust the outcome? What about the
+                  other cases?
+                </Guidance.Disagree>
+              </>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
+      continue: {
+        label: "More qubits!",
+        allowed: (s, _, m) =>
+          tableWithoutEve.isComplete(s, m, "keepOrDiscard", [0, 1, 2, 3]),
+      },
     }),
+
+    section({
+      name: "keepOrDiscardTableRow1Answers",
+      when: (r, s) =>
+        !tableWithoutEve.isCorrect(r, "keepOrDiscard", [0, 1, 2, 3]),
+      body: (m) => (
+        <>
+          <Prose>
+            Here's our answers for whether Alice and Bob keep or discard their
+            bits. Press "More qubits!" to try the next row.
+          </Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+              "keepOrDiscard",
+            ]}
+            columns={[0, 1, 2, 3]}
+          />
+        </>
+      ),
+      continue: {
+        label: "More qubits!",
+        allowed: () => true,
+      },
+    }),
+
+    section({
+      name: "keepOrDiscardTableRow2",
+      body: (m) => (
+        <>
+          <Prose>
+            Fill in the following table, stating whether Alice and Bob should
+            keep (K) or discard (D) their bit, for the next four qubits Alice
+            sends.
+          </Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+              "keepOrDiscard",
+            ]}
+            columns={[4, 5, 6, 7]}
+            editing={"keepOrDiscard"}
+          />
+        </>
+      ),
+      guidance: {
+        nextMessage(r) {
+          if (!tableWithoutEve.isCorrect(r, "keepOrDiscard", [4, 5, 6, 7])) {
+            return "incorrect";
+          }
+          return null;
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <>
+                <Guidance.Disagree>
+                  Remember that if both Alice and Bob apply the Hadamard gate,
+                  Bob measures the same state Alice started with. If neither of
+                  them apply the gate, Bob measures the same state Alice started
+                  with. In those cases, can we trust the outcome? What about the
+                  other cases?
+                </Guidance.Disagree>
+              </>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
+      continue: {
+        allowed: (s, _, m) =>
+          tableWithoutEve.isComplete(s, m, "keepOrDiscard", [4, 5, 6, 7]),
+      },
+    }),
+
+    section({
+      name: "keepOrDiscardTableRow2Answers",
+      when: (r, s) =>
+        !tableWithoutEve.isCorrect(r, "keepOrDiscard", [4, 5, 6, 7]),
+      body: (m) => (
+        <>
+          <Prose>
+            Here's our answers for whether Alice and Bob keep or discard their
+            bits.
+          </Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+              "keepOrDiscard",
+            ]}
+            columns={[4, 5, 6, 7]}
+          />
+        </>
+      ),
+      continue: {
+        allowed: () => true,
+      },
+    }),
+
+    section({
+      name: "keepOrDiscardTableRowComplete",
+      body: (m) => (
+        <>
+          <Prose>Here's the final table, with all 12 qubits!</Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+              "keepOrDiscard",
+            ]}
+          />
+        </>
+      ),
+      continue: {
+        allowed: () => true,
+      },
+    }),
+
     section({
       name: "doesAliceBobShareKeyCheckTwo",
       body: (m) => (
@@ -201,11 +397,23 @@ export default page(setup, ({ section, oneOf }) => ({
     }),
     section({
       name: "aliceAndBobPrivateKeyTable",
-      body: (
+      body: (m) => (
         <Prose>
           Alice and Bob now share a private key! Here is the table so far, where
           we've removed all columns where Alice and Bob discarded their bits.
-          <h1>[[[Show table with removeGreyedColumns]]]</h1>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+              "keepOrDiscard",
+              "finalPrivateKey",
+            ]}
+            columns={tableWithoutEve.nonGreyedCols}
+          />
         </Prose>
       ),
     }),

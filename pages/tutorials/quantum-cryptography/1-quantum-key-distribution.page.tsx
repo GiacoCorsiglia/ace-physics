@@ -251,29 +251,9 @@ export default page(setup, ({ section, oneOf }) => ({
           />
         </>
       ),
-    }),
-
-    section({
-      name: "tableWithoutEveStateAlice2",
-      enumerate: false,
-      when: (r) => true,
-      body: (m) => (
-        <>
-          <Prose>
-            Looks like we disagree with some of your answers for Alice's final
-            state. Recall the effect of the Hadamard gate on a qubit:
-          </Prose>
-          <Callout color="blue">
-            <M t="{H\ket{0} = \ket{+}}" display={true} />
-            <M t="{H\ket{1} = \ket{-}}" display={true} />
-          </Callout>
-          <Prose>
-            Here is a table with the next 4 bits that Alice uses, as well as
-            whether or not she applied the Hadamard gate. Fill in the dropdowns
-            with the state that got sent to Bob.
-          </Prose>
-        </>
-      ),
+      continue: {
+        allowed: () => true,
+      },
     }),
 
     section({
