@@ -19,10 +19,14 @@ export default s.tutorial({
   },
   sections: {
     tableWithoutEveStateAlice1: s.section({
-      // TODO: Delete these sample messages.
-      messages: ["sampleCorrect", "sampleIncorrect"],
+      messages: ["correctStates", "wrongStates"],
     }),
-    tableWithoutEveStateAlice2: s.section(),
+    tableWithoutEveStateAlice1Answers: s.section(),
+
+    tableWithoutEveStateAlice2: s.section({
+      messages: ["correctStates", "wrongStates"],
+    }),
+    tableWithoutEveStateAlice2Answers: s.section(),
     tableWithoutEveStateAliceComplete: s.section(),
 
     // Section 1

@@ -180,6 +180,7 @@ const makeTable = <
     model,
     columns: columnIndices,
     editing,
+    excludeGreyedColumns,
   }: {
     model: ResponseModels[T];
     /**
@@ -194,6 +195,11 @@ const makeTable = <
      * Specify which column(s) can be edited.
      */
     editing?: FieldRowKey | readonly FieldRowKey[];
+    /**
+     * Automatically remove columns from the table where Alice and Bob's H-gate
+     * choice doesn't agree. NOT WORKING YET, use
+     */
+    excludeGreyedColumns?: boolean;
   }) => {
     // Ensure `editing` is an array if it's set.
     const editingArray = editing
@@ -390,6 +396,11 @@ export const tableWithoutEve = makeTable(
         <em>1</em>,
         0,
       ],
+    }),
+
+    givenRow("bitBobBeforeNature", {
+      label: "Bob's bit",
+      values: ["R", "0", "R", "1", "1", "R", "0", "1", "1", "R", "R", "0"],
     }),
 
     // TODO: fieldRow("keepOrDiscard", ...),

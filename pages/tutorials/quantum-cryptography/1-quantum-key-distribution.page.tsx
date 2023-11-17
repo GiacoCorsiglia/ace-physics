@@ -84,90 +84,173 @@ export default page(setup, ({ section, oneOf }) => ({
             whether she applied the Hadamard gate. Given this information, fill
             out the third row with the state that actually gets sent to Bob.
           </Prose>
-
-          <p>Editing the stateAlice row, columns 1--4.</p>
           <tableWithoutEve.Component
             model={m.tableWithoutEve}
             rows={["initialState", "didAliceApplyH", "stateAlice"]}
             columns={[0, 1, 2, 3]}
             editing="stateAlice"
           />
+        </>
+      ),
+      guidance: {
+        nextMessage(r, s) {
+          if (tableWithoutEve.isCorrect(r, "stateAlice", [0, 1, 2, 3])) {
+            return "correctStates";
+          }
+          return "wrongStates";
+        },
+        messages: {
+          correctStates: {
+            body: (
+              <>
+                <Callout color="blue">
+                  Your table looks good! Let's get some more practice with the
+                  next four qubits Alice sends to Bob.
+                </Callout>
+              </>
+            ),
+            onContinue: "nextSection",
+            continueLabel: "More qubits!",
+          },
+          wrongStates: {
+            body: (
+              <>
+                <Callout color="red">
+                  Looks like we disagree with some of your answers for Alice's
+                  states. Recall the effect of the Hadamard gate on a qubit:
+                  <M t="{H\ket{0} = \ket{+}}" display={true} />
+                  <M t="{H\ket{1} = \ket{-}}" display={true} />
+                </Callout>
+              </>
+            ),
+            onContinue: "nextMessage",
+            continueLabel: "Try again",
+          },
+        },
+      },
+      continue: {
+        label: "Check in!",
+        allowed: (s, _, m) =>
+          tableWithoutEve.isComplete(s, m, "stateAlice", [0, 1, 2, 3]),
+      },
+    }),
 
-          <p>Editing the stateAlice row, columns 5--8.</p>
+    section({
+      name: "tableWithoutEveStateAlice1Answers",
+      enumerate: false,
+      when: (r) => !tableWithoutEve.isCorrect(r, "stateAlice", [0, 1, 2, 3]),
+      body: (m) => (
+        <>
+          <Prose>Here's our answers for the states Alice sends to Bob.</Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={["initialState", "didAliceApplyH", "stateAlice"]}
+            columns={[0, 1, 2, 3]}
+          />
+          <Prose>
+            Before we move on, let's try the next qubits Alice sends.
+          </Prose>
+        </>
+      ),
+      continue: {
+        label: "More qubits!",
+      },
+    }),
+
+    section({
+      name: "tableWithoutEveStateAlice2",
+      body: (m, s) => (
+        <>
+          <Prose>
+            Alice sends a total of 12 qubits to Bob. We've seen the first set of
+            four; now let's try the second! Fill out the third row in this table
+            with the state that actually gets sent to Bob.
+          </Prose>
           <tableWithoutEve.Component
             model={m.tableWithoutEve}
             rows={["initialState", "didAliceApplyH", "stateAlice"]}
             columns={[4, 5, 6, 7]}
             editing="stateAlice"
           />
+        </>
+      ),
+      guidance: {
+        nextMessage(r, s) {
+          if (tableWithoutEve.isCorrect(r, "stateAlice", [4, 5, 6, 7])) {
+            return "correctStates";
+          }
+          return "wrongStates";
+        },
+        messages: {
+          correctStates: {
+            body: (
+              <>
+                <Callout color="blue">
+                  Your table looks good! Let's see the final table, with all 12
+                  qubits.
+                </Callout>
+              </>
+            ),
+            onContinue: "nextSection",
+            continueLabel: "More qubits!",
+          },
+          wrongStates: {
+            body: (
+              <>
+                <Callout color="red">
+                  Looks like we disagree with some of your answers for Alice's
+                  states. Recall the effect of the Hadamard gate on a qubit:
+                  <M t="{H\ket{0} = \ket{+}}" display={true} />
+                  <M t="{H\ket{1} = \ket{-}}" display={true} />
+                </Callout>
+              </>
+            ),
+            onContinue: "nextMessage",
+            continueLabel: "Try again",
+          },
+        },
+      },
+      continue: {
+        label: "Check in!",
+        allowed: (s, _, m) =>
+          tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
+      },
+    }),
 
-          <p>The complete table showing the answers for the stateAlice row.</p>
+    section({
+      name: "tableWithoutEveStateAlice2Answers",
+      enumerate: false,
+      when: (r) => !tableWithoutEve.isCorrect(r, "stateAlice", [4, 5, 6, 7]),
+      body: (m) => (
+        <>
+          <Prose>Here's our answers for the states Alice sends to Bob.</Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={["initialState", "didAliceApplyH", "stateAlice"]}
+            columns={[4, 5, 6, 7]}
+          />
+          <Prose>
+            Alice sends a total of 12 qubits to Bob. We've filled in the final
+            four—let's see the final table!
+          </Prose>
+        </>
+      ),
+      continue: {
+        label: "More qubits!",
+      },
+    }),
+
+    section({
+      name: "tableWithoutEveStateAliceComplete",
+      enumerate: false,
+      body: (m) => (
+        <>
           <tableWithoutEve.Component
             model={m.tableWithoutEve}
             rows={["initialState", "didAliceApplyH", "stateAlice"]}
           />
-
-          <p>Editing the bitBob Row columns 1--4</p>
-          <tableWithoutEve.Component
-            model={m.tableWithoutEve}
-            rows={[
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-              "didBobApplyH",
-              "bitBob",
-            ]}
-            editing="bitBob"
-            columns={[0, 1, 2, 3]}
-          />
-
-          <p>The complete table showing everything</p>
-          <tableWithoutEve.Component
-            model={m.tableWithoutEve}
-            rows={[
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-              "didBobApplyH",
-              "bitBob",
-              "finalPrivateKey",
-            ]}
-          />
         </>
       ),
-      continue: {
-        allowed: (s, _, m) =>
-          // This function checks if columns 0--4 are filled in in the
-          // "stateAlice" row. (It doesn't check if they're correct!)
-          tableWithoutEve.isComplete(s, m, "stateAlice", [0, 1, 2, 3]),
-      },
-      guidance: {
-        nextMessage(r) {
-          // This function checks if columns 1--4 are *correct* for the
-          // "stateAlice" row.
-          return tableWithoutEve.isCorrect(r, "stateAlice", [0, 1, 2, 3])
-            ? "sampleCorrect"
-            : "sampleIncorrect";
-        },
-        messages: {
-          sampleCorrect: {
-            body: (
-              <Guidance.Agree>
-                Columns 1--4 are CORRECT for the "stateAlice" row.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextSection",
-          },
-          sampleIncorrect: {
-            body: (
-              <Guidance.Disagree>
-                Columns 1--4 are INCORRECT for the "stateAlice" row.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-        },
-      },
     }),
 
     section({
@@ -206,29 +289,32 @@ export default page(setup, ({ section, oneOf }) => ({
             makes on each qubit: to apply an H or not? Please fill in the last
             row with the outcome of his subsequent measurement. "R" means his
             measurement is "random", with a 50% chance of getting either 0 or 1.
-            <h1>[[[Show table]]]</h1>
-            <h1>[[[Reactively show below once every box is filled]]]</h1>
           </Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+            ]}
+            editing="bitBob"
+            columns={[0, 1, 2, 3]}
+          />
         </>
       ),
       guidance: {
         nextMessage(r, s) {
+          if (tableWithoutEve.isCorrect(r, "bitBob", [0, 1, 2, 3])) {
+            return "correctBits";
+          }
           if (
             s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes(
               "wrongBits"
             )
           )
             return "wrongBits2";
-          // TODO: Rewrite using `tableWithoutEve.isCorrect(...)`
-          // if (
-          //   shared.tableWithoutEve?.bitBob?.slice(0, 4).filter((p, index) => {
-          //     p?.selected ===
-          //       shared.tableWithoutEveAnswers?.bitBob?.slice(0, 4).at(index)
-          //         ?.selected;
-          //   }).length === 4
-          // ) {
-          //   return "correctBits";
-          // }
           return "wrongBits";
         },
         messages: {
@@ -288,23 +374,30 @@ export default page(setup, ({ section, oneOf }) => ({
           },
         },
       },
-      continue: { label: "Check in!" },
+      continue: {
+        label: "Check in!",
+        allowed: (s, _, m) =>
+          tableWithoutEve.isComplete(s, m, "bitBob", [0, 1, 2, 3]),
+      },
     }),
     section({
       name: "bobRandomChoiceOnEachQubitAnswers",
       enumerate: false,
-      when: (r) =>
-        // TODO: Rewrite using `tableWithoutEve.isCorrect(...)
-        // r.tableWithoutEve?.bitBob?.slice(0, 4).filter((p, index) => {
-        //   p?.selected ===
-        //     shared.tableWithoutEveAnswers?.bitBob?.slice(0, 4).at(index)
-        //       ?.selected;
-        // }).length !== 4
-        true,
-      body: () => (
+      when: (r) => !tableWithoutEve.isCorrect(r, "bitBob", [0, 1, 2, 3]),
+      body: (m) => (
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
-          <h1>[[Show Table]]</h1>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBobBeforeNature",
+            ]}
+            columns={[0, 1, 2, 3]}
+          />
           <Prose>
             Before we move on, let's try the next qubits Alice sends.
           </Prose>
@@ -317,7 +410,7 @@ export default page(setup, ({ section, oneOf }) => ({
     section({
       name: "bobRandomChoiceOnEachQubit2",
       enumerate: true,
-      body: (
+      body: (m) => (
         <>
           <Prose>
             Given the next four qubits Alice sends Bob, and whether he chooses
@@ -325,26 +418,31 @@ export default page(setup, ({ section, oneOf }) => ({
             of Bob's measurement: 0, 1, or "R" for random, with a 50% chance of
             getting either 0 or 1.
           </Prose>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+            ]}
+            editing="bitBob"
+            columns={[4, 5, 6, 7]}
+          />
         </>
       ),
       guidance: {
         nextMessage(r, s) {
+          if (tableWithoutEve.isCorrect(r, "bitBob", [4, 5, 6, 7])) {
+            return "correctBits";
+          }
           if (
             s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes(
               "wrongBits"
             )
           )
             return "wrongBits2";
-          // TODO: Rewrite using `tableWithoutEve.isCorrect(...)`.
-          // if (
-          //   r.tableWithoutEve?.bitBob?.slice(4, 8).filter((p, index) => {
-          //     p?.selected ===
-          //       shared.tableWithoutEveAnswers?.bitBob?.slice(4, 8).at(index)
-          //         ?.selected;
-          //   }).length === 4
-          // ) {
-          //   return "correctBits";
-          // }
           return "wrongBits";
         },
         messages: {
@@ -354,7 +452,8 @@ export default page(setup, ({ section, oneOf }) => ({
                 <Callout color="blue">
                   Your table looks good! Hit the “measure” button to let
                   “nature” determine the outcomes of all the cells labeled “R”
-                  for random in the last row.
+                  for random in the last row. We'll also include the last four
+                  bits that Alice sent.
                 </Callout>
               </>
             ),
@@ -405,23 +504,30 @@ export default page(setup, ({ section, oneOf }) => ({
           },
         },
       },
-      continue: { label: "Check in!" },
+      continue: {
+        label: "Check in!",
+        allowed: (s, _, m) =>
+          tableWithoutEve.isComplete(s, m, "bitBob", [4, 5, 6, 7]),
+      },
     }),
     section({
       name: "bobRandomChoiceOnEachQubitAnswers2",
       enumerate: false,
-      when: (r) =>
-        // TODO: Rewrite using `tableWithoutEve.isCorrect(...)`
-        // r.tableWithoutEve?.bitBob?.slice(4, 8).filter((p, index) => {
-        //   p?.selected ===
-        //     shared.tableWithoutEveAnswers?.bitBob?.slice(4, 8).at(index)
-        //       ?.selected;
-        // }).length !== 4,
-        true,
-      body: () => (
+      when: (r) => !tableWithoutEve.isCorrect(r, "bitBob", [4, 5, 6, 7]),
+      body: (m) => (
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
-          <h1>[[Show Table]]</h1>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBobBeforeNature",
+            ]}
+            columns={[4, 5, 6, 7]}
+          />
           <Prose>
             Hit "Measure!" to let "nature" determine the outcomes of all the
             cells labeled "R" for random in the last row. We'll also add the
@@ -437,10 +543,19 @@ export default page(setup, ({ section, oneOf }) => ({
     section({
       name: "natureEffectBobBitAfterMeasurement",
       enumerate: false,
-      body: (
+      body: (m) => (
         <>
+          <tableWithoutEve.Component
+            model={m.tableWithoutEve}
+            rows={[
+              "initialState",
+              "didAliceApplyH",
+              "stateAlice",
+              "didBobApplyH",
+              "bitBob",
+            ]}
+          />
           <Prose>
-            <h1>[[[Show table]]]</h1>
             Note that in all cases where the outcome was “random”, nature has
             picked a 0 or 1. We highlighted those above in italics to remind you
             that those could have come out different. But this is what Bob got!
@@ -789,140 +904,6 @@ export default page(setup, ({ section, oneOf }) => ({
           },
         },
       },
-    }),
-
-    section({
-      name: "fractionOfBitStringsAgreeExplanationPartOne",
-      enumerate: false,
-      body: (
-        <Prose>
-          Alice and Bob must remove every bit where they could have a mismatch.
-          To do this, <b>after all measurements have been made</b>, they both
-          publicly share their full record of whether or not they applied an H
-          gate. They do NOT publicly share their bit values.
-        </Prose>
-      ),
-      continue: { label: "Okay..." },
-    }),
-    section({
-      name: "fractionOfBitStringsAgreeExplanationPartTwo",
-      enumerate: false,
-      body: (
-        <Prose>
-          In everycase where they did not both make the same decision to apply
-          the H gate or not, they both simply discard that bit. Thus, all bits
-          that remain arise only when theyeither <b>both</b> applied an H gate,
-          or <b>neither</b> applied an H gate.
-        </Prose>
-      ),
-      continue: { label: "Interesting!" },
-    }),
-    section({
-      name: "frequencyTheyDiscardBit",
-      body: (m) => (
-        <>
-          <Prose>On average, how frequently do they discard a bit?</Prose>
-          <LabelsLeft>
-            <Dropdown
-              model={m.frequencyTheyDiscardBit}
-              label={<Prose>Discard Probability: </Prose>}
-              choices={[
-                ["25%", "25% of the time"],
-                ["50%", "50% of the time"],
-                ["75%", "75% of the time"],
-              ]}
-            />
-          </LabelsLeft>
-        </>
-      ),
-    }),
-    section({
-      name: "keepOrDiscardTableRow",
-      body: (m) => (
-        <Prose>
-          <h1>[[[Show table]]]</h1>
-        </Prose>
-      ),
-    }),
-    section({
-      name: "doesAliceBobShareKeyCheckTwo",
-      body: (m) => (
-        <Toggle
-          model={m.doesAliceBobShareKeyCheckTwo}
-          label={<Prose>At this stage, do Alice and Bob share a key?</Prose>}
-          choices={[
-            ["yes", "Yes, they both share a key."],
-            ["no", "No, the outcome does not allow it."],
-          ]}
-        />
-      ),
-      guidance: {
-        nextMessage(r) {
-          const answer = r.doesAliceBobShareKeyCheckTwo?.selected;
-
-          if (answer === "no") {
-            return "incorrect";
-          }
-          return null;
-        },
-        messages: {
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                <h1>[lengthy explanation]</h1>
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextSection",
-          },
-        },
-      },
-    }),
-    section({
-      name: "whatIsTheSharedKey",
-      body: (m) => (
-        <>
-          <Prose>
-            For the example table we worked on above, what is the shared key?
-          </Prose>
-          <LabelsLeft>
-            <Decimal
-              model={m.whatIsTheSharedKey}
-              label={<Prose>Key in bits: </Prose>}
-            ></Decimal>
-          </LabelsLeft>
-        </>
-      ),
-    }),
-    section({
-      name: "doesPublicInfoGiveInfoAboutBitString",
-      body: (m) => (
-        <ChooseOne
-          model={m.doesPublicInfoGiveInfoAboutBitString}
-          label={
-            <Prose>
-              An outside observer, Eve, sees the public information from Alice
-              and Bob, sent after all measurements were completed, where they
-              each shared their records of whether an H gate was applied each
-              time. Does this public information give Eve information about
-              Alice or Bob’s bit string?
-            </Prose>
-          }
-          choices={[
-            ["yes", "Yes, the public information allows this."],
-            ["no", "No, not enough information."],
-          ]}
-        />
-      ),
-    }),
-    section({
-      name: "aliceAndBobPrivateKeyTable",
-      body: (
-        <Prose>
-          Alice and Bob now share a private key! Here is the table so far
-          (dashed entries are ignored)
-          <h1>[[[Show table]]]</h1>
-        </Prose>
-      ),
     }),
   ],
 }));
