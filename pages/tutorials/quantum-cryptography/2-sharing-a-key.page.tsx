@@ -30,7 +30,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <br />
           Here's the full table from the previous page:
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -139,7 +139,7 @@ export default page(setup, ({ section, oneOf }) => ({
             qubits in another table.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -195,7 +195,7 @@ export default page(setup, ({ section, oneOf }) => ({
             bits. Press "More qubits!" to try the next row.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -224,7 +224,7 @@ export default page(setup, ({ section, oneOf }) => ({
             sends.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -279,7 +279,7 @@ export default page(setup, ({ section, oneOf }) => ({
             bits.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -303,7 +303,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's the final table, with all 12 qubits!</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -402,7 +402,7 @@ export default page(setup, ({ section, oneOf }) => ({
           Alice and Bob now share a private key! Here is the table so far, where
           we've removed all columns where Alice and Bob discarded their bits.
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",

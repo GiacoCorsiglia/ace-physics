@@ -256,7 +256,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Eve's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -289,7 +289,7 @@ export default page(setup, ({ section }) => ({
             getting either 0 or 1.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -403,7 +403,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Eve's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -430,7 +430,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -458,7 +458,7 @@ export default page(setup, ({ section }) => ({
             gate, she does so before and after her measurement.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -563,7 +563,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Eve's states.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -595,7 +595,7 @@ export default page(setup, ({ section }) => ({
             gate, she does so before and after her measurement.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -699,7 +699,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Eve's states.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -723,7 +723,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -752,7 +752,7 @@ export default page(setup, ({ section }) => ({
             Hadamard gate, now that Eve has interfered.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -867,7 +867,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -901,7 +901,7 @@ export default page(setup, ({ section }) => ({
             measures,
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -1017,7 +1017,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -1045,7 +1045,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve}
+            model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",

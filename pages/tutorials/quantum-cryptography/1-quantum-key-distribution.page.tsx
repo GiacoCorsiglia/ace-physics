@@ -143,7 +143,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's our answers for the states Alice sends to Bob.</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={["initialState", "didAliceApplyH", "stateAlice"]}
             columns={[0, 1, 2, 3]}
           />
@@ -167,7 +167,7 @@ export default page(setup, ({ section, oneOf }) => ({
             with the state that actually gets sent to Bob.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={["initialState", "didAliceApplyH", "stateAlice"]}
             columns={[4, 5, 6, 7]}
             editing="stateAlice"
@@ -225,7 +225,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's our answers for the states Alice sends to Bob.</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={["initialState", "didAliceApplyH", "stateAlice"]}
             columns={[4, 5, 6, 7]}
           />
@@ -246,7 +246,7 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={["initialState", "didAliceApplyH", "stateAlice"]}
           />
         </>
@@ -271,7 +271,7 @@ export default page(setup, ({ section, oneOf }) => ({
             measurement is "random", with a 50% chance of getting either 0 or 1.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -368,7 +368,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -399,7 +399,7 @@ export default page(setup, ({ section, oneOf }) => ({
             getting either 0 or 1.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -498,7 +498,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
@@ -526,7 +526,7 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve}
+            model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
               "initialState",
               "didAliceApplyH",
