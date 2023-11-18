@@ -187,7 +187,10 @@ const makeTable = <
     row ? ("key" in row ? row.values : row.answers) : undefined
   );
   range(columnsCount).forEach((c) => {
-    greyColFn?.isColGrey(rowValues[0]?.at(c), rowValues[1]?.at(c))
+    greyColFn?.isColGrey(
+      rowValues[0] ? rowValues[0][c] : null,
+      rowValues[1] ? rowValues[1][c] : null
+    )
       ? null
       : nonGreyedCols.push(c);
   });
