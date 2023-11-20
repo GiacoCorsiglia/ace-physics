@@ -447,6 +447,9 @@ export default page(setup, ({ section }) => ({
           </Prose>
         </>
       ),
+      continue: {
+        allowed: () => true,
+      },
     }),
     section({
       name: "qubitStateEveSendsToBob1",
@@ -1062,6 +1065,9 @@ export default page(setup, ({ section }) => ({
           </Prose>
         </>
       ),
+      continue: {
+        allowed: () => true,
+      },
     }),
     section({
       name: "fractionOfMismatchedComparedSampleBits",

@@ -542,6 +542,9 @@ export default page(setup, ({ section, oneOf }) => ({
           </Prose>
         </>
       ),
+      continue: {
+        allowed: () => true
+      }
     }),
 
     section({
