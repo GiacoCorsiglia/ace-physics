@@ -93,6 +93,8 @@ const tableWithEveAnswers: Responses["tableWithEve"] = {
   ).map(makeChoice),
 };
 
+const hide = (element: any) => <em style={{ opacity: 0.5 }}>{element}</em>;
+
 type TableName = "tableWithoutEve" | "tableWithEve";
 type TableSchema<T extends TableName = TableName> =
   Schema["properties"]["responses"]["properties"][T];
@@ -346,6 +348,10 @@ const makeTable = <
 export const tableWithoutEve = makeTable(
   "tableWithoutEve",
   ({ givenRow, fieldRow }) => [
+    givenRow("qubitNumber", {
+      label: "Qubit #",
+      values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    }),
     givenRow("initialState", {
       label: "Initial state",
       values: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
@@ -411,17 +417,17 @@ export const tableWithoutEve = makeTable(
       // These are the values we show when showing the complete table.  Note
       // that we have selected a specific bit for each of the "random" cases.
       values: [
-        <em>1</em>,
+        hide(1),
         0,
-        <em>1</em>,
+        hide(1),
         1,
         1,
-        <em>1</em>,
+        hide(1),
         0,
         1,
         1,
-        <em>1</em>,
-        <em>1</em>,
+        hide(1),
+        hide(0),
         0,
       ],
     }),
@@ -523,17 +529,17 @@ export const tableWithEve = makeTable(
         "0",
       ],
       values: [
-        <em>1</em>,
-        <em>1</em>,
+        hide(1),
+        hide(1),
         0,
-        <em>1</em>,
+        hide(1),
         1,
         0,
-        <em>1</em>,
-        <em>0</em>,
+        hide(1),
+        hide(0),
         1,
-        <em>1</em>,
-        <em>1</em>,
+        hide(1),
+        hide(0),
         0,
       ],
     }),
@@ -598,14 +604,14 @@ export const tableWithEve = makeTable(
       // These are the values we show when showing the complete table.  Note
       // that we have selected a specific bit for each of the "random" cases.
       values: [
-        <em>1</em>,
-        <em>0</em>,
-        <em>1</em>,
-        <em>1</em>,
+        hide(1),
+        hide(0),
+        hide(1),
+        hide(1),
         1,
-        <em>0</em>,
-        <em>1</em>,
-        <em>0</em>,
+        hide(0),
+        hide(1),
+        hide(0),
         1,
         1,
         1,
