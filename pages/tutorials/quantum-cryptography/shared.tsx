@@ -349,8 +349,21 @@ export const tableWithoutEve = makeTable(
   "tableWithoutEve",
   ({ givenRow, fieldRow }) => [
     givenRow("qubitNumber", {
-      label: "Qubit #",
-      values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      label: <u>Qubit #</u>,
+      values: [
+        <u>1</u>,
+        <u>2</u>,
+        <u>3</u>,
+        <u>4</u>,
+        <u>5</u>,
+        <u>6</u>,
+        <u>7</u>,
+        <u>8</u>,
+        <u>9</u>,
+        <u>10</u>,
+        <u>11</u>,
+        <u>12</u>,
+      ],
     }),
     givenRow("initialState", {
       label: "Initial state",
@@ -474,6 +487,23 @@ export const tableWithoutEve = makeTable(
 export const tableWithEve = makeTable(
   "tableWithEve",
   ({ givenRow, fieldRow }) => [
+    givenRow("qubitNumber", {
+      label: <u>Qubit #</u>,
+      values: [
+        <u>1</u>,
+        <u>2</u>,
+        <u>3</u>,
+        <u>4</u>,
+        <u>5</u>,
+        <u>6</u>,
+        <u>7</u>,
+        <u>8</u>,
+        <u>9</u>,
+        <u>10</u>,
+        <u>11</u>,
+        <u>12</u>,
+      ],
+    }),
     givenRow("initialState", {
       label: "Initial state",
       values: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],

@@ -1,4 +1,5 @@
 import {
+  Callout,
   ChooseOne,
   Decimal,
   Dropdown,
@@ -32,6 +33,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -70,7 +72,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <Prose>
           In every case where they did not both make the same decision to apply
           the H gate or not, they both simply discard that bit. Thus, all bits
-          that remain arise only when theyeither <b>both</b> applied an H gate,
+          that remain arise only when they either <b>both</b> applied an H gate,
           or <b>neither</b> applied an H gate.
         </Prose>
       ),
@@ -106,10 +108,9 @@ export default page(setup, ({ section, oneOf }) => ({
             body: (
               <>
                 <Guidance.Disagree>
-                  Please double-check your answer. When Alice chooses not to
-                  apply H, how often does Bob make the same decision? Similarly,
-                  when Alice chooses to apply H, how often does Bob make the
-                  same decision?
+                  Please double-check your answer. How often do Alice and Bob
+                  make the same Hadamard decision? When they make the same
+                  decision, do they need to discard a bit?
                 </Guidance.Disagree>
               </>
             ),
@@ -144,6 +145,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -200,6 +202,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -229,6 +232,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -284,6 +288,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -308,6 +313,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -328,7 +334,11 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <Toggle
           model={m.doesAliceBobShareKeyCheckTwo}
-          label={<Prose>At this stage, do Alice and Bob share a key?</Prose>}
+          label={
+            <Prose>
+              Using only the 'keep' bits, do Alice and Bob share a key?
+            </Prose>
+          }
           choices={[
             ["yes", "Yes, they both share a key."],
             ["no", "No, they do not."],
@@ -376,6 +386,30 @@ export default page(setup, ({ section, oneOf }) => ({
           </LabelsLeft>
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          if (r.whatIsTheSharedKey !== 110110) return "incorrect";
+          return null;
+        },
+        messages: {
+          incorrect: {
+            body: (s) => (
+              <>
+                <Callout color="red">
+                  We may disagree with your answer. Any time Alice's and Bob's
+                  Hadamard choices agreed, Bob's bit was not random. On the
+                  table, Bob's random bits are shown in italics. To get our key,
+                  we noted down every one of Bob's bits that was not in italics.
+                  <br />
+                  <br />
+                  <center>Our key is "0110110".</center>
+                </Callout>
+              </>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "doesPublicInfoGiveInfoAboutBitString",
@@ -384,11 +418,9 @@ export default page(setup, ({ section, oneOf }) => ({
           model={m.doesPublicInfoGiveInfoAboutBitString}
           label={
             <Prose>
-              An outside observer, Eve, sees the public information from Alice
-              and Bob, sent after all measurements were completed, where they
-              each shared their records of whether an H gate was applied each
-              time. Does this public information give Eve information about
-              Alice or Bob’s bit string?
+              If an outside observer sees the public information from Alice and
+              Bob (i.e. whether or not they applied a Hadamard gate), does the
+              observer gain information about the contents of the shared key?
             </Prose>
           }
           choices={[
@@ -397,6 +429,28 @@ export default page(setup, ({ section, oneOf }) => ({
           ]}
         />
       ),
+      guidance: {
+        nextMessage(r) {
+          const answer = r.doesPublicInfoGiveInfoAboutBitString?.selected;
+
+          if (answer === "yes") {
+            return "incorrect";
+          }
+          return null;
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                We disagree with your answer. Revealing whether or not you
+                applied a Hadamard gate is different from revealing what your
+                measurement was.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "aliceAndBobPrivateKeyTable",
@@ -407,6 +461,7 @@ export default page(setup, ({ section, oneOf }) => ({
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -419,6 +474,9 @@ export default page(setup, ({ section, oneOf }) => ({
           />
         </Prose>
       ),
+      continue: {
+        allowed: () => true,
+      },
     }),
   ],
 }));

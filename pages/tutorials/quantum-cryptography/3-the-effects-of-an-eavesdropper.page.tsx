@@ -2,6 +2,7 @@ import {
   Callout,
   ChooseOne,
   Decimal,
+  Guidance,
   LabelsLeft,
   M,
   Prose,
@@ -99,12 +100,14 @@ export default page(setup, ({ section }) => ({
                 </Callout>
                 <br />
                 <Callout color="blue">
-                  However, the way we understand it, Eve doesn't know whether
-                  she has a state in the <M t="{\ket{0/1}}" /> basis or the{" "}
-                  <M t="{\ket{+/-}}" /> basis when the qubits pass through her
-                  device, because that information has not yet been publicly
-                  released. If Eve makes the same H-gate choice as Alice, then
-                  she will accurately measure the state and pass it on to Bob.
+                  Eve doesn't know whether she has a state in the{" "}
+                  <M t="{\{\ket{0}, \ket{1}\}}" /> basis or the{" "}
+                  <M t="{\{\ket{+}, \ket{1}\}}" /> basis when the qubits pass
+                  through her device, because that information has not yet been
+                  publicly released. <hr />
+                  If Eve makes the same H-gate choice as Alice, then she will
+                  accurately measure the state and pass it on to Bob.
+                  <hr />
                   If they make different H-gate choices, the result of Eve's
                   measurement and the subsequent state she passes onto Bob will
                   be completely random.
@@ -125,26 +128,21 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             <p>
-              We reproduce our table from earlier, but add rows to show Eve in
-              the middle. Eve will make the random decision to perform a
-              Hadamard before and after her measurement or not. We indicate her
-              choice in the table.
+              We reproduce our table from earlier (including only the 'keep'
+              qubits), but add rows to show Eve's operations. For each state she
+              receives, Eve will make a random decision to perform a Hadamard
+              before her measurement. We indicate her choice in the table.
             </p>
             <p>
-              Since we know that Alice and Bob will discard any bit where they
-              did not make the same Hadamard choice, in our analysis, we are
-              going to simply ignore those instances (to make less work for
-              ourselves). We removed all of these columns.{" "}
-            </p>
-            <p>
-              Eve’s presence may alter some outcomes, so we have eliminated the
-              bottom portion of the table for now. As usual, we are starting
-              with the first four columns, but we'll add the next 3 after.
+              Please fill in the last row with the outcome of Eve's subsequent
+              measurement. "R" stands for "random" with a 50/50 chance of
+              observing 0 or 1.
             </p>
           </Prose>
           <tableWithEve.Component
             model={m.tableWithEve}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -193,12 +191,8 @@ export default page(setup, ({ section }) => ({
               <>
                 <Callout color="red">
                   Looks like we disagree with some of your answers for Eve's
-                  measurements. Remember that Eve is measuring in the{" "}
-                  <M t="{\ket{0}}" />/<M t="{\ket{1} }" /> basis,
-                  <em> after</em> she either does or does not apply H. Think
-                  about what state she has <em>right before</em> she measures.
-                  What happens if she tries to measure <M t="{\ket{+}}" /> or{" "}
-                  <M t="{\ket{-}}" /> in that basis?
+                  measurements. It might help to write down the state Eve has
+                  after she does or does not apply the H-gate.
                 </Callout>
               </>
             ),
@@ -220,9 +214,18 @@ export default page(setup, ({ section }) => ({
                     <M t="{H\ket{-} = \ket{1}}" />
                   </center>
                   <br />
-                  What are the actual states that Eve measures, after the H gate
-                  has been (possibly) applied? And what are the outcomes of her
-                  measurements?
+                  Also recall: <br />
+                  <center>
+                    <M
+                      display={true}
+                      t="{\ket{+} = \frac{1}{\sqrt{2}}(\ket{0}+\ket{1})}"
+                    />
+                    <br />
+                    <M
+                      display={true}
+                      t="{\ket{-} = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})}"
+                    />
+                  </center>
                 </Callout>
               </>
             ),
@@ -258,6 +261,7 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -291,6 +295,7 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -340,12 +345,8 @@ export default page(setup, ({ section }) => ({
               <>
                 <Callout color="red">
                   Looks like we disagree with some of your answers for Eve's
-                  measurements. Remember that Eve is measuring in the{" "}
-                  <M t="{\ket{0}}" />/<M t="{\ket{1} }" /> basis,
-                  <em> after</em> she either does or does not apply H. Think
-                  about what state she has <em>right before</em> she measures.
-                  What happens if she tries to measure <M t="{\ket{+}}" /> or{" "}
-                  <M t="{\ket{-}}" /> in that basis?
+                  measurements. It might help to write down the state Eve has
+                  after she does or does not apply the H-gate.
                 </Callout>
               </>
             ),
@@ -367,9 +368,18 @@ export default page(setup, ({ section }) => ({
                     <M t="{H\ket{-} = \ket{1}}" />
                   </center>
                   <br />
-                  What are the actual states that Eve measures, after the H gate
-                  has been (possibly) applied? And what are the outcomes of her
-                  measurements?
+                  Also recall: <br />
+                  <center>
+                    <M
+                      display={true}
+                      t="{\ket{+} = \frac{1}{\sqrt{2}}(\ket{0}+\ket{1})}"
+                    />
+                    <br />
+                    <M
+                      display={true}
+                      t="{\ket{-} = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})}"
+                    />
+                  </center>
                 </Callout>
               </>
             ),
@@ -405,6 +415,7 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -432,6 +443,7 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -456,13 +468,17 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            Using these results, fill in the next row indicating what qubit
-            state Eve sends to Bob. Recall that if she applies the Hadamard
-            gate, she does so before and after her measurement.
+            Eve tries to cover her tracks before passing her state on to Bob. If
+            she applied a Hadamard gate before measuring, she reapplies it after
+            measuring to try to reverse her former action. If she did not apply
+            an H-gate before, she does nothing.
+            <br /> <br />
+            Fill in the next row indicating what qubit state Eve sends to Bob.
           </Prose>
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -515,7 +531,7 @@ export default page(setup, ({ section }) => ({
                   Looks like we disagree with some of your answers for Eve's
                   states. Remember that when she measures a state and gets a bit
                   (0 or 1) she collapses the state into <M t="{\ket{0}}" /> or{" "}
-                  <M t="{\ket{1}}" />. Then, she either does or does not apply
+                  <M t="{\ket{1}}" />. Then, she either does or does not reapply
                   the Hadamard gate, according to the table. Given this
                   information, can you figure out what states she sends to Bob?
                 </Callout>
@@ -568,6 +584,7 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -600,6 +617,7 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -651,7 +669,7 @@ export default page(setup, ({ section }) => ({
                   Looks like we disagree with some of your answers for Eve's
                   states. Remember that when she measures a state and gets a bit
                   (0 or 1) she collapses the state into <M t="{\ket{0}}" /> or{" "}
-                  <M t="{\ket{1}}" />. Then, she either does or does not apply
+                  <M t="{\ket{1}}" />. Then, she either does or does not reapply
                   the Hadamard gate, according to the table. Given this
                   information, can you figure out what states she sends to Bob?
                 </Callout>
@@ -704,6 +722,7 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -728,6 +747,7 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
@@ -757,11 +777,13 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
               "didEveApplyH",
               "bitEve",
+              "stateEve",
               "didBobApplyH",
               "bitBob",
             ]}
@@ -807,12 +829,8 @@ export default page(setup, ({ section }) => ({
               <>
                 <Callout color="red">
                   Looks like we disagree with some of your answers for Bob's
-                  measurements. Remember that Bob is measuring in the{" "}
-                  <M t="{\ket{0}}" />/<M t="{\ket{1} }" /> basis,
-                  <em> after</em> he either does or does not apply H. Think
-                  about what state he has <em>right before</em> he measures.
-                  What happens if he tries to measure <M t="{\ket{+}}" /> or{" "}
-                  <M t="{\ket{-}}" /> in that basis?
+                  measurements. It might help to write down the state Bob has
+                  after he does or does not apply the H-gate.
                 </Callout>
               </>
             ),
@@ -834,9 +852,18 @@ export default page(setup, ({ section }) => ({
                     <M t="{H\ket{-} = \ket{1}}" />
                   </center>
                   <br />
-                  What are the actual states that Bob measures, after the H gate
-                  has been (possibly) applied? And what are the outcomes of his
-                  measurements?
+                  Also recall: <br />
+                  <center>
+                    <M
+                      display={true}
+                      t="{\ket{+} = \frac{1}{\sqrt{2}}(\ket{0}+\ket{1})}"
+                    />
+                    <br />
+                    <M
+                      display={true}
+                      t="{\ket{-} = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})}"
+                    />
+                  </center>
                 </Callout>
               </>
             ),
@@ -872,11 +899,13 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
               "didEveApplyH",
               "bitEve",
+              "stateEve",
               "didBobApplyH",
               "bitBobBeforeNature",
             ]}
@@ -906,11 +935,13 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
               "didEveApplyH",
               "bitEve",
+              "stateEve",
               "didBobApplyH",
               "bitBob",
             ]}
@@ -957,12 +988,8 @@ export default page(setup, ({ section }) => ({
               <>
                 <Callout color="red">
                   Looks like we disagree with some of your answers for Bob's
-                  measurements. Remember that Bob is measuring in the{" "}
-                  <M t="{\ket{0}}" />/<M t="{\ket{1} }" /> basis,
-                  <em> after</em> he either does or does not apply H. Think
-                  about what state he has <em>right before</em> he measures.
-                  What happens if he tries to measure <M t="{\ket{+}}" /> or{" "}
-                  <M t="{\ket{-}}" /> in that basis?
+                  measurements. It might help to write down the state Bob has
+                  after he does or does not apply the H-gate.
                 </Callout>
               </>
             ),
@@ -984,9 +1011,18 @@ export default page(setup, ({ section }) => ({
                     <M t="{H\ket{-} = \ket{1}}" />
                   </center>
                   <br />
-                  What are the actual states that Bob measures, after the H gate
-                  has been (possibly) applied? And what are the outcomes of his
-                  measurements?
+                  Also recall: <br />
+                  <center>
+                    <M
+                      display={true}
+                      t="{\ket{+} = \frac{1}{\sqrt{2}}(\ket{0}+\ket{1})}"
+                    />
+                    <br />
+                    <M
+                      display={true}
+                      t="{\ket{-} = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})}"
+                    />
+                  </center>
                 </Callout>
               </>
             ),
@@ -1022,11 +1058,13 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
               "didEveApplyH",
               "bitEve",
+              "stateEve",
               "didBobApplyH",
               "bitBobBeforeNature",
             ]}
@@ -1050,11 +1088,13 @@ export default page(setup, ({ section }) => ({
           <tableWithEve.Component
             model={m.tableWithEve /* ignore-repeated-model */}
             rows={[
+              "qubitNumber",
               "initialState",
               "didAliceApplyH",
               "stateAlice",
               "didEveApplyH",
               "bitEve",
+              "stateEve",
               "didBobApplyH",
               "bitBob",
             ]}
@@ -1074,8 +1114,8 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            In this small sample, what fraction of the compared bits mismatched?{" "}
-            <b>(Round to second decimal point).</b>
+            In this small sample, what percentage of the compared bits
+            mismatched? <b>(Round to the nearest percent).</b>
           </Prose>
           <LabelsLeft>
             <Decimal
@@ -1085,15 +1125,36 @@ export default page(setup, ({ section }) => ({
           </LabelsLeft>
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          if (r.fractionOfMismatchedComparedSampleBits !== 28)
+            return "incorrect";
+          return null;
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <>
+                <Guidance.Disagree>
+                  To answer this question, we compared Bob's bits to Alice's
+                  bits (the bottom row to the top row). Bits 7 and 8 disagree,
+                  so our answer is 2/7, or 28%.{" "}
+                </Guidance.Disagree>
+              </>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "fractionOfMismatchedComparedBits",
       body: (m) => (
         <>
           <Prose>
-            If Eve is intercepting all bits, for large strings, what fraction of
-            the compared bits will mismatch?{" "}
-            <b>(Round to second decimal point).</b>
+            If Eve is intercepting all bits, for large strings, what percentage
+            of the compared bits will mismatch?{" "}
+            <b>(Round to the nearest percent).</b>
           </Prose>
           <LabelsLeft>
             <Decimal
@@ -1103,24 +1164,78 @@ export default page(setup, ({ section }) => ({
           </LabelsLeft>
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          if (r.fractionOfMismatchedComparedBits !== 25) return "incorrect";
+          return null;
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <>
+                <Guidance.Disagree>
+                  We disagree with your answer. Firstly, we consider only the
+                  "keep" bits (bits where Alice and Bob agreed on their H-gate
+                  choice). <hr />
+                  50% of the time, Eve will make the same H-gate choice as Alice
+                  and Bob, and the state will pass from Eve to Bob unchanged.{" "}
+                  <hr />
+                  50% of the time, Eve will make a different H-gate choice from
+                  Alice and Bob. Ultimately, this will result in Bob measuring a
+                  state from the <M t="{\{\ket{+}, \ket{-}\}}" /> basis, giving
+                  him a random result that is as likely to match as mismatch.
+                  <hr />
+                  If you combine these two cases, Bob's and Alice's bits will
+                  match 75% of the time, and mismatch 25% of the time.
+                </Guidance.Disagree>
+              </>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
-      name: "chanceOfEveBeingDetected",
+      name: "chanceOfEveBeingUndetected",
       body: (m) => (
         <>
           <Prose>
             Assume we decided to select 2 bits to compare for our test to detect
-            Eve. What is the chance she will be detected?{" "}
-            <b>(Round to second decimal point).</b>
+            Eve. What is the percent chance that both of Bob's bits will match
+            Alice's? <b>(Round to the nearest percent).</b>
           </Prose>
           <LabelsLeft>
             <Decimal
-              model={m.chanceOfEveBeingDetected}
+              model={m.chanceOfEveBeingUndetected}
               label={<Prose>Percentage: </Prose>}
             />
           </LabelsLeft>
+          <Prose>
+            In an ideal world, all bits should match, so any mismatch indicates
+            an eavesdropper.
+          </Prose>
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          return "incorrect";
+        },
+        messages: {
+          incorrect: {
+            body: (
+              <>
+                <Guidance.Disagree>
+                  We disagree with your answer. We know that Bob and Alice's
+                  bits match 75% of the time. The chance that two bits match is
+                  therefore <M t="{(0.75)^2}" /> or 56%. If this happens, Alice
+                  and Bob fail to notice the eavesdropper.
+                </Guidance.Disagree>
+              </>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "oddsOfBobAliceFailToNotice",
@@ -1134,6 +1249,30 @@ export default page(setup, ({ section }) => ({
           <TextBox model={m.oddsOfBobAliceFailToNotice} />
         </>
       ),
+      guidance: {
+        nextMessage(r) {
+          return "explanation";
+        },
+        messages: {
+          explanation: {
+            body: (
+              <>
+                <Guidance.Hint>
+                  We haven't checked your answer, but:
+                </Guidance.Hint>
+                <Guidance.HeadsUp>
+                  Each bit has a 75% chance of matching, so 100 bits have a{" "}
+                  <M t="{(0.75)^100}" /> chance of matching. This is roughly a{" "}
+                  <M t="{3\times 10^{-11} \%}" /> chance of matching. The chance
+                  that Alice and Bob fail to notice their eavesdropper is
+                  practically nil.
+                </Guidance.HeadsUp>
+              </>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
   ],
 }));

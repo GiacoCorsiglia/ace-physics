@@ -41,7 +41,9 @@ export default s.tutorial({
     }),
     bobRandomChoiceOnEachQubitAnswers2: s.section(),
     natureEffectBobBitAfterMeasurement: s.section(),
-    amountOfBitStringsAgree: s.section(),
+    amountOfBitStringsAgree: s.section({
+      messages: ["incorrect"],
+    }),
     fractionOfBitStringsAgree: s.section({
       messages: ["correct", "detour"],
     }),
@@ -65,16 +67,8 @@ export default s.tutorial({
     doesAliceBobShareKeyAtCurrentStage: s.section({
       messages: ["correct", "incorrect"],
     }),
-    // feedback for doesAliceBobShareKeyAtCurrentStage
-    doesAliceBobShareKeyAtCurrentStageIncorrect: s.section(),
 
-    doesAliceBobShareKeyCheckTwo: s.section({
-      messages: ["incorrect"],
-    }),
-    whatIsTheSharedKey: s.section(),
-    doesPublicInfoGiveInfoAboutBitString: s.section(),
-    aliceAndBobPrivateKeyTable: s.section(),
-    // Section: "Sharing A Private Key"
+    // Section 2: "Sharing A Private Key"
     introToSharedKey: s.section(),
     fractionOfBitStringsAgreeExplanationPartOne: s.section(),
     fractionOfBitStringsAgreeExplanationPartTwo: s.section(),
@@ -92,7 +86,20 @@ export default s.tutorial({
       messages: ["correct", "incorrect"],
     }),
 
-    // Section 3
+    doesAliceBobShareKeyAtCurrentStageIncorrect: s.section(),
+
+    doesAliceBobShareKeyCheckTwo: s.section({
+      messages: ["incorrect"],
+    }),
+    whatIsTheSharedKey: s.section({
+      messages: ["incorrect"],
+    }),
+    doesPublicInfoGiveInfoAboutBitString: s.section({
+      messages: ["incorrect"],
+    }),
+    aliceAndBobPrivateKeyTable: s.section(),
+
+    // Section 3: "The Effects of an Eavesdropper"
     theEffectsOfAnEavesdropperIntro: s.section(),
     theEffectsOfAnEavesdropperIntroCircuit: s.section(),
     isPossibleEveMakeMeasurement: s.section({
@@ -127,10 +134,12 @@ export default s.tutorial({
 
     bobsMeasurementAfterEveSends: s.section(),
     natureEffectToBobMeasurements: s.section(),
-    fractionOfMismatchedComparedSampleBits: s.section(),
-    fractionOfMismatchedComparedBits: s.section(),
-    chanceOfEveBeingDetected: s.section(),
-    oddsOfBobAliceFailToNotice: s.section(),
+    fractionOfMismatchedComparedSampleBits: s.section({
+      messages: ["incorrect"],
+    }),
+    fractionOfMismatchedComparedBits: s.section({ messages: ["incorrect"] }),
+    chanceOfEveBeingUndetected: s.section({ messages: ["incorrect"] }),
+    oddsOfBobAliceFailToNotice: s.section({ messages: ["explanation"] }),
   },
   responses: {
     tableWithoutEve: s.object({
@@ -190,7 +199,7 @@ export default s.tutorial({
     ipEMMExplanation: s.string(),
     fractionOfMismatchedComparedSampleBits: s.number(),
     fractionOfMismatchedComparedBits: s.number(),
-    chanceOfEveBeingDetected: s.number(),
+    chanceOfEveBeingUndetected: s.number(),
     oddsOfBobAliceFailToNotice: s.string(),
   },
   hints: {
