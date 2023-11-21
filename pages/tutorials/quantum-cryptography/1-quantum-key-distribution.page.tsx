@@ -543,8 +543,8 @@ export default page(setup, ({ section, oneOf }) => ({
         </>
       ),
       continue: {
-        allowed: () => true
-      }
+        allowed: () => true,
+      },
     }),
 
     section({

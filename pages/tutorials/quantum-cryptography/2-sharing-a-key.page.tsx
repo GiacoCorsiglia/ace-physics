@@ -46,6 +46,9 @@ export default page(setup, ({ section, oneOf }) => ({
           </Prose>
         </Prose>
       ),
+      continue: {
+        allowed: () => true,
+      },
     }),
     section({
       name: "fractionOfBitStringsAgreeExplanationPartOne",
