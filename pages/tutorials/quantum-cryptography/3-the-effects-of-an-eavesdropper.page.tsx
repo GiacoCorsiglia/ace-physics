@@ -92,11 +92,14 @@ export default page(setup, ({ section }) => ({
         },
         messages: {
           discussion: {
-            body: (
+            body: (s) => (
               <>
                 <Callout color="yellow">
-                  Hey, we haven't actually checked your free response answer
-                  yet!
+                  We haven't actually checked your free response answer yet, but{" "}
+                  {s.responses?.isPossibleEveMakeMeasurement?.selected ===
+                  "yesSometimes"
+                    ? "we agree with your selection."
+                    : "we disagree with your selection—Eve can sometimes pass the qubit on unchanged."}
                 </Callout>
                 <br />
                 <Callout color="blue">
@@ -1127,8 +1130,15 @@ export default page(setup, ({ section }) => ({
       ),
       guidance: {
         nextMessage(r) {
-          if (r.fractionOfMismatchedComparedSampleBits !== 28)
-            return "incorrect";
+          if (r.fractionOfMismatchedComparedSampleBits !== undefined) {
+            if (
+              !(
+                r.fractionOfMismatchedComparedSampleBits >= 28 &&
+                r.fractionOfMismatchedComparedSampleBits <= 30
+              )
+            )
+              return "incorrect";
+          }
           return null;
         },
         messages: {
@@ -1138,7 +1148,7 @@ export default page(setup, ({ section }) => ({
                 <Guidance.Disagree>
                   To answer this question, we compared Bob's bits to Alice's
                   bits (the bottom row to the top row). Bits 7 and 8 disagree,
-                  so our answer is 2/7, or 28%.{" "}
+                  so our answer is 2/7, or 29%.{" "}
                 </Guidance.Disagree>
               </>
             ),
@@ -1218,7 +1228,8 @@ export default page(setup, ({ section }) => ({
       ),
       guidance: {
         nextMessage(r) {
-          return "incorrect";
+          if (r.chanceOfEveBeingUndetected !== 56) return "incorrect";
+          return null;
         },
         messages: {
           incorrect: {
@@ -1262,7 +1273,7 @@ export default page(setup, ({ section }) => ({
                 </Guidance.Hint>
                 <Guidance.HeadsUp>
                   Each bit has a 75% chance of matching, so 100 bits have a{" "}
-                  <M t="{(0.75)^100}" /> chance of matching. This is roughly a{" "}
+                  <M t="{(0.75)^{100}}" /> chance of matching. This is roughly a{" "}
                   <M t="{3\times 10^{-11} \%}" /> chance of matching. The chance
                   that Alice and Bob fail to notice their eavesdropper is
                   practically nil.

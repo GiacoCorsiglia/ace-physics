@@ -615,7 +615,7 @@ export default page(setup, ({ section, oneOf }) => ({
       ),
       guidance: {
         nextMessage(r) {
-          if (r.amountOfBitStringsAgree !== 8) return "incorrect";
+          if (r.amountOfBitStringsAgree !== 9) return "incorrect";
           return null;
         },
         messages: {
@@ -625,7 +625,7 @@ export default page(setup, ({ section, oneOf }) => ({
                 <Callout color="red">
                   To answer this question, we looked at the top and bottom of
                   each column, to see what bit Alice started with (which is
-                  'her' bit) and what bit Bob measured (which is 'his' bit). 8
+                  'her' bit) and what bit Bob measured (which is 'his' bit). 9
                   times out of 12, their bits matched.
                 </Callout>
               </>
@@ -748,7 +748,7 @@ export default page(setup, ({ section, oneOf }) => ({
     section({
       name: "isBobResultNotRandomAgreement",
       when: (r) => r.howOftenBobResultBeRandom !== undefined,
-      body: (m) => (
+      body: (m, s) => (
         <>
           <Toggle
             model={m.isBobResultNotRandomAgreement}
@@ -762,6 +762,9 @@ export default page(setup, ({ section, oneOf }) => ({
               ["yes", "Yes, they do."],
               ["no", "No, they do not."],
             ]}
+            disabled={s.sections?.isBobResultNotRandomAgreement?.revealedMessages?.includes(
+              "incorrect"
+            )}
           />
         </>
       ),

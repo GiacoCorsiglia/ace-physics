@@ -309,7 +309,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "keepOrDiscardTableRowComplete",
       body: (m) => (
         <>
-          <Prose>Here's the final table, with all 12 qubits!</Prose>
+          <Prose>Here's the final table, with all 12 qubits.</Prose>
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
             rows={[
@@ -331,7 +331,7 @@ export default page(setup, ({ section, oneOf }) => ({
 
     section({
       name: "doesAliceBobShareKeyCheckTwo",
-      body: (m) => (
+      body: (m, s) => (
         <Toggle
           model={m.doesAliceBobShareKeyCheckTwo}
           label={
@@ -343,6 +343,9 @@ export default page(setup, ({ section, oneOf }) => ({
             ["yes", "Yes, they both share a key."],
             ["no", "No, they do not."],
           ]}
+          disabled={s.sections?.doesAliceBobShareKeyCheckTwo?.revealedMessages?.includes(
+            "incorrect"
+          )}
         />
       ),
       guidance: {
@@ -413,20 +416,24 @@ export default page(setup, ({ section, oneOf }) => ({
     }),
     section({
       name: "doesPublicInfoGiveInfoAboutBitString",
-      body: (m) => (
+      body: (m, s) => (
         <ChooseOne
           model={m.doesPublicInfoGiveInfoAboutBitString}
           label={
             <Prose>
-              If an outside observer sees the public information from Alice and
-              Bob (i.e. whether or not they applied a Hadamard gate), does the
-              observer gain information about the contents of the shared key?
+              If an outside observer sees only the public information from Alice
+              and Bob (i.e. whether or not they applied a Hadamard gate), does
+              the observer gain information about the contents of the shared
+              key?
             </Prose>
           }
           choices={[
             ["yes", "Yes, the public information allows this."],
             ["no", "No, not enough information."],
           ]}
+          disabled={s.sections?.doesPublicInfoGiveInfoAboutBitString?.revealedMessages?.includes(
+            "incorrect"
+          )}
         />
       ),
       guidance: {
@@ -456,7 +463,7 @@ export default page(setup, ({ section, oneOf }) => ({
       name: "aliceAndBobPrivateKeyTable",
       body: (m) => (
         <Prose>
-          Alice and Bob now share a private key! Here is the table so far, where
+          Alice and Bob now share a private key. Here is the table so far, where
           we've removed all columns where Alice and Bob discarded their bits.
           <tableWithoutEve.Component
             model={m.tableWithoutEve /* ignore-repeated-model */}
