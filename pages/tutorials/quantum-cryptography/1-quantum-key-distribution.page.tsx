@@ -4,19 +4,21 @@ import {
   Decimal,
   Dropdown,
   Guidance,
+  Image,
   LabelsLeft,
   M,
   Prose,
   Toggle,
 } from "@/components";
 import { page } from "@/tutorial";
+import Hadamard1 from "./media/Hadamard 1.jpg";
 import setup from "./setup";
 import { tableWithoutEve } from "./shared";
 
 export default page(setup, ({ section, oneOf }) => ({
   name: "quantumKeyDistribution",
   label: "Quantum Key Distribution",
-  answers: "none",
+  answers: "checked-all",
   sections: [
     section({
       name: "quantumKeyDistributionIntro",
@@ -30,16 +32,16 @@ export default page(setup, ({ section, oneOf }) => ({
             in 1984.
           </p>
           <p>
-            <u>The goal:</u> Alice and Bob wish to share a common “key”, a long
+            <u>The goal:</u> Alice and Bob wish to share a secret “key”, a long
             string of randomly generated 0’s and 1’s that they each possess, but
-            nobody else does. (Keys can be used to encode and decode secret
-            messages at a later time, just like, for example, a one-time pad.)
+            nobody else does. (The secret key can be used to encode and decode
+            secret messages at a later time. Note that the key itself does not
+            contain any encrypted information.)
           </p>
           <p>
-            You might think Alice could just generate a random string and send
-            it to Bob. But what if another party can “eavesdrop” on the message?
-            Our protocol will allow us to check to see if anyone else has seen
-            the key.
+            When you send classical messages, you can't tell if someone was
+            "eavesdropping". We are going to use quantum mechanics to generate a
+            secret key and test to make sure no one was listening in.
           </p>
         </Prose>
       ),
@@ -55,19 +57,25 @@ export default page(setup, ({ section, oneOf }) => ({
             for each qubit:
           </p>
           <p>
-            Alice first randomly chooses to send a <M t="{\ket{0}}" /> or a{" "}
-            <M t="{\ket{1}}" />. Then she randomly chooses whether to send this
-            qubit through a single Hadamard gate or not.
+            <ul>
+              <li>
+                Alice first randomly chooses to send a <M t="{\ket{0}}" /> or a{" "}
+                <M t="{\ket{1}}" />.
+              </li>
+              <li>
+                Then she randomly chooses whether to send this qubit through a
+                single Hadamard gate or not.
+              </li>
+            </ul>
           </p>
           <p>
             For example, if she sends a <M t="{\ket{1}}" /> with no Hadamard,
-            Bob receives a <M t="{\ket{1}}" />
+            Bob receives a <M t="{\ket{1}}" /> If she sends a{" "}
+            <M t="{\ket{0}}" /> through a Hadamard, Bob receives a{" "}
+            <M t="{\ket{+}}" /> (which is <M t="{H\ket{0}}" />) Alice keeps a
+            record of both her choices.
           </p>
-          <p>
-            If she sends a <M t="{\ket{0}}" /> through a Hadamard, Bob receives
-            a <M t="{\ket{+}}" />, etc. She keeps a record of both her choices.
-          </p>
-          <h1>[There is a qubit circuit drawn here]</h1>
+          <Image src={Hadamard1} alt="The experimental setup described above" />
         </Prose>
       ),
     }),
@@ -78,11 +86,12 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>
             Below is a sample of what might happen at the start of a run. The
-            first row tells you which state her qubit started in--
-            <M t="{\ket{0}}" /> or <M t="{\ket{1}}" />. The second tells you
-            whether she applied the Hadamard gate. Both the first and the second
-            row are filled completely randomly. Given this information, fill out
-            the third row with the state that actually gets sent to Bob.
+            first row tells you Alice’s bit, which corresponds to her sending a{" "}
+            <M t="{\ket{0}}" /> or a <M t="{\ket{1}}" /> state. The second tells
+            you whether she applied the Hadamard gate. Both the first and the
+            second row are filled completely randomly. Given this information,
+            fill out the third row with the state that actually gets sent to
+            Bob.
           </Prose>
           <tableWithoutEve.Component
             model={m.tableWithoutEve}
@@ -587,8 +596,9 @@ export default page(setup, ({ section, oneOf }) => ({
           />
           <Prose>
             Note that in all cases where the outcome was “random”, nature has
-            picked a 0 or 1. We highlighted those above in italics to remind you
-            that those could have come out different. But this is what Bob got!
+            picked a 0 or 1. We highlighted those above in grey and italics to
+            remind you that those could have come out different. But this is
+            what Bob got!
           </Prose>
         </>
       ),
@@ -918,7 +928,7 @@ export default page(setup, ({ section, oneOf }) => ({
     }),
     section({
       name: "doesAliceBobShareKeyAtCurrentStage",
-      body: (m) => (
+      body: (m, s) => (
         <Toggle
           model={m.doesAliceBobShareKeyCheckOne}
           label={
@@ -930,6 +940,9 @@ export default page(setup, ({ section, oneOf }) => ({
             ["yes", "Yes, they share a key."],
             ["no", "No, they do not share a key."],
           ]}
+          disabled={s.sections?.doesAliceBobShareKeyAtCurrentStage?.revealedMessages?.includes(
+            "incorrect"
+          )}
         />
       ),
       guidance: {

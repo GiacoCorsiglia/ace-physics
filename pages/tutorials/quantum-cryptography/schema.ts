@@ -140,6 +140,7 @@ export default s.tutorial({
     fractionOfMismatchedComparedBits: s.section({ messages: ["incorrect"] }),
     chanceOfEveBeingUndetected: s.section({ messages: ["incorrect"] }),
     oddsOfBobAliceFailToNotice: s.section({ messages: ["explanation"] }),
+    conclusion: s.section(),
   },
   responses: {
     tableWithoutEve: s.object({

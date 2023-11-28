@@ -366,7 +366,7 @@ export const tableWithoutEve = makeTable(
       ],
     }),
     givenRow("initialState", {
-      label: "Initial state",
+      label: "Alice's bit",
       values: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
     }),
 
@@ -505,7 +505,7 @@ export const tableWithEve = makeTable(
       ],
     }),
     givenRow("initialState", {
-      label: "Initial state",
+      label: "Alice's bit",
       values: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
     }),
 

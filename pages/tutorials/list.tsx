@@ -100,7 +100,12 @@ export const tutorialList: TutorialListing[] = [
     id: "QuantumCryptography",
     link: "quantum-cryptography",
     label: "Quantum Cryptography",
-    blurb: <>TODO</>,
+    blurb: (
+      <>
+        Using quantum mechanics to encode information in a secret key, and to
+        discover an eavesdropper on your communications.
+      </>
+    ),
   },
   {
     id: "TensorProducts",

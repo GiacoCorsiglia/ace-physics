@@ -3,19 +3,21 @@ import {
   ChooseOne,
   Decimal,
   Guidance,
+  Image,
   LabelsLeft,
   M,
   Prose,
   TextBox,
 } from "@/components";
 import { page } from "@/tutorial";
+import Hadamard2 from "./media/Hadamard 2.jpg";
 import setup from "./setup";
 import { tableWithEve } from "./shared";
 
 export default page(setup, ({ section }) => ({
   name: "theEffectsOfAnEavesdropper",
   label: "Effects of an Eavesdropper",
-  answers: "none",
+  answers: "checked-some",
   sections: [
     section({
       name: "theEffectsOfAnEavesdropperIntro",
@@ -46,7 +48,10 @@ export default page(setup, ({ section }) => ({
             to Bob who is unaware of her presence. But what about our qubit
             system?
           </p>
-          <h1>[There is a qubit circuit drawn here]</h1>
+          <Image
+            src={Hadamard2}
+            alt="Eve's apparatus in between Bob's and Alice's"
+          />
         </Prose>
       ),
     }),
@@ -1284,6 +1289,54 @@ export default page(setup, ({ section }) => ({
           },
         },
       },
+    }),
+    section({
+      name: "conclusion",
+      body: (
+        <>
+          <Prose>
+            In this protocol, Alice and Bob were able to share a secret key
+            (which is just a sequence of 0s and 1s). Moreover, they were able to
+            detect whether or not someone (in our example, Eve), was listening
+            in. This protocol does require that Alice and Bob “throw away” a lot
+            of bits.
+            <br />
+            <br />
+            Here is an overview of the protocol you just learned:
+            <ol>
+              <li>
+                Alice sends qubits to Bob: she randomly picks{" "}
+                <M t="{\ket{0}}" /> or a <M t="{\ket{1}}" /> to send and
+                randomly chooses whether to send them through a Hadamard gate.
+              </li>
+              <li>
+                Bob receives the qubits and randomly chooses whether to send
+                them through a Hadamard. He then measures in the{" "}
+                <M t="{\{\ket{0}, \ket{1}\}}" /> basis.
+              </li>
+              <li>
+                Alice and Bob publicly reveal whether or not they applied a
+                Hadamard gate.
+              </li>
+              <li>
+                Alice and Bob discard all elements of their key where they did
+                not make the same Hadamard choice (that is when only one of them
+                did a Hadamard gate).
+              </li>
+              <li>
+                Finally, Alice and Bob check for an Eavesdropper, who would have
+                messed with the qubits in between steps 1 and 2. They check by
+                disclosing a portion of their remaining key. (They can no longer
+                use these elements of the key to encrypt/decrypt anything.) If
+                their bits are all the same, they can be confident no one
+                intercepted. If the bits are not the same, they might have made
+                mistakes or there may have been an eavesdropper. But either way,
+                they should abandon the protocol and start fresh again.
+              </li>
+            </ol>
+          </Prose>
+        </>
+      ),
     }),
   ],
 }));

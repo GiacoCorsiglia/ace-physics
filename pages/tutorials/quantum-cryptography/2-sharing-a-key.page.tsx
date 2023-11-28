@@ -16,6 +16,7 @@ import { tableWithoutEve } from "./shared";
 export default page(setup, ({ section, oneOf }) => ({
   name: "sharingKey",
   label: "Sharing a Private Key",
+  answers: "checked-all",
   sections: [
     section({
       name: "introToSharedKey",

@@ -5,7 +5,8 @@ import setup from "./setup";
 export default intro(setup, () => ({
   body: (
     <Prose>
-      TODO
+      Using quantum mechanics to encode information in a secret key, and to
+      discover an eavesdropper on your communications.
     </Prose>
   ),
 }));
