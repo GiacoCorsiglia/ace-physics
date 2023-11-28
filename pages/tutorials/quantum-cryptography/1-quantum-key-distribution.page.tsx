@@ -11,7 +11,8 @@ import {
   Toggle,
 } from "@/components";
 import { page } from "@/tutorial";
-import Hadamard1 from "./media/Hadamard 1.jpg";
+import Hadamard1Full from "./media/Hadamard 1 Full.jpg";
+import Hadamard1Half from "./media/Hadamard 1 Half.jpg";
 import setup from "./setup";
 import { tableWithoutEve } from "./shared";
 
@@ -75,7 +76,10 @@ export default page(setup, ({ section, oneOf }) => ({
             <M t="{\ket{+}}" /> (which is <M t="{H\ket{0}}" />) Alice keeps a
             record of both her choices.
           </p>
-          <Image src={Hadamard1} alt="The experimental setup described above" />
+          <Image
+            src={Hadamard1Half}
+            alt="The experimental setup described above"
+          />
         </Prose>
       ),
     }),
@@ -306,7 +310,10 @@ export default page(setup, ({ section, oneOf }) => ({
             After doing so, he measures the qubit in the{" "}
             <M t="{\{\ket{0}, \ket{1}\}}" /> basis.
             <br />
-            <br />
+            <Image
+              src={Hadamard1Full}
+              alt="The experimental setup described above"
+            />
             We have added a new row to the table with the (random) choice Bob
             makes on each qubit: to apply an H or not? Please fill in the last
             row with the outcome of his subsequent measurement. "R" means his
