@@ -110,7 +110,7 @@ export default page(setup, ({ section }) => ({
                 <Callout color="blue">
                   Eve doesn't know whether she has a state in the{" "}
                   <M t="{\{\ket{0}, \ket{1}\}}" /> basis or the{" "}
-                  <M t="{\{\ket{+}, \ket{1}\}}" /> basis when the qubits pass
+                  <M t="{\{\ket{+}, \ket{-}\}}" /> basis when the qubits pass
                   through her device, because that information has not yet been
                   publicly released. <hr />
                   If Eve makes the same H-gate choice as Alice, then she will
@@ -1167,8 +1167,9 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            If Eve is intercepting all bits, for large strings, what percentage
-            of the compared bits will mismatch?{" "}
+            Now consider a very large string (much larger than 7 bits). Eve is
+            intercepting all bits. Alice and Bob are only comparing 'keep' bits.
+            What percentage of the compared bits will mismatch?{" "}
             <b>(Round to the nearest percent).</b>
           </Prose>
           <LabelsLeft>
