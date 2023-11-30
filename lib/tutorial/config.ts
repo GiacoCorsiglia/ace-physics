@@ -32,6 +32,11 @@ export interface TutorialConfig<S extends TutorialSchema = TutorialSchema> {
    */
   readonly info?: Html;
   /**
+   * If `true`, tutorial validation tests won't fail if this tutorial is not
+   * listed in "pages/tutorials/list.tsx".  Defaults to `false`.
+   */
+  readonly excludeFromList?: boolean;
+  /**
    * Whether the tutorial has a pretest page.
    */
   readonly pretest: boolean;
