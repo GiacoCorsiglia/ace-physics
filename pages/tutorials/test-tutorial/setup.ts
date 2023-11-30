@@ -16,9 +16,8 @@ export default tutorialSetup({
   id: "TestTutorial",
   link: "test-tutorial",
   label: "Documentation Tutorial",
+  excludeFromList: true,
   pretest: true,
   posttest: false,
-  pages: [
-
-  ],
+  pages: [],
 });
