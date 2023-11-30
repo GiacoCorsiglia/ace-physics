@@ -6,6 +6,7 @@ import IntroductionToQuantumGates from "./introduction-to-quantum-gates/schema";
 import QuantumBasisLite from "./quantum-basis-lite/schema";
 import QuantumBasisMain from "./quantum-basis/schema";
 import QuantumCircuitDiagrams from "./quantum-circuit-diagrams/schema";
+import QuantumCryptography from "./quantum-cryptography/schema";
 import QuantumMouse2 from "./quantum-mouse-2/schema";
 import QuantumMouse from "./quantum-mouse/schema";
 import ReflectionTransmission from "./reflection-transmission/schema";
@@ -13,6 +14,7 @@ import SpinLab1 from "./spin-lab-1/schema";
 import SpinLab2 from "./spin-lab-2/schema";
 import SpinsAndMagneticFields from "./spins-and-magnetic-fields/schema";
 import TensorProducts from "./tensor-products/schema";
+import TestTutorial from "./test-tutorial/schema";
 import TimeDependence from "./time-dependence/schema";
 import VectorsToFunctions from "./vectors-to-functions/schema";
 
@@ -24,6 +26,7 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["QuantumBasisLite", QuantumBasisLite],
   ["QuantumBasisMain", QuantumBasisMain],
   ["QuantumCircuitDiagrams", QuantumCircuitDiagrams],
+  ["QuantumCryptography", QuantumCryptography],
   ["QuantumMouse", QuantumMouse],
   ["QuantumMouse2", QuantumMouse2],
   ["ReflectionTransmission", ReflectionTransmission],
@@ -33,4 +36,5 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["TimeDependence", TimeDependence],
   ["TensorProducts", TensorProducts],
   ["VectorsToFunctions", VectorsToFunctions],
+  ["TestTutorial", TestTutorial],
 ]);
