@@ -88,6 +88,10 @@ fs.readdirSync(tutorialsDir)
       });
 
       it("listing is included in pages/tutorials/list.tsx with correct link", () => {
+        if (setup.excludeFromList) {
+          return;
+        }
+
         const listing = tutorialList.find((l) => l.id === setup.id);
         expect(listing).not.toBeUndefined();
         expect(listing!.link).toBe(setup.link);
