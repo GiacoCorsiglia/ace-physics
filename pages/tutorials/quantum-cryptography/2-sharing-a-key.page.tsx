@@ -26,8 +26,8 @@ export default page(setup, ({ section, oneOf }) => ({
           that transmitted a series of bits to Bob. However, Bob and Alice only
           agreed on their bits 75% of the time, and 25% of the time they only
           agreed by accident! On this page, we'll discuss how to make their keys
-          agree 100% of the time, by discarding bits that disagree, in a clever
-          way.
+          agree 100% of the time by cleverly discarding bits that disagree
+          without revealing the bits themselves.
           <br />
           <br />
           Here's the full table from the previous page:
