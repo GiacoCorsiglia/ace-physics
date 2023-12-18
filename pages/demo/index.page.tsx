@@ -107,6 +107,29 @@ export default function Index() {
                 </p>
               </LinkCard>
             </li>
+            <li>
+              <LinkCard
+                label={
+                  <>
+                    Quantum Cryptography — <i>click here to try it out</i>
+                  </>
+                }
+                link="/demo/quantum-cryptography"
+              >
+                <p>
+                  An investigation of the BB84 protocol suitable for students
+                  with either a physics or computer science background.
+                </p>
+
+                <p>
+                  <em>
+                    Note: the guidance on this page is under development. We're
+                    looking to work with more pilot sites to test and improve
+                    the guidance messages!
+                  </em>
+                </p>
+              </LinkCard>
+            </li>
           </ol>
         </Vertical.Space>
 
