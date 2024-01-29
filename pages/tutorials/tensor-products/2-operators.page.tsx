@@ -128,7 +128,7 @@ export default page(setup, ({ section }) => ({
           model={m.findIInCircuit}
           label={
             <Prose>
-              Consider the first <M t="{\color{blue} \mathbf{I}}" /> in the
+              Consider the second <M t="{\color{blue} \mathbf{I}}" /> in the
               following expression:{" "}
               <M
                 display
