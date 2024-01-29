@@ -132,7 +132,7 @@ export default page(setup, ({ section }) => ({
               following expression:{" "}
               <M
                 display
-                t="(Z\otimes {\color{blue} \mathbf{I}})(I \otimes X) (\ket{\psi} \otimes \ket{\phi} )"
+                t="(I \otimes X)(Z\otimes {\color{blue} \mathbf{I}}) (\ket{\psi} \otimes \ket{\phi} )"
               />
               Which gate in the circuit above is the{" "}
               <M t="{\color{blue} \mathbf{I}}" /> referring to?
