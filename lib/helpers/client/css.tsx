@@ -42,7 +42,7 @@ export const styledChild: {
 
   component.displayName = `styledChild${devDisplayName(classes)}`;
 
-  return component;
+  return component as StyledChildComponent<{}>;
 };
 
 // Simple styled components without inline CSS.
