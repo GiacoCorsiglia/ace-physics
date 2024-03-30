@@ -508,8 +508,8 @@ export default page(setup, ({ section, oneOf, hint }) => ({
           .map((t) =>
             deepEqual(
               { ...table[t], phaseDifference: undefined },
-              { ...correctTable[t], phaseDifference: undefined }
-            )
+              { ...correctTable[t], phaseDifference: undefined },
+            ),
           )
           .every(Boolean);
 

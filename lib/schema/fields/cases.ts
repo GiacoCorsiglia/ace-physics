@@ -1,10 +1,8 @@
 import * as t from "@/schema/types";
 
-type CasesToUnion<Cs extends readonly string[]> = t.UnionType<
-  {
-    [I in keyof Cs]: Cs[I] extends string ? t.LiteralType<Cs[I]> : Cs[I];
-  }
->;
+type CasesToUnion<Cs extends readonly string[]> = t.UnionType<{
+  [I in keyof Cs]: Cs[I] extends string ? t.LiteralType<Cs[I]> : Cs[I];
+}>;
 
 /**
  * A Field for one of a set of literal string options.  Essentially an "enum."

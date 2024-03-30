@@ -27,7 +27,7 @@ export const PretestPage = ({
   const continueLink = urls.join(
     urls.Tutorials.link,
     tutorialConfig.link,
-    tutorialConfig.pages[0]?.link
+    tutorialConfig.pages[0]?.link,
   );
 
   return (

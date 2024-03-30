@@ -14,7 +14,7 @@ describe("Choose Control", () => {
 
   const renderChoose = <M extends boolean, O extends boolean>(
     multi: M,
-    other: O
+    other: O,
   ) => {
     const state = {
       value: undefined as (M extends true ? C[] : C) | undefined,
@@ -76,7 +76,7 @@ describe("Choose Control", () => {
   it("Handles checked state for Choose One", () => {
     const { state, renderAgain, inputA, inputB, inputC } = renderChoose(
       false,
-      false
+      false,
     );
 
     expect(state.value).toBeUndefined();
@@ -111,7 +111,7 @@ describe("Choose Control", () => {
   it("Handles checked state for Choose All", () => {
     const { state, renderAgain, inputA, inputB, inputC } = renderChoose(
       true,
-      false
+      false,
     );
 
     expect(state.value).toBeUndefined();

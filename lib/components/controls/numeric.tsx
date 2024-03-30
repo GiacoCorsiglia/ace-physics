@@ -22,7 +22,7 @@ export const NumericInputControl = forwardRef<
     (value) => (value !== undefined ? value.toString() : ""),
     (value, raw) =>
       value === implementation.parse(raw) ||
-      (value === undefined && implementation.prefixPattern.test(raw))
+      (value === undefined && implementation.prefixPattern.test(raw)),
   );
 
   return (

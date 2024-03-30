@@ -27,9 +27,9 @@ rl.question(
         console.log("OK...");
         run();
         rl.close();
-      }
+      },
     );
-  }
+  },
 );
 
 export async function run() {
@@ -46,7 +46,7 @@ export async function run() {
             DeleteRequest: { Key },
           })),
         },
-      })
+      }),
     );
   }
 

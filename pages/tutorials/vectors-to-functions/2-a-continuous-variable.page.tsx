@@ -225,8 +225,8 @@ export default page(setup, ({ section }) => ({
                 smooth
                   ? "smooth"
                   : addMorePoints
-                  ? "quarter-integer"
-                  : "half-integer"
+                    ? "quarter-integer"
+                    : "half-integer"
               }
             />
 
@@ -463,16 +463,16 @@ const Diagram = ({
             phase === "integer"
               ? 1
               : phase === "half-integer"
-              ? 0.5
-              : phase === "quarter-integer"
-              ? 0.25
-              : phase === "smooth"
-              ? 0.5
-              : 0.5;
+                ? 0.5
+                : phase === "quarter-integer"
+                  ? 0.25
+                  : phase === "smooth"
+                    ? 0.5
+                    : 0.5;
           for (let x = -4; x <= 4; x += step) {
             yield x;
           }
-        })()
+        })(),
       ).map((x) => {
         const height = 16 - x ** 2;
 

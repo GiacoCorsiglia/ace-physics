@@ -128,13 +128,13 @@ const NavItem = ({ item }: { item: NavItem | NavItemWithStatus }) => {
         className={cx(
           styles.navItemLink,
           status === "complete" && styles.complete,
-          status === "active" && styles.active
+          status === "active" && styles.active,
         )}
       >
         <span
           className={cx(
             styles.navItemIcon,
-            typeof item.icon === "number" && styles.navItemNumberIcon
+            typeof item.icon === "number" && styles.navItemNumberIcon,
           )}
         >
           {item.icon}
@@ -164,7 +164,7 @@ const NavProgressItem = ({ item }: { item: NavItemWithStatus }) => {
         styles.navProgressItem,
         item.status === "complete" && styles.complete,
         item.status === "active" && styles.active,
-        item.status === "incomplete" && styles.incomplete
+        item.status === "incomplete" && styles.incomplete,
       )}
     >
       <Link

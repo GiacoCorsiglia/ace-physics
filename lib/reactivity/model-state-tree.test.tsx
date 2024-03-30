@@ -18,7 +18,7 @@ describe("modelStateTree and useModel", () => {
 
   const { Root, useRootModel, useStore } = modelStateTree(
     rootField,
-    "DisplayName"
+    "DisplayName",
   );
 
   const wrapper = ({ children }: { children?: Html }) => (
@@ -31,7 +31,7 @@ describe("modelStateTree and useModel", () => {
     it("provides root model", () => {
       const { result, rerender } = rh(() => useRootModel());
       expect(result.current).toMatchObject(
-        model(rootField, [], result.current.Context)
+        model(rootField, [], result.current.Context),
       );
     });
 
@@ -47,7 +47,7 @@ describe("modelStateTree and useModel", () => {
   describe("useModel", () => {
     it("returns value in tuple", () => {
       const { result } = rh(() =>
-        useModel(useRootModel().properties.k2.properties.nested)
+        useModel(useRootModel().properties.k2.properties.nested),
       );
       expect(result.current[0]).toBe("nested_1");
     });
@@ -70,7 +70,7 @@ describe("modelStateTree and useModel", () => {
         () => (
           renderCount++,
           useModel(useRootModel().properties.k2.properties.nested)
-        )
+        ),
       );
 
       expect(renderCount).toBe(1);
@@ -90,7 +90,7 @@ describe("modelStateTree and useModel", () => {
           [
             useStore(),
             useModel(useRootModel().properties.k2.properties.nested),
-          ] as const
+          ] as const,
       );
 
       expect(result.current[0].state.k2?.nested).toBe("nested_1");
@@ -104,7 +104,7 @@ describe("modelStateTree and useModel", () => {
 
     it("setter supports functional update", () => {
       const { result } = rh(() =>
-        useModel(useRootModel().properties.k2.properties.nested)
+        useModel(useRootModel().properties.k2.properties.nested),
       );
 
       expect(result.current[0]).toBe("nested_1");
@@ -124,7 +124,7 @@ describe("modelStateTree and useModel", () => {
             useStore(),
             useModel(useRootModel().properties.k2.properties.nested),
             renderCount++,
-          ] as const
+          ] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -147,7 +147,7 @@ describe("modelStateTree and useModel", () => {
             useStore(),
             useModel(useRootModel().properties.k2.properties.nested),
             renderCount++,
-          ] as const
+          ] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -206,9 +206,9 @@ describe("modelStateTree and useModel", () => {
             useStore(),
             useModel(
               useRootModel().properties.k2.properties.nested,
-              onExternal
+              onExternal,
             ),
-          ] as const
+          ] as const,
       );
 
       expect(onExternal).not.toHaveBeenCalled();

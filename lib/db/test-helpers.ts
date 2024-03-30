@@ -90,12 +90,12 @@ export const setupDB = () => {
     it: Object.assign(
       (...args: Parameters<typeof global.it>) =>
         skipDbTests ? global.it.skip(...args) : global.it(...args),
-      global.it
+      global.it,
     ),
     describe: Object.assign(
       (...args: Parameters<typeof global.describe>) =>
         skipDbTests ? global.describe.skip(...args) : global.describe(...args),
-      global.describe
+      global.describe,
     ),
   };
 };

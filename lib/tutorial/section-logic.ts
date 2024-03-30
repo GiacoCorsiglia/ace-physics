@@ -3,7 +3,7 @@ import { NodeConfig, SectionConfig } from "./config";
 
 export type CommitAction = (
   section: SectionConfig,
-  options: { skipRemainingMessages: boolean }
+  options: { skipRemainingMessages: boolean },
 ) => void;
 
 export const nodeKey = (node: NodeConfig): string => {
@@ -19,7 +19,7 @@ export const nodeKey = (node: NodeConfig): string => {
 
 export const nextMessageToReveal = (
   state: TutorialState,
-  section: SectionConfig
+  section: SectionConfig,
 ) => {
   const guidance = section.guidance;
   if (!guidance) {
@@ -31,7 +31,7 @@ export const nextMessageToReveal = (
 
 export const nextSectionToReveal = (
   state: TutorialState,
-  node: NodeConfig
+  node: NodeConfig,
 ): SectionConfig | null => {
   if (!node) {
     // Guard against broken configs.
@@ -84,7 +84,7 @@ export const nextSectionToReveal = (
 
 const firstUncommittedNodeIndex = (
   state: TutorialState,
-  nodes: readonly NodeConfig[]
+  nodes: readonly NodeConfig[],
 ): number => {
   for (let i = nodes.length - 1; i >= 0; i--) {
     if (isCommitted(state, nodes[i])) {
@@ -106,7 +106,7 @@ const isCommitted = (state: TutorialState, node: NodeConfig): boolean => {
         return isCommitted(state, next);
       } else {
         return Object.values(node.sections).some((subNode) =>
-          isCommitted(state, subNode)
+          isCommitted(state, subNode),
         );
       }
     }
@@ -115,12 +115,12 @@ const isCommitted = (state: TutorialState, node: NodeConfig): boolean => {
 
 export const isVisibleInInstructorMode = (
   state: TutorialState,
-  node: NodeConfig
+  node: NodeConfig,
 ) => isMarkedVisible(state, node) || !node.isLegacy;
 
 export const isMarkedVisible = (
   state: TutorialState,
-  node: NodeConfig
+  node: NodeConfig,
 ): boolean => {
   switch (node.kind) {
     case "section": {
@@ -134,7 +134,7 @@ export const isMarkedVisible = (
       return node.sections.some((subNode) => isMarkedVisible(state, subNode));
     case "oneOf":
       return Object.values(node.sections).some((subNode) =>
-        isMarkedVisible(state, subNode)
+        isMarkedVisible(state, subNode),
       );
   }
 };
@@ -153,13 +153,13 @@ export const revealedAt = (state: TutorialState, node: NodeConfig): number => {
     }
     case "sequence":
       return Math.min(
-        ...node.sections.map((subNode) => revealedAt(state, subNode))
+        ...node.sections.map((subNode) => revealedAt(state, subNode)),
       );
     case "oneOf":
       return Math.min(
         ...Object.values(node.sections).map((subNode) =>
-          revealedAt(state, subNode)
-        )
+          revealedAt(state, subNode),
+        ),
       );
   }
 };

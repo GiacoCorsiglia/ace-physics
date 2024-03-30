@@ -19,7 +19,7 @@ describe("Toggle Control", () => {
       value = reducer(value);
     });
     const { rerender } = render(
-      <ToggleControl value={value} onChange={onChange} choices={choices} />
+      <ToggleControl value={value} onChange={onChange} choices={choices} />,
     );
 
     const inputA = screen.getByLabelText("Choice A");
@@ -38,7 +38,7 @@ describe("Toggle Control", () => {
     expect(value).toBe("A");
 
     rerender(
-      <ToggleControl value={value} onChange={onChange} choices={choices} />
+      <ToggleControl value={value} onChange={onChange} choices={choices} />,
     );
 
     expect(inputA).toBeChecked();
@@ -51,7 +51,7 @@ describe("Toggle Control", () => {
     expect(value).toBe("B");
 
     rerender(
-      <ToggleControl value={value} onChange={onChange} choices={choices} />
+      <ToggleControl value={value} onChange={onChange} choices={choices} />,
     );
 
     expect(inputA).not.toBeChecked();

@@ -58,7 +58,7 @@ describe("DB isolation in tests", () => {
           TableName: tableName(),
           Item: Item1,
         })
-      ).failed
+      ).failed,
     ).toBeFalsy();
 
     expect(
@@ -66,8 +66,8 @@ describe("DB isolation in tests", () => {
         await client().get({
           TableName: tableName(),
           Key: Item2,
-        })
-      ).Item
+        }),
+      ).Item,
     ).toBeFalsy();
   });
 
@@ -78,7 +78,7 @@ describe("DB isolation in tests", () => {
           TableName: tableName(),
           Item: Item2,
         })
-      ).failed
+      ).failed,
     ).toBeFalsy();
 
     expect(
@@ -86,8 +86,8 @@ describe("DB isolation in tests", () => {
         await client().get({
           TableName: tableName(),
           Key: Item1,
-        })
-      ).Item
+        }),
+      ).Item,
     ).toBeFalsy();
   });
 });

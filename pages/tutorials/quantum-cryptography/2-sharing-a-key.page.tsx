@@ -345,7 +345,7 @@ export default page(setup, ({ section, oneOf }) => ({
             ["no", "No, they do not."],
           ]}
           disabled={s.sections?.doesAliceBobShareKeyCheckTwo?.revealedMessages?.includes(
-            "incorrect"
+            "incorrect",
           )}
         />
       ),
@@ -433,7 +433,7 @@ export default page(setup, ({ section, oneOf }) => ({
             ["no", "No, not enough information."],
           ]}
           disabled={s.sections?.doesPublicInfoGiveInfoAboutBitString?.revealedMessages?.includes(
-            "incorrect"
+            "incorrect",
           )}
         />
       ),

@@ -23,7 +23,9 @@
 
 .link {
   border-bottom: 1px solid colors.$neutral-300;
-  transition: color 75ms, border-color 75ms;
+  transition:
+    color 75ms,
+    border-color 75ms;
 
   &:hover {
     color: colors.$neutral-900;

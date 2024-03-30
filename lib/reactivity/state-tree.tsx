@@ -63,10 +63,10 @@ export const stateTree = <T extends object>(displayName: string) => {
   type NextSetter<T> = T | ((prev: T) => T);
 
   const useValue = <P extends Path<Immutable<T>>>(
-    path: P
+    path: P,
   ): readonly [
     TypeAtPath<Immutable<T>, P>,
-    (setter: NextSetter<TypeAtPath<Immutable<T>, P>>) => void
+    (setter: NextSetter<TypeAtPath<Immutable<T>, P>>) => void,
   ] => {
     const store = useStore();
 
@@ -81,14 +81,14 @@ export const stateTree = <T extends object>(displayName: string) => {
         });
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [store, pathString]
+      [store, pathString],
     );
 
     const subscribe = useCallback(
       (onStoreChange: () => void) =>
         store.subscribe(path as Path<T>, () => onStoreChange()),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [store, pathString]
+      [store, pathString],
     );
 
     const value = useSyncExternalStore(subscribe, getValue, getValue);
@@ -115,7 +115,7 @@ export const stateTree = <T extends object>(displayName: string) => {
         store.subscribe([], () => {
           onStoreChange();
         }),
-      [store]
+      [store],
     );
     let inRender = true;
     const getSnapshot = () => {
@@ -145,10 +145,10 @@ export const stateTree = <T extends object>(displayName: string) => {
   };
 
   const tracked = <P extends {}>(
-    component: (props: P, state: Immutable<T>) => JsxElement
+    component: (props: P, state: Immutable<T>) => JsxElement,
   ) => {
     const memoized = memo((props: P) =>
-      useTracked((state) => component(props, state))
+      useTracked((state) => component(props, state)),
     );
     memoized.displayName = (component as any).displayName || component.name;
     return memoized;

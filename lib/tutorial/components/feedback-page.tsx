@@ -185,7 +185,7 @@ export const FeedbackPage = ({
               link={urls.join(
                 urls.Tutorials.link,
                 tutorialConfig.link,
-                "finished"
+                "finished",
               )}
               iconRight={<ArrowRightIcon />}
             >

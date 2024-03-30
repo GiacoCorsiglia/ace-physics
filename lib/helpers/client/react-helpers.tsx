@@ -18,8 +18,8 @@ const titleEnv =
   process.env.NEXT_PUBLIC_ACE_ENV === "development"
     ? " (local)"
     : process.env.NEXT_PUBLIC_ACE_ENV === "staging"
-    ? " (beta)"
-    : "";
+      ? " (beta)"
+      : "";
 const titleBase = `ACE Physics${titleEnv}`;
 export const htmlTitle = (title: string) =>
   title ? `${title} | ${titleBase}` : titleBase;
@@ -35,8 +35,8 @@ export type Props<T extends React.Component | React.FunctionComponent> =
   T extends React.Component<infer P>
     ? P
     : T extends React.FunctionComponent<infer P>
-    ? P
-    : never;
+      ? P
+      : never;
 
 export const isReactElement = (o: any): o is React.ReactElement =>
   !!o &&
@@ -63,7 +63,7 @@ export const useIsomorphicInsertionEffect =
   typeof window !== "undefined" ? useInsertionEffect : useEffect;
 
 export const useToggle = <E extends Element = HTMLElement>(
-  initial: boolean = false
+  initial: boolean = false,
 ) => {
   const ref = useRef<E>(null);
   const [toggled, setToggled] = useState(initial);
@@ -116,7 +116,7 @@ export const useForceUpdate = () => useReducer(tickReducer, 0)[1];
 export const useSyncedState = <T, V>(
   prop: T,
   fromProp: (prop: T) => V,
-  skipSync: (prop: T, state: V, propAsState: V) => boolean
+  skipSync: (prop: T, state: V, propAsState: V) => boolean,
 ) => {
   const propAsState = fromProp(prop);
   const tuple = useState(propAsState);
@@ -148,12 +148,12 @@ export const useScrollIntoView = (when = true): React.RefObject<any> => {
 };
 
 export const useBoolean = (
-  initial: boolean = false
+  initial: boolean = false,
 ): readonly [
   value: boolean,
   setTrue: () => void,
   setFalse: () => void,
-  toggle: () => void
+  toggle: () => void,
 ] => {
   const [value, setValue] = useState(initial);
 
@@ -165,10 +165,10 @@ export const useBoolean = (
 };
 
 export const useActualSiblingCheck = <
-  Element extends HTMLElement = HTMLDivElement
+  Element extends HTMLElement = HTMLDivElement,
 >(
   when: () => boolean,
-  deps: any[]
+  deps: any[],
 ) => {
   const elRef = useRef<Element>(null);
   const classesRef = useRef("");
@@ -184,7 +184,7 @@ export const useActualSiblingCheck = <
     const lastChild = !el.nextSibling;
     classesRef.current = cx(
       firstChild && "prose-actual-first-child",
-      lastChild && "prose-actual-last-child"
+      lastChild && "prose-actual-last-child",
     );
     el.className += " " + classesRef.current;
   }, deps);
@@ -267,7 +267,7 @@ const getEmptyBackgroundColor = () => {
  * Walks up the DOM tree until it finds an element with a background color.
  */
 export const useAncestorBackgroundColor = <
-  E extends Element = HTMLElement
+  E extends Element = HTMLElement,
 >() => {
   const ref = useRef<E>(null);
   const [backgroundColor, setBackgroundColor] = useState<string>("");

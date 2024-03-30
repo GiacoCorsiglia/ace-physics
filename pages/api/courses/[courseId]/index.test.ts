@@ -64,7 +64,7 @@ describe("/courses/{courseId}", () => {
       response.success({
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
 
     const res = await GET({
@@ -80,7 +80,7 @@ describe("/courses/{courseId}", () => {
         id: (postRes.body as api.Course).id,
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
   });
 
@@ -99,7 +99,7 @@ describe("/courses/{courseId}", () => {
       response.success({
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
 
     // Now update the course.
@@ -121,7 +121,7 @@ describe("/courses/{courseId}", () => {
         displayName: "test2",
         visibleTutorials: ["vt1", "vt2"],
         userRole: "instructor",
-      })
+      }),
     );
 
     const res = await GET({
@@ -138,7 +138,7 @@ describe("/courses/{courseId}", () => {
         displayName: "test2",
         visibleTutorials: ["vt1", "vt2"],
         userRole: "instructor",
-      })
+      }),
     );
   });
 
@@ -159,7 +159,7 @@ describe("/courses/{courseId}", () => {
       response.success({
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
 
     const courseId = (postRes.body as api.Course).id;

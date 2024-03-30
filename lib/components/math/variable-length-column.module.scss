@@ -25,7 +25,9 @@
   background: none;
   color: inherit;
   opacity: 0.5;
-  transition: opacity 75ms ease-in-out, color 75ms ease-in-out;
+  transition:
+    opacity 75ms ease-in-out,
+    color 75ms ease-in-out;
 
   &:not(:disabled) {
     cursor: pointer;

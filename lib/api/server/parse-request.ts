@@ -39,7 +39,7 @@ export type ParsedRequest<S extends ApiSpec> = {
 export const parseRequest = async <S extends ApiSpec>(
   spec: S,
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<result.Result<response.Response, ParsedRequest<S>>> => {
   // Method.
   const method = req.method as Method;
@@ -47,8 +47,8 @@ export const parseRequest = async <S extends ApiSpec>(
     return result.failure(
       response.methodNotAllowed(
         req.method,
-        methods.filter((m) => !!spec[m])
-      )
+        methods.filter((m) => !!spec[m]),
+      ),
     );
   }
 
@@ -74,8 +74,8 @@ export const parseRequest = async <S extends ApiSpec>(
             path: e.path,
             error: e.message,
             received: e.value,
-          }))
-        )
+          })),
+        ),
       );
     }
     body = decodedBody.value;

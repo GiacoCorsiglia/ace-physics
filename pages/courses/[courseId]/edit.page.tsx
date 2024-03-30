@@ -88,7 +88,7 @@ const CourseForm = ({ course }: { course: Course }) => {
   const [displayName, setDisplayName] = useState(course.displayName);
   const [displayMessage, setDisplayMessage] = useState(course.displayMessage);
   const [visibleTutorials, setVisibleTutorials] = useState(
-    course.visibleTutorials
+    course.visibleTutorials,
   );
 
   const isDirty =
@@ -111,7 +111,7 @@ const CourseForm = ({ course }: { course: Course }) => {
         displayName,
         displayMessage,
         visibleTutorials,
-      }
+      },
     );
 
     if (result.failed) {
@@ -182,7 +182,7 @@ const CourseForm = ({ course }: { course: Course }) => {
             }
             multi={true}
             choices={tutorialList.map(
-              (listing) => [listing.id, listing.label] as const
+              (listing) => [listing.id, listing.label] as const,
             )}
             value={visibleTutorials}
             onChange={(reducer) =>
@@ -268,7 +268,7 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
         unhashedInstructorEmails: wantsInstructors
           ? instructorEmails || ""
           : "",
-      }
+      },
     );
 
     if (!result.failed) {

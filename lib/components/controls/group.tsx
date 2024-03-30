@@ -6,7 +6,7 @@ const ControlGroup = styled.div<{
   stretch?: boolean;
 }>(
   ({ stretch }) => [styles.controlGroupWrapper, stretch && styles.stretch],
-  (children) => <div className={styles.controlGroup}>{children}</div>
+  (children) => <div className={styles.controlGroup}>{children}</div>,
 );
 const ControlGroupText = styled.div("controlGroupText");
 

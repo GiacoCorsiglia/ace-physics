@@ -29,7 +29,7 @@ export const Callout = forwardRef<
     animateIn,
     ...props
   },
-  ref
+  ref,
 ) {
   const As = as as "aside";
   return (
@@ -47,7 +47,7 @@ export const Callout = forwardRef<
         color === "blue" && styles.blue,
         color === "yellow" && styles.yellow,
         color === "red" && styles.red,
-        color === "neutral" && styles.neutral
+        color === "neutral" && styles.neutral,
       )}
       ref={ref}
     >

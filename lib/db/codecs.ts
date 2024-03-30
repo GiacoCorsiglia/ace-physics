@@ -32,7 +32,7 @@ export const User = codec(
   (item: { email: string }) => ({
     GSI1PK: key(Prefix.User, item.email),
     GSI1SK: key(Prefix.User, item.email),
-  })
+  }),
 );
 
 /**
@@ -44,7 +44,7 @@ export const Course = codec(
   (item: { id: string }) => ({
     pk: key(Prefix.Course, item.id),
     sk: key(Prefix.Course, item.id),
-  })
+  }),
 );
 
 /**
@@ -60,7 +60,7 @@ export const CourseUser = codec(
   (item: { courseId: string; userEmail: string }) => ({
     GSI1PK: key(Prefix.Course, item.courseId),
     GSI1SK: key(Prefix.User, item.userEmail),
-  })
+  }),
 );
 
 /**
@@ -82,5 +82,5 @@ export const TutorialState = codec(
       pk: key(Prefix.Course, item.courseId),
       sk: key(Prefix.TutorialState, item.tutorialId, item.userEmail),
     };
-  }
+  },
 );

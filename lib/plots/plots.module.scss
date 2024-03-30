@@ -61,5 +61,8 @@
 }
 
 .bar {
-  transition: opacity 150ms, fill 150ms, stroke 150ms;
+  transition:
+    opacity 150ms,
+    fill 150ms,
+    stroke 150ms;
 }

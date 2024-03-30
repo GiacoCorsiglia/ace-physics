@@ -5,11 +5,9 @@ export type Choices = readonly string[];
 export type Choice<Cs extends Choices> = Cs[number];
 export type OtherChoiceField = NumberField | StringField;
 
-type ChoicesToUnion<Cs extends readonly string[]> = t.UnionType<
-  {
-    [I in keyof Cs]: Cs[I] extends string ? t.LiteralType<Cs[I]> : never;
-  }
->;
+type ChoicesToUnion<Cs extends readonly string[]> = t.UnionType<{
+  [I in keyof Cs]: Cs[I] extends string ? t.LiteralType<Cs[I]> : never;
+}>;
 
 /**
  * A Field for a **multiple-choice single-response** question, plus an optional
@@ -17,7 +15,7 @@ type ChoicesToUnion<Cs extends readonly string[]> = t.UnionType<
  */
 export interface ChooseOneField<
   Cs extends Choices,
-  O extends OtherChoiceField | undefined
+  O extends OtherChoiceField | undefined,
 > {
   readonly kind: "chooseOne";
   readonly choices: Cs;
@@ -47,30 +45,30 @@ export interface ChooseOneField<
  */
 export const chooseOne: {
   <C extends string, Cs extends readonly [C, ...C[]]>(
-    choices: Cs
+    choices: Cs,
   ): ChooseOneField<Cs, undefined>;
   <
     C extends string,
     Cs extends readonly [C, ...C[]],
-    O extends OtherChoiceField
+    O extends OtherChoiceField,
   >(
     choices: Cs,
-    other: O
+    other: O,
   ): ChooseOneField<Cs, O>;
 } = <
   C extends string,
   Cs extends readonly [C, ...C[]],
-  O extends OtherChoiceField | undefined = undefined
+  O extends OtherChoiceField | undefined = undefined,
 >(
   choices: Cs,
-  other?: O
+  other?: O,
 ): ChooseOneField<Cs, O> => {
   const selected = t.union(
-    ...(choices.map(t.literal) as any)
+    ...(choices.map(t.literal) as any),
   ) as ChoicesToUnion<Cs>;
 
   const type = t.asExact(
-    t.partial(other ? { selected, other: other.type } : { selected })
+    t.partial(other ? { selected, other: other.type } : { selected }),
   );
 
   return {
@@ -87,7 +85,7 @@ export const chooseOne: {
  */
 export interface ChooseAllField<
   Cs extends Choices,
-  O extends OtherChoiceField | undefined
+  O extends OtherChoiceField | undefined,
 > {
   readonly kind: "chooseAll";
   readonly choices: Cs;
@@ -118,30 +116,30 @@ export interface ChooseAllField<
  */
 export const chooseAll: {
   <C extends string, Cs extends readonly [C, ...C[]]>(
-    choices: Cs
+    choices: Cs,
   ): ChooseAllField<Cs, undefined>;
   <
     C extends string,
     Cs extends readonly [C, ...C[]],
-    O extends OtherChoiceField
+    O extends OtherChoiceField,
   >(
     choices: Cs,
-    other: O
+    other: O,
   ): ChooseAllField<Cs, O>;
 } = <
   C extends string,
   Cs extends readonly [C, ...C[]],
-  O extends OtherChoiceField | undefined = undefined
+  O extends OtherChoiceField | undefined = undefined,
 >(
   choices: Cs,
-  other?: O
+  other?: O,
 ): ChooseAllField<Cs, O> => {
   const selected = t.array(
-    t.union(...(choices.map(t.literal) as any)) as ChoicesToUnion<Cs>
+    t.union(...(choices.map(t.literal) as any)) as ChoicesToUnion<Cs>,
   );
 
   const type = t.asExact(
-    t.partial(other ? { selected, other: other.type } : { selected })
+    t.partial(other ? { selected, other: other.type } : { selected }),
   ) as any;
 
   return {

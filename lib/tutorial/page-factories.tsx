@@ -39,7 +39,7 @@ const routeComponent = <C,>(properties: TutorialRouteProperties<C>) => {
 
 export const withSetup = <C,>(
   route: TutorialRoute<C>,
-  tutorialConfig: c.TutorialConfig
+  tutorialConfig: c.TutorialConfig,
 ) =>
   routeComponent({
     ...route,
@@ -52,7 +52,7 @@ export const withSetup = <C,>(
  */
 export const intro = <S extends TutorialSchema>(
   tutorialConfig: c.TutorialConfig<S>,
-  factory: () => c.IntroConfig<S>
+  factory: () => c.IntroConfig<S>,
 ) => {
   const config = factory();
   return routeComponent({
@@ -76,7 +76,7 @@ export const pretest = <S extends TutorialSchema>(
   factory: (constructors: {
     /** Creates a section in the pretest. */
     section: (c: c.PretestSectionConfig<S>) => c.PretestSectionConfig<S>;
-  }) => c.PretestConfig<S>
+  }) => c.PretestConfig<S>,
 ) => {
   const config = factory({ section: id });
   return routeComponent({
@@ -100,7 +100,7 @@ export const posttest = <S extends TutorialSchema>(
   factory: (constructors: {
     /** Creates a section in the posttest. */
     section: (c: c.PosttestSectionConfig<S>) => c.PosttestSectionConfig<S>;
-  }) => c.PosttestConfig<S>
+  }) => c.PosttestConfig<S>,
 ) => {
   const config = factory({ section: id });
   return routeComponent({
@@ -124,17 +124,17 @@ export const page = <S extends TutorialSchema>(
   factory: (constructors: {
     /** Creates a section in the page. */
     section: <Name extends keyof S["properties"]["sections"]["properties"]>(
-      c: Omit<c.SectionConfig<S, Name>, "kind">
+      c: Omit<c.SectionConfig<S, Name>, "kind">,
     ) => c.SectionConfig<S, Name>;
     /** Creates a sequence of sections in the page.  */
     sequence: Constructor<c.SequenceConfig<S>>;
     /** Creates a sequence of sections in the page.  */
     oneOf: <C extends { readonly [k: string]: c.NodeConfig<S> }>(
-      c: Omit<c.OneOfConfig<S, C>, "kind">
+      c: Omit<c.OneOfConfig<S, C>, "kind">,
     ) => c.OneOfConfig<S, C>;
     /** Creates a hint */
     hint: (c: c.HintConfig<S>) => c.HintConfig<S>;
-  }) => c.PageConfig<S>
+  }) => c.PageConfig<S>,
 ) => {
   // This factory exists only to facilitate TypeScript typing.
   const config = factory({
@@ -162,7 +162,7 @@ type Constructor<T> = (c: Omit<T, "kind">) => T;
  * Creates  the feedback page for the given tutorial setup.
  */
 export const feedback = <S extends TutorialSchema>(
-  tutorialConfig: c.TutorialConfig<S>
+  tutorialConfig: c.TutorialConfig<S>,
 ) => {
   return routeComponent({
     element: <FeedbackPage tutorialConfig={tutorialConfig} />,

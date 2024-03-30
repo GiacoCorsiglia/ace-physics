@@ -42,13 +42,13 @@ describe("nodeKey", () => {
 
   it("produces key for nested sequences", () => {
     expect(nodeKey(sequence1)).toBe(
-      "sequence(sectionName1,sequence(sectionName2))"
+      "sequence(sectionName1,sequence(sectionName2))",
     );
   });
 
   it("produces key for nested oneOf", () => {
     expect(nodeKey(oneOf1)).toBe(
-      "oneOf(sectionName1,sequence(sectionName1,sequence(sectionName2)))"
+      "oneOf(sectionName1,sequence(sectionName1,sequence(sectionName2)))",
     );
   });
 });
@@ -103,7 +103,7 @@ describe("isMarkedVisible", () => {
 
   it("marks section with no status as not visible", () => {
     expect(isMarkedVisible({ sections: { section1: {} } }, section1)).toBe(
-      false
+      false,
     );
     expect(isMarkedVisible({ sections: {} }, section1)).toBe(false);
     expect(isMarkedVisible({}, section1)).toBe(false);
@@ -280,8 +280,8 @@ describe("nextSectionToReveal", () => {
             sectionA: { status: "committed" },
           },
         },
-        sequence
-      )
+        sequence,
+      ),
     ).toBe(section1);
 
     expect(
@@ -292,8 +292,8 @@ describe("nextSectionToReveal", () => {
             section1: { status: "committed" },
           },
         },
-        sequence
-      )
+        sequence,
+      ),
     ).toBe(section2);
   });
 

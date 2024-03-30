@@ -109,7 +109,7 @@ type ChooseValueWithOther =
 
 export const ChooseOne = <
   Cs extends Choices,
-  O extends OtherChoiceField | undefined
+  O extends OtherChoiceField | undefined,
 >({
   model,
   initialValue,
@@ -179,7 +179,7 @@ export const ChooseOne = <
 
 export const ChooseAll = <
   Cs extends Choices,
-  O extends OtherChoiceField | undefined
+  O extends OtherChoiceField | undefined,
 >({
   model,
   initialValue,
@@ -360,12 +360,12 @@ export const Dropdown = <Cs extends Choices>({
 
 const useInitialValue = <T,>(
   initialValue: T,
-  setValue: (setter: (prev: T) => T) => void
+  setValue: (setter: (prev: T) => T) => void,
 ) =>
   useEffect(() => {
     if (initialValue !== undefined) {
       setValue((prevValue) =>
-        prevValue === undefined ? initialValue : prevValue
+        prevValue === undefined ? initialValue : prevValue,
       );
     }
   }, [initialValue, setValue]);
@@ -374,14 +374,14 @@ const useInitialChoice = <T,>(
   initialValue: T | undefined,
   setValue: (
     setter: (
-      prev: { readonly selected?: T } | undefined
-    ) => { readonly selected?: T } | undefined
-  ) => void
+      prev: { readonly selected?: T } | undefined,
+    ) => { readonly selected?: T } | undefined,
+  ) => void,
 ) =>
   useEffect(() => {
     if (initialValue !== undefined) {
       setValue((prevValue) =>
-        prevValue === undefined ? { selected: initialValue } : prevValue
+        prevValue === undefined ? { selected: initialValue } : prevValue,
       );
     }
   }, [initialValue, setValue]);

@@ -30,7 +30,7 @@ describe("array", () => {
     const type = array(array(string()));
     expect(decode(type, [["hello"]])).toSatisfy(isSuccess);
     expect(decode(type, [["hello"], ["hi", "bye"], ["yo"]])).toSatisfy(
-      isSuccess
+      isSuccess,
     );
   });
 

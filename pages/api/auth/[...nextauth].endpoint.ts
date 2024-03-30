@@ -34,7 +34,7 @@ if (db.DATABASE_ENABLED) {
   options.providers.push(
     EmailProvider({
       sendVerificationRequest,
-    })
+    }),
   );
 
   // Adapter.

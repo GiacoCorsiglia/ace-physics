@@ -13,6 +13,6 @@ export interface AnyType<T = any> {
  */
 export const any = <T = any>() =>
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  ({ kind: "any" } as AnyType<T>);
+  ({ kind: "any" }) as AnyType<T>;
 
 export const decodeAny: Decoder<AnyType> = (_, value) => decodeSuccess(value);

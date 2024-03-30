@@ -73,6 +73,6 @@ export const CheatSheet = ({
         <InfoIcon size="medium" />
       </Button>
     </div>,
-    portalElement
+    portalElement,
   );
 };

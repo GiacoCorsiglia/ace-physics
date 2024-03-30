@@ -31,7 +31,7 @@ export default endpoint(
       if (allUsersResult.failed) {
         return response.error(
           "Unable to fetch CourseUsers",
-          allUsersResult.error
+          allUsersResult.error,
         );
       }
 
@@ -40,7 +40,7 @@ export default endpoint(
       return response.success({
         instructors: sortBy(
           allUsers.filter(courseUserIsInstructor),
-          "createdAt"
+          "createdAt",
         ),
         students: sortBy(allUsers.filter(courseUserIsStudent), "createdAt"),
       });
@@ -60,7 +60,7 @@ export default endpoint(
 
       // Now parse the input.
       const [studentEmails, unhashedRejectedStudentEmails] = parseAndHashEmails(
-        request.body.unhashedStudentEmails
+        request.body.unhashedStudentEmails,
       );
       const [instructorEmails, unhashedRejectedInstructorEmails] =
         parseAndHashEmails(request.body.unhashedInstructorEmails);
@@ -71,12 +71,12 @@ export default endpoint(
       if (existingUsersResult.failed) {
         return response.error(
           "Unable to load existing users",
-          existingUsersResult.error
+          existingUsersResult.error,
         );
       }
 
       const existingUserEmails = new Set(
-        existingUsersResult.value.map((user) => user.userEmail)
+        existingUsersResult.value.map((user) => user.userEmail),
       );
 
       // Create new user objects---but filter out any that already exist!
@@ -89,7 +89,7 @@ export default endpoint(
             createdAt,
             userEmail: studentEmail,
             role: "student",
-          })
+          }),
         );
       const newInstructors = instructorEmails
         .filter((instructorEmail) => !existingUserEmails.has(instructorEmail))
@@ -99,7 +99,7 @@ export default endpoint(
             createdAt,
             userEmail: instructorEmail,
             role: "instructor",
-          })
+          }),
         );
 
       // Write new user objects to the database.
@@ -108,7 +108,7 @@ export default endpoint(
           PutRequest: {
             Item: db.codec.CourseUser.encode(courseUser),
           },
-        })
+        }),
       );
       const client = db.client();
       const chunkSize = 25; // This is determined by DynamoDB
@@ -122,8 +122,8 @@ export default endpoint(
                 },
               });
             }
-          })()
-        )
+          })(),
+        ),
       );
 
       if (results.some(isFailure)) {
@@ -150,14 +150,14 @@ export default endpoint(
 
     async PUT() {
       return response.error(
-        "Courses cannot be edited when database is disabled."
+        "Courses cannot be edited when database is disabled.",
       );
     },
-  }
+  },
 );
 
 const parseAndHashEmails = (
-  list: string
+  list: string,
 ): [accepted: string[], rejected: string[]] => {
   const accepted: string[] = [];
   const rejected: string[] = [];
@@ -176,7 +176,7 @@ const parseAndHashEmails = (
 
 const userHasPermission = async (
   user: Session["user"],
-  courseId: string
+  courseId: string,
 ): Promise<Result<any, boolean>> => {
   // They don't need to be a global instructor, just one for this course.
 
@@ -214,10 +214,10 @@ const fetchAllUsers = async (courseId: string) => {
         db.codec.CourseUser.keys.GSI1({
           courseId,
           userEmail: "",
-        })
+        }),
       ),
       ExclusiveStartKey,
-    })
+    }),
   );
 
   if (usersResult.failed) {

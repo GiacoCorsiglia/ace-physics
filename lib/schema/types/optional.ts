@@ -26,7 +26,7 @@ export const optional = <S extends Type>(value: S): OptionalType<S> =>
 export const decodeOptional: Decoder<OptionalType<Type>> = (
   type,
   value,
-  context
+  context,
 ) =>
   value === undefined || value === null
     ? decodeSuccess(undefined)

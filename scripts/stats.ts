@@ -29,7 +29,7 @@ export async function run() {
 
     textBoxLengths(
       schema.properties.responses,
-      item.state.responses || {}
+      item.state.responses || {},
     ).forEach((length) => {
       textBoxRows.push({
         tutorial,
@@ -76,7 +76,7 @@ const divideToZero = (a: number, b: number) => {
 
 const mean = (
   ns: (number | undefined)[],
-  undefinedAs: "zero" | "ignore" = "zero"
+  undefinedAs: "zero" | "ignore" = "zero",
 ): number => {
   if (undefinedAs === "ignore") {
     ns = ns.filter((n) => n !== undefined);
@@ -90,7 +90,7 @@ const mean = (
 
 const means = (
   ns: Record<string, number | undefined>[],
-  undefinedAs: "zero" | "ignore" = "zero"
+  undefinedAs: "zero" | "ignore" = "zero",
 ) => {
   // Assume all records have the same keys.
   const record = ns[0];
@@ -101,9 +101,9 @@ const means = (
     output[key] = round(
       mean(
         ns.map((o) => o[key]),
-        undefinedAs
+        undefinedAs,
       ),
-      2
+      2,
     );
   }
 
@@ -112,7 +112,7 @@ const means = (
 
 const groupBy = <T, K extends string>(
   objects: readonly T[],
-  fn: (o: T) => K
+  fn: (o: T) => K,
 ): Map<K, T[]> => {
   const groups = new Map<K, T[]>();
   objects.forEach((o) => {
@@ -156,23 +156,23 @@ const analyzeTutorialState = (schema: TutorialSchema, state: TutorialState) => {
 
 type Analyzer<K extends keyof TutorialState> = (
   schema: TutorialSchema["properties"][K],
-  state: TutorialState[K]
+  state: TutorialState[K],
 ) => Record<string, number>;
 
 const analyzePages: Analyzer<"pages"> = ($pages, pages) => {
   const pageKeys = Object.keys($pages.properties);
 
   const revealedPages = pageKeys.filter(
-    (pk) => pages?.[pk]?.status !== undefined
+    (pk) => pages?.[pk]?.status !== undefined,
   ).length;
 
   const completedPages = pageKeys.filter(
     (pk) =>
-      pages?.[pk]?.status !== undefined && pages?.[pk]?.status !== "revealed"
+      pages?.[pk]?.status !== undefined && pages?.[pk]?.status !== "revealed",
   ).length;
 
   const answerReflectionLength = mean(
-    pageKeys.map((pk) => pages?.[pk]?.answers?.reflection?.length)
+    pageKeys.map((pk) => pages?.[pk]?.answers?.reflection?.length),
   );
 
   return {
@@ -188,7 +188,7 @@ const analyzeHints: Analyzer<"hints"> = ($hints, hints) => {
   const availableHints = hintKeys.length;
 
   const revealedHints = hintKeys.filter(
-    (hk) => hints?.[hk]?.status === "revealed"
+    (hk) => hints?.[hk]?.status === "revealed",
   ).length;
 
   const hintUsage = divideToZero(revealedHints, availableHints);
@@ -212,7 +212,9 @@ const analyzeResponses: Analyzer<"responses"> = ($responses, responses) => {
   const textBoxes = stringKeys.length;
 
   const textBoxResponseLength = mean(
-    stringKeys.map((k) => (responses?.[k] as string | undefined)?.trim().length)
+    stringKeys.map(
+      (k) => (responses?.[k] as string | undefined)?.trim().length,
+    ),
   );
 
   return {
@@ -223,7 +225,7 @@ const analyzeResponses: Analyzer<"responses"> = ($responses, responses) => {
 
 const textBoxLengths = (
   $responses: TutorialSchema["properties"]["responses"],
-  responses: TutorialState["responses"]
+  responses: TutorialState["responses"],
 ) => {
   const keys = Object.keys($responses.properties);
 
@@ -234,6 +236,6 @@ const textBoxLengths = (
   });
 
   return stringKeys.map(
-    (k) => (responses?.[k] as string | undefined)?.length || 0
+    (k) => (responses?.[k] as string | undefined)?.length || 0,
   );
 };

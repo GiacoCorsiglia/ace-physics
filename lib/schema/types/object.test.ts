@@ -27,7 +27,7 @@ describe("object", () => {
       decode(partialType, {
         numberProp: null,
         stringProp1: "foo",
-      })
+      }),
     ).toSatisfy(isSuccess);
   });
 
@@ -37,7 +37,7 @@ describe("object", () => {
         numberProp: 5,
         stringProp1: "foo",
         stringProp2: "bar",
-      })
+      }),
     ).toSatisfy(isSuccess);
   });
 
@@ -45,13 +45,13 @@ describe("object", () => {
     expect(
       decode(type, {
         numberProp: true,
-      })
+      }),
     ).toSatisfy(isFailure);
     expect(
       decode(type, {
         numberProp: false,
         stringProp1: [],
-      })
+      }),
     ).toSatisfy(isFailure);
   });
 
@@ -68,7 +68,7 @@ describe("object", () => {
         rec: {
           str: "hi",
         },
-      })
+      }),
     ).toSatisfy(isSuccess);
   });
 
@@ -85,7 +85,7 @@ describe("object", () => {
         rec: {
           str: 7,
         },
-      })
+      }),
     ).toSatisfy(isFailure);
   });
 

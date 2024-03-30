@@ -24,7 +24,7 @@ export const TutorialStateRoot = ({
   courseId: string | undefined;
 }) => {
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
-    "loading"
+    "loading",
   );
 
   const version = useRef(0);
@@ -39,7 +39,7 @@ export const TutorialStateRoot = ({
       setSavedStatusRef.current = setter;
       return () => (setSavedStatusRef.current = undefined);
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export const TutorialStateRoot = ({
           version: newVersion,
           state: tutorialState,
           events: [],
-        }
+        },
       );
 
       if (inFlightVersion.current === newVersion) {
@@ -156,7 +156,7 @@ export const TutorialStateRoot = ({
         console.info("tutorial: updated version", newVersion);
       }
     },
-    [config, courseId]
+    [config, courseId],
   );
 
   const debouncedSave = useMemo(
@@ -166,7 +166,7 @@ export const TutorialStateRoot = ({
         leading: false,
         trailing: true,
       }),
-    [save]
+    [save],
   );
 
   const latestTutorialState = useRef<any>();
@@ -180,7 +180,7 @@ export const TutorialStateRoot = ({
       }
       debouncedSave(newTutorialState);
     },
-    [debouncedSave]
+    [debouncedSave],
   );
 
   useEffect(() => {

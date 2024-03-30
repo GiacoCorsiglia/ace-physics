@@ -54,5 +54,5 @@ export const Patch = t.union(
   PatchReplace,
   PatchCopy,
   PatchMove,
-  PatchTest
+  PatchTest,
 );

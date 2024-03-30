@@ -23,7 +23,7 @@ export async function run(tutorial: string) {
   console.log("Done.");
   console.log(
     "Don't forget to add this to",
-    join("pages/tutorials", tutorial, "setup.ts")
+    join("pages/tutorials", tutorial, "setup.ts"),
   );
   console.log(`posttest: true`);
 }

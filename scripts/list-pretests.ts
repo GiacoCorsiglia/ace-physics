@@ -21,11 +21,11 @@ export async function run(tutorial: string) {
   const coursesByLearner = new Map(
     json
       .filter((item) => item.sk === "Profile")
-      .map((learner) => [learner.pk, (learner as any).course])
+      .map((learner) => [learner.pk, (learner as any).course]),
   );
 
   const tuts = json.filter(
-    (item) => item.sk === `Tutorial#${pascalCase(tutorial)}`
+    (item) => item.sk === `Tutorial#${pascalCase(tutorial)}`,
   );
 
   const data = tuts.map((item) => {
@@ -93,5 +93,5 @@ const stringifyAsJSONIfNecessary = (v: any): string | undefined =>
   v === undefined || v === null
     ? undefined
     : typeof v === "string"
-    ? v
-    : JSON.stringify(v);
+      ? v
+      : JSON.stringify(v);

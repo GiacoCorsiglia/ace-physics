@@ -34,7 +34,7 @@ describe("/courses/{courseId}/users", () => {
       response.success({
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
     return [
       postRes.body as api.Course,
@@ -61,7 +61,7 @@ describe("/courses/{courseId}/users", () => {
           },
         ],
         students: [],
-      })
+      }),
     );
   });
 
@@ -133,7 +133,7 @@ describe("/courses/{courseId}/users", () => {
       response.success({
         ...expected,
         unhashedRejectedEmails: [],
-      })
+      }),
     );
 
     const getRes = await GET({
@@ -153,7 +153,7 @@ describe("/courses/{courseId}/users", () => {
           ...expected.newInstructors,
         ],
         students: expected.newStudents,
-      })
+      }),
     );
 
     // Now new instructors should be able to add users too!
@@ -189,7 +189,7 @@ describe("/courses/{courseId}/users", () => {
       response.success({
         ...expected2,
         unhashedRejectedEmails: [],
-      })
+      }),
     );
   });
 });

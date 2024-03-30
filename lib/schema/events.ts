@@ -81,5 +81,5 @@ export const Event = t.union(
   PageRevealed,
   PageCompleted,
   SessionStarted,
-  SessionEnded
+  SessionEnded,
 );

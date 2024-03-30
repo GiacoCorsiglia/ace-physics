@@ -120,7 +120,7 @@ export const UserPrivileges = spec({
       role: t.union(
         t.literal("student"),
         t.literal("instructor"),
-        t.literal("admin")
+        t.literal("admin"),
       ),
     }),
     Response: Ok,

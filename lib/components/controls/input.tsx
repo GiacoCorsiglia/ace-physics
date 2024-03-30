@@ -25,12 +25,12 @@ export const InputControl = forwardRef<HTMLInputElement, InputControlProps>(
           className={cx(
             styles.input,
             maxWidth && styles.maxWidth,
-            props.className
+            props.className,
           )}
           id={inputId}
           ref={ref}
         />
       </>
     );
-  }
+  },
 );

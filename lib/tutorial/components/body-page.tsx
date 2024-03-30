@@ -72,7 +72,9 @@ export const BodyPage = ({
       <Head>
         <title>
           {htmlTitle(
-            typeof config.label === "string" ? config.label : config.label.title
+            typeof config.label === "string"
+              ? config.label
+              : config.label.title,
           )}
         </title>
       </Head>
@@ -157,7 +159,7 @@ function ContinueToNextPage({
     const currentPath = router.pathname.split("/");
     const currentLink = currentPath[currentPath.length - 1];
     const currentPageIndex = tutorialConfig.pages.findIndex(
-      ({ link }) => link === currentLink
+      ({ link }) => link === currentLink,
     );
     if (process.env.NODE_ENV === "development" && currentPageIndex === -1) {
       throw new Error(`No page found for the current link: ${currentLink}`);

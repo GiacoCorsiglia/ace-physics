@@ -29,8 +29,8 @@ export const Sequence = ({
     config.sections.filter((node) =>
       instructorMode?.showAllSections
         ? isVisibleInInstructorMode(state, node)
-        : isMarkedVisible(state, node)
-    )
+        : isMarkedVisible(state, node),
+    ),
   );
 
   const nodeComponents = visibleNodes.map((node, i) => (

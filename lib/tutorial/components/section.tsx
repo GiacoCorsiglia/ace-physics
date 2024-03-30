@@ -30,7 +30,7 @@ export const Section = tracked(function Section(
     enumerateDefault: boolean;
     commit: CommitAction;
   },
-  state
+  state,
 ) {
   const instructorMode = useInstructorMode();
   const showAllSections = instructorMode?.showAllSections;
@@ -69,7 +69,7 @@ export const Section = tracked(function Section(
   const revealedHintsHtml = flatHints
     ?.filter(
       ({ name, body }) =>
-        state.hints?.[name]?.status === "revealed" && body !== "disable"
+        state.hints?.[name]?.status === "revealed" && body !== "disable",
     )
     .map(renderHint);
 
@@ -92,7 +92,7 @@ export const Section = tracked(function Section(
   // Is the move on button enabled?  By default, every model field accessed in
   // the rendering of the body and hints must be filled out.
   const isComplete = [...affected].every((key) =>
-    isSet(models[key], state.responses?.[key])
+    isSet(models[key], state.responses?.[key]),
   );
   const continueAllowed = config.continue?.allowed;
   const isContinueAllowed = continueAllowed
@@ -125,7 +125,7 @@ export const Section = tracked(function Section(
   return (
     <SectionBox
       className={cx(
-        status !== "committed" && !showAllSections && styles.activeSection
+        status !== "committed" && !showAllSections && styles.activeSection,
       )}
       animateIn={!first && !showAllSections}
       enumerate={enumerate}
@@ -177,7 +177,7 @@ export const Section = tracked(function Section(
 
 const SectionHintButtons = tracked(function SectionHintButtons(
   { config }: { config: SectionConfig },
-  state
+  state,
 ) {
   const store = useStore();
 
@@ -204,7 +204,7 @@ const SectionHintButtons = tracked(function SectionHintButtons(
                 color="yellow"
                 onClick={() =>
                   store.transaction((set) =>
-                    set(["hints", name, "status"], "revealed")
+                    set(["hints", name, "status"], "revealed"),
                   )
                 }
               >
@@ -228,7 +228,7 @@ const SectionGuidance = tracked(function SectionGuidance(
     config: SectionConfig;
     commit: CommitAction;
   },
-  state
+  state,
 ) {
   const showAllMessages = useInstructorMode()?.showAllSections;
 
@@ -268,7 +268,7 @@ const SectionGuidance = tracked(function SectionGuidance(
   ]?.revealedMessages?.filter(
     // Filter out undefined or invalid message names
     (messageName): messageName is string =>
-      !!messageName && !!guidance.messages[messageName]
+      !!messageName && !!guidance.messages[messageName],
   );
 
   if (!revealedMessages || !revealedMessages.length) {
@@ -354,7 +354,7 @@ const GuidanceMessage = tracked(function GuidanceMessage(
     config: GuidanceMessageConfig;
     isNextMessageForInstructorMode?: boolean;
   },
-  state
+  state,
 ) {
   const body = config.body;
   return (

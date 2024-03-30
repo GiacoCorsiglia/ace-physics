@@ -67,7 +67,7 @@ export default s.tutorial({
         "x<+|+> coefficients",
         "just inner products",
       ],
-      s.string()
+      s.string(),
     ),
     changedProbabilities: s.chooseOne(["true", "false"]),
     changedProbabilitiesExplain: s.string(),
@@ -142,7 +142,7 @@ export default s.tutorial({
         "probabilities-direct",
         "probabilities-squared",
       ],
-      s.string()
+      s.string(),
     ),
     probability: PlusMinus,
     probabilityAmplitude: PlusMinus,

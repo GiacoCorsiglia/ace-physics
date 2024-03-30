@@ -341,7 +341,7 @@ export default page(setup, ({ section, oneOf }) => ({
           }
           if (
             s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -477,7 +477,7 @@ export default page(setup, ({ section, oneOf }) => ({
           }
           if (
             s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -780,7 +780,7 @@ export default page(setup, ({ section, oneOf }) => ({
               ["no", "No, they do not."],
             ]}
             disabled={s.sections?.isBobResultNotRandomAgreement?.revealedMessages?.includes(
-              "incorrect"
+              "incorrect",
             )}
           />
         </>
@@ -948,7 +948,7 @@ export default page(setup, ({ section, oneOf }) => ({
             ["no", "No, they do not share a key."],
           ]}
           disabled={s.sections?.doesAliceBobShareKeyAtCurrentStage?.revealedMessages?.includes(
-            "incorrect"
+            "incorrect",
           )}
         />
       ),

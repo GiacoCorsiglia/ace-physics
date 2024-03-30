@@ -27,7 +27,7 @@ export interface ArrayType<E extends Type> {
  */
 export const array = <E extends Type>(elements: E): ArrayType<E> =>
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  ({ kind: "array", elements } as ArrayType<E>);
+  ({ kind: "array", elements }) as ArrayType<E>;
 
 export const decodeArray: Decoder<ArrayType<Type>> = (type, value, context) => {
   if (!Array.isArray(value)) {
@@ -42,7 +42,7 @@ export const decodeArray: Decoder<ArrayType<Type>> = (type, value, context) => {
     const decoded = decode(
       elements,
       value[i],
-      context.concat({ index: i, type: elements })
+      context.concat({ index: i, type: elements }),
     );
 
     if (decoded.failed) {

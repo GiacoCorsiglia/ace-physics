@@ -5,7 +5,7 @@ import { isIndex, isObject, Path, TypeAtPath } from "@/helpers/client";
  */
 export const get = <T, P extends [] | Path<T>>(
   o: T,
-  path: P
+  path: P,
 ): TypeAtPath<T, P> => {
   for (let i = 0; i < path.length; i++) {
     if (!isObject(o)) {
@@ -30,7 +30,7 @@ export const set = <T, P extends Path<T>>(
   path: P,
   newValue:
     | TypeAtPath<T, P>
-    | ((oldValue: TypeAtPath<T, P>) => TypeAtPath<T, P>)
+    | ((oldValue: TypeAtPath<T, P>) => TypeAtPath<T, P>),
 ): T => {
   // The implementation here is essentially recursion in two loops.  First, we
   // iterate through the path forwards to (a) find the old value at `path`; and

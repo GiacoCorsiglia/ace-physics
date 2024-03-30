@@ -32,7 +32,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = "normal",
       ...props
     },
-    ref
+    ref,
   ) {
     props.disabled = useDisabled(props);
 
@@ -81,7 +81,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       iconRight && styles.iconLast,
       size === "normal" && styles.normal,
       size === "small" && styles.small,
-      colorClass
+      colorClass,
     );
 
     if (!link || props.disabled) {
@@ -108,7 +108,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         </Link>
       );
     }
-  }
+  },
 );
 
 type LinkButtonProps = JSX.IntrinsicElements["button"] & {
@@ -132,5 +132,5 @@ export const LinkButton = forwardRef<HTMLButtonElement, LinkButtonProps>(
         {children}
       </button>
     );
-  }
+  },
 );

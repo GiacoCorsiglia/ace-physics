@@ -50,7 +50,7 @@ type Handlers<S extends ApiSpec> = (S["GET"] extends null
 export const endpoint = <S extends ApiSpec>(
   spec: S,
   databaseEnabledHandlers: Handlers<S>,
-  databaseDisabledHandlers: Handlers<S>
+  databaseDisabledHandlers: Handlers<S>,
 ) => {
   const handlers = DATABASE_ENABLED
     ? databaseEnabledHandlers
@@ -58,7 +58,7 @@ export const endpoint = <S extends ApiSpec>(
 
   const wrapped = async (
     req: NextApiRequest,
-    res: NextApiResponse
+    res: NextApiResponse,
   ): Promise<response.Response> => {
     const parsedRequest = await parseRequest(spec, req, res);
     if (parsedRequest.failed) {

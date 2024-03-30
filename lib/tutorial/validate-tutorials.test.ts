@@ -45,7 +45,7 @@ fs.readdirSync(tutorialsDir)
         pageSuffix.test(f) &&
         !f.startsWith(".") && // No hidden files
         !nonPageFiles.has(f) && // No non-page files
-        !fs.lstatSync(path.join(dir, f)).isDirectory() // no sub-directories
+        !fs.lstatSync(path.join(dir, f)).isDirectory(), // no sub-directories
     );
 
     return {
@@ -64,14 +64,14 @@ fs.readdirSync(tutorialsDir)
     // eslint-disable-next-line jest/valid-title
     describe(t.name, () => {
       const setup: TutorialConfig = importDefault(
-        t.files.has("setup.tsx") ? "setup.tsx" : "setup.ts"
+        t.files.has("setup.tsx") ? "setup.tsx" : "setup.ts",
       );
       const schema: TutorialSchema = importDefault("schema.ts");
       const pages = new Map(
-        [...t.pages].map((p) => [p.replace(pageSuffix, ""), importDefault(p)])
+        [...t.pages].map((p) => [p.replace(pageSuffix, ""), importDefault(p)]),
       );
       const pageConfigs: Map<string, PageConfig> = new Map(
-        [...pages.entries()].map(([p, f]) => [p, f.config])
+        [...pages.entries()].map(([p, f]) => [p, f.config]),
       );
 
       it("setup includes correct schema", () => {
@@ -149,7 +149,7 @@ fs.readdirSync(tutorialsDir)
         expect(setup.pages).toMatchObject(
           [...t.pages]
             .sort()
-            .map((f) => ({ link: f.replace(/\.page\.tsx$/, "") }))
+            .map((f) => ({ link: f.replace(/\.page\.tsx$/, "") })),
         );
       });
 
@@ -161,7 +161,7 @@ fs.readdirSync(tutorialsDir)
 
       it("schema pages match page config names", () => {
         const schemaPages = new Set(
-          Object.keys(schema.properties.pages.properties)
+          Object.keys(schema.properties.pages.properties),
         );
         const pageConfigNames = [...pageConfigs.values()].map((c) => c.name);
         pageConfigNames.forEach((name) => {
@@ -170,12 +170,12 @@ fs.readdirSync(tutorialsDir)
       });
 
       const allSections = [...pageConfigs.values()].flatMap((page) =>
-        findAllSections(page.sections)
+        findAllSections(page.sections),
       );
 
       it("no repeated or invalid section names", () => {
         const validSectionNames = new Set(
-          Object.keys(schema.properties.sections.properties)
+          Object.keys(schema.properties.sections.properties),
         );
         const usedSectionNames = new Set<string>();
 
@@ -188,7 +188,7 @@ fs.readdirSync(tutorialsDir)
 
       it("no repeated or invalid hint names", () => {
         const validHintNames = new Set(
-          Object.keys(schema.properties.hints.properties)
+          Object.keys(schema.properties.hints.properties),
         );
         const usedHintNames = new Set<string>();
 
@@ -214,7 +214,7 @@ fs.readdirSync(tutorialsDir)
         allSections.forEach((section) => {
           if (!section.body && !section.guidance) {
             throw new Error(
-              `Section "${section.name}" has neither body nor guidance`
+              `Section "${section.name}" has neither body nor guidance`,
             );
           }
         });
@@ -253,7 +253,7 @@ fs.readdirSync(tutorialsDir)
           // m.modelName /* ignore-repeated-model */
           const modelAccessX = new RegExp(
             `[^0-9A-Za-z_$]?${modelsArg}((?:\\.[A-Za-z_$][0-9A-Za-z_$]*|\\[[0-9]+\\])+)(\\s*/\\*\\s*ignore-repeated-model\\s*\\*/)?`,
-            "g"
+            "g",
           );
           const matches = [...code.matchAll(modelAccessX)];
           matches.forEach((match) => {
@@ -275,7 +275,7 @@ fs.readdirSync(tutorialsDir)
         allRepeatedModels.forEach((repeatedModel) => {
           if (!allAccessedSet.has(repeatedModel)) {
             throw new Error(
-              `Model "${repeatedModel}" was flagged as repeated, but it wasn't actually repeated`
+              `Model "${repeatedModel}" was flagged as repeated, but it wasn't actually repeated`,
             );
           }
         });

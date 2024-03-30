@@ -80,7 +80,8 @@ $header-height: 2rem;
   &:focus {
     color: colors.$neutral-500;
     border-color: colors.$blue-500;
-    box-shadow: 0 0 0 1px colors.$blue-500,
+    box-shadow:
+      0 0 0 1px colors.$blue-500,
       0 2px 4px colors.alpha(colors.$neutral-900, 0.1);
   }
 

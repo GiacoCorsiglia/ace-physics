@@ -430,7 +430,7 @@ const uColumnDiracChoices = [
 ] as const;
 
 const valueToDirac: { [k: string]: string } = Object.fromEntries(
-  uColumnDiracChoices.map(([value, label]) => [value, label.props.t])
+  uColumnDiracChoices.map(([value, label]) => [value, label.props.t]),
 );
 
 function PlotU({

@@ -24,8 +24,8 @@ export async function run(name: string) {
   const writeFile = promisify(fs.writeFile);
   await Promise.all(
     Object.entries(files).map(([file, contents]) =>
-      writeFile(join(dir, file), contents(name))
-    )
+      writeFile(join(dir, file), contents(name)),
+    ),
   );
   console.log("Done.");
 

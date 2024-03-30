@@ -9,7 +9,7 @@ import { fetchAndParse, ResponseError } from "./fetch-and-parse";
 
 export const renderUrl = <S extends ApiSpec>(
   { url }: S,
-  query: Infer<S["Query"]>
+  query: Infer<S["Query"]>,
 ) => {
   for (const k in query) {
     if (Object.prototype.hasOwnProperty.call(query, k)) {
@@ -27,7 +27,7 @@ export const renderUrl = <S extends ApiSpec>(
 // GET.
 
 interface UseGetHookReturn<
-  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
+  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>,
 > {
   readonly data?: Infer<S["GET"]["Response"]>;
   readonly error?: ResponseError;
@@ -35,20 +35,27 @@ interface UseGetHookReturn<
 }
 
 type UseGetHook<
-  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
-> = ObjectType<{}> extends S["Query"] // Query is empty.
-  ? (
-      swrOptions?: SWRConfiguration<Infer<S["GET"]["Response"]>, ResponseError>
-    ) => UseGetHookReturn<S>
-  : (
-      query: Infer<S["Query"]>,
-      swrOptions?: SWRConfiguration<Infer<S["GET"]["Response"]>, ResponseError>
-    ) => UseGetHookReturn<S>;
+  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>,
+> =
+  ObjectType<{}> extends S["Query"] // Query is empty.
+    ? (
+        swrOptions?: SWRConfiguration<
+          Infer<S["GET"]["Response"]>,
+          ResponseError
+        >,
+      ) => UseGetHookReturn<S>
+    : (
+        query: Infer<S["Query"]>,
+        swrOptions?: SWRConfiguration<
+          Infer<S["GET"]["Response"]>,
+          ResponseError
+        >,
+      ) => UseGetHookReturn<S>;
 
 export const createUseGet = <
-  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>
+  S extends ApiSpec<ApiSpec["Query"], NonNullable<ApiSpec["GET"]>>,
 >(
-  spec: S
+  spec: S,
 ): UseGetHook<S> => {
   interface ThrownResponseError extends Error {
     responseError: ResponseError;
@@ -95,22 +102,22 @@ export const createUseGet = <
 
 type UseMutationHook<
   S extends ApiSpec,
-  M extends "PUT" | "POST" | "DELETE"
+  M extends "PUT" | "POST" | "DELETE",
 > = () => {
   readonly mutate: ObjectType<{}> extends S["Query"] // Query is empty.
     ? M extends "PUT" | "POST"
       ? (
-          request: Infer<NonNullable<S[M]>["Request"]>
+          request: Infer<NonNullable<S[M]>["Request"]>,
         ) => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>
       : () => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>
     : M extends "PUT" | "POST"
-    ? (
-        query: Infer<S["Query"]>,
-        request: Infer<NonNullable<S[M]>["Request"]>
-      ) => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>
-    : (
-        query: Infer<S["Query"]>
-      ) => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>;
+      ? (
+          query: Infer<S["Query"]>,
+          request: Infer<NonNullable<S[M]>["Request"]>,
+        ) => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>
+      : (
+          query: Infer<S["Query"]>,
+        ) => AsyncResult<ResponseError, Infer<NonNullable<S[M]>["Response"]>>;
 
   readonly reset: () => void;
 
@@ -123,16 +130,16 @@ type Status = "idle" | "loading" | "error" | "success";
 
 type AllowedMethods<
   S extends ApiSpec,
-  M extends "PUT" | "POST" | "DELETE"
+  M extends "PUT" | "POST" | "DELETE",
 > = M extends unknown ? (S[M] extends null ? never : M) : never;
 
 export const createUseMutation = <
   S extends ApiSpec,
-  M extends AllowedMethods<S, "PUT" | "POST" | "DELETE">
+  M extends AllowedMethods<S, "PUT" | "POST" | "DELETE">,
 >(
   spec: S,
   method: M,
-  isText: boolean = false
+  isText: boolean = false,
 ): UseMutationHook<S, M> => {
   const needsQuery = Object.keys(spec.Query.properties).length > 0;
   const needsRequest = method !== "DELETE";
@@ -149,9 +156,9 @@ export const createUseMutation = <
     const reset = useCallback(
       () =>
         setState((prev) =>
-          prev.status === "idle" ? prev : { status: "idle" }
+          prev.status === "idle" ? prev : { status: "idle" },
         ),
-      []
+      [],
     );
 
     const mutate = useCallback(
@@ -172,7 +179,7 @@ export const createUseMutation = <
           url,
           method as any,
           request,
-          isText
+          isText,
         );
 
         if (result.failed) {
@@ -190,7 +197,7 @@ export const createUseMutation = <
 
         return result;
       },
-      [swrMutate]
+      [swrMutate],
     );
 
     return {

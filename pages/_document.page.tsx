@@ -6,8 +6,8 @@ export default class AceDocument extends Document {
       process.env.NEXT_PUBLIC_ACE_ENV === "development"
         ? "/favicon-dev.ico"
         : process.env.NEXT_PUBLIC_ACE_ENV === "staging"
-        ? "/favicon-beta.ico"
-        : "/favicon.ico";
+          ? "/favicon-beta.ico"
+          : "/favicon.ico";
 
     return (
       <Html lang="en">

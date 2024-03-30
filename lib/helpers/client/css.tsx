@@ -37,7 +37,7 @@ export const styledChild: {
         className: cx(children.props.className, className, ...cs),
         ref,
       });
-    }
+    },
   );
 
   component.displayName = `styledChild${devDisplayName(classes)}`;
@@ -53,7 +53,7 @@ interface StyledComponent<DefaultTag extends Tag, P> {
     props: {
       as?: T;
     } & P &
-      JSX.IntrinsicElements[T]
+      JSX.IntrinsicElements[T],
   ): ReactElement<any, any> | null;
 
   displayName?: string;
@@ -63,12 +63,12 @@ interface StyledConstructor<DefaultTag extends Tag> {
   (
     classes: ClassName | readonly ClassName[],
     renderChildren?: (children: Html) => Html,
-    displayName?: string
+    displayName?: string,
   ): StyledComponent<DefaultTag, {}>;
   <P>(
     classes: (props: P) => readonly ClassName[],
     renderChildren?: (children: Html) => Html,
-    displayName?: string
+    displayName?: string,
   ): StyledComponent<DefaultTag, P>;
 }
 
@@ -83,7 +83,7 @@ const styledConstructor =
   (
     classes: any,
     renderChildren?: (children: Html) => Html,
-    displayName?: string
+    displayName?: string,
   ): any => {
     const classesFn = classes instanceof Function ? classes : null;
     if (!classesFn && !Array.isArray(classes)) {

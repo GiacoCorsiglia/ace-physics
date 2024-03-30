@@ -168,14 +168,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "bitEve",
-              tableWithEve.nonGreyedCols.slice(0, 4)
+              tableWithEve.nonGreyedCols.slice(0, 4),
             )
           ) {
             return "correctBits";
           }
           if (
             s.sections?.evesBitAfterMeasurement?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -250,7 +250,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "bitEve",
-            tableWithEve.nonGreyedCols.slice(0, 4)
+            tableWithEve.nonGreyedCols.slice(0, 4),
           ),
       },
     }),
@@ -261,7 +261,7 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "bitEve",
-          tableWithEve.nonGreyedCols.slice(0, 4)
+          tableWithEve.nonGreyedCols.slice(0, 4),
         ),
       body: (m) => (
         <>
@@ -321,14 +321,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "bitEve",
-              tableWithEve.nonGreyedCols.slice(4)
+              tableWithEve.nonGreyedCols.slice(4),
             )
           ) {
             return "correctBits";
           }
           if (
             s.sections?.evesBitAfterMeasurement2?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -404,7 +404,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "bitEve",
-            tableWithEve.nonGreyedCols.slice(4)
+            tableWithEve.nonGreyedCols.slice(4),
           ),
       },
     }),
@@ -415,7 +415,7 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "bitEve",
-          tableWithEve.nonGreyedCols.slice(4)
+          tableWithEve.nonGreyedCols.slice(4),
         ),
       body: (m) => (
         <>
@@ -506,14 +506,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "stateEve",
-              tableWithEve.nonGreyedCols.slice(0, 4)
+              tableWithEve.nonGreyedCols.slice(0, 4),
             )
           ) {
             return "correctStates";
           }
           if (
             s.sections?.qubitStateEveSendsToBob1?.revealedMessages?.includes(
-              "wrongStates"
+              "wrongStates",
             )
           )
             return "wrongStates2";
@@ -573,7 +573,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "stateEve",
-            tableWithEve.nonGreyedCols.slice(0, 4)
+            tableWithEve.nonGreyedCols.slice(0, 4),
           ),
       },
     }),
@@ -584,7 +584,7 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "stateEve",
-          tableWithEve.nonGreyedCols.slice(0, 4)
+          tableWithEve.nonGreyedCols.slice(0, 4),
         ),
       body: (m) => (
         <>
@@ -645,14 +645,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "stateEve",
-              tableWithEve.nonGreyedCols.slice(4)
+              tableWithEve.nonGreyedCols.slice(4),
             )
           ) {
             return "correctStates";
           }
           if (
             s.sections?.qubitStateEveSendsToBob1?.revealedMessages?.includes(
-              "wrongStates"
+              "wrongStates",
             )
           )
             return "wrongStates2";
@@ -711,7 +711,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "stateEve",
-            tableWithEve.nonGreyedCols.slice(4)
+            tableWithEve.nonGreyedCols.slice(4),
           ),
       },
     }),
@@ -722,7 +722,7 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "stateEve",
-          tableWithEve.nonGreyedCols.slice(4)
+          tableWithEve.nonGreyedCols.slice(4),
         ),
       body: (m) => (
         <>
@@ -806,14 +806,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "bitBob",
-              tableWithEve.nonGreyedCols.slice(0, 4)
+              tableWithEve.nonGreyedCols.slice(0, 4),
             )
           ) {
             return "correctBits";
           }
           if (
             s.sections?.bobsBitAfterEve1?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -888,7 +888,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "bitBob",
-            tableWithEve.nonGreyedCols.slice(0, 4)
+            tableWithEve.nonGreyedCols.slice(0, 4),
           ),
       },
     }),
@@ -899,7 +899,7 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "bitBob",
-          tableWithEve.nonGreyedCols.slice(0, 4)
+          tableWithEve.nonGreyedCols.slice(0, 4),
         ),
       body: (m) => (
         <>
@@ -964,14 +964,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "bitBob",
-              tableWithEve.nonGreyedCols.slice(4)
+              tableWithEve.nonGreyedCols.slice(4),
             )
           ) {
             return "correctBits";
           }
           if (
             s.sections?.bobsBitAfterEve2?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -1047,7 +1047,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "bitBob",
-            tableWithEve.nonGreyedCols.slice(4)
+            tableWithEve.nonGreyedCols.slice(4),
           ),
       },
     }),
@@ -1058,7 +1058,7 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "bitBob",
-          tableWithEve.nonGreyedCols.slice(4)
+          tableWithEve.nonGreyedCols.slice(4),
         ),
       body: (m) => (
         <>

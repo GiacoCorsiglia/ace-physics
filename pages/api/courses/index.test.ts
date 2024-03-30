@@ -52,7 +52,7 @@ describe("/courses", () => {
       response.success({
         displayName: "test1",
         userRole: "instructor",
-      })
+      }),
     );
     // Should have been assigned random ID.
     expect((res1.body as api.Course).id).not.toBeFalsy();
@@ -68,7 +68,7 @@ describe("/courses", () => {
       response.success({
         displayName: "test2",
         userRole: "instructor",
-      })
+      }),
     );
     // Should have been assigned different ID.
     expect((res1.body as api.Course).id).not.toBe((res2.body as api.Course).id);

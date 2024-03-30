@@ -29,7 +29,7 @@ export const forbidden = (): ErrorResponse => ({
 
 export const error = (
   error: string | Error,
-  info: any = undefined
+  info: any = undefined,
 ): ErrorResponse => {
   const message: string =
     typeof error === "string" ? error : `${error.name}: ${error.message}`;
@@ -47,7 +47,7 @@ export const error = (
 
 export const methodNotAllowed = (
   method: string | undefined,
-  allowedMethods: string[]
+  allowedMethods: string[],
 ): ErrorResponse => ({
   statusCode: 405,
   headers: {

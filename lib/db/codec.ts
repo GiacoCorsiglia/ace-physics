@@ -8,12 +8,12 @@ export const codec = <
   T extends string,
   S extends t.Type,
   KP extends (item: t.Infer<S>) => KeyPrimary,
-  KGSI1 extends ((item: t.Infer<S>) => KeyGSI1) | undefined
+  KGSI1 extends ((item: t.Infer<S>) => KeyGSI1) | undefined,
 >(
   type: T,
   schema: S,
   keysPrimary: KP,
-  keysGS1I?: KGSI1
+  keysGS1I?: KGSI1,
 ) => {
   type Item = t.Infer<S>;
 
@@ -46,7 +46,7 @@ export const codec = <
      * { ExpressionAttributeNames, ExpressionAttributeValues  }
      */
     expressionAttributes: expressionAttributes as (
-      item: Partial<Item>
+      item: Partial<Item>,
     ) => ReturnType<typeof expressionAttributes>,
 
     /**
@@ -54,7 +54,7 @@ export const codec = <
      * { UpdateExpression, ExpressionAttributeNames, ExpressionAttributeValues }
      */
     updateExpression: updateExpression as (
-      item: Partial<Item>
+      item: Partial<Item>,
     ) => ReturnType<typeof updateExpression>,
 
     /** Converts item from application object for saving in the database. */
@@ -64,7 +64,7 @@ export const codec = <
           if (p in (item as any)) {
             const json = JSON.stringify(item);
             throw new Error(
-              `Property "${p}" conflicts with database-only property:\n${json}`
+              `Property "${p}" conflicts with database-only property:\n${json}`,
             );
           }
         }

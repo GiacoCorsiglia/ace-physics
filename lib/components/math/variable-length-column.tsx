@@ -18,7 +18,7 @@ export const VariableLengthColumn = <E extends Field>({
   component: (
     componentModel: Model<E>,
     row: number,
-    inputProps: JSX.IntrinsicElements["input"]
+    inputProps: JSX.IntrinsicElements["input"],
   ) => Html;
   minRows?: number;
   maxRows?: number;
@@ -126,7 +126,7 @@ export const VariableLengthColumn = <E extends Field>({
         </AddRowButton>
 
         <AddRowMessage>Click or press Enter</AddRowMessage>
-      </>
+      </>,
     );
 
   return <Matrix column={column} {...matrixProps} />;

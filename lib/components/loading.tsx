@@ -13,7 +13,7 @@ export const LoadingAnimation = ({
       styles.loadingAnimation,
       size === "small" && styles.sizeSmall,
       size === "medium" && styles.sizeMedium,
-      size === "large" && styles.sizeLarge
+      size === "large" && styles.sizeLarge,
     )}
   >
     <div

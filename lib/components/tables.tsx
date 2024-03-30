@@ -10,7 +10,7 @@ type TableProps = {
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   { columns, children, caption, ...props },
-  ref
+  ref,
 ) {
   const columnWidthSum = columns
     ? columns.reduce((sum, cur) => sum + cur, 0)

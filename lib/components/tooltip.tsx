@@ -9,7 +9,7 @@ const tooltipPortalElement =
   typeof window !== "undefined" ? document.getElementById("ace-tooltip") : null;
 
 export const useTooltip = <E extends Element = HTMLElement>(
-  enabled: boolean = true
+  enabled: boolean = true,
 ) => {
   const [isVisible, setVisible] = useState(false);
   const tooltipId = `tooltip-${useUniqueId()}`;
@@ -165,6 +165,6 @@ export const Tooltip = ({
         {props.children}
       </div>
     </div>,
-    tooltipPortalElement
+    tooltipPortalElement,
   );
 };

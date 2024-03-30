@@ -58,7 +58,7 @@ export default endpoint(
             path: e.path,
             error: e.message,
             received: e.value,
-          }))
+          })),
         );
       }
 
@@ -74,7 +74,7 @@ export default endpoint(
           state: decoded.value,
           events,
         },
-        false
+        false,
       );
 
       const result = await db.client().update({
@@ -121,5 +121,5 @@ export default endpoint(
         updated: true,
       } as const);
     },
-  }
+  },
 );

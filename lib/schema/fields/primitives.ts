@@ -1,6 +1,9 @@
 import * as t from "@/schema/types";
 
-const constant = <T>(c: T) => () => c;
+const constant =
+  <T>(c: T) =>
+  () =>
+    c;
 
 /**
  * A Field for a boolean (yes/no or true/false) value.

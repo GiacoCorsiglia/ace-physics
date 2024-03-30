@@ -11,8 +11,8 @@ const defaultProvider =
   PROVIDER === "ses"
     ? sesProvider
     : PROVIDER === "sendgrid"
-    ? sendgridProvider
-    : null;
+      ? sendgridProvider
+      : null;
 
 export const sendVerificationRequest = async ({
   identifier: email,

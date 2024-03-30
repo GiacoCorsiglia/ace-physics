@@ -16,7 +16,7 @@ const adapter = HashedDynamoDBAdapter(
   }),
   {
     tableName: db.tableName(),
-  }
+  },
 );
 
 export default endpoint(
@@ -32,7 +32,7 @@ export default endpoint(
       if (!isValidEmail(request.body.unhashedUserEmail)) {
         return response.error(
           "Invalid email address",
-          request.body.unhashedUserEmail
+          request.body.unhashedUserEmail,
         );
       }
 
@@ -41,7 +41,7 @@ export default endpoint(
       }
 
       const targetUser = await adapter.getUserByEmail!(
-        request.body.unhashedUserEmail
+        request.body.unhashedUserEmail,
       );
 
       if (targetUser) {
@@ -64,5 +64,5 @@ export default endpoint(
     async POST() {
       return response.success({ ok: true as const });
     },
-  }
+  },
 );

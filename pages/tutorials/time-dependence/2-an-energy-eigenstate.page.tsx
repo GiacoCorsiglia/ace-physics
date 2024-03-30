@@ -276,7 +276,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
       which: (r) => {
         const which = rotationPeriodGuidance(
           r.rotationPeriod1,
-          r.rotationPeriod2
+          r.rotationPeriod2,
         );
         if (
           which === "rotationPeriod1Incorrect" ||
@@ -600,7 +600,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
 
 const rotationPeriodGuidance = (
   t1: number | undefined,
-  t2: number | undefined
+  t2: number | undefined,
 ) => {
   const t1Correct = 1;
   const t2Correct = 0.25;

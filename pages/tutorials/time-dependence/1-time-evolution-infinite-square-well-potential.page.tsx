@@ -577,7 +577,7 @@ export default page(setup, ({ section, hint }) => ({
                 responses?.difTimePlotAxisX
                   ? `\\text{${responses?.difTimePlotAxisX.replace(
                       /\\|\$/g,
-                      ""
+                      "",
                     )}}`
                   : undefined
               }
@@ -615,7 +615,7 @@ export default page(setup, ({ section, hint }) => ({
             // Because this feedback is imperfect, we never show this message twice.
             const alreadyPresented =
               s.sections?.difTimePlot?.revealedMessages?.includes(
-                "exp(-i 3pi/ 2) feedback"
+                "exp(-i 3pi/ 2) feedback",
               );
             if (!alreadyPresented) {
               return "exp(-i 3pi/ 2) feedback";

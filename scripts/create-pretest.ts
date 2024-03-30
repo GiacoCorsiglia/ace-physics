@@ -14,13 +14,13 @@ export async function run(tutorial: string) {
 
   if (fs.existsSync(path)) {
     throw new Error(
-      `Pretest ("before-you-start") already exists in "${tutorial}".`
+      `Pretest ("before-you-start") already exists in "${tutorial}".`,
     );
   }
 
   console.log(
     "Creating page",
-    join("pages/tutorials", tutorial, "before-you-start")
+    join("pages/tutorials", tutorial, "before-you-start"),
   );
 
   fs.writeFileSync(path, template);
@@ -28,7 +28,7 @@ export async function run(tutorial: string) {
   console.log("Done.");
   console.log(
     "Don't forget to add this to",
-    join("pages/tutorials", tutorial, "setup.ts")
+    join("pages/tutorials", tutorial, "setup.ts"),
   );
   console.log(`pretest: true`);
 }

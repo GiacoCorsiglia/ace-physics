@@ -26,8 +26,8 @@ export interface Model<F extends f.Field = f.Field> {
         readonly [I in keyof Es]: Es[I] extends f.Field ? Model<Es[I]> : Es[I];
       }
     : F extends f.ArrayField<infer E>
-    ? ReadonlyArray<Model<E>>
-    : never;
+      ? ReadonlyArray<Model<E>>
+      : never;
 
   // Choose.
   readonly other: F extends
@@ -42,7 +42,7 @@ export interface Model<F extends f.Field = f.Field> {
 export const model = <F extends f.Field>(
   field: F,
   path: readonly (string | number)[],
-  Context: React.Context<ModelContext>
+  Context: React.Context<ModelContext>,
 ): Model<F> => {
   const f: f.Field = field;
 
@@ -59,7 +59,7 @@ export const model = <F extends f.Field>(
             Object.entries(f.properties).map(([key, subField]) => [
               key,
               model(subField, path.concat(key), Context),
-            ])
+            ]),
           ) as any)
         : (undefined as any),
 
@@ -69,36 +69,36 @@ export const model = <F extends f.Field>(
     elements:
       f.kind === "tuple"
         ? f.elements.map((subField, i) =>
-            model(subField, path.concat(i), Context)
+            model(subField, path.concat(i), Context),
           )
         : f.kind === "array"
-        ? new Proxy([] as Model<f.Field>[], {
-            has(elementModels, property) {
-              const i = asIndex(property);
-              if (i === null) {
-                return property in elementModels;
-              }
-              return true;
-            },
+          ? new Proxy([] as Model<f.Field>[], {
+              has(elementModels, property) {
+                const i = asIndex(property);
+                if (i === null) {
+                  return property in elementModels;
+                }
+                return true;
+              },
 
-            get(elementModels, property) {
-              if (elementModels[property as any] !== undefined) {
-                return elementModels[property as any];
-              }
+              get(elementModels, property) {
+                if (elementModels[property as any] !== undefined) {
+                  return elementModels[property as any];
+                }
 
-              const i = asIndex(property);
-              if (i === null) {
-                return undefined;
-              }
+                const i = asIndex(property);
+                if (i === null) {
+                  return undefined;
+                }
 
-              return (elementModels[i] = model(
-                f.elements,
-                path.concat(i),
-                Context
-              ));
-            },
-          })
-        : (undefined as any),
+                return (elementModels[i] = model(
+                  f.elements,
+                  path.concat(i),
+                  Context,
+                ));
+              },
+            })
+          : (undefined as any),
 
     // Add an `other` property to hold a model for the "other" field.
     other:
@@ -110,7 +110,7 @@ export const model = <F extends f.Field>(
 
 export const isSet = <F extends f.Field>(
   model: Model<F>,
-  value: Infer<F["type"]> | undefined
+  value: Infer<F["type"]> | undefined,
 ): boolean => {
   // Guard since this function is used dynamically.
   if (model === undefined) {
@@ -148,12 +148,12 @@ export const isSet = <F extends f.Field>(
       return (
         !!v.length &&
         v.every((subValue: any, i: number) =>
-          isSet(model.elements[i], subValue)
+          isSet(model.elements[i], subValue),
         )
       );
     case "object":
       return Object.entries(model.properties).every(([key, subModel]) =>
-        isSet(subModel, v[key])
+        isSet(subModel, v[key]),
       );
   }
 };

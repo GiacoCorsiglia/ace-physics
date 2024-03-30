@@ -24,7 +24,7 @@ const config = {
       Object.entries(tsconfig.compilerOptions.paths || {}).map(([k, [v]]) => [
         `^${k.replace(/\*/, "(.*)")}`,
         path.join("<rootDir>", v.replace(/\*/, "$1")),
-      ])
+      ]),
     ),
   },
 

@@ -44,7 +44,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             <M
               display
               t={`\\ket{u} = ${u[0]!.toFixed(2)}\\ket{x} + ${u[1]!.toFixed(
-                2
+                2,
               )}\\ket{y}`}
             />
           </Reminder>
@@ -95,7 +95,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             <M
               display
               t={`\\ket{v} = ${v[0]!.toFixed(2)}\\ket{x} ${v[1]!.toFixed(
-                2
+                2,
               )}\\ket{y}`}
             />
           </Reminder>
@@ -182,7 +182,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             <M
               display
               t={`\\ket{u} = ${u[0]!.toFixed(2)}\\ket{x} + ${u[1]!.toFixed(
-                2
+                2,
               )}\\ket{y}`}
             />
           </Reminder>
@@ -232,7 +232,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
             <M
               display
               t={`\\ket{v} = ${v[0]!.toFixed(2)}\\ket{x} ${v[1]!.toFixed(
-                2
+                2,
               )}\\ket{y}`}
             />
           </Reminder>

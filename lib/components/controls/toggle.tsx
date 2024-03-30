@@ -47,7 +47,7 @@ export const ToggleControl = <C,>({
             disabled && styles.disabled,
             layout === "horizontal" && styles.horizontal,
             layout === "vertical" && styles.vertical,
-            layout === "grid" && styles.grid
+            layout === "grid" && styles.grid,
           )}
           role="group"
           aria-labelledby={label ? labelId : undefined}
@@ -59,7 +59,7 @@ export const ToggleControl = <C,>({
               className={cx(
                 styles.choice,
                 value === choiceId && styles.selected,
-                disabled && styles.disabled
+                disabled && styles.disabled,
               )}
             >
               <input

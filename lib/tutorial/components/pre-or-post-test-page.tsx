@@ -27,7 +27,7 @@ type Models =
   | Model<TutorialSchema>["properties"]["posttest"]["properties"]["responses"]["properties"];
 
 type GetState = (
-  state: TutorialState
+  state: TutorialState,
 ) =>
   | TutorialState["pretest"]
   | NonNullable<TutorialState["posttest"]>["responses"];
@@ -127,13 +127,13 @@ const ContinueSection = tracked(function ContinueSection(
     onContinue: (() => void) | undefined;
     isAlwaysAllowed: boolean;
   },
-  state
+  state,
 ) {
   // Never reset, so it captures everything used on every render.
   const accessed = modelsTracker.currentAccessed;
   const optional = new Set(config.continue?.optional);
   const defaultIsContinueAllowed = [...accessed].every(
-    (key) => optional.has(key) || isSet(models[key], getState(state)?.[key])
+    (key) => optional.has(key) || isSet(models[key], getState(state)?.[key]),
   );
   const allowedFn = config.continue?.allowed;
   const isContinueAllowed = allowedFn
@@ -176,10 +176,13 @@ const TimesUpModal = ({
 }) => {
   const [isOpen, setOpen] = useState(false);
 
-  useTimeout(() => {
-    onTimeout();
-    setOpen(true);
-  }, 1000 * 60 * 5);
+  useTimeout(
+    () => {
+      onTimeout();
+      setOpen(true);
+    },
+    1000 * 60 * 5,
+  );
 
   if (!isOpen) {
     return null;

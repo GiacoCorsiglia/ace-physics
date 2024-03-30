@@ -56,7 +56,7 @@ export const M = ({
         KaTeX.default.renderToString(tex, {
           ...options,
           displayMode: display,
-        })
+        }),
       );
 
       if (html.failed && process.env.NODE_ENV !== "production") {
@@ -90,7 +90,7 @@ export const M = ({
 
   const [elRef, classes] = useActualSiblingCheck(
     () => !!display && !!html.__html,
-    [display, html.__html]
+    [display, html.__html],
   );
 
   return (

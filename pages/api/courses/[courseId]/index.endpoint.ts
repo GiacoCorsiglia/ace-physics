@@ -33,7 +33,7 @@ export default endpoint(
         if (
           result.error.name === "TransactionCanceledException" &&
           result.error.CancellationReasons?.some(
-            ({ Code }) => Code === "ConditionalCheckFailed"
+            ({ Code }) => Code === "ConditionalCheckFailed",
           )
         ) {
           return response.notFound();
@@ -98,7 +98,7 @@ export default endpoint(
         if (
           result.error.name === "TransactionCanceledException" &&
           result.error.CancellationReasons?.some(
-            ({ Code }) => Code === "ConditionalCheckFailed"
+            ({ Code }) => Code === "ConditionalCheckFailed",
           )
         ) {
           // User does not have permission to modify this course.
@@ -133,8 +133,8 @@ export default endpoint(
     },
     async PUT() {
       return response.error(
-        "Courses cannot be edited when database is disabled."
+        "Courses cannot be edited when database is disabled.",
       );
     },
-  }
+  },
 );

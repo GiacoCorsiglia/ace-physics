@@ -14,7 +14,7 @@ export const createDocumentClient = (translateConfig: TranslateConfig) => {
 
   const documentClient = DynamoDBDocument.from(
     new DynamoDB(config),
-    translateConfig
+    translateConfig,
   );
 
   return documentClient;
@@ -30,7 +30,7 @@ export const client = () =>
         removeUndefinedValues: true,
         convertClassInstanceToMap: true,
       },
-    })
+    }),
   ));
 
 /** @internal Exposed for testing only. */

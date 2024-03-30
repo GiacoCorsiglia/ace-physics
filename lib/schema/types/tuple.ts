@@ -32,16 +32,16 @@ export const tuple = <Es extends readonly [Type, ...Type[]]>(
   ...elements: Es
 ): TupleType<Es> =>
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  ({ kind: "tuple", elements } as TupleType<Es>);
+  ({ kind: "tuple", elements }) as TupleType<Es>;
 
 export const decodeTuple: Decoder<TupleType<readonly Type[]>> = (
   type,
   value,
-  context
+  context,
 ) => {
   if (!Array.isArray(value)) {
     return decodeFailure(
-      decodeError(value, context, "not a tuple (i.e, not an array)")
+      decodeError(value, context, "not a tuple (i.e, not an array)"),
     );
   }
 
@@ -65,8 +65,8 @@ export const decodeTuple: Decoder<TupleType<readonly Type[]>> = (
       decodeError(
         value,
         context,
-        `wrong length for tuple: expected at least (${requiredLength}), at most (${maxLength}), received (${value.length}) `
-      )
+        `wrong length for tuple: expected at least (${requiredLength}), at most (${maxLength}), received (${value.length}) `,
+      ),
     );
   }
 
@@ -77,7 +77,7 @@ export const decodeTuple: Decoder<TupleType<readonly Type[]>> = (
     const decoded = decode(
       elements[i],
       value[i],
-      context.concat({ index: i, type: elements[i] })
+      context.concat({ index: i, type: elements[i] }),
     );
 
     if (decoded.failed) {

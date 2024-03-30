@@ -39,9 +39,9 @@ export const unwrap = <E, T>(r: Result<E, T>): T => {
 export interface AsyncResult<E, T> extends Promise<Result<E, T>> {}
 
 export const asyncResult = <E = any, T = any>(
-  promise: Promise<T>
+  promise: Promise<T>,
 ): AsyncResult<E, T> =>
   promise.then(
     (value): Success<T> => ({ failed: false, value }),
-    (error): Failure<E> => ({ failed: true, error })
+    (error): Failure<E> => ({ failed: true, error }),
   );
