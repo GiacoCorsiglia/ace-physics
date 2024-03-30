@@ -3,10 +3,10 @@ import footerStyles from "@/components/footer.module.scss";
 import "@/design/global.scss";
 import { Html, JsxElement } from "@/helpers/client";
 import { polyfill } from "@/polyfill";
-import { Bitter } from "@next/font/google";
 import type { Session } from "next-auth";
 import { SessionProvider, useSession } from "next-auth/react";
 import type { AppProps } from "next/app";
+import { Bitter } from "next/font/google";
 import { useMemo, useRef } from "react";
 import { Cache, SWRConfig } from "swr";
 

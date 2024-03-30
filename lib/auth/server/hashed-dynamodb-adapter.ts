@@ -60,25 +60,25 @@ export const HashedDynamoDBAdapter = (
       }
 
       user = hashProperty("email", user);
-      return ddb.createUser(user);
+      return ddb.createUser!(user);
     },
-    getUser: ddb.getUser.bind(ddb),
+    getUser: ddb.getUser!.bind(ddb),
     getUserByEmail(email) {
       email = hashEmail(email);
-      return ddb.getUserByEmail(email);
+      return ddb.getUserByEmail!(email);
     },
-    getUserByAccount: ddb.getUserByAccount.bind(ddb),
+    getUserByAccount: ddb.getUserByAccount!.bind(ddb),
     updateUser(user) {
       user = hashProperty("email", user);
-      return ddb.updateUser(user);
+      return ddb.updateUser!(user);
     },
     deleteUser: ddb.deleteUser?.bind(ddb),
-    linkAccount: ddb.linkAccount.bind(ddb),
+    linkAccount: ddb.linkAccount!.bind(ddb),
     unlinkAccount: ddb.unlinkAccount?.bind(ddb),
-    createSession: ddb.createSession.bind(ddb),
-    getSessionAndUser: ddb.getSessionAndUser.bind(ddb),
-    updateSession: ddb.updateSession.bind(ddb),
-    deleteSession: ddb.deleteSession.bind(ddb),
+    createSession: ddb.createSession!.bind(ddb),
+    getSessionAndUser: ddb.getSessionAndUser!.bind(ddb),
+    updateSession: ddb.updateSession!.bind(ddb),
+    deleteSession: ddb.deleteSession!.bind(ddb),
     createVerificationToken: ddb.createVerificationToken
       ? (verificationToken) => {
           verificationToken = hashProperty("identifier", verificationToken);

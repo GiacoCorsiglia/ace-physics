@@ -1,12 +1,13 @@
 import * as result from "@/result";
 import { decode, Infer } from "@/schema/types";
-import { NextApiRequest } from "next";
+import { options as authOptions } from "@pages/api/auth/[...nextauth].endpoint";
+import { NextApiRequest, NextApiResponse } from "next";
 import type { Session } from "next-auth";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
 import { ApiSpec } from "../isomorphic/spec";
 import * as response from "./response";
 
-type Method = typeof methods[number];
+type Method = (typeof methods)[number];
 const methods = ["GET", "PUT", "POST", "DELETE"] as const;
 
 // `parseRequest` enforces that the session have a user with an email.
@@ -37,7 +38,8 @@ export type ParsedRequest<S extends ApiSpec> = {
 
 export const parseRequest = async <S extends ApiSpec>(
   spec: S,
-  req: NextApiRequest
+  req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<result.Result<response.Response, ParsedRequest<S>>> => {
   // Method.
   const method = req.method as Method;
@@ -79,7 +81,7 @@ export const parseRequest = async <S extends ApiSpec>(
     body = decodedBody.value;
   }
 
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, authOptions);
 
   if (!isParsedSession(session)) {
     return result.failure(response.forbidden());

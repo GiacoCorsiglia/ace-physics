@@ -40,17 +40,17 @@ export default endpoint(
         return response.error("Cannot change own privileges");
       }
 
-      const targetUser = await adapter.getUserByEmail(
+      const targetUser = await adapter.getUserByEmail!(
         request.body.unhashedUserEmail
       );
 
       if (targetUser) {
-        await adapter.updateUser({
+        await adapter.updateUser!({
           id: targetUser.id,
           role: request.body.role,
         });
       } else {
-        await adapter.createUser({
+        await adapter.createUser!({
           email: request.body.unhashedUserEmail,
           role: request.body.role,
           emailVerified: null,

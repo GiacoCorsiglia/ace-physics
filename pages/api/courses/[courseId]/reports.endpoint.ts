@@ -9,7 +9,7 @@ import { stringify } from "csv-stringify/sync";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const parsed = await parseRequest(CourseReports, req);
+  const parsed = await parseRequest(CourseReports, req, res);
 
   if (parsed.failed) {
     sendResponse(res, parsed.error);

@@ -5,7 +5,7 @@ import * as db from "@/db";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 
-const options: NextAuthOptions = {
+export const options: NextAuthOptions = {
   secret: process.env.ACE_NEXT_AUTH_SECRET,
   providers: [],
   pages: {
