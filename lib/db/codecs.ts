@@ -83,4 +83,6 @@ export const TutorialState = codec(
       sk: key(Prefix.TutorialState, item.tutorialId, item.userEmail),
     };
   },
+  undefined,
+  ["state"],
 );

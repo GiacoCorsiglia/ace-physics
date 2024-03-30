@@ -80,7 +80,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const tutorialStates = db.codec.TutorialState.decodeList(queryResult.value);
+  const tutorialStates = await db.codec.TutorialState.decodeList(
+    queryResult.value,
+  );
 
   const emailMap = new Map(
     unhashedStudentEmails

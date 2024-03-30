@@ -27,7 +27,7 @@ export default endpoint(
         return response.notFound();
       }
 
-      const decoded = db.codec.TutorialState.decode(item);
+      const decoded = await db.codec.TutorialState.decode(item);
       if (decoded.failed) {
         return response.notFound();
       }
@@ -63,7 +63,7 @@ export default endpoint(
       }
 
       const now = db.now();
-      const item = db.codec.TutorialState.encode(
+      const item = await db.codec.TutorialState.encode(
         {
           courseId,
           tutorialId,
