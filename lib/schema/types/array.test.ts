@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { array } from "./array";
 import { decode } from "./decode";
 import { string } from "./primitives";

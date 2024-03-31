@@ -1,4 +1,5 @@
 import { TutorialState } from "@/schema/tutorial";
+import { describe, expect, it, vi } from "vitest";
 import { OneOfConfig, SectionConfig, SequenceConfig } from "./config";
 import {
   isMarkedVisible,
@@ -196,7 +197,7 @@ describe("nextSectionToReveal", () => {
 
   it("calls when() with responses, state", () => {
     // For section.
-    const when = jest.fn();
+    const when = vi.fn();
     const sequence1: SequenceConfig = {
       kind: "sequence",
       sections: [
@@ -244,7 +245,7 @@ describe("nextSectionToReveal", () => {
   });
 
   it("passes empty object to when() if state.responses is undefined", () => {
-    const when = jest.fn();
+    const when = vi.fn();
     const sequence: SequenceConfig = {
       kind: "sequence",
       sections: [
@@ -527,7 +528,7 @@ describe("nextSectionToReveal", () => {
 
   it("calls which() with responses, state for oneOf", () => {
     // For section.
-    const which = jest.fn();
+    const which = vi.fn();
     const state = { responses: {} };
 
     const sequence: SequenceConfig = {
@@ -785,7 +786,7 @@ describe("nextMessageToReveal", () => {
 
   it("passes state.responses and state to section.guidance.nextMessage()", () => {
     const state = { responses: {} };
-    const mock = jest.fn();
+    const mock = vi.fn();
     const section: SectionConfig = {
       kind: "section",
       name: "section",

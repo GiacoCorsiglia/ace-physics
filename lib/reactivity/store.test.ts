@@ -1,6 +1,5 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
+import { describe, expect, it, vi } from "vitest";
 import { store } from "./store";
 
 describe("transaction", () => {
@@ -114,15 +113,15 @@ describe("subscriptions", () => {
     const arity = (_: any) => {};
     const src = undefined;
 
-    const rootListener = jest.fn(arity);
+    const rootListener = vi.fn(arity);
     const rootUnsub = s.subscribe([], rootListener);
-    const topListener = jest.fn(arity);
+    const topListener = vi.fn(arity);
     const topUnsub = s.subscribe(["top"], topListener);
-    const el0Listener = jest.fn(arity);
+    const el0Listener = vi.fn(arity);
     const el0Unsub = s.subscribe(["top", 0], el0Listener);
-    const el0NextListener = jest.fn(arity);
+    const el0NextListener = vi.fn(arity);
     const el0NextUnsub = s.subscribe(["top", 0, "next"], el0NextListener);
-    const el1Listener = jest.fn(arity);
+    const el1Listener = vi.fn(arity);
     const el1Unsub = s.subscribe(["top", 1], el1Listener);
 
     const mocks = [

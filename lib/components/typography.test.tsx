@@ -1,7 +1,6 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { autoProse, Prose } from "./typography";
 
 const SomeComponent = () => <span>Test</span>;

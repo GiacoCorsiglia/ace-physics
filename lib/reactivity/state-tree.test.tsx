@@ -1,8 +1,7 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { Html } from "@/helpers/client";
 import { act, renderHook } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { stateTree } from "./state-tree";
 
 describe("state tree", () => {

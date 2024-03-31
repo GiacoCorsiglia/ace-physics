@@ -1,10 +1,9 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { Html } from "@/helpers/client";
 import * as f from "@/schema/fields";
 import { act, renderHook } from "@testing-library/react";
 import { useEffect } from "react";
+import { describe, expect, it, vi } from "vitest";
 import { model } from "./model";
 import { modelStateTree, useModel } from "./model-state-tree";
 
@@ -199,7 +198,7 @@ describe("modelStateTree and useModel", () => {
     });
 
     it("fires onExternalUpdate callback only on external updates", () => {
-      const onExternal = jest.fn();
+      const onExternal = vi.fn();
       const { result } = rh(
         () =>
           [

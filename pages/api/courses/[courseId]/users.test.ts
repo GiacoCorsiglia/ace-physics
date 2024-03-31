@@ -1,15 +1,13 @@
 import { response } from "@/api/server";
 import { hashEmail } from "@/auth/server/hashed-dynamodb-adapter";
-import * as db from "@/db";
 import { setupDB } from "@/db/test-helpers";
 import * as api from "@/schema/api";
+import { expect } from "vitest";
 import indexEndpoint from "../index.endpoint";
 import endpoint from "./users.endpoint";
 
 const { GET, PUT } = endpoint.handlers;
 const { POST: indexPOST } = indexEndpoint.handlers;
-
-db;
 
 const { it, describe } = setupDB();
 

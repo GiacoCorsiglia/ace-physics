@@ -1,6 +1,7 @@
 import { response } from "@/api/server";
 import { setupDB } from "@/db/test-helpers";
 import * as api from "@/schema/api";
+import { expect } from "vitest";
 import endpoint from "./index.endpoint";
 
 const { GET, POST } = endpoint.handlers;

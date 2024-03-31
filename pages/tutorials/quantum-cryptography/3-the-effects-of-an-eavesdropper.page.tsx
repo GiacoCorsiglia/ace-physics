@@ -9,7 +9,7 @@ import {
   Prose,
   TextBox,
 } from "@/components";
-import { page } from "@/tutorial";
+import { page, repeatedModel } from "@/tutorial";
 import Hadamard2 from "./media/Hadamard 2.jpg";
 import setup from "./setup";
 import { tableWithEve } from "./shared";
@@ -267,7 +267,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Eve's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -301,7 +301,7 @@ export default page(setup, ({ section }) => ({
             getting either 0 or 1.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -421,7 +421,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Eve's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -449,7 +449,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -484,7 +484,7 @@ export default page(setup, ({ section }) => ({
             Fill in the next row indicating what qubit state Eve sends to Bob.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -590,7 +590,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Eve's states.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -623,7 +623,7 @@ export default page(setup, ({ section }) => ({
             gate, she does so before and after her measurement.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -728,7 +728,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Eve's states.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -753,7 +753,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -783,7 +783,7 @@ export default page(setup, ({ section }) => ({
             Hadamard gate, now that Eve has interfered.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -905,7 +905,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -941,7 +941,7 @@ export default page(setup, ({ section }) => ({
             measures,
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -1064,7 +1064,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -1094,7 +1094,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",

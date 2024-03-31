@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { decode } from "./decode";
 import { asExact, exact, object, partial } from "./object";
 import { number, string } from "./primitives";

@@ -12,7 +12,7 @@ import {
 } from "@/components";
 import { deepEqual, range } from "@/helpers/client";
 import { Axes, Bar, DragHandle, Grid, Indicator, Plot, Tick } from "@/plots";
-import { page } from "@/tutorial";
+import { page, repeatedModel } from "@/tutorial";
 import { Fragment } from "react";
 import setup, { ResponseModels, Responses } from "./setup";
 import styles from "./styles.module.scss";
@@ -197,7 +197,7 @@ export default page(setup, ({ section, hint }) => ({
           </div>
 
           <Histogram
-            model={m.spin4BarHeights /* ignore-repeated-model */}
+            model={repeatedModel(m.spin4BarHeights)}
             value={responses?.spin4BarHeights}
             phase={"labeling"}
           />
@@ -251,7 +251,7 @@ export default page(setup, ({ section, hint }) => ({
             </div>
 
             <Histogram
-              model={m.spin4BarHeights /* ignore-repeated-model */}
+              model={repeatedModel(m.spin4BarHeights)}
               value={responses?.spin4BarHeights}
               phase={"labeling"}
             />

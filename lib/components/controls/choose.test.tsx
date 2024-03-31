@@ -1,7 +1,6 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { ChooseControl } from "./choose";
 
 describe("Choose Control", () => {
@@ -145,11 +144,11 @@ describe("Choose Control", () => {
 
   it("Distinguishes adjacent choose ones with the same choices", () => {
     let value1: C | undefined;
-    const onChange1 = jest.fn((reducer) => {
+    const onChange1 = vi.fn((reducer) => {
       value1 = reducer(value1);
     });
     let value2: C | undefined;
-    const onChange2 = jest.fn((reducer) => {
+    const onChange2 = vi.fn((reducer) => {
       value2 = reducer(value2);
     });
 

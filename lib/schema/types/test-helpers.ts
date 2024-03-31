@@ -1,7 +1,15 @@
-import { Failure, isFailure, isSuccess, Success } from "@/result";
+import {
+  Failure,
+  isFailure as isFailure_,
+  isSuccess as isSuccess_,
+  Success,
+} from "@/result";
+import { expect } from "vitest";
 import { Decoded, DecodeError } from "./decode";
 
-export { isFailure, isSuccess };
+// These bindings are required for the functions to work with .toSatisfy().
+export const isFailure = isFailure_<any>;
+export const isSuccess = isSuccess_<any>;
 
 // TypeScript prefers these not be arrow functions:
 

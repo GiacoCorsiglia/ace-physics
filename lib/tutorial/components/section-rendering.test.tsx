@@ -1,19 +1,21 @@
-/**
- * @jest-environment jsdom
- */
-/* eslint-disable jest/expect-expect */
+// @vitest-environment jsdom
 import * as s from "@/schema/tutorial";
 import { TutorialState } from "@/schema/tutorial";
 import { Root, useRootModel, useStore } from "@/tutorial/state-tree";
 import { act, fireEvent, render, screen } from "@testing-library/react";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { NodeConfig } from "../config";
 import { SectionTree } from "./section-tree";
 
 // window.scroll isn't implemented in JSDOM, but it's fired when sections are
 // rendered, so add a stub here.
 const oldWindowScroll = window.scroll;
-beforeAll(() => (window.scroll = () => {}));
-afterAll(() => (window.scroll = oldWindowScroll));
+beforeAll(() => {
+  window.scroll = () => {};
+});
+afterAll(() => {
+  window.scroll = oldWindowScroll;
+});
 
 const schema = s.tutorial({
   pages: {

@@ -1,4 +1,5 @@
 import { unwrap } from "@/result";
+import { expect } from "vitest";
 import { client } from "./client";
 import { Keys, tableName } from "./table";
 import { setupDB } from "./test-helpers";
