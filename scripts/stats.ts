@@ -11,7 +11,7 @@ export async function run() {
   const dataFile = latestDataFile();
   const json: any[] = require(dataFile);
 
-  const tutorialStates = codecItems(codecs.TutorialState, json);
+  const tutorialStates = await codecItems(codecs.TutorialState, json);
 
   const textBoxRows: {
     tutorial: string;
@@ -127,13 +127,15 @@ const groupBy = <T, K extends string>(
 
 interface Codec<T> {
   type: string;
-  decode: (item: unknown) => Result<any, T>;
+  decode: (item: unknown) => Result<any, T> | Promise<Result<any, T>>;
 }
 
-const codecItems = <T>(codec: Codec<T>, json: any[]): T[] =>
-  json
-    .filter((item) => item.type === codec.type)
-    .map((item) => unwrap(codec.decode(item)));
+const codecItems = <T>(codec: Codec<T>, json: any[]): Promise<T[]> =>
+  Promise.all(
+    json
+      .filter((item) => item.type === codec.type)
+      .map(async (item) => unwrap(await codec.decode(item))),
+  );
 
 const analyzeTutorialState = (schema: TutorialSchema, state: TutorialState) => {
   const {
