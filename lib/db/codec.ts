@@ -140,9 +140,7 @@ export const codec = <
 
     decodeList(items: unknown[] | undefined): MaybePromise<Item[]> {
       if (!items || !items.length) {
-        return (compressedKeys ? Promise.resolve([]) : []) as MaybePromise<
-          Item[]
-        >;
+        return (compressedKeys ? Promise.resolve([]) : []) as any;
       }
 
       const list: Item[] = [];
