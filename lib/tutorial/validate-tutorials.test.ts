@@ -12,6 +12,8 @@ import {
   TutorialConfig,
 } from "./config";
 
+console.log(path);
+
 const tutorialsDir = path.join(__dirname, "../../pages/tutorials");
 
 const pageSuffix = /\.page\.tsx$/;
