@@ -3,7 +3,6 @@ import { TutorialSchema } from "@/schema/tutorial";
 import { tutorialList } from "@pages/tutorials/list";
 import { tutorialSchemas } from "@pages/tutorials/schemas";
 import * as fs from "fs";
-import * as path from "path";
 import { describe, expect, it } from "vitest";
 import {
   NodeConfig,
@@ -12,6 +11,7 @@ import {
   TutorialConfig,
 } from "./config";
 
+const path = require("node:path");
 console.log(path);
 
 const tutorialsDir = path.join(__dirname, "../../pages/tutorials");
