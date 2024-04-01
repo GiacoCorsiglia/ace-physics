@@ -19,5 +19,7 @@ export default defineConfig({
     // We need the testing globals for React testing library.
     // https://github.com/testing-library/react-testing-library/issues/1240
     globals: true,
+
+    fileParallelism: Boolean(process.env.CI) ? false : undefined,
   },
 });
