@@ -69,7 +69,13 @@ export const setupDB = () => {
       ACE_TABLE_NAME: TableName,
     };
 
-    await client.createTable({ ...(tableConfig as any), TableName });
+    try {
+      await client.createTable({ ...(tableConfig as any), TableName });
+    } catch (e) {
+      console.log(e);
+
+      await client.createTable({ ...(tableConfig as any), TableName });
+    }
   });
 
   afterEach(async () => {
