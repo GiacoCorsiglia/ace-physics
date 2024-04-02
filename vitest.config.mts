@@ -24,6 +24,6 @@ export default defineConfig({
     // dynamoDB local are being dropped.  It seems similar to this node-fetch
     // issue: https://github.com/node-fetch/node-fetch/issues/1735.  Disabling
     // parallel test execution resolves it.
-    fileParallelism: Boolean(process.env.CI) ? false : undefined,
+    // fileParallelism: Boolean(process.env.CI) ? false : undefined,
   },
 });
