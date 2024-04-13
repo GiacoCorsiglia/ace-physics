@@ -21,10 +21,11 @@ jobs:
         run: docker run --name dynamodb -d -p 8000:8000 amazon/dynamodb-local &
       - name: Wait for DynamoDB
         run: |
+          MAX=10
           NEXT_WAIT_TIME=0
-          until (( NEXT_WAIT_TIME == 5 )) || aws dynamodb list-tables --endpoint-url http://localhost:8000; do
-              sleep "$(( NEXT_WAIT_TIME++ ))"
+          until (( NEXT_WAIT_TIME == MAX )) || aws dynamodb list-tables --endpoint-url http://localhost:8000; do
+            sleep "$(( NEXT_WAIT_TIME++ ))"
           done
-          (( NEXT_WAIT_TIME < 5 ))
+          (( NEXT_WAIT_TIME < MAX ))
       - name: Run tests
         run: npm run test
