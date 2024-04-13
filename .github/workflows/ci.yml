@@ -20,10 +20,11 @@ jobs:
       - name: Setup DynamoDB local
         run: docker run --name dynamodb -d -p 8000:8000 amazon/dynamodb-local &
       - name: Wait for DynamoDB
+        shell: bash
         run: |
           max_retry=30
           counter=0
-          until [[ "$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8000)" == "400" ]]
+          until [[ "$( curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8000 )" == "400" ]]
           do
             sleep 1
             [[ counter -eq $max_retry ]] && echo "Failed!" && exit 1
