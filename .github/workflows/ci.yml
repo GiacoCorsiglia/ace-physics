@@ -23,7 +23,7 @@ jobs:
         run: |
           max_retry=30
           counter=0
-          until curl http://localhost:8000
+          until [[ "$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8000)" == "400" ]]
           do
             sleep 1
             [[ counter -eq $max_retry ]] && echo "Failed!" && exit 1
