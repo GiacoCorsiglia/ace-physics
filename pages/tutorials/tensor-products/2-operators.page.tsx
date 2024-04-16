@@ -128,11 +128,11 @@ export default page(setup, ({ section }) => ({
           model={m.findIInCircuit}
           label={
             <Prose>
-              Consider the first <M t="{\color{blue} \mathbf{I}}" /> in the
+              Consider the second <M t="{\color{blue} \mathbf{I}}" /> in the
               following expression:{" "}
               <M
                 display
-                t="(Z\otimes {\color{blue} \mathbf{I}})(I \otimes X) (\ket{\psi} \otimes \ket{\phi} )"
+                t="(I \otimes X)(Z\otimes {\color{blue} \mathbf{I}}) (\ket{\psi} \otimes \ket{\phi} )"
               />
               Which gate in the circuit above is the{" "}
               <M t="{\color{blue} \mathbf{I}}" /> referring to?
