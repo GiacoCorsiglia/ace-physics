@@ -14,7 +14,7 @@
     "start": "next start",
     "script": "ts-node -r tsconfig-paths/register --transpile-only --script-mode scripts/run.ts",
     "dynamodb-setup": "docker create --name dynamodb -p 8000:8000 amazon/dynamodb-local",
-    "dynamodb-start": "docker restart dynamodb; sleep 3; node ./scripts/create-dynamodb-table.js",
+    "dynamodb-start": "docker restart dynamodb; node ./scripts/wait-for-dynamodb.js; node ./scripts/create-dynamodb-table.js",
     "dynamodb-stop": "docker stop dynamodb"
   },
   "engines": {
