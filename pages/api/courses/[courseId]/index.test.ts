@@ -2,6 +2,7 @@ import { response } from "@/api/server";
 import { hashEmail } from "@/auth/server/hashed-dynamodb-adapter";
 import { setupDB } from "@/db/test-helpers";
 import * as api from "@/schema/api";
+import { expect } from "vitest";
 import indexEndpoint from "../index.endpoint";
 import endpoint from "./index.endpoint";
 import usersEndpoint from "./users.endpoint";
@@ -64,7 +65,7 @@ describe("/courses/{courseId}", () => {
       response.success({
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
 
     const res = await GET({
@@ -80,7 +81,7 @@ describe("/courses/{courseId}", () => {
         id: (postRes.body as api.Course).id,
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
   });
 
@@ -99,7 +100,7 @@ describe("/courses/{courseId}", () => {
       response.success({
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
 
     // Now update the course.
@@ -121,7 +122,7 @@ describe("/courses/{courseId}", () => {
         displayName: "test2",
         visibleTutorials: ["vt1", "vt2"],
         userRole: "instructor",
-      })
+      }),
     );
 
     const res = await GET({
@@ -138,7 +139,7 @@ describe("/courses/{courseId}", () => {
         displayName: "test2",
         visibleTutorials: ["vt1", "vt2"],
         userRole: "instructor",
-      })
+      }),
     );
   });
 
@@ -159,7 +160,7 @@ describe("/courses/{courseId}", () => {
       response.success({
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
 
     const courseId = (postRes.body as api.Course).id;

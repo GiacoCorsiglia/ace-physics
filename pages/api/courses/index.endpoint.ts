@@ -16,10 +16,10 @@ export default endpoint(
             db.codec.CourseUser.keys.primary({
               userEmail: user.email,
               courseId: "",
-            })
+            }),
           ),
           ExclusiveStartKey,
-        })
+        }),
       );
 
       if (userCoursesResult.failed) {
@@ -27,7 +27,7 @@ export default endpoint(
       }
 
       const userCourses = db.codec.CourseUser.decodeList(
-        userCoursesResult.value
+        userCoursesResult.value,
       );
 
       if (userCourses.length === 0) {
@@ -41,7 +41,7 @@ export default endpoint(
         RequestItems: {
           [db.tableName()]: {
             Keys: userCourses.map((course) =>
-              db.codec.Course.keys.primary({ id: course.courseId })
+              db.codec.Course.keys.primary({ id: course.courseId }),
             ),
           },
         },
@@ -52,11 +52,11 @@ export default endpoint(
       }
 
       const courses = db.codec.Course.decodeList(
-        coursesResult.value.Responses?.[db.tableName()]
+        coursesResult.value.Responses?.[db.tableName()],
       );
 
       const rolesByCourse = new Map(
-        userCourses.map((userCourse) => [userCourse.courseId, userCourse.role])
+        userCourses.map((userCourse) => [userCourse.courseId, userCourse.role]),
       );
 
       return response.success(
@@ -65,8 +65,8 @@ export default endpoint(
             ...course,
             userRole: rolesByCourse.get(course.id)!, // Necessarily defined.
           })),
-          "createdAt"
-        )
+          "createdAt",
+        ),
       );
     },
 
@@ -139,8 +139,8 @@ export default endpoint(
 
     async POST() {
       return response.error(
-        "Courses cannot be created when database is disabled."
+        "Courses cannot be created when database is disabled.",
       );
     },
-  }
+  },
 );

@@ -21,7 +21,7 @@ export interface ModelContext<P extends f.Properties = f.Properties> {
 
 export const modelStateTree = <P extends f.Properties>(
   rootField: f.ObjectField<P>,
-  displayName: string
+  displayName: string,
 ) => {
   type T = Infer<f.ObjectField<P>["type"]>;
 
@@ -59,7 +59,7 @@ export const modelStateTree = <P extends f.Properties>(
         rootModel: model(
           overrideRootField || rootField,
           [],
-          Context as unknown as React.Context<ModelContext>
+          Context as unknown as React.Context<ModelContext>,
         ),
       };
     }
@@ -86,12 +86,12 @@ export const modelStateTree = <P extends f.Properties>(
 
 type GetSetTuple<T> = [
   value: T,
-  setValue: (next: T | ((prev: T) => T)) => void
+  setValue: (next: T | ((prev: T) => T)) => void,
 ];
 
 export const useModel = <F extends f.Field>(
   model: Model<F>,
-  onExternalUpdate?: (newValue: Infer<F["type"]> | undefined) => void
+  onExternalUpdate?: (newValue: Infer<F["type"]> | undefined) => void,
 ): GetSetTuple<Infer<F["type"]> | undefined> => {
   type T = Infer<F["type"]> | undefined;
 
@@ -109,7 +109,7 @@ export const useModel = <F extends f.Field>(
         set(model.path as any, next as any);
       }, source);
     },
-    [model, store, source]
+    [model, store, source],
   );
 
   // Make sure we always have the latest version of the callback in the
@@ -127,7 +127,7 @@ export const useModel = <F extends f.Field>(
           onExternalUpdateRef.current(newValue);
         }
       }),
-    [store, model, source]
+    [store, model, source],
   );
 
   const value = useSyncExternalStore(subscribe, getValue, getValue);

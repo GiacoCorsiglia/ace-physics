@@ -17,7 +17,7 @@ import { decodeUnion } from "./union";
 export const decode = <T extends Type>(
   type: T,
   value: unknown,
-  context?: Context
+  context?: Context,
 ): Decoded<Infer<T>> => {
   if (!context) {
     // eslint-disable-next-line no-param-reassign
@@ -54,7 +54,7 @@ export const decode = <T extends Type>(
 export type Decoder<T extends Type> = (
   type: T,
   value: unknown,
-  context: Context
+  context: Context,
 ) => Decoded<Infer<T>>;
 
 export type Decoded<T> = Result<readonly DecodeError[], T>;
@@ -73,10 +73,10 @@ interface Context
   }> {}
 
 export const decodeFailure = <T>(
-  errors: DecodeError | readonly DecodeError[]
+  errors: DecodeError | readonly DecodeError[],
 ): Failure<readonly DecodeError[]> =>
   failure(
-    (Array.isArray(errors) ? errors : [errors]) as readonly DecodeError[]
+    (Array.isArray(errors) ? errors : [errors]) as readonly DecodeError[],
   );
 
 export const decodeSuccess = success;
@@ -84,7 +84,7 @@ export const decodeSuccess = success;
 export const decodeError = <T>(
   value: T,
   context: Context,
-  message: string
+  message: string,
 ): DecodeError => ({
   value,
   context,

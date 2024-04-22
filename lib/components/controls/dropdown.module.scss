@@ -137,7 +137,8 @@ $menu-spacing: spacing.$space-50;
   background: controls.$background-color;
   color: controls.$text-color;
   border: controls.$default-border-width solid controls.$border-color;
-  box-shadow: 0px 0 4px colors.alpha(colors.$neutral-900, 0.15),
+  box-shadow:
+    0px 0 4px colors.alpha(colors.$neutral-900, 0.15),
     0px 4px 12px 1px colors.alpha(colors.$neutral-900, 0.1),
     0px 8px 32px 2px colors.alpha(colors.$neutral-900, 0.15);
 

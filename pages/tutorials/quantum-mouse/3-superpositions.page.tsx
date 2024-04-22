@@ -372,7 +372,7 @@ export default page(setup, ({ section, oneOf, hint }) => ({
 
 const abFeedback = (
   smallEyeA: number | undefined,
-  smallEyeB: number | undefined
+  smallEyeB: number | undefined,
 ) => {
   const a = 2 / Math.sqrt(5);
   const b = -1 / Math.sqrt(5);
@@ -381,7 +381,7 @@ const abFeedback = (
 
   const rightRatio = approxEquals(
     a / b,
-    (smallEyeA || NaN) / (smallEyeB || NaN)
+    (smallEyeA || NaN) / (smallEyeB || NaN),
   );
 
   // We'll only show this if you got the orthonormality question correct.

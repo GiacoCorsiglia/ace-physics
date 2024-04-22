@@ -10,7 +10,7 @@ export interface Tracker<T extends object> {
 
 export const tracker = <T extends object>(
   original: T,
-  recursive: boolean = true
+  recursive: boolean = true,
 ): Tracker<T> => {
   let accessed = new Set<string>();
   let proxyCache = recursive ? new WeakMap<object, object>() : null;

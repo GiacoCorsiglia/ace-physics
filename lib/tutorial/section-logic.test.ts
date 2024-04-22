@@ -1,4 +1,5 @@
 import { TutorialState } from "@/schema/tutorial";
+import { describe, expect, it, vi } from "vitest";
 import { OneOfConfig, SectionConfig, SequenceConfig } from "./config";
 import {
   isMarkedVisible,
@@ -42,13 +43,13 @@ describe("nodeKey", () => {
 
   it("produces key for nested sequences", () => {
     expect(nodeKey(sequence1)).toBe(
-      "sequence(sectionName1,sequence(sectionName2))"
+      "sequence(sectionName1,sequence(sectionName2))",
     );
   });
 
   it("produces key for nested oneOf", () => {
     expect(nodeKey(oneOf1)).toBe(
-      "oneOf(sectionName1,sequence(sectionName1,sequence(sectionName2)))"
+      "oneOf(sectionName1,sequence(sectionName1,sequence(sectionName2)))",
     );
   });
 });
@@ -103,7 +104,7 @@ describe("isMarkedVisible", () => {
 
   it("marks section with no status as not visible", () => {
     expect(isMarkedVisible({ sections: { section1: {} } }, section1)).toBe(
-      false
+      false,
     );
     expect(isMarkedVisible({ sections: {} }, section1)).toBe(false);
     expect(isMarkedVisible({}, section1)).toBe(false);
@@ -196,7 +197,7 @@ describe("nextSectionToReveal", () => {
 
   it("calls when() with responses, state", () => {
     // For section.
-    const when = jest.fn();
+    const when = vi.fn();
     const sequence1: SequenceConfig = {
       kind: "sequence",
       sections: [
@@ -244,7 +245,7 @@ describe("nextSectionToReveal", () => {
   });
 
   it("passes empty object to when() if state.responses is undefined", () => {
-    const when = jest.fn();
+    const when = vi.fn();
     const sequence: SequenceConfig = {
       kind: "sequence",
       sections: [
@@ -280,8 +281,8 @@ describe("nextSectionToReveal", () => {
             sectionA: { status: "committed" },
           },
         },
-        sequence
-      )
+        sequence,
+      ),
     ).toBe(section1);
 
     expect(
@@ -292,8 +293,8 @@ describe("nextSectionToReveal", () => {
             section1: { status: "committed" },
           },
         },
-        sequence
-      )
+        sequence,
+      ),
     ).toBe(section2);
   });
 
@@ -527,7 +528,7 @@ describe("nextSectionToReveal", () => {
 
   it("calls which() with responses, state for oneOf", () => {
     // For section.
-    const which = jest.fn();
+    const which = vi.fn();
     const state = { responses: {} };
 
     const sequence: SequenceConfig = {
@@ -785,7 +786,7 @@ describe("nextMessageToReveal", () => {
 
   it("passes state.responses and state to section.guidance.nextMessage()", () => {
     const state = { responses: {} };
-    const mock = jest.fn();
+    const mock = vi.fn();
     const section: SectionConfig = {
       kind: "section",
       name: "section",

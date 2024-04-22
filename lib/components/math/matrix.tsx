@@ -82,7 +82,7 @@ const Matrix = ({
                 {el}
                 {commas && j < row.length - 1 && <Comma />}
               </MatrixComponent>
-            ))
+            )),
           )}
 
         {row &&
@@ -138,7 +138,7 @@ const Matrix = ({
 
 const modelToRow = <Es extends readonly Field[]>(
   model: Model<TupleField<Es>>,
-  component: (componentModel: Model<Es[number]>, i: number) => Html
+  component: (componentModel: Model<Es[number]>, i: number) => Html,
 ): readonly Html[] => model.elements.map(component);
 
 const modelToColumn = modelToRow;
@@ -148,13 +148,13 @@ const modelToMatrix = <Es extends readonly Field[]>(
   component: (
     componentModel: Model<Es[number]>,
     row: number,
-    column: number
-  ) => Html
+    column: number,
+  ) => Html,
 ): readonly (readonly Html[])[] =>
   model.elements.map((rowModel, row) =>
     (rowModel.elements as any[]).map((componentModel, column) =>
-      component(componentModel, row, column)
-    )
+      component(componentModel, row, column),
+    ),
   );
 
 const exported = Object.assign(Matrix, {

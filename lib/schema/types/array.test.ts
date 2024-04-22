@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { array } from "./array";
 import { decode } from "./decode";
 import { string } from "./primitives";
@@ -30,7 +31,7 @@ describe("array", () => {
     const type = array(array(string()));
     expect(decode(type, [["hello"]])).toSatisfy(isSuccess);
     expect(decode(type, [["hello"], ["hi", "bye"], ["yo"]])).toSatisfy(
-      isSuccess
+      isSuccess,
     );
   });
 

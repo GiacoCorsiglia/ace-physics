@@ -13,7 +13,7 @@ export interface ApiSpec<
   GET extends null | R = null | R,
   PUT extends null | RR = null | RR,
   POST extends null | RR = null | RR,
-  DELETE extends null | R = null | R
+  DELETE extends null | R = null | R,
 > {
   readonly url: string;
 
@@ -29,7 +29,7 @@ export const spec = <
   GET extends null | R,
   PUT extends null | RR,
   POST extends null | RR,
-  DELETE extends null | R
+  DELETE extends null | R,
 >(
-  o: ApiSpec<Query, GET, PUT, POST, DELETE>
+  o: ApiSpec<Query, GET, PUT, POST, DELETE>,
 ) => o;

@@ -15,7 +15,7 @@ export const PosttestPage = ({
 }) => {
   // Disable the post test after it has been submitted.
   const isDisabled = useTracked(
-    (state) => state.posttest?.status === "completed"
+    (state) => state.posttest?.status === "completed",
   );
 
   const store = useStore();
@@ -30,7 +30,7 @@ export const PosttestPage = ({
   const continueLink = urls.join(
     urls.Tutorials.link,
     tutorialConfig.link,
-    "feedback"
+    "feedback",
   );
 
   return (
@@ -52,10 +52,11 @@ export const PosttestPage = ({
           // Save the set of pages that had already been completed when the
           // posttest was submitted.
           const pageNames = Object.keys(
-            tutorialConfig.schema.properties.pages.properties
+            tutorialConfig.schema.properties.pages.properties,
           );
           const completedPages = pageNames.filter(
-            (pageName) => initialState.pages?.[pageName]?.status === "completed"
+            (pageName) =>
+              initialState.pages?.[pageName]?.status === "completed",
           );
           set(["posttest", "completedPages"], (prev) => prev ?? completedPages);
         });

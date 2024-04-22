@@ -50,14 +50,17 @@ type Handlers<S extends ApiSpec> = (S["GET"] extends null
 export const endpoint = <S extends ApiSpec>(
   spec: S,
   databaseEnabledHandlers: Handlers<S>,
-  databaseDisabledHandlers: Handlers<S>
+  databaseDisabledHandlers: Handlers<S>,
 ) => {
   const handlers = DATABASE_ENABLED
     ? databaseEnabledHandlers
     : databaseDisabledHandlers;
 
-  const wrapped = async (req: NextApiRequest): Promise<response.Response> => {
-    const parsedRequest = await parseRequest(spec, req);
+  const wrapped = async (
+    req: NextApiRequest,
+    res: NextApiResponse,
+  ): Promise<response.Response> => {
+    const parsedRequest = await parseRequest(spec, req, res);
     if (parsedRequest.failed) {
       return parsedRequest.error;
     }
@@ -88,7 +91,7 @@ export const endpoint = <S extends ApiSpec>(
       req.method = "GET";
     }
 
-    const responseObject = await wrapped(req);
+    const responseObject = await wrapped(req, res);
 
     sendResponse(res, responseObject, isHead);
   };

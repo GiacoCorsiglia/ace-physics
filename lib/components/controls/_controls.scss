@@ -22,7 +22,8 @@ $border-radius: var(#{$var-border-radius}, #{$default-border-radius});
 
 $var-box-shadow: --control-box-shadow;
 $empty-box-shadow: 0 0 0 transparent;
-$default-box-shadow: 0px 1px 4px colors.alpha(colors.$neutral-900, 0.05),
+$default-box-shadow:
+  0px 1px 4px colors.alpha(colors.$neutral-900, 0.05),
   0px 2px 8px colors.alpha(colors.$neutral-900, 0.04);
 $box-shadow: var(#{$var-box-shadow}, #{$default-box-shadow});
 
@@ -48,12 +49,14 @@ $hover-border-color: var(
   #{$var-hover-border-color},
   var(#{$var-border-color}, #{colors.$neutral-500})
 );
-$default-hover-box-shadow: 0px 2px 4px colors.alpha(colors.$neutral-900, 0.05),
+$default-hover-box-shadow:
+  0px 2px 4px colors.alpha(colors.$neutral-900, 0.05),
   0px 4px 8px colors.alpha(colors.$neutral-900, 0.04);
 $hover-box-shadow: var(#{$var-box-shadow}, #{$default-hover-box-shadow});
 
 $focus-border-color: colors.$blue-500;
-$default-focus-box-shadow: 0px 2px 4px colors.alpha(colors.$blue-900, 0.05),
+$default-focus-box-shadow:
+  0px 2px 4px colors.alpha(colors.$blue-900, 0.05),
   0px 4px 8px colors.alpha(colors.$blue-900, 0.04);
 $focus-box-shadow:
   // Border:

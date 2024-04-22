@@ -27,7 +27,7 @@ export const expressionAttributes = (values: Record<string, any>) => ({
 
 export const updateExpression = <T extends Record<string, any>>(
   values: T,
-  functions?: { [K in keyof T]?: (name: string, value: string) => string }
+  functions?: { [K in keyof T]?: (name: string, value: string) => string },
 ) => {
   const exp = Object.entries(values)
     .map(([key, val]) => {
@@ -51,10 +51,10 @@ export const updateExpression = <T extends Record<string, any>>(
 
 export const fetchAllPages = async <
   E,
-  T extends QueryCommandOutput | ScanCommandOutput
+  T extends QueryCommandOutput | ScanCommandOutput,
 >(
   fetch: (ExclusiveStartKey: {} | undefined) => Promise<result.Result<E, T>>,
-  max: number = 20 // That's 500 items.
+  max: number = 20, // That's 500 items.
 ) => {
   const items: Record<string, any>[] = [];
 

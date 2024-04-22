@@ -1,17 +1,18 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { TutorialSchema } from "@/schema/tutorial";
 import { tutorialList } from "@pages/tutorials/list";
 import { tutorialSchemas } from "@pages/tutorials/schemas";
 import * as fs from "fs";
-import * as path from "path";
+import { describe, expect, it } from "vitest";
 import {
   NodeConfig,
   PageConfig,
   SectionConfig,
   TutorialConfig,
 } from "./config";
+
+const path = require("node:path");
+console.log(path);
 
 const tutorialsDir = path.join(__dirname, "../../pages/tutorials");
 
@@ -45,7 +46,7 @@ fs.readdirSync(tutorialsDir)
         pageSuffix.test(f) &&
         !f.startsWith(".") && // No hidden files
         !nonPageFiles.has(f) && // No non-page files
-        !fs.lstatSync(path.join(dir, f)).isDirectory() // no sub-directories
+        !fs.lstatSync(path.join(dir, f)).isDirectory(), // no sub-directories
     );
 
     return {
@@ -58,20 +59,24 @@ fs.readdirSync(tutorialsDir)
     };
   })
   .forEach((t) => {
-    const req = (f: string) => require(path.join(t.dir, f));
-    const importDefault = (f: string) => req(f).default;
+    const req = (f: string) => import(path.join(t.dir, f));
+    const importDefault = async (f: string) => (await req(f)).default;
 
-    // eslint-disable-next-line jest/valid-title
-    describe(t.name, () => {
-      const setup: TutorialConfig = importDefault(
-        t.files.has("setup.tsx") ? "setup.tsx" : "setup.ts"
+    describe(t.name, async () => {
+      const setup: TutorialConfig = await importDefault(
+        t.files.has("setup.tsx") ? "setup.tsx" : "setup.ts",
       );
-      const schema: TutorialSchema = importDefault("schema.ts");
+      const schema: TutorialSchema = await importDefault("schema.ts");
       const pages = new Map(
-        [...t.pages].map((p) => [p.replace(pageSuffix, ""), importDefault(p)])
+        await Promise.all(
+          [...t.pages].map(
+            async (p) =>
+              [p.replace(pageSuffix, ""), await importDefault(p)] as const,
+          ),
+        ),
       );
       const pageConfigs: Map<string, PageConfig> = new Map(
-        [...pages.entries()].map(([p, f]) => [p, f.config])
+        [...pages.entries()].map(([p, f]) => [p, f.config]),
       );
 
       it("setup includes correct schema", () => {
@@ -97,16 +102,16 @@ fs.readdirSync(tutorialsDir)
         expect(listing!.link).toBe(setup.link);
       });
 
-      it("intro page", () => {
+      it("intro page", async () => {
         expect(t.files).toContain("index.page.tsx");
-        const index = importDefault("index.page.tsx");
+        const index = await importDefault("index.page.tsx");
         expect(index.tutorialConfig).toBe(setup);
         expect(index.displayName).toMatch("Intro");
       });
 
-      it("feedback page", () => {
+      it("feedback page", async () => {
         expect(t.files).toContain("feedback.page.tsx");
-        const feedback = importDefault("feedback.page.tsx");
+        const feedback = await importDefault("feedback.page.tsx");
         expect(feedback.tutorialConfig).toBe(setup);
         expect(typeof feedback === "function").toBe(true);
         expect(feedback.displayName).toMatch("Feedback");
@@ -117,9 +122,9 @@ fs.readdirSync(tutorialsDir)
           expect(t.files).not.toContain("before-you-start.page.tsx");
         });
       } else {
-        it("pretest page", () => {
+        it("pretest page", async () => {
           expect(t.files).toContain("before-you-start.page.tsx");
-          const pretest = importDefault("before-you-start.page.tsx");
+          const pretest = await importDefault("before-you-start.page.tsx");
           expect(pretest.tutorialConfig).toBe(setup);
           expect(typeof pretest === "function").toBe(true);
           expect(pretest.displayName).toMatch("Pretest");
@@ -131,9 +136,9 @@ fs.readdirSync(tutorialsDir)
           expect(t.files).not.toContain("review.page.tsx");
         });
       } else {
-        it("posttest page", () => {
+        it("posttest page", async () => {
           expect(t.files).toContain("review.page.tsx");
-          const posttest = importDefault("review.page.tsx");
+          const posttest = await importDefault("review.page.tsx");
           expect(posttest.tutorialConfig).toBe(setup);
           expect(typeof posttest === "function").toBe(true);
           expect(posttest.displayName).toMatch("Posttest");
@@ -149,7 +154,7 @@ fs.readdirSync(tutorialsDir)
         expect(setup.pages).toMatchObject(
           [...t.pages]
             .sort()
-            .map((f) => ({ link: f.replace(/\.page\.tsx$/, "") }))
+            .map((f) => ({ link: f.replace(/\.page\.tsx$/, "") })),
         );
       });
 
@@ -161,7 +166,7 @@ fs.readdirSync(tutorialsDir)
 
       it("schema pages match page config names", () => {
         const schemaPages = new Set(
-          Object.keys(schema.properties.pages.properties)
+          Object.keys(schema.properties.pages.properties),
         );
         const pageConfigNames = [...pageConfigs.values()].map((c) => c.name);
         pageConfigNames.forEach((name) => {
@@ -170,12 +175,12 @@ fs.readdirSync(tutorialsDir)
       });
 
       const allSections = [...pageConfigs.values()].flatMap((page) =>
-        findAllSections(page.sections)
+        findAllSections(page.sections),
       );
 
       it("no repeated or invalid section names", () => {
         const validSectionNames = new Set(
-          Object.keys(schema.properties.sections.properties)
+          Object.keys(schema.properties.sections.properties),
         );
         const usedSectionNames = new Set<string>();
 
@@ -188,7 +193,7 @@ fs.readdirSync(tutorialsDir)
 
       it("no repeated or invalid hint names", () => {
         const validHintNames = new Set(
-          Object.keys(schema.properties.hints.properties)
+          Object.keys(schema.properties.hints.properties),
         );
         const usedHintNames = new Set<string>();
 
@@ -201,7 +206,7 @@ fs.readdirSync(tutorialsDir)
         });
       });
 
-      pages.forEach((page, pageName) => {
+      pages.forEach((page: any, pageName) => {
         it(`page: ${pageName}`, () => {
           expect(typeof page === "function").toBe(true);
           expect(page.tutorialConfig).toBe(setup);
@@ -209,12 +214,11 @@ fs.readdirSync(tutorialsDir)
         });
       });
 
-      // eslint-disable-next-line jest/expect-expect
       it("sections have either body or guidance", () => {
         allSections.forEach((section) => {
           if (!section.body && !section.guidance) {
             throw new Error(
-              `Section "${section.name}" has neither body nor guidance`
+              `Section "${section.name}" has neither body nor guidance`,
             );
           }
         });
@@ -250,15 +254,20 @@ fs.readdirSync(tutorialsDir)
           // m.modelName.properties
           // m.modelName.properties.subModelName.elements[0]
           // As well as:
-          // m.modelName /* ignore-repeated-model */
+          // repeatedModel(m.modelName)
+          // repeatedModel(
+          //   m.modelName
+          // )
           const modelAccessX = new RegExp(
-            `[^0-9A-Za-z_$]?${modelsArg}((?:\\.[A-Za-z_$][0-9A-Za-z_$]*|\\[[0-9]+\\])+)(\\s*/\\*\\s*ignore-repeated-model\\s*\\*/)?`,
-            "g"
+            // It must be preceded by a non-identifier character or the start of
+            // the line.
+            `(?:^|(repeatedModel\\(\\s*)|[^0-9A-Za-z_$])${modelsArg}((?:\\.[A-Za-z_$][0-9A-Za-z_$]*|\\[[0-9]+\\])+)`,
+            "g",
           );
           const matches = [...code.matchAll(modelAccessX)];
           matches.forEach((match) => {
-            const model = match[1].slice(1); // Drop the first dot
-            if (match[2]) {
+            const model = match[2].slice(1); // Drop the first dot
+            if (match[1]) {
               allRepeatedModels.push(model);
             } else {
               allAccessedModels.push(model);
@@ -275,7 +284,7 @@ fs.readdirSync(tutorialsDir)
         allRepeatedModels.forEach((repeatedModel) => {
           if (!allAccessedSet.has(repeatedModel)) {
             throw new Error(
-              `Model "${repeatedModel}" was flagged as repeated, but it wasn't actually repeated`
+              `Model "${repeatedModel}" was flagged as repeated, but it wasn't actually repeated`,
             );
           }
         });

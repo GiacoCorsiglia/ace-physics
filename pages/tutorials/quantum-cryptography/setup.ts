@@ -25,7 +25,7 @@ export default tutorialSetup({
     },
     {
       link: "2-sharing-a-key",
-      label: "Sharing a Private Key"
+      label: "Sharing a Private Key",
     },
     {
       link: "3-the-effects-of-an-eavesdropper",

@@ -40,7 +40,7 @@ export const useInstructorMode = () => useContext(InstructorMode);
 export const isValidMode = (
   user: AuthUser,
   courses: readonly Course[],
-  mode: Mode
+  mode: Mode,
 ): boolean => {
   if (mode.type === "InstructorMode") {
     // Only these users are allowed to use instructor mode.
@@ -59,7 +59,7 @@ export const isValidMode = (
  */
 export const defaultMode = (
   user: AuthUser,
-  courses: readonly Course[]
+  courses: readonly Course[],
 ): Mode | undefined => {
   if (isInstructor(user)) {
     // If it's an instructor, they probably want instructor mode by default.
@@ -85,7 +85,7 @@ interface Props {
 export const ModeManager = (props: Props) => {
   const [isEditing, startEditing, stopEditing] = useBoolean(
     // Immediately start editing if no mode is set.
-    props.mode === undefined
+    props.mode === undefined,
   );
 
   // Reset editing state when the mode changes from above (such as what happens
@@ -131,7 +131,7 @@ const ModeDisplay = ({
 
       case "CourseMode":
         const currentCourse = courses.find(
-          (course) => course.id === mode.courseId
+          (course) => course.id === mode.courseId,
         );
         return (
           <Prose>
@@ -219,8 +219,8 @@ const ModeEditor = ({
                   courses.length === 1
                     ? courses[0].id
                     : prev?.type === "CourseMode"
-                    ? prev.courseId
-                    : undefined;
+                      ? prev.courseId
+                      : undefined;
                 return { type: "CourseMode", courseId };
               case undefined:
                 return undefined;

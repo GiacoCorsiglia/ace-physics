@@ -1,7 +1,6 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { ChooseControl } from "./choose";
 
 describe("Choose Control", () => {
@@ -14,7 +13,7 @@ describe("Choose Control", () => {
 
   const renderChoose = <M extends boolean, O extends boolean>(
     multi: M,
-    other: O
+    other: O,
   ) => {
     const state = {
       value: undefined as (M extends true ? C[] : C) | undefined,
@@ -76,7 +75,7 @@ describe("Choose Control", () => {
   it("Handles checked state for Choose One", () => {
     const { state, renderAgain, inputA, inputB, inputC } = renderChoose(
       false,
-      false
+      false,
     );
 
     expect(state.value).toBeUndefined();
@@ -111,7 +110,7 @@ describe("Choose Control", () => {
   it("Handles checked state for Choose All", () => {
     const { state, renderAgain, inputA, inputB, inputC } = renderChoose(
       true,
-      false
+      false,
     );
 
     expect(state.value).toBeUndefined();
@@ -145,11 +144,11 @@ describe("Choose Control", () => {
 
   it("Distinguishes adjacent choose ones with the same choices", () => {
     let value1: C | undefined;
-    const onChange1 = jest.fn((reducer) => {
+    const onChange1 = vi.fn((reducer) => {
       value1 = reducer(value1);
     });
     let value2: C | undefined;
-    const onChange2 = jest.fn((reducer) => {
+    const onChange2 = vi.fn((reducer) => {
       value2 = reducer(value2);
     });
 

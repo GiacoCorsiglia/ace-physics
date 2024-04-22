@@ -1,15 +1,13 @@
 import { response } from "@/api/server";
 import { hashEmail } from "@/auth/server/hashed-dynamodb-adapter";
-import * as db from "@/db";
 import { setupDB } from "@/db/test-helpers";
 import * as api from "@/schema/api";
+import { expect } from "vitest";
 import indexEndpoint from "../index.endpoint";
 import endpoint from "./users.endpoint";
 
 const { GET, PUT } = endpoint.handlers;
 const { POST: indexPOST } = indexEndpoint.handlers;
-
-db;
 
 const { it, describe } = setupDB();
 
@@ -34,7 +32,7 @@ describe("/courses/{courseId}/users", () => {
       response.success({
         displayName: "test",
         userRole: "instructor",
-      })
+      }),
     );
     return [
       postRes.body as api.Course,
@@ -61,7 +59,7 @@ describe("/courses/{courseId}/users", () => {
           },
         ],
         students: [],
-      })
+      }),
     );
   });
 
@@ -133,7 +131,7 @@ describe("/courses/{courseId}/users", () => {
       response.success({
         ...expected,
         unhashedRejectedEmails: [],
-      })
+      }),
     );
 
     const getRes = await GET({
@@ -153,7 +151,7 @@ describe("/courses/{courseId}/users", () => {
           ...expected.newInstructors,
         ],
         students: expected.newStudents,
-      })
+      }),
     );
 
     // Now new instructors should be able to add users too!
@@ -189,7 +187,7 @@ describe("/courses/{courseId}/users", () => {
       response.success({
         ...expected2,
         unhashedRejectedEmails: [],
-      })
+      }),
     );
   });
 });

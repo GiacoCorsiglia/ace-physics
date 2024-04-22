@@ -38,11 +38,11 @@ export const Vertical = Object.assign(
   }>(
     ({ space = 100 }) => [...verticalCss(space), styles.contentBoxSubgrid],
     undefined,
-    "Vertical"
+    "Vertical",
   ),
   {
     Space: VerticalSpace,
-  }
+  },
 );
 
 ////////////////////////////////////////////////////////////////////////////////

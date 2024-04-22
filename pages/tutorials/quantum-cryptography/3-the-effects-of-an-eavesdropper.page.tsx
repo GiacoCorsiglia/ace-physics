@@ -9,7 +9,7 @@ import {
   Prose,
   TextBox,
 } from "@/components";
-import { page } from "@/tutorial";
+import { page, repeatedModel } from "@/tutorial";
 import Hadamard2 from "./media/Hadamard 2.jpg";
 import setup from "./setup";
 import { tableWithEve } from "./shared";
@@ -168,14 +168,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "bitEve",
-              tableWithEve.nonGreyedCols.slice(0, 4)
+              tableWithEve.nonGreyedCols.slice(0, 4),
             )
           ) {
             return "correctBits";
           }
           if (
             s.sections?.evesBitAfterMeasurement?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -250,7 +250,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "bitEve",
-            tableWithEve.nonGreyedCols.slice(0, 4)
+            tableWithEve.nonGreyedCols.slice(0, 4),
           ),
       },
     }),
@@ -261,13 +261,13 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "bitEve",
-          tableWithEve.nonGreyedCols.slice(0, 4)
+          tableWithEve.nonGreyedCols.slice(0, 4),
         ),
       body: (m) => (
         <>
           <Prose>Here's our answers for Eve's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -301,7 +301,7 @@ export default page(setup, ({ section }) => ({
             getting either 0 or 1.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -321,14 +321,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "bitEve",
-              tableWithEve.nonGreyedCols.slice(4)
+              tableWithEve.nonGreyedCols.slice(4),
             )
           ) {
             return "correctBits";
           }
           if (
             s.sections?.evesBitAfterMeasurement2?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -404,7 +404,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "bitEve",
-            tableWithEve.nonGreyedCols.slice(4)
+            tableWithEve.nonGreyedCols.slice(4),
           ),
       },
     }),
@@ -415,13 +415,13 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "bitEve",
-          tableWithEve.nonGreyedCols.slice(4)
+          tableWithEve.nonGreyedCols.slice(4),
         ),
       body: (m) => (
         <>
           <Prose>Here's our answers for Eve's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -449,7 +449,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -484,7 +484,7 @@ export default page(setup, ({ section }) => ({
             Fill in the next row indicating what qubit state Eve sends to Bob.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -506,14 +506,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "stateEve",
-              tableWithEve.nonGreyedCols.slice(0, 4)
+              tableWithEve.nonGreyedCols.slice(0, 4),
             )
           ) {
             return "correctStates";
           }
           if (
             s.sections?.qubitStateEveSendsToBob1?.revealedMessages?.includes(
-              "wrongStates"
+              "wrongStates",
             )
           )
             return "wrongStates2";
@@ -573,7 +573,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "stateEve",
-            tableWithEve.nonGreyedCols.slice(0, 4)
+            tableWithEve.nonGreyedCols.slice(0, 4),
           ),
       },
     }),
@@ -584,13 +584,13 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "stateEve",
-          tableWithEve.nonGreyedCols.slice(0, 4)
+          tableWithEve.nonGreyedCols.slice(0, 4),
         ),
       body: (m) => (
         <>
           <Prose>Here's our answers for Eve's states.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -623,7 +623,7 @@ export default page(setup, ({ section }) => ({
             gate, she does so before and after her measurement.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -645,14 +645,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "stateEve",
-              tableWithEve.nonGreyedCols.slice(4)
+              tableWithEve.nonGreyedCols.slice(4),
             )
           ) {
             return "correctStates";
           }
           if (
             s.sections?.qubitStateEveSendsToBob1?.revealedMessages?.includes(
-              "wrongStates"
+              "wrongStates",
             )
           )
             return "wrongStates2";
@@ -711,7 +711,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "stateEve",
-            tableWithEve.nonGreyedCols.slice(4)
+            tableWithEve.nonGreyedCols.slice(4),
           ),
       },
     }),
@@ -722,13 +722,13 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "stateEve",
-          tableWithEve.nonGreyedCols.slice(4)
+          tableWithEve.nonGreyedCols.slice(4),
         ),
       body: (m) => (
         <>
           <Prose>Here's our answers for Eve's states.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -753,7 +753,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -783,7 +783,7 @@ export default page(setup, ({ section }) => ({
             Hadamard gate, now that Eve has interfered.
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -806,14 +806,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "bitBob",
-              tableWithEve.nonGreyedCols.slice(0, 4)
+              tableWithEve.nonGreyedCols.slice(0, 4),
             )
           ) {
             return "correctBits";
           }
           if (
             s.sections?.bobsBitAfterEve1?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -888,7 +888,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "bitBob",
-            tableWithEve.nonGreyedCols.slice(0, 4)
+            tableWithEve.nonGreyedCols.slice(0, 4),
           ),
       },
     }),
@@ -899,13 +899,13 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "bitBob",
-          tableWithEve.nonGreyedCols.slice(0, 4)
+          tableWithEve.nonGreyedCols.slice(0, 4),
         ),
       body: (m) => (
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -941,7 +941,7 @@ export default page(setup, ({ section }) => ({
             measures,
           </Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -964,14 +964,14 @@ export default page(setup, ({ section }) => ({
             tableWithEve.isCorrect(
               r,
               "bitBob",
-              tableWithEve.nonGreyedCols.slice(4)
+              tableWithEve.nonGreyedCols.slice(4),
             )
           ) {
             return "correctBits";
           }
           if (
             s.sections?.bobsBitAfterEve2?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -1047,7 +1047,7 @@ export default page(setup, ({ section }) => ({
             s,
             m,
             "bitBob",
-            tableWithEve.nonGreyedCols.slice(4)
+            tableWithEve.nonGreyedCols.slice(4),
           ),
       },
     }),
@@ -1058,13 +1058,13 @@ export default page(setup, ({ section }) => ({
         !tableWithEve.isCorrect(
           r,
           "bitBob",
-          tableWithEve.nonGreyedCols.slice(4)
+          tableWithEve.nonGreyedCols.slice(4),
         ),
       body: (m) => (
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -1094,7 +1094,7 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <tableWithEve.Component
-            model={m.tableWithEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithEve)}
             rows={[
               "qubitNumber",
               "initialState",

@@ -23,7 +23,7 @@ export const QuantumCircuit = memo(function QuantumCircuit({
 }) {
   const [siblingRef, classes] = useActualSiblingCheck<HTMLTableElement>(
     () => true,
-    []
+    [],
   );
 
   const [bgRef, backgroundColor] =
@@ -67,7 +67,7 @@ interface CellType<U extends object> {
 
   sharedOptions?(
     options: U,
-    sharedOptions: SharedCellOptions
+    sharedOptions: SharedCellOptions,
   ): SharedCellOptions;
 
   render(options: U): {
@@ -275,12 +275,12 @@ type Cells = {
 type Cell = Cells[keyof Cells];
 
 const knownCellTypes = Object.entries(cellTypes).filter(
-  ([, cellType]) => cellType !== Unknown
+  ([, cellType]) => cellType !== Unknown,
 );
 
 const parseTypedCell = (
   tex: string,
-  sharedOptions: SharedCellOptions
+  sharedOptions: SharedCellOptions,
 ): Cell => {
   for (const [type, cellType] of knownCellTypes) {
     const match = tex.match(cellType.pattern);
@@ -347,7 +347,7 @@ const parseCells = (tex: string): Cell[][] =>
 const findCell = (
   cells: Cell[][],
   row: number,
-  col: number
+  col: number,
 ): Cell | undefined => {
   let cell = cells[row]?.[col];
 
@@ -374,13 +374,13 @@ const attachRows = (cells: Cell[][]): void => {
 
           aboveCell.verticalWireBelow = Math.max(
             1,
-            aboveCell.verticalWireBelow
+            aboveCell.verticalWireBelow,
           );
 
           if (i > end + 1) {
             aboveCell.verticalWireAbove = Math.max(
               1,
-              aboveCell.verticalWireAbove
+              aboveCell.verticalWireAbove,
             );
           }
         }
@@ -397,13 +397,13 @@ const attachRows = (cells: Cell[][]): void => {
 
           belowCell.verticalWireAbove = Math.max(
             1,
-            belowCell.verticalWireAbove
+            belowCell.verticalWireAbove,
           );
 
           if (i < end - 1) {
             belowCell.verticalWireBelow = Math.max(
               1,
-              belowCell.verticalWireBelow
+              belowCell.verticalWireBelow,
             );
           }
         }
@@ -500,7 +500,7 @@ const Cell = ({ cell }: { cell: Cell }) => {
     <span
       className={cx(
         styles.gridElement,
-        renderOptions.valign === "center" && styles.alignCenter
+        renderOptions.valign === "center" && styles.alignCenter,
       )}
     >
       {renderOptions.tex ? (
@@ -524,7 +524,7 @@ const Cell = ({ cell }: { cell: Cell }) => {
           hasWireAbove && styles.hasWireAbove,
           hasWireBelow && styles.hasWireBelow,
           cell.borderTop && styles.borderTop,
-          cell.borderBottom && styles.borderBottom
+          cell.borderBottom && styles.borderBottom,
         )}
       >
         {renderOptions.element || (
@@ -533,7 +533,7 @@ const Cell = ({ cell }: { cell: Cell }) => {
               styles.cellContent,
               hideBackground && styles.hideBackground,
               renderOptions.align === "left" && styles.alignLeft,
-              renderOptions.align === "right" && styles.alignRight
+              renderOptions.align === "right" && styles.alignRight,
             )}
           >
             {hasWireLeft ? <HorizontalWireGrid /> : <span />}
@@ -551,7 +551,7 @@ const Cell = ({ cell }: { cell: Cell }) => {
           className={cx(
             cell.borderLeft && styles.borderLeft,
             cell.borderTop && styles.borderTop,
-            cell.borderBottom && styles.borderBottom
+            cell.borderBottom && styles.borderBottom,
           )}
         />
       ) : (
@@ -565,7 +565,7 @@ const Cell = ({ cell }: { cell: Cell }) => {
           className={cx(
             cell.borderRight && styles.borderRight,
             cell.borderTop && styles.borderTop,
-            cell.borderBottom && styles.borderBottom
+            cell.borderBottom && styles.borderBottom,
           )}
         />
       ) : (

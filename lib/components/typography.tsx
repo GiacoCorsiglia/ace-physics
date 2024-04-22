@@ -43,7 +43,7 @@ type ProseProps = {
 const ProseComponent = forwardRef<HTMLParagraphElement, ProseProps>(
   function Prose(
     { size, justify, hyphenate = true, faded, boldColor = "neutral", ...props },
-    ref
+    ref,
   ) {
     // If there is no block level element in the children, wrap them in <p>.
     // Otherwise, just wrap everything in a <div>.  (The prop types for "p" and
@@ -89,12 +89,12 @@ const ProseComponent = forwardRef<HTMLParagraphElement, ProseProps>(
           boldColor === "green" && styles.boldColorGreen,
           boldColor === "yellow" && styles.boldColorYellow,
           // Additional classes.
-          props.className
+          props.className,
         )}
         ref={ref}
       />
     );
-  }
+  },
 );
 
 const SubText = styled.p([styles.subText, "text-small", "text-faded"]);

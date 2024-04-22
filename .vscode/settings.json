@@ -5,7 +5,7 @@
   "editor.insertSpaces": true,
   "editor.wordWrapColumn": 80,
   "editor.rulers": [80],
-  "diffEditor.ignoreTrimWhitespace": true,
+  "diffEditor.ignoreTrimWhitespace": false,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "eslint.validate": [
@@ -16,8 +16,8 @@
   ],
   "eslint.workingDirectories": ["./frontend", "./backend"],
   "editor.codeActionsOnSave": {
-    "source.addMissingImports": true,
-    "source.organizeImports": true
+    "source.addMissingImports": "always",
+    "source.organizeImports": "always"
   },
   "cSpell.words": [
     "braket",

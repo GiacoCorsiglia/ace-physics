@@ -60,7 +60,9 @@
     text-decoration: underline;
     transition: color 75ms ease-in-out;
 
-    &:not(:global(.text-faded)):not(:global(.text-green)):not(:global(.text-blue)):not(:global(.text-red)):not(.text-yellow) {
+    &:not(:global(.text-faded)):not(:global(.text-green)):not(
+        :global(.text-blue)
+      ):not(:global(.text-red)):not(.text-yellow) {
       color: colors.$blue-700;
 
       &:hover {

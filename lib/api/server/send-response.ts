@@ -4,7 +4,7 @@ import * as response from "./response";
 export const sendResponse = (
   nextRes: NextApiResponse,
   responseObject: response.Response,
-  isHead?: boolean
+  isHead?: boolean,
 ) => {
   if (responseObject.headers) {
     Object.entries(responseObject.headers).forEach(([header, value]) => {

@@ -14,19 +14,19 @@ export const useUpdateCourseUsers = createUseMutation(spec.CourseUsers, "PUT");
 
 export const useUpdateUserPrivileges = createUseMutation(
   spec.UserPrivileges,
-  "POST"
+  "POST",
 );
 
 export const getTutorial = (
-  query: Infer<typeof spec.TutorialState["Query"]>
+  query: Infer<(typeof spec.TutorialState)["Query"]>,
 ) => {
   const url = renderUrl(spec.TutorialState, query);
   return fetchAndParse(spec.TutorialState.GET, url, "GET");
 };
 
 export const updateTutorial = (
-  query: Infer<typeof spec.TutorialState["Query"]>,
-  request: Infer<typeof spec.TutorialState["PUT"]["Request"]>
+  query: Infer<(typeof spec.TutorialState)["Query"]>,
+  request: Infer<(typeof spec.TutorialState)["PUT"]["Request"]>,
 ) => {
   const url = renderUrl(spec.TutorialState, query);
   return fetchAndParse(spec.TutorialState.PUT, url, "PUT", request);
@@ -35,5 +35,5 @@ export const updateTutorial = (
 export const usePostReports = createUseMutation(
   spec.CourseReports,
   "POST",
-  true
+  true,
 );

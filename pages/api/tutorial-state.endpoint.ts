@@ -27,7 +27,7 @@ export default endpoint(
         return response.notFound();
       }
 
-      const decoded = db.codec.TutorialState.decode(item);
+      const decoded = await db.codec.TutorialState.decode(item);
       if (decoded.failed) {
         return response.notFound();
       }
@@ -58,12 +58,12 @@ export default endpoint(
             path: e.path,
             error: e.message,
             received: e.value,
-          }))
+          })),
         );
       }
 
       const now = db.now();
-      const item = db.codec.TutorialState.encode(
+      const item = await db.codec.TutorialState.encode(
         {
           courseId,
           tutorialId,
@@ -74,7 +74,7 @@ export default endpoint(
           state: decoded.value,
           events,
         },
-        false
+        false,
       );
 
       const result = await db.client().update({
@@ -121,5 +121,5 @@ export default endpoint(
         updated: true,
       } as const);
     },
-  }
+  },
 );

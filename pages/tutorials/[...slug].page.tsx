@@ -31,8 +31,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const files = await promisify(fs.readdir)(tutorialsDir);
   const fileStats = await Promise.all(
     files.map(
-      async (file) => [file, await fsStat(join(tutorialsDir, file))] as const
-    )
+      async (file) => [file, await fsStat(join(tutorialsDir, file))] as const,
+    ),
   );
   const directories = fileStats
     .filter(([_, stat]) => stat.isDirectory())

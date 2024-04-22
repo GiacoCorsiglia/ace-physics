@@ -26,12 +26,12 @@ export default s.tutorial({
   pretest: {
     firstExcitedProbRightHalfChanges: s.chooseOne(
       ["true", "false"],
-      s.string()
+      s.string(),
     ),
     firstExcitedProbE2Changes: s.chooseOne(["true", "false"], s.string()),
     superpositionProbRightHalfChanges: s.chooseOne(
       ["true", "false"],
-      s.string()
+      s.string(),
     ),
     superpositionProbE2Changes: s.chooseOne(["true", "false"], s.string()),
   },

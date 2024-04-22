@@ -50,7 +50,7 @@ export interface ObjectType<P extends Properties = Properties> {
  */
 export const object = <P extends Properties>(properties: P): ObjectType<P> =>
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  ({ kind: "object", properties, exact: false } as ObjectType<P>);
+  ({ kind: "object", properties, exact: false }) as ObjectType<P>;
 
 /**
  * Creates a Type representing a (plain) JavaScript object with properties
@@ -60,8 +60,8 @@ export const object = <P extends Properties>(properties: P): ObjectType<P> =>
 export const partial = <P extends Properties>(properties: P) =>
   object(
     Object.fromEntries(
-      Object.entries(properties).map(([k, p]) => [k, optional(p)])
-    ) as { [K in keyof P]: OptionalType<P[K]> }
+      Object.entries(properties).map(([k, p]) => [k, optional(p)]),
+    ) as { [K in keyof P]: OptionalType<P[K]> },
   );
 
 /**
@@ -73,20 +73,20 @@ export const partial = <P extends Properties>(properties: P) =>
  */
 export const exact = <P extends Properties>(properties: P): ObjectType<P> =>
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  ({ kind: "object", properties, exact: true } as ObjectType<P>);
+  ({ kind: "object", properties, exact: true }) as ObjectType<P>;
 
 /**
  * Given an ObjectType, converts it to an "exact" ObjectType, meaning
  * unrecognized properties will be discarded when decoding.
  */
 export const asExact = <P extends Properties>(
-  objectSchema: ObjectType<P>
+  objectSchema: ObjectType<P>,
 ): ObjectType<P> => ({ ...objectSchema, exact: true });
 
 export const decodeObject: Decoder<ObjectType<Properties>> = (
   type,
   value,
-  context
+  context,
 ) => {
   if (typeof value !== "object" || value === null) {
     return decodeFailure(decodeError(value, context, "not an object"));
@@ -102,7 +102,7 @@ export const decodeObject: Decoder<ObjectType<Properties>> = (
     const decoded = decode(
       child,
       subValue,
-      context.concat({ index: key, type: child })
+      context.concat({ index: key, type: child }),
     );
 
     if (decoded.failed) {

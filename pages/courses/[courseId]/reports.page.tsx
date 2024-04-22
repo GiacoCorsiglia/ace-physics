@@ -210,7 +210,7 @@ const StudentResponsesForm = ({ course }: { course: Course }) => {
             timeZone: options.timeZone,
             includePretests: includePretests && tutorialId !== "",
             includeFeedback: includeFeedback,
-          }
+          },
         ).then((result) => {
           if (!result.failed && result.value) {
             download(filename, result.value);
@@ -332,7 +332,7 @@ const download = (filename: string, text: string) => {
   const element = document.createElement("a");
   element.setAttribute(
     "href",
-    "data:text/csv;charset=utf-8," + encodeURIComponent(text)
+    "data:text/csv;charset=utf-8," + encodeURIComponent(text),
   );
   element.setAttribute("download", filename);
   element.setAttribute("target", "_blank");

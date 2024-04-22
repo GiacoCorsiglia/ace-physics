@@ -28,7 +28,7 @@ export async function run(tutorial: string, page: string) {
     files.some((f) => f.startsWith(numberPrefix) && f.endsWith(".page.tsx"))
   ) {
     throw new Error(
-      `A page numbered "${number}" already exists in "${tutorial}".`
+      `A page numbered "${number}" already exists in "${tutorial}".`,
     );
   }
 
@@ -39,13 +39,13 @@ export async function run(tutorial: string, page: string) {
   console.log("Done.");
   console.log(
     "Don't forget to add this to",
-    join("pages/tutorials", tutorial, "setup.ts")
+    join("pages/tutorials", tutorial, "setup.ts"),
   );
   console.log(`{\n  link: "${page}",\n  label: "TODO",\n}`);
 }
 
 const template = (
-  page: string
+  page: string,
 ) => `import { M, Prose, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
@@ -79,7 +79,7 @@ export default page(setup, ({ section }) => ({
 const camelCase = (s: string) =>
   s
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) =>
-      index === 0 ? word.toLowerCase() : word.toUpperCase()
+      index === 0 ? word.toLowerCase() : word.toUpperCase(),
     )
     .replace(/\s+/g, "")
     .replace(/\-/g, "");

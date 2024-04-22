@@ -39,7 +39,8 @@ $padding: spacing.$space-150;
   animation: pop-in 350ms;
 
   $shadow-color: colors.$neutral-800;
-  box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.15),
+  box-shadow:
+    0 1px 4px colors.alpha($shadow-color, 0.15),
     0 2px 7px colors.alpha($shadow-color, 0.18);
 }
 

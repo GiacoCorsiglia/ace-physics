@@ -1,19 +1,21 @@
-/**
- * @jest-environment jsdom
- */
-/* eslint-disable jest/expect-expect */
+// @vitest-environment jsdom
 import * as s from "@/schema/tutorial";
 import { TutorialState } from "@/schema/tutorial";
 import { Root, useRootModel, useStore } from "@/tutorial/state-tree";
 import { act, fireEvent, render, screen } from "@testing-library/react";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { NodeConfig } from "../config";
 import { SectionTree } from "./section-tree";
 
 // window.scroll isn't implemented in JSDOM, but it's fired when sections are
 // rendered, so add a stub here.
 const oldWindowScroll = window.scroll;
-beforeAll(() => (window.scroll = () => {}));
-afterAll(() => (window.scroll = oldWindowScroll));
+beforeAll(() => {
+  window.scroll = () => {};
+});
+afterAll(() => {
+  window.scroll = oldWindowScroll;
+});
 
 const schema = s.tutorial({
   pages: {
@@ -123,7 +125,7 @@ describe("Section body", () => {
         sections={sections}
         state={{ responses: { r1: "Test value 1" } }}
         context={context}
-      />
+      />,
     );
     // Initial value first.
     screen.getByText("Test value 1");
@@ -203,7 +205,7 @@ describe("Section continue button", () => {
     ];
     render(<SectionsInContext sections={sections} />);
     expect(
-      screen.queryByRole("button", { name: "Continue button" })
+      screen.queryByRole("button", { name: "Continue button" }),
     ).toBeNull();
     expect(screen.queryByText("Continue button")).toBeNull();
   });
@@ -254,7 +256,7 @@ describe("Section continue button", () => {
       <SectionsInContext
         sections={sections}
         state={{ sections: { s1: { status: "committed" } } }}
-      />
+      />,
     );
     expect(screen.queryByRole("button", { name: "Move on" })).toBeNull();
     expect(screen.queryByText("Move on")).toBeNull();
@@ -264,7 +266,7 @@ describe("Section continue button", () => {
 describe("Section messages", () => {
   const makeSections = (
     nextMessage: (r1: string) => string,
-    body?: () => any
+    body?: () => any,
   ): NodeConfig[] => [
     {
       kind: "section",
@@ -328,7 +330,7 @@ describe("Section messages", () => {
   it("does not immediately reveal first message if section has body", () => {
     const sections = makeSections(
       () => "m1",
-      () => "Section 2: Body"
+      () => "Section 2: Body",
     );
     const context: Context = {};
     render(<SectionsInContext sections={sections} context={context} />);
@@ -359,7 +361,7 @@ describe("Section messages", () => {
       <SectionsInContext
         sections={sections}
         state={{ sections: { s2: { revealedMessages: ["m1", "m2", "m1"] } } }}
-      />
+      />,
     );
     // First message should be visible twice.
     expect(screen.getAllByText("Section 2: Message 1").length).toBe(2);
@@ -378,7 +380,7 @@ describe("Section messages", () => {
         sections={sections}
         context={context}
         state={{ responses: { r1: "m1" } }}
-      />
+      />,
     );
     // First message should be visible.
     screen.getByText("Section 2: Message 1");
@@ -434,7 +436,7 @@ describe("Section messages", () => {
         sections={sections}
         context={context}
         state={{ responses: { r1: "m1" } }}
-      />
+      />,
     );
     // First message should be visible.
     screen.getByText("Section 2: Message 1");
@@ -489,7 +491,7 @@ describe("Section messages", () => {
       <SectionsInContext
         sections={sections}
         state={{ sections: { s2: { revealedMessages: ["m1", "m2", "m1"] } } }}
-      />
+      />,
     );
     // First message should be visible twice.
     expect(screen.getAllByText("Section 2: Message 1").length).toBe(2);

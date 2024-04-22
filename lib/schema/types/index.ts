@@ -68,32 +68,33 @@ export type {
 type ConditionalInfer<I extends Type> = I extends UndefinedType
   ? undefined
   : I extends StringType
-  ? string
-  : I extends NumberType
-  ? number
-  : I extends BooleanType
-  ? boolean
-  : I extends LiteralType<infer L>
-  ? L
-  : I extends OptionalType<infer V>
-  ? Infer<V> | undefined
-  : I extends UnionType<infer Ms>
-  ? Infer<Ms[number]>
-  : I extends ArrayType<infer Es>
-  ? Infer<Es>[]
-  : I extends TupleType<infer Es>
-  ? {
-      readonly [I in keyof Es]: I extends number ? Infer<Es[I]> : Es[I];
-    }
-  : I extends ObjectType<infer P>
-  ? {
-      readonly [K in keyof P as OptionalType<any> extends P[K]
-        ? K
-        : never]?: Infer<P[K]>;
-    } &
-      {
-        readonly [K in keyof P as OptionalType<any> extends P[K]
-          ? never
-          : K]: Infer<P[K]>;
-      }
-  : never;
+    ? string
+    : I extends NumberType
+      ? number
+      : I extends BooleanType
+        ? boolean
+        : I extends LiteralType<infer L>
+          ? L
+          : I extends OptionalType<infer V>
+            ? Infer<V> | undefined
+            : I extends UnionType<infer Ms>
+              ? Infer<Ms[number]>
+              : I extends ArrayType<infer Es>
+                ? Infer<Es>[]
+                : I extends TupleType<infer Es>
+                  ? {
+                      readonly [I in keyof Es]: I extends number
+                        ? Infer<Es[I]>
+                        : Es[I];
+                    }
+                  : I extends ObjectType<infer P>
+                    ? {
+                        readonly [K in keyof P as OptionalType<any> extends P[K]
+                          ? K
+                          : never]?: Infer<P[K]>;
+                      } & {
+                        readonly [K in keyof P as OptionalType<any> extends P[K]
+                          ? never
+                          : K]: Infer<P[K]>;
+                      }
+                    : never;

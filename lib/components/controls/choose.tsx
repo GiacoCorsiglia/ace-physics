@@ -28,13 +28,13 @@ type Value<C, M extends boolean> =
   | undefined;
 
 type ChangeHandler<C, M extends boolean> = (
-  reducer: (oldValue: Value<C, M>) => Value<C, M>
+  reducer: (oldValue: Value<C, M>) => Value<C, M>,
 ) => void;
 
 export const ChooseControl = <
   C,
   M extends boolean,
-  O extends string | number | undefined = undefined
+  O extends string | number | undefined = undefined,
 >({
   multi,
   choices,
@@ -59,8 +59,8 @@ export const ChooseControl = <
     inputType?: string extends O
       ? "text-line" | "text-box"
       : number extends O
-      ? "integer" | "decimal"
-      : never;
+        ? "integer" | "decimal"
+        : never;
   };
 } & ChooseControlProps) => {
   validateChoices(choices);
@@ -81,7 +81,7 @@ export const ChooseControl = <
     other?.value,
     (prop) => prop,
     // Alway skip the sync if the passed value is undefined.
-    (prop) => !other || other.value === undefined || !prop
+    (prop) => !other || other.value === undefined || !prop,
   );
 
   const otherInputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
@@ -226,7 +226,7 @@ export const ChooseControl = <
               };
 
               const handleOtherInputChange = (
-                newValue: string | number | undefined
+                newValue: string | number | undefined,
               ) => {
                 setOtherInputValue(newValue as O);
                 if (typeof newValue === "string" && !newValue) {

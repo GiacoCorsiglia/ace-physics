@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { decode } from "./decode";
 import { optional } from "./optional";
 import { string } from "./primitives";

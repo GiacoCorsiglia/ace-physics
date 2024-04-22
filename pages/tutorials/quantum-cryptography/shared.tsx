@@ -9,7 +9,7 @@ import { ResponseModels, Responses, Schema, State } from "./setup";
 const makeChoice = <T,>(selected: T) => ({ selected });
 
 const removeGreyedColumns = <T,>(
-  fullColumn: readonly T[] | undefined
+  fullColumn: readonly T[] | undefined,
 ): readonly T[] | undefined => {
   if (fullColumn !== undefined) {
     return [
@@ -107,7 +107,7 @@ interface GivenRow<K extends string = string> {
 
 interface FieldRow<
   T extends TableSchema = TableSchema,
-  M extends keyof T["properties"] = keyof T["properties"]
+  M extends keyof T["properties"] = keyof T["properties"],
 > {
   model: M;
   label: Html;
@@ -126,7 +126,7 @@ interface FieldRow<
 // I don't understand why this conditional is necessary but it is.
 type RowChoices<
   T extends TableSchema,
-  M extends keyof T["properties"]
+  M extends keyof T["properties"],
 > = T["properties"][M] extends { elements: ChooseOneField<infer Cs, any> }
   ? Cs
   : never;
@@ -135,17 +135,17 @@ type TableRow<T extends TableSchema> = GivenRow | FieldRow<T>;
 
 const makeTable = <
   T extends TableName,
-  Rs extends readonly TableRow<TableSchema<T>>[]
+  Rs extends readonly TableRow<TableSchema<T>>[],
 >(
   tableName: T,
   makeRows: (fns: {
     givenRow: <K extends string>(
       key: K,
-      options: Omit<GivenRow<K>, "key">
+      options: Omit<GivenRow<K>, "key">,
     ) => GivenRow<K>;
     fieldRow: <M extends keyof TableSchema<T>["properties"]>(
       model: M,
-      options: Omit<FieldRow<TableSchema<T>, M>, "model">
+      options: Omit<FieldRow<TableSchema<T>, M>, "model">,
     ) => FieldRow<TableSchema<T>, M>;
   }) => Rs,
   greyColFn?: {
@@ -155,7 +155,7 @@ const makeTable = <
      */
     isColGrey: (val1: any, val2?: any) => boolean;
     rowKey2?: string;
-  }
+  },
 ) => {
   const rows = makeRows({
     givenRow: (key, options) => ({ ...options, key }),
@@ -172,26 +172,30 @@ const makeTable = <
       throw new Error(
         `Expected ${columnsCount} columns in row "${
           ("key" in row ? row.key : row.model) as any
-        }"`
+        }"`,
       );
     }
   }
   const nonGreyedCols: number[] = [];
   const rowsToCheck = [
     rows.find((v) =>
-      "key" in v ? v.key === greyColFn?.rowKey1 : v.model === greyColFn?.rowKey1
+      "key" in v
+        ? v.key === greyColFn?.rowKey1
+        : v.model === greyColFn?.rowKey1,
     ),
     rows.find((v) =>
-      "key" in v ? v.key === greyColFn?.rowKey2 : v.model === greyColFn?.rowKey2
+      "key" in v
+        ? v.key === greyColFn?.rowKey2
+        : v.model === greyColFn?.rowKey2,
     ),
   ];
   const rowValues = rowsToCheck.map((row) =>
-    row ? ("key" in row ? row.values : row.answers) : undefined
+    row ? ("key" in row ? row.values : row.answers) : undefined,
   );
   range(columnsCount).forEach((c) => {
     greyColFn?.isColGrey(
       rowValues[0] ? rowValues[0][c] : null,
-      rowValues[1] ? rowValues[1][c] : null
+      rowValues[1] ? rowValues[1][c] : null,
     )
       ? null
       : nonGreyedCols.push(c);
@@ -242,11 +246,11 @@ const makeTable = <
       array: readonly T[],
       fn: (item: T, index: number) => Html = (item, index) => (
         <td key={index}>{item as any}</td>
-      )
+      ),
     ) =>
       columnIndices
         ? columnIndices.map((columnIndex) =>
-            fn(array[columnIndex], columnIndex)
+            fn(array[columnIndex], columnIndex),
           )
         : array.map(fn);
 
@@ -320,26 +324,26 @@ const makeTable = <
     state: State,
     models: ResponseModels,
     row: FieldRowKey,
-    columns: number[] = range(columnsCount)
+    columns: number[] = range(columnsCount),
   ) =>
     columns.every((column) =>
       isSet(
         (models[tableName].properties as any)[row].elements[column],
-        (state.responses?.[tableName] as any)?.[row]?.[column]
-      )
+        (state.responses?.[tableName] as any)?.[row]?.[column],
+      ),
     );
 
   const isCorrect = (
     responses: Responses,
     row: FieldRowKey,
-    columns: number[] = range(columnsCount)
+    columns: number[] = range(columnsCount),
   ) =>
     columns.every(
       (column) =>
         (responses?.[tableName] as any)?.[row]?.[column]?.selected ===
         rows.find(
-          (r): r is FieldRow<any, any> => "model" in r && r.model === row
-        )?.answers[column]
+          (r): r is FieldRow<any, any> => "model" in r && r.model === row,
+        )?.answers[column],
     );
 
   return { rows, Component, isComplete, isCorrect, nonGreyedCols };
@@ -481,7 +485,7 @@ export const tableWithoutEve = makeTable(
     rowKey1: "didAliceApplyH",
     isColGrey: (val1, val2) => val1 !== val2,
     rowKey2: "didBobApplyH",
-  }
+  },
 );
 
 export const tableWithEve = makeTable(
@@ -658,5 +662,5 @@ export const tableWithEve = makeTable(
     rowKey1: "didAliceApplyH",
     isColGrey: (val1, val2) => val1 !== val2,
     rowKey2: "didBobApplyH",
-  }
+  },
 );

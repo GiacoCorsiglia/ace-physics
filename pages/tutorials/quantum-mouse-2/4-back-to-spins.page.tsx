@@ -141,7 +141,7 @@ export default page(setup, ({ section }) => ({
             <>
               Acting <M t="\hat{S_z}" /> on <M t="\ket{+}_x" />
             </>,
-            "gives"
+            "gives",
           )}
         />
       ),

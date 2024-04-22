@@ -47,9 +47,9 @@ export const useDevTools = (store: Store<any>, displayName: string) => {
               value,
             })),
           },
-          finalState
+          finalState,
         );
-      }
+      },
     );
 
     const setState = (state: any) =>

@@ -9,12 +9,12 @@ export interface Store<T extends object> {
 
   transaction(
     action: (set: Setter<Immutable<T>>, prevState: Immutable<T>) => void,
-    source?: Source
+    source?: Source,
   ): Immutable<T>;
 
   subscribe<P extends Path<T>>(
     path: P | string,
-    listener: (newValue: TypeAtPath<T, P>, source: Source | undefined) => void
+    listener: (newValue: TypeAtPath<T, P>, source: Source | undefined) => void,
   ): () => void;
 
   onTransaction(watcher: Watcher<T>): () => void;
@@ -23,7 +23,7 @@ export interface Store<T extends object> {
 type Watcher<T> = (
   finalState: Immutable<T>,
   updates: Updates<T>,
-  transactionSource: Source | undefined
+  transactionSource: Source | undefined,
 ) => void;
 
 type Update<T> = readonly [Path<Immutable<T>>, any];
@@ -33,7 +33,7 @@ export type Setter<T> = <P extends Path<T>>(
   path: P,
   newValue:
     | TypeAtPath<T, P>
-    | ((oldValue: TypeAtPath<T, P>) => TypeAtPath<T, P>)
+    | ((oldValue: TypeAtPath<T, P>) => TypeAtPath<T, P>),
 ) => T;
 
 const unset = {};
@@ -154,7 +154,7 @@ export const store = <T extends object>(initial: T): Store<T> => {
       });
 
       transactionWatchers.forEach((watcher) =>
-        watcher(currentState, self.updates, source)
+        watcher(currentState, self.updates, source),
       );
 
       // Finally return the latest state.

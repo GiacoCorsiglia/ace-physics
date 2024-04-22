@@ -2,6 +2,15 @@ import { _destroyClient } from "@/db/client";
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { execSync } from "child_process";
 import { randomBytes } from "crypto";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "vitest";
 import tableConfig from "./ddb.json";
 
 const getCurrentTest = () => expect.getState().currentTestName;
@@ -60,7 +69,13 @@ export const setupDB = () => {
       ACE_TABLE_NAME: TableName,
     };
 
-    await client.createTable({ ...tableConfig, TableName });
+    try {
+      await client.createTable({ ...(tableConfig as any), TableName });
+    } catch (e) {
+      console.log(e);
+
+      await client.createTable({ ...(tableConfig as any), TableName });
+    }
   });
 
   afterEach(async () => {
@@ -88,14 +103,14 @@ export const setupDB = () => {
 
   return {
     it: Object.assign(
-      (...args: Parameters<typeof global.it>) =>
-        skipDbTests ? global.it.skip(...args) : global.it(...args),
-      global.it
+      (...args: Parameters<typeof it>) =>
+        skipDbTests ? it.skip(...args) : it(...args),
+      it,
     ),
     describe: Object.assign(
-      (...args: Parameters<typeof global.describe>) =>
-        skipDbTests ? global.describe.skip(...args) : global.describe(...args),
-      global.describe
+      (...args: Parameters<typeof describe>) =>
+        skipDbTests ? describe.skip(...args) : describe(...args),
+      describe,
     ),
   };
 };

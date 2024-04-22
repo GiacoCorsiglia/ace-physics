@@ -43,7 +43,7 @@ export const TextBoxControl = forwardRef<
   } & TextAreaControlProps
 >(function TextAreaControl(
   { value, onChange, label, minRows = 2, maxRows = 8, ...props },
-  forwardedRef
+  forwardedRef,
 ) {
   const id = `textarea-${useUniqueId()}`;
 

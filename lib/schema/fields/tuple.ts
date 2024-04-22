@@ -14,7 +14,7 @@ export interface TupleField<Es extends readonly Field[]> {
         readonly [I in keyof Es]: Es[I] extends Field
           ? t.OptionalType<Es[I]["type"]>
           : Es[I];
-      }
+      },
     ]
   >;
 }

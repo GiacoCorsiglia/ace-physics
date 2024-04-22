@@ -10,7 +10,7 @@ import {
   Prose,
   Toggle,
 } from "@/components";
-import { page } from "@/tutorial";
+import { page, repeatedModel } from "@/tutorial";
 import Hadamard1Full from "./media/Hadamard 1 Full.jpg";
 import Hadamard1Half from "./media/Hadamard 1 Half.jpg";
 import setup from "./setup";
@@ -163,7 +163,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's our answers for the states Alice sends to Bob.</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -193,7 +193,7 @@ export default page(setup, ({ section, oneOf }) => ({
             with the state that actually gets sent to Bob.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -258,7 +258,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's our answers for the states Alice sends to Bob.</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -285,7 +285,7 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -320,7 +320,7 @@ export default page(setup, ({ section, oneOf }) => ({
             measurement is "random", with a 50% chance of getting either 0 or 1.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -341,7 +341,7 @@ export default page(setup, ({ section, oneOf }) => ({
           }
           if (
             s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -423,7 +423,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -456,7 +456,7 @@ export default page(setup, ({ section, oneOf }) => ({
             getting either 0 or 1.
           </Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -477,7 +477,7 @@ export default page(setup, ({ section, oneOf }) => ({
           }
           if (
             s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes(
-              "wrongBits"
+              "wrongBits",
             )
           )
             return "wrongBits2";
@@ -561,7 +561,7 @@ export default page(setup, ({ section, oneOf }) => ({
         <>
           <Prose>Here's our answers for Bob's measurements.</Prose>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -591,7 +591,7 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <>
           <tableWithoutEve.Component
-            model={m.tableWithoutEve /* ignore-repeated-model */}
+            model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
               "initialState",
@@ -780,7 +780,7 @@ export default page(setup, ({ section, oneOf }) => ({
               ["no", "No, they do not."],
             ]}
             disabled={s.sections?.isBobResultNotRandomAgreement?.revealedMessages?.includes(
-              "incorrect"
+              "incorrect",
             )}
           />
         </>
@@ -948,7 +948,7 @@ export default page(setup, ({ section, oneOf }) => ({
             ["no", "No, they do not share a key."],
           ]}
           disabled={s.sections?.doesAliceBobShareKeyAtCurrentStage?.revealedMessages?.includes(
-            "incorrect"
+            "incorrect",
           )}
         />
       ),

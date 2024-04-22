@@ -100,7 +100,7 @@ export default s.tutorial({
     quietStateHappinessBasis: s.string(false),
     representationNOperator: s.tuple(
       s.tuple(s.number(), s.number()),
-      s.tuple(s.number(), s.number())
+      s.tuple(s.number(), s.number()),
     ),
     doNAndMCommute: s.chooseOne(["yes", "no"]),
     simultaneousEigenstatesNM: s.chooseOne(["yes", "no"]),
@@ -118,7 +118,7 @@ export default s.tutorial({
     interpretHBarOver2: s.string(),
     SzTimesArbitraryKetKindOfObject: s.chooseOne(
       ["bra", "ket", "operator", "number"],
-      s.string()
+      s.string(),
     ),
     SzTimesPlusXKindOfObject: s.chooseOne(["bra", "ket", "operator", "number"]),
     SzTimesPlusXIsNormalized: s.chooseOne(["yes", "no"]),

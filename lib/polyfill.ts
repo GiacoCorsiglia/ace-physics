@@ -5,7 +5,7 @@ export const polyfill = () => {
       value(entries: any) {
         if (!entries || !entries[Symbol.iterator]) {
           throw new Error(
-            "Object.fromEntries() requires a single iterable argument"
+            "Object.fromEntries() requires a single iterable argument",
           );
         }
 

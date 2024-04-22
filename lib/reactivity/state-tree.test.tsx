@@ -1,8 +1,7 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { Html } from "@/helpers/client";
 import { act, renderHook } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { stateTree } from "./state-tree";
 
 describe("state tree", () => {
@@ -80,7 +79,7 @@ describe("state tree", () => {
     it("triggers rerender", () => {
       let renderCount = 0;
       const { result } = rh(
-        () => [useStore(), useValue(["top1"]), renderCount++] as const
+        () => [useStore(), useValue(["top1"]), renderCount++] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -88,7 +87,7 @@ describe("state tree", () => {
 
       act(() => {
         result.current[0].transaction((set) =>
-          set(["top1", "nested"], "updated1")
+          set(["top1", "nested"], "updated1"),
         );
       });
 
@@ -99,7 +98,7 @@ describe("state tree", () => {
     it("works for root value", () => {
       let renderCount = 0;
       const { result } = rh(
-        () => [useStore(), useValue([]), renderCount++] as const
+        () => [useStore(), useValue([]), renderCount++] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -107,7 +106,7 @@ describe("state tree", () => {
 
       act(() => {
         result.current[0].transaction((set) =>
-          set(["top1", "nested"], "updated1")
+          set(["top1", "nested"], "updated1"),
         );
       });
 
@@ -116,7 +115,7 @@ describe("state tree", () => {
 
       act(() => {
         result.current[0].transaction((set) =>
-          set([], { top1: { nested: "updated2" }, top2: "updated-top-2" })
+          set([], { top1: { nested: "updated2" }, top2: "updated-top-2" }),
         );
       });
 
@@ -137,7 +136,7 @@ describe("state tree", () => {
     it("does not trigger rerender when irrelevant values change", () => {
       let renderCount = 0;
       const { result } = rh(
-        () => [useStore(), useValue(["top1"]), renderCount++] as const
+        () => [useStore(), useValue(["top1"]), renderCount++] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -154,7 +153,7 @@ describe("state tree", () => {
     it("provides setter which triggers rerender", () => {
       let renderCount = 0;
       const { result } = rh(
-        () => [useStore(), useValue(["top1"]), renderCount++] as const
+        () => [useStore(), useValue(["top1"]), renderCount++] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -183,7 +182,7 @@ describe("state tree", () => {
             useStore(),
             useTracked((state) => state.top1.nested.toUpperCase()),
             renderCount++,
-          ] as const
+          ] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -191,7 +190,7 @@ describe("state tree", () => {
 
       act(() => {
         result.current[0].transaction((set) =>
-          set(["top1", "nested"], "updated1")
+          set(["top1", "nested"], "updated1"),
         );
       });
 
@@ -207,7 +206,7 @@ describe("state tree", () => {
             useStore(),
             useTracked((state) => state.top1.nested.toUpperCase()),
             renderCount++,
-          ] as const
+          ] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -234,7 +233,7 @@ describe("state tree", () => {
                 : `${state.top1.nested} ${state.top3?.nested3.nestedNested3}`;
             }),
             renderCount++,
-          ] as const
+          ] as const,
       );
 
       expect(renderCount).toBe(1);
@@ -243,7 +242,7 @@ describe("state tree", () => {
       // Irrelevant subscriptions not fired.
       act(() => {
         result.current[0].transaction((set) =>
-          set(["top3", "nested3", "nestedNested3"], "initial3")
+          set(["top3", "nested3", "nestedNested3"], "initial3"),
         );
       });
       expect(renderCount).toBe(1);
@@ -273,7 +272,7 @@ describe("state tree", () => {
       // Now-relevant subscriptions fired.
       act(() => {
         result.current[0].transaction((set) =>
-          set(["top3", "nested3", "nestedNested3"], "updated3")
+          set(["top3", "nested3", "nestedNested3"], "updated3"),
         );
       });
       expect(renderCount).toBe(4);

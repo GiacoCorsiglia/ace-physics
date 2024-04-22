@@ -16,7 +16,7 @@ run().then(
     console.error("\n❌ Error:");
     console.error(e);
     process.exit(1);
-  }
+  },
 );
 
 async function run(): Promise<void> {
@@ -75,7 +75,7 @@ async function run(): Promise<void> {
     throw error(
       "Missing",
       command.run.length - commandArgs.length,
-      "arguments"
+      "arguments",
     );
   }
 

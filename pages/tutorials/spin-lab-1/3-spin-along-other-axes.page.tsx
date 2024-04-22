@@ -223,7 +223,7 @@ export default page(setup, ({ section, hint, oneOf }) => ({
                             className={cx(
                               row === "upZ" &&
                                 col === "upX" &&
-                                styles.greenBorder
+                                styles.greenBorder,
                             )}
                             initialValue={
                               row === "upZ" && col === "upZ" ? 1 : undefined

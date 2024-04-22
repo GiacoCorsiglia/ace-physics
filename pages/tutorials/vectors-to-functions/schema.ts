@@ -57,7 +57,7 @@ export default s.tutorial({
       s.number(),
       s.number(),
       s.number(),
-      s.number()
+      s.number(),
     ),
     minus3Dirac: s.string(false),
     minus1Dirac: s.string(false),

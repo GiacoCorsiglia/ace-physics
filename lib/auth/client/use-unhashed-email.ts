@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const localStorageKey = "ace-unhashed-email";
 
 export const useUnhashedEmail = (
-  hash: string | null | undefined
+  hash: string | null | undefined,
 ): string | null => {
   const [unhashed, setUnhashed] = useState<string | null>(null);
 

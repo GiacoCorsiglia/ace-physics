@@ -16,7 +16,7 @@ const adapter = HashedDynamoDBAdapter(
   }),
   {
     tableName: db.tableName(),
-  }
+  },
 );
 
 export default endpoint(
@@ -32,7 +32,7 @@ export default endpoint(
       if (!isValidEmail(request.body.unhashedUserEmail)) {
         return response.error(
           "Invalid email address",
-          request.body.unhashedUserEmail
+          request.body.unhashedUserEmail,
         );
       }
 
@@ -40,17 +40,17 @@ export default endpoint(
         return response.error("Cannot change own privileges");
       }
 
-      const targetUser = await adapter.getUserByEmail(
-        request.body.unhashedUserEmail
+      const targetUser = await adapter.getUserByEmail!(
+        request.body.unhashedUserEmail,
       );
 
       if (targetUser) {
-        await adapter.updateUser({
+        await adapter.updateUser!({
           id: targetUser.id,
           role: request.body.role,
         });
       } else {
-        await adapter.createUser({
+        await adapter.createUser!({
           email: request.body.unhashedUserEmail,
           role: request.body.role,
           emailVerified: null,
@@ -64,5 +64,5 @@ export default endpoint(
     async POST() {
       return response.success({ ok: true as const });
     },
-  }
+  },
 );

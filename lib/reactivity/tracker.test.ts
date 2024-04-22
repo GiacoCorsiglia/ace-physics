@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from "vitest";
 import { tracker } from "./tracker";
 
 describe("Proxy Track", () => {

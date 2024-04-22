@@ -55,7 +55,9 @@
   align-items: center;
   color: colors.$neutral-500;
 
-  transition: transform 75ms ease-in-out, color 75ms ease-in-out;
+  transition:
+    transform 75ms ease-in-out,
+    color 75ms ease-in-out;
 
   svg {
     width: 2rem;

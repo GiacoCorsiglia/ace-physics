@@ -51,6 +51,6 @@ export const Modal = ({
         </section>
       </div>
     </div>,
-    portalElement
+    portalElement,
   );
 };

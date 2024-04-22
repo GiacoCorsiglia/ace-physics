@@ -25,8 +25,8 @@ async function run() {
     // If we are specifying an endpoint, it's localhost, so disable tls.
     tls: process.env.ACE_AWS_ENDPOINT ? false : undefined,
     credentials: {
-      accessKeyId: process.env.ACE_AWS_ACCESS_KEY,
-      secretAccessKey: process.env.ACE_AWS_SECRET_KEY,
+      accessKeyId: /** @type {string} */ (process.env.ACE_AWS_ACCESS_KEY),
+      secretAccessKey: /** @type {string} */ (process.env.ACE_AWS_SECRET_KEY),
     },
   });
 

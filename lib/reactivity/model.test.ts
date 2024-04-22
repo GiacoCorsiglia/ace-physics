@@ -1,4 +1,5 @@
 import * as f from "@/schema/fields";
+import { describe, expect, it } from "vitest";
 import { isSet, model } from "./model";
 
 describe("model", () => {

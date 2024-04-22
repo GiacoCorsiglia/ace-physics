@@ -8,7 +8,7 @@ export const fetchAndParse: {
     },
     url: string,
     method: "GET" | "DELETE",
-    isText?: boolean
+    isText?: boolean,
   ): Promise<Result<ResponseError, Infer<Res>>>;
   <Res extends Type, Req extends Type>(
     spec: {
@@ -18,14 +18,14 @@ export const fetchAndParse: {
     url: string,
     method: "PUT" | "POST",
     requestBody: Infer<Req>,
-    isText?: boolean
+    isText?: boolean,
   ): Promise<Result<ResponseError, Infer<Res>>>;
 } = async <Res extends Type>(
   spec: { Response: Res },
   url: string,
   method: "GET" | "PUT" | "POST" | "DELETE",
   requestBody?: unknown,
-  isText: boolean = false
+  isText: boolean = false,
 ): Promise<Result<ResponseError, Infer<Res>>> => {
   const responseSchema = spec.Response;
 
@@ -38,7 +38,7 @@ export const fetchAndParse: {
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    }),
   );
 
   if (result.failed) {

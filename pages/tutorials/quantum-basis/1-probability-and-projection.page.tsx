@@ -12,7 +12,7 @@ import {
 } from "@/components";
 import { Axes, Bar, Plot, Tick, WithPlot } from "@/plots";
 import { get } from "@/reactivity/immutable";
-import { page } from "@/tutorial";
+import { page, repeatedModel } from "@/tutorial";
 import setup, { ResponseModels, Responses, State } from "./setup";
 import styles from "./styles.module.scss";
 
@@ -159,7 +159,7 @@ export default page(setup, ({ section }) => ({
               <Histogram pm={responses?.probabilityAmplitude} />
 
               <HistogramLabelControl
-                pm={m.probabilityAmplitude /* ignore-repeated-model */}
+                pm={repeatedModel(m.probabilityAmplitude)}
               />
             </Column>
 
@@ -170,9 +170,7 @@ export default page(setup, ({ section }) => ({
 
               <Histogram pm={responses?.probability} />
 
-              <HistogramLabelControl
-                pm={m.probability /* ignore-repeated-model */}
-              />
+              <HistogramLabelControl pm={repeatedModel(m.probability)} />
             </Column>
           </Columns>
 

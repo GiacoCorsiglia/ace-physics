@@ -24,12 +24,12 @@ export const TutorialHeader = ({
 
   const isIntroduction = router.pathname.endsWith(`/${config.link}`);
   const isPretest = router.pathname.endsWith(
-    `/${config.link}/before-you-start`
+    `/${config.link}/before-you-start`,
   );
   const isPosttest = router.pathname.endsWith(`/${config.link}/review`);
   const isFeedback = router.pathname.endsWith(`/${config.link}/feedback`);
   const currentPage = config.pages.findIndex((page) =>
-    router.pathname.endsWith(`/${page.link}`)
+    router.pathname.endsWith(`/${page.link}`),
   );
 
   const tutorialTitle =
@@ -55,7 +55,7 @@ export const TutorialHeader = ({
       | "pretest"
       | "posttest"
       | "feedback"
-      | TutorialConfig["pages"][number]
+      | TutorialConfig["pages"][number],
   ): "complete" | "active" | "incomplete" => {
     if (page === "introduction") {
       return isIntroduction ? "active" : "complete";

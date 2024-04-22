@@ -28,12 +28,12 @@ export const union = <Ms extends readonly [Type, ...Type[]]>(
   ...members: Ms
 ): UnionType<Ms> =>
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  ({ kind: "union", members } as UnionType<Ms>);
+  ({ kind: "union", members }) as UnionType<Ms>;
 
 export const decodeUnion: Decoder<UnionType<readonly Type[]>> = (
   type,
   value,
-  context
+  context,
 ) => {
   const members = type.members;
 
@@ -48,7 +48,7 @@ export const decodeUnion: Decoder<UnionType<readonly Type[]>> = (
     decodeError(
       value,
       context,
-      `not a union(${members.map((m) => m.kind).join("|")})`
-    )
+      `not a union(${members.map((m) => m.kind).join("|")})`,
+    ),
   );
 };

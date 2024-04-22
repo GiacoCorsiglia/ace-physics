@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { decode } from "./decode";
 import { optional } from "./optional";
 import { boolean, number, string } from "./primitives";
@@ -14,27 +15,23 @@ describe("tuple schema", () => {
     expect(decoded.value).toStrictEqual([0, ["", "b"], false]);
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it("rejects empty values", () => {
     const decoded = decode(type, [null, null, undefined]);
     assertFailure(decoded);
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it("requires full length for non-optional elements", () => {
     const type = tuple(number(), number());
     const decoded = decode(type, [1]);
     assertFailure(decoded);
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it("allows shorter length for optional elements", () => {
     const type = tuple(number(), optional(number()));
     const decoded = decode(type, [1]);
     assertSuccess(decoded);
   });
 
-  // eslint-disable-next-line jest/expect-expect
   it("never allows longer length", () => {
     const type = tuple(number(), optional(number()));
     assertFailure(decode(type, [1, 2, 3]));

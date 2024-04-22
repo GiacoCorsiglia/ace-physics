@@ -22,7 +22,7 @@ export type TutorialSchema<
   Sections extends Dict<SectionSchema<readonly Message[]>> = Dict<
     SectionSchema<readonly Message[]>
   >,
-  Hints extends Dict<HintSchema> = Dict<HintSchema>
+  Hints extends Dict<HintSchema> = Dict<HintSchema>,
 > = f.ObjectField<{
   pages: f.ObjectField<Pages>;
   pretest: f.ObjectField<Pretest>;
@@ -59,7 +59,7 @@ export const tutorial = <
   Responses extends f.Properties,
   Message extends string,
   Sections extends Dict<SectionSchema<readonly Message[]>>,
-  Hints extends Dict<HintSchema>
+  Hints extends Dict<HintSchema>,
 >({
   pages,
   pretest,
@@ -109,7 +109,7 @@ const pageStatus = f.object({
     "revealed",
     "answersPrompted",
     "answersRevealed",
-    "completed"
+    "completed",
   ),
   answers: f.object({
     reflection: f.string(),
@@ -146,7 +146,7 @@ export const section: {
   (): SectionSchema<[]>;
   <
     Message extends string,
-    Messages extends readonly [Message, ...Message[]]
+    Messages extends readonly [Message, ...Message[]],
   >(c: {
     messages: Messages;
   }): SectionSchema<Messages>;

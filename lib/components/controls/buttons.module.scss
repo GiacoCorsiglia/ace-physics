@@ -87,7 +87,8 @@
   }
 
   $shadow-color: colors.shade($color, 800);
-  $hover-shadow: 0px 2px 4px colors.alpha($shadow-color, 0.2),
+  $hover-shadow:
+    0px 2px 4px colors.alpha($shadow-color, 0.2),
     0px 3px 8px colors.alpha($shadow-color, 0.22);
 
   .button.#{$color-name} {
@@ -95,7 +96,8 @@
     background: $background;
     border-color: $border-color;
 
-    box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.15),
+    box-shadow:
+      0 1px 4px colors.alpha($shadow-color, 0.15),
       0 2px 7px colors.alpha($shadow-color, 0.18);
 
     &:hover {
@@ -108,7 +110,8 @@
     &:active {
       background: $active-background;
       border-color: $active-border-color;
-      box-shadow: 0 1px 4px colors.alpha($shadow-color, 0.2),
+      box-shadow:
+        0 1px 4px colors.alpha($shadow-color, 0.2),
         0 2px 8px colors.alpha($shadow-color, 0.22);
     }
 

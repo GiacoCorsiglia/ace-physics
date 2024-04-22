@@ -1,6 +1,9 @@
 import { decodeError, decodeFailure, Decoder, decodeSuccess } from "./decode";
 
-const constant = <T>(c: T) => () => c;
+const constant =
+  <T>(c: T) =>
+  () =>
+    c;
 
 /**
  * Type instance representing an undefined value.
@@ -65,7 +68,7 @@ type PrimitiveType = UndefinedType | BooleanType | NumberType | StringType;
 export const decodePrimitive: Decoder<PrimitiveType> = (
   type,
   value,
-  context
+  context,
 ) => {
   if (type.kind === "undefined" && value === null) {
     return decodeSuccess(undefined);

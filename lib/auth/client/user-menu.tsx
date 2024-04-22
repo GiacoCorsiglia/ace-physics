@@ -16,7 +16,7 @@ import { useUnhashedEmail } from "./use-unhashed-email";
 export const UserMenu = () => {
   const auth = useAuth();
   const unhashedEmail = useUnhashedEmail(
-    auth.status === "authenticated" ? auth.user?.email : undefined
+    auth.status === "authenticated" ? auth.user?.email : undefined,
   );
 
   return (

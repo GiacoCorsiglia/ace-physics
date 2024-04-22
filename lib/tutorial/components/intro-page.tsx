@@ -26,7 +26,7 @@ export const IntroPage = ({
           {htmlTitle(
             typeof tutorialConfig.label === "string"
               ? tutorialConfig.label
-              : tutorialConfig.label.title
+              : tutorialConfig.label.title,
           )}
         </title>
       </Head>
@@ -93,7 +93,7 @@ export const IntroPage = ({
               tutorialConfig.link,
               tutorialConfig.pretest
                 ? "before-you-start"
-                : tutorialConfig.pages[0].link
+                : tutorialConfig.pages[0].link,
             )}
             iconRight={<ArrowRightIcon />}
           >

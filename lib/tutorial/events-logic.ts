@@ -5,7 +5,7 @@ import { TutorialSchema, TutorialState } from "@/schema/tutorial";
 
 export const eventsFromUpdates = (
   schema: TutorialSchema,
-  updates: Updates<TutorialState>
+  updates: Updates<TutorialState>,
 ) => {
   const timestamp = new Date().toISOString();
 
@@ -68,7 +68,7 @@ export const eventsFromUpdates = (
                   return field;
               }
             },
-            schema as Field
+            schema as Field,
           );
           // TODO
           return null;

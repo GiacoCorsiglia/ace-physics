@@ -14,7 +14,7 @@ export const CourseInstructor = t.exact({
   role: t.literal("instructor"),
 });
 export const courseUserIsInstructor = (
-  user: db.CourseUser
+  user: db.CourseUser,
 ): user is CourseInstructor => user.role === "instructor";
 
 export type CourseStudent = t.Infer<typeof CourseStudent>;
@@ -23,7 +23,7 @@ export const CourseStudent = t.exact({
   role: t.literal("student"),
 });
 export const courseUserIsStudent = (
-  user: db.CourseUser
+  user: db.CourseUser,
 ): user is CourseStudent => user.role === "student";
 
 export type TutorialState = t.Infer<typeof TutorialState>;

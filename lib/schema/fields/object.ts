@@ -16,11 +16,9 @@ export interface Properties {
 export interface ObjectField<P extends Properties> {
   readonly kind: "object";
   readonly properties: Readonly<P>;
-  readonly type: t.ObjectType<
-    {
-      readonly [K in keyof P]: t.OptionalType<P[K]["type"]>;
-    }
-  >;
+  readonly type: t.ObjectType<{
+    readonly [K in keyof P]: t.OptionalType<P[K]["type"]>;
+  }>;
 }
 
 /**
@@ -32,13 +30,13 @@ export interface ObjectField<P extends Properties> {
  * required by the user interface).
  */
 export const object = <P extends Properties>(
-  properties: P
+  properties: P,
 ): ObjectField<P> => ({
   kind: "object",
   properties,
   type: t.partial(
     Object.fromEntries(
-      Object.entries(properties).map(([k, f]) => [k, f.type])
-    ) as { [K in keyof P]: P[K]["type"] }
+      Object.entries(properties).map(([k, f]) => [k, f.type]),
+    ) as { [K in keyof P]: P[K]["type"] },
   ),
 });

@@ -121,7 +121,7 @@ export interface PretestConfig<S extends TutorialSchema = TutorialSchema> {
  * Configuration for a section on the pretest page.
  */
 export interface PretestSectionConfig<
-  S extends TutorialSchema = TutorialSchema
+  S extends TutorialSchema = TutorialSchema,
 > {
   /**
    * Controls the numbered/lettered label for the section.
@@ -134,7 +134,7 @@ export interface PretestSectionConfig<
     | Html
     | ((
         models: Models<S>["pretest"]["properties"],
-        state: TutorialState<S>
+        state: TutorialState<S>,
       ) => Html);
 }
 
@@ -177,7 +177,7 @@ export interface PosttestConfig<S extends TutorialSchema = TutorialSchema> {
  * Configuration for a section on the posttest page.
  */
 export interface PosttestSectionConfig<
-  S extends TutorialSchema = TutorialSchema
+  S extends TutorialSchema = TutorialSchema,
 > {
   /**
    * Controls the numbered/lettered label for the section.
@@ -190,7 +190,7 @@ export interface PosttestSectionConfig<
     | Html
     | ((
         models: Models<S>["posttest"]["properties"]["responses"]["properties"],
-        state: TutorialState<S>
+        state: TutorialState<S>,
       ) => Html);
 }
 
@@ -240,7 +240,7 @@ export type NodeConfig<S extends TutorialSchema = TutorialSchema> =
 
 type LogicFunction<S extends TutorialSchema, R> = (
   responses: NonNullable<TutorialState<S>["responses"]>,
-  state: TutorialState<S>
+  state: TutorialState<S>,
 ) => R;
 
 type When<S extends TutorialSchema> = LogicFunction<S, boolean>;
@@ -250,7 +250,7 @@ type When<S extends TutorialSchema> = LogicFunction<S, boolean>;
  */
 export interface SectionConfig<
   S extends TutorialSchema = TutorialSchema,
-  Name extends keyof S["properties"]["sections"]["properties"] = string
+  Name extends keyof S["properties"]["sections"]["properties"] = string,
 > {
   readonly kind: "section";
   /**
@@ -266,7 +266,7 @@ export interface SectionConfig<
     | Html
     | ((
         models: Models<S>["responses"]["properties"],
-        state: TutorialState<S>
+        state: TutorialState<S>,
       ) => Html);
   /**
    * Conditional logic dictating when the section should be revealed.
@@ -306,7 +306,7 @@ export interface SectionConfig<
     readonly allowed?: (
       state: TutorialState<S>,
       allowed: boolean,
-      models: Models<S>["responses"]["properties"]
+      models: Models<S>["responses"]["properties"],
     ) => boolean;
     /**
      * Conditional logic dictating when the continue button should be visible.
@@ -324,7 +324,7 @@ export interface SectionConfig<
      */
     readonly nextMessage: (
       responses: NonNullable<TutorialState<S>["responses"]>,
-      state: TutorialState<S>
+      state: TutorialState<S>,
     ) => Infer<
       S["properties"]["sections"]["properties"][Name]["properties"]["revealedMessages"]["elements"]
     > | null;
@@ -343,7 +343,7 @@ export interface SectionConfig<
  * Config for a message that's part of a Section's guidance.
  */
 export interface GuidanceMessageConfig<
-  S extends TutorialSchema = TutorialSchema
+  S extends TutorialSchema = TutorialSchema,
 > {
   /**
    * The contents of the message.
@@ -402,7 +402,7 @@ export interface OneOfConfig<
   S extends TutorialSchema = TutorialSchema,
   C extends { readonly [k: string]: NodeConfig<S> } = {
     readonly [k: string]: NodeConfig<S>;
-  }
+  },
 > {
   readonly kind: "oneOf";
   /**
@@ -421,7 +421,7 @@ export interface OneOfConfig<
    */
   readonly which: (
     responses: NonNullable<TutorialState<S>["responses"]>,
-    state: TutorialState<S>
+    state: TutorialState<S>,
   ) => keyof C | null;
   /**
    * The sections inside this sequence.  The keys in this object should match
@@ -432,20 +432,20 @@ export interface OneOfConfig<
 
 export const section = <
   S extends TutorialSchema,
-  Name extends keyof S["properties"]["sections"]["properties"]
+  Name extends keyof S["properties"]["sections"]["properties"],
 >(
-  c: Omit<SectionConfig<S, Name>, "kind">
+  c: Omit<SectionConfig<S, Name>, "kind">,
 ): SectionConfig<S, Name> => ({ kind: "section", ...c });
 
 export const sequence = <S extends TutorialSchema>(
-  c: Omit<SequenceConfig<S>, "kind">
+  c: Omit<SequenceConfig<S>, "kind">,
 ): SequenceConfig<S> => ({ kind: "sequence", ...c });
 
 export const oneOf = <
   S extends TutorialSchema,
-  C extends { readonly [k: string]: NodeConfig<S> }
+  C extends { readonly [k: string]: NodeConfig<S> },
 >(
-  c: Omit<OneOfConfig<S, C>, "kind">
+  c: Omit<OneOfConfig<S, C>, "kind">,
 ): OneOfConfig<S, C> => ({ kind: "oneOf", ...c });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -468,7 +468,7 @@ export interface HintConfig<S extends TutorialSchema = TutorialSchema> {
     | Html
     | ((
         models: Models<S>["responses"]["properties"],
-        state: TutorialState<S>
+        state: TutorialState<S>,
       ) => Html)
     | "disable";
   /**
@@ -482,7 +482,7 @@ export interface HintConfig<S extends TutorialSchema = TutorialSchema> {
 }
 
 export const hint = <S extends TutorialSchema>(
-  c: HintConfig<S>
+  c: HintConfig<S>,
 ): HintConfig<S> => c;
 
 ////////////////////////////////////////////////////////////////////////////////

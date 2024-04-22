@@ -1,7 +1,7 @@
 export const range = (
   start: number,
   stop?: number,
-  step: number = 1
+  step: number = 1,
 ): number[] => {
   if (stop === undefined) {
     stop = start;
@@ -42,7 +42,7 @@ export const asIndex = (i: number | string | symbol): number | null => {
 /** Tests if two arrays contain the same elements in the same order. */
 export const arraysEqual = (
   a1?: readonly unknown[],
-  a2?: readonly unknown[]
+  a2?: readonly unknown[],
 ): boolean => {
   if (!a1 || !a2 || a1.length !== a2.length) {
     return false;
@@ -60,7 +60,7 @@ export const arraysEqual = (
 /** Tests if two arrays contain the same elements in any order. */
 export const arraysSetEqual = (
   a1?: readonly unknown[],
-  a2?: readonly unknown[]
+  a2?: readonly unknown[],
 ): boolean => {
   if (!a1 || !a2 || a1.length !== a2.length) {
     return false;
@@ -82,11 +82,11 @@ export const approxEquals = <
   T extends
     | number
     | readonly (number | undefined)[]
-    | readonly (readonly (number | undefined)[] | undefined)[]
+    | readonly (readonly (number | undefined)[] | undefined)[],
 >(
   n1: T | undefined,
   n2: T | undefined,
-  forgiveness: number = 0.02
+  forgiveness: number = 0.02,
 ): boolean => {
   if (n1 === undefined || n2 === undefined) {
     return false;
@@ -116,23 +116,23 @@ export const norm = (
   const squared = ns.reduce(
     (norm, n) =>
       norm === undefined || n === undefined ? undefined : norm + n ** 2,
-    0
+    0,
   );
   return squared === undefined ? undefined : Math.sqrt(squared);
 };
 
 export function normalize<Ns extends readonly number[]>(
-  ns: Ns
+  ns: Ns,
 ): {
   [i in keyof Ns]: number;
 };
 export function normalize<Ns extends readonly (number | undefined)[]>(
-  ns: Ns
+  ns: Ns,
 ): {
   [i in keyof Ns]: number | undefined;
 };
 export function normalize<Ns extends readonly (number | undefined)[]>(
-  ns: Ns
+  ns: Ns,
 ): {
   [i in keyof Ns]: number | undefined;
 } {
@@ -259,7 +259,7 @@ export const sortBy = <T>(array: T[], property: keyof T) =>
     .sort(
       (a, b) =>
         ((a[property] > b[property]) as any) -
-        ((a[property] < b[property]) as any)
+        ((a[property] < b[property]) as any),
     );
 
 const emailX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

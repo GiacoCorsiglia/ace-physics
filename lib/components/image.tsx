@@ -16,7 +16,7 @@ export const Image = ({
 }) => {
   const [wrapperRef, wrapperClasses] = useActualSiblingCheck(
     () => !inline,
-    [inline]
+    [inline],
   );
 
   if (responsive) {

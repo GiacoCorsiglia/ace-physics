@@ -88,7 +88,7 @@ export const DropdownControl = <C,>({
       document.body.offsetHeight,
       document.documentElement.offsetHeight,
       document.body.clientHeight,
-      document.documentElement.clientHeight
+      document.documentElement.clientHeight,
     ); // https://javascript.info/size-and-scroll-window
     const spaceBelow = scrollHeight - bottomRelativeToDocument;
 
@@ -99,7 +99,7 @@ export const DropdownControl = <C,>({
     menu.style.clipPath = "";
 
     const selectedLi = menu.querySelector<HTMLLIElement>(
-      `.${styles.menuItemSelected}`
+      `.${styles.menuItemSelected}`,
     );
     if (selectedLi) {
       // TODO: I can't figure out how to get this to scroll far enough for the
@@ -137,7 +137,7 @@ export const DropdownControl = <C,>({
             disabled,
             className: cx(
               styles.toggleButton,
-              ds.isOpen && styles.toggleButtonOpen
+              ds.isOpen && styles.toggleButtonOpen,
             ),
             onKeyDown,
             type: "button",
@@ -171,7 +171,7 @@ export const DropdownControl = <C,>({
               !ds.isOpen && styles.menuClosed,
               ds.isOpen && styles.menuOpen,
               ds.isOpen && openAbove && styles.menuOpenedAbove,
-              ds.isOpen && !openAbove && styles.menuOpenedBelow
+              ds.isOpen && !openAbove && styles.menuOpenedBelow,
             ),
             onKeyDown,
           })}
@@ -186,7 +186,7 @@ export const DropdownControl = <C,>({
                 className: cx(
                   styles.menuItem,
                   index === ds.highlightedIndex && styles.menuItemHighlighted,
-                  choiceId === value && styles.menuItemSelected
+                  choiceId === value && styles.menuItemSelected,
                 ),
                 disabled,
               });

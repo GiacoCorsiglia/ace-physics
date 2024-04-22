@@ -9,7 +9,7 @@ import { stringify } from "csv-stringify/sync";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const parsed = await parseRequest(CourseReports, req);
+  const parsed = await parseRequest(CourseReports, req, res);
 
   if (parsed.failed) {
     sendResponse(res, parsed.error);
@@ -72,7 +72,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     db.client().query({
       ...queryInput,
       ExclusiveStartKey,
-    })
+    }),
   );
 
   if (queryResult.failed) {
@@ -80,14 +80,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const tutorialStates = db.codec.TutorialState.decodeList(queryResult.value);
+  const tutorialStates = await db.codec.TutorialState.decodeList(
+    queryResult.value,
+  );
 
   const emailMap = new Map(
     unhashedStudentEmails
       .split("\n")
       .map((email) => email.trim())
       .filter((email) => !!email)
-      .map((email) => [hashEmail(email), email])
+      .map((email) => [hashEmail(email), email]),
   );
 
   interface Row {
@@ -116,7 +118,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const posttestProperties = singleSchema
     ? Object.keys(
-        singleSchema.properties.posttest.properties.responses.properties
+        singleSchema.properties.posttest.properties.responses.properties,
       )
     : [];
 
@@ -125,7 +127,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const objectToRows = (
     properties: string[],
     prefix: string,
-    state: Record<string, any> | undefined
+    state: Record<string, any> | undefined,
   ) => {
     return Object.fromEntries(
       properties.map((prop) => {
@@ -135,7 +137,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           val = val.selected;
         }
         return [`${prefix}.${prop}`, stringifyAsJSONIfNecessary(val)];
-      })
+      }),
     );
   };
 
@@ -158,12 +160,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // Calculate total and completed pages.
       const totalPages = Object.keys(schema.properties.pages.properties).length;
       const completedPages = Object.values(state.pages || {}).filter(
-        (page) => page?.status === "completed"
+        (page) => page?.status === "completed",
       ).length;
 
       // Calculate completed response percentage.
       const responseProperties = Object.keys(
-        schema.properties.responses.properties
+        schema.properties.responses.properties,
       );
       const totalResponses = responseProperties.length;
       let completedResponses = 0;
@@ -174,7 +176,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
       const responsePercentage = Math.round(
-        (completedResponses / totalResponses) * 100
+        (completedResponses / totalResponses) * 100,
       );
 
       // Append pretest responses if requested.
@@ -186,7 +188,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         ? objectToRows(
             posttestProperties,
             "posttest",
-            state?.posttest?.responses
+            state?.posttest?.responses,
           )
         : {};
 
@@ -227,7 +229,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ...pretestProperties.map((prop) => ({
         key: `pretest.${prop}` as unknown as keyof Row,
         header: `Pretest: ${prop}`,
-      }))
+      })),
     );
   }
 
@@ -236,20 +238,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ...posttestProperties.map((prop) => ({
         key: `posttest.${prop}` as unknown as keyof Row,
         header: `Posttest: ${prop}`,
-      }))
+      })),
     );
   }
 
   if (includeFeedback) {
     const nonEmptyFeedbackProperties = feedbackProperties.filter((prop) =>
-      rows.some((row) => row[`feedback.${prop}`] !== undefined)
+      rows.some((row) => row[`feedback.${prop}`] !== undefined),
     );
 
     columns.push(
       ...nonEmptyFeedbackProperties.map((prop) => ({
         key: `feedback.${prop}` as unknown as keyof Row,
         header: `Feedback: ${prop}`,
-      }))
+      })),
     );
   }
 
@@ -272,5 +274,5 @@ const stringifyAsJSONIfNecessary = (v: any): string | undefined =>
   v === undefined || v === null
     ? undefined
     : typeof v === "string"
-    ? v
-    : JSON.stringify(v);
+      ? v
+      : JSON.stringify(v);

@@ -22,7 +22,7 @@ export const PreOrPostTestSection = tracked(function PreOrPostTestSection(
           Model<TutorialSchema>["properties"]["posttest"]["properties"]["responses"]["properties"]
         >;
       },
-  state
+  state,
 ) {
   const modelsAccessedBefore = modelsTracker.currentAccessed.size;
   const body =

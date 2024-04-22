@@ -68,32 +68,32 @@ export const DragHandle = ({
       !snap
         ? 1
         : typeof snap === "number"
-        ? plot.xScale(snap)
-        : plot.xScale(snap[0]),
-      1
+          ? plot.xScale(snap)
+          : plot.xScale(snap[0]),
+      1,
     );
     const ySnap = Math.max(
       !snap
         ? 1
         : typeof snap === "number"
-        ? plot.yScale(snap)
-        : plot.yScale(snap[1]),
-      1
+          ? plot.yScale(snap)
+          : plot.yScale(snap[1]),
+      1,
     );
 
     const xSnapPoints =
       !snapPoints || !snapPoints.length
         ? null
         : typeof snapPoints[0] === "number"
-        ? (snapPoints as number[]).map(plot.xScale)
-        : (snapPoints as [number[], number[]])[0].map(plot.xScale);
+          ? (snapPoints as number[]).map(plot.xScale)
+          : (snapPoints as [number[], number[]])[0].map(plot.xScale);
 
     const ySnapPoints =
       !snapPoints || !snapPoints.length
         ? null
         : typeof snapPoints[0] === "number"
-        ? (snapPoints as number[]).map(plot.yScale)
-        : (snapPoints as [number[], number[]])[1].map(plot.yScale);
+          ? (snapPoints as number[]).map(plot.yScale)
+          : (snapPoints as [number[], number[]])[1].map(plot.yScale);
 
     // This will not be a synthetic event.
     const documentMouseMove = (e: MouseEvent) => {
@@ -104,14 +104,14 @@ export const DragHandle = ({
       const xRelativeToOrigin = xRelativeToSVG + plot.outerLeftEdge;
       const xClamped = Math.max(
         Math.min(xRelativeToOrigin, plot.rightEdge),
-        plot.leftEdge
+        plot.leftEdge,
       );
 
       const yRelativeToSVG = (e.pageY - svgRect.y) * scale;
       const yRelativeToOrigin = yRelativeToSVG + plot.outerTopEdge;
       const yClamped = Math.max(
         Math.min(yRelativeToOrigin, plot.bottomEdge),
-        plot.topEdge
+        plot.topEdge,
       );
 
       const x = snapTo(xClamped, xSnap, xSnapPoints);
@@ -143,13 +143,13 @@ export const DragHandle = ({
   const x = disabled
     ? plot.x(xValue !== undefined ? xValue : xDefault)
     : changeX
-    ? coordinates.x
-    : plot.x(xDefault);
+      ? coordinates.x
+      : plot.x(xDefault);
   const y = disabled
     ? plot.y(yValue !== undefined ? yValue : yDefault)
     : changeY
-    ? coordinates.y
-    : plot.y(yDefault);
+      ? coordinates.y
+      : plot.y(yDefault);
 
   return (
     <g
@@ -179,7 +179,7 @@ export const DragHandle = ({
 const snapTo = (
   value: number,
   snap: number,
-  snapPoints: readonly number[] | null
+  snapPoints: readonly number[] | null,
 ): number => {
   if (!snapPoints || !snapPoints.length) {
     return roundToNearest(value, snap);

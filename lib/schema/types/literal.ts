@@ -24,15 +24,19 @@ export interface LiteralType<L extends Literal> {
  */
 export const literal = <L extends Literal>(value: L): LiteralType<L> =>
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  ({ kind: "literal", value } as LiteralType<L>);
+  ({ kind: "literal", value }) as LiteralType<L>;
 
 export const decodeLiteral: Decoder<LiteralType<any>> = (
   type,
   value,
-  context
+  context,
 ) =>
   value === type.value
     ? decodeSuccess(value as any)
     : decodeFailure(
-        decodeError(value, context, `${value} is not literally "${type.value}"`)
+        decodeError(
+          value,
+          context,
+          `${value} is not literally "${type.value}"`,
+        ),
       );

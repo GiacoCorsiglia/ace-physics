@@ -29,7 +29,7 @@ export default s.tutorial({
     eigenvalueLabel: s.string(false),
     A: s.tuple(
       s.tuple(s.number(), s.number()),
-      s.tuple(s.number(), s.number())
+      s.tuple(s.number(), s.number()),
     ),
     measureA: s.string(),
     afterMeasureA: s.string(),
@@ -142,7 +142,7 @@ export default s.tutorial({
         "probability",
         "probability amplitude",
       ],
-      s.string()
+      s.string(),
     ),
     whyWideStressed: s.string(),
     smallEyeA: s.number(),
@@ -190,7 +190,7 @@ export default s.tutorial({
     sadEigenequation: s.string(false),
     moodMatrix: s.tuple(
       s.tuple(s.number(), s.number()),
-      s.tuple(s.number(), s.number())
+      s.tuple(s.number(), s.number()),
     ),
 
     // Expectation Value.

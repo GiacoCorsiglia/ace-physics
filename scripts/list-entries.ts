@@ -9,7 +9,7 @@ export async function run(tutorial: string = "") {
   const tuts = json.filter((item) =>
     tutorial === ""
       ? item.sk.startsWith("Tutorial#")
-      : item.sk === `Tutorial#${tutorial}`
+      : item.sk === `Tutorial#${tutorial}`,
   );
 
   const data = tuts.map((item) => {

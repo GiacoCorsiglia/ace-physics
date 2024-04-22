@@ -33,7 +33,7 @@ const smoothScrollTo = (to: number, velocity: number = 1.2) => {
     const currentTime = currentDate - startDate;
     if (currentTime < duration) {
       element.scrollTop = Math.floor(
-        easeInOutQuad(currentTime, start, change, duration)
+        easeInOutQuad(currentTime, start, change, duration),
       );
       requestAnimationFrame(animateScroll);
     } else {

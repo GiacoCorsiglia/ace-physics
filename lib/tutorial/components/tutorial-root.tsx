@@ -42,7 +42,7 @@ export const TutorialRoot = ({
   const [mode, setMode] = useState<Mode | undefined>(
     auth.status === "authenticated" && courses
       ? defaultMode(auth.user, courses)
-      : undefined
+      : undefined,
   );
 
   useEffect(() => {
@@ -63,8 +63,8 @@ export const TutorialRoot = ({
     mode?.type === "CourseMode"
       ? mode.courseId
       : mode?.type === "ExplorationMode"
-      ? TUTORIAL_STATE_NO_COURSE
-      : undefined;
+        ? TUTORIAL_STATE_NO_COURSE
+        : undefined;
 
   return (
     <>

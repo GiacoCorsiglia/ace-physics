@@ -200,7 +200,7 @@ export default page(setup, ({ section, hint }) => ({
                 m.circuitOutputAsColumnVector,
                 (c, i) => (
                   <TextLine model={c} placeholder={`Component ${i + 1}`} />
-                )
+                ),
               )}
             />
           </Prose>

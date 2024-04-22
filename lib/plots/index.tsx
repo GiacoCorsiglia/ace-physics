@@ -90,7 +90,7 @@ export function Plot({
   origin?:
     | readonly [
         number | "left" | "center" | "right",
-        number | "top" | "center" | "bottom"
+        number | "top" | "center" | "bottom",
       ]
     | "center";
   /** */
@@ -107,23 +107,23 @@ export function Plot({
     _origin === "center"
       ? width / 2
       : _origin[0] === "left"
-      ? 0
-      : _origin[0] === "center"
-      ? width / 2
-      : _origin[0] === "right"
-      ? width
-      : _origin[0] * xScale;
+        ? 0
+        : _origin[0] === "center"
+          ? width / 2
+          : _origin[0] === "right"
+            ? width
+            : _origin[0] * xScale;
 
   const originY =
     _origin === "center"
       ? height / 2
       : _origin[1] === "top"
-      ? 0
-      : _origin[1] === "center"
-      ? height / 2
-      : _origin[1] === "bottom"
-      ? height
-      : _origin[1] * yScale;
+        ? 0
+        : _origin[1] === "center"
+          ? height / 2
+          : _origin[1] === "bottom"
+            ? height
+            : _origin[1] * yScale;
 
   const [ref, backgroundColor] = useAncestorBackgroundColor<SVGSVGElement>();
 
@@ -163,7 +163,7 @@ export function Plot({
       points: (ps: [x: number, y: number][]) =>
         ps.map(([x, y]) => `${plot.x(x)},${plot.y(y)}`).join(" "),
     }),
-    [width, height, xScale, yScale, originX, originY, xPadding, yPadding]
+    [width, height, xScale, yScale, originX, originY, xPadding, yPadding],
   );
 
   const minX = originX === 0 ? "0" : `-${originX + xPadding}`;
@@ -340,7 +340,7 @@ export function Axes({
 function coordinatesForEvery(
   plot: PlotContext,
   axis: "x" | "y",
-  every: number
+  every: number,
 ) {
   const origin = plot[`origin${axis.toUpperCase()}` as "originX" | "originY"];
   const axisLength = axis === "x" ? plot.width : plot.height;
@@ -516,10 +516,10 @@ export function Tick({
             labelPosition === "below"
               ? "topCenter"
               : labelPosition === "above"
-              ? "bottomCenter"
-              : labelPosition === "left"
-              ? "rightCenter"
-              : "leftCenter"
+                ? "bottomCenter"
+                : labelPosition === "left"
+                  ? "rightCenter"
+                  : "leftCenter"
           }
         />
       )}
@@ -610,14 +610,14 @@ export function Indicator({
     n === "left"
       ? plot.outerLeftEdge
       : n === "right"
-      ? plot.outerRightEdge
-      : n === "top"
-      ? plot.outerTopEdge
-      : n === "bottom"
-      ? plot.outerBottomEdge
-      : isVerticalLine
-      ? plot.y(n)
-      : plot.x(n);
+        ? plot.outerRightEdge
+        : n === "top"
+          ? plot.outerTopEdge
+          : n === "bottom"
+            ? plot.outerBottomEdge
+            : isVerticalLine
+              ? plot.y(n)
+              : plot.x(n);
 
   to = toFrom(to);
   // Default to enough room for tick labels.
@@ -680,7 +680,7 @@ export const Curve = memo(
         strokeDasharray={dotted ? 2 : undefined}
       />
     );
-  }
+  },
 );
 
 export function CircleLabel({

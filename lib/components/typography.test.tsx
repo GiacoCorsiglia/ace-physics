@@ -1,7 +1,6 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { autoProse, Prose } from "./typography";
 
 const SomeComponent = () => <span>Test</span>;
@@ -16,13 +15,13 @@ describe("Prose", () => {
     const { container } = render(
       <Prose className="test-class" id="test-id">
         This is a test
-      </Prose>
+      </Prose>,
     );
     const element = container.firstElementChild!;
     expect(element).toHaveAttribute("id", "test-id");
     expect(element).toHaveAttribute(
       "class",
-      expect.stringContaining("test-class")
+      expect.stringContaining("test-class"),
     );
   });
 
@@ -36,7 +35,7 @@ describe("Prose", () => {
     const { container } = render(
       <Prose>
         This is a test <em>alright</em> <SomeComponent />
-      </Prose>
+      </Prose>,
     );
     expect(container.childElementCount).toBe(1);
     expect(container.firstElementChild!.tagName).toBe("DIV");
@@ -47,7 +46,7 @@ describe("Prose", () => {
       <Prose>
         Blah:
         <p>This is a test</p>
-      </Prose>
+      </Prose>,
     );
     expect(container.childElementCount).toBe(1);
     expect(container.firstElementChild!.tagName).toBe("DIV");

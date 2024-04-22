@@ -1,7 +1,10 @@
-import * as sgMail from "@sendgrid/mail";
+import sgMail from "@sendgrid/mail";
 import { EmailProvider } from "./types";
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// We don't expect a SendGrid API key in tests.
+if (process.env.NODE_ENV !== "test") {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
 
 export const sendgridProvider: EmailProvider = {
   async send(options) {

@@ -139,7 +139,7 @@ export default s.tutorial({
         choice,
         choice,
         choice,
-        choice
+        choice,
       );
     })(),
     key: s.string(false),

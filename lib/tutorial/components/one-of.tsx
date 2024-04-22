@@ -36,12 +36,12 @@ export const OneOf = ({
       .filter((node) =>
         instructorMode?.showAllSections
           ? isVisibleInInstructorMode(state, node)
-          : isMarkedVisible(state, node)
+          : isMarkedVisible(state, node),
       )
       // This array was just created, so we can use the in-place sort.
       .sort(
-        (nodeA, nodeB) => revealedAt(state, nodeA) - revealedAt(state, nodeB)
-      )
+        (nodeA, nodeB) => revealedAt(state, nodeA) - revealedAt(state, nodeB),
+      ),
   );
 
   const nodeComponents = visibleNodes.map((node, i) => (

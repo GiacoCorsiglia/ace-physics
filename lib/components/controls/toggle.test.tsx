@@ -1,7 +1,6 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { ToggleControl } from "./toggle";
 
 describe("Toggle Control", () => {
@@ -15,11 +14,11 @@ describe("Toggle Control", () => {
 
   it("Handles checked state", () => {
     let value: C;
-    const onChange = jest.fn((reducer) => {
+    const onChange = vi.fn((reducer) => {
       value = reducer(value);
     });
     const { rerender } = render(
-      <ToggleControl value={value} onChange={onChange} choices={choices} />
+      <ToggleControl value={value} onChange={onChange} choices={choices} />,
     );
 
     const inputA = screen.getByLabelText("Choice A");
@@ -38,7 +37,7 @@ describe("Toggle Control", () => {
     expect(value).toBe("A");
 
     rerender(
-      <ToggleControl value={value} onChange={onChange} choices={choices} />
+      <ToggleControl value={value} onChange={onChange} choices={choices} />,
     );
 
     expect(inputA).toBeChecked();
@@ -51,7 +50,7 @@ describe("Toggle Control", () => {
     expect(value).toBe("B");
 
     rerender(
-      <ToggleControl value={value} onChange={onChange} choices={choices} />
+      <ToggleControl value={value} onChange={onChange} choices={choices} />,
     );
 
     expect(inputA).not.toBeChecked();
@@ -61,11 +60,11 @@ describe("Toggle Control", () => {
 
   it("Distinguishes adjacent toggles with the same choices", () => {
     let value1: C;
-    const onChange1 = jest.fn((reducer) => {
+    const onChange1 = vi.fn((reducer) => {
       value1 = reducer(value1);
     });
     let value2: C;
-    const onChange2 = jest.fn((reducer) => {
+    const onChange2 = vi.fn((reducer) => {
       value2 = reducer(value2);
     });
 

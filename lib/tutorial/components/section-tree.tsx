@@ -44,7 +44,7 @@ export const SectionTree = ({
   const commit: CommitAction = useCallback(
     (
       section: SectionConfig,
-      { skipRemainingMessages }: { skipRemainingMessages: boolean }
+      { skipRemainingMessages }: { skipRemainingMessages: boolean },
     ) => {
       store.transaction((set, initialState) => {
         if (!skipRemainingMessages) {
@@ -66,7 +66,7 @@ export const SectionTree = ({
         }
       });
     },
-    [store, rootSequence, complete]
+    [store, rootSequence, complete],
   );
 
   return (
@@ -83,7 +83,7 @@ export const SectionTree = ({
 const revealSection = (
   state: TutorialState,
   set: Setter<TutorialState>,
-  section: SectionConfig
+  section: SectionConfig,
 ) => {
   set(["sections", section.name, "status"], "revealed");
   set(["sections", section.name, "revealedAt"], Date.now());
@@ -104,9 +104,9 @@ const revealSection = (
 const revealMessage = (
   set: Setter<TutorialState>,
   section: SectionConfig,
-  message: string
+  message: string,
 ) => {
   set(["sections", section.name, "revealedMessages"], (prevList) =>
-    prevList ? prevList.concat(message) : [message]
+    prevList ? prevList.concat(message) : [message],
   );
 };

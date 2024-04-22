@@ -5,20 +5,20 @@ import { Prose } from "../typography";
 
 export type ChoicesConfig<Cs extends Choices> = readonly (readonly [
   id: Choice<Cs>,
-  label: Html
+  label: Html,
 ])[];
 
 export type ChoicesConfigUnion<C> = readonly (readonly [id: C, label: Html])[];
 
 export const validateChoices = (
-  choices: ChoicesConfig<Choices> | ChoicesConfigUnion<any>
+  choices: ChoicesConfig<Choices> | ChoicesConfigUnion<any>,
 ) => {
   if (process.env.NODE_ENV === "development") {
     const seen = new Set();
     for (const [id] of choices) {
       if (seen.has(id)) {
         throw new Error(
-          `Repeated choice: "${id}".\nThis is probably due to a misconfigured <Toggle />, <Dropdown />, <ChooseOne />, or <ChooseAll /> control.`
+          `Repeated choice: "${id}".\nThis is probably due to a misconfigured <Toggle />, <Dropdown />, <ChooseOne />, or <ChooseAll /> control.`,
         );
       }
       seen.add(id);
@@ -51,8 +51,8 @@ export const ChoiceAnswer = <C extends string, M extends boolean>({
         other !== undefined
           ? "undetermined"
           : multi
-          ? arraysSetEqual(answer as C[], selected as C[] | undefined)
-          : selected === answer
+            ? arraysSetEqual(answer as C[], selected as C[] | undefined)
+            : selected === answer
       }
     >
       <Prose>

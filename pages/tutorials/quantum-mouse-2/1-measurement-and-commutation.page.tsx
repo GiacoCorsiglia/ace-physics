@@ -1,5 +1,5 @@
 import { Guidance, Image, M, Prose, TextBox, Toggle } from "@/components";
-import { page } from "@/tutorial";
+import { page, repeatedModel } from "@/tutorial";
 import { hint } from "@/tutorial/config";
 import Link from "next/link";
 import mouseBigEyeSvg from "../quantum-mouse/svgs/mouse-big-eye.svg";
@@ -309,9 +309,9 @@ export default page(setup, ({ section }) => ({
           {responses?.canKnowEyeSizeHappinessSimultaneous?.selected ===
             "no" && (
             <TextBox
-              model={
-                m.canKnowEyeSizeHappinessSimultaneousExplain /* ignore-repeated-model */
-              }
+              model={repeatedModel(
+                m.canKnowEyeSizeHappinessSimultaneousExplain,
+              )}
               label={<Prose>Explain why not.</Prose>}
             />
           )}
