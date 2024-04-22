@@ -72,7 +72,9 @@ export default s.tutorial({
     twoVectorTensorProductRule: s.section(),
     fourDColumnVector: s.section(),
     circuitOutputAsColumnVector: s.section(),
+    circuitOutputAsDiracNotation: s.section(),
     probTwoQubitSystem: s.section(),
+    bothExpressionsWork: s.section(),
 
     // Section 2.2
     twoQubitOperatorsIntro: s.section(),
@@ -127,6 +129,7 @@ export default s.tutorial({
     probMeasureTwoQubitState: s.number(),
     fourDColumnVector: fourDCol,
     circuitOutputAsColumnVector: fourDCol,
+    circuitOutputAsDiracNotation: s.string(),
     probTwoQubitSystem: s.number(),
 
     // Section 2.2
