@@ -12,8 +12,8 @@ import {
 
 // For some weird reason, these ESM imports weren't working in the Vercel deploy
 // context (when we run this test).
-const fs = require("node:fs");
-const path = require("node:path");
+const fs: typeof import("node:fs") = require("node:fs");
+const path: typeof import("node:path") = require("node:path");
 
 const tutorialsDir = path.join(__dirname, "../../pages/tutorials");
 
