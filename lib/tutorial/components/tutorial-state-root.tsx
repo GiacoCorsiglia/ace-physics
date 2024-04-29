@@ -1,6 +1,6 @@
 import { getTutorial, updateTutorial } from "@/api/client";
 import { LoadingAnimation, Prose, SectionBox } from "@/components";
-import { cx, JsxElement } from "@/helpers/client";
+import { JsxElement, cx } from "@/helpers/client";
 import { Updates } from "@/reactivity";
 import { TutorialState } from "@/schema/tutorial";
 import { decode } from "@/schema/types";
@@ -251,14 +251,26 @@ export const TutorialStateRoot = ({
   }
 };
 
-function SavedStatus({
-  subscribe,
-}: {
-  subscribe: (setter: (s: SavedStatus) => void) => () => void;
-}): JSX.Element | null {
-  const [status, setStatus] = useState<SavedStatus>("initial");
+function StatusComponent({ status }: { status: SavedStatus }) {
+  const [seconds, SetSeconds] = useState(0);
+  const [lastSaved, SetLastSaved] = useState(0);
 
-  useEffect(() => subscribe(setStatus), [subscribe]);
+  // end timeout
+  useEffect(() => {
+    if (seconds % 5 === 0) {
+      SetLastSaved(seconds);
+    }
+  }, [seconds]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      SetSeconds((seconds) => seconds + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   switch (status) {
     case "initial":
@@ -281,7 +293,7 @@ function SavedStatus({
       return (
         <div className={styles.savedStatus}>
           <EllipsisCircleIcon />
-          Unsaved changes…
+          Last saved {lastSaved} seconds ago...
         </div>
       );
     case "error":
@@ -292,6 +304,18 @@ function SavedStatus({
         </div>
       );
   }
+}
+
+function SavedStatus({
+  subscribe,
+}: {
+  subscribe: (setter: (s: SavedStatus) => void) => () => void;
+}): JSX.Element | null {
+  const [status, setStatus] = useState<SavedStatus>("initial");
+
+  useEffect(() => subscribe(setStatus), [subscribe]);
+
+  return <StatusComponent status={status} />;
 }
 
 const EllipsisCircleIcon = () => (
