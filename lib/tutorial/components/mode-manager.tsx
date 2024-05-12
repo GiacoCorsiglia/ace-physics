@@ -13,7 +13,12 @@ import { Html, isInstructor, useBoolean } from "@/helpers/client";
 import { Course } from "@/schema/api";
 import { createContext, useContext, useEffect, useState } from "react";
 
-export type Mode =
+export type Mode = AuthenticatedMode | { type: "UnauthenticatedMode" };
+
+export interface UnauthenticatedMode {
+  type: "UnauthenticatedMode";
+}
+export type AuthenticatedMode =
   | { type: "InstructorMode"; options: InstructorModeOptions }
   | { type: "ExplorationMode" }
   | { type: "CourseMode"; courseId: string };
@@ -21,10 +26,12 @@ export type Mode =
 const isCompleteMode = (mode: Partial<Mode> | undefined): mode is Mode =>
   !!mode &&
   (mode.type === "ExplorationMode" ||
+    mode.type === "UnauthenticatedMode" ||
     (mode.type === "InstructorMode" && !!mode.options) ||
     (mode.type === "CourseMode" && !!mode.courseId));
 
 type ModeType = Mode["type"];
+type AuthenticatedModeType = AuthenticatedMode["type"];
 
 interface InstructorModeOptions {
   showAllSections?: boolean;
@@ -60,7 +67,7 @@ export const isValidMode = (
 export const defaultMode = (
   user: AuthUser,
   courses: readonly Course[],
-): Mode | undefined => {
+): AuthenticatedMode | undefined => {
   if (isInstructor(user)) {
     // If it's an instructor, they probably want instructor mode by default.
     return { type: "InstructorMode", options: { showAllSections: true } };
@@ -76,8 +83,9 @@ export const defaultMode = (
 };
 
 interface Props {
-  mode: Mode | undefined;
-  setMode: (mode: Mode) => void;
+  // The default mode will be undefined iff courses.length > 1.
+  mode: AuthenticatedMode | undefined;
+  setMode: (mode: AuthenticatedMode) => void;
   courses: readonly Course[];
   user: AuthUser;
 }
@@ -187,11 +195,13 @@ const ModeEditor = ({
   user,
   stopEditing,
 }: Props & { stopEditing: () => void }) => {
-  const [newMode, setNewMode] = useState<Partial<Mode> | undefined>(mode);
+  const [newMode, setNewMode] = useState<
+    Partial<AuthenticatedMode> | undefined
+  >(mode);
 
   const hasCourses = !!courses.length;
 
-  const typeChoices: [ModeType, Html][] = [];
+  const typeChoices: [AuthenticatedModeType, Html][] = [];
   if (hasCourses) {
     typeChoices.push(["CourseMode", "For Course Credit"]);
   }
