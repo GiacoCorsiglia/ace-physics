@@ -62,7 +62,7 @@
   }
 }
 
-@each $color-name in "neutral", "green", "blue", "yellow" {
+@each $color-name in "neutral", "green", "blue", "yellow", "red" {
   $color: colors.color($color-name);
 
   $text-color: colors.$white;
