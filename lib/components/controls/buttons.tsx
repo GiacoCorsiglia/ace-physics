@@ -7,7 +7,7 @@ import styles from "./buttons.module.scss";
 import { useDisabled } from "./disabled";
 
 type ButtonProps = {
-  color: "neutral" | "green" | "blue" | "yellow";
+  color: "neutral" | "green" | "blue" | "yellow" | "red";
   link?: LinkProps["href"];
   openNewTab?: boolean;
   iconLeft?: Html;
