@@ -1,14 +1,17 @@
 import { getTutorial, updateTutorial } from "@/api/client";
 import { LoadingAnimation, Prose, SectionBox } from "@/components";
-import { cx, JsxElement } from "@/helpers/client";
+import { cx, Html, JsxElement } from "@/helpers/client";
 import { Updates } from "@/reactivity";
+import { TUTORIAL_STATE_NO_COURSE } from "@/schema/db";
 import { TutorialState } from "@/schema/tutorial";
 import { decode } from "@/schema/types";
 import { AlertIcon, CheckCircleIcon, SyncIcon } from "@primer/octicons-react";
 import debounce from "lodash.debounce";
+import { signIn } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TutorialConfig } from "../config";
 import { Root } from "../state-tree";
+import { Mode } from "./mode-manager";
 import styles from "./tutorial-state-root.module.scss";
 
 type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
@@ -16,20 +19,30 @@ type SavedStatus = "initial" | "saving" | "saved" | "unsaved" | "error";
 export const TutorialStateRoot = ({
   config,
   routeElement,
-  courseId,
+  mode,
 }: {
   config: TutorialConfig;
   routeElement: JsxElement;
-  /** No `courseId` means Instructor Mode. */
-  courseId: string | undefined;
+  mode: Mode;
 }) => {
+  // The course to associate saves with.  If unset, we're not persisting state.
+  const courseId =
+    mode.type === "CourseMode"
+      ? mode.courseId
+      : mode.type === "ExplorationMode"
+        ? TUTORIAL_STATE_NO_COURSE
+        : undefined;
+
   const [status, setStatus] = useState<"loading" | "loaded" | "error">(
-    "loading",
+    courseId ? "loading" : "loaded",
   );
 
   const version = useRef(0);
   const lastSavedVersion = useRef(-Infinity);
   const inFlightVersion = useRef<number>();
+
+  const [needsUnauthenticatedSavedStatus, setNeedsUnauthenticatedSavedStatus] =
+    useState(false);
 
   const [initial, setInitial] = useState<TutorialState>({});
 
@@ -179,8 +192,26 @@ export const TutorialStateRoot = ({
         setSavedStatusRef.current("unsaved");
       }
       debouncedSave(newTutorialState);
+
+      if (mode.type === "UnauthenticatedMode") {
+        setNeedsUnauthenticatedSavedStatus((prev) => {
+          // Continue showing if already doing so.
+          if (prev) {
+            return true;
+          }
+
+          // Show the "Not Saved" message if only if you've actually answered a
+          // question, not merely navigated.
+          return (
+            "pretest" in newTutorialState ||
+            "responses" in newTutorialState ||
+            "posttest" in newTutorialState ||
+            "feedback" in newTutorialState
+          );
+        });
+      }
     },
-    [debouncedSave],
+    [debouncedSave, mode.type],
   );
 
   useEffect(() => {
@@ -237,7 +268,7 @@ export const TutorialStateRoot = ({
             // Changing the key destroys and remounts this component.  This is
             // the appropriate thing to do when we've reloaded the state from
             // the server because the courseId or mode switched.
-            key={courseId || "InstructorMode"}
+            key={mode.type === "CourseMode" ? mode.courseId : mode.type}
             overrideRootField={config.schema}
             initial={initial}
             onChange={onChange}
@@ -246,6 +277,9 @@ export const TutorialStateRoot = ({
           </Root>
 
           {courseId && <SavedStatus subscribe={savedStatusSubscribe} />}
+
+          {mode.type === "UnauthenticatedMode" &&
+            needsUnauthenticatedSavedStatus && <UnauthenticatedSavedStatus />}
         </>
       );
   }
@@ -265,34 +299,55 @@ function SavedStatus({
       return null;
     case "saving":
       return (
-        <div className={styles.savedStatus}>
+        <SavedStatusMessage>
           <SyncIcon />
           Saving changes…
-        </div>
+        </SavedStatusMessage>
       );
     case "saved":
       return (
-        <div className={styles.savedStatus}>
+        <SavedStatusMessage>
           <CheckCircleIcon />
           Saved changes
-        </div>
+        </SavedStatusMessage>
       );
     case "unsaved":
       return (
-        <div className={styles.savedStatus}>
+        <SavedStatusMessage>
           <EllipsisCircleIcon />
           Unsaved changes…
-        </div>
+        </SavedStatusMessage>
       );
     case "error":
       return (
-        <div className={cx(styles.savedStatus, styles.savedStatusError)}>
+        <SavedStatusMessage error>
           <AlertIcon />
           Saving failed
-        </div>
+        </SavedStatusMessage>
       );
   }
 }
+
+const UnauthenticatedSavedStatus = () => {
+  return (
+    <SavedStatusMessage error>
+      <AlertIcon />
+      <button onClick={() => signIn()}>Sign in</button> to save changes
+    </SavedStatusMessage>
+  );
+};
+
+const SavedStatusMessage = ({
+  children,
+  error,
+}: {
+  children?: Html;
+  error?: boolean;
+}) => (
+  <div className={cx(styles.savedStatus, error && styles.savedStatusError)}>
+    {children}
+  </div>
+);
 
 const EllipsisCircleIcon = () => (
   <svg
