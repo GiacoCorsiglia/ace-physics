@@ -27,7 +27,11 @@ export const CheatSheet = ({
   //    it's there.  Once you close it, we don't bother you with it again unless
   //    you explicity open it---which, presumably, you now know how to do since
   //    you managed to manually close it.
-  const [isOpen, setOpen] = useLocalStorage("ace-is-cheat-sheet-open", true);
+  const [isOpen, setOpen] = useLocalStorage(
+    "ace-is-cheat-sheet-open",
+    true,
+    (item) => (typeof item === "boolean" ? item : null),
+  );
 
   if (!portalElement) {
     // Should just be in SSR.
