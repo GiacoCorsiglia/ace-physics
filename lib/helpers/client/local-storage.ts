@@ -80,7 +80,7 @@ export const safeSessionStorage = createSafeStorage(
 // JSON storage.
 //
 
-type JsonStorage = ReturnType<typeof createJsonStorage>;
+export type JsonStorage = ReturnType<typeof createJsonStorage>;
 
 const createJsonStorage = (safeStorage: Storage) => ({
   // This spread works because safeLocalStorage and safeSessionStorage are plain
