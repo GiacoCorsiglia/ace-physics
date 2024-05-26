@@ -1,11 +1,15 @@
 import { Dispatch, SetStateAction, useState } from "react";
 
+// Suppress logs when on the server, because we don't expect localStorage there.
+const IS_SERVER = typeof window === "undefined";
+const warn = IS_SERVER ? () => {} : console.warn;
+
 const createSafeStorage = (storage: Storage): Storage => ({
   clear() {
     try {
       storage.clear();
     } catch (e) {
-      console.warn("Unable to access storage", e);
+      warn("Unable to access storage", e);
     }
   },
 
@@ -13,7 +17,7 @@ const createSafeStorage = (storage: Storage): Storage => ({
     try {
       return storage.getItem(key);
     } catch (e) {
-      console.warn("Unable to access storage", e);
+      warn("Unable to access storage", e);
       return null;
     }
   },
@@ -22,7 +26,7 @@ const createSafeStorage = (storage: Storage): Storage => ({
     try {
       return storage.length;
     } catch (e) {
-      console.warn("Unable to access storage", e);
+      warn("Unable to access storage", e);
       return 0;
     }
   },
@@ -31,7 +35,7 @@ const createSafeStorage = (storage: Storage): Storage => ({
     try {
       return storage.key(index);
     } catch (e) {
-      console.warn("Unable to access storage", e);
+      warn("Unable to access storage", e);
       return null;
     }
   },
@@ -40,7 +44,7 @@ const createSafeStorage = (storage: Storage): Storage => ({
     try {
       storage.removeItem(key);
     } catch (e) {
-      console.warn("Unable to access storage", e);
+      warn("Unable to access storage", e);
     }
   },
 
@@ -48,7 +52,7 @@ const createSafeStorage = (storage: Storage): Storage => ({
     try {
       storage.setItem(key, value);
     } catch (e) {
-      console.warn("Unable to access storage", e);
+      warn("Unable to access storage", e);
     }
   },
 });
