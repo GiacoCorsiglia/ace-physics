@@ -180,6 +180,9 @@ export const TutorialStateRoot = ({
           unauthenticatedStorageConfig.storage = jsonLocalStorage;
 
           storageResult = loadFromStorage(unauthenticatedStorageConfig);
+          // If we're restoring unauthed state, delete it so it doesn't also get
+          // restored by the *next* user who signs in!
+          jsonLocalStorage.removeItem(unauthenticatedStorageConfig.key);
         }
       }
 
