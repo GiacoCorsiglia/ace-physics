@@ -173,6 +173,12 @@ export const TutorialStateRoot = ({
         });
         if (unauthenticatedStorageConfig) {
           console.info("tutorial: reading unauthenticated state from storage");
+
+          // HACK: Read from localStorage, not sessionStorage, when trying to
+          // restore unauthenticated state, because login happens across tabs
+          // (i.e., across sessions).
+          unauthenticatedStorageConfig.storage = jsonLocalStorage;
+
           storageResult = loadFromStorage(unauthenticatedStorageConfig);
         }
       }
@@ -334,26 +340,36 @@ export const TutorialStateRoot = ({
     [save],
   );
 
+  const updateLocalStorage = useCallback(
+    (tutorialState: unknown) => {
+      const storageConfig = getStorageConfig(config, mode);
+      if (storageConfig) {
+        const data: PersistedTutorialState = {
+          version: version.current,
+          state: tutorialState,
+        };
+
+        storageConfig.storage.setItem(storageConfig.key, data);
+
+        // HACK: Write unauthenticated state to local storage as well (NOT
+        // session storage) so we can restore the state later after sign in
+        // brings you to a new tab.
+        if (mode.type === "UnauthenticatedMode") {
+          jsonLocalStorage.setItem(storageConfig.key, data);
+        }
+      }
+    },
+    [config, mode],
+  );
+
   const debouncedUpdateLocalStorage = useMemo(
     () =>
-      debounce(
-        (tutorialState: unknown) => {
-          const storageConfig = getStorageConfig(config, mode);
-          if (storageConfig) {
-            storageConfig.storage.setItem(storageConfig.key, {
-              version: version.current,
-              state: tutorialState,
-            } satisfies PersistedTutorialState);
-          }
-        },
-        2 * 1000,
-        {
-          maxWait: 10 * 1000,
-          leading: true,
-          trailing: true,
-        },
-      ),
-    [config, mode],
+      debounce(updateLocalStorage, 2 * 1000, {
+        maxWait: 10 * 1000,
+        leading: true,
+        trailing: true,
+      }),
+    [updateLocalStorage],
   );
 
   const latestTutorialState = useRef<any>();
@@ -395,6 +411,11 @@ export const TutorialStateRoot = ({
         // Guess nothing ever changed.
         return;
       }
+
+      // Update local storage immediately.
+      debouncedUpdateLocalStorage.cancel();
+      updateLocalStorage(latestTutorialState.current);
+
       if (lastSavedVersion.current >= version.current) {
         // Nothing new to save.
         return;
@@ -409,6 +430,7 @@ export const TutorialStateRoot = ({
         debouncedSave.cancel();
         save(latestTutorialState.current);
       }
+
       e.preventDefault();
       // eslint-disable-next-line no-param-reassign
       e.returnValue = "Your work has not been saved yet.";
@@ -417,7 +439,13 @@ export const TutorialStateRoot = ({
     window.addEventListener("beforeunload", beforeUnload);
 
     return () => window.removeEventListener("beforeunload", beforeUnload);
-  }, [save, debouncedSave]);
+  }, [
+    save,
+    debouncedSave,
+    updateLocalStorage,
+    debouncedUpdateLocalStorage,
+    mode,
+  ]);
 
   switch (status) {
     case "loading":
