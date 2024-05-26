@@ -410,6 +410,11 @@ export const TutorialStateRoot = ({
 
   useEffect(() => {
     const beforeUnload = (e: BeforeUnloadEvent) => {
+      if (mode.type === "InstructorMode") {
+        // Nothing is persisted so no need to warn!
+        return;
+      }
+
       if (!latestTutorialState.current) {
         // Guess nothing ever changed.
         return;
