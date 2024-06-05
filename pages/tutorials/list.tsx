@@ -14,12 +14,14 @@ export const tutorialList: TutorialListing[] = [
         mechanical in nature.
       </>
     ),
+    tags: ["QM"],
   },
   {
     id: "SpinLab2",
     link: "spin-lab-2",
     label: "Spin Lab 2",
     blurb: <>Continue exploring spin, and practice with Dirac Notation.</>,
+    tags: ["QM"],
   },
   {
     id: "QuantumMouse",
@@ -33,6 +35,7 @@ export const tutorialList: TutorialListing[] = [
         and investigates the reasons one might change basis.
       </>
     ),
+    tags: ["QM"],
   },
   {
     id: "QuantumBasisMain",
@@ -46,6 +49,7 @@ export const tutorialList: TutorialListing[] = [
         and investigates the reasons one might change basis.
       </>
     ),
+    tags: ["QM"],
   },
   {
     id: "QuantumBasisLite",
@@ -59,6 +63,7 @@ export const tutorialList: TutorialListing[] = [
         probabilities or reasons for changing basis, but takes less time.
       </>
     ),
+    tags: ["QM"],
   },
   {
     id: "QuantumMouse2",
@@ -70,6 +75,7 @@ export const tutorialList: TutorialListing[] = [
         measurement.
       </>
     ),
+    tags: ["QM"],
   },
   {
     id: "SpinsAndMagneticFields",
@@ -81,12 +87,14 @@ export const tutorialList: TutorialListing[] = [
         magnetic field?
       </>
     ),
+    tags: ["QM"],
   },
   {
     id: "IntroductionToQuantumGates",
     link: "introduction-to-quantum-gates",
     label: "Introduction to Quantum Gates",
     blurb: <>Your first step in learning about quantum computing.</>,
+    tags: ["QIS"],
   },
   {
     id: "QuantumCircuitDiagrams",
@@ -95,6 +103,7 @@ export const tutorialList: TutorialListing[] = [
     blurb: (
       <>Practice with single-qubit gates represented as circuit diagrams.</>
     ),
+    tags: ["QIS"],
   },
   {
     id: "QuantumCryptography",
@@ -106,6 +115,7 @@ export const tutorialList: TutorialListing[] = [
         discover an eavesdropper on your communications.
       </>
     ),
+    tags: ["QIS"],
   },
   {
     id: "TensorProducts",
@@ -117,6 +127,7 @@ export const tutorialList: TutorialListing[] = [
         qubits mathematically.
       </>
     ),
+    tags: ["QIS"],
   },
   {
     id: "CnotEntanglement",
@@ -128,6 +139,7 @@ export const tutorialList: TutorialListing[] = [
         concept of entanglement.
       </>
     ),
+    tags: ["QIS"],
   },
   {
     id: "EPR",
@@ -139,6 +151,7 @@ export const tutorialList: TutorialListing[] = [
         apply it to cryptography.
       </>
     ),
+    tags: ["QM", "QIS"],
   },
   {
     id: "VectorsToFunctions",
@@ -151,6 +164,7 @@ export const tutorialList: TutorialListing[] = [
         particle’s position state).
       </>
     ),
+    tags: ["QM"],
   },
   {
     id: "EnergyAndPosition",
@@ -162,12 +176,14 @@ export const tutorialList: TutorialListing[] = [
         of a quantum state.
       </>
     ),
+    tags: ["QM"],
   },
   {
     id: "TimeDependence",
     link: "time-dependence",
     label: "Time Dependence",
     blurb: <>Visualize the time evolution of position space wave functions.</>,
+    tags: ["QM"],
   },
   {
     id: "ReflectionTransmission",
@@ -179,6 +195,7 @@ export const tutorialList: TutorialListing[] = [
         barriers.
       </>
     ),
+    tags: ["QM"],
   },
 ];
 
@@ -193,6 +210,7 @@ if (process.env.NEXT_PUBLIC_ACE_ENV !== "production")
         Environment: {process.env.NEXT_PUBLIC_ACE_ENV}
       </>
     ),
+    tags: [],
   });
 // use push to add testtutorial in !'production' environment
 
@@ -213,4 +231,10 @@ export interface TutorialListing {
    * Brief description of the tutorial.
    */
   readonly blurb: Html;
+  /**
+   * A list of topics this tutorial relates to.
+   */
+  readonly tags: readonly TutorialTag[];
 }
+
+export type TutorialTag = "QM" | "QIS";
