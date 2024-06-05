@@ -10,11 +10,7 @@ import {
   Vertical,
 } from "@/components";
 import { htmlTitle } from "@/helpers/client";
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  MailIcon,
-} from "@primer/octicons-react";
+import { ArrowRightIcon, MailIcon } from "@primer/octicons-react";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 
@@ -31,18 +27,7 @@ export default function Index() {
       </Head>
 
       <MainContentBox marginTop="small">
-        <Breadcrumb
-          items={[
-            {
-              link: "/",
-              label: (
-                <>
-                  <ArrowLeftIcon /> Home
-                </>
-              ),
-            },
-          ]}
-        />
+        <Breadcrumb items={[Breadcrumb.home]} />
 
         <Prose>
           <h1>

@@ -1,7 +1,6 @@
 import { UserMenu } from "@/auth/client";
 import { Breadcrumb, Header, MainContentBox, Page, Prose } from "@/components";
 import { TutorialList } from "@/tutorial/components/tutorial-list";
-import { ArrowLeftIcon } from "@primer/octicons-react";
 import { tutorialList } from "./list";
 
 export default function TutorialsIndex() {
@@ -13,18 +12,7 @@ export default function TutorialsIndex() {
       <Header title="All Tutorials" popovers={<UserMenu />} />
 
       <MainContentBox>
-        <Breadcrumb
-          items={[
-            {
-              link: "/",
-              label: (
-                <>
-                  <ArrowLeftIcon /> Home
-                </>
-              ),
-            },
-          ]}
-        />
+        <Breadcrumb items={[Breadcrumb.home]} />
 
         <Prose>
           <h1>
