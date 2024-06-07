@@ -2,6 +2,7 @@ import {
   Answer,
   Callout,
   ChooseAll,
+  Image,
   M,
   Prose,
   QuantumCircuit,
@@ -10,6 +11,8 @@ import {
 } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
+import TP3C1 from "./media/TP 3C Circuit 1.png";
+import TP3C2 from "./media/TP 3C Circuit 2.png";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -120,35 +123,57 @@ export default page(setup, ({ section }) => ({
     section({
       name: "XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2",
       body: (m) => (
-        <Toggle
-          model={m.XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2}
-          label={
-            <Prose>
-              Is the following <i>true</i> or <i>false</i>?
-              <M
-                display
-                t="(X \otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )  = (X Z)\otimes (I X )  (\ket{\psi_1} \otimes \ket{\psi_2} )"
-              />
-            </Prose>
-          }
-          choices={[
-            ["true", "True"],
-            ["false", "False"],
-          ]}
-          answer={"true"}
-          explanation={
-            <>
-              The diagram is:
-              <QuantumCircuit
-                t="
+        <>
+          <Toggle
+            model={m.XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2}
+            label={
+              <Prose>
+                Is the following <i>true</i> or <i>false</i>?
+                <M
+                  display
+                  t="(X \otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )  = (X Z)\otimes (I X )  (\ket{\psi_1} \otimes \ket{\psi_2} )"
+                />
+              </Prose>
+            }
+            choices={[
+              ["true", "True"],
+              ["false", "False"],
+            ]}
+            answer={"true"}
+            explanation={
+              // <>
+              //   The diagram is:
+              //   <QuantumCircuit
+              //     t="
+              //     \lstick{\ket{\psi_1}} & \gate{Z} & \gate{X} \\
+              //     \lstick{\ket{\psi_2}} & \gate{X} & \qw \\
+              //     "
+              //   />
+              //   for <i>either</i> expression!
+              // </>
+              <>
+                Both sides are equal to{" "}
+                <M t="XZ\ket{\psi_1} \otimes IX\ket{\psi_2}" />. You could draw
+                the left side of the equation above like this:
+                {/* <QuantumCircuit
+                  t="
                 \lstick{\ket{\psi_1}} & \gate{Z} & \gate{X} \\
-                \lstick{\ket{\psi_2}} & \gate{X} & \qw \\
+                \lstick{\ket{\psi_2}} & \gate{X} & \gate{I} \gategroup{1}{2}{2}{2}{.7em}{--} \gategroup{1}{3}{2}{3}{.7em}{--}
                 "
-              />
-              for <i>either</i> expression!
-            </>
-          }
-        />
+                /> */}
+                <Image maxWidth="35%" src={TP3C1} alt="" />
+                And the right side of the equation above like this:
+                {/* <QuantumCircuit
+                  t="
+                \lstick{\ket{\psi_1}} & \gate{Z} & \gate{X} \\
+                \lstick{\ket{\psi_2}} & \gate{X} & \gate{I} \gategroup{1}{1}{2}{3}{.7em}{--}
+                "
+                /> */}
+                <Image maxWidth="35%" src={TP3C2} alt="" />
+              </>
+            }
+          />
+        </>
       ),
     }),
 
@@ -211,16 +236,15 @@ export default page(setup, ({ section }) => ({
           </Prose>
 
           <Answer>
-            We found that either of the following equations below are correct.
-            <M
-              display
-              t="((X H) \otimes Z) (\ket{\psi_1} \otimes \ket{\phi})"
-            />
+            We found that any of the following equations below are correct.
+            <M display t="((X H) \otimes Z) (\ket{\psi} \otimes \ket{\phi})" />
             <Prose justify="center">or</Prose>
             <M
               display
-              t="(X \otimes I) (H \otimes Z) (\ket{\psi_1} \otimes \ket{\phi})"
+              t="(X \otimes I) (H \otimes Z) (\ket{\psi} \otimes \ket{\phi})"
             />
+            <Prose justify="center">or</Prose>
+            <M display t="XH\ket{\psi} \otimes Z\ket{\phi}" />
           </Answer>
         </>
       ),

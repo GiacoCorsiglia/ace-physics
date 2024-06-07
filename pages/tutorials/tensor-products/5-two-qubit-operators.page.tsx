@@ -43,23 +43,23 @@ export default page(setup, ({ section }) => ({
             <Prose>
               <p>
                 We know that <M t="\ket{\psi} \otimes \ket{\phi}" /> can be
-                represented as a <M t="1\times 4" /> column vector. How would
-                you represent <M t="(Z\otimes X)" />?
+                represented as a <M t="4\times 1" /> column vector (4 rows, 1
+                column). How would you represent <M t="(Z\otimes X)" />?
               </p>
             </Prose>
           }
           choices={[
             ["scalar", <p>scalar (constant) multiplier</p>],
             [
-              "1x4",
+              "1x4", // note that the answer ID is opposite to the answer text. text is correct
               <>
-                <M t="1 \times 4" /> column vector
+                <M t="4 \times 1" /> column vector
               </>,
             ],
             [
               "4x1",
               <>
-                <M t="4 \times 1" /> row vector
+                <M t="1 \times 4" /> row vector
               </>,
             ],
             [
@@ -127,7 +127,19 @@ export default page(setup, ({ section }) => ({
           >
             <M
               display
-              t="\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}"
+              t="\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0
+                 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}"
+            />
+            Note that if you group this matrix into four 2x2 matrices, you can
+            write it in a common shorthand:
+            <M
+              display
+              t="\pmatrix{\enspace \pmatrix{\enspace 0 & 1 \enspace \\ \enspace 1 & 0 \enspace} &
+              \pmatrix{\enspace 0 & 0 \enspace \\ \enspace 0 & 0 \enspace} \enspace \\[10px]
+              \enspace\pmatrix{\enspace 0 & 0 \enspace \\ \enspace 0 & 0 \enspace} &
+              \pmatrix{ 0 & -1  \\  -1 & 0 } \enspace}
+              =
+              \pmatrix{\enspace X & 0 \enspace \\ \enspace 0 & -X \enspace}"
             />
           </Answer>
         </>
