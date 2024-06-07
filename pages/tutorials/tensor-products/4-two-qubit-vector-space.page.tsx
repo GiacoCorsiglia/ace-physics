@@ -6,6 +6,7 @@ import {
   Matrix,
   Prose,
   QuantumCircuit,
+  TextBox,
   TextLine,
 } from "@/components";
 import { page } from "@/tutorial";
@@ -215,6 +216,28 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
+      name: "circuitOutputAsDiracNotation",
+      body: (m) => (
+        <>
+          <Prose>
+            <p>
+              Write your answer to the above question in Dirac notation—i.e.,
+              using a sum of kets in the form <M t="\ket{01}" /> or the form{" "}
+              <M t="\ket{0}\otimes\ket{1}" />.
+            </p>
+            <p style={{ opacity: 0.7 }}>
+              (Feel free to copy <M t="\otimes" /> if you need it.)
+            </p>
+          </Prose>
+          <TextBox model={m.circuitOutputAsDiracNotation} />
+          <Answer>
+            <M display t="\frac{1}{\sqrt{2}}(\ket{00}+\ket{10})" />
+          </Answer>
+        </>
+      ),
+    }),
+
+    section({
       name: "probTwoQubitSystem",
       body: (m, { responses }) => (
         <>
@@ -231,9 +254,24 @@ export default page(setup, ({ section, hint }) => ({
           </LabelsLeft>
 
           <Answer correct={responses?.probTwoQubitSystem === 0}>
-            Zero, the second entry vanishes. Check from the diagram second qubit
-            is <M t="\ket{0}" />
+            Zero—the second entry of your column vector is 0, and{" "}
+            <M t="\ket{01}" /> does not show up in the Dirac notation form of
+            your answer. You can also read from the circuit diagram: X flips the
+            second qubit from <M t="\ket{1}" /> to <M t="\ket{0}" />.{" "}
           </Answer>
+        </>
+      ),
+    }),
+    section({
+      name: "bothExpressionsWork",
+      enumerate: false,
+      body: () => (
+        <>
+          <Prose>
+            Sometimes it’s easier to do things in matrix notation, sometimes in
+            Dirac notation (using kets). It’s an important skill to be able to
+            move between these.
+          </Prose>
         </>
       ),
     }),
