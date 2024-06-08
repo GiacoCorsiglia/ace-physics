@@ -2,7 +2,7 @@ import { ChooseOne, M, Prose, QuantumCircuit, TextBox } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "morePractice",
   label: "More Practice",
   answers: "none",
@@ -51,13 +51,26 @@ export default page(setup, ({ section }) => ({
             ]}
           />
 
-          <Prose>
+          {/* <Prose>
             <em>Hint:</em> Another way to ask this is: find an operator{" "}
             <M t="?" /> such that <M t="X? = I" />. This operator is called the{" "}
             <em>inverse</em> of <M t="X" />.
-          </Prose>
+          </Prose> */}
         </>
       ),
+      hints: [
+        hint({
+          name: "inverse",
+          label: "Hint?",
+          body: (
+            <>
+              This circuit is supposed to leave the final state equal to the
+              initial state. Think about what <M t="X" /> does to a state. What
+              operator could reverse the action of <M t="X" />?
+            </>
+          ),
+        }),
+      ],
     }),
 
     section({
