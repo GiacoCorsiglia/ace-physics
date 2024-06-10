@@ -2,6 +2,7 @@ import {
   Answer,
   ChooseAll,
   Decimal,
+  Guidance,
   Horizontal,
   M,
   Prose,
@@ -139,9 +140,90 @@ export default page(setup, ({ section, hint }) => ({
               <M t="\frac{1}{\sqrt{2}} (\ket{0}\!\ket{0} \otimes \ket{1}\!\ket{0})" />,
             ],
           ]}
-          answer={["1/root2(|0> + |1>) x |0>", "1/root2(|00> + |10>)"]}
+          // answer={["1/root2(|0> + |1>) x |0>", "1/root2(|00> + |10>)"]}
         />
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.plusTimes0?.selected?.includes(
+                    "1/root2(|0> + |1>) x |0>",
+                  ) &&
+                  responses?.plusTimes0?.selected?.includes(
+                    "1/root2(|00> + |10>)",
+                  ) &&
+                  !responses?.plusTimes0?.selected?.includes(
+                    "|0> x 1/root2(|0> + |1>)",
+                  ) &&
+                  !responses?.plusTimes0?.selected?.includes(
+                    "1/root2(|0>|0> + |1>|0>)",
+                  )
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {!responses?.plusTimes0?.selected?.includes(
+                  "1/root2(|0> + |1>) x |0>",
+                ) ||
+                !responses?.plusTimes0?.selected?.includes(
+                  "1/root2(|00> + |10>)",
+                ) ? (
+                  <p>There are two correct answers!</p>
+                ) : (
+                  <></>
+                )}
+
+                {responses?.plusTimes0?.selected?.includes(
+                  "1/root2(|0> + |1>) x |0>",
+                ) ? (
+                  <p>
+                    <M t="\frac{1}{\sqrt{2}} (\ket{0} + \ket{1}) \otimes \ket{0}" />{" "}
+                    is correct.
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {responses?.plusTimes0?.selected?.includes(
+                  "|0> x 1/root2(|0> + |1>)",
+                ) ? (
+                  <p>
+                    <M t="\ket{0} \otimes \frac{1}{\sqrt{2}} (\ket{0} + \ket{1})" />{" "}
+                    is incorrect. In our convention, the top qubit is the first
+                    in left-to-right order.
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {responses?.plusTimes0?.selected?.includes(
+                  "1/root2(|00> + |10>)",
+                ) ? (
+                  <p>
+                    <M t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{10})" /> is
+                    correct.
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {responses?.plusTimes0?.selected?.includes(
+                  "1/root2(|0>|0> + |1>|0>)",
+                ) ? (
+                  <p>
+                    <M t="\frac{1}{\sqrt{2}} (\ket{0}\!\ket{0} \otimes \ket{1}\!\ket{0})" />{" "}
+                    is incorrect. Look at the expression closely and try again.
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({

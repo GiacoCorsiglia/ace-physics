@@ -46,7 +46,7 @@ export default s.tutorial({
   sections: {
     addingASecondQubitIntro: s.section(),
     arbitrary2QubitState: s.section(),
-    plusTimes0: s.section(),
+    plusTimes0: s.section({ messages: ["answer"] }),
     plusTimes0Probabilities: s.section(),
     plusTimes0SingleProbabilities: s.section(),
 
