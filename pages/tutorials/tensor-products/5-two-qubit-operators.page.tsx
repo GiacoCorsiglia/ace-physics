@@ -361,6 +361,9 @@ export default page(setup, ({ section }) => ({
           ></TextBox>
         </>
       ),
+      continue: {
+        allowed: () => true,
+      },
     }),
   ],
 }));
