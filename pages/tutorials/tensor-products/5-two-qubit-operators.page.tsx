@@ -1,7 +1,9 @@
 import {
   Answer,
+  Callout,
   ChooseAll,
   ChooseOne,
+  Guidance,
   Horizontal,
   M,
   Matrix,
@@ -75,7 +77,7 @@ export default page(setup, ({ section }) => ({
               </>,
             ],
           ]}
-          answer="4x4"
+          // answer="4x4"
         />
       ),
     }),
@@ -117,7 +119,7 @@ export default page(setup, ({ section }) => ({
             ))}
           />
 
-          <Answer
+          {/* <Answer
             correct={deepEqual(responses?.representZxXAs4x4Matrix, [
               ["0", "1", "0", "0"],
               ["1", "0", "0", "0"],
@@ -141,9 +143,49 @@ export default page(setup, ({ section }) => ({
               =
               \pmatrix{\enspace X & 0 \enspace \\ \enspace 0 & -X \enspace}"
             />
-          </Answer>
+          </Answer> */}
         </>
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  deepEqual(responses?.representZxXAs4x4Matrix, [
+                    ["0", "1", "0", "0"],
+                    ["1", "0", "0", "0"],
+                    ["0", "0", "0", "-1"],
+                    ["0", "0", "-1", "0"],
+                  ])
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                We found:
+                <M
+                  display
+                  t="\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0
+                 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}"
+                />
+                Note that if you group this matrix into four 2x2 matrices, you
+                can write it in a common shorthand:
+                <M
+                  display
+                  t="\pmatrix{\enspace \pmatrix{\enspace 0 & 1 \enspace \\ \enspace 1 & 0 \enspace} &
+              \pmatrix{\enspace 0 & 0 \enspace \\ \enspace 0 & 0 \enspace} \enspace \\[10px]
+              \enspace\pmatrix{\enspace 0 & 0 \enspace \\ \enspace 0 & 0 \enspace} &
+              \pmatrix{ 0 & -1  \\  -1 & 0 } \enspace}
+              =
+              \pmatrix{\enspace X & 0 \enspace \\ \enspace 0 & -X \enspace}"
+                />
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -192,6 +234,49 @@ export default page(setup, ({ section }) => ({
           </Answer>
         </>
       ),
+      guidance: {
+        nextMessage: (responses, state) => {
+          if (!arraysEqual(responses?.columnZ0xX1, ["1", "0", "0", "0"])) {
+            if (state.sections?.columnZ0xX1?.revealedMessages !== undefined) {
+              return "hereYouGo";
+            }
+            return "tryAgain";
+          } else if (
+            state.sections?.columnZ0xX1?.revealedMessages !== undefined
+          ) {
+            return "nowCorrect";
+          }
+          return null;
+        },
+        messages: {
+          tryAgain: {
+            body: (
+              <Callout color="red">
+                It looks like we don't agree with your answer. If you only used
+                one of the methods we suggested, try using the other now and see
+                what happens. Or, check your work carefully.
+              </Callout>
+            ),
+            onContinue: "nextMessage",
+          },
+          hereYouGo: {
+            body: (
+              <Callout color="red">
+                We still disagree with your answer, but here's ours:{" "}
+                <M
+                  display
+                  t="(Z\ket{0})\otimes(X\ket{1}) = \ket{0}\otimes\ket{0} = \ket{00} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
+                />
+              </Callout>
+            ),
+            onContinue: "nextSection",
+          },
+          nowCorrect: {
+            body: <Callout color="green">We agree with your answer.</Callout>,
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "circuitAsOperator",

@@ -82,8 +82,10 @@ export default s.tutorial({
     twoQubitOperatorsIntro: s.section(),
     representZxX: s.section(),
     twoOperatorsRule: s.section(),
-    representZxXAs4x4Matrix: s.section(),
-    columnZ0xX1: s.section(),
+    representZxXAs4x4Matrix: s.section({ messages: ["answer"] }),
+    columnZ0xX1: s.section({
+      messages: ["tryAgain", "hereYouGo", "nowCorrect"],
+    }),
     circuitAsOperator: s.section(),
 
     moreThanTwoQubitsIntro: s.section(),
