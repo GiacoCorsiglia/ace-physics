@@ -72,7 +72,7 @@ export default s.tutorial({
     basisPlacementVectorVisual: s.section(),
     probMeasureTwoQubitState: s.section(),
     twoVectorTensorProductRule: s.section(),
-    fourDColumnVector: s.section(),
+    fourDColumnVector: s.section({ messages: ["ourAnswer"] }),
     circuitOutputAsColumnVector: s.section(),
     circuitOutputAsDiracNotation: s.section(),
     probTwoQubitSystem: s.section(),

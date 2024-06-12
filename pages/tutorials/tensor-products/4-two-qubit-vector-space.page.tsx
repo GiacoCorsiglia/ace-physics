@@ -1,5 +1,6 @@
 import {
   Answer,
+  Callout,
   Decimal,
   LabelsLeft,
   M,
@@ -157,12 +158,12 @@ export default page(setup, ({ section, hint }) => ({
             />
           </Prose>
 
-          <Answer>
+          {/* <Answer>
             <M
               display
               t="\frac{1}{2}\pmatrix{\quad 1 \quad \\ -1 \\ i \\ -i}"
             />
-          </Answer>
+          </Answer> */}
         </>
       ),
       hints: [
@@ -180,6 +181,31 @@ export default page(setup, ({ section, hint }) => ({
           ),
         }),
       ],
+      guidance: {
+        nextMessage: () => "ourAnswer",
+        messages: {
+          ourAnswer: {
+            body: (
+              <Callout color="blue">
+                We haven't checked your answer, but here's how we did it: first,
+                we expanded in Dirac notation to get:{" "}
+                <M
+                  display={true}
+                  t="\frac{1}{2}(\ket{00}-\ket{01}+i\ket{10}-i\ket{11})"
+                />
+                <p>
+                  Then we place the coefficients into the column vector like so:
+                </p>
+                <M
+                  display
+                  t="\ket{\psi} = \frac{1}{2}\pmatrix{\quad 1 \quad \\ -1 \\ i \\ -i} \begin{array}{c} \leftarrow \ket{00} \\ \leftarrow \ket{01} \\ \leftarrow \ket{10} \\ \leftarrow \ket{11} \end{array}"
+                />
+              </Callout>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
