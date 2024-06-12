@@ -101,7 +101,11 @@ export const TutorialHeader = ({
       title={
         <>
           {tutorialTitle}
-          {pageTitle && ` › ${pageTitle}`}
+          {pageTitle && (
+            <>
+              {" › "} {pageTitle}
+            </>
+          )}
         </>
       }
       popovers={<UserMenu />}

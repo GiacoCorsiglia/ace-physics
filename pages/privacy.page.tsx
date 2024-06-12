@@ -1,6 +1,5 @@
 import { UserMenu } from "@/auth/client";
 import { Breadcrumb, Header, MainContentBox, Page, Prose } from "@/components";
-import { ArrowLeftIcon } from "@primer/octicons-react";
 
 export default function Privacy() {
   return (
@@ -8,18 +7,7 @@ export default function Privacy() {
       <Header title="Privacy on ACE Physics" popovers={<UserMenu />} />
 
       <MainContentBox>
-        <Breadcrumb
-          items={[
-            {
-              link: "/",
-              label: (
-                <>
-                  <ArrowLeftIcon /> Home
-                </>
-              ),
-            },
-          ]}
-        />
+        <Breadcrumb items={[Breadcrumb.home]} />
 
         <Prose>
           <h1>Privacy on ACEPhysics.net</h1>

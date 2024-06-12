@@ -19,11 +19,5 @@ export default defineConfig({
     // We need the testing globals for React testing library.
     // https://github.com/testing-library/react-testing-library/issues/1240
     globals: true,
-
-    // There's some sort of race condition bug in CI where connections to
-    // dynamoDB local are being dropped.  It seems similar to this node-fetch
-    // issue: https://github.com/node-fetch/node-fetch/issues/1735.  Disabling
-    // parallel test execution resolves it.
-    // fileParallelism: Boolean(process.env.CI) ? false : undefined,
   },
 });

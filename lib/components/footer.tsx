@@ -20,7 +20,7 @@ export const Footer = () => {
       </p>
 
       <p>
-        &copy; {new Date().getFullYear()}&nbsp;Giaco&nbsp;Corsiglia,
+        &copy; 2020–{new Date().getFullYear()}&nbsp;Giaco&nbsp;Corsiglia,
         Benjamin&nbsp;P.&nbsp;Schermerhorn, Gina&nbsp;Passante,
         Homeyra&nbsp;Sadaghiani, and Steven&nbsp;Pollock
       </p>

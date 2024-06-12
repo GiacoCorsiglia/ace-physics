@@ -2,7 +2,6 @@
 import { TutorialSchema } from "@/schema/tutorial";
 import { tutorialList } from "@pages/tutorials/list";
 import { tutorialSchemas } from "@pages/tutorials/schemas";
-import * as fs from "fs";
 import { describe, expect, it } from "vitest";
 import {
   NodeConfig,
@@ -11,8 +10,10 @@ import {
   TutorialConfig,
 } from "./config";
 
-const path = require("node:path");
-console.log(path);
+// For some weird reason, these ESM imports weren't working in the Vercel deploy
+// context (when we run this test).
+const fs: typeof import("node:fs") = require("node:fs");
+const path: typeof import("node:path") = require("node:path");
 
 const tutorialsDir = path.join(__dirname, "../../pages/tutorials");
 

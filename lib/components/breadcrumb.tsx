@@ -1,4 +1,5 @@
 import { Html } from "@/helpers/client";
+import { ArrowLeftIcon } from "@primer/octicons-react";
 import Link, { LinkProps } from "next/link";
 import styles from "./breadcrumb.module.scss";
 
@@ -26,3 +27,12 @@ export const Breadcrumb = ({
       ))}
   </ol>
 );
+
+Breadcrumb.home = {
+  link: "/",
+  label: (
+    <>
+      <ArrowLeftIcon /> Home
+    </>
+  ),
+};
