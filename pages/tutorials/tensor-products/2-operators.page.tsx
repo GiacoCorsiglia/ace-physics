@@ -327,7 +327,7 @@ export default page(setup, ({ section }) => ({
                 }
               >
                 In each parenthetical, the element to the right of the tensor
-                product is for the second qubit, <M t="\ket(\phi)" />.
+                product is for the second qubit, <M t="\ket{\phi}" />.
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
