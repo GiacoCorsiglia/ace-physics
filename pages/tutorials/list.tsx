@@ -151,7 +151,8 @@ export const tutorialList: TutorialListing[] = [
         apply it to cryptography.
       </>
     ),
-    tags: ["QM", "QIS"],
+    // tags: ["QM", "QIS"],
+    tags: ["QM"],
   },
   {
     id: "VectorsToFunctions",
