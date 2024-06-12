@@ -1,7 +1,7 @@
 import {
-  Answer,
   ChooseAll,
   ChooseOne,
+  Guidance,
   M,
   Prose,
   QuantumCircuit,
@@ -12,7 +12,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "operators",
   label: "Operators",
-  answers: "provided",
+  // answers: "provided",
   sections: [
     section({
       name: "operatorsIntro",
@@ -96,7 +96,7 @@ export default page(setup, ({ section }) => ({
             // answer={["(Z |ψ1⟩) ⊗ |ψ2⟩", "(Z ⊗ I)(|ψ1⟩ ⊗ |ψ2⟩)"]}
           />
 
-          <Answer
+          {/* <Answer
             correct={
               responses?.arbitraryOutputZxI?.selected?.includes(
                 "(Z |ψ1⟩) ⊗ |ψ2⟩"
@@ -138,15 +138,108 @@ export default page(setup, ({ section }) => ({
                   display={true}
                   t="(A \otimes B \otimes C)(\ket{\psi_1} \otimes \ket{\psi_2} \otimes \ket{\psi_3})"
                 />
-                {/* <br /> */}
                 acts <M t="A" /> on <M t="\ket{\psi_1}" />, <M t="B" /> on{" "}
                 <M t="\ket{\psi_2}" />, and <M t="C" /> on{" "}
                 <M t="\ket{\psi_3}" />.
               </li>
             </ul>
-          </Answer>
+          </Answer> */}
         </>
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  !responses?.arbitraryOutputZxI?.selected?.includes(
+                    "Z(|ψ1⟩ ⊗ |ψ2⟩)",
+                  ) &&
+                  responses?.arbitraryOutputZxI?.selected?.includes(
+                    "(Z |ψ1⟩) ⊗ |ψ2⟩",
+                  ) &&
+                  responses?.arbitraryOutputZxI?.selected?.includes(
+                    "(Z ⊗ I)(|ψ1⟩ ⊗ |ψ2⟩)",
+                  ) &&
+                  !responses?.arbitraryOutputZxI?.selected?.includes(
+                    "(I ⊗ Z)(|ψ2⟩ ⊗ |ψ1⟩)",
+                  )
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {!responses?.arbitraryOutputZxI?.selected?.includes(
+                  "(Z |ψ1⟩) ⊗ |ψ2⟩",
+                ) ||
+                !responses?.arbitraryOutputZxI?.selected?.includes(
+                  "(Z ⊗ I)(|ψ1⟩ ⊗ |ψ2⟩)",
+                ) ? (
+                  <p>There are two correct answers!</p>
+                ) : (
+                  <></>
+                )}
+
+                {responses?.arbitraryOutputZxI?.selected?.includes(
+                  "Z(|ψ1⟩ ⊗ |ψ2⟩)",
+                ) ? (
+                  <p>
+                    <M t="Z(\ket{\psi_1} \otimes \ket{\psi_2})" /> is{" "}
+                    <b>incorrect</b> because it treats <M t="Z" /> as operating
+                    on <em>both</em> <M t="\ket{\psi_1}" /> and{" "}
+                    <M t="\ket{\psi_2}" /> even though <M t="Z" /> is a
+                    single-qubit (2x2 matrix) operator. You need a two-qubit
+                    (4x4 matrix) operator to act on two qubits at once!
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {responses?.arbitraryOutputZxI?.selected?.includes(
+                  "(Z |ψ1⟩) ⊗ |ψ2⟩",
+                ) ? (
+                  <p>
+                    <M t="(Z\ket{\psi_1}) \otimes \ket{\psi_2}" /> is{" "}
+                    <b>correct</b>.
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {responses?.arbitraryOutputZxI?.selected?.includes(
+                  "(Z ⊗ I)(|ψ1⟩ ⊗ |ψ2⟩)",
+                ) ? (
+                  <p>
+                    <M t="(Z\otimes I)(\ket{\psi_1} \otimes \ket{\psi_2})" /> is{" "}
+                    <b>correct</b>.
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {responses?.arbitraryOutputZxI?.selected?.includes(
+                  "(I ⊗ Z)(|ψ2⟩ ⊗ |ψ1⟩)",
+                ) ? (
+                  <p>
+                    <M t="(I\otimes Z)(\ket{\psi_1} \otimes \ket{\psi_2})" /> is{" "}
+                    <b>incorrect</b> because it acts <M t="I" /> on{" "}
+                    <M t="\ket{\psi_1}" /> and <M t="Z" /> on{" "}
+                    <M t="\ket{\psi_2}" />, which is not what is shown in the
+                    circuit. Similarly,{" "}
+                    <M
+                      display={true}
+                      t="(A \otimes B \otimes C)(\ket{\psi_1} \otimes \ket{\psi_2} \otimes \ket{\psi_3})"
+                    />
+                    acts <M t="A" /> on <M t="\ket{\psi_1}" />, <M t="B" /> on{" "}
+                    <M t="\ket{\psi_2}" />, and <M t="C" /> on{" "}
+                    <M t="\ket{\psi_3}" />.
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -218,9 +311,29 @@ export default page(setup, ({ section }) => ({
             ],
             ["ambiguous", <>It’s ambiguous</>],
           ]}
-          answer={"bottom"}
+          // answer={"bottom"}
         />
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.findIInCircuit?.selected === "bottom"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                In each parenthetical, the element to the right of the tensor
+                product is for the second qubit, <M t="\ket{\phi}" />.
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
   ],
 }));

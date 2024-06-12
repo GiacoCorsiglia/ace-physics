@@ -70,11 +70,11 @@ export default page(setup, ({ section }) => ({
           model={m.selectHxIZxXPsi1xPsi2}
           choices={[
             [
-              "(I⊗H) (X⊗Z) (|ψ2>⊗|ψ1>)",
+              "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
               <QuantumCircuit
                 t="
-                \lstick{\ket{\psi2}} & \gate{X} & \gate{I} \\
-                \lstick{\ket{\psi1}} & \gate{Z} & \gate{H}
+                \lstick{\ket{\psi_1}} & \gate{X} & \gate{I} \\
+                \lstick{\ket{\psi_2}} & \gate{Z} & \gate{H}
                 "
               />,
             ],
@@ -82,8 +82,8 @@ export default page(setup, ({ section }) => ({
               "(H⊗_) (Z⊗X) (|ψ1>⊗|ψ2>)",
               <QuantumCircuit
                 t="
-                \lstick{\ket{\psi1}} & \gate{Z} & \gate{H} \\
-                \lstick{\ket{\psi2}} & \qw & \gate{X}
+                \lstick{\ket{\psi_1}} & \gate{Z} & \gate{H} \\
+                \lstick{\ket{\psi_2}} & \qw & \gate{X}
                 "
               />,
             ],
@@ -91,8 +91,8 @@ export default page(setup, ({ section }) => ({
               "(Z⊗X) (H⊗_) (|ψ1>⊗|ψ2>)",
               <QuantumCircuit
                 t="
-                \lstick{\ket{\psi1}} & \gate{H} & \gate{Z} \\
-                \lstick{\ket{\psi2}} & \gate{I} & \gate{X}
+                \lstick{\ket{\psi_1}} & \gate{H} & \gate{Z} \\
+                \lstick{\ket{\psi_2}} & \gate{I} & \gate{X}
                 "
               />,
             ],
@@ -100,17 +100,17 @@ export default page(setup, ({ section }) => ({
               "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)",
               <QuantumCircuit
                 t="
-                \lstick{\ket{\psi1}} & \gate{Z} & \gate{H} \\
-                \lstick{\ket{\psi2}} & \gate{X} & \gate{I}
+                \lstick{\ket{\psi_1}} & \gate{Z} & \gate{H} \\
+                \lstick{\ket{\psi_2}} & \gate{X} & \gate{I}
                 "
               />,
             ],
             [
-              "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+              "(_⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
               <QuantumCircuit
                 t="
-                \lstick{\ket{\psi1}} & \gate{X} & \qw \\
-                \lstick{\ket{\psi2}} & \gate{Z} & \gate{H}
+                \lstick{\ket{\psi_1}} & \gate{X} & \qw \\
+                \lstick{\ket{\psi_2}} & \gate{Z} & \gate{H}
                 "
               />,
             ],
@@ -118,6 +118,122 @@ export default page(setup, ({ section }) => ({
           answer={["(H⊗_) (Z⊗X) (|ψ1>⊗|ψ2>)", "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)"]}
         />
       ),
+      guidance: {
+        nextMessage: (responses, state) => {
+          if (
+            !responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+              "(Z⊗X) (H⊗_) (|ψ1>⊗|ψ2>)",
+            ) &&
+            (responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+              "(_⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+            ) ||
+              responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+                "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+              ))
+          ) {
+            return "picked1or5";
+          }
+          if (
+            !responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+              "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+            ) &&
+            !responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+              "(_⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+            ) &&
+            responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+              "(Z⊗X) (H⊗_) (|ψ1>⊗|ψ2>)",
+            )
+          ) {
+            return "picked3";
+          }
+          if (
+            responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+              "(Z⊗X) (H⊗_) (|ψ1>⊗|ψ2>)",
+            ) &&
+            (responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+              "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+            ) ||
+              responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+                "(_⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+              ))
+          ) {
+            return "picked1or5and3";
+          }
+          if (
+            state.sections?.selectHxIZxXPsi1xPsi2?.revealedMessages !==
+              undefined &&
+            (responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+              "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)",
+            ) ||
+              responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+                "(H⊗_) (Z⊗X) (|ψ1>⊗|ψ2>)",
+              )) &&
+            !(
+              responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+                "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+              ) ||
+              responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+                "(Z⊗X) (H⊗_) (|ψ1>⊗|ψ2>)",
+              ) ||
+              responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
+                "(_⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+              )
+            )
+          ) {
+            return "nowCorrect";
+          }
+          return null;
+        },
+        messages: {
+          picked1or5: {
+            body: (
+              <Callout color="red">
+                Check your qubit ordering: remember that in each parenthetical{" "}
+                <M t="(A\otimes B)" />, A corresponds to the first qubit and B
+                corresponds to the second qubit.
+              </Callout>
+            ),
+            onContinue: "nextMessage",
+          },
+          picked3: {
+            body: (
+              <Callout color="red">
+                Check which gates apply to the qubits first: for example, you
+                can write the expression <M t="XZ\ket{\psi}" /> as{" "}
+                <M t="X(Z\ket{\psi})" />, meaning that Z applies first, and then
+                X.
+              </Callout>
+            ),
+            onContinue: "nextMessage",
+          },
+          picked1or5and3: {
+            body: (
+              <Callout color="red">
+                <p>
+                  Check your qubit ordering: remember that in each parenthetical{" "}
+                  <M t="(A\otimes B)" />, A corresponds to the first qubit and B
+                  corresponds to the second qubit.
+                </p>{" "}
+                <p>
+                  Also, check which gates apply to the qubits first: for
+                  example, you can write the expression <M t="XZ\ket{\psi}" />{" "}
+                  as <M t="X(Z\ket{\psi})" />, meaning that Z applies first, and
+                  then X.
+                </p>
+              </Callout>
+            ),
+            onContinue: "nextMessage",
+          },
+          nowCorrect: {
+            body: (
+              <Callout color="green">
+                <p>You've got it!</p>
+              </Callout>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
     }),
 
     section({
@@ -268,7 +384,7 @@ export default page(setup, ({ section }) => ({
             We found that either of the following equations below are correct.
             <M
               display
-              t="\frac{-1}{\sqrt{2}} \ket{11} + \frac{1}{\sqrt{2}} \ket{01}"
+              t="\frac{1}{\sqrt{2}} \ket{01} - \frac{1}{\sqrt{2}} \ket{11}"
             />
             <M
               display

@@ -1,12 +1,15 @@
 import {
   Answer,
+  Callout,
   ChooseAll,
   ChooseOne,
+  Guidance,
   Horizontal,
   M,
   Matrix,
   Prose,
   QuantumCircuit,
+  TextBox,
   TextLine,
 } from "@/components";
 import { arraysEqual, deepEqual } from "@/helpers/client";
@@ -16,7 +19,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "twoQubitOperators",
   label: "Two Qubit Operators",
-  answers: "provided",
+  // answers: "provided",
   sections: [
     section({
       name: "twoQubitOperatorsIntro",
@@ -75,7 +78,7 @@ export default page(setup, ({ section }) => ({
               </>,
             ],
           ]}
-          answer="4x4"
+          // answer="4x4"
         />
       ),
     }),
@@ -117,7 +120,7 @@ export default page(setup, ({ section }) => ({
             ))}
           />
 
-          <Answer
+          {/* <Answer
             correct={deepEqual(responses?.representZxXAs4x4Matrix, [
               ["0", "1", "0", "0"],
               ["1", "0", "0", "0"],
@@ -141,9 +144,49 @@ export default page(setup, ({ section }) => ({
               =
               \pmatrix{\enspace X & 0 \enspace \\ \enspace 0 & -X \enspace}"
             />
-          </Answer>
+          </Answer> */}
         </>
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  deepEqual(responses?.representZxXAs4x4Matrix, [
+                    ["0", "1", "0", "0"],
+                    ["1", "0", "0", "0"],
+                    ["0", "0", "0", "-1"],
+                    ["0", "0", "-1", "0"],
+                  ])
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                We found:
+                <M
+                  display
+                  t="\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0
+                 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}"
+                />
+                Note that if you group this matrix into four 2x2 matrices, you
+                can write it in a common shorthand:
+                <M
+                  display
+                  t="\pmatrix{\enspace \pmatrix{\enspace 0 & 1 \enspace \\ \enspace 1 & 0 \enspace} &
+              \pmatrix{\enspace 0 & 0 \enspace \\ \enspace 0 & 0 \enspace} \enspace \\[10px]
+              \enspace\pmatrix{\enspace 0 & 0 \enspace \\ \enspace 0 & 0 \enspace} &
+              \pmatrix{ 0 & -1  \\  -1 & 0 } \enspace}
+              =
+              \pmatrix{\enspace X & 0 \enspace \\ \enspace 0 & -X \enspace}"
+                />
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -192,6 +235,49 @@ export default page(setup, ({ section }) => ({
           </Answer>
         </>
       ),
+      guidance: {
+        nextMessage: (responses, state) => {
+          if (!arraysEqual(responses?.columnZ0xX1, ["1", "0", "0", "0"])) {
+            if (state.sections?.columnZ0xX1?.revealedMessages !== undefined) {
+              return "hereYouGo";
+            }
+            return "tryAgain";
+          } else if (
+            state.sections?.columnZ0xX1?.revealedMessages !== undefined
+          ) {
+            return "nowCorrect";
+          }
+          return null;
+        },
+        messages: {
+          tryAgain: {
+            body: (
+              <Callout color="red">
+                It looks like we don't agree with your answer. If you only used
+                one of the methods we suggested, try using the other now and see
+                what happens. Or, check your work carefully.
+              </Callout>
+            ),
+            onContinue: "nextMessage",
+          },
+          hereYouGo: {
+            body: (
+              <Callout color="red">
+                We still disagree with your answer, but here's ours:{" "}
+                <M
+                  display
+                  t="(Z\ket{0})\otimes(X\ket{1}) = \ket{0}\otimes\ket{0} = \ket{00} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
+                />
+              </Callout>
+            ),
+            onContinue: "nextSection",
+          },
+          nowCorrect: {
+            body: <Callout color="green">We agree with your answer.</Callout>,
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "circuitAsOperator",
@@ -227,9 +313,57 @@ export default page(setup, ({ section }) => ({
             ["(H ⊗ X) Z", <M t="A = (H \otimes X) \ Z" />],
             ["X (H ⊗ Z)", <M t="A = X\  (H \otimes Z)" />],
           ]}
-          answer={["XH ⊗ Z", "(X ⊗ I)(H ⊗ Z)"]}
+          // answer={["XH ⊗ Z", "(X ⊗ I)(H ⊗ Z)"]}
         />
       ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.circuitAsOperator?.selected?.includes("XH ⊗ Z") &&
+                  responses.circuitAsOperator.selected.includes(
+                    "(X ⊗ I)(H ⊗ Z)",
+                  ) &&
+                  responses.circuitAsOperator.selected.length === 2
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                Our answers are <M t="A = XH \otimes Z" /> and{" "}
+                <M t="A = (X \otimes I) (H \otimes Z)" />. If you chose any
+                others, you might want to check your work again. One way to do
+                this is to figure out how A would apply to the two-qubit state{" "}
+                <M t="\ket{\psi_1}\otimes\ket{\psi_2}" /> and see which options
+                are consistent.
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+    section({
+      name: "summaryTextBox",
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.page5summaryTextBox}
+            label={
+              <Prose>
+                Now that you’ve seen our answers, briefly comment on where they
+                agree or disagree with yours, and why. Summarize what you feel
+                like you’ve learned, and/or what you’re feeling confused about.
+              </Prose>
+            }
+          ></TextBox>
+        </>
+      ),
+      continue: {
+        allowed: () => true,
+      },
     }),
   ],
 }));

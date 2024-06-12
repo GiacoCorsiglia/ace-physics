@@ -160,6 +160,52 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      // guidance: {
+      //   nextMessage: () => "answer",
+      //   messages: {
+      //     answer: {
+      //       body: ({ responses }) => (
+      //         <Guidance.Dynamic
+      //           status={
+      //             responses?.circuitDiagramOrder?.selected === "xz"
+      //               ? "agree"
+      //               : "disagree"
+      //           }
+      //         >
+      //           In general, order of matrix multiplication matters. However, if
+      //           it happens that <M t="AB = BA" />, then the operators
+      //           <M t="A" /> and <M t="B" /> are said to <em>commute</em>. (So
+      //           above, we saw that <M t="X" /> and <M t="Z" /> do <em>not</em>{" "}
+      //           commute.)
+      //         </Guidance.Dynamic>
+      //       ),
+      //       onContinue: "nextSection",
+      //     },
+      //   },
+      // },
+      guidance: {
+        nextMessage(r, s) {
+          if (r.circuitDiagramOrder?.selected === "xz") {
+            return null;
+          }
+          return "answer";
+        },
+        messages: {
+          answer: {
+            body: (
+              <>
+                <Callout color="red">
+                  We disagree with your answer. Reread the first sentence
+                  carefully and compare it to the picture; make sure you
+                  understand what’s going on here.
+                </Callout>
+              </>
+            ),
+            onContinue: "nextSection",
+            continueLabel: "Move on",
+          },
+        },
+      },
     }),
   ],
 }));

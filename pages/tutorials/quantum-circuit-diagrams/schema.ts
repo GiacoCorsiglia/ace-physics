@@ -35,7 +35,7 @@ export default s.tutorial({
       messages: ["answer"],
     }),
     doesZSelfCommute: s.section(),
-    circuitDiagramOrder: s.section(),
+    circuitDiagramOrder: s.section({ messages: ["answer"] }),
 
     evaluatingCircuitsIntro: s.section(),
     outputXZ1: s.section(),
@@ -63,6 +63,6 @@ export default s.tutorial({
     doHZCommute: s.string(),
   },
   hints: {
-    // Hints here.
+    inverse: s.hint(),
   },
 });

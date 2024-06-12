@@ -46,20 +46,22 @@ export default s.tutorial({
   sections: {
     addingASecondQubitIntro: s.section(),
     arbitrary2QubitState: s.section(),
-    plusTimes0: s.section(),
+    plusTimes0: s.section({ messages: ["answer"] }),
     plusTimes0Probabilities: s.section(),
     plusTimes0SingleProbabilities: s.section(),
 
     // Section 1.2
     operatorsIntro: s.section(),
-    arbitraryOutputZxI: s.section(),
+    arbitraryOutputZxI: s.section({ messages: ["answer"] }),
     redrawnZxI: s.section(),
-    findIInCircuit: s.section(),
+    findIInCircuit: s.section({ messages: ["answer"] }),
 
     // Section 1.3
     summaryIntro: s.section(),
     sketchHxIZxXPsi1xPsi2: s.section(),
-    selectHxIZxXPsi1xPsi2: s.section(),
+    selectHxIZxXPsi1xPsi2: s.section({
+      messages: ["picked1or5", "picked3", "picked1or5and3", "nowCorrect"],
+    }),
     XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2: s.section(),
     XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2: s.section(),
     equationXHPsixZPhi: s.section(),
@@ -70,7 +72,7 @@ export default s.tutorial({
     basisPlacementVectorVisual: s.section(),
     probMeasureTwoQubitState: s.section(),
     twoVectorTensorProductRule: s.section(),
-    fourDColumnVector: s.section(),
+    fourDColumnVector: s.section({ messages: ["ourAnswer"] }),
     circuitOutputAsColumnVector: s.section(),
     circuitOutputAsDiracNotation: s.section(),
     probTwoQubitSystem: s.section(),
@@ -80,12 +82,15 @@ export default s.tutorial({
     twoQubitOperatorsIntro: s.section(),
     representZxX: s.section(),
     twoOperatorsRule: s.section(),
-    representZxXAs4x4Matrix: s.section(),
-    columnZ0xX1: s.section(),
-    circuitAsOperator: s.section(),
+    representZxXAs4x4Matrix: s.section({ messages: ["answer"] }),
+    columnZ0xX1: s.section({
+      messages: ["tryAgain", "hereYouGo", "nowCorrect"],
+    }),
+    circuitAsOperator: s.section({ messages: ["answer"] }),
+    summaryTextBox: s.section(),
 
     moreThanTwoQubitsIntro: s.section(),
-    dimension3QubitSpace: s.section(),
+    dimension3QubitSpace: s.section({ messages: ["basisStates"] }),
     dimensionNQubitSpace: s.section(),
     outputZxXZxI000: s.section(),
     nQubitExample: s.section(),
@@ -117,8 +122,8 @@ export default s.tutorial({
       "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)",
       "(H⊗_) (Z⊗X) (|ψ1>⊗|ψ2>)",
       "(Z⊗X) (H⊗_) (|ψ1>⊗|ψ2>)",
-      "(I⊗H) (X⊗Z) (|ψ2>⊗|ψ1>)",
       "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+      "(_⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
     ]),
     XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2: s.chooseOne(["true", "false"]),
     XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2: s.chooseOne(["true", "false"]),
@@ -145,6 +150,7 @@ export default s.tutorial({
       "(H ⊗ X) Z",
       "X (H ⊗ Z)",
     ]),
+    page5summaryTextBox: s.string(),
 
     dimension3QubitSpace: s.number(),
     dimensionNQubitSpace: s.string(),
@@ -155,5 +161,6 @@ export default s.tutorial({
   hints: {
     probability: s.hint(),
     diracNotation: s.hint(),
+    ZxXZxI000: s.hint(),
   },
 });
