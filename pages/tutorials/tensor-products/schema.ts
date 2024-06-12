@@ -86,7 +86,8 @@ export default s.tutorial({
     columnZ0xX1: s.section({
       messages: ["tryAgain", "hereYouGo", "nowCorrect"],
     }),
-    circuitAsOperator: s.section(),
+    circuitAsOperator: s.section({ messages: ["answer"] }),
+    summaryTextBox: s.section(),
 
     moreThanTwoQubitsIntro: s.section(),
     dimension3QubitSpace: s.section(),
@@ -149,6 +150,7 @@ export default s.tutorial({
       "(H ⊗ X) Z",
       "X (H ⊗ Z)",
     ]),
+    page5summaryTextBox: s.string(),
 
     dimension3QubitSpace: s.number(),
     dimensionNQubitSpace: s.string(),

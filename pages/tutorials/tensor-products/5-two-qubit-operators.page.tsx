@@ -9,6 +9,7 @@ import {
   Matrix,
   Prose,
   QuantumCircuit,
+  TextBox,
   TextLine,
 } from "@/components";
 import { arraysEqual, deepEqual } from "@/helpers/client";
@@ -18,7 +19,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "twoQubitOperators",
   label: "Two Qubit Operators",
-  answers: "provided",
+  // answers: "provided",
   sections: [
     section({
       name: "twoQubitOperatorsIntro",
@@ -312,8 +313,53 @@ export default page(setup, ({ section }) => ({
             ["(H ⊗ X) Z", <M t="A = (H \otimes X) \ Z" />],
             ["X (H ⊗ Z)", <M t="A = X\  (H \otimes Z)" />],
           ]}
-          answer={["XH ⊗ Z", "(X ⊗ I)(H ⊗ Z)"]}
+          // answer={["XH ⊗ Z", "(X ⊗ I)(H ⊗ Z)"]}
         />
+      ),
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.circuitAsOperator?.selected?.includes("XH ⊗ Z") &&
+                  responses.circuitAsOperator.selected.includes(
+                    "(X ⊗ I)(H ⊗ Z)",
+                  ) &&
+                  responses.circuitAsOperator.selected.length === 2
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                Our answers are <M t="A = XH \otimes Z" /> and{" "}
+                <M t="A = (X \otimes I) (H \otimes Z)" />. If you chose any
+                others, you might want to check your work again. One way to do
+                this is to figure out how A would apply to the two-qubit state{" "}
+                <M t="\ket{\psi_1}\otimes\ket{\psi_2}" /> and see which options
+                are consistent.
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+    section({
+      name: "summaryTextBox",
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.page5summaryTextBox}
+            label={
+              <Prose>
+                Now that you’ve seen our answers, briefly comment on where they
+                agree or disagree with yours, and why. Summarize what you feel
+                like you’ve learned, and/or what you’re feeling confused about.
+              </Prose>
+            }
+          ></TextBox>
+        </>
       ),
     }),
   ],
