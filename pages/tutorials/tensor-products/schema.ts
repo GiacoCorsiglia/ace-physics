@@ -52,14 +52,16 @@ export default s.tutorial({
 
     // Section 1.2
     operatorsIntro: s.section(),
-    arbitraryOutputZxI: s.section(),
+    arbitraryOutputZxI: s.section({ messages: ["answer"] }),
     redrawnZxI: s.section(),
-    findIInCircuit: s.section(),
+    findIInCircuit: s.section({ messages: ["answer"] }),
 
     // Section 1.3
     summaryIntro: s.section(),
     sketchHxIZxXPsi1xPsi2: s.section(),
-    selectHxIZxXPsi1xPsi2: s.section(),
+    selectHxIZxXPsi1xPsi2: s.section({
+      messages: ["picked1or5", "picked3", "picked1or5and3", "nowCorrect"],
+    }),
     XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2: s.section(),
     XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2: s.section(),
     equationXHPsixZPhi: s.section(),
@@ -117,8 +119,8 @@ export default s.tutorial({
       "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)",
       "(H⊗_) (Z⊗X) (|ψ1>⊗|ψ2>)",
       "(Z⊗X) (H⊗_) (|ψ1>⊗|ψ2>)",
-      "(I⊗H) (X⊗Z) (|ψ2>⊗|ψ1>)",
       "(I⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
+      "(_⊗H) (X⊗Z) (|ψ1>⊗|ψ2>)",
     ]),
     XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2: s.chooseOne(["true", "false"]),
     XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2: s.chooseOne(["true", "false"]),
