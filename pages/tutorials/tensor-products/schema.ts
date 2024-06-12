@@ -90,7 +90,7 @@ export default s.tutorial({
     summaryTextBox: s.section(),
 
     moreThanTwoQubitsIntro: s.section(),
-    dimension3QubitSpace: s.section(),
+    dimension3QubitSpace: s.section({ messages: ["basisStates"] }),
     dimensionNQubitSpace: s.section(),
     outputZxXZxI000: s.section(),
     nQubitExample: s.section(),
@@ -161,5 +161,6 @@ export default s.tutorial({
   hints: {
     probability: s.hint(),
     diracNotation: s.hint(),
+    ZxXZxI000: s.hint(),
   },
 });
