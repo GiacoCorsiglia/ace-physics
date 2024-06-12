@@ -59,7 +59,7 @@ export default page(setup, ({ section, hint }) => ({
               \ket{1} = \pmatrix{0 \\ 1}
             "
             />
-            which means
+            which means an arbitrary single-qubit state can be represented as:
             <M display t="a\ket{0} + b\ket{1} = \pmatrix{a \\ b}" />
           </p>
         </Prose>
@@ -74,9 +74,9 @@ export default page(setup, ({ section, hint }) => ({
             model={m.qubitProb0}
             label={
               <Prose>
-                If the state is
+                If a single qubit is in the state
                 <M display t="\frac{1} {5}\pmatrix{3i \\ -4}," />
-                what is the probability of measuring <M t="\ket{0}" />?
+                what is the probability of measuring it to be <M t="\ket{0}" />?
               </Prose>
             }
           />

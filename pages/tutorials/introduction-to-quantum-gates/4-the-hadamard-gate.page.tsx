@@ -79,11 +79,11 @@ export default page(setup, ({ section }) => ({
           These states are so common we often refer to them simply as:
           <M
             display
-            t="\ket{+} \equiv \frac{1}{\sqrt{2}} ( \ket{0} + \ket{1} )"
+            t="\ket{+} \equiv \frac{1}{\sqrt{2}} ( \ket{0} + \ket{1} ) \equiv \frac{1}{\sqrt{2}}\pmatrix{1 \\ 1}"
           />
           <M
             display
-            t="\ket{-} \equiv \frac{1}{\sqrt{2}} ( \ket{0} - \ket{1} )"
+            t="\ket{-} \equiv \frac{1}{\sqrt{2}} ( \ket{0} - \ket{1} )\equiv \frac{1}{\sqrt{2}}\pmatrix{1 \\ -1}"
           />
         </Prose>
       ),
@@ -98,7 +98,9 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             What is <M t="H" /> acting on the state{" "}
-            <M t="\frac{1}{\sqrt{2}} \pmatrix{1 \\ 1}" />?
+            <M t="\frac{1}{\sqrt{2}} \pmatrix{1 \\ 1}" />? (Or, equivalently,
+            what is <M t="H" /> acting on <M t="\ket{+}" />
+            ?)
           </Prose>
 
           <Matrix
@@ -213,6 +215,33 @@ export default page(setup, ({ section }) => ({
           },
         },
       },
+    }),
+
+    section({
+      name: "hDistinguishesMinusFromPlus",
+      enumerate: false,
+      body: () => (
+        <>
+          <Prose>
+            <p>
+              You've discovered that{" "}
+              <M t="H \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \ket{0}" />. It
+              turns out that{" "}
+              <M t="H \frac{1}{\sqrt{2}}(\ket{0} - \ket{1}) = \ket{1}" />.
+            </p>
+            {/* This is
+            how we can tell that <M t="\ket{+}" /> and <M t="\ket{-}" /> are different states. */}
+            <p>
+              You may have noticed earlier that measurements of both{" "}
+              <M t="\ket{+}" /> and <M t="\ket{-}" /> have a 50/50 chance of
+              returning either <M t="\ket{0}" /> or <M t="\ket{1}" />. However,
+              we can now distinguish <M t="\ket{+}" /> and <M t="\ket{-}" />{" "}
+              from each other by first applying H to get <M t="\ket{0}" /> or{" "}
+              <M t="\ket{1}" /> respectively, then measuring.
+            </p>
+          </Prose>
+        </>
+      ),
     }),
   ],
 }));
