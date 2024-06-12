@@ -1,6 +1,7 @@
 import {
   Answer,
   Callout,
+  Guidance,
   Integer,
   LabelsLeft,
   M,
@@ -12,7 +13,7 @@ import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "moreThanTwoQubits",
   label: "More Than 2 Qubits",
   answers: "provided",
@@ -55,6 +56,27 @@ export default page(setup, ({ section }) => ({
           </Answer>
         </>
       ),
+      guidance: {
+        nextMessage: () => "basisStates",
+        messages: {
+          basisStates: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.dimension3QubitSpace === 8 ? "agree" : "disagree"
+                }
+              >
+                Here we list out all the basis states:{" "}
+                <M
+                  display
+                  t="\ket{000},\ket{001},\ket{010},\ket{011},\ket{100},\ket{101},\ket{110},\ket{111}"
+                />
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -126,6 +148,25 @@ export default page(setup, ({ section }) => ({
       continue: {
         label: "I drew the circuit diagram",
       },
+      hints: [
+        hint({
+          name: "ZxXZxI000",
+          body: (
+            <>
+              <p>The circuit diagram looks like:</p>
+
+              <QuantumCircuit
+                t="
+              \lstick{\ket{0}} & \gate{Z} & \qw \\
+              \lstick{\ket{0}} & \gate{Z} & \gate{X} \\
+              \lstick{\ket{0}} & \gate{I} & \qw \\
+              "
+              />
+            </>
+          ),
+          label: "Show me your circuit",
+        }),
+      ],
     }),
 
     section({
