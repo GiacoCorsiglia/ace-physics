@@ -162,6 +162,34 @@ export default page(setup, ({ section }) => ({
             <>
               <hr />
 
+              <TextBox
+                model={m.whyIsntStateQubit1Beta11Minus}
+                label={
+                  <>
+                    <Prose>
+                      Why is it incorrect to say that the state of the qubit is
+                      the following?
+                      <M display t="\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})" />
+                    </Prose>
+                  </>
+                }
+              />
+              <Answer>
+                If <M t="\ket{\psi_1} = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})" />,
+                then there is no <M t="\ket{\psi_2}" /> such that{" "}
+                <M
+                  display
+                  t="\ket{\psi_1}\otimes\ket{\psi_2} = \frac{1}{\sqrt{2}}(\ket{01} - \ket{10})"
+                />
+                Try finding one yourself and see!
+              </Answer>
+            </>
+          )}
+
+          {responses?.isProbQubit1Beta11FiftyFifty && (
+            <>
+              <hr />
+
               <Toggle
                 model={m.isStateQubit1Beta11Minus}
                 label={

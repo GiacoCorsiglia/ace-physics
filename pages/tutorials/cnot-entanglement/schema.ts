@@ -94,6 +94,7 @@ export default s.tutorial({
     isEquationEntangledTwoExplanation: s.string(),
     isBeta01Entangled: s.chooseOne(["entangled", "not entangled"]),
     isProbQubit1Beta11FiftyFifty: s.chooseOne(["yes", "no"]),
+    whyIsntStateQubit1Beta11Minus: s.string(),
     isStateQubit1Beta11Minus: s.chooseOne(["yes", "no"]),
     isStateQubit1Beta11Arbitrary: s.chooseOne(["yes", "no"]),
     probBeta11Qubit1is0: s.number(),
