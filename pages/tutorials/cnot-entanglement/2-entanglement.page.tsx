@@ -349,7 +349,7 @@ export default page(setup, ({ section }) => ({
           <Answer correct={responses?.probQubit2is1 === 0.6}>
             <M
               display
-              t="\bigg|\frac{2}{\sqrt{10}}\bigg|^2 + \bigg|\frac{2}{\sqrt{10}}\bigg|^2 ="
+              t="\bigg|\frac{2}{\sqrt{10}}\bigg|^2 + \bigg|\frac{\sqrt{2}}{\sqrt{10}}\bigg|^2 ="
             />
 
             <M display t="\frac{4}{10} + \frac{2}{10} = \frac{6}{10} = " />
@@ -368,7 +368,7 @@ export default page(setup, ({ section }) => ({
           />
 
           <Answer>
-            <M display t="\frac{1}{\sqrt{3}}( \sqrt{2}\ket{0} + \ket{1})" />
+            <M display t="\frac{1}{\sqrt{3}}( \sqrt{2}\ket{0} - \ket{1})" />
           </Answer>
         </>
       ),
