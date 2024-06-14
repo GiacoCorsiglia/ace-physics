@@ -53,7 +53,7 @@ export default s.tutorial({
     measuringSuperpositionState: s.section(),
 
     anEntangledBasisIntro: s.section(),
-    circuitToGenerateBellStates: s.section(),
+    circuitToGenerateBellStates: s.section({ messages: ["answer"] }),
     beforeAndAfterCNOT: s.section(),
     circuitToDisentangleBeta00: s.section(),
 
@@ -104,6 +104,7 @@ export default s.tutorial({
     probQubit2is1: s.number(),
     resultingStateQubit1: s.string(),
 
+    entangle01: s.string(),
     beforeCNOT: s.chooseOne(["yes", "no"]),
     outputBeta00CNOTHI: s.string(),
     afterCNOT: s.chooseOne(["yes", "no"]),

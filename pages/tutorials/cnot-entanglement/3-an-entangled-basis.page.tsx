@@ -1,5 +1,6 @@
 import {
   Answer,
+  Callout,
   Horizontal,
   M,
   Prose,
@@ -31,6 +32,65 @@ export default page(setup, ({ section }) => ({
   },
   sections: [
     section({
+      name: "circuitToGenerateBellStates",
+      enumerate: false,
+      body: (m) => (
+        <>
+          <Prose>
+            <p>
+              On page 1, you discovered that the output of:
+              <QuantumCircuit
+                t="
+              \lstick{\ket{0}} & \gate{H} & \ctrl{1} & \qw \\
+              \lstick{\ket{0}} & \qw & \targ & \qw
+              "
+              />
+              was:
+              <M display t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{11})" />
+            </p>
+
+            <p>This circuit is commonly used to entangle states.</p>
+
+            {/* <p>
+              <strong>Check for yourself</strong> that if you input the other
+              three basis states (
+              <M prespace={false} t="\ket{01}" />, <M t="\ket{10}" />, and{" "}
+              <M t="\ket{11}" />) this same circuit gives the corresponding Bell
+              output states.
+            </p> */}
+          </Prose>
+          <TextBox
+            model={m.entangle01}
+            label={
+              <Prose>
+                Determine the output state of the above circuit if the input
+                state is <M t="\ket{11}" /> instead of <M t="\ket{00}" />.
+              </Prose>
+            }
+          />
+        </>
+      ),
+      continue: {
+        label: "Move on",
+      },
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: (
+              <Callout color="blue">
+                We found that the output of this circuit is{" "}
+                <M t="\frac{1}{\sqrt{2}} (\ket{01} - \ket{10})" />. This is also
+                entangled.
+              </Callout>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+
+    section({
       name: "anEntangledBasisIntro",
       body: (
         <Prose>
@@ -41,7 +101,6 @@ export default page(setup, ({ section }) => ({
             Basis”, which consists of four linearly independent entangled states
             (known as the Bell states).
           </p>
-
           <M
             display
             t="
@@ -53,44 +112,11 @@ export default page(setup, ({ section }) => ({
             \end{aligned}
             "
           />
+          Notice that the above circuit turned <M t="\ket{00}" /> into{" "}
+          <M t="\ket{\beta_{00}}" /> and <M t="\ket{11}" /> into{" "}
+          <M t="\ket{\beta_{11}}" />.
         </Prose>
       ),
-    }),
-
-    section({
-      name: "circuitToGenerateBellStates",
-      enumerate: false,
-      body: (
-        <Prose>
-          <p>
-            On the previous page, you discovered that the output of:
-            <QuantumCircuit
-              t="
-              \lstick{\ket{0}} & \gate{H} & \ctrl{1} & \qw \\
-              \lstick{\ket{0}} & \qw & \targ & \qw
-              "
-            />
-            was:
-            <M
-              display
-              t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{11}) = \ket{\beta_{00}}"
-            />
-          </p>
-
-          <p>This circuit is commonly used to entangle states.</p>
-
-          <p>
-            <strong>Check for yourself</strong> that if you input the other
-            three basis states (
-            <M prespace={false} t="\ket{01}" />, <M t="\ket{10}" />, and{" "}
-            <M t="\ket{11}" />) this same circuit gives the corresponding Bell
-            output states.
-          </p>
-        </Prose>
-      ),
-      continue: {
-        label: "I checked it!",
-      },
     }),
 
     section({
