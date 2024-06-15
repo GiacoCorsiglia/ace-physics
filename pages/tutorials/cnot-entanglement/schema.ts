@@ -61,6 +61,19 @@ export default s.tutorial({
     introducingAliceAndBob: s.section(),
     didAliceSendMessageToBob: s.section(),
     fasterThanLight: s.section(),
+
+    practiceQuestionsIntro: s.section(),
+    whichInputsToCnotEntangle: s.section({
+      messages: [
+        "basisStatesDontEntangle",
+        "missingAnEntangler",
+        "wrongAndMissingRight",
+        "correct",
+      ],
+    }),
+    outputOfTwoCNOTs: s.section(),
+    upsideDownEntangler: s.section(),
+    upsideDownEntangler01: s.section(),
   },
   responses: {
     CNOTMatrix33: s.number(),
@@ -116,6 +129,13 @@ export default s.tutorial({
     didAliceSendMessageToBob: s.chooseOne(["yes", "no"]),
     didAliceSendMessageToBobExplain: s.string(),
     fasterThanLight: s.string(),
+
+    whichInputsToCnotEntangle: s.chooseAll(["|0>", "|1>", "|+>", "|->"]),
+    outputOfTwoCNOTs1: s.string(),
+    outputofTwoCNOTs2: s.string(),
+    upsideDownEntangledAfterH: s.chooseOne(["entangled", "not entangled"]),
+    upsideDownEntangledAfterCNOT: s.chooseOne(["entangled", "not entangled"]),
+    upsideDownEntangler01: s.number(),
   },
   hints: {
     gateIsLinear: s.hint(),
