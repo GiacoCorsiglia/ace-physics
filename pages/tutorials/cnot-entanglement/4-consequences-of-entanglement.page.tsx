@@ -75,7 +75,7 @@ export default page(setup, ({ section }) => ({
         </>
       ),
       guidance: {
-        nextMessage: (responses) => {
+        nextMessage: (responses, state) => {
           if (
             responses.whichInputsToCnotEntangle?.selected?.includes("|+>") &&
             responses.whichInputsToCnotEntangle?.selected?.includes("|->")
@@ -86,7 +86,13 @@ export default page(setup, ({ section }) => ({
             ) {
               return "basisStatesDontEntangle";
             }
-            // return "correct";
+            if (
+              state.sections?.whichInputsToCnotEntangle?.revealedMessages &&
+              state.sections?.whichInputsToCnotEntangle.revealedMessages
+                .length > 0
+            ) {
+              return "correct";
+            }
             return null;
           }
           if (
@@ -111,11 +117,34 @@ export default page(setup, ({ section }) => ({
           ) {
             return "basisStatesDontEntangle";
           }
+          if (
+            responses.whichInputsToCnotEntangle?.selected?.includes("|+>") &&
+            responses.whichInputsToCnotEntangle?.selected?.includes("|->") &&
+            !responses.whichInputsToCnotEntangle?.selected?.includes("|0>") &&
+            !responses.whichInputsToCnotEntangle?.selected?.includes("|1>") &&
+            state.sections?.whichInputsToCnotEntangle?.revealedMessages &&
+            state.sections?.whichInputsToCnotEntangle.revealedMessages.length >
+              0
+          ) {
+            return "correct";
+          }
           return null;
         },
         messages: {
           correct: {
-            body: <Callout color="green"></Callout>,
+            body: (
+              <Callout color="green">
+                <p>
+                  <M t="\ket{+}" /> in this circuit produces{" "}
+                  <M t="\frac{1}{\sqrt{2}}(\ket{00} + \ket{11})" />.
+                </p>
+                <p>
+                  <M t="\ket{-}" /> in this circuit produces{" "}
+                  <M t="\frac{1}{\sqrt{2}}(\ket{00} - \ket{11})" />.
+                </p>
+                <p>Both of these states are entangled.</p>
+              </Callout>
+            ),
             onContinue: "nextSection",
           },
           basisStatesDontEntangle: {
@@ -133,7 +162,8 @@ export default page(setup, ({ section }) => ({
                 </p>
               </Callout>
             ),
-            onContinue: "nextSection",
+            onContinue: "nextMessage",
+            continueLabel: "I've changed my answer",
           },
           missingAnEntangler: {
             body: (
@@ -141,7 +171,8 @@ export default page(setup, ({ section }) => ({
                 There is more than one correct answer.
               </Callout>
             ),
-            onContinue: "nextSection",
+            onContinue: "nextMessage",
+            continueLabel: "I've changed my answer",
           },
           wrongAndMissingRight: {
             body: (
@@ -159,7 +190,8 @@ export default page(setup, ({ section }) => ({
                 </p>
               </Callout>
             ),
-            onContinue: "nextSection",
+            onContinue: "nextMessage",
+            continueLabel: "I've changed my answer",
           },
         },
       },
