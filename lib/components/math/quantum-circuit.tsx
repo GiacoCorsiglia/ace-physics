@@ -475,6 +475,11 @@ const parse = (tex: string): Cell[][] => {
   // behinds sadly.
   tex = tex.replace(comment, "$1");
 
+  // Hack for the \meter command.
+  tex = tex.replace("\\meter", "\\gate{\\metersymb}");
+  // Ugly version of this symbol.
+  tex = tex.replace("\\metersymb", "{\\frown}\\mathllap{/\\,}");
+
   const gateGroups: GateGroup[] = [];
 
   tex = tex.replace(gateGroup, (_, fromRow, toRow, fromCol, toCol) => {
