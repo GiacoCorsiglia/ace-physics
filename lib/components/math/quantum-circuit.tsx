@@ -14,7 +14,7 @@ import styles from "./quantum-circuit.module.scss";
  * A shitty implementation of the QCircuit LaTeX package using KaTeX plus custom
  * HTML/CSS.
  *
- * https://mirror2.sandyriver.net/pub/ctan/graphics/qcircuit/qcircuit.pdf
+ * https://ctan.math.utah.edu/ctan/tex-archive/graphics/qcircuit/qcircuit.pdf
  */
 export const QuantumCircuit = memo(function QuantumCircuit({
   t: tex,
@@ -256,6 +256,7 @@ const cellTypes = {
 interface SharedCellOptions {
   verticalWireAbove: number;
   verticalWireBelow: number;
+  verticalWireType: VerticalWireType;
 
   borderTop: boolean;
   borderRight: boolean;
@@ -305,21 +306,27 @@ const parseTypedCell = (
   };
 };
 
-const qwx = /\\qwx(?:\[\s*(-?\d+)\s*\])?(?:\s|$)/g;
+// These are modifiers to cells.
+const modifier = /\\(qwx|barrier)(?:(?:\{|\[)\s*(-?\d+)\s*(?:\}|\]))?(?:\s|$)/g;
+
+type VerticalWireType = null | "qwx" | "barrier";
 
 const parseCell = (tex: string): Cell => {
   tex = tex.trim();
 
-  // Parse \qwx commands (and remove them from the tex).
+  // Parse \qwx and \barrier commands (and remove them from the tex).
   let verticalWireAbove = 0;
   let verticalWireBelow = 0;
-  tex = tex.replace(qwx, (_, rowsString) => {
+  let verticalWireType: VerticalWireType = null;
+  tex = tex.replace(modifier, (_, command, rowsString) => {
     const rows = parseInt(rowsString || -1);
     if (rows < 0) {
       verticalWireAbove = Math.abs(rows);
     } else {
       verticalWireBelow = rows;
     }
+    // Presumably there will only be one of \barrier or \qwx...
+    verticalWireType = command as VerticalWireType;
     return "";
   });
 
@@ -330,6 +337,7 @@ const parseCell = (tex: string): Cell => {
     borderLeft: false,
     verticalWireAbove,
     verticalWireBelow,
+    verticalWireType,
   });
 };
 
@@ -372,6 +380,9 @@ const attachRows = (cells: Cell[][]): void => {
             continue;
           }
 
+          // If you already have a verticalWireType then...what does that mean??
+          aboveCell.verticalWireType ??= cell.verticalWireType;
+
           aboveCell.verticalWireBelow = Math.max(
             1,
             aboveCell.verticalWireBelow,
@@ -394,6 +405,8 @@ const attachRows = (cells: Cell[][]): void => {
           if (!belowCell) {
             continue;
           }
+
+          belowCell.verticalWireType ??= cell.verticalWireType;
 
           belowCell.verticalWireAbove = Math.max(
             1,
@@ -523,6 +536,8 @@ const Cell = ({ cell }: { cell: Cell }) => {
           styles.cell,
           hasWireAbove && styles.hasWireAbove,
           hasWireBelow && styles.hasWireBelow,
+          cell.verticalWireType === "barrier" && styles.wireIsBarrier,
+          cell.verticalWireType === "qwx" && styles.wireIsQwx,
           cell.borderTop && styles.borderTop,
           cell.borderBottom && styles.borderBottom,
         )}
@@ -588,4 +603,3 @@ const HorizontalWireGrid = () => (
 );
 
 const HorizontalWire = styled.span(styles.horizontalWire);
-const VerticalWire = styled.span(styles.verticalWire);
