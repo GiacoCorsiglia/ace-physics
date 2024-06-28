@@ -186,7 +186,7 @@ export default page(setup, ({ section }) => ({
             </>
           )}
 
-          {responses?.isProbQubit1Beta11FiftyFifty && (
+          {/* {responses?.isProbQubit1Beta11FiftyFifty && (
             <>
               <hr />
 
@@ -207,9 +207,9 @@ export default page(setup, ({ section }) => ({
                 explanation="The original state is entangled, qubit 1 does not a definite state by itself."
               />
             </>
-          )}
+          )} */}
 
-          {responses?.isStateQubit1Beta11Minus && (
+          {/* {responses?.isStateQubit1Beta11Minus && (
             <>
               <hr />
 
@@ -233,7 +233,7 @@ export default page(setup, ({ section }) => ({
                 explanation="The original state is entangled, qubit 1 does not have a definite state by itself."
               />
             </>
-          )}
+          )} */}
         </>
       ),
     }),
