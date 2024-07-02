@@ -12,10 +12,36 @@ export default s.tutorial({
     theEffectsOfAnEavesdropper: s.page(),
   },
   pretest: {
-    // Pretest fields here.
+    whenBobMeasuresCorrectly: s.chooseAll([
+      "sendMeasure",
+      "HsendMeasure",
+      "sendHMeasure",
+      "HsendHMeasure",
+    ]),
+    probOfMeasuringCorrectly: s.number(),
+    whenStateRemainsSame: s.chooseAll([
+      "minusMeasure",
+      "plusHMeasureH",
+      "zeroMeasure",
+      "oneHMeasureH",
+    ]),
+    probOfStateSame: s.number(),
   },
   posttest: {
-    // Posttest fields here.
+    whenBobMeasuresCorrectly: s.chooseAll([
+      "sendMeasure",
+      "HsendMeasure",
+      "sendHMeasure",
+      "HsendHMeasure",
+    ]),
+    probOfMeasuringCorrectly: s.number(),
+    whenStateRemainsSame: s.chooseAll([
+      "minusMeasure",
+      "plusHMeasureH",
+      "zeroMeasure",
+      "oneHMeasureH",
+    ]),
+    probOfStateSame: s.number(),
   },
   sections: {
     tableWithoutEveStateAlice1: s.section({
