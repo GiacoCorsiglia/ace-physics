@@ -3,19 +3,11 @@ import {
   ChooseAll,
   Decimal,
   Horizontal,
-  Image,
   M,
   Prose,
+  QuantumCircuit,
 } from "@/components";
 import { posttest } from "@/tutorial";
-import doesBobMeasureCorrectly1 from "./media/doesBobMeasureCorrectly1.png";
-import doesBobMeasureCorrectly2 from "./media/doesBobMeasureCorrectly2.png";
-import doesBobMeasureCorrectly3 from "./media/doesBobMeasureCorrectly3.png";
-import doesBobMeasureCorrectly4 from "./media/doesBobMeasureCorrectly4.png";
-import whenStateRemainsSame1 from "./media/whenStateRemainsSame1.png";
-import whenStateRemainsSame2 from "./media/whenStateRemainsSame2.png";
-import whenStateRemainsSame3 from "./media/whenStateRemainsSame3.png";
-import whenStateRemainsSame4 from "./media/whenStateRemainsSame4.png";
 import setup from "./setup";
 
 export default posttest(setup, ({ section }) => ({
@@ -52,35 +44,39 @@ export default posttest(setup, ({ section }) => ({
             choices={[
               [
                 "sendMeasure",
-                <Image
-                  src={doesBobMeasureCorrectly1}
-                  alt="The experimental setup described above"
-                  maxWidth={"200px"}
-                />,
+                <QuantumCircuit t="\lstick{\ket{0}} & \begin{matrix}send \newline to \; Bob\end{matrix} & \meter" />,
+                // <Image
+                //   src={doesBobMeasureCorrectly1}
+                //   alt="The experimental setup described above"
+                //   maxWidth={"200px"}
+                // />,
               ],
               [
                 "HsendMeasure",
-                <Image
-                  src={doesBobMeasureCorrectly2}
-                  alt="The experimental setup described above"
-                  maxWidth={"243px"}
-                />,
+                <QuantumCircuit t="\lstick{\ket{0}} & \gate{H} & \begin{matrix}send \newline to \; Bob\end{matrix} & \meter" />,
+                // <Image
+                //   src={doesBobMeasureCorrectly2}
+                //   alt="The experimental setup described above"
+                //   maxWidth={"243px"}
+                // />,
               ],
               [
                 "sendHMeasure",
-                <Image
-                  src={doesBobMeasureCorrectly3}
-                  alt="The experimental setup described above"
-                  maxWidth={"260px"}
-                />,
+                <QuantumCircuit t="\lstick{\ket{0}} & \begin{matrix}send \newline to \; Bob\end{matrix} & \gate{H} & \meter" />,
+                // <Image
+                //   src={doesBobMeasureCorrectly3}
+                //   alt="The experimental setup described above"
+                //   maxWidth={"260px"}
+                // />,
               ],
               [
                 "HsendHMeasure",
-                <Image
-                  src={doesBobMeasureCorrectly4}
-                  alt="The experimental setup described above"
-                  maxWidth={"280px"}
-                />,
+                <QuantumCircuit t="\lstick{\ket{0}} & \gate{H} & \begin{matrix}send \newline to \; Bob\end{matrix} & \gate{H} &\meter" />,
+                // <Image
+                //   src={doesBobMeasureCorrectly4}
+                //   alt="The experimental setup described above"
+                //   maxWidth={"280px"}
+                // />,
               ],
             ]}
           />
@@ -128,35 +124,40 @@ export default posttest(setup, ({ section }) => ({
             choices={[
               [
                 "minusMeasure",
-                <Image
-                  src={whenStateRemainsSame1}
-                  alt="The experimental setup described above"
-                  maxWidth={"246px"}
-                />,
+                <QuantumCircuit t="\lstick{\ket{-}} & \meter & \rstick{send}" />,
+                // <Image
+                //   src={whenStateRemainsSame1}
+                //   alt="The experimental setup described above"
+                //   maxWidth={"246px"}
+                // />,
               ],
               [
                 "plusHMeasureH",
-                <Image
-                  src={whenStateRemainsSame2}
-                  alt="The experimental setup described above"
-                  maxWidth={"335px"}
-                />,
+                <QuantumCircuit t="\lstick{\ket{+}} & \gate{H} & \meter & \gate{H} & \rstick{send}" />,
+                // <Image
+                //   src={whenStateRemainsSame2}
+                //   alt="The experimental setup described above"
+                //   maxWidth={"335px"}
+                // />,
               ],
               [
                 "zeroMeasure",
-                <Image
-                  src={whenStateRemainsSame3}
-                  alt="The experimental setup described above"
-                  maxWidth={"228px"}
-                />,
+
+                <QuantumCircuit t="\lstick{\ket{0}} & \meter & \rstick{send}" />,
+                // <Image
+                //   src={whenStateRemainsSame3}
+                //   alt="The experimental setup described above"
+                //   maxWidth={"228px"}
+                // />,
               ],
               [
                 "oneHMeasureH",
-                <Image
-                  src={whenStateRemainsSame4}
-                  alt="The experimental setup described above"
-                  maxWidth={"323px"}
-                />,
+                <QuantumCircuit t="\lstick{\ket{1}} & \gate{H} & \meter & \gate{H} & \rstick{send}" />,
+                // <Image
+                //   src={whenStateRemainsSame4}
+                //   alt="The experimental setup described above"
+                //   maxWidth={"323px"}
+                // />,
               ],
             ]}
           />
