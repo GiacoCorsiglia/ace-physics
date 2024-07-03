@@ -50,7 +50,14 @@ export const QuantumCircuit = memo(function QuantumCircuit({
         {cells.map((row, i) => (
           <tr key={i}>
             {row.map((cell, j) => (
-              <Cell key={j} cell={cell} />
+              <Cell
+                key={j}
+                cell={cell}
+                context={{
+                  isFirst: j === 0,
+                  isLast: j === row.length - 1,
+                }}
+              />
             ))}
           </tr>
         ))}
@@ -70,7 +77,10 @@ interface CellType<U extends object> {
     sharedOptions: SharedCellOptions,
   ): SharedCellOptions;
 
-  render(options: U): {
+  render(
+    options: U,
+    context: { isFirst: boolean; isLast: boolean },
+  ): {
     rowSpan?: number;
     tableElement?: JSX.Element | null;
     element?: JSX.Element | null;
@@ -141,7 +151,7 @@ const Meter = CellType({
     return {};
   },
 
-  render() {
+  render(_, context) {
     return {
       content: (
         // Meters are basically gates in that they are a boxed symbol.
@@ -151,7 +161,8 @@ const Meter = CellType({
         </span>
       ),
 
-      hasWireRight: false,
+      // Don't render a wire to the right if this is the last thing in the row.
+      hasWireRight: !context.isLast,
     };
   },
 });
@@ -521,10 +532,16 @@ const parse = (tex: string): Cell[][] => {
   return cells;
 };
 
-const Cell = ({ cell }: { cell: Cell }) => {
+const Cell = ({
+  cell,
+  context,
+}: {
+  cell: Cell;
+  context: { isFirst: boolean; isLast: boolean };
+}) => {
   const cellType = cellTypes[cell.type];
 
-  const renderOptions = cellType.render(cell.options as any);
+  const renderOptions = cellType.render(cell.options as any, context);
 
   const { hasWireLeft = true, hasWireRight = true } = renderOptions;
   const hasWireAbove = cell.verticalWireAbove > 0;
