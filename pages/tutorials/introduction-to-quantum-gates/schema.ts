@@ -67,6 +67,7 @@ export default s.tutorial({
     hTimesHTimesKet: s.section({
       messages: ["correct", "signError", "plus", "incorrect"],
     }),
+    hDistinguishesMinusFromPlus: s.section(),
 
     identityGateIntro: s.section(),
     identityTimesKet: s.section({
