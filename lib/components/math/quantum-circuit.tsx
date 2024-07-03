@@ -134,6 +134,28 @@ const Gate = CellType({
   },
 });
 
+const Meter = CellType({
+  pattern: /\\meter/,
+
+  create() {
+    return {};
+  },
+
+  render() {
+    return {
+      content: (
+        // Meters are basically gates in that they are a boxed symbol.
+        <span className={styles.gate}>
+          {/* Ugly version of `metersymb`. */}
+          <M t="{\frown}\mathllap{/\,}" />
+        </span>
+      ),
+
+      hasWireRight: false,
+    };
+  },
+});
+
 const Ghost = CellType({
   pattern: /\\ghost(?:$|\s*|\{.*\})?/,
 
@@ -245,13 +267,14 @@ const Unknown = CellType({
 const cellTypes = {
   Ctrl,
   Gate,
+  Meter,
   Ghost,
   MultiGate,
   Qw,
   Stick,
   Targ,
   Unknown,
-}; // TODO: satisfies Record<string, CellType<any>>
+} satisfies Record<string, CellType<any>>;
 
 interface SharedCellOptions {
   verticalWireAbove: number;
@@ -474,11 +497,6 @@ const parse = (tex: string): Cell[][] => {
   // Remove comments.  Replace ($1)\ with $1, since we can't use negative look
   // behinds sadly.
   tex = tex.replace(comment, "$1");
-
-  // Hack for the \meter command.
-  tex = tex.replace("\\meter", "\\gate{\\metersymb}");
-  // Ugly version of this symbol.
-  tex = tex.replace("\\metersymb", "{\\frown}\\mathllap{/\\,}");
 
   const gateGroups: GateGroup[] = [];
 
