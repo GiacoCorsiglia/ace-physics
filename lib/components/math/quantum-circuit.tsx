@@ -566,6 +566,11 @@ const Cell = ({
     </span>
   );
 
+  // The default wire type is "QWX" which is centered.  This "effective"
+  // nonsense is necessary for CNOT.
+  const effectiveWireType =
+    cell.verticalWireType ?? (hasWireAbove || hasWireBelow ? "qwx" : null);
+
   const element =
     "tableElement" in renderOptions ? (
       renderOptions.tableElement
@@ -576,8 +581,8 @@ const Cell = ({
           styles.cell,
           hasWireAbove && styles.hasWireAbove,
           hasWireBelow && styles.hasWireBelow,
-          cell.verticalWireType === "barrier" && styles.wireIsBarrier,
-          cell.verticalWireType === "qwx" && styles.wireIsQwx,
+          effectiveWireType === "barrier" && styles.wireIsBarrier,
+          effectiveWireType === "qwx" && styles.wireIsQwx,
           cell.borderTop && styles.borderTop,
           cell.borderBottom && styles.borderBottom,
         )}
