@@ -26,16 +26,42 @@ $space-between-cells: 0.4em;
   vertical-align: middle;
   height: 100%;
 
+  // This is the verticalWire!
   &::before,
   &::after {
     display: none;
     position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 1px;
-    background: currentColor;
+    width: 0;
+    border-right: 1px solid currentColor;
+  }
+
+  // These are centered.
+  &.wireIsQwx {
+    &::before,
+    &::after {
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  // These are *after* this particualr gate
+  &.wireIsBarrier {
+    &::before,
+    &::after {
+      right: -0.75rem;
+      // TODO: We should use SVG or something to control the strokedasharray.
+      border-right-style: dashed;
+    }
+
+    // When they're barriers, extend them.
+    &.hasWireAbove:not(.hasWireBelow)::before {
+      bottom: 0;
+    }
+    &.hasWireBelow:not(.hasWireAbove)::after {
+      top: 0;
+    }
   }
 
   &.hasWireAbove::before {
@@ -144,24 +170,6 @@ $space-between-cells: 0.4em;
   display: block;
   height: 1px;
   background: currentColor;
-}
-
-.verticalWire {
-  position: relative;
-  min-height: 0.5em;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 1px;
-    background: currentColor;
-    transform: translateY(1px); // Seems to be off center by a pixel.
-  }
 }
 
 .ctrl {

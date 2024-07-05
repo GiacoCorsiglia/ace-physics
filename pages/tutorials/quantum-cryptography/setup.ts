@@ -16,8 +16,8 @@ export default tutorialSetup({
   id: "QuantumCryptography",
   link: "quantum-cryptography",
   label: "Quantum Cryptography",
-  pretest: false,
-  posttest: false,
+  pretest: true,
+  posttest: true,
   pages: [
     {
       link: "1-quantum-key-distribution",

@@ -8,11 +8,12 @@ import {
   LabelsLeft,
   M,
   Prose,
+  TextBox,
   Toggle,
 } from "@/components";
 import { page, repeatedModel } from "@/tutorial";
-import Hadamard1Full from "./media/Hadamard 1 Full.jpg";
-import Hadamard1Half from "./media/Hadamard 1 Half.jpg";
+import Hadamard1Half from "./media/BB84 Alice and Bob Half.png";
+import Hadamard1Full from "./media/BB84 Alice and Bob.png";
 import setup from "./setup";
 import { tableWithoutEve } from "./shared";
 
@@ -615,6 +616,29 @@ export default page(setup, ({ section, oneOf }) => ({
     }),
 
     section({
+      name: "circumstancesWhenBobAndAlice100Agree",
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.circumstancesWhenBobAndAlice100Agree}
+            label={
+              <Prose>
+                <p>
+                  Consider the bits where Alice and Bob got the same result with
+                  100% probability (i.e., Bob didn't get a <em>random</em> bit).
+                </p>
+                <p>
+                  In your own words, why does this happen (or, under what
+                  circumstances)?
+                </p>
+              </Prose>
+            }
+          ></TextBox>
+        </>
+      ),
+    }),
+
+    section({
       name: "amountOfBitStringsAgree",
       body: (m) => (
         <>
@@ -657,8 +681,8 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <>
           <Prose>
-            If they repeat the above procedure with many qubits, what fraction
-            of the bits will agree (on average)?
+            If we repeat the above procedure many times, what fraction of the
+            bits will agree (on average)?
           </Prose>
           <ChooseOne
             model={m.fractionOfBitStringsAgree}

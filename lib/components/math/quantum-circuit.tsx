@@ -14,7 +14,7 @@ import styles from "./quantum-circuit.module.scss";
  * A shitty implementation of the QCircuit LaTeX package using KaTeX plus custom
  * HTML/CSS.
  *
- * https://mirror2.sandyriver.net/pub/ctan/graphics/qcircuit/qcircuit.pdf
+ * https://ctan.math.utah.edu/ctan/tex-archive/graphics/qcircuit/qcircuit.pdf
  */
 export const QuantumCircuit = memo(function QuantumCircuit({
   t: tex,
@@ -50,7 +50,14 @@ export const QuantumCircuit = memo(function QuantumCircuit({
         {cells.map((row, i) => (
           <tr key={i}>
             {row.map((cell, j) => (
-              <Cell key={j} cell={cell} />
+              <Cell
+                key={j}
+                cell={cell}
+                context={{
+                  isFirst: j === 0,
+                  isLast: j === row.length - 1,
+                }}
+              />
             ))}
           </tr>
         ))}
@@ -70,7 +77,10 @@ interface CellType<U extends object> {
     sharedOptions: SharedCellOptions,
   ): SharedCellOptions;
 
-  render(options: U): {
+  render(
+    options: U,
+    context: { isFirst: boolean; isLast: boolean },
+  ): {
     rowSpan?: number;
     tableElement?: JSX.Element | null;
     element?: JSX.Element | null;
@@ -130,6 +140,29 @@ const Gate = CellType({
           <M t={options.tex} />
         </span>
       ),
+    };
+  },
+});
+
+const Meter = CellType({
+  pattern: /\\meter/,
+
+  create() {
+    return {};
+  },
+
+  render(_, context) {
+    return {
+      content: (
+        // Meters are basically gates in that they are a boxed symbol.
+        <span className={styles.gate}>
+          {/* Ugly version of `metersymb`. */}
+          <M t="{\frown}\mathllap{/\,}" />
+        </span>
+      ),
+
+      // Don't render a wire to the right if this is the last thing in the row.
+      hasWireRight: !context.isLast,
     };
   },
 });
@@ -245,17 +278,19 @@ const Unknown = CellType({
 const cellTypes = {
   Ctrl,
   Gate,
+  Meter,
   Ghost,
   MultiGate,
   Qw,
   Stick,
   Targ,
   Unknown,
-}; // TODO: satisfies Record<string, CellType<any>>
+} satisfies Record<string, CellType<any>>;
 
 interface SharedCellOptions {
   verticalWireAbove: number;
   verticalWireBelow: number;
+  verticalWireType: VerticalWireType;
 
   borderTop: boolean;
   borderRight: boolean;
@@ -305,21 +340,27 @@ const parseTypedCell = (
   };
 };
 
-const qwx = /\\qwx(?:\[\s*(-?\d+)\s*\])?(?:\s|$)/g;
+// These are modifiers to cells.
+const modifier = /\\(qwx|barrier)(?:(?:\{|\[)\s*(-?\d+)\s*(?:\}|\]))?(?:\s|$)/g;
+
+type VerticalWireType = null | "qwx" | "barrier";
 
 const parseCell = (tex: string): Cell => {
   tex = tex.trim();
 
-  // Parse \qwx commands (and remove them from the tex).
+  // Parse \qwx and \barrier commands (and remove them from the tex).
   let verticalWireAbove = 0;
   let verticalWireBelow = 0;
-  tex = tex.replace(qwx, (_, rowsString) => {
+  let verticalWireType: VerticalWireType = null;
+  tex = tex.replace(modifier, (_, command, rowsString) => {
     const rows = parseInt(rowsString || -1);
     if (rows < 0) {
       verticalWireAbove = Math.abs(rows);
     } else {
       verticalWireBelow = rows;
     }
+    // Presumably there will only be one of \barrier or \qwx...
+    verticalWireType = command as VerticalWireType;
     return "";
   });
 
@@ -330,6 +371,7 @@ const parseCell = (tex: string): Cell => {
     borderLeft: false,
     verticalWireAbove,
     verticalWireBelow,
+    verticalWireType,
   });
 };
 
@@ -372,6 +414,9 @@ const attachRows = (cells: Cell[][]): void => {
             continue;
           }
 
+          // If you already have a verticalWireType then...what does that mean??
+          aboveCell.verticalWireType ??= cell.verticalWireType;
+
           aboveCell.verticalWireBelow = Math.max(
             1,
             aboveCell.verticalWireBelow,
@@ -394,6 +439,8 @@ const attachRows = (cells: Cell[][]): void => {
           if (!belowCell) {
             continue;
           }
+
+          belowCell.verticalWireType ??= cell.verticalWireType;
 
           belowCell.verticalWireAbove = Math.max(
             1,
@@ -485,10 +532,16 @@ const parse = (tex: string): Cell[][] => {
   return cells;
 };
 
-const Cell = ({ cell }: { cell: Cell }) => {
+const Cell = ({
+  cell,
+  context,
+}: {
+  cell: Cell;
+  context: { isFirst: boolean; isLast: boolean };
+}) => {
   const cellType = cellTypes[cell.type];
 
-  const renderOptions = cellType.render(cell.options as any);
+  const renderOptions = cellType.render(cell.options as any, context);
 
   const { hasWireLeft = true, hasWireRight = true } = renderOptions;
   const hasWireAbove = cell.verticalWireAbove > 0;
@@ -513,6 +566,11 @@ const Cell = ({ cell }: { cell: Cell }) => {
     </span>
   );
 
+  // The default wire type is "QWX" which is centered.  This "effective"
+  // nonsense is necessary for CNOT.
+  const effectiveWireType =
+    cell.verticalWireType ?? (hasWireAbove || hasWireBelow ? "qwx" : null);
+
   const element =
     "tableElement" in renderOptions ? (
       renderOptions.tableElement
@@ -523,6 +581,8 @@ const Cell = ({ cell }: { cell: Cell }) => {
           styles.cell,
           hasWireAbove && styles.hasWireAbove,
           hasWireBelow && styles.hasWireBelow,
+          effectiveWireType === "barrier" && styles.wireIsBarrier,
+          effectiveWireType === "qwx" && styles.wireIsQwx,
           cell.borderTop && styles.borderTop,
           cell.borderBottom && styles.borderBottom,
         )}
@@ -588,4 +648,3 @@ const HorizontalWireGrid = () => (
 );
 
 const HorizontalWire = styled.span(styles.horizontalWire);
-const VerticalWire = styled.span(styles.verticalWire);
