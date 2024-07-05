@@ -67,6 +67,7 @@ export default s.tutorial({
     }),
     bobRandomChoiceOnEachQubitAnswers2: s.section(),
     natureEffectBobBitAfterMeasurement: s.section(),
+    circumstancesWhenBobAndAlice100Agree: s.section(),
     amountOfBitStringsAgree: s.section({
       messages: ["incorrect"],
     }),
@@ -140,6 +141,7 @@ export default s.tutorial({
     }),
     eveRandomChoiceOnEachQubitAnswers2: s.section(),
     natureEffectAfterEveSends: s.section(),
+    circumstancesEveMeasuresR: s.section({ messages: ["ourAnswer"] }),
     qubitStateEveSendsToBob1: s.section({
       messages: ["correctStates", "wrongStates", "wrongStates2"],
     }),
@@ -149,6 +151,7 @@ export default s.tutorial({
     }),
     qubitStateEveSendsToBob2Answers: s.section(),
     tableWithEveAndNotBobComplete: s.section(),
+    circumstancesEveSendsSameState: s.section({ messages: ["ourAnswer"] }),
     bobsBitAfterEve1: s.section({
       messages: ["correctBits", "wrongBits", "wrongBits2"],
     }),
@@ -160,10 +163,14 @@ export default s.tutorial({
 
     bobsMeasurementAfterEveSends: s.section(),
     natureEffectToBobMeasurements: s.section(),
+    circumstancesBobCorrectBecomesR: s.section(),
     fractionOfMismatchedComparedSampleBits: s.section({
       messages: ["incorrect"],
     }),
-    fractionOfMismatchedComparedBits: s.section({ messages: ["incorrect"] }),
+    fractionOfMismatchedComparedBits: s.section({
+      messages: ["incorrect", "correct", "didYouWriteMismatch"],
+    }),
+    explanationOfMismatchedComparedBits: s.section(),
     chanceOfEveBeingUndetected: s.section({ messages: ["incorrect"] }),
     oddsOfBobAliceFailToNotice: s.section({ messages: ["explanation"] }),
     conclusion: s.section(),
@@ -183,6 +190,7 @@ export default s.tutorial({
 
     // Section 1
 
+    circumstancesWhenBobAndAlice100Agree: s.string(),
     amountOfBitStringsAgree: s.number(),
     fractionOfBitStringsAgree: s.chooseOne([
       "0%",
@@ -224,12 +232,18 @@ export default s.tutorial({
       "no",
     ]),
     ipEMMExplanation: s.string(),
+    circumstancesEveMeasuresR: s.string(),
+    howOftenEveMeasuresR: s.number(),
+    circumstancesEveSendsSameState: s.string(),
+    circumstancesBobCorrectBecomesR: s.string(),
     fractionOfMismatchedComparedSampleBits: s.number(),
     fractionOfMismatchedComparedBits: s.number(),
     chanceOfEveBeingUndetected: s.number(),
     oddsOfBobAliceFailToNotice: s.string(),
   },
   hints: {
+    whatIsAKey: s.hint(),
+    decisionTreeForMismatch: s.hint(),
     // Hints here.
   },
 });

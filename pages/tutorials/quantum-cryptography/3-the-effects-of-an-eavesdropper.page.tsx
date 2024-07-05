@@ -10,7 +10,7 @@ import {
   TextBox,
 } from "@/components";
 import { page, repeatedModel } from "@/tutorial";
-import Hadamard2 from "./media/Hadamard 2.jpg";
+import Hadamard2 from "./media/BB84 w Eve.png";
 import setup from "./setup";
 import { tableWithEve } from "./shared";
 
@@ -472,6 +472,57 @@ export default page(setup, ({ section }) => ({
       },
     }),
     section({
+      name: "circumstancesEveMeasuresR",
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.circumstancesEveMeasuresR}
+            label={
+              <Prose>
+                <p>Consider the bits for which Eve got a random result.</p>
+                <p>
+                  In your own words, why did this happen (or, under what
+                  circumstances)?
+                </p>
+              </Prose>
+            }
+          ></TextBox>
+          <Decimal
+            model={m.howOftenEveMeasuresR}
+            label={
+              <Prose>
+                If this procedure was repeated many times, what percentage of
+                the time would Eve get a random result?
+              </Prose>
+            }
+            placeholder={"Percent"}
+          />
+        </>
+      ),
+      guidance: {
+        nextMessage: () => "ourAnswer",
+        messages: {
+          ourAnswer: {
+            body: (
+              <>
+                <Guidance.Hint>
+                  We haven't checked your answer, but:
+                </Guidance.Hint>
+                <Guidance.HeadsUp>
+                  If Eve makes a Hadamard choice opposite to Alice's choice,
+                  then Eve will always measure a superposition state (
+                  <M t="\ket{+}" /> or <M t="\ket{-}" />) in the{" "}
+                  <M t="\{0, 1\}" /> basis and get a random result. How often
+                  does this happen?
+                </Guidance.HeadsUp>
+              </>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+    section({
       name: "qubitStateEveSendsToBob1",
       body: (m) => (
         <>
@@ -772,6 +823,46 @@ export default page(setup, ({ section }) => ({
       },
     }),
 
+    section({
+      name: "circumstancesEveSendsSameState",
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.circumstancesEveSendsSameState}
+            label={
+              <Prose>
+                <p>
+                  Under what circumstances could Eve send the same quantum state
+                  that Alice sent?
+                </p>
+              </Prose>
+            }
+          ></TextBox>
+        </>
+      ),
+      guidance: {
+        nextMessage: () => "ourAnswer",
+        messages: {
+          ourAnswer: {
+            body: (
+              <>
+                <Guidance.Hint>
+                  We haven't checked your answer, but:
+                </Guidance.Hint>
+                <Guidance.HeadsUp>
+                  If Eve makes the same Hadamard choice as Alice, she will
+                  measure the original bit that Alice randomly chose, and then
+                  send it along in the same basis that Alice sent. If Eve makes
+                  the wrong choice, she will <em>always</em> send a qubit in the
+                  wrong basis. Can you tell why?
+                </Guidance.HeadsUp>
+              </>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
     section({
       name: "bobsBitAfterEve1",
       body: (m) => (
@@ -1118,6 +1209,29 @@ export default page(setup, ({ section }) => ({
       },
     }),
     section({
+      name: "circumstancesBobCorrectBecomesR",
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.circumstancesBobCorrectBecomesR}
+            label={
+              <Prose>
+                <p>
+                  Before Eve's interference, these seven bits were the bits that
+                  Alice and Bob agreed on 100% of the time. Now, however, some
+                  of Bob's meaurements are resulting in random answers.
+                </p>
+                <p>
+                  In your own words, why does this happen (or, under what
+                  circumstances)?
+                </p>
+              </Prose>
+            }
+          ></TextBox>
+        </>
+      ),
+    }),
+    section({
       name: "fractionOfMismatchedComparedSampleBits",
       body: (m) => (
         <>
@@ -1168,8 +1282,9 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             Now consider a very large string (much larger than 7 bits). Eve is
-            intercepting all bits. Alice and Bob are only comparing 'keep' bits.
-            What percentage of the compared bits will mismatch?{" "}
+            intercepting all bits. Alice and Bob are only comparing bits which
+            they expect will agree (i.e. they made the same H-gate choice) What
+            percentage of the compared bits will mismatch?{" "}
             <b>(Round to the nearest percent).</b>
           </Prose>
           <LabelsLeft>
@@ -1181,9 +1296,26 @@ export default page(setup, ({ section }) => ({
         </>
       ),
       guidance: {
-        nextMessage(r) {
-          if (r.fractionOfMismatchedComparedBits !== 25) return "incorrect";
-          return null;
+        nextMessage(r, s) {
+          if (
+            r.fractionOfMismatchedComparedBits === 75 ||
+            r.fractionOfMismatchedComparedBits === 0.75
+          )
+            return "didYouWriteMismatch";
+          if (
+            r.fractionOfMismatchedComparedBits !== 25 &&
+            r.fractionOfMismatchedComparedBits !== 0.25
+          ) {
+            if (
+              !s.sections?.fractionOfMismatchedComparedBits?.revealedMessages?.includes(
+                "incorrect",
+              )
+            ) {
+              return "incorrect";
+            }
+            return null;
+          }
+          return "correct";
         },
         messages: {
           incorrect: {
@@ -1197,19 +1329,97 @@ export default page(setup, ({ section }) => ({
                   and Bob, and the state will pass from Eve to Bob unchanged.{" "}
                   <hr />
                   50% of the time, Eve will make a different H-gate choice from
-                  Alice and Bob. Ultimately, this will result in Bob measuring a
-                  state from the <M t="{\{\ket{+}, \ket{-}\}}" /> basis, giving
-                  him a random result that is as likely to match as mismatch.
+                  Alice and Bob. This will result in Bob measuring a state from
+                  the <M t="{\{\ket{+}, \ket{-}\}}" /> basis, giving him a
+                  random result that is as likely to match as mismatch.
                   <hr />
-                  If you combine these two cases, Bob's and Alice's bits will
-                  match 75% of the time, and mismatch 25% of the time.
+                  Under these circumstances, how often will their bits mismatch?
+                  {/* If you combine these two cases, Bob's and Alice's bits will
+                  match 75% of the time, and mismatch 25% of the time. */}
                 </Guidance.Disagree>
               </>
             ),
             onContinue: "nextSection",
           },
+          correct: {
+            body: (state) => (
+              <>
+                <Guidance.Agree>
+                  {!state.sections?.fractionOfMismatchedComparedBits?.revealedMessages?.includes(
+                    "incorrect",
+                  ) ? (
+                    <>
+                      We disagree with your answer. Firstly, we consider only
+                      the "keep" bits (bits where Alice and Bob agreed on their
+                      H-gate choice). <hr />
+                      50% of the time, Eve will make the same H-gate choice as
+                      Alice and Bob, and the state will pass from Eve to Bob
+                      unchanged. <hr />
+                      50% of the time, Eve will make a different H-gate choice
+                      from Alice and Bob. This will result in Bob measuring a
+                      state from the <M t="{\{\ket{+}, \ket{-}\}}" /> basis,
+                      giving him a random result that is as likely to match as
+                      mismatch.
+                      <hr />
+                      If you combine these two cases, Bob's and Alice's bits
+                      will match 75% of the time, and mismatch 25% of the time.
+                    </>
+                  ) : (
+                    <>
+                      Bob's and Alice's bits will match 75% of the time, and
+                      mismatch 25% of the time.
+                    </>
+                  )}
+                </Guidance.Agree>
+              </>
+            ),
+            onContinue: "nextMessage",
+          },
+          didYouWriteMismatch: {
+            body: (
+              <>
+                <Guidance.Disagree>
+                  Were you answering how often the qubits <em>mismatch</em> or
+                  how often they <em>match</em>?
+                </Guidance.Disagree>
+              </>
+            ),
+            onContinue: "nextMessage",
+          },
         },
       },
+      hints: [
+        {
+          name: "decisionTreeForMismatch",
+          body: (
+            <>
+              How often does Bob get the same state Alice sent? Also, what
+              happens when Bob doesn’t get the same state Alice sent?
+            </>
+          ),
+        },
+      ],
+    }),
+    section({
+      name: "explanationOfMismatchedComparedBits",
+      when: (r) =>
+        r.fractionOfMismatchedComparedBits !== 25 &&
+        r.fractionOfMismatchedComparedBits !== 0.25,
+      body: (
+        <Prose>
+          <p>
+            50% of the time, Bob's and Alice's bits match because Eve made the
+            same H-gate choice as Alice. The other 50% of the time, Bob measures
+            a random result, which means he might or might not get the same
+            result as Alice.
+          </p>
+          <p>
+            In total, Alice and Bob's bits match 75% of the time. They mismatch
+            25% of the time: when Bob gets a random result and measures the
+            opposite of Alice.
+          </p>
+        </Prose>
+      ),
     }),
     section({
       name: "chanceOfEveBeingUndetected",
