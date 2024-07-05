@@ -1,11 +1,19 @@
-import { ChooseOne, M, Prose, QuantumCircuit, TextBox } from "@/components";
+import {
+  Answer,
+  ChooseOne,
+  Guidance,
+  M,
+  Prose,
+  QuantumCircuit,
+  TextBox,
+} from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
   name: "morePractice",
   label: "More Practice",
-  answers: "none",
+  answers: "provided",
   cheatSheet: {
     body: (
       <>
@@ -58,6 +66,28 @@ export default page(setup, ({ section, hint }) => ({
           </Prose> */}
         </>
       ),
+      guidance: {
+        nextMessage: () => "inverse",
+        messages: {
+          inverse: {
+            body: (s) => (
+              <Guidance.Dynamic
+                status={
+                  s.responses?.inverseOfX?.selected === "X"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                The operator <M t="?" /> is the <em>inverse</em> of <M t="X" />.
+                If an operator is unitary, it is its own inverse. <M t="X" />,{" "}
+                <M t="Z" />, and <M t="H" /> are unitary, just like many other
+                gates we use in quantum computing.
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
       hints: [
         hint({
           name: "inverse",
@@ -104,6 +134,13 @@ export default page(setup, ({ section, hint }) => ({
               </Prose>
             }
           />
+          <Answer>
+            <M
+              display
+              t="Z\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \frac{1}{\sqrt{2}}(Z\ket{0}+Z\ket{1}) = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1}) = \ket{-}"
+            />
+            <M display t="H\ket{-} = \ket{1}" />
+          </Answer>
           {/* TODO: Multiple choice */}
         </>
       ),

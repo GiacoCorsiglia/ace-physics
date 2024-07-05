@@ -1,4 +1,11 @@
-import { Callout, M, Prose, QuantumCircuit, TextBox } from "@/components";
+import {
+  Answer,
+  Callout,
+  M,
+  Prose,
+  QuantumCircuit,
+  TextBox,
+} from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
@@ -6,7 +13,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "evaluatingCircuits",
   label: "Evaluating Circuits",
-  answers: "none",
+  answers: "provided",
   cheatSheet: {
     body: (
       <>
@@ -67,6 +74,14 @@ export default page(setup, ({ section }) => ({
             in this case merely a different phase. Order of operations often
             matters!
           </Prose>
+          <Answer>
+            <M display t="Z\ket{1} = -\ket{1}" />
+            <M display t="X(-\ket{1}) = -X\ket{1} = -\ket{0}" />
+            <p>
+              Note that we get a negative sign because <M t="Z" /> acted on{" "}
+              <M t="\ket{1}" />, not <M t="\ket{0}" />.
+            </p>
+          </Answer>
         </>
       ),
     }),
