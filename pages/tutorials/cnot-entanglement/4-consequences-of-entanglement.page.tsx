@@ -277,10 +277,11 @@ export default page(setup, ({ section }) => ({
                   <p>
                     Consider the following circuit:{" "}
                     <QuantumCircuit
-                      t="\lstick{\ket{0}} & \qw & \targ & \qw
+                      t="\lstick{\ket{0}} & \qw \barrier{1} & \targ & \qw
                     \\ \lstick{\ket{+}} & \gate{H} & \ctrl{-1} & \qw"
                     />
-                    After the Hadamard gate, is the two-qubit state entangled?
+                    After the Hadamard gate (at the dashed line), is the
+                    two-qubit state entangled?
                   </p>
                 </Prose>
               </>

@@ -23,10 +23,10 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <Prose>
           On the previous page, we explained a quantum cryptographic protocol
-          that transmitted a series of bits to Bob. However, Bob and Alice only
-          agreed on their bits 75% of the time, and 25% of the time they only
-          agreed by accident! On this page, we'll discuss how to make their keys
-          agree 100% of the time by cleverly discarding bits that disagree
+          that transmitted a series of bits to Bob. However, Bob and Alice don’t
+          always get the same bits (they only agree 75% of the time, and some of
+          those were on accident). On this page, we'll discuss how to make their
+          keys agree 100% of the time by cleverly discarding bits that disagree
           without revealing the bits themselves.
           <br />
           <br />
@@ -349,6 +349,20 @@ export default page(setup, ({ section, oneOf }) => ({
           )}
         />
       ),
+      hints: [
+        {
+          name: "whatIsAKey",
+          body: (
+            <>
+              Alice and Bob wish to share a secret “key”, a long string of
+              randomly generated 0’s and 1’s that they each possess, but nobody
+              else does. Using only the 'keep' bits, do they each possess the
+              same string of 0's and 1's?
+            </>
+          ),
+          label: "What is a key?",
+        },
+      ],
       guidance: {
         nextMessage(r) {
           const answer = r.doesAliceBobShareKeyCheckTwo?.selected;

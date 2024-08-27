@@ -41,7 +41,7 @@ export default s.tutorial({
     outputXZ1: s.section(),
     outputZX1: s.section(),
     matrixOrEquationApproach: s.section(),
-    inverseOfX: s.section(),
+    inverseOfX: s.section({ messages: ["inverse"] }),
 
     morePracticeIntro: s.section(),
     outputZHPlus: s.section(),
