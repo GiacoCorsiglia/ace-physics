@@ -20,9 +20,19 @@ export const macros = {
   // to use the `\!` command for negative space as in \brasub.
   "\\prescript": t`{}_{#1}^{#2}{#3}`,
   "\\brasub": t`{}_{#1}\!`,
+
   // From the quantum mouse tutorial:
   "\\smalleye": t`\htmlClass{${styles.smalleye}}{\tiny \bull}`,
   "\\wideye": t`\htmlClass{${styles.wideye}}{\large \ast}`,
   "\\smiley": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \smile}}`,
   "\\frownie": t`\htmlClass{${styles.smiley}}{\mathbf{\footnotesize \ddot \frown}}`,
+
+  // Formatting:
+
+  // Puts the contained elements on their own line if the screen is narrow.
+  //
+  // NOTE: Because of KaTeX behavior, you must wrap the preceding and following
+  // TeX in curly braces for this to work properly.  For example:
+  // {left side} \breakIfNarrow{=} {right side}
+  "\\breakIfNarrow": t`\htmlClass{${styles.breakIfNarrow}}{#1}`,
 };
