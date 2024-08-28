@@ -253,7 +253,7 @@ export default page(setup, ({ section }) => ({
             model={m.XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2}
             label={
               <Prose>
-                Is the following <i>true</i> or <i>false</i>?
+                Is the following equality <i>true</i> or <i>false</i>?
                 <M
                   display
                   t="{(X \otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )}  \breakIfNarrow{=} {(X Z)\otimes (I X )  (\ket{\psi_1} \otimes \ket{\psi_2} )}"
@@ -261,8 +261,8 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
             choices={[
-              ["true", "Equal"],
-              ["false", "Not Equal"],
+              ["true", "True"],
+              ["false", "False"],
             ]}
             answer={"true"}
             explanation={
@@ -309,7 +309,7 @@ export default page(setup, ({ section }) => ({
           model={m.XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2}
           label={
             <Prose>
-              Is the following <i>true</i> or <i>false</i>?
+              Is the following equality <i>true</i> or <i>false</i>?
               <M
                 display
                 t="
