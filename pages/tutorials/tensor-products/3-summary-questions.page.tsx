@@ -310,7 +310,7 @@ export default page(setup, ({ section }) => ({
           label={
             <Prose>
               Is the following equality <i>true</i> or <i>false</i>?
-              <M
+              {/* <M
                 display
                 t="
                   \begin{gathered}
@@ -318,6 +318,14 @@ export default page(setup, ({ section }) => ({
                   =
                   X Z\ket{\psi_1}\otimes  X Z \ket{\psi_2}
                   \end{gathered}
+                "
+              /> */}
+              <M
+                display
+                t="
+                  {(X \otimes Z ) (X \otimes Z) (\ket{\psi_1} \otimes \ket{\psi_2} )}
+                  \breakIfNarrow{=}
+                  {X Z\ket{\psi_1}\otimes  X Z \ket{\psi_2}}
                 "
               />
             </Prose>
