@@ -160,8 +160,6 @@ export default page(setup, ({ section }) => ({
             return "picked1or5and3";
           }
           if (
-            state.sections?.selectHxIZxXPsi1xPsi2?.revealedMessages !==
-              undefined &&
             (responses.selectHxIZxXPsi1xPsi2?.selected?.includes(
               "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)",
             ) ||
@@ -225,12 +223,23 @@ export default page(setup, ({ section }) => ({
             onContinue: "nextMessage",
           },
           nowCorrect: {
-            body: (
+            body: (state) => (
               <Callout color="green">
                 <p>You've got it!</p>
+                {!state.responses?.selectHxIZxXPsi1xPsi2?.selected?.includes(
+                  "(H⊗I) (Z⊗X) (|ψ1>⊗|ψ2>)",
+                ) ||
+                !state.responses?.selectHxIZxXPsi1xPsi2?.selected?.includes(
+                  "(H⊗_) (Z⊗X) (|ψ1>⊗|ψ2>)",
+                ) ? (
+                  <p>
+                    There's another correct answer. This message will disappear
+                    if you find it, but either way, feel free to move on!
+                  </p>
+                ) : null}
               </Callout>
             ),
-            onContinue: "nextMessage",
+            onContinue: "nextSection",
           },
         },
       },
@@ -244,10 +253,10 @@ export default page(setup, ({ section }) => ({
             model={m.XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2}
             label={
               <Prose>
-                Is the following <i>true</i> or <i>false</i>?
+                Is the following equality <i>true</i> or <i>false</i>?
                 <M
                   display
-                  t="(X \otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )  = (X Z)\otimes (I X )  (\ket{\psi_1} \otimes \ket{\psi_2} )"
+                  t="{(X \otimes I ) (Z \otimes X) (\ket{\psi_1} \otimes \ket{\psi_2} )}  \breakIfNarrow{=} {(X Z)\otimes (I X )  (\ket{\psi_1} \otimes \ket{\psi_2} )}"
                 />
               </Prose>
             }
@@ -300,10 +309,24 @@ export default page(setup, ({ section }) => ({
           model={m.XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2}
           label={
             <Prose>
-              Is the following <i>true</i> or <i>false</i>?
+              Is the following equality <i>true</i> or <i>false</i>?
+              {/* <M
+                display
+                t="
+                  \begin{gathered}
+                  (X \otimes Z ) (X \otimes Z) (\ket{\psi_1} \otimes \ket{\psi_2} ) \\
+                  =
+                  X Z\ket{\psi_1}\otimes  X Z \ket{\psi_2}
+                  \end{gathered}
+                "
+              /> */}
               <M
                 display
-                t="(X \otimes Z ) (X \otimes Z) (\ket{\psi_1} \otimes \ket{\psi_2} )  = X Z\ket{\psi_1}\otimes  X Z \ket{\psi_2}"
+                t="
+                  {(X \otimes Z ) (X \otimes Z) (\ket{\psi_1} \otimes \ket{\psi_2} )}
+                  \breakIfNarrow{=}
+                  {X Z\ket{\psi_1}\otimes  X Z \ket{\psi_2}}
+                "
               />
             </Prose>
           }
