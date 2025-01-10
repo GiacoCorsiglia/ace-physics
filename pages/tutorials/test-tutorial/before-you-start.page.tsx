@@ -43,6 +43,17 @@ export default pretest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
+            <p>Here is a new section added by Gina!</p>
+            <p>This is a new paragraph! There are line breaks! </p>
+            <p>Feel free to add more elements as needed.</p>
+          </Prose>
+        </>
+      ),
+    }),
+    section({
+      body: (m) => (
+        <>
+          <Prose>
             Notice the new horizontal line representing a new section. Notice
             also the 'm' in the code, in the parentheses just after body. This
             'm' is a reference to the 'pretest' element of the object defined in
