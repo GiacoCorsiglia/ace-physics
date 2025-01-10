@@ -18,7 +18,10 @@ export default s.tutorial({
     GinaStringInput: s.string(),
   },
   posttest: {},
-  responses: {},
+  responses: {
+    testpage1boolean: s.boolean(),
+    testpage1chooseall: s.chooseAll(["id1", "id2", "id3", "id4"]),
+  },
   sections: {
     testPage1Section1: s.section(),
     testPage1Section2: s.section(),
