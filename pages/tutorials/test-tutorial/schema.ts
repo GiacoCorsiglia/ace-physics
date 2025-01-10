@@ -1,7 +1,7 @@
 import * as s from "@/schema/tutorial";
 
 export default s.tutorial({
-  pages: {},
+  pages: { testPage1: s.page(), testPage2: s.page() },
   pretest: {
     docTutPretestChooseOneWithOther: s.chooseOne(
       ["test", "secondtest"],
@@ -16,6 +16,6 @@ export default s.tutorial({
   },
   posttest: {},
   responses: {},
-  sections: {},
+  sections: { testPage1Section1: s.section(), testPage2Section1: s.section() },
   hints: {},
 });
