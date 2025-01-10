@@ -17,9 +17,9 @@ export default pretest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            This is how you might add some Prose. It also might be everything
-            you have in a section if you want to. Line breaks in code don't add
-            real line breaks.
+            This is how you might add some Prose. Steve is here. It also might
+            be everything you have in a section if you want to. Line breaks in
+            code don't add real line breaks.
             <p>Use 'p' to do that!</p>
             <p>
               consecutive p's have wide line breaks. Notice that the first line
@@ -29,6 +29,13 @@ export default pretest(setup, ({ section }) => ({
             <br />
             this one is small.
           </Prose>
+        </>
+      ),
+    }),
+    section({
+      body: (m) => (
+        <>
+          <Prose>Next section, Steve's first! </Prose>
         </>
       ),
     }),
