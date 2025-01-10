@@ -19,6 +19,10 @@ export default s.tutorial({
   },
   posttest: {},
   responses: {},
-  sections: { testPage1Section1: s.section(), testPage2Section1: s.section() },
+  sections: {
+    testPage1Section1: s.section(),
+    testPage1Section2: s.section(),
+    testPage2Section1: s.section(),
+  },
   hints: {},
 });

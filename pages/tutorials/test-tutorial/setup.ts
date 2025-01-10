@@ -20,7 +20,7 @@ export default tutorialSetup({
   pretest: true,
   posttest: false,
   pages: [
-    { link: "1-test-page-1", label: "Test Page 1" },
+    { link: "1-test-page-1", label: "Test Page 1 - hover" },
     { link: "2-test-page-2", label: "Test Page 2" },
   ],
 });
