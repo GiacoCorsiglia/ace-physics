@@ -36,6 +36,20 @@ export default pretest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>Next section, Steve's first! </Prose>
+          <TextBox
+            model={m.steveTutPretestText1}
+            label={
+              <Prose>optional: Fill in Steves empty text box please</Prose>
+            }
+            // initialValue="...input your answer here..."
+          />
+          <ChooseOne // Another option is 'Toggle'
+            model={m.steveTutPretestChooseOne}
+            choices={[
+              ["steveopt1", "Do you prefer this?"],
+              ["steveopt2", "or that"],
+            ]}
+          />
         </>
       ),
     }),
@@ -92,11 +106,7 @@ export default pretest(setup, ({ section }) => ({
               </Prose>
             }
           />
-          <TextBox
-            model={m.steveTutPretestText1}
-            label={<Prose>optional Steves text input</Prose>}
-            initialValue="...input your answer here..."
-          />
+
           <Decimal model={m.docTutPretestDecimal} label={"decimal test"} />
 
           <Integer

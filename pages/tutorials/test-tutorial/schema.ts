@@ -14,6 +14,7 @@ export default s.tutorial({
     docTutPretestText: s.string(),
     docTutPretestDecimal: s.number(),
     steveTutPretestText1: s.string(),
+    steveTutPretestChooseOne: s.chooseOne(["steveopt1", "steveopt2"]),
     GinaStringInput: s.string(),
   },
   posttest: {},
