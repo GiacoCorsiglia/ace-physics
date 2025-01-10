@@ -13,6 +13,7 @@ export default s.tutorial({
 
     docTutPretestText: s.string(),
     docTutPretestDecimal: s.number(),
+    GinaStringInput: s.string(),
   },
   posttest: {},
   responses: {},

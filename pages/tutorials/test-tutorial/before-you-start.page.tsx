@@ -47,6 +47,13 @@ export default pretest(setup, ({ section }) => ({
             <p>This is a new paragraph! There are line breaks! </p>
             <p>Feel free to add more elements as needed.</p>
           </Prose>
+          <TextBox
+            model={m.GinaStringInput}
+            label={
+              <Prose>Gina would like you to type the word duck below</Prose>
+            }
+            initialValue="duckduck goose"
+          />
         </>
       ),
     }),
