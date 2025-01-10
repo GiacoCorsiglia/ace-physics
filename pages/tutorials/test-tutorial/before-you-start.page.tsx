@@ -92,7 +92,11 @@ export default pretest(setup, ({ section }) => ({
               </Prose>
             }
           />
-
+          <TextBox
+            model={m.steveTutPretestText1}
+            label={<Prose>optional Steves text input</Prose>}
+            initialValue="...input your answer here..."
+          />
           <Decimal model={m.docTutPretestDecimal} label={"decimal test"} />
 
           <Integer
