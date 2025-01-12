@@ -1,8 +1,8 @@
 import { ChooseAll, M, Prose, QuantumCircuit, TextBox } from "@/components";
-import { pretest } from "@/tutorial";
+import { posttest } from "@/tutorial";
 import setup from "./setup";
 
-export default pretest(setup, ({ section }) => ({
+export default posttest(setup, ({ section }) => ({
   cheatSheet: {
     body: (
       <>
@@ -26,11 +26,6 @@ export default pretest(setup, ({ section }) => ({
               </Prose>
             }
           />
-
-          <Prose faded>
-            If you aren’t sure how to answer this question, just say so and move
-            on.
-          </Prose>
         </>
       ),
     }),
@@ -52,7 +47,6 @@ export default pretest(setup, ({ section }) => ({
             ["HIX|1>", <M t="HIX\ket{1}" />],
             ["XH|1>", <M t="XH\ket{1}" />],
             ["XIH|1>", <M t="XIH\ket{1}" />],
-            ["unsure", "I’m not sure how to answer this question."],
           ]}
         />
       ),

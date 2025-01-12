@@ -3,5 +3,5 @@ import { intro } from "@/tutorial";
 import setup from "./setup";
 
 export default intro(setup, () => ({
-  body: <Prose>Your first step in learning about Giaco's computing.</Prose>,
+  body: <Prose>Interpreting quantum superposition states</Prose>,
 }));

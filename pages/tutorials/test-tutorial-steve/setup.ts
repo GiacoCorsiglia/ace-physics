@@ -18,9 +18,10 @@ export default tutorialSetup({
   label: "Documentation Tutorial for Steve",
   excludeFromList: true,
   pretest: true,
-  posttest: false,
+  posttest: true,
   pages: [
-    { link: "1-test-page-1", label: "Test Page 1 - hover" },
-    { link: "2-test-page-2", label: "Test Page 2" },
+    { link: "1-reviewing-gates", label: "Reviewing gates" },
+    { link: "2-superposition-v-mixed", label: "Superposition vs mixed state" },
+    { link: "3-wrapup", label: "Wrapup" },
   ],
 });

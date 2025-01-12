@@ -26,6 +26,7 @@ export default page(setup, ({ section }) => ({
           <Prose>
             This is a question where you should select all animals you like
           </Prose>
+
           <ChooseAll
             model={m.testpage1chooseall}
             choices={[
