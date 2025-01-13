@@ -17,15 +17,12 @@ export default pretest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            This is how you might add some Prose. Steve is here. It also might
-            be everything you have in a section if you want to. Line breaks in
-            code don't add real line breaks.
-            <p>Use 'p' to do that!</p>
+            Now that you are familiar with single qubits and some of the
+            fundamental quantum gates, this tutorial will focus on one of the
+            import important quantum concepts: superposition.
             <p>
-              consecutive p's have wide line breaks. Notice that the first line
-              break was not as big.
+              Before starting the tutorial, answer these questions on your own.
             </p>
-            test
             <br />
             this one is small.
           </Prose>
@@ -39,9 +36,16 @@ export default pretest(setup, ({ section }) => ({
           <TextBox
             model={m.steveTutPretestText1}
             label={
-              <Prose>optional: Fill in Steves empty text box please</Prose>
+              <Prose>You have a supply of X, Z, and H gates. Design a simple circuit with zero, one, or two gates that has an input of a single qubit in state
+                <M
+            display
+            t="\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})"
+          />
+          , and will yield an output qubit in state  $\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})$.
+
+If this task is impossible, explain why.</Prose>
             }
-            // initialValue="...input your answer here..."
+
           />
           <ChooseOne // Another option is 'Toggle'
             model={m.steveTutPretestChooseOne}
