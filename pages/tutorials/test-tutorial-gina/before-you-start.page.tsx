@@ -36,16 +36,15 @@ export default pretest(setup, ({ section }) => ({
           <TextBox
             model={m.steveTutPretestText1}
             label={
-              <Prose>You have a supply of X, Z, and H gates. Design a simple circuit with zero, one, or two gates that has an input of a single qubit in state
-                <M
-            display
-            t="\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})"
-          />
-          , and will yield an output qubit in state  $\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})$.
-
-If this task is impossible, explain why.</Prose>
+              <Prose>
+                You have a supply of X, Z, and H gates. Design a simple circuit
+                with zero, one, or two gates that has an input of a single qubit
+                in state
+                <M display t="\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})" />, and will
+                yield an output qubit in state. If this task is impossible,
+                explain why.
+              </Prose>
             }
-
           />
           <ChooseOne // Another option is 'Toggle'
             model={m.steveTutPretestChooseOne}
