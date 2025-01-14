@@ -1,105 +1,98 @@
-import {
-  Callout,
-  ChooseOne,
-  Guidance,
-  M,
-  Prose,
-  QuantumCircuit,
-  Toggle,
-} from "@/components";
+import { ChooseOne, M, Prose, QuantumCircuit, Toggle } from "@/components";
+
 import { page } from "@/tutorial";
-import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
   name: "reviewingGates",
-  label: "Reviewing Gatess",
+  label: "Reviewing Gates",
   answers: "none",
   cheatSheet: {
     body: (
       <>
         <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
         <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
+        <M display t="H = \frac{1}{\sqrt{2}}\pmatrix{1 & 1 \\ 1 & -1}" />
       </>
     ),
   },
   sections: [
     section({
       name: "reviewingGatesIntro",
-      body: (
-        <Prose>
-          <p>
-            First lets do a brief review review of some single-qubit circuits:
-            ZZZ Here is Tex source sample <M t="\ket{\psi_{out}}  = \ket{0}" />
-          </p>
-        </Prose>
-      ),
-      continue: {
-        label: "Got it",
-      },
-    }),
-
-    section({
-      name: "doXAndZCommute",
       body: (m) => (
         <>
           <Prose>
-            Compute <M t="XZ" /> and <M t="ZX" /> using matrices.
+            {" "}
+            First lets do a brief review of some single-qubit circuits:
           </Prose>
+        </>
+      ),
+    }),
 
-          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
-            Do this on scrap paper.
-          </Callout>
-
-          <Toggle
-            model={m.doXAndZCommute}
-            label="Does the order matter?"
+    section({
+      name: "outputcircuit1",
+      body: (m) => (
+        <>
+          <ChooseOne
+            model={m.outputcircuit1}
+            label={
+              <Prose>
+                What is the output of the following circuit? (Try to do this
+                without multiplying matrices.)
+                <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{H} & \gate{Z} & \qw" />
+              </Prose>
+            }
             choices={[
-              ["yes", "Yes, order matters"],
-              [
-                "no",
-                <>
-                  No, <M t="XZ = ZX" />
-                </>,
-              ],
+              ["0", <M t=" \ket{0}" />],
+              ["minus0", <M t=" - \ket{0}" />],
+              ["1", <M t=" \ket{1}" />],
+              ["minus1", <M t=" -\ket{1}" />],
+              ["plus", <M t=" \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})" />],
+              ["minus", <M t=" \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})" />],
+              ["other", "Something else"],
             ]}
           />
         </>
       ),
-      guidance: {
-        nextMessage: () => "answer",
-        messages: {
-          answer: {
-            body: ({ responses }) => (
-              <Guidance.Dynamic
-                status={
-                  responses?.doXAndZCommute?.selected === "yes"
-                    ? "agree"
-                    : "disagree"
-                }
-              >
-                In general, order of matrix multiplication matters. However, if
-                it happens that <M t="AB = BA" />, then the operators
-                <M t="A" /> and <M t="B" /> are said to <em>commute</em>. (So
-                above, we saw that <M t="X" /> and <M t="Z" /> do <em>not</em>{" "}
-                commute.)
-              </Guidance.Dynamic>
-            ),
-            onContinue: "nextSection",
-          },
-        },
-      },
     }),
 
     section({
-      name: "doesZSelfCommute",
+      name: "outputcircuit2",
+      body: (m) => (
+        <>
+          <ChooseOne
+            model={m.outputcircuit2}
+            label={
+              <Prose>
+                What is the output of the following circuit? (Try to do this
+                without multiplying matrices.)
+                <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{Z} & \gate{H} & \qw" />
+              </Prose>
+            }
+            choices={[
+              ["0", <M t=" \ket{0}" />],
+              ["minus0", <M t=" - \ket{0}" />],
+              ["1", <M t=" \ket{1}" />],
+              ["minus1", <M t=" -\ket{1}" />],
+              ["plus", <M t=" \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})" />],
+              ["minus", <M t=" \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})" />],
+              ["other", "Something else"],
+            ]}
+          />
+        </>
+      ),
+    }),
+
+    section({
+      name: "doHZCommute",
       body: (m) => (
         <>
           <Toggle
-            model={m.doesZSelfCommute}
+            model={m.doHZCommute}
             label={
               <Prose>
-                Does <M t="Z" /> commute with itself?
+                Given the answers on this page, can you say whether <M t="H" />{" "}
+                commutes with <M t="Z" /> ?
               </Prose>
             }
             choices={[
@@ -109,86 +102,6 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
-    }),
-
-    section({
-      name: "circuitDiagramOrder",
-      body: (m) => (
-        <>
-          <Prose>
-            <p>
-              The notation <M t="X Z \ket{\psi}" /> means act <M t="Z" /> first,
-              and then act <M t="X" /> on that outcome. This is because{" "}
-              <M t="Z" /> is directly acting on <M t="\ket{\psi}" />, and then{" "}
-              <M t="X" /> acts on the state <M t="(Z\ket{\psi})" />.
-            </p>
-
-            <p>Consider the circuit diagram shown here:</p>
-
-            <QuantumCircuit t="\lstick{\ket{\psi}} & \gate{Z} & \gate{X} & \qw" />
-          </Prose>
-
-          <ChooseOne
-            model={m.circuitDiagramOrder}
-            label={
-              <Prose>
-                How would you write the circuit above as an equation?
-              </Prose>
-            }
-            choices={[
-              ["xz", <M t="X Z \ket{\psi}" />],
-              ["zx", <M t="Z X \ket{\psi}" />],
-              ["either order", "Both of the above work."],
-            ]}
-          />
-        </>
-      ),
-      // guidance: {
-      //   nextMessage: () => "answer",
-      //   messages: {
-      //     answer: {
-      //       body: ({ responses }) => (
-      //         <Guidance.Dynamic
-      //           status={
-      //             responses?.circuitDiagramOrder?.selected === "xz"
-      //               ? "agree"
-      //               : "disagree"
-      //           }
-      //         >
-      //           In general, order of matrix multiplication matters. However, if
-      //           it happens that <M t="AB = BA" />, then the operators
-      //           <M t="A" /> and <M t="B" /> are said to <em>commute</em>. (So
-      //           above, we saw that <M t="X" /> and <M t="Z" /> do <em>not</em>{" "}
-      //           commute.)
-      //         </Guidance.Dynamic>
-      //       ),
-      //       onContinue: "nextSection",
-      //     },
-      //   },
-      // },
-      guidance: {
-        nextMessage(r, s) {
-          if (r.circuitDiagramOrder?.selected === "xz") {
-            return null;
-          }
-          return "answer";
-        },
-        messages: {
-          answer: {
-            body: (
-              <>
-                <Callout color="red">
-                  We disagree with your answer. Reread the first sentence
-                  carefully and compare it to the picture; make sure you
-                  understand what’s going on here.
-                </Callout>
-              </>
-            ),
-            onContinue: "nextSection",
-            continueLabel: "Move on",
-          },
-        },
-      },
     }),
   ],
 }));

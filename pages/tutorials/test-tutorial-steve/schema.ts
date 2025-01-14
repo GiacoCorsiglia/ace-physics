@@ -7,18 +7,23 @@ export default s.tutorial({
     wrapup: s.page(),
   },
   pretest: {
-    designCircuit1: s.string(),
-    designCircuit2: s.string(),
-    outputOfCircuit: s.string(),
-    circuitAsDirac: s.chooseAll([
-      "HZZX|1>",
-      "XZZH|1>",
-      "HX|1>",
-      "HIX|1>",
-      "XH|1>",
-      "XIH|1>",
+    designCircuit1chooseone: s.chooseOne([
+      "one",
+      "two",
+      "more",
+      "impossible",
       "unsure",
     ]),
+    designCircuit1explain: s.string(),
+    designCircuit2chooseone: s.chooseOne([
+      "one",
+      "two",
+      "more",
+      "impossible",
+      "unsure",
+    ]),
+    designCircuit2explain: s.string(),
+    outputOfCircuit: s.string(),
   },
   posttest: {
     designCircuit1: s.string(),
@@ -35,13 +40,11 @@ export default s.tutorial({
   },
   sections: {
     reviewingGatesIntro: s.section(),
-    output1: s.section({
-      messages: ["answer"],
-    }),
-    output2: s.section({
-      messages: ["answer2"],
-    }),
-    doHandZCommute: s.section(),
+    output1: s.section(),
+    output2: s.section(),
+    outputcircuit1: s.section(),
+    outputcircuit2: s.section(),
+    doHZCommute: s.section(),
     doesZSelfCommute: s.section(),
     circuitDiagramOrder: s.section({ messages: ["answer"] }),
 
@@ -68,7 +71,6 @@ export default s.tutorial({
     morePracticeIntro: s.section(),
     outputZHPlus: s.section(),
     outputHZPlus: s.section(),
-    doHZCommute: s.section(),
 
     circuitDiagramsIntro: s.section(),
     doXAndZCommute: s.section({
@@ -78,7 +80,25 @@ export default s.tutorial({
   responses: {
     output1: s.string(),
     output2: s.string(),
-    doHandZcommute: s.chooseOne(["yes", "no"]),
+    outputcircuit1: s.chooseOne([
+      "0",
+      "minus0",
+      "1",
+      "minus1",
+      "plus",
+      "minus",
+      "other",
+    ]),
+    outputcircuit2: s.chooseOne([
+      "0",
+      "minus0",
+      "1",
+      "minus1",
+      "plus",
+      "minus",
+      "other",
+    ]),
+    doHZCommute: s.chooseOne(["yes", "no"]),
 
     aliceVbob1: s.string(),
     aliceVbob2: s.string(),
@@ -92,7 +112,7 @@ export default s.tutorial({
     wrapup4: s.string(),
     wrapup5: s.string(),
 
-    doXAndZCommute: s.chooseOne(["yes", "no"]),
+    doHZCommute: s.chooseOne(["yes", "no"]),
     doesZSelfCommute: s.chooseOne(["yes", "no"]),
     circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
 
@@ -103,7 +123,6 @@ export default s.tutorial({
 
     outputZHPlus: s.string(),
     outputHZPlus: s.string(),
-    doHZCommute: s.string(),
   },
   hints: {
     finalfeedback: s.hint(),

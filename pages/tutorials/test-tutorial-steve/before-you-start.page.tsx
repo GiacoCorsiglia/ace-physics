@@ -1,4 +1,4 @@
-import { ChooseAll, M, Prose, QuantumCircuit, TextBox } from "@/components";
+import { ChooseOne, M, Prose, TextBox } from "@/components";
 import { pretest } from "@/tutorial";
 import setup from "./setup";
 
@@ -17,44 +17,73 @@ export default pretest(setup, ({ section }) => ({
     section({
       body: (m) => (
         <>
+          <Prose>
+            You have a supply of X, Z, and H gates. <br />
+            On a piece of paper, try to design a simple circuit with one or two
+            gates that has an input of a single qubit in state{" "}
+            <M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />, <br />
+            that will yield an output of a qubit in state{" "}
+            <M t="{1\over\sqrt{2}} (\ket{0} - \ket{1})" /> <br />
+            <br />
+            How many gates do you need? Select one answer:{" "}
+          </Prose>
+          <ChooseOne // Another option is 'Toggle'
+            model={m.designCircuit1chooseone}
+            choices={[
+              ["one", "I only need 1 gate"],
+              ["two", "I need 2 gates"],
+              ["more", "I need more than 2 gates, but I can do it"],
+              ["impossible", "This can't be done with basic gates"],
+              ["unsure", "I’m not sure how to answer this question."],
+            ]}
+          />
           <TextBox
-            model={m.outputOfCircuit}
+            model={m.designCircuit1explain}
             label={
               <Prose>
-                What is the output of the following circuit?
-                <QuantumCircuit t="\lstick{\ket{1} } & \gate{H} & \gate{Z} & \gate{Z} & \gate{X} \qw \\" />
+                In the space below, explain your answer above. (If you came up
+                with a circuit, describe it in words. If it's impossible, tell
+                us why.)
               </Prose>
             }
           />
-
-          <Prose faded>
-            If you aren’t sure how to answer this question, just say so and move
-            on.
-          </Prose>
         </>
       ),
     }),
 
     section({
       body: (m) => (
-        <ChooseAll
-          model={m.circuitAsDirac}
-          label={
-            <Prose>
-              Choose <strong>all</strong> expressions which are equivalent to
-              the circuit above:
-            </Prose>
-          }
-          choices={[
-            ["HZZX|1>", <M t="HZZX\ket{1}" />],
-            ["XZZH|1>", <M t="XZZH\ket{1}" />],
-            ["HX|1>", <M t="HX\ket{1}" />],
-            ["HIX|1>", <M t="HIX\ket{1}" />],
-            ["XH|1>", <M t="XH\ket{1}" />],
-            ["XIH|1>", <M t="XIH\ket{1}" />],
-            ["unsure", "I’m not sure how to answer this question."],
-          ]}
-        />
+        <>
+          <Prose>
+            You have a supply of X, Z, and H gates. <br />
+            On a piece of paper, try to design a simple circuit with one or two
+            gates that has an input of a single qubit in state{" "}
+            <M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />, <br />
+            that will yield a final measurement of 1 with 100% certainty <br />
+            <br />
+            How many gates do you need? Select one answer:{" "}
+          </Prose>
+          <ChooseOne // Another option is 'Toggle'
+            model={m.designCircuit2chooseone}
+            choices={[
+              ["one", "I only need 1 gate"],
+              ["two", "I need 2 gates"],
+              ["more", "I need more than 2 gates, but I can do it"],
+              ["impossible", "This can't be done with basic gates"],
+              ["unsure", "I’m not sure how to answer this question."],
+            ]}
+          />
+          <TextBox
+            model={m.designCircuit2explain}
+            label={
+              <Prose>
+                In the space below, explain your answer above. (If you came up
+                with a circuit, describe it in words. If it's impossible, tell
+                us why.)
+              </Prose>
+            }
+          />
+        </>
       ),
     }),
   ],
