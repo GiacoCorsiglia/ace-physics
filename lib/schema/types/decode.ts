@@ -3,6 +3,7 @@ import type { Infer, Type } from ".";
 import { decodeAny } from "./any";
 import { decodeArray } from "./array";
 import { decodeLiteral } from "./literal";
+import { decodeNullable } from "./nullable";
 import { decodeObject } from "./object";
 import { decodeOptional } from "./optional";
 import { decodePrimitive } from "./primitives";
@@ -36,6 +37,8 @@ export const decode = <T extends Type>(
       return decodePrimitive(t, value, context);
     case "optional":
       return decodeOptional(t, value, context);
+    case "nullable":
+      return decodeNullable(t, value, context);
     case "literal":
       return decodeLiteral(t, value, context);
     case "union":

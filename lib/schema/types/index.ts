@@ -1,6 +1,7 @@
 import { AnyType } from "./any";
 import { ArrayType } from "./array";
 import { Literal, LiteralType } from "./literal";
+import { NullableType } from "./nullable";
 import { ObjectType } from "./object";
 import { OptionalType } from "./optional";
 import {
@@ -24,6 +25,7 @@ export type Type =
   | NumberType
   | ObjectType<{ readonly [k: string]: Type }>
   | OptionalType<any>
+  | NullableType<any>
   | StringType
   | TupleType<readonly any[]>
   | UndefinedType
@@ -39,6 +41,7 @@ export { array } from "./array";
 export { decode } from "./decode";
 export type { DecodeError } from "./decode";
 export { literal } from "./literal";
+export { nullable } from "./nullable";
 export { asExact, exact, object, partial } from "./object";
 export { optional } from "./optional";
 export {
@@ -55,6 +58,7 @@ export type {
   ArrayType,
   BooleanType,
   LiteralType,
+  NullableType,
   NumberType,
   ObjectType,
   OptionalType,
