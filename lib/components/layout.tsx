@@ -18,15 +18,17 @@ const verticalCss = (space?: VerticalSpacing | false) =>
     : [];
 
 const VerticalSpace = styledChild<{
-  before?: VerticalSpacing | 0;
-  after?: VerticalSpacing | 0;
+  before?: VerticalSpacing | 50 | 0;
+  after?: VerticalSpacing | 50 | 0;
 }>(({ before, after }) => [
   styles.verticalSpace, // Leave this here to set the displayName.
   before === 0 && styles.verticalSpaceBefore0,
+  before === 50 && styles.verticalSpaceBefore50,
   before === 100 && styles.verticalSpaceBefore100,
   before === 200 && styles.verticalSpaceBefore200,
   before === 300 && styles.verticalSpaceBefore300,
   after === 0 && styles.verticalSpaceAfter0,
+  after === 50 && styles.verticalSpaceAfter50,
   after === 100 && styles.verticalSpaceAfter100,
   after === 200 && styles.verticalSpaceAfter200,
   after === 300 && styles.verticalSpaceAfter300,
