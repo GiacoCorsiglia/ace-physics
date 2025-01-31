@@ -1,6 +1,8 @@
 import { endpoint, response, spec } from "@/api/server";
 import { HashedDynamoDBAdapter } from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
+import { getCoursesForUser } from "@/query";
+import { Result, success } from "@/result";
 import { User as ApiUser } from "@/schema/api";
 import { AdapterUser } from "next-auth/adapters";
 
@@ -40,7 +42,11 @@ export default endpoint(
         return response.notFound();
       }
 
-      return response.success(user);
+      if (user.failed) {
+        return response.error(user.error);
+      }
+
+      return response.success(user.value);
     },
 
     async PUT(request) {
@@ -54,6 +60,11 @@ export default endpoint(
       // NOTE: This is not atomic.  That's probably possible...but I doubt it
       // will matter here.
       const targetUser = await adapter.getUserByEmail!(hash);
+
+      // You can't change your own privileges.
+      if (targetUser?.email === actingUser.email) {
+        return response.forbidden();
+      }
 
       let updatedUser: AdapterUser;
       if (targetUser) {
@@ -71,7 +82,11 @@ export default endpoint(
 
       const apiUser = await toApiUser(updatedUser);
 
-      return response.success(apiUser);
+      if (apiUser.failed) {
+        return response.error(apiUser.error);
+      }
+
+      return response.success(apiUser.value);
     },
   },
   {
@@ -90,7 +105,9 @@ export default endpoint(
 /**
  * Finds a user.  Works for both hashed and unhashed emails.
  */
-const loadApiUser = async (email: string): Promise<ApiUser | null> => {
+const loadApiUser = async (
+  email: string,
+): Promise<Result<db.DbError, ApiUser> | null> => {
   const user = await adapter.getUserByEmail!(email);
   return user ? toApiUser(user) : null;
 };
@@ -98,9 +115,18 @@ const loadApiUser = async (email: string): Promise<ApiUser | null> => {
 /**
  * Loads additional properties on a user that we get from the NextAuth.
  */
-const toApiUser = async (user: AdapterUser): Promise<ApiUser> => {
-  return {
+const toApiUser = async (
+  user: AdapterUser,
+): Promise<Result<db.DbError, ApiUser>> => {
+  const coursesResult = await getCoursesForUser(user);
+
+  if (coursesResult.failed) {
+    return coursesResult;
+  }
+
+  return success({
     ...user,
+    courses: coursesResult.value,
     isEmailVerified: Boolean(user.emailVerified),
-  };
+  });
 };

@@ -32,7 +32,7 @@ const proseSafeElements = new Set<string | JSXElementConstructor<any>>([
   Image,
 ]);
 
-type ProseProps = {
+export type ProseProps = {
   size?: "large" | "body" | "small" | "smallest" | "ui" | "ui-small";
   justify?: "left" | "right" | "center" | "flush";
   hyphenate?: boolean;

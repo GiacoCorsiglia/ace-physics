@@ -2,16 +2,18 @@ import { Html } from "@/helpers/client";
 import { ChevronRightIcon } from "@primer/octicons-react";
 import Link, { LinkProps } from "next/link";
 import styles from "./link-card.module.scss";
-import { Prose } from "./typography";
+import { Prose, ProseProps } from "./typography";
 
 export const LinkCard = ({
   link,
   label,
   children,
+  proseSize = "small",
 }: {
   link: LinkProps["href"];
   label: Html;
   children?: Html;
+  proseSize?: ProseProps["size"];
 }) => {
   return (
     <Link href={link} className={styles.linkCard}>
@@ -19,7 +21,7 @@ export const LinkCard = ({
       <div className={styles.arrow}>
         <ChevronRightIcon />
       </div>
-      <Prose size="small" hyphenate={false}>
+      <Prose size={proseSize} hyphenate={false}>
         {children}
       </Prose>
     </Link>

@@ -9,6 +9,7 @@ import {
   Header,
   Horizontal,
   LabelsLeft,
+  LinkCard,
   LoadingAnimation,
   MainContentBox,
   Page,
@@ -18,6 +19,7 @@ import {
 import { User } from "@/schema/api";
 import {
   CheckCircleIcon,
+  InfoIcon,
   PersonFillIcon,
   PersonIcon,
 } from "@primer/octicons-react";
@@ -93,7 +95,13 @@ type PossibleUser =
   | ({ isPersisted: true } & User)
   | ({ isPersisted: false } & Pick<User, "isEmailVerified" | "email">);
 
+const useIsSelf = (user: PossibleUser) => {
+  const auth = useAuth();
+  return auth.status === "authenticated" && auth.user.email === user.email;
+};
+
 const LoadedUser = ({ user }: { user: PossibleUser }) => {
+  const isSelf = useIsSelf(user);
   const email = useUnhashedEmail(user.email);
 
   // If we can't find the email address in local storage, force you to start
@@ -120,6 +128,16 @@ const LoadedUser = ({ user }: { user: PossibleUser }) => {
         )}
       </Callout>
 
+      {isSelf && (
+        <Callout
+          as="section"
+          color="yellow"
+          iconLeft={<InfoIcon size="medium" />}
+        >
+          This user is you. Hi!
+        </Callout>
+      )}
+
       <Callout
         as="section"
         color="neutral"
@@ -139,11 +157,28 @@ const LoadedUser = ({ user }: { user: PossibleUser }) => {
       <Callout as="section" color="neutral">
         <UserPrivilegesForm user={user} />
       </Callout>
+
+      <Callout as="section" color="neutral">
+        <Vertical>
+          <h2 className="text-bold">Courses</h2>
+
+          {user.isPersisted ? (
+            <UserCourses user={user} />
+          ) : (
+            <Prose>
+              Users will not be associated with any courses until they have
+              logged in.
+            </Prose>
+          )}
+        </Vertical>
+      </Callout>
     </Vertical>
   );
 };
 
 const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
+  const isSelf = useIsSelf(user);
+
   const mutation = useUpdateUser();
 
   // If the user exists, their role is "student" regardless of whether that is
@@ -157,7 +192,7 @@ const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
 
   const isDirty = role !== originalRole;
 
-  const disabled = !isDirty || mutation.status === "loading";
+  const disabled = isSelf || !isDirty || mutation.status === "loading";
 
   const submit = async () => {
     if (disabled) {
@@ -205,6 +240,7 @@ const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
               }
               value={role}
               onChange={(p) => setRole(p || "instructor")}
+              disabled={isSelf}
             />
           </LabelsLeft>
 
@@ -212,6 +248,9 @@ const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
             color="green"
             type="submit"
             disabled={disabled}
+            disabledExplanation={
+              isSelf ? "You can’t change your own privileges." : undefined
+            }
             loading={mutation.status === "loading"}
           >
             Save
@@ -247,5 +286,38 @@ const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
         </Prose>
       </Vertical>
     </form>
+  );
+};
+
+const UserCourses = ({ user }: { user: User }) => {
+  if (!user.courses) {
+    return <Prose>This user doesn’t have any courses.</Prose>;
+  }
+
+  return (
+    <ul>
+      {user.courses.map((course) => (
+        <li key={course.id}>
+          <LinkCard
+            label={course.displayName}
+            link={{
+              pathname: "/courses/[courseId]",
+              query: { courseId: course.id },
+            }}
+            proseSize="ui-small"
+          >
+            Role:{" "}
+            <strong>
+              {course.userRole === "instructor" ? "Instructor" : "Student"}
+            </strong>
+            <br />
+            Created:{" "}
+            <strong>{new Date(course.createdAt).toLocaleDateString()}</strong>
+            <br />
+            Code: <code>{course.id}</code>
+          </LinkCard>
+        </li>
+      ))}
+    </ul>
   );
 };
