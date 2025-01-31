@@ -36,22 +36,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  // Load the courseUser and make sure they have permission.
-  const courseUserResult = await db.client().get({
-    TableName: db.tableName(),
-    Key: db.codec.CourseUser.keys.primary({
-      courseId,
-      userEmail: session.user.email,
-    }),
-  });
-  if (courseUserResult.failed) {
-    sendResponse(res, response.error("Failed to load CourseUser"));
-    return;
-  }
-  const courseUser = db.codec.CourseUser.decode(courseUserResult.value.Item);
-  if (courseUser.failed || courseUser.value.role !== "instructor") {
-    sendResponse(res, response.forbidden());
-    return;
+  // Check permissions unless the user is an ACE Physics admin.
+  if (session.user.role !== "admin") {
+    // Load the courseUser and make sure they have permission.
+    const courseUserResult = await db.client().get({
+      TableName: db.tableName(),
+      Key: db.codec.CourseUser.keys.primary({
+        courseId,
+        userEmail: session.user.email,
+      }),
+    });
+    if (courseUserResult.failed) {
+      sendResponse(res, response.error("Failed to load CourseUser"));
+      return;
+    }
+    const courseUser = db.codec.CourseUser.decode(courseUserResult.value.Item);
+    if (courseUser.failed || courseUser.value.role !== "instructor") {
+      sendResponse(res, response.forbidden());
+      return;
+    }
   }
 
   // OK it's a valid request!
