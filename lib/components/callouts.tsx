@@ -9,6 +9,7 @@ type CalloutProps = {
   iconRight?: Html;
   iconAlignment?: "top" | "middle" | "bottom";
   animateIn?: boolean;
+  autoProse?: boolean;
 } & Omit<JSX.IntrinsicElements["aside"], "title" | "color" | "ref">;
 
 export const Callout = forwardRef<
@@ -27,6 +28,7 @@ export const Callout = forwardRef<
     iconRight,
     iconAlignment = "middle",
     animateIn,
+    autoProse: enableAutoProse = true,
     ...props
   },
   ref,
@@ -54,7 +56,7 @@ export const Callout = forwardRef<
       {iconLeft && <div className={styles.iconContainer}>{iconLeft}</div>}
       <div className={styles.content}>
         {title && <p className={styles.calloutTitle}>{title}</p>}
-        {autoProse(children)}
+        {enableAutoProse ? autoProse(children) : children}
       </div>
       {iconRight && <div className={styles.iconContainer}>{iconRight}</div>}
     </As>
