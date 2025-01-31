@@ -27,9 +27,9 @@ export default function EditCourse() {
   const auth = useAuth({ required: true });
 
   const router = useRouter();
-  const { courseId } = router.query as { courseId: string };
+  const { courseId } = router.query as { courseId?: string };
 
-  const { data: course, error } = useCourse({ courseId });
+  const { data: course, error } = useCourse(courseId ? { courseId } : null);
 
   const title = course
     ? `Editing ${course.displayName}`

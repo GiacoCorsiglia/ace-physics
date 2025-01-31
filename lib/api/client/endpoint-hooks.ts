@@ -45,7 +45,7 @@ type UseGetHook<
         >,
       ) => UseGetHookReturn<S>
     : (
-        query: Infer<S["Query"]>,
+        query: Infer<S["Query"]> | null,
         swrOptions?: SWRConfiguration<
           Infer<S["GET"]["Response"]>,
           ResponseError
@@ -76,12 +76,17 @@ export const createUseGet = <
 
   const needsQuery = Object.keys(spec.Query.properties).length > 0;
 
-  return (queryOrOptions?: Infer<S["Query"]>, options?: SWRConfiguration) => {
+  return (
+    queryOrOptions?: Infer<S["Query"]> | null,
+    options?: SWRConfiguration,
+  ) => {
     const query = needsQuery ? queryOrOptions || {} : {};
     const swrOptions = needsQuery ? options : queryOrOptions;
 
-    const url: string = renderUrl(spec, query);
-    const swr = useSwr(url, fetcher, swrOptions);
+    // Allow postponing SWR fetch by passing `query: null`.
+    const url: string | null =
+      queryOrOptions === null ? null : renderUrl(spec, query);
+    const swr = useSwr(url, fetcher, swrOptions as SWRConfiguration);
 
     return {
       // SWR avoids rerenders if these properties aren't read.
