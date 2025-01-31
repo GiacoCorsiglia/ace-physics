@@ -1,9 +1,9 @@
 import { AsyncResult } from "@/result";
-import { Infer, ObjectType } from "@/schema/types";
+import { Infer, ObjectType, decode } from "@/schema/types";
 import { useCallback, useState } from "react";
 import useSwr, { SWRConfiguration, useSWRConfig } from "swr";
 import { ApiSpec } from "../isomorphic/spec";
-import { fetchAndParse, ResponseError } from "./fetch-and-parse";
+import { ResponseError, fetchAndParse } from "./fetch-and-parse";
 
 // URL rendering.
 
@@ -197,7 +197,19 @@ export const createUseMutation = <
             status: "success",
             data: result.value,
           });
-          swrMutate(url);
+          // Update the cache for the GET at this URL.
+          if (spec.GET && result.value) {
+            // If the mutation returns a value and that value matches the shape
+            // expected for the GET, we can update the cache with that value.
+            const decoded = decode(spec.GET.Response, result.value);
+            if (!decoded.failed) {
+              swrMutate(url, decoded.value);
+            } else {
+              swrMutate(url);
+            }
+          } else {
+            swrMutate(url);
+          }
         }
 
         return result;
