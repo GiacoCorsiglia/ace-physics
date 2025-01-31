@@ -1,7 +1,15 @@
 import { endpoint, response, spec } from "@/api/server";
 import * as db from "@/db";
 import { Course } from "@/schema/api";
-import { TransactGetCommandInput } from "@aws-sdk/lib-dynamodb";
+import {
+  TransactGetCommandInput,
+  TransactWriteCommandInput,
+} from "@aws-sdk/lib-dynamodb";
+
+type GetTransactItems = NonNullable<TransactGetCommandInput["TransactItems"]>;
+type WriteTransactItems = NonNullable<
+  TransactWriteCommandInput["TransactItems"]
+>;
 
 export default endpoint(
   spec.Course,
@@ -10,9 +18,7 @@ export default endpoint(
       const { user } = request.session;
 
       // We'll load the course, and possibly the CourseUser, in a transaction.
-      const TransactItems: NonNullable<
-        TransactGetCommandInput["TransactItems"]
-      > = [];
+      const TransactItems: GetTransactItems = [];
 
       // Definitely load the course itself.
       TransactItems.push({
@@ -95,32 +101,38 @@ export default endpoint(
         updatedAt: db.now(),
       };
 
-      const result = await db.client().transactWrite({
-        TransactItems: [
-          // First, make sure this user has permissions.  They must be associated
-          // with the course, and have the role instructor.
-          {
-            ConditionCheck: {
-              TableName: db.tableName(),
-              Key: db.codec.CourseUser.keys.primary({
-                courseId: request.query.courseId,
-                userEmail: user.email,
-              }),
-              ConditionExpression: "#role = :role",
-              ...db.codec.CourseUser.expressionAttributes({
-                role: "instructor",
-              }),
-            },
-          },
+      const TransactItems: WriteTransactItems = [];
 
-          {
-            Update: {
-              TableName: db.tableName(),
-              Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
-              ...db.codec.Course.updateExpression(updatedProperties),
-            },
+      // First, make sure this user has permissions.  They must be associated
+      // with the course, and have the role instructor.  UNLESS the user is an
+      // ACE Physics admin, then we don't care.
+      if (user.role !== "admin") {
+        TransactItems.push({
+          ConditionCheck: {
+            TableName: db.tableName(),
+            Key: db.codec.CourseUser.keys.primary({
+              courseId: request.query.courseId,
+              userEmail: user.email,
+            }),
+            ConditionExpression: "#role = :role",
+            ...db.codec.CourseUser.expressionAttributes({
+              role: "instructor",
+            }),
           },
-        ],
+        });
+      }
+
+      // We'll make this update if the first part of the transaction passes.
+      TransactItems.push({
+        Update: {
+          TableName: db.tableName(),
+          Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
+          ...db.codec.Course.updateExpression(updatedProperties),
+        },
+      });
+
+      const result = await db.client().transactWrite({
+        TransactItems,
       });
 
       if (result.failed) {
