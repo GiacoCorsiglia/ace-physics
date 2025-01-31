@@ -111,21 +111,20 @@ export const CourseReports = spec({
   DELETE: null,
 });
 
-export const UserPrivileges = spec({
-  url: "/user-privileges",
-  Query: Empty,
-  POST: {
+export const User = spec({
+  url: "/users/[hash]",
+  Query: t.exact({
+    hash: t.string(),
+  }),
+  GET: {
+    Response: schema.User,
+  },
+  POST: null,
+  PUT: {
     Request: t.exact({
-      unhashedUserEmail: t.string(),
-      role: t.union(
-        t.literal("student"),
-        t.literal("instructor"),
-        t.literal("admin"),
-      ),
+      role: schema.User.properties.role.value,
     }),
-    Response: Ok,
+    Response: schema.User,
   },
   DELETE: null,
-  GET: null,
-  PUT: null,
 });

@@ -1,5 +1,25 @@
+import type { User as NextAuthUser } from "next-auth";
 import { Event } from "./events";
 import * as t from "./types";
+
+// Users.
+// NOTE: This schema doesn't really matter, since it's managed by NextAuth; but
+// it's useful to have so we can specify api types.
+
+export type User = t.Infer<typeof User>;
+export const User = t.exact({
+  id: t.string(),
+  email: t.optional(t.nullable(t.string())),
+  role: t.optional(
+    t.union(t.literal("student"), t.literal("instructor"), t.literal("admin")),
+  ),
+});
+
+// Enforce that the schema defined above matches NextAuth's User type.
+type _isAssignable<T, U extends T> = void;
+type _testUserType =
+  | _isAssignable<NextAuthUser, User>
+  | _isAssignable<User, NextAuthUser>;
 
 // Courses.
 
