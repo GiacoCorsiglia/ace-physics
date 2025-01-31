@@ -52,7 +52,11 @@ export default function Course() {
           loading={!course && !error}
         >
           {error && (
-            <Callout color="red">We couldn’t load this course.</Callout>
+            <Callout color="red">
+              {error.type === "404 NOT FOUND"
+                ? "Course not found."
+                : "We couldn’t load this course."}
+            </Callout>
           )}
 
           {course && (

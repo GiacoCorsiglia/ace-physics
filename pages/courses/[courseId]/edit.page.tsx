@@ -1,5 +1,5 @@
 import { useCourse, useUpdateCourse, useUpdateCourseUsers } from "@/api/client";
-import { useAuth, UserMenu } from "@/auth/client";
+import { UserMenu, useAuth } from "@/auth/client";
 import {
   AuthGuard,
   Breadcrumb,
@@ -58,7 +58,11 @@ export default function EditCourse() {
           loading={!error && !course}
         >
           {error && (
-            <Callout color="red">We couldn’t load this course.</Callout>
+            <Callout color="red">
+              {error.type === "404 NOT FOUND"
+                ? "Course not found."
+                : "We couldn’t load this course."}
+            </Callout>
           )}
 
           {course && (
