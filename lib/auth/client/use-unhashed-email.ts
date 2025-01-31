@@ -8,15 +8,25 @@ const makeKey = (hash: string) => `${localStoragePrefix}${hash}`;
 // We used to just store a single email.
 const legacyLocalStorageKey = "ace-unhashed-email";
 
+/**
+ * Finds an unhashed version of the `hash` from local storage, if it's in there.
+ * Unfortunately, this operation is asynchronous.  `undefined` means "loading"
+ * whereas `null` means "not found".
+ */
 export const useUnhashedEmail = (
   hash: string | null | undefined,
-): string | null => {
-  const [unhashed, setUnhashed] = useState<string | null>(null);
+): string | null | undefined => {
+  const [unhashed, setUnhashed] = useState<string | null | undefined>(
+    // Start in "loading" if there is a hash, otherwise skip to empty.
+    hash ? undefined : null,
+  );
 
   useEffect(() => {
-    setUnhashed(null); // Clear previous.
     if (hash) {
+      setUnhashed(undefined); // Clear previous and indicate we're loading.
       getEmailForHash(hash).then((newUnhashed) => setUnhashed(newUnhashed));
+    } else {
+      setUnhashed(null);
     }
   }, [hash]);
 
