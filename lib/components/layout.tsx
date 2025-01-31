@@ -5,12 +5,13 @@ import styles from "./layout.module.scss";
 // Vertical.
 ////////////////////////////////////////////////////////////////////////////////
 
-type VerticalSpacing = 100 | 200 | 300;
+type VerticalSpacing = 50 | 100 | 200 | 300;
 
 const verticalCss = (space?: VerticalSpacing | false) =>
   space !== false
     ? [
         styles.vertical,
+        space === 50 && styles.vertical50,
         space === 100 && styles.vertical100,
         space === 200 && styles.vertical200,
         space === 300 && styles.vertical300,
@@ -18,8 +19,8 @@ const verticalCss = (space?: VerticalSpacing | false) =>
     : [];
 
 const VerticalSpace = styledChild<{
-  before?: VerticalSpacing | 50 | 0;
-  after?: VerticalSpacing | 50 | 0;
+  before?: VerticalSpacing | 0;
+  after?: VerticalSpacing | 0;
 }>(({ before, after }) => [
   styles.verticalSpace, // Leave this here to set the displayName.
   before === 0 && styles.verticalSpaceBefore0,

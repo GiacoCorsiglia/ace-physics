@@ -45,6 +45,10 @@
   }
 }
 
+.vertical50 {
+  --vertical-margin-top: #{spacing.$space-50};
+}
+
 .vertical100 {
   --vertical-margin-top: #{spacing.$space-100};
 }
