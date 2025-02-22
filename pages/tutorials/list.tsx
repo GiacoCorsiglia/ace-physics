@@ -213,33 +213,6 @@ if (process.env.NEXT_PUBLIC_ACE_ENV !== "production")
     ),
     tags: [],
   });
-
-if (process.env.NEXT_PUBLIC_ACE_ENV !== "production")
-  tutorialList.push({
-    id: "TestTutorialGina",
-    link: "test-tutorial-gina",
-    label: "Gina's Working Test Tutorial",
-    blurb: (
-      <>
-        Edit this tutorial to test your theories about how they work!
-        Environment: {process.env.NEXT_PUBLIC_ACE_ENV}
-      </>
-    ),
-    tags: [],
-  });
-// use push to add testtutorial in !'production' environment
-tutorialList.push({
-  id: "TestTutorialSteve",
-  link: "test-tutorial-steve",
-  label: "Steve's Working Test Tutorial",
-  blurb: (
-    <>
-      Edit this tutorial to test your theories about how they work! Environment:{" "}
-      {process.env.NEXT_PUBLIC_ACE_ENV}
-    </>
-  ),
-  tags: [],
-});
 // use push to add testtutorial in !'production' environment
 
 export interface TutorialListing {
