@@ -63,7 +63,7 @@ describe("/courses/{courseId}/users", () => {
     );
   });
 
-  it("GET returns 404 when user is unassociated with course", async () => {
+  it("GET returns 200 when user is admin unassociated with course", async () => {
     const [, courseId] = await createCourse();
 
     const res = await GET({
@@ -72,6 +72,36 @@ describe("/courses/{courseId}/users", () => {
       session: {
         expires: "",
         user: { email: "someone_else", role: "admin" },
+      },
+    });
+
+    expect(res.statusCode).toBe(200);
+  });
+
+  it("GET returns 404 when user is instructor unassociated with course", async () => {
+    const [, courseId] = await createCourse();
+
+    const res = await GET({
+      method: "GET",
+      query: { courseId },
+      session: {
+        expires: "",
+        user: { email: "someone_else", role: "instructor" },
+      },
+    });
+
+    expect(res).toEqual(response.notFound());
+  });
+
+  it("GET returns 404 when user is student unassociated with course", async () => {
+    const [, courseId] = await createCourse();
+
+    const res = await GET({
+      method: "GET",
+      query: { courseId },
+      session: {
+        expires: "",
+        user: { email: "someone_else", role: "student" },
       },
     });
 
