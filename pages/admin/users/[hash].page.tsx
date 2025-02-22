@@ -290,7 +290,7 @@ const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
 };
 
 const UserCourses = ({ user }: { user: User }) => {
-  if (!user.courses) {
+  if (!user.courses.length) {
     return <Prose>This user doesn’t have any courses.</Prose>;
   }
 
