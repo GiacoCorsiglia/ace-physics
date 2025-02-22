@@ -85,6 +85,45 @@ describe("/courses/{courseId}", () => {
     );
   });
 
+  it("GET returns other user's course for admin", async () => {
+    // Create course.
+    const postRes = await indexPOST({
+      method: "POST",
+      query: {},
+      body: { displayName: "test" },
+      session: {
+        expires: "",
+        user: { ...session.user, role: "instructor" },
+      },
+    });
+
+    expect(postRes).toMatchObject(
+      response.success({
+        displayName: "test",
+        userRole: "instructor",
+      }),
+    );
+
+    const res = await GET({
+      method: "GET",
+      query: {
+        courseId: (postRes.body as api.Course).id,
+      },
+      session: {
+        ...session2,
+        user: { ...session2.user, role: "admin" },
+      },
+    });
+
+    expect(res).toMatchObject(
+      response.success({
+        id: (postRes.body as api.Course).id,
+        displayName: "test",
+        userRole: "instructor",
+      }),
+    );
+  });
+
   it("PUT updates user's course", async () => {
     // Create course.
     const postRes = await indexPOST({

@@ -1,6 +1,6 @@
 import { endpoint, response, spec } from "@/api/server";
 import * as db from "@/db";
-import { sortBy } from "@/helpers/server";
+import { getCoursesForUser } from "@/query";
 
 export default endpoint(
   spec.Courses,
@@ -8,66 +8,13 @@ export default endpoint(
     async GET(request) {
       const { user } = request.session;
 
-      const userCoursesResult = await db.fetchAllPages((ExclusiveStartKey) =>
-        db.client().query({
-          TableName: db.tableName(),
-          KeyConditionExpression: `#${db.Keys.pk} = :${db.Keys.pk} and begins_with(#${db.Keys.sk}, :${db.Keys.sk})`,
-          ...db.expressionAttributes(
-            db.codec.CourseUser.keys.primary({
-              userEmail: user.email,
-              courseId: "",
-            }),
-          ),
-          ExclusiveStartKey,
-        }),
-      );
-
-      if (userCoursesResult.failed) {
-        return response.error(userCoursesResult.error);
-      }
-
-      const userCourses = db.codec.CourseUser.decodeList(
-        userCoursesResult.value,
-      );
-
-      if (userCourses.length === 0) {
-        // Bail when there are no courses for this user!  DynamoDB doesn't like
-        // having an empty set of RequestItems, and it's a wasted call anyway.
-        return response.success([]);
-      }
-
-      // This is limited to 100 courses, which should be fine...
-      const coursesResult = await db.client().batchGet({
-        RequestItems: {
-          [db.tableName()]: {
-            Keys: userCourses.map((course) =>
-              db.codec.Course.keys.primary({ id: course.courseId }),
-            ),
-          },
-        },
-      });
+      const coursesResult = await getCoursesForUser(user);
 
       if (coursesResult.failed) {
         return response.error(coursesResult.error);
       }
 
-      const courses = db.codec.Course.decodeList(
-        coursesResult.value.Responses?.[db.tableName()],
-      );
-
-      const rolesByCourse = new Map(
-        userCourses.map((userCourse) => [userCourse.courseId, userCourse.role]),
-      );
-
-      return response.success(
-        sortBy(
-          courses.map((course) => ({
-            ...course,
-            userRole: rolesByCourse.get(course.id)!, // Necessarily defined.
-          })),
-          "createdAt",
-        ),
-      );
+      return response.success(coursesResult.value);
     },
 
     async POST(request) {

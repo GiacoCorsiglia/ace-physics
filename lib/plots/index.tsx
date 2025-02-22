@@ -1,7 +1,7 @@
 import { M, MPropTypes } from "@/components";
 import {
-  cx,
   Html,
+  cx,
   range,
   useAncestorBackgroundColor,
   useUniqueId,
@@ -455,8 +455,8 @@ export const GridLine = ({
     : {
         x1: plot.leftEdge,
         x2: plot.rightEdge,
-        y1: plot.y(y!),
-        y2: plot.y(y!),
+        y1: plot.y(y),
+        y2: plot.y(y),
       };
 
   return (

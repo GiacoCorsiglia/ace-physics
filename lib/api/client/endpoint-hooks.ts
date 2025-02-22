@@ -1,9 +1,9 @@
 import { AsyncResult } from "@/result";
-import { Infer, ObjectType } from "@/schema/types";
+import { Infer, ObjectType, decode } from "@/schema/types";
 import { useCallback, useState } from "react";
 import useSwr, { SWRConfiguration, useSWRConfig } from "swr";
 import { ApiSpec } from "../isomorphic/spec";
-import { fetchAndParse, ResponseError } from "./fetch-and-parse";
+import { ResponseError, fetchAndParse } from "./fetch-and-parse";
 
 // URL rendering.
 
@@ -45,7 +45,7 @@ type UseGetHook<
         >,
       ) => UseGetHookReturn<S>
     : (
-        query: Infer<S["Query"]>,
+        query: Infer<S["Query"]> | null,
         swrOptions?: SWRConfiguration<
           Infer<S["GET"]["Response"]>,
           ResponseError
@@ -76,12 +76,17 @@ export const createUseGet = <
 
   const needsQuery = Object.keys(spec.Query.properties).length > 0;
 
-  return (queryOrOptions?: Infer<S["Query"]>, options?: SWRConfiguration) => {
+  return (
+    queryOrOptions?: Infer<S["Query"]> | null,
+    options?: SWRConfiguration,
+  ) => {
     const query = needsQuery ? queryOrOptions || {} : {};
     const swrOptions = needsQuery ? options : queryOrOptions;
 
-    const url: string = renderUrl(spec, query);
-    const swr = useSwr(url, fetcher, swrOptions);
+    // Allow postponing SWR fetch by passing `query: null`.
+    const url: string | null =
+      queryOrOptions === null ? null : renderUrl(spec, query);
+    const swr = useSwr(url, fetcher, swrOptions as SWRConfiguration);
 
     return {
       // SWR avoids rerenders if these properties aren't read.
@@ -192,7 +197,19 @@ export const createUseMutation = <
             status: "success",
             data: result.value,
           });
-          swrMutate(url);
+          // Update the cache for the GET at this URL.
+          if (spec.GET && result.value) {
+            // If the mutation returns a value and that value matches the shape
+            // expected for the GET, we can update the cache with that value.
+            const decoded = decode(spec.GET.Response, result.value);
+            if (!decoded.failed) {
+              swrMutate(url, decoded.value);
+            } else {
+              swrMutate(url);
+            }
+          } else {
+            swrMutate(url);
+          }
         }
 
         return result;

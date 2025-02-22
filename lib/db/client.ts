@@ -66,6 +66,8 @@ type AwsError = Error &
       }
   );
 
+export type DbError = AwsError;
+
 const wrapClient = (client: DynamoDBDocument): SafeDynamoDBDocument => {
   const wrapped = {} as SafeDynamoDBDocument;
 

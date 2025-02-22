@@ -24,6 +24,11 @@ export const Footer = () => {
         Benjamin&nbsp;P.&nbsp;Schermerhorn, Gina&nbsp;Passante,
         Homeyra&nbsp;Sadaghiani, and Steven&nbsp;Pollock
       </p>
+
+      <p>
+        Thanks also to Bianca&nbsp;Cervantes, Alan&nbsp;Cortez,
+        Jonan-Rohi&nbsp;Plueger, and Bethany&nbsp;Wilcox
+      </p>
     </footer>
   );
 };

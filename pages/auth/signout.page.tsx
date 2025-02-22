@@ -1,4 +1,4 @@
-import { clearSavedUnhashedEmail } from "@/auth/client";
+import { clearSavedUnhashedEmails } from "@/auth/client";
 import { Button, LinkButton, MainContentBox, Page, Prose } from "@/components";
 import { ArrowRightIcon } from "@primer/octicons-react";
 import { signOut, useSession } from "next-auth/react";
@@ -23,7 +23,7 @@ export default function SignOut() {
               <Button
                 color="yellow"
                 onClick={() => {
-                  clearSavedUnhashedEmail();
+                  clearSavedUnhashedEmails();
                   signOut({ redirect: false });
                 }}
                 disabled={status === "loading"}

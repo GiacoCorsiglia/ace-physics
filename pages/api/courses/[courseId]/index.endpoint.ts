@@ -1,5 +1,15 @@
 import { endpoint, response, spec } from "@/api/server";
 import * as db from "@/db";
+import { Course } from "@/schema/api";
+import {
+  TransactGetCommandInput,
+  TransactWriteCommandInput,
+} from "@aws-sdk/lib-dynamodb";
+
+type GetTransactItems = NonNullable<TransactGetCommandInput["TransactItems"]>;
+type WriteTransactItems = NonNullable<
+  TransactWriteCommandInput["TransactItems"]
+>;
 
 export default endpoint(
   spec.Course,
@@ -7,29 +17,42 @@ export default endpoint(
     async GET(request) {
       const { user } = request.session;
 
+      // We'll load the course, and possibly the CourseUser, in a transaction.
+      const TransactItems: GetTransactItems = [];
+
+      // Definitely load the course itself.
+      TransactItems.push({
+        Get: {
+          TableName: db.tableName(),
+          Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
+        },
+      });
+
+      // If the user is an admin, we don't care about their CourseUser---in
+      // fact, we probably won't find one.
+      if (user.role !== "admin") {
+        // Otherwise, the existence of this item guarantees that the user has
+        // permission to view this course.
+        TransactItems.push({
+          Get: {
+            TableName: db.tableName(),
+            Key: db.codec.CourseUser.keys.primary({
+              courseId: request.query.courseId,
+              userEmail: user.email,
+            }),
+          },
+        });
+      }
+
       const result = await db.client().transactGet({
-        TransactItems: [
-          {
-            Get: {
-              TableName: db.tableName(),
-              Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
-            },
-          },
-          // The existence of this item guarantees that the user has permission to
-          // access this course.
-          {
-            Get: {
-              TableName: db.tableName(),
-              Key: db.codec.CourseUser.keys.primary({
-                courseId: request.query.courseId,
-                userEmail: user.email,
-              }),
-            },
-          },
-        ],
+        TransactItems,
       });
 
       if (result.failed) {
+        // If we can't find any of the entities, treat it as a 404.  This
+        // *might* mean the course exists but the auth check failed; but 404 is
+        // still the right response in that case, to hide the existence of the
+        // course from others.
         if (
           result.error.name === "TransactionCanceledException" &&
           result.error.CancellationReasons?.some(
@@ -42,19 +65,31 @@ export default endpoint(
         return response.error(result.error);
       }
 
-      const [{ Item: courseItem }, { Item: courseUserItem }] =
-        result.value.Responses!;
-
+      const courseItem = result.value.Responses![0].Item;
       const course = db.codec.Course.decode(courseItem);
-      const courseUser = db.codec.CourseUser.decode(courseUserItem);
-
-      if (course.failed || courseUser.failed) {
+      if (course.failed) {
         return response.notFound();
+      }
+
+      let userRole: Course["userRole"];
+      if (user.role === "admin") {
+        // If the user is an admin, pretend they're a course instructor no
+        // matter what!
+        userRole = "instructor";
+      } else {
+        const courseUserItem = result.value.Responses![1].Item;
+        const courseUser = db.codec.CourseUser.decode(courseUserItem);
+
+        if (courseUser.failed) {
+          return response.notFound();
+        }
+
+        userRole = courseUser.value.role;
       }
 
       return response.success({
         ...course.value,
-        userRole: courseUser.value.role,
+        userRole,
       });
     },
 
@@ -66,32 +101,38 @@ export default endpoint(
         updatedAt: db.now(),
       };
 
-      const result = await db.client().transactWrite({
-        TransactItems: [
-          // First, make sure this user has permissions.  They must be associated
-          // with the course, and have the role instructor.
-          {
-            ConditionCheck: {
-              TableName: db.tableName(),
-              Key: db.codec.CourseUser.keys.primary({
-                courseId: request.query.courseId,
-                userEmail: user.email,
-              }),
-              ConditionExpression: "#role = :role",
-              ...db.codec.CourseUser.expressionAttributes({
-                role: "instructor",
-              }),
-            },
-          },
+      const TransactItems: WriteTransactItems = [];
 
-          {
-            Update: {
-              TableName: db.tableName(),
-              Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
-              ...db.codec.Course.updateExpression(updatedProperties),
-            },
+      // First, make sure this user has permissions.  They must be associated
+      // with the course, and have the role instructor.  UNLESS the user is an
+      // ACE Physics admin, then we don't care.
+      if (user.role !== "admin") {
+        TransactItems.push({
+          ConditionCheck: {
+            TableName: db.tableName(),
+            Key: db.codec.CourseUser.keys.primary({
+              courseId: request.query.courseId,
+              userEmail: user.email,
+            }),
+            ConditionExpression: "#role = :role",
+            ...db.codec.CourseUser.expressionAttributes({
+              role: "instructor",
+            }),
           },
-        ],
+        });
+      }
+
+      // We'll make this update if the first part of the transaction passes.
+      TransactItems.push({
+        Update: {
+          TableName: db.tableName(),
+          Key: db.codec.Course.keys.primary({ id: request.query.courseId }),
+          ...db.codec.Course.updateExpression(updatedProperties),
+        },
+      });
+
+      const result = await db.client().transactWrite({
+        TransactItems,
       });
 
       if (result.failed) {

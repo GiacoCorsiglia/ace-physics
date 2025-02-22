@@ -180,6 +180,11 @@ const userHasPermission = async (
 ): Promise<Result<any, boolean>> => {
   // They don't need to be a global instructor, just one for this course.
 
+  // ACE Physics admins always have permission.
+  if (user.role === "admin") {
+    return success(true);
+  }
+
   const courseUserResult = await db.client().get({
     TableName: db.tableName(),
     Key: db.codec.CourseUser.keys.primary({

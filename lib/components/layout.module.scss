@@ -15,6 +15,9 @@
   > * + .verticalSpaceBefore0 {
     margin-top: 0;
   }
+  > * + .verticalSpaceBefore50 {
+    margin-top: #{spacing.$space-50};
+  }
   > * + .verticalSpaceBefore100 {
     margin-top: #{spacing.$space-100};
   }
@@ -28,6 +31,9 @@
   > .verticalSpaceAfter0 + * {
     margin-top: 0;
   }
+  > .verticalSpaceAfter50 + * {
+    margin-top: #{spacing.$space-50};
+  }
   > .verticalSpaceAfter100 + * {
     margin-top: #{spacing.$space-100};
   }
@@ -37,6 +43,10 @@
   > .verticalSpaceAfter300 + * {
     margin-top: #{spacing.$space-300};
   }
+}
+
+.vertical50 {
+  --vertical-margin-top: #{spacing.$space-50};
 }
 
 .vertical100 {

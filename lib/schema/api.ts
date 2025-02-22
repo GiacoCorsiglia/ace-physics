@@ -28,3 +28,17 @@ export const courseUserIsStudent = (
 
 export type TutorialState = t.Infer<typeof TutorialState>;
 export const TutorialState = db.TutorialState;
+
+export type User = t.Infer<typeof User>;
+export const User = t.exact({
+  ...db.User.properties,
+  /**
+   * A list of courses this user is associated with.
+   */
+  courses: t.array(Course),
+  /**
+   * Indicates whether the user has ever logged in themselves.  Users can be
+   * created before login because admins can assign a role to any email address.
+   */
+  isEmailVerified: t.boolean(),
+});

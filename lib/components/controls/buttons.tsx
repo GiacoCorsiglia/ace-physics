@@ -1,5 +1,5 @@
 import { combineRefs, cx, Html } from "@/helpers/client";
-import { LinkExternalIcon } from "@primer/octicons-react";
+import { LinkExternalIcon, SyncIcon } from "@primer/octicons-react";
 import Link, { LinkProps } from "next/link";
 import { forwardRef } from "react";
 import { Tooltip, useTooltip } from "../tooltip";
@@ -14,6 +14,7 @@ type ButtonProps = {
   iconRight?: Html;
   disabledExplanation?: Html;
   size?: "normal" | "small";
+  loading?: boolean;
 } & Omit<
   JSX.IntrinsicElements["button"] & JSX.IntrinsicElements["a"],
   "color" | "href"
@@ -30,6 +31,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       iconRight,
       disabledExplanation,
       size = "normal",
+      loading = false,
       ...props
     },
     ref,
@@ -59,9 +61,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const childrenWithIcons = (
       <>
-        {iconLeft}
-        {children}
-        {iconRight}
+        <div className={styles.children}>
+          {iconLeft}
+          {children}
+          {iconRight}
+        </div>
+        {loading && (
+          <SyncIcon className={styles.loadingIcon} aria-label="Loading…" />
+        )}
         {props.disabled && disabledExplanation && (
           <Tooltip
             {...tooltipProps}
@@ -81,6 +88,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       iconRight && styles.iconLast,
       size === "normal" && styles.normal,
       size === "small" && styles.small,
+      loading && styles.loading,
       colorClass,
     );
 

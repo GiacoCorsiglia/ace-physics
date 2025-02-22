@@ -21,9 +21,9 @@ export default function Course() {
   const auth = useAuth({ required: true });
 
   const router = useRouter();
-  const { courseId } = router.query as { courseId: string };
+  const { courseId } = router.query as { courseId?: string };
 
-  const { data: course, error } = useCourse({ courseId });
+  const { data: course, error } = useCourse(courseId ? { courseId } : null);
 
   const title = course ? course.displayName : `Course ${courseId}`;
 
@@ -52,7 +52,11 @@ export default function Course() {
           loading={!course && !error}
         >
           {error && (
-            <Callout color="red">We couldn’t load this course.</Callout>
+            <Callout color="red">
+              {error.type === "404 NOT FOUND"
+                ? "Course not found."
+                : "We couldn’t load this course."}
+            </Callout>
           )}
 
           {course && (

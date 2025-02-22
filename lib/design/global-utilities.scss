@@ -19,12 +19,25 @@
   text-align: right;
 }
 
+// Font weight.
+.text-bold {
+  font-weight: fonts.$bold;
+}
+
 // Font size.
 .text-ui {
   @include fonts.ui;
+
+  .text-bold {
+    font-weight: fonts.$ui-bold;
+  }
 }
 .text-ui-small {
   @include fonts.ui-small;
+
+  .text-bold {
+    font-weight: fonts.$ui-bold;
+  }
 }
 .text-smallest {
   @include fonts.smallest;

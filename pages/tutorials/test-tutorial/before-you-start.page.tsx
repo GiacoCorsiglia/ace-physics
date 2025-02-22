@@ -17,9 +17,9 @@ export default pretest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            This is how you might add some Prose. It also might be everything
-            you have in a section if you want to. Line breaks in code don't add
-            real line breaks.
+            This is how you might add some Prose. Steve is here. It also might
+            be everything you have in a section if you want to. Line breaks in
+            code don't add real line breaks.
             <p>Use 'p' to do that!</p>
             <p>
               consecutive p's have wide line breaks. Notice that the first line
@@ -29,6 +29,45 @@ export default pretest(setup, ({ section }) => ({
             <br />
             this one is small.
           </Prose>
+        </>
+      ),
+    }),
+    section({
+      body: (m) => (
+        <>
+          <Prose>Next section, Steve's first! </Prose>
+          <TextBox
+            model={m.steveTutPretestText1}
+            label={
+              <Prose>optional: Fill in Steves empty text box please</Prose>
+            }
+            // initialValue="...input your answer here..."
+          />
+          <ChooseOne // Another option is 'Toggle'
+            model={m.steveTutPretestChooseOne}
+            choices={[
+              ["steveopt1", "Do you prefer this?"],
+              ["steveopt2", "or that"],
+            ]}
+          />
+        </>
+      ),
+    }),
+    section({
+      body: (m) => (
+        <>
+          <Prose>
+            <p>Here is a new section added by Gina!</p>
+            <p>This is a new paragraph! There are line breaks! </p>
+            <p>Feel free to add more elements as needed.</p>
+          </Prose>
+          <TextBox
+            model={m.GinaStringInput}
+            label={
+              <Prose>Gina would like you to type the word duck below</Prose>
+            }
+            initialValue="duckduck goose"
+          />
         </>
       ),
     }),
