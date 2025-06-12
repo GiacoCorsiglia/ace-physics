@@ -23,7 +23,7 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             {" "}
-            First lets do a brief review of some single-qubit circuits:
+            First let's do a brief review of some single-qubit circuits:
           </Prose>
         </>
       ),
