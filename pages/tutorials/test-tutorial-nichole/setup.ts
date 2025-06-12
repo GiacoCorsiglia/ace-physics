@@ -13,9 +13,9 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  id: "TestTutorialSteve",
-  link: "test-tutorial-steve",
-  label: "Documentation Tutorial for Steve",
+  id: "TestTutorialNichole",
+  link: "test-tutorial-nichole",
+  label: "Documentation Tutorial for Nichole",
   excludeFromList: true,
   pretest: true,
   posttest: true,
