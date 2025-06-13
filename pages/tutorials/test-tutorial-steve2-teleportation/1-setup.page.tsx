@@ -2,7 +2,6 @@ import { ChooseOne, Guidance, M, Prose, TextBox, Toggle } from "@/components";
 
 import { page } from "@/tutorial";
 import setup from "./setup";
-
 export default page(setup, ({ section, sequence }) => ({
   name: "intropage",
   label: "The Setup",
@@ -63,53 +62,58 @@ export default page(setup, ({ section, sequence }) => ({
       ),
     }),
 
-    sequence({
+    section({
       when: (r) => r.singlemeasure?.selected === "yes",
-      sections: [
-        section({
-          name: "singlemeasurestill",
 
-          body: (m) => (
-            <Toggle
-              model={m.singlemeasurestill}
-              choices={[
-                ["yes", <>Yes, it remains (unaffected).</>],
-                ["no", <>No, it has collapsed to either a 0 or 1.</>],
-              ]}
-              label={
-                <Prose>
-                  If Alice makes a measurement, is the mystery state still
-                  available for further measurements?
-                </Prose>
-              }
-            />
-          ),
-        }),
+      name: "singlemeasurestill",
 
-        section({
-          name: "singlemeasurestillFeedback",
-          body: (_, { responses }) => (
-            <>
-              {responses?.singlemeasurestill?.selected === "yes" && (
-                <Guidance.Disagree>
-                  Any time you measure a superposition state (like the mystery
-                  state), that state collapses, it is gone. All you have is a 0
-                  or 1 outcome, but you no longer have access to the original
-                  state.
-                </Guidance.Disagree>
-              )}
+      body: (m) => (
+        <Toggle
+          model={m.singlemeasurestill}
+          choices={[
+            ["yes", <>Yes, it remains (unaffected).</>],
+            ["no", <>No, it has collapsed to either a 0 or 1.</>],
+          ]}
+          label={
+            <Prose>
+              If Alice makes a measurement, is the mystery state still available
+              for further measurements?
+            </Prose>
+          }
+        />
+      ),
 
-              {responses?.singlemeasurestill?.selected !== "no" && (
-                <Guidance.Agree>
-                  Right. If Alice measures the mystery state, it collapses to
-                  either a 0 or a 1, and she can no longer access the original
-                  state.
-                </Guidance.Agree>
-              )}
-            </>
-          ),
-        }),
-      ],
+      guidance: {
+        nextMessage: (responses) => {
+          if (responses?.singlemeasurestill?.selected === "yes") {
+            return "yes";
+          }
+          return "no";
+        },
+        messages: {
+          yes: {
+            body: (
+              <Guidance.Disagree>
+                Any time you measure a superposition state (like the mystery
+                state), that state collapses, it is gone. All you have is a 0 or
+                1 outcome, but you no longer have access to the original state.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextSection",
+          },
+
+          no: {
+            body: (
+              <Guidance.Agree>
+                Right. If Alice measures the mystery state, it collapses to
+                either a 0 or a 1, and she can no longer access the original
+                state.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -132,6 +136,7 @@ export default page(setup, ({ section, sequence }) => ({
         label: "Got it",
       },
     }),
+
     section({
       name: "setupsolve",
       body: (m) => (

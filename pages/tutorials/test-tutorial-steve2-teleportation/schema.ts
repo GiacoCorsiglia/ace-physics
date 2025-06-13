@@ -59,7 +59,9 @@ export default s.tutorial({
   sections: {
     setupIntro: s.section(),
     singlemeasure: s.section(),
-    singlemeasurestill: s.section(),
+    singlemeasurestill: s.section({
+      messages: ["yes", "no"],
+    }),
     singlemeasurestillFeedback: s.section(),
     setupresponse: s.section(),
     setupsolve: s.section(),
