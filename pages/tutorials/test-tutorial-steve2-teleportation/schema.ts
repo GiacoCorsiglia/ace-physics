@@ -73,8 +73,17 @@ export default s.tutorial({
     }),
     measureentangleFeedback: s.section(),
     statePrepIntro: s.section(),
-    whatisxq: s.section(),
+    whatisxq: s.section({
+      messages: ["dynamicAnswer"],
+      // messages: ["1", "not1"],
+    }),
     whatisyq: s.section(),
+    summary1: s.section(),
+    howmany: s.section(),
+
+    measure1: s.section({
+      messages: ["correct", "two", "one", "incorrect"],
+    }),
 
     aliceVbob5: s.section({ messages: ["finalfeedback"] }),
 
@@ -119,6 +128,8 @@ export default s.tutorial({
       "111",
     ]),
 
+    measure1: s.number(),
+
     wrapup1: s.string(),
     wrapup2: s.string(),
     wrapup3: s.string(),
@@ -135,6 +146,7 @@ export default s.tutorial({
     outputHZPlus: s.string(),
   },
   hints: {
+    probability: s.hint(),
     finalfeedback: s.hint(),
     inverse: s.hint(),
   },
