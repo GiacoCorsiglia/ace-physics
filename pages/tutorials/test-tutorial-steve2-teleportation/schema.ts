@@ -4,7 +4,8 @@ export default s.tutorial({
   pages: {
     intropage: s.page(),
     statepreparation: s.page(),
-    wrapup: s.page(),
+    buildingteleportation: s.page(),
+    finaloperations: s.page(),
   },
   pretest: {
     warmup1select1: s.chooseOne([
@@ -72,7 +73,8 @@ export default s.tutorial({
     }),
     measureentangleFeedback: s.section(),
     statePrepIntro: s.section(),
-    fillinstate: s.section(),
+    whatisxq: s.section(),
+    whatisyq: s.section(),
 
     aliceVbob5: s.section({ messages: ["finalfeedback"] }),
 
@@ -97,6 +99,7 @@ export default s.tutorial({
     doXAndZCommute: s.section({
       messages: ["answer"],
     }),
+    doHZCommute: s.section(),
   },
   responses: {
     singlemeasure: s.chooseOne(["yes", "no"]),
@@ -104,7 +107,17 @@ export default s.tutorial({
     singlemeasurestill: s.chooseOne(["yes", "no"]),
 
     measureentangle: s.chooseOne(["a", "b", "c", "d", "e"]),
-    fillinstate: s.string(),
+    whatisx: s.chooseOne(["0", "1", "else"]),
+    whatisy: s.chooseOne([
+      "000",
+      "001",
+      "010",
+      "011",
+      "100",
+      "101",
+      "110",
+      "111",
+    ]),
 
     wrapup1: s.string(),
     wrapup2: s.string(),
@@ -112,11 +125,9 @@ export default s.tutorial({
     wrapup4: s.string(),
     wrapup5: s.string(),
 
-    doesZSelfCommute: s.chooseOne(["yes", "no"]),
-    circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
-
     outputXZ1: s.string(),
     outputZX1: s.string(),
+    doHZcommute: s.string(),
     matrixOrEquationApproach: s.string(),
     inverseOfX: s.chooseOne(["X", "Z", "H", "I"]),
 

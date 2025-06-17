@@ -2,7 +2,7 @@ import { ChooseOne, Guidance, M, Prose, TextBox, Toggle } from "@/components";
 
 import { page } from "@/tutorial";
 import setup from "./setup";
-export default page(setup, ({ section, sequence }) => ({
+export default page(setup, ({ section }) => ({
   name: "intropage",
   label: "The Setup",
   answers: "checked-all",
