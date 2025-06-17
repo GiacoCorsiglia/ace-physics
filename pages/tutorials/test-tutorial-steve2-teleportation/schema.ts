@@ -65,7 +65,12 @@ export default s.tutorial({
     singlemeasurestillFeedback: s.section(),
     setupresponse: s.section(),
     setupsolve: s.section(),
-    measureentangle: s.section(),
+    // measureentangle: s.section(),
+    measureentangle: s.section({
+      messages: ["dynamicAnswer"],
+      // messages: ["a", "nota"],
+    }),
+    measureentangleFeedback: s.section(),
     statePrepIntro: s.section(),
     fillinstate: s.section(),
 

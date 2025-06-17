@@ -87,7 +87,7 @@ export default pretest(setup, ({ section }) => ({
           <Prose>
             A qubit is in state <M t="a\ket{0} -b \ket{1}" />. What gate(s)
             would transform this into the state
-            <M t=" (b\ket{0} + a\ket{1})" />?
+            <M t="\  b\ket{0} + a\ket{1}" />?
           </Prose>
           <ChooseOne // Another option is 'Toggle'
             model={m.warmup3select1}
@@ -114,7 +114,7 @@ export default pretest(setup, ({ section }) => ({
           <Prose> True or False: </Prose>
           <Prose>
             {" "}
-            If Alice ``quantum teleports'' a state <M t="\ket{\phi}" />
+            If Alice "quantum teleports" a state <M t="\ket{\phi} " />
             to Bob, both Alice and Bob now possess copies of the state{" "}
             <M t="\ket{\phi}" />.
           </Prose>
