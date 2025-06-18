@@ -2,11 +2,10 @@ import { ChooseOne, Guidance, M, Prose, TextBox, Toggle } from "@/components";
 
 import { page } from "@/tutorial";
 import setup from "./setup";
-
-export default page(setup, ({ section, sequence }) => ({
+export default page(setup, ({ section }) => ({
   name: "intropage",
   label: "The Setup",
-  answers: "checked-some",
+  answers: "checked-all",
 
   sections: [
     section({
@@ -23,10 +22,10 @@ export default page(setup, ({ section, sequence }) => ({
           <br />
           Bob is across the hall (or the country, or the other side of a large
           quantum computer).
-          <br />
-          Here's the question: How can Alice get her mystery state to Bob? One
-          option would be for her to put her qubit in a box and ship it to Bob.
-          But qubits are fragile (we need to keep them isolated from their
+          <br /> <br /> Here's the question: How can Alice get her mystery state
+          to Bob? <br />
+          One option would be for her to put her qubit in a box and ship it to
+          Bob. But qubits are fragile (we need to keep them isolated from their
           environment). This might be expensive or impractical.
           <br />
         </Prose>
@@ -63,53 +62,58 @@ export default page(setup, ({ section, sequence }) => ({
       ),
     }),
 
-    sequence({
+    section({
       when: (r) => r.singlemeasure?.selected === "yes",
-      sections: [
-        section({
-          name: "singlemeasurestill",
 
-          body: (m) => (
-            <Toggle
-              model={m.singlemeasurestill}
-              choices={[
-                ["yes", <>Yes, it remains (unaffected).</>],
-                ["no", <>No, it has collapsed to either a 0 or 1.</>],
-              ]}
-              label={
-                <Prose>
-                  If Alice makes a measurement, is the mystery state still
-                  available for further measurements?
-                </Prose>
-              }
-            />
-          ),
-        }),
+      name: "singlemeasurestill",
 
-        section({
-          name: "singlemeasurestillFeedback",
-          body: (_, { responses }) => (
-            <>
-              {responses?.singlemeasurestill?.selected === "yes" && (
-                <Guidance.Disagree>
-                  Any time you measure a superposition state (like the mystery
-                  state), that state collapses, it is gone. All you have is a 0
-                  or 1 outcome, but you no longer have access to the original
-                  state.
-                </Guidance.Disagree>
-              )}
+      body: (m) => (
+        <Toggle
+          model={m.singlemeasurestill}
+          choices={[
+            ["yes", <>Yes, it remains (unaffected).</>],
+            ["no", <>No, it has collapsed to either a 0 or 1.</>],
+          ]}
+          label={
+            <Prose>
+              If Alice makes a measurement, is the mystery state still available
+              for further measurements?
+            </Prose>
+          }
+        />
+      ),
 
-              {responses?.singlemeasurestill?.selected !== "no" && (
-                <Guidance.Agree>
-                  Right. If Alice measures the mystery state, it collapses to
-                  either a 0 or a 1, and she can no longer access the original
-                  state.
-                </Guidance.Agree>
-              )}
-            </>
-          ),
-        }),
-      ],
+      guidance: {
+        nextMessage: (responses) => {
+          if (responses?.singlemeasurestill?.selected === "yes") {
+            return "yes";
+          }
+          return "no";
+        },
+        messages: {
+          yes: {
+            body: (
+              <Guidance.Disagree>
+                Any time you measure a superposition state (like the mystery
+                state), that state collapses, it is gone. All you have is a 0 or
+                1 outcome, but you no longer have access to the original state.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextSection",
+          },
+
+          no: {
+            body: (
+              <Guidance.Agree>
+                Right. If Alice measures the mystery state, it collapses to
+                either a 0 or a 1, and she can no longer access the original
+                state.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -122,9 +126,9 @@ export default page(setup, ({ section, sequence }) => ({
             measuring would have worked just fine. Alice would learn whether her
             bit is a 0 or a 1 and could tell Bob. But with a quantum bit, if
             Alice makes a measurement, she disturbs the state. If she gets a 0
-            as the result, then all she can say is that a is nonzero, and the
-            original state is destroyed. There is nothing she can do to get more
-            specific information.
+            as the result, then all she can say is that <M t="a " /> is nonzero,
+            and the original state is destroyed. There is nothing she can do to
+            get more specific information.
           </Prose>
         </>
       ),
@@ -132,6 +136,7 @@ export default page(setup, ({ section, sequence }) => ({
         label: "Got it",
       },
     }),
+
     section({
       name: "setupsolve",
       body: (m) => (
@@ -184,6 +189,79 @@ export default page(setup, ({ section, sequence }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.measureentangle?.selected === "a"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.measureentangle?.selected !== "a" ? (
+                  <p>
+                    Look again at state{" "}
+                    <M t="\ket{\beta_{00}} = {1\over \sqrt{2}}(\ket{00}+\ket{11})" />
+                    . It is entangled. If Alice measures <M t="0" />, she has
+                    collapsed the state, and Bob is sure to posses state
+                    <M t="\ket{0}. " /> <br />
+                    (If this still seems very confusing to you, you might want
+                    to take a moment to look at a precursor Tutorial, the one
+                    titled "CNOT and Entanglement"))
+                  </p>
+                ) : (
+                  <p>
+                    Right. The state <M t="\ket{\beta_{00}}" />
+                    is entangled. If Alice measures <M t="0, " /> Bob is sure to
+                    possess state <M t="\ket{0}," />
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+
+      // guidance: {
+      //   nextMessage: (responses) => {
+      //     if (responses?.measureentangle?.selected === "a") {
+      //       return "a";
+      //     }
+      //     return "nota";
+      //   },
+      //   messages: {
+      //     a: {
+      //       body: (
+      //         <Guidance.Agree>
+      //           Right. The state <M t="\ket{\beta_{00}}" />
+      //           is entangled. If Alice measures <M t="0, " /> Bob is sure to
+      //           possess state <M t="\ket{0}," />
+      //         </Guidance.Agree>
+      //       ),
+      //       onContinue: "nextSection",
+      //     },
+
+      //     nota: {
+      //       body: (
+      //         <Guidance.Disagree>
+      //           Look again at state{" "}
+      //           <M t="\ket{\beta_{00}} = {1\over \sqrt{2}}(\ket{00}+\ket{11})" />
+      //           . It is entangled. If Alice measures <M t="0" />, she has
+      //           collapsed the state, and Bob is sure to posses state
+      //           <M t="\ket{0}. " /> <br />
+      //           (If this still seems very confusing to you, you might want to
+      //           take a moment to look at a precursor Tutorial, the one titled
+      //           "CNOT and Entanglement")
+      //         </Guidance.Disagree>
+      //       ),
+      //       onContinue: "nextSection",
+      //     },
+      //   },
+      // },
     }),
   ],
 }));
