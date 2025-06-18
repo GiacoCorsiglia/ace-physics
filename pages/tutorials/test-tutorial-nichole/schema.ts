@@ -24,6 +24,11 @@ export default s.tutorial({
     ]),
     designCircuit2explain: s.string(),
     outputOfCircuit: s.string(),
+    designCircuit3boolean: s.chooseOne([
+      "yes",
+      "no",
+    ]),
+    designCircuit3explain: s.string()
   },
   posttest: {
     designCircuit1: s.string(),
