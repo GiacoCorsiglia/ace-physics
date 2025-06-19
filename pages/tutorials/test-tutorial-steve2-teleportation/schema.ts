@@ -84,6 +84,11 @@ export default s.tutorial({
     measure1: s.section({
       messages: ["correct", "two", "one", "incorrect"],
     }),
+    equallylikely: s.section(),
+    equallylikelyq: s.section({
+      messages: ["dynamicAnswer"],
+      // messages: ["yes", "no"],
+    }),
 
     aliceVbob5: s.section({ messages: ["finalfeedback"] }),
 
@@ -129,6 +134,9 @@ export default s.tutorial({
     ]),
 
     measure1: s.number(),
+
+    equallylikely: s.chooseOne(["yes", "no"]),
+    equallylikelyExplain: s.string(),
 
     wrapup1: s.string(),
     wrapup2: s.string(),

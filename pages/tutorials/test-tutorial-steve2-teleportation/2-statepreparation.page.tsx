@@ -1,4 +1,13 @@
-import { ChooseOne, Decimal, Guidance, Image, M, Prose } from "@/components";
+import {
+  ChooseOne,
+  Decimal,
+  Guidance,
+  Image,
+  M,
+  Prose,
+  TextBox,
+  Toggle,
+} from "@/components";
 
 import { page } from "@/tutorial";
 
@@ -71,14 +80,14 @@ export default page(setup, ({ section }) => ({
                 {responses?.whatisx?.selected !== "1" ? (
                   <p>
                     When you tensor product a single qubit with a 2-qubit state,
-                    // this results in a 3-qubit state. Recall that //{" "}
+                    this results in a 3-qubit state. Recall that{" "}
                     <M t="\ket{\beta_{00}} = {1\over\sqrt{2}}(\ket{00}+\ket{11})" />
-                    // The very first term arose from //{" "}
+                    The very first term arose from{" "}
                     <M t="a \ket{0} \otimes \ket{00}" />, and the second term
-                    (with // the missing "x"), comes from //{" "}
-                    <M t="a \ket{0} \otimes \ket{11}" />, which becomes //{" "}
+                    (with the missing "x"), comes from{" "}
+                    <M t="a \ket{0} \otimes \ket{11}" />, which becomes{" "}
                     <M t="a \ket{011}" />. (Thus, <M t="x=1" />
-                    // .){" "}
+                    .) (You are welcome to change your answer above.)
                   </p>
                 ) : (
                   <p>
@@ -99,51 +108,8 @@ export default page(setup, ({ section }) => ({
           },
         },
       },
-
-      // guidance: {
-      //   nextMessage: (responses) => {
-      //     if (responses?.whatisx?.selected === "1") {
-      //       return "1";
-      //     }
-      //     return "not1";
-      //   },
-      //   messages: {
-      //     not1: {
-      //       body: (
-      //         <Guidance.Disagree>
-      //           When you tensor product a single qubit with a 2-qubit state,
-      //           this results in a 3-qubit state. Recall that{" "}
-      //           <M t="\ket{\beta_{00}} = {1\over\sqrt{2}}(\ket{00}+\ket{11})" />
-      //           The very first term arose from{" "}
-      //           <M t="a \ket{0} \otimes \ket{00}" />, and the second term (with
-      //           the missing "x"), comes from{" "}
-      //           <M t="a \ket{0} \otimes \ket{11}" />, which becomes{" "}
-      //           <M t="a \ket{011}" />. (Thus, <M t="x=1" />
-      //           .){" "}
-      //         </Guidance.Disagree>
-      //       ),
-      //       onContinue: "nextSection",
-      //     },
-      //     1: {
-      //       body: (
-      //         <Guidance.Agree>
-      //           Right. When you tensor product a single qubit with a 2-qubit
-      //           state, this results in a 3-qubit state. Recall that{" "}
-      //           <M t="\ket{\beta_{00}} = {1\over\sqrt{2}}(\ket{00}+\ket{11})" />
-      //           The very first term arose from{" "}
-      //           <M t="a \ket{0} \otimes \ket{00}" />, and the second term (with
-      //           the missing "x"), comes from{" "}
-      //           <M t="a \ket{0} \otimes \ket{11}" />, which becomes{" "}
-      //           <M t="a \ket{011}" />. (Thus, <M t="x=1" />
-      //           .)
-      //         </Guidance.Agree>
-      //       ),
-      //       onContinue: "nextSection",
-      //     },
-      //   },
-      // },
     }),
-
+    // COMMENT We are producing an answer after this in its own section, but would look nicer as "feedback"
     section({
       name: "whatisyq",
       body: (m) => (
@@ -219,7 +185,7 @@ export default page(setup, ({ section }) => ({
             <em>Hint:</em> Your answer should be a whole number.
           </Prose>
 
-          <Prose> Blah</Prose>
+          {/* <Prose> Blah</Prose> */}
         </>
       ),
 
@@ -283,6 +249,62 @@ export default page(setup, ({ section }) => ({
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
+          },
+        },
+      },
+    }),
+
+    section({
+      name: "equallylikelyq",
+      body: (m) => (
+        <>
+          <Toggle
+            model={m.equallylikely}
+            choices={[
+              ["yes", "Yes"],
+              ["no", "No"],
+            ]}
+            label={<Prose>Are all measurement options equally likely?</Prose>}
+          />
+
+          <TextBox
+            model={m.equallylikelyExplain}
+            label={<Prose>Briefly explain,</Prose>}
+          />
+        </>
+      ),
+
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.equallylikely?.selected === "yes"
+                    ? "disagree"
+                    : "agree"
+                }
+              >
+                {responses?.equallylikely?.selected !== "no" ? (
+                  <p>
+                    We disagree with your answer. The probabilities of measuring
+                    the different outcomes depend on the coefficients{" "}
+                    <M t="a" /> and <M t="b" /> in the mystery state. For
+                    instance, the probability of measuring <M t="\ket{00}" /> is{" "}
+                    <M t="|a|^2/2" />.
+                  </p>
+                ) : (
+                  <p>
+                    Right. The probabilities of measuring the different outcomes
+                    depend on the coefficients <M t="a" /> and <M t="b" /> in
+                    the mystery state. For instance, the probability of
+                    measuring <M t="\ket{00}" /> is <M t="|a|^2/2" />.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
           },
         },
       },
