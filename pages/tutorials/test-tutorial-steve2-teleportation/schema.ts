@@ -73,12 +73,13 @@ export default s.tutorial({
     }),
     measureentangleFeedback: s.section(),
     statePrepIntro: s.section(),
+    writeinitialstate: s.section(),
     whatisxq: s.section({
       messages: ["dynamicAnswer"],
-      // messages: ["1", "not1"],
     }),
-    whatisyq: s.section(),
-    summary1: s.section(),
+    whatisyq: s.section({
+      messages: ["dynamicAnswer"],
+    }),
     howmany: s.section(),
 
     measure1: s.section({
@@ -87,7 +88,16 @@ export default s.tutorial({
     equallylikely: s.section(),
     equallylikelyq: s.section({
       messages: ["dynamicAnswer"],
-      // messages: ["yes", "no"],
+    }),
+    alice00whatisbobq: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    aliceotherq: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    followupsectionB: s.section(),
+    followupsectionBq: s.section({
+      messages: ["dynamicAnswer"],
     }),
 
     aliceVbob5: s.section({ messages: ["finalfeedback"] }),
@@ -133,10 +143,16 @@ export default s.tutorial({
       "111",
     ]),
 
+    alice00whatisbob: s.chooseOne(["0", "1", "plus", "other"]),
+    aliceother: s.chooseOne(["01", "10", "11", "none"]),
+
     measure1: s.number(),
 
     equallylikely: s.chooseOne(["yes", "no"]),
     equallylikelyExplain: s.string(),
+
+    followupsectionB: s.chooseOne(["yes", "no"]),
+    followupsectionBExplain: s.string(),
 
     wrapup1: s.string(),
     wrapup2: s.string(),
@@ -154,7 +170,7 @@ export default s.tutorial({
     outputHZPlus: s.string(),
   },
   hints: {
-    probability: s.hint(),
+    initialstatehint1: s.hint(),
     finalfeedback: s.hint(),
     inverse: s.hint(),
   },
