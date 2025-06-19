@@ -116,7 +116,7 @@ export default page(setup, ({ section, hint }) => ({
                 We asked for the full initial (input) 3 qubit state in Dirac
                 notation. Our answer looks like this: <br />
                 <M t="\ket{\phi} \otimes \ket{\beta_{00}} = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{100} + b\ket{y})" />
-                <br /> Hopefully what you wrote matches it. To check, what is
+                <br /> Hopefully what you wrote matches it... To check, what is
                 the missing <M t="x" /> in the line above?
                 <br />
               </p>
@@ -124,6 +124,7 @@ export default page(setup, ({ section, hint }) => ({
           }
         />
       ),
+      // COMMENT:  If what they wrote doesn't match at all, can/should we have some sort of HINT button before they try to answer the question above about x?
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -145,7 +146,8 @@ export default page(setup, ({ section, hint }) => ({
                     (with the missing "x"), comes from{" "}
                     <M t="a \ket{0} \otimes \ket{11}" />, which becomes{" "}
                     <M t="a \ket{011}" />. (Thus, <M t="x=1" />
-                    .) (You are welcome to change your answer above.)
+                    .) <br />
+                    You are welcome to change your answer above.
                   </p>
                 ) : (
                   <p>
@@ -483,8 +485,9 @@ export default page(setup, ({ section, hint }) => ({
                 <M t="\ket{0}" />
                 <br />
                 <br />
-                What other measurement outcome could Alice get that would also
-                leave Bob’s qubit in the state <M t="\ket{0}" /> ?
+                What <M t="{\it other\ }" /> measurement outcome could Alice get
+                that would also leave Bob’s qubit in the state <M t="\ket{0}" />{" "}
+                ?
               </p>
             </Prose>
           }
@@ -494,6 +497,7 @@ export default page(setup, ({ section, hint }) => ({
             ["11", <M t="\ket{11}" />],
             ["none", <M t="{\rm Nothing\ else\ is\ possible}" />],
           ]}
+          // COMMENT:  Should we add a "More than one of these" (or, select more than one) option?
         />
       ),
 
