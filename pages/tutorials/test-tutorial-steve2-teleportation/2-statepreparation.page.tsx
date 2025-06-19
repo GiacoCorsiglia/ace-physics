@@ -80,14 +80,14 @@ export default page(setup, ({ section }) => ({
                 {responses?.whatisx?.selected !== "1" ? (
                   <p>
                     When you tensor product a single qubit with a 2-qubit state,
-                    // this results in a 3-qubit state. Recall that //{" "}
+                    this results in a 3-qubit state. Recall that{" "}
                     <M t="\ket{\beta_{00}} = {1\over\sqrt{2}}(\ket{00}+\ket{11})" />
-                    // The very first term arose from //{" "}
+                    The very first term arose from{" "}
                     <M t="a \ket{0} \otimes \ket{00}" />, and the second term
-                    (with // the missing "x"), comes from //{" "}
-                    <M t="a \ket{0} \otimes \ket{11}" />, which becomes //{" "}
+                    (with the missing "x"), comes from{" "}
+                    <M t="a \ket{0} \otimes \ket{11}" />, which becomes{" "}
                     <M t="a \ket{011}" />. (Thus, <M t="x=1" />
-                    // .){" "}
+                    .) (You are welcome to change your answer above.)
                   </p>
                 ) : (
                   <p>
@@ -109,7 +109,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
+    // COMMENT We are producing an answer after this in its own section, but would look nicer as "feedback"
     section({
       name: "whatisyq",
       body: (m) => (

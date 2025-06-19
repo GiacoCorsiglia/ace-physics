@@ -206,8 +206,9 @@ export default page(setup, ({ section }) => ({
                     Look again at state{" "}
                     <M t="\ket{\beta_{00}} = {1\over \sqrt{2}}(\ket{00}+\ket{11})" />
                     . It is entangled. If Alice measures <M t="0" />, she has
-                    collapsed the state, and Bob is sure to posses state
+                    collapsed the state, and Bob is sure to possess state
                     <M t="\ket{0}. " /> <br />
+                    You are welcome to click a different answer above. <br />
                     (If this still seems very confusing to you, you might want
                     to take a moment to look at a precursor Tutorial, the one
                     titled "CNOT and Entanglement"))
@@ -225,43 +226,6 @@ export default page(setup, ({ section }) => ({
           },
         },
       },
-
-      // guidance: {
-      //   nextMessage: (responses) => {
-      //     if (responses?.measureentangle?.selected === "a") {
-      //       return "a";
-      //     }
-      //     return "nota";
-      //   },
-      //   messages: {
-      //     a: {
-      //       body: (
-      //         <Guidance.Agree>
-      //           Right. The state <M t="\ket{\beta_{00}}" />
-      //           is entangled. If Alice measures <M t="0, " /> Bob is sure to
-      //           possess state <M t="\ket{0}," />
-      //         </Guidance.Agree>
-      //       ),
-      //       onContinue: "nextSection",
-      //     },
-
-      //     nota: {
-      //       body: (
-      //         <Guidance.Disagree>
-      //           Look again at state{" "}
-      //           <M t="\ket{\beta_{00}} = {1\over \sqrt{2}}(\ket{00}+\ket{11})" />
-      //           . It is entangled. If Alice measures <M t="0" />, she has
-      //           collapsed the state, and Bob is sure to posses state
-      //           <M t="\ket{0}. " /> <br />
-      //           (If this still seems very confusing to you, you might want to
-      //           take a moment to look at a precursor Tutorial, the one titled
-      //           "CNOT and Entanglement")
-      //         </Guidance.Disagree>
-      //       ),
-      //       onContinue: "nextSection",
-      //     },
-      //   },
-      // },
     }),
   ],
 }));
