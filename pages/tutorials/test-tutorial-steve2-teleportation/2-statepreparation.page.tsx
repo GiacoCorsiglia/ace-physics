@@ -1,4 +1,5 @@
 import {
+  Callout,
   ChooseOne,
   Decimal,
   Guidance,
@@ -10,14 +11,15 @@ import {
 } from "@/components";
 
 import { page } from "@/tutorial";
+import { PencilIcon } from "@primer/octicons-react";
 
 import fig1 from "./assets/B-fig-1.png";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "statepreparation",
   label: "State Preparation",
-  answers: "checked-some",
+  answers: "checked-all",
 
   sections: [
     section({
@@ -36,6 +38,68 @@ export default page(setup, ({ section }) => ({
     }),
 
     section({
+      name: "writeinitialstate",
+      body: () => (
+        <>
+          <Prose>
+            <p>
+              We will treat the mystery state as the first qubit of our full
+              initial three-qubit state which is:{" "}
+              <M t="\ket{\phi} \otimes \ket{\beta_{00}}" /> <br />
+              (So, in the circuit diagram, we put the mystery qubit at the top,
+              the first qubit)
+              <Image src={fig1} alt="circuit diagram 1" />
+              <br />
+              We need to write the full initial (input) 3 qubit state in Dirac
+              notation.
+            </p>
+          </Prose>
+
+          <Callout color="blue" iconLeft={<PencilIcon />}>
+            Try it for yourself! Write out the initial state on scrap paper.
+          </Callout>
+        </>
+      ),
+      hints: [
+        hint({
+          name: "initialstatehint1",
+          label: "Can I get a little help?",
+          body: (
+            <Prose>
+              <p>
+                The mystery state is{" "}
+                <M
+                  t="\ket{\phi} = a \ket{0} + b
+                      \ket{1}"
+                />
+                , the entangled pair is <br />
+                <M
+                  t="\ket{\beta_{00}} =
+                      {1\over\sqrt{2}}(\ket{00}+\ket{11})"
+                />
+                , the full initial state is{" "}
+                <M
+                  t="\ket{\phi} \otimes
+                      \ket{\beta_{00}}"
+                />
+                .
+                <br />
+                When you write this out in Dirac notation, use the distributive
+                property of the tensor product. This gives a sum of terms (how
+                many?) each of which looks like
+                <M t="\ket{xyz}" />, where
+                <M t="x,y, {\rm and\ z}\ " /> are each 0 or 1.
+              </p>
+            </Prose>
+          ),
+        }),
+      ],
+      continue: {
+        label: "I wrote it out",
+      },
+    }),
+
+    section({
       name: "whatisxq",
       body: (m) => (
         <ChooseOne
@@ -49,24 +113,18 @@ export default page(setup, ({ section }) => ({
             <Prose>
               <p>
                 {" "}
-                We will treat the mystery state as the first qubit of our full
-                initial three-qubit state which is:{" "}
-                <M t="\ket{\phi} \otimes \ket{\beta_{00}}" /> <br />
-                (So, in the circuit diagram, we put the mystery qubit at the
-                top, the first qubit)
-                <Image src={fig1} alt="circuit diagram 1" />
-                <br />
-                We need to write the full initial (input) 3 qubit state in Dirac
-                notation. <br />
-                Fill in the state by finding x and y in the final line: <br />
+                We asked for the full initial (input) 3 qubit state in Dirac
+                notation. Our answer looks like this: <br />
                 <M t="\ket{\phi} \otimes \ket{\beta_{00}} = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{100} + b\ket{y})" />
+                <br /> Hopefully what you wrote matches it... To check, what is
+                the missing <M t="x" /> in the line above?
                 <br />
-                What is x in the line above?
               </p>
             </Prose>
           }
         />
       ),
+      // COMMENT:  If what they wrote doesn't match at all, can/should we have some sort of HINT button before they try to answer the question above about x?
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -82,24 +140,27 @@ export default page(setup, ({ section }) => ({
                     When you tensor product a single qubit with a 2-qubit state,
                     this results in a 3-qubit state. Recall that{" "}
                     <M t="\ket{\beta_{00}} = {1\over\sqrt{2}}(\ket{00}+\ket{11})" />
-                    The very first term arose from{" "}
+                    <br />
+                    The very first term in the answer arose from{" "}
                     <M t="a \ket{0} \otimes \ket{00}" />, and the second term
                     (with the missing "x"), comes from{" "}
                     <M t="a \ket{0} \otimes \ket{11}" />, which becomes{" "}
                     <M t="a \ket{011}" />. (Thus, <M t="x=1" />
-                    .) (You are welcome to change your answer above.)
+                    .) <br />
+                    You are welcome to change your answer above.
                   </p>
                 ) : (
                   <p>
                     Right. When you tensor product a single qubit with a 2-qubit
-                    // state, this results in a 3-qubit state. Recall that //{" "}
+                    state, this results in a 3-qubit state. Recall that{" "}
                     <M t="\ket{\beta_{00}} = {1\over\sqrt{2}}(\ket{00}+\ket{11})" />
-                    // The very first term arose from //{" "}
+                    <br />
+                    The very first term in the answer arose from{" "}
                     <M t="a \ket{0} \otimes \ket{00}" />, and the second term
-                    (with // the missing "x"), comes from //{" "}
-                    <M t="a \ket{0} \otimes \ket{11}" />, which becomes //{" "}
+                    (with the missing "x"), comes from{" "}
+                    <M t="a \ket{0} \otimes \ket{11}" />, which becomes{" "}
                     <M t="a \ket{011}" />. (Thus, <M t="x=1" />
-                    // .)
+                    .)
                   </p>
                 )}
               </Guidance.Dynamic>
@@ -133,39 +194,62 @@ export default page(setup, ({ section }) => ({
             ["110", <M t="\ket{110}" />],
             ["111", <M t="\ket{111}" />],
           ]}
-          answer="111"
-          explanation={
-            <>
-              {` The third term in the full state is `}
-              <M t="b \ket{1} \otimes \ket{00}" />,{` which becomes `}
-              <M t="b \ket{100}" />.{` The fourth term is `}
-              <M t="b \ket{1} \otimes \ket{11}" />,{` which becomes `}
-              <M t="b \ket{111}" />.{` (Thus, `}
-              <M t="y=\ket{111}" />
-              {`.)`}
-            </>
-          }
         />
       ),
-    }),
 
-    section({
-      name: "summary1",
-      body: (m) => (
-        <>
-          <Prose>
-            OUR ANSWER: The starting 3-qubit initial state can be written as:{" "}
-            <br />
-            <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
-            <br /> Did you get all the details correct? (If you disagree, please
-            take the time now to work it out.)
-          </Prose>
-        </>
-      ),
-      continue: {
-        label: "Got it",
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.whatisy?.selected === "111" ? "agree" : "disagree"
+                }
+              >
+                {responses?.whatisy?.selected !== "111" ? (
+                  <p>
+                    The third term in the full state is{" "}
+                    <M t="b \ket{1} \otimes \ket{00}" />, which becomes{" "}
+                    <M t="b \ket{100}" />. The fourth term is{" "}
+                    <M t="b \ket{1} \otimes \ket{11}" />, which becomes{" "}
+                    <M t="b \ket{111}" />. Feel free to change your answer
+                    above.
+                  </p>
+                ) : (
+                  <p>
+                    Right. The third term in the full state is{" "}
+                    <M t="b \ket{1} \otimes \ket{00}" />, which becomes{" "}
+                    <M t="b \ket{100}" />. The fourth term is{" "}
+                    <M t="b \ket{1} \otimes \ket{11}" />, which becomes{" "}
+                    <M t="b \ket{111}" />.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
       },
     }),
+
+    // section({
+    //   name: "summary1",
+    //   body: (m) => (
+    //     <>
+    //       <Prose>
+    //         Summary so far: The starting 3-qubit initial state can be written
+    //         as: <br />
+    //         <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
+    //         <br /> Did you get all the details correct? (If you disagree, please
+    //         take the time now to work it out.)
+    //       </Prose>
+    //     </>
+    //   ),
+    //   continue: {
+    //     label: "Got it",
+    //   },
+    // }),
 
     section({
       name: "measure1",
@@ -175,8 +259,14 @@ export default page(setup, ({ section }) => ({
             model={m.measure1}
             label={
               <Prose>
-                Suppose Alice measures both of her qubits. How many different
-                possible outcomes can she get?
+                Summary so far: The starting 3-qubit initial state can be
+                written as: <br />
+                <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
+                <br /> Did you get all the details correct? (If you disagree,
+                please take the time now to work it out.) <br />
+                <br />
+                Suppose Alice now measures both of her qubits. How many
+                different possible outcomes can she get?
               </Prose>
             }
           />
@@ -222,8 +312,8 @@ export default page(setup, ({ section }) => ({
               <Guidance.Disagree>
                 Remember that we are measuring two qubits, each of which can be
                 0 or 1. Can you simply list out all the possible outcomes for
-                such a 2-qubit measurement? Check your calculation then click
-                “Check in Again”.
+                such a 2-qubit measurement? <br /> Check your calculation then
+                click “Check in Again”.
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
@@ -233,8 +323,8 @@ export default page(setup, ({ section }) => ({
               <Guidance.Disagree>
                 Remember that we are measuring two qubits, each of which can be
                 0 or 1. Can you simply list out all the possible outcomes for
-                such a 2-qubit measurement? Check your calculation then click
-                “Check in Again”.
+                such a 2-qubit measurement? <br /> Check your calculation then
+                click “Check in Again”.
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
@@ -244,8 +334,8 @@ export default page(setup, ({ section }) => ({
               <Guidance.Disagree>
                 We disagree with your answer. Remember that we are measuring two
                 qubits, each of which can be 0 or 1. Can you simply list out all
-                the possible outcomes for such a 2-qubit measurement? Check your
-                calculation then click “Check in Again”.
+                the possible outcomes for such a 2-qubit measurement? <br />
+                Check your calculation then click “Check in Again”.
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
@@ -300,6 +390,213 @@ export default page(setup, ({ section }) => ({
                     depend on the coefficients <M t="a" /> and <M t="b" /> in
                     the mystery state. For instance, the probability of
                     measuring <M t="\ket{00}" /> is <M t="|a|^2/2" />.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+    section({
+      name: "alice00whatisbobq",
+      body: (m) => (
+        <ChooseOne
+          model={m.alice00whatisbob}
+          label={
+            <Prose>
+              <p>
+                Reminder: The starting 3-qubit initial state can be written as:{" "}
+                <br />
+                <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
+                <br />
+                If Alice were to measure her 2 qubits and get 00, what state
+                would Bob have?
+                <br />
+              </p>
+            </Prose>
+          }
+          choices={[
+            ["0", <M t="\ket{0}" />],
+            ["1", <M t="\ket{1}" />],
+            ["plus", <M t="{1\over{\sqrt{2}}}(\ket{0}+\ket{1})" />],
+            ["other", <M t="{\rm Something\ entirely\ different}" />],
+          ]}
+        />
+      ),
+
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.alice00whatisbob?.selected === "0"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.alice00whatisbob?.selected !== "0" ? (
+                  <p>
+                    There are four terms in the state, but only one begins with
+                    00, namely the term <M t="\ket{000}" /> . Bob has the last
+                    bit, so if Alice measured <M t="\ket{00}" /> , then Bob’s
+                    qubit collapsed to the (normalized) state <M t="\ket{0}" />{" "}
+                    . Feel free to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                    Right. There are four terms in the state, but only one
+                    begins with 00, namely the term <M t="\ket{000}" /> . Bob
+                    has the last bit, so if Alice measured <M t="\ket{00}" /> ,
+                    then Bob’s qubit collapsed to the (normalized) state{" "}
+                    <M t="\ket{0}" /> .
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+
+    section({
+      name: "aliceotherq",
+      body: (m) => (
+        <ChooseOne
+          model={m.aliceother}
+          label={
+            <Prose>
+              <p>
+                Each of the four terms in our 3-qubit initial state <br />
+                <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
+                <br />
+                begins with a unique outcome for the first two bits, which are
+                all that Alice has access to:
+                <M t="\ket{00}, \ket{01}, \ket{10}, {\rm or} \ket{11}" />.{" "}
+                <br />
+                Each of those four terms results in just one option for the
+                third (Bob’s) qubit. As one concrete example, our previous
+                question showed that if Alice measures 00, then Bob must have
+                the state
+                <M t="\ket{0}" />
+                <br />
+                <br />
+                What <M t="{\it other\ }" /> measurement outcome could Alice get
+                that would also leave Bob’s qubit in the state <M t="\ket{0}" />{" "}
+                ?
+              </p>
+            </Prose>
+          }
+          choices={[
+            ["01", <M t="\ket{01}" />],
+            ["10", <M t="\ket{10}" />],
+            ["11", <M t="\ket{11}" />],
+            ["none", <M t="{\rm Nothing\ else\ is\ possible}" />],
+          ]}
+          // COMMENT:  Should we add a "More than one of these" (or, select more than one) option?
+        />
+      ),
+
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceother?.selected === "10"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.aliceother?.selected !== "10" ? (
+                  <p>
+                    Look at the full initial state. There is one (and only one)
+                    other term that has a 0 for Bob’s bit, namely the 3rd one,{" "}
+                    <M t="b\ket{100}" />. <br /> So if Alice measures{" "}
+                    <M t="\ket{10}" />
+                    , Bob’s qubit is also going to be in state <M t="\ket{0}" />
+                    . <br /> Feel free to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                    Right. Looking at the full initial state. There is one (and
+                    only one) other term that has a 0 for Bob’s bit, namely the
+                    3rd one, <M t="b\ket{100}" />. <br />
+                    So if Alice measures <M t="\ket{10}" />
+                    , Bob’s qubit is also going to be in state <M t="\ket{0}" />
+                    .
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
+
+    section({
+      name: "followupsectionBq",
+      body: (m) => (
+        <>
+          <Toggle
+            model={m.followupsectionB}
+            choices={[
+              ["yes", "Yes"],
+              ["no", "No"],
+            ]}
+            label={
+              <Prose>
+                If Alice had measured her two qubits, and considering{" "}
+                <M t="{\it only\  }" /> the initial setup described so far,
+                would Bob possess the mystery state (the one we called{" "}
+                <M t="\ket{\phi} = a\ket{0} + b\ket{1}" /> above)?
+              </Prose>
+            }
+          />
+
+          <TextBox
+            model={m.followupsectionBExplain}
+            label={<Prose>Briefly explain,</Prose>}
+          />
+        </>
+      ),
+
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.followupsectionB?.selected === "yes"
+                    ? "disagree"
+                    : "agree"
+                }
+              >
+                {responses?.followupsectionB?.selected !== "no" ? (
+                  <p>
+                    {" "}
+                    Careful. So far - if Alice makes a measurement, the mystery
+                    state is destroyed, and not sent to Bob. Bob would have
+                    either 0 or 1, not the desired mystery superposition{" "}
+                    <M t="\ket{\phi} = a\ket{0} + b\ket{1}" />. We do{" "}
+                    <M t="{\it not\ }" /> yet have quantum teleportation from
+                    Alice to Bob, but we are getting set up for it.
+                  </p>
+                ) : (
+                  <p>
+                    Right. So far - if Alice makes a measurement, the mystery
+                    state is destroyed, and not sent to Bob. Bob would have
+                    either 0 or 1, not the desired mystery superposition{" "}
+                    <M t="\ket{\phi} = a\ket{0} + b\ket{1}" />. We do{" "}
+                    <M t="{\it not\ }" /> yet have quantum teleportation from
+                    Alice to Bob, but we are getting set up for it.
                   </p>
                 )}
               </Guidance.Dynamic>
