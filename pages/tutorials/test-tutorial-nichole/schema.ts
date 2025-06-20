@@ -30,19 +30,18 @@ export default s.tutorial({
     ]),
     designCircuit3explain: s.string()
   },
+  ////////////////////////////////////////////////////////////////////
   posttest: {
-    designCircuit1: s.string(),
-    designCircuit2: s.string(),
-    outputOfCircuit: s.string(),
-    circuitAsDirac: s.chooseAll([
-      "HZZX|1>",
-      "XZZH|1>",
-      "HX|1>",
-      "HIX|1>",
-      "XH|1>",
-      "XIH|1>",
+
+    postActivity1: s.string(),
+    postActivity2: s.string(),
+    postActivity3Boolean: s.chooseOne([
+      "yes",
+      "no",
     ]),
+    postActivity4: s.string(),
   },
+  /////////////////////////////////////////////////////////////////////////////
   sections: {
     reviewingGatesIntro: s.section(),
     output1: s.section(),
@@ -52,7 +51,7 @@ export default s.tutorial({
     doHZCommute: s.section(),
     doesZSelfCommute: s.section(),
     circuitDiagramOrder: s.section({ messages: ["answer"] }),
-
+///////////////////////////////////////////////////////////////////////////////
     superpositionvmixedIntro: s.section(),
     aliceBobQuestion1: s.section(),
     aliceBobIntro2: s.section(),
@@ -60,13 +59,15 @@ export default s.tutorial({
     aliceBobQuestion4: s.section(),
     aliceBobQuestion5: s.section(),
     superpositionvmixedConclusion: s.section(),
-
+///////////////////////////////////////////////////////////////////////////////
     wrapupIntro: s.section(),
     wrapup1: s.section(),
     wrapup2: s.section(),
     wrapup3: s.section(),
     wrapup4: s.section(),
     wrapup5: s.section(),
+///////////////////////////////////////////////////////////////////////////////
+
 
     evaluatingCircuitsIntro: s.section(),
     outputXZ1: s.section(),
@@ -83,6 +84,7 @@ export default s.tutorial({
       messages: ["answer"],
     }),
   },
+  //////////////////////////////////////////////////////////////////////////
   responses: {
     output1: s.string(),
     output2: s.string(),
@@ -121,12 +123,13 @@ export default s.tutorial({
     aliceBobQuestion4: s.string(),
     aliceBobQuestion5A: s.string(),
     aliceBobQuestion5B: s.string(),
-
+///////////////////////////////////////////////////////////////////////////////
     wrapup1: s.string(),
     wrapup2: s.string(),
     wrapup3: s.string(),
     wrapup4: s.string(),
     wrapup5: s.string(),
+//////////////////////////////////////////////////////////////////////////////
 
     doHZCommute: s.chooseOne(["yes", "no"]),
     doesZSelfCommute: s.chooseOne(["yes", "no"]),
@@ -140,6 +143,7 @@ export default s.tutorial({
     outputZHPlus: s.string(),
     outputHZPlus: s.string(),
   },
+  ///////////////////////////////////////////////////////////////////
   hints: {
     finalfeedback: s.hint(),
     inverse: s.hint(),
