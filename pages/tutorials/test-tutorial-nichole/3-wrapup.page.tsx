@@ -1,18 +1,14 @@
 import {
-  Answer,
-  ChooseOne,
-  Guidance,
   M,
   Prose,
-  QuantumCircuit,
-  TextBox,
+  TextBox
 } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
   name: "wrapup",
-  label: "Wrapup",
+  label: "Further exploration",
   answers: "provided",
   cheatSheet: {
     body: (
@@ -28,45 +24,38 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "morePracticeIntro",
       body: (
-        <Prose>Additional practice with some slightly tougher circuits.</Prose>
+        <Prose> Further exploration </Prose>
       ),
-      continue: {
-        label: "I’m ready!",
-      },
     }),
 
     section({
-      name: "inverseOfX",
+      name: "wrapup1",
       body: (m) => (
         <>
-          <ChooseOne
-            model={m.inverseOfX}
-            label={
-              <Prose>
-                <p>
-                  What does the second gate have to be to make this circuit
-                  behave as shown no matter what the input state is?
-                </p>
-
-                <QuantumCircuit t="\lstick{ \ket{\psi} }& \gate{X} & \gate{?} & \qw & \rstick{\ket{\psi}}" />
-              </Prose>
-            }
-            choices={[
-              ["X", <M t="? = X" />],
-              ["Z", <M t="? = Z" />],
-              ["H", <M t="? = H" />],
-              ["I", <M t="? = I" />],
-            ]}
+        <Prose>
+          Alice and Bob's friend Charlie has also created a black box that outputs
+          a qubit in the superposition state {" "}
+          <M t="{1\over\sqrt{2}} (\ket{0} - \ket{1})" />,
+          one qubit at a time. <br />
+        </Prose>
+          <TextBox
+          model={m.wrapup1}
+          label={
+            <Prose>
+              Can you come up with a way to experimentally distinguish Alice, who
+              produces {" "}<M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />,
+              and Charlie's qubits from each other? (Assume you can
+              run experiments a large number of times, as in our previous examples.)
+              If you can, what is the minimum number of gates needed by Alice
+              and/or Charlie? If you cannot, is there a reason why not?
+            </Prose>
+          }
           />
-
-          {/* <Prose>
-            <em>Hint:</em> Another way to ask this is: find an operator{" "}
-            <M t="?" /> such that <M t="X? = I" />. This operator is called the{" "}
-            <em>inverse</em> of <M t="X" />.
-          </Prose> */}
         </>
-      ),
-      guidance: {
+      )
+    }),
+
+     /* guidance: {
         nextMessage: () => "inverse",
         messages: {
           inverse: {
@@ -101,65 +90,87 @@ export default page(setup, ({ section, hint }) => ({
           ),
         }),
       ],
-    }),
+    }),*/
 
     section({
-      name: "outputZHPlus",
+      name: "wrapup2",
       body: (m) => (
         <>
           <TextBox
-            model={m.outputZHPlus}
-            label={
-              <Prose>
-                What is the output of the following circuit?
-                <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{H} & \gate{Z} & \qw" />
-              </Prose>
-            }
-          />
-          {/* TODO: Multiple choice.  Phase dropdown, state dropdown */}
-        </>
-      ),
-    }),
-
-    section({
-      name: "outputHZPlus",
-      body: (m) => (
-        <>
-          <TextBox
-            model={m.outputHZPlus}
-            label={
-              <Prose>
-                What is the output of the following circuit?
-                <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{Z} & \gate{H} & \qw" />
-              </Prose>
-            }
-          />
-          <Answer>
-            <M
-              display
-              t="Z\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \frac{1}{\sqrt{2}}(Z\ket{0}+Z\ket{1}) = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1}) = \ket{-}"
-            />
-            <M display t="H\ket{-} = \ket{1}" />
-          </Answer>
-          {/* TODO: Multiple choice */}
-        </>
-      ),
-    }),
-
-    section({
-      name: "doHZCommute",
-      body: (m) => (
-        <TextBox
-          model={m.doHZCommute}
+          model={m.wrapup2}
           label={
             <Prose>
-              Given the answers on this page, can you say whether <M t="H" />{" "}
-              commutes with <M t="Z" /> without bothering to multiply matrices
-              in different orders?
+              Can you perform any gates or measurements to convert Charlie's qubit
+              into Alice's? <br />
+               If so how? If not, why not?
             </Prose>
           }
+          />
+        </>
+      )
+    }),
+
+    section({
+      name: "wrapup3",
+      body: (m) => (
+        <>
+          <TextBox
+          model={m.wrapup3}
+          label={
+            <Prose>
+             Thought experiment: Is it possible to perform any gates and/or
+             measurements to convert Charlie's qubit into Bob's (which, recall,
+             each have a 50/50 coin-toss chance of being {" "}
+             <M t="\ket{0}" /> or {" "} <M t="\ket{1}" />)? <br />
+             <br />
+               If so how? If not, why not?
+            </Prose>
+          }
+          />
+        </>
+      )
+    }),
+
+    section({
+      name: "wrapup4",
+      body: (m) => (
+        <>
+          <TextBox
+          model={m.wrapup4}
+          label={
+            <Prose>
+              Thought experiment: Can you perform any gates or measurements to
+              convert Bob's qubit into Charlie's?
+               <br />
+               If so how? If not, why not?
+            </Prose>
+          }
+          />
+        </>
+      )
+    }),
+
+    section({
+      name: "wrapup5",
+      body: (m) => (
+        <>
+        <TextBox
+        model={m.wrapup5}
+        label={
+          <Prose>
+            Dani has yet another black box that outputs qubits in the
+            superposition state  {" "} <M t="{1\over\sqrt{2}} (\ket{1} - \ket{0})" />.
+            Recall that Charlie's box produces particles
+            in the state  {" "}
+            <M t="{1\over\sqrt{2}} (\ket{0} - \ket{1})" />.  <br />
+            Can you come up with a way to experimentally distinguish Charlie's
+            and Dani's qubits?  <br />
+            If so how? If not, why not?
+          </Prose>
+        }
         />
-      ),
+        </>
+      )
     }),
   ],
 }));
