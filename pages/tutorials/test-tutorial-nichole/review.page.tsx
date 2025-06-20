@@ -1,4 +1,4 @@
-import { ChooseAll, M, Prose, QuantumCircuit, TextBox } from "@/components";
+import { ChooseOne, M, Prose, TextBox } from "@/components";
 import { posttest } from "@/tutorial";
 import setup from "./setup";
 
@@ -17,12 +17,48 @@ export default posttest(setup, ({ section }) => ({
     section({
       body: (m) => (
         <>
+              <Prose>
+                Post-activity questions: Please work on this page alone and dont
+                discuss your answers. (Feel free to check in with your tutorial
+                instructor after you are done though)
+              </Prose>
+        </>
+      ),
+    }),
+    section({
+      body: (m) => (
+        <>
           <TextBox
-            model={m.outputOfCircuit}
+            model={m.postActivity1}
             label={
               <Prose>
-                What is the output of the following circuit?
-                <QuantumCircuit t="\lstick{\ket{1} } & \gate{H} & \gate{Z} & \gate{Z} & \gate{X} \qw \\" />
+               <strong>Question 1:</strong> You have a supply of X, Z, and H gates. Design a
+               simple circuit with zero, one or two gates that has an input of
+               {" "}<M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />
+               and will yield an output of  {" "}
+               <M t="{1\over\sqrt{2}} (\ket{0} - \ket{1})" />. <br />
+               <br />
+               If this is impossible, explain why.
+              </Prose>
+            }
+          />
+        </>
+      ),
+    }),
+    section({
+      body: (m) => (
+        <>
+          <TextBox
+            model={m.postActivity2}
+            label={
+              <Prose>
+               <strong>Question 2:</strong> You have a supply of X, Z, and H gates. Design a
+               simple circuit with zero, one or two gates that has an input of
+               {" "}<M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />
+               and will yield a final measurement of 1 with 100%
+               certainty. <br />
+               <br />
+               If this is impossible, explain why.
               </Prose>
             }
           />
@@ -32,23 +68,39 @@ export default posttest(setup, ({ section }) => ({
 
     section({
       body: (m) => (
-        <ChooseAll
-          model={m.circuitAsDirac}
+        <>
+         <Prose>
+              <strong>Question 3:</strong> I send you a string of qubits, one at
+              a time. Each qubit is either in state 33 or in state 33. I use an
+              ideal random coin toss to decide what to send for each qubit, with
+              exactly 50/50 probabilty every time. <br />
+
+            </Prose>
+        <ChooseOne
+          model={m.postActivity3Boolean}
           label={
             <Prose>
-              Choose <strong>all</strong> expressions which are equivalent to
-              the circuit above:
+              Is the statement below <strong>true</strong> or <strong>false</strong>?
+              (choose one) <br />
+              <br />
+              The qubits you recieve are each described by the quantum state
+              {" "}<M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />.
             </Prose>
           }
           choices={[
-            ["HZZX|1>", <M t="HZZX\ket{1}" />],
-            ["XZZH|1>", <M t="XZZH\ket{1}" />],
-            ["HX|1>", <M t="HX\ket{1}" />],
-            ["HIX|1>", <M t="HIX\ket{1}" />],
-            ["XH|1>", <M t="XH\ket{1}" />],
-            ["XIH|1>", <M t="XIH\ket{1}" />],
+            ["yes", "True"],
+            ["no", "False"],
+
           ]}
         />
+        <TextBox
+        model={m.postActivity4}
+        label= {<Prose>
+        Very briefly, explain.
+        </Prose>
+        }
+        />
+        </>
       ),
     }),
   ],
