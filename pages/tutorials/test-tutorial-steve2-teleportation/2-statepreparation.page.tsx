@@ -170,7 +170,6 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-    // COMMENT We are producing an answer after this in its own section, but would look nicer as "feedback"
     section({
       name: "whatisyq",
       body: (m) => (

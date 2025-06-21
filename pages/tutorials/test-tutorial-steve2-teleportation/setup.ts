@@ -23,8 +23,12 @@ export default tutorialSetup({
     { link: "1-setup", label: "Setup" },
     { link: "2-statepreparation", label: "State Preparation" },
     {
-      link: "3-buildingteleportation",
-      label: "Building a teleportation circuit",
+      link: "3-1-buildingteleportation",
+      label: "Building a teleportation circuit (Part 1)",
+    },
+    {
+      link: "3-2-buildingteleportation",
+      label: "Building a teleportation circuit (Part 2)",
     },
     {
       link: "4-finaloperations",

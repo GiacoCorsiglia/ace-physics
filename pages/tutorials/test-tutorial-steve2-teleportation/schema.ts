@@ -4,7 +4,8 @@ export default s.tutorial({
   pages: {
     intropage: s.page(),
     statepreparation: s.page(),
-    buildingteleportation: s.page(),
+    buildingteleportation1: s.page(),
+    buildingteleportation2: s.page(),
     finaloperations: s.page(),
   },
   pretest: {
@@ -99,31 +100,45 @@ export default s.tutorial({
     followupsectionBq: s.section({
       messages: ["dynamicAnswer"],
     }),
-
-    aliceVbob5: s.section({ messages: ["finalfeedback"] }),
-
-    wrapupIntro: s.section(),
-    wrapup1: s.section(),
-    wrapup2: s.section(),
-    wrapup3: s.section(),
-    wrapup4: s.section(),
-    wrapup5: s.section(),
-
-    evaluatingCircuitsIntro: s.section(),
-    outputXZ1: s.section(),
-    outputZX1: s.section(),
-    matrixOrEquationApproach: s.section(),
-    inverseOfX: s.section({ messages: ["inverse"] }),
-
-    morePracticeIntro: s.section(),
-    outputZHPlus: s.section(),
-    outputHZPlus: s.section(),
-
-    circuitDiagramsIntro: s.section(),
-    doXAndZCommute: s.section({
-      messages: ["answer"],
+    building1Intro: s.section(),
+    trypsi1: s.section(),
+    whatisx2q: s.section({
+      messages: ["dynamicAnswer"],
     }),
-    doHZCommute: s.section(),
+    whatisy2q: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    building1Outro: s.section(),
+    building2Intro: s.section(),
+    ntermsafterH: s.section({
+      messages: ["correct", "four", "six", "incorrect"],
+    }),
+    trypsi2: s.section(),
+
+    // aliceVbob5: s.section({ messages: ["finalfeedback"] }),
+
+    // wrapupIntro: s.section(),
+    // wrapup1: s.section(),
+    // wrapup2: s.section(),
+    // wrapup3: s.section(),
+    // wrapup4: s.section(),
+    // wrapup5: s.section(),
+
+    // evaluatingCircuitsIntro: s.section(),
+    // outputXZ1: s.section(),
+    // outputZX1: s.section(),
+    // matrixOrEquationApproach: s.section(),
+    // inverseOfX: s.section({ messages: ["inverse"] }),
+
+    // Delete the next ones
+    // outputZHPlus: s.section(),
+    // outputHZPlus: s.section(),
+
+    // circuitDiagramsIntro: s.section(),
+    // doXAndZCommute: s.section({
+    //   messages: ["answer"],
+    // }),
+    // doHZCommute: s.section(),
   },
   responses: {
     singlemeasure: s.chooseOne(["yes", "no"]),
@@ -153,25 +168,41 @@ export default s.tutorial({
 
     followupsectionB: s.chooseOne(["yes", "no"]),
     followupsectionBExplain: s.string(),
+    whatisx2: s.chooseOne(["0", "1", "else"]),
+    whatisy2: s.chooseOne([
+      "000",
+      "001",
+      "010",
+      "011",
+      "100",
+      "101",
+      "110",
+      "111",
+    ]),
+    ntermsafterH: s.number(),
 
-    wrapup1: s.string(),
-    wrapup2: s.string(),
-    wrapup3: s.string(),
-    wrapup4: s.string(),
-    wrapup5: s.string(),
+    // I think the rest is all old?
 
-    outputXZ1: s.string(),
-    outputZX1: s.string(),
-    doHZcommute: s.string(),
-    matrixOrEquationApproach: s.string(),
-    inverseOfX: s.chooseOne(["X", "Z", "H", "I"]),
+    // wrapup1: s.string(),
+    // wrapup2: s.string(),
+    // wrapup3: s.string(),
+    // wrapup4: s.string(),
+    // wrapup5: s.string(),
 
-    outputZHPlus: s.string(),
-    outputHZPlus: s.string(),
+    // outputXZ1: s.string(),
+    // outputZX1: s.string(),
+    // doHZcommute: s.string(),
+    // matrixOrEquationApproach: s.string(),
+    // inverseOfX: s.chooseOne(["X", "Z", "H", "I"]),
+
+    // outputZHPlus: s.string(),
+    // outputHZPlus: s.string(),
   },
   hints: {
     initialstatehint1: s.hint(),
+    trypsi1hint: s.hint(),
     finalfeedback: s.hint(),
-    inverse: s.hint(),
+    trypsi2hint: s.hint(),
+    // inverse: s.hint(),
   },
 });
