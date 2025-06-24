@@ -1,4 +1,13 @@
-import { Callout, Decimal, Guidance, Image, M, Prose } from "@/components";
+import {
+  Callout,
+  ChooseOne,
+  Decimal,
+  Guidance,
+  Image,
+  M,
+  Prose,
+  Toggle,
+} from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import fig3 from "./assets/C-fig-3.png";
@@ -47,8 +56,9 @@ export default page(setup, ({ section, hint }) => ({
             label={
               <Prose>
                 The full 3-qubit state just before the Hadamard,
-                <M t="\ket{\psi_1}" />, has four terms (see the top of the
-                page). <br />
+                <M t="\ket{\psi_1}" />, has four terms (see the "Reminders"
+                above).
+                <br />
                 How many terms do you expect the 3-qubit state to have after the
                 Hadamard acts on the top qubit (i.e. in <M t="\ket{\psi_1}" />
                 )?
@@ -180,152 +190,231 @@ export default page(setup, ({ section, hint }) => ({
       },
     }),
 
-    // section({
-    //   name: "whatisx2q",
-    //   body: (m) => (
-    //     <ChooseOne
-    //       model={m.whatisx2}
-    //       choices={[
-    //         ["0", <M t="0" />],
-    //         ["1", <M t="1" />],
-    //         ["else", <M t="{\rm Something\ else}" />],
-    //       ]}
-    //       label={
-    //         <Prose>
-    //           <p>
-    //             {" "}
-    //             Our answer looks like this: <br />
-    //             <M t="\ket{\psi_1}  = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{110} + b\ket{y})" />
-    //             <br /> Hopefully what you wrote matches it... If your answer is
-    //             very different, try again. Bit if you are largely matching this
-    //             form, let's check in. What is the missing <M t="x" /> in the
-    //             line above?
-    //             <br />
-    //           </p>
-    //         </Prose>
-    //       }
-    //     />
-    //   ),
-    //   // COMMENT:  If what they wrote doesn't match at all, can/should we have some sort of HINT button before they try to answer the question above about x?
-    //   guidance: {
-    //     nextMessage: () => "dynamicAnswer",
-    //     messages: {
-    //       dynamicAnswer: {
-    //         body: ({ responses }) => (
-    //           <Guidance.Dynamic
-    //             status={
-    //               responses?.whatisx2?.selected === "1" ? "agree" : "disagree"
-    //             }
-    //           >
-    //             {responses?.whatisx2?.selected !== "1" ? (
-    //               <p>
-    //                 Recall
-    //                 <M t="|\psi_0\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|100\rangle + b|111\rangle)" />
-    //                 <br /> A CNOT gate will flip the second qubit if (and only
-    //                 if ) the first qubit is a 1. In the second term,
-    //                 <M t=" a\ket{011} " />, the first qubit is a 0, so nothing
-    //                 happens to the term at all. (The third bit, in particular,
-    //                 is not acted on by any gate - it just goes along for the
-    //                 ride)
-    //                 <br />
-    //                 You are welcome to change your answer above.
-    //               </p>
-    //             ) : (
-    //               <p>
-    //                 Right. A CNOT gate will flip the second qubit if (and only
-    //                 if ) the first qubit is a 1. In the second term,
-    //                 <M t=" a\ket{011} " />, the first qubit is a 0, so nothing
-    //                 happens to the term at all. (The third bit, in particular,
-    //                 is not acted on by any gate - it just goes along for the
-    //                 ride) Thus, x = 1.
-    //               </p>
-    //             )}
-    //           </Guidance.Dynamic>
-    //         ),
-    //         onContinue: "nextSection",
-    //       },
-    //     },
-    //   },
-    // }),
+    section({
+      name: "whatisxpostH",
+      body: (m) => (
+        <>
+          <ChooseOne
+            model={m.whatisxpostHchoice}
+            choices={[
+              ["0", <M t="0" />],
+              ["1", <M t="1" />],
+              ["else", <M t="{\rm Something\ else}" />],
+            ]}
+            label={
+              <Prose>
+                <p>
+                  {" "}
+                  Our answer looks like this (there are 8 terms!): <br />
+                  <M t="\ket{\psi_2}  = \frac{1}{2} (\ a\ket{000} \ + \  a\ket{011}\  + \ b\ket{010} \ + \ b\ket{001})" />
+                  <br />
+                  <M t="\qquad\qquad  + a\ket{x00} + a\ket{111} \ \pm b\ket{110} \ - b\ket{y})" />
+                  <br />
+                  Hopefully what you wrote matches it... If your answer is very
+                  different, try again. (You may have ordered the terms
+                  differently than we did, so look carefully) <br /> Assuming
+                  you are largely matching this form, let's check in. What is
+                  the missing <M t="x" /> in the line above?
+                  <br />
+                </p>
+              </Prose>
+            }
+          />
+          <Toggle
+            model={m.whatissignpostH}
+            choices={[
+              ["plus", <M t="+" />],
+              ["minus", <M t="-" />],
+            ]}
+            label={
+              <Prose>
+                <p>
+                  {" "}
+                  Is that <M t="\pm" /> in the seventh term of{" "}
+                  <M t="\ket{\psi_2}" /> plus or minus?
+                  <br />
+                </p>
+              </Prose>
+            }
+          />
+        </>
+      ),
+      // COMMENT:  If what they wrote doesn't match at all, can/should we have some sort of HINT button before they try to answer the question above about x?
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.whatisxpostHchoice?.selected === "1" &&
+                  responses?.whatissignpostH?.selected === "minus"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.whatisxpostHchoice?.selected === "1" &&
+                responses?.whatissignpostH?.selected === "minus" ? (
+                  <p>
+                    Right. For each term in <M t="\ket{\psi_1}" />, we apply an
+                    H gate to (just) the first qubit, splitting that term up
+                    into two terms. We arranged things so that the second row is
+                    always that second term. So the x term arises from the
+                    second term of <br />
+                    <M t="\ket{0} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1} " />,
+                    giving <M t="x=1" />. (The 2nd and third bits remain
+                    untouched.)
+                    <br />
+                    The sign question regards acting H on the leading
+                    <M t="\ket{1}" /> in the term <M t="b\ket{110}" />, which
+                    introduces a minus sign in the second row, i.e. from{" "}
+                    <M t="b(\ket{010}-\ket{110}" />. So it's a negative sign.
+                    {/* Recall
+                    <M t="\ket{\psi_1}  = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{110} + b\ket{y})" />
+                    <br /> The Hadamard is acting only on the first (leading)
+                    qubit. <br /> Since
+                    <M t="H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)\ " />
+                    the first term in <M t="\ket{\psi_1}" /> will generate two
+                    terms after the H acts. The "x" we're looking for here
+                    arises from the second one. */}
+                  </p>
+                ) : (
+                  <p>
+                    One or more of your responses is not correct. <br />
+                    For each term in <M t="\ket{\psi_1}" />, we apply an H gate
+                    to (just) the first qubit, splitting that term up into two
+                    terms. We arranged things so that the second row is always
+                    that second term. So the x term arises from the second term
+                    of <br />
+                    <M t="\ket{0} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\ " />
+                    (The 2nd and third bits remain untouched.) <br /> The sign
+                    question regards acting H on the leading
+                    <M t="\ket{1}" /> in the term <M t="b\ket{110}" />, which
+                    introduces a minus sign in the second row, i.e. from{" "}
+                    <M t="b(\ket{010}-\ket{110}" /> <br />
+                    You are welcome to change your answer and try again
+                    {/* Recall
+                    <M t="\ket{\psi_1}  = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{110} + b\ket{y})" />
+                    <br /> The Hadamard is acting only on the first (leading)
+                    qubit. <br />
+                    Since
+                    <M t="H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)\ " />
+                    the first term in <M t="\ket{\psi_1}" /> will generate two
+                    terms after the H acts. The "x" we're looking for here
+                    arises from the second one. Thus, x = 1. */}
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
 
-    // section({
-    //   name: "whatisy2q",
-    //   body: (m) => (
-    //     <ChooseOne
-    //       model={m.whatisy2}
-    //       label={
-    //         <Prose>
-    //           <p>
-    //             What is <M t="\ket{y}" />?
-    //             <br />
-    //           </p>
-    //         </Prose>
-    //       }
-    //       choices={[
-    //         ["000", <M t="\ket{000}" />],
-    //         ["001", <M t="\ket{001}" />],
-    //         ["010", <M t="\ket{010}" />],
-    //         ["011", <M t="\ket{011}" />],
-    //         ["100", <M t="\ket{100}" />],
-    //         ["101", <M t="\ket{101}" />],
-    //         ["110", <M t="\ket{110}" />],
-    //         ["111", <M t="\ket{111}" />],
-    //       ]}
-    //     />
-    //   ),
+    section({
+      name: "whatisypostH",
+      body: (m) => (
+        <ChooseOne
+          model={m.whatisypostH}
+          label={
+            <Prose>
+              <p>
+                What is <M t="\ket{y}" />?
+                <br />
+              </p>
+            </Prose>
+          }
+          choices={[
+            ["000", <M t="\ket{000}" />],
+            ["001", <M t="\ket{001}" />],
+            ["010", <M t="\ket{010}" />],
+            ["011", <M t="\ket{011}" />],
+            ["100", <M t="\ket{100}" />],
+            ["101", <M t="\ket{101}" />],
+            ["110", <M t="\ket{110}" />],
+            ["111", <M t="\ket{111}" />],
+          ]}
+        />
+      ),
 
-    //   guidance: {
-    //     nextMessage: () => "dynamicAnswer",
-    //     messages: {
-    //       dynamicAnswer: {
-    //         body: ({ responses }) => (
-    //           <Guidance.Dynamic
-    //             status={
-    //               responses?.whatisy2?.selected === "101" ? "agree" : "disagree"
-    //             }
-    //           >
-    //             {responses?.whatisy2?.selected !== "101" ? (
-    //               <p>
-    //                 In the final term of
-    //                 <M t="\ket{\psi_0}, {\rm namely\ } b \ket{111}" />, notice
-    //                 that the first qubit is a 1, so the second qubit is flipped.
-    //                 But the third qubit is not acted on by any gate, so remains
-    //                 unaltered
-    //                 <br />
-    //                 You are welcome to change your answer above.
-    //               </p>
-    //             ) : (
-    //               <p>
-    //                 Right. In the final term of
-    //                 <M t="\ket{\psi_0}, {\rm namely\ } b \ket{111}" />, the
-    //                 first qubit is a 1, so the second qubit is flipped. But the
-    //                 third qubit is not acted on by any gate, it remained
-    //                 unaltered
-    //               </p>
-    //             )}
-    //           </Guidance.Dynamic>
-    //         ),
-    //         onContinue: "nextSection",
-    //       },
-    //     },
-    //   },
-    // }),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.whatisypostH?.selected === "101"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.whatisypostH?.selected !== "101" ? (
+                  <p>
+                    We started from <br />
+                    <M t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)" />
+                    <br /> and we are acting H on the first qubit in each term.
+                    <br />
+                    The <M t="\ket{y}\ " />
+                    term we're asking about here arises from acting H on the the
+                    leading <M t="\ket{1}\ " />
+                    in the term <M t="b\ket{101}" />, which yields
+                    <M t="b ( \ket{001} - \ket{101}) " />. (Do you agree?){" "}
+                    <br />
+                    It is that very last term that we were looking for.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                    Right. We started from <br />
+                    <M t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)" />
+                    <br /> and we are acting H on the first qubit in each term.
+                    <br />
+                    The <M t="\ket{y}\ " />
+                    term we're asking about here arises from acting H on the the
+                    leading <M t="\ket{1}\ " />
+                    in the term <M t="b\ket{101}" />, which yields
+                    <M t="b ( \ket{001} - \ket{101}) " />. (Do you agree?){" "}
+                    <br /> It is that very last term that we were looking for,{" "}
+                    <M t="\ket{1010}" />.
+                    {/* The <M t="\ket{y}\ " />
+                    term arises from acting H on the the leading{" "}
+                    <M t="\ket{1}\ " />
+                    in the term <M t="b\ket{101}" />, which yields
+                    <M t="b ( \ket{001} - \ket{101}) " />. (It is that last term
+                    that we were looking for, <M t="\ket{1010}" />
+                    ). */}
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+    }),
 
-    // section({
-    //   name: "building1Outro",
-    //   body: (
-    //     <Prose>
-    //       Summary so far: after this first stage:
-    //       <Image src={fig2} alt="circuit diagram C-1" />
-    //       <br />
-    //       We found the 3-qubit output state so far is:
-    //       <br />
-    //       <M t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)" />
-    //     </Prose>
-    //   ),
-    //   continue: {
-    //     label: "I’m ready for the next gates!",
-    //   },
-    // }),
+    section({
+      name: "building2Outro",
+      body: (
+        <Prose>
+          Putting it all together at this stage, we have found
+          <br />
+          <M t="\ket{\psi_2} = \frac{1}{2}(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle" />
+          <br />
+          <M t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle)" />
+          <br />
+          Take one more look that you agree with all 8 terms. If you worked it
+          out first on your own, it is likely that we have visually organized
+          the terms differently than you did, so please check carefully that you
+          agree on everything, including signs.
+        </Prose>
+      ),
+      continue: {
+        label: "I’m ready for the next gates!",
+      },
+    }),
   ],
 }));

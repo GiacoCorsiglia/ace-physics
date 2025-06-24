@@ -6,6 +6,8 @@ export default s.tutorial({
     statepreparation: s.page(),
     buildingteleportation1: s.page(),
     buildingteleportation2: s.page(),
+    buildingteleportation3: s.page(),
+    buildingteleportation4: s.page(),
     finaloperations: s.page(),
   },
   pretest: {
@@ -114,6 +116,30 @@ export default s.tutorial({
       messages: ["correct", "four", "six", "incorrect"],
     }),
     trypsi2: s.section(),
+    whatisxpostH: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    whatisypostH: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    building2Outro: s.section(),
+    building3Intro: s.section(),
+    measure2: s.section({
+      messages: ["correct", "two", "one", "incorrect"],
+    }),
+    Alicemeasures00: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    A00Bobwhat: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    building4Intro: s.section(),
+    tryreorg: s.section(),
+    factorizedstate: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+
+    finaloperationsIntro: s.section(),
 
     // aliceVbob5: s.section({ messages: ["finalfeedback"] }),
 
@@ -180,6 +206,40 @@ export default s.tutorial({
       "111",
     ]),
     ntermsafterH: s.number(),
+    whatisxpostHchoice: s.chooseOne(["0", "1", "else"]),
+    whatissignpostH: s.chooseOne(["plus", "minus"]),
+    whatisypostH: s.chooseOne([
+      "000",
+      "001",
+      "010",
+      "011",
+      "100",
+      "101",
+      "110",
+      "111",
+    ]),
+    measure2: s.number(),
+    Alicemeasures00: s.chooseOne([
+      "125",
+      "25",
+      "50",
+      "asquared",
+      "asquaredover4",
+      "none",
+    ]),
+    A00Bobwhatchoose: s.chooseOne([
+      "0",
+      "1",
+      "plus",
+      "a0b1",
+      "halfa0b1",
+      "none",
+      "other",
+    ]),
+    afterfactorsign: s.chooseOne(["plus", "minus", "ambiguous"]),
+    afterfactorx: s.chooseOne(["0", "1", "other"]),
+    afterfactory: s.chooseOne(["0", "1", "other"]),
+    afterfactorz: s.chooseOne(["a", "b", "c", "d", "other"]),
 
     // I think the rest is all old?
 
@@ -203,6 +263,7 @@ export default s.tutorial({
     trypsi1hint: s.hint(),
     finalfeedback: s.hint(),
     trypsi2hint: s.hint(),
+    factorizedstatehint: s.hint(),
     // inverse: s.hint(),
   },
 });

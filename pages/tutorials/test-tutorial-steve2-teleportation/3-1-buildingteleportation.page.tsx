@@ -98,9 +98,9 @@ export default page(setup, ({ section, hint }) => ({
                 Our answer looks like this: <br />
                 <M t="\ket{\psi_1}  = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{110} + b\ket{y})" />
                 <br /> Hopefully what you wrote matches it... If your answer is
-                very different, try again. Bit if you are largely matching this
-                form, let's check in. What is the missing <M t="x" /> in the
-                line above?
+                very different, try again. But, assuming you are largely
+                matching this form, let's check in. What is the missing{" "}
+                <M t="x" /> in the line above?
                 <br />
               </p>
             </Prose>
