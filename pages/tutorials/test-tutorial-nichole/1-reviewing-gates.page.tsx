@@ -1,4 +1,4 @@
-import { ChooseOne, M, Prose, QuantumCircuit, Toggle } from "@/components";
+import { ChooseOne, M, Prose, QuantumCircuit, TextBox, Toggle } from "@/components";
 
 import { page } from "@/tutorial";
 import setup from "./setup";
@@ -91,7 +91,7 @@ export default page(setup, ({ section }) => ({
             model={m.doHZCommute}
             label={
               <Prose>
-                Given the answers on this page, can you say whether <M t="H" />{" "}
+                Using your answers above, can you say whether <M t="H" />{" "}
                 commutes with <M t="Z" /> ?
               </Prose>
             }
@@ -99,6 +99,14 @@ export default page(setup, ({ section }) => ({
               ["yes", "Yes"],
               ["no", "No"],
             ]}
+          />
+          <TextBox
+          model={m.doHZCommuteExplain}
+          label={
+            <Prose>
+              Briefly, explain:
+            </Prose>
+          }
           />
         </>
       ),
