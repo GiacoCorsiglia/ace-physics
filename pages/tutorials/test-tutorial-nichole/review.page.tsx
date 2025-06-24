@@ -1,4 +1,4 @@
-import { ChooseOne, M, Prose, TextBox } from "@/components";
+import { M, Prose, TextBox, Toggle } from "@/components";
 import { posttest } from "@/tutorial";
 import setup from "./setup";
 
@@ -77,7 +77,7 @@ export default posttest(setup, ({ section }) => ({
               exactly 50/50 probabilty every time. <br />
 
             </Prose>
-        <ChooseOne
+        <Toggle
           model={m.postActivity3Boolean}
           label={
             <Prose>
