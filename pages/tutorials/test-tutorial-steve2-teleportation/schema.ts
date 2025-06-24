@@ -8,7 +8,9 @@ export default s.tutorial({
     buildingteleportation2: s.page(),
     buildingteleportation3: s.page(),
     buildingteleportation4: s.page(),
-    finaloperations: s.page(),
+    finaloperations1: s.page(),
+    finaloperations2: s.page(),
+    partingquestions: s.page(),
   },
   pretest: {
     warmup1select1: s.chooseOne([
@@ -75,6 +77,8 @@ export default s.tutorial({
       // messages: ["a", "nota"],
     }),
     measureentangleFeedback: s.section(),
+
+    // Part B: State Preparation
     statePrepIntro: s.section(),
     writeinitialstate: s.section(),
     whatisxq: s.section({
@@ -102,6 +106,7 @@ export default s.tutorial({
     followupsectionBq: s.section({
       messages: ["dynamicAnswer"],
     }),
+    // Part C: Building up teleportation, part 1:
     building1Intro: s.section(),
     trypsi1: s.section(),
     whatisx2q: s.section({
@@ -138,33 +143,13 @@ export default s.tutorial({
     factorizedstate: s.section({
       messages: ["dynamicAnswer"],
     }),
-
+    // Part D: Final operations
     finaloperationsIntro: s.section(),
-
-    // aliceVbob5: s.section({ messages: ["finalfeedback"] }),
-
-    // wrapupIntro: s.section(),
-    // wrapup1: s.section(),
-    // wrapup2: s.section(),
-    // wrapup3: s.section(),
-    // wrapup4: s.section(),
-    // wrapup5: s.section(),
-
-    // evaluatingCircuitsIntro: s.section(),
-    // outputXZ1: s.section(),
-    // outputZX1: s.section(),
-    // matrixOrEquationApproach: s.section(),
-    // inverseOfX: s.section({ messages: ["inverse"] }),
-
-    // Delete the next ones
-    // outputZHPlus: s.section(),
-    // outputHZPlus: s.section(),
-
-    // circuitDiagramsIntro: s.section(),
-    // doXAndZCommute: s.section({
-    //   messages: ["answer"],
-    // }),
-    // doHZCommute: s.section(),
+    Case1recap: s.section(),
+    Case2: s.section({ messages: ["dynamicAnswer"] }),
+    finaloperations2Intro: s.section(),
+    // Part E: Parting questions
+    partingquestionsIntro: s.section(),
   },
   responses: {
     singlemeasure: s.chooseOne(["yes", "no"]),
@@ -240,23 +225,17 @@ export default s.tutorial({
     afterfactorx: s.chooseOne(["0", "1", "other"]),
     afterfactory: s.chooseOne(["0", "1", "other"]),
     afterfactorz: s.chooseOne(["a", "b", "c", "d", "other"]),
-
-    // I think the rest is all old?
-
-    // wrapup1: s.string(),
-    // wrapup2: s.string(),
-    // wrapup3: s.string(),
-    // wrapup4: s.string(),
-    // wrapup5: s.string(),
-
-    // outputXZ1: s.string(),
-    // outputZX1: s.string(),
-    // doHZcommute: s.string(),
-    // matrixOrEquationApproach: s.string(),
-    // inverseOfX: s.chooseOne(["X", "Z", "H", "I"]),
-
-    // outputZHPlus: s.string(),
-    // outputHZPlus: s.string(),
+    Case01Bobstate: s.chooseOne(["a", "b", "c", "d", "other"]),
+    Case01Bobgate: s.chooseOne([
+      "I",
+      "X",
+      "Z",
+      "XZ",
+      "ZX",
+      "none",
+      "impossible",
+    ]),
+    Case01Bobverify: s.chooseOne(["matches", "confused"]),
   },
   hints: {
     initialstatehint1: s.hint(),
@@ -264,6 +243,6 @@ export default s.tutorial({
     finalfeedback: s.hint(),
     trypsi2hint: s.hint(),
     factorizedstatehint: s.hint(),
-    // inverse: s.hint(),
+    Case2hint: s.hint(),
   },
 });
