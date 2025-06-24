@@ -18,9 +18,10 @@ export default posttest(setup, ({ section }) => ({
       body: (m) => (
         <>
               <Prose>
-                Post-activity questions: Please work on this page alone and dont
-                discuss your answers. (Feel free to check in with your tutorial
-                instructor after you are done though)
+                <strong>Post-activity questions:</strong> Please work on this page
+                 <strong> alone</strong> and dont discuss your answers.
+                (Feel free to check in with your tutorial instructor after
+                you are done though)
               </Prose>
         </>
       ),
