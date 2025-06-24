@@ -4,17 +4,22 @@ import { page } from "@/tutorial";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
-  name: "finaloperations",
-  label: "Final Operations on Bob's state",
+  name: "partingquestions",
+  label: "Some parting questions",
   answers: "checked-all",
 
   sections: [
     section({
-      name: "finaloperationsIntro",
-      body: <Prose>ZZZ to do</Prose>,
+      name: "partingquestionsIntro",
+      body: <Prose>TO DO</Prose>,
       continue: {
         label: "I’m ready to move on!",
       },
     }),
+
+    // Wrap up the page
+    //
+    //
+    //
   ],
 }));

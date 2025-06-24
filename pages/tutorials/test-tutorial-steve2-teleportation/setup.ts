@@ -39,8 +39,16 @@ export default tutorialSetup({
       label: "Building a teleportation circuit (Part 4)",
     },
     {
-      link: "4-finaloperations",
-      label: "Final operations",
+      link: "4-1-finaloperations",
+      label: "Final operations (Part 1)",
+    },
+    {
+      link: "4-2-finaloperations",
+      label: "Final operations (Part 2)",
+    },
+    {
+      link: "5-partingquestions",
+      label: "Parting Questions",
     },
   ],
 });
