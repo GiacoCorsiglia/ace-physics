@@ -218,13 +218,16 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
         <Prose>
-        Please check your answer with an instructor. <br />
+        <strong>Please check your answer with an instructor.</strong> <br />
+        <br />
         This final experiment yields different statistical outcomes for Alice
-        and Bob, showing that their black boxes do indeed produce experimentally
-        distinguishable states. <br />
-        Alice's state is called a superposition. It is a uniquely quantum mechanical
-        state, and plays an important role in quantum computers.<br />
-        Bob's state is called a mixed state. We often refer to this state as a mixture
+        and Bob, showing that their black boxes do indeed produce
+        experimentally<br /> <em> distinguishable states.</em> <br />
+        Alice's state is called a <em> superposition.</em> It is a uniquely
+        quantum mechanical state, and plays an important role in quantum
+         computers.<br />
+        Bob's state is called a<em> mixed state. </em>
+        We often refer to this state as a mixture
         or a "lack-of-knowledge" state.
         </Prose>
         </>
