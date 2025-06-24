@@ -107,6 +107,7 @@ export default s.tutorial({
       "other",
     ]),
     doHZCommute: s.chooseOne(["yes", "no"]),
+    doHZCommuteExplain: s.string(),
 
     aliceBobQuestion1: s.chooseOne([
       "one",
@@ -131,7 +132,6 @@ export default s.tutorial({
     wrapup5: s.string(),
 //////////////////////////////////////////////////////////////////////////////
 
-    doHZCommute: s.chooseOne(["yes", "no"]),
     doesZSelfCommute: s.chooseOne(["yes", "no"]),
     circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
 
