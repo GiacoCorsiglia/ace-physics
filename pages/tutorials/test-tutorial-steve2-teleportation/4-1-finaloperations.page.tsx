@@ -166,10 +166,11 @@ export default page(setup, ({ section, hint }) => ({
             <Prose>
               <p>
                 Looking at state <M t="\ket{\psi_2}" />, if Alice measures
-                <M t="\ket{\psi_2}" />, we are looking at the second term. Bob's
+                <M t="\ket{01}" />, we must be looking at the second term. Bob's
                 qubit is the last one, which appears after the tensor product.
                 Bob must have <M t="a\ket{1} + b\ket{0}" />
-                (which we note IS properly normalized, since |a|2 + |b|2 = 1).{" "}
+                (which we note IS properly normalized, since{" "}
+                <M t="|a|^2 + |b|^2 = 1" />
                 <br />
                 As for what gates to act, this is a single qubit, and the X gate
                 is the one that flips 0 to 1 and vice versa. Looks like that
@@ -246,6 +247,7 @@ export default page(setup, ({ section, hint }) => ({
                     <M t="\ket{\psi_2}" />
                     and find the term with 01 to the left of the tensor product.
                     What remains after the tensor product is Bob's state!
+                    <br /> You are welcome to change your answer above.
                   </p>
                 ) : (
                   <p>
