@@ -118,7 +118,7 @@ export default page(setup, ({ section, hint }) => ({
           model={m.wrapup3}
           label={
             <Prose>
-             Thought experiment: Is it possible to perform any gates and/or
+             <em>Thought experiment:</em> Is it possible to perform any gates and/or
              measurements to convert Charlie's qubit into Bob's (which, recall,
              each have a 50/50 coin-toss chance of being {" "}
              <M t="\ket{0}" /> or {" "} <M t="\ket{1}" />)? <br />
@@ -139,7 +139,7 @@ export default page(setup, ({ section, hint }) => ({
           model={m.wrapup4}
           label={
             <Prose>
-              Thought experiment: Can you perform any gates or measurements to
+              <em>Thought experiment:</em> Can you perform any gates or measurements to
               convert Bob's qubit into Charlie's?
                <br />
                If so how? If not, why not?
