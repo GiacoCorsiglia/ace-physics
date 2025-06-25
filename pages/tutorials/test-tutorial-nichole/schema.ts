@@ -14,6 +14,7 @@ export default s.tutorial({
       "impossible",
       "unsure",
     ]),
+
     designCircuit1explain: s.string(),
     designCircuit2chooseone: s.chooseOne([
       "one",
@@ -28,6 +29,7 @@ export default s.tutorial({
       "yes",
       "no",
     ]),
+    designCircuit3hint: s.hint(),
     designCircuit3explain: s.string()
   },
   ////////////////////////////////////////////////////////////////////
@@ -39,6 +41,7 @@ export default s.tutorial({
       "yes",
       "no",
     ]),
+
     postActivity4: s.string(),
   },
   /////////////////////////////////////////////////////////////////////////////
@@ -107,6 +110,7 @@ export default s.tutorial({
       "other",
     ]),
     doHZCommute: s.chooseOne(["yes", "no"]),
+
     doHZCommuteExplain: s.string(),
 
     aliceBobQuestion1: s.chooseOne([
@@ -124,6 +128,7 @@ export default s.tutorial({
     aliceBobQuestion4: s.string(),
     aliceBobQuestion5A: s.string(),
     aliceBobQuestion5B: s.string(),
+    aliceBobQuestion5C: s.string(),
 ///////////////////////////////////////////////////////////////////////////////
     wrapup1: s.string(),
     wrapup2: s.string(),
@@ -145,6 +150,7 @@ export default s.tutorial({
   },
   ///////////////////////////////////////////////////////////////////
   hints: {
+    designCircuit3hint: s.hint(),
     finalfeedback: s.hint(),
     inverse: s.hint(),
   },

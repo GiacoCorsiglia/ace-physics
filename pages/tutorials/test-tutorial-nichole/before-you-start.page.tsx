@@ -109,7 +109,6 @@ export default pretest(setup, ({ section }) => ({
           ]}
         />
 
-
     <TextBox
     model= {m.designCircuit3explain}
     label={
@@ -119,7 +118,7 @@ export default pretest(setup, ({ section }) => ({
     }
     />
   </>
-  )
+    )
 })
   ],
 }));

@@ -195,7 +195,7 @@ export default page(setup, ({ section }) => ({
         }
         />
         <TextBox
-        model={m.aliceBobQuestion5A}
+        model={m.aliceBobQuestion5B}
         label={
           <Prose>
             On average, what percent of Bob's qubits will be measured to be 0?
@@ -203,9 +203,17 @@ export default page(setup, ({ section }) => ({
         }
         />
         <TextBox
-        model={m.aliceBobQuestion5B}
+        model={m.aliceBobQuestion5C}
         label={
           <Prose>
+            <strong>Recall our original question:</strong> <br />
+            Alice and Bob's setups produce qubits that are: <br />
+            <em> i.</em> Identical (and therefore, experimentally
+            indistinguishable). <br />
+            <em> ii.</em> Different, but experimentally indistinguishable. <br />
+            <em> iii.</em> Different, and can be experimentally
+            distinguished. <br />
+            <br />
             Does the outcome of this final experiment at last settle their debate?
           </Prose>
         }
