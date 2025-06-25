@@ -49,9 +49,17 @@ export default s.tutorial({
     reviewingGatesIntro: s.section(),
     output1: s.section(),
     output2: s.section(),
-    outputcircuit1: s.section(),
-    outputcircuit2: s.section(),
-    doHZCommute: s.section(),
+     outputcircuit1: s.section({
+          messages: ["dynamicAnswer"],
+        }),
+
+    outputcircuit2: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+
+    doHZCommute: s.section({
+      messages: ["dynamicAnswer"],
+    }),
     doesZSelfCommute: s.section(),
     circuitDiagramOrder: s.section({ messages: ["answer"] }),
 ///////////////////////////////////////////////////////////////////////////////
