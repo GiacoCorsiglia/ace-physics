@@ -295,6 +295,8 @@ export default s.tutorial({
     parting2clonedExplain: s.string(),
     parting3ftl: s.chooseOne(["yes", "no"]),
     parting3ftlExplain: s.string(),
+    parting4final1: s.string(),
+    parting4final2: s.string(),
   },
   hints: {
     initialstatehint1: s.hint(),
