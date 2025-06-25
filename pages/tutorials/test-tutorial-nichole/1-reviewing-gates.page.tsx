@@ -1,4 +1,4 @@
-import { ChooseOne, M, Prose, QuantumCircuit, TextBox, Toggle } from "@/components";
+import { ChooseOne, Guidance, M, Prose, QuantumCircuit, TextBox, Toggle } from "@/components";
 
 import { page } from "@/tutorial";
 import setup from "./setup";
@@ -54,6 +54,33 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+       guidance: {
+              nextMessage: () => "dynamicAnswer",
+              messages: {
+                dynamicAnswer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.outputcircuit1?.selected === "0" ? "agree" : "disagree"
+                      }
+                    >
+                      {responses?.outputcircuit1?.selected !== "0" ? (
+                        <p>
+                          Incorrect.
+                          <br />
+                          You are welcome to change your answer above.
+                        </p>
+                      ) : (
+                        <p>
+                          Correct.
+                        </p>
+                      )}
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
     }),
 
     section({
@@ -81,6 +108,33 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.outputcircuit2?.selected === "1" ? "agree" : "disagree"
+                }
+              >
+                {responses?.outputcircuit2?.selected !== "1" ? (
+                  <p>
+                    Incorrect.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                    Correct.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -110,6 +164,33 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.doHZCommute?.selected === "no" ? "agree" : "disagree"
+                }
+              >
+                {responses?.doHZCommute?.selected !== "no" ? (
+                  <p>
+                   Incorrect.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                   Correct.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
   ],
 }));
