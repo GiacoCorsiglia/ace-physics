@@ -98,7 +98,6 @@ export default s.tutorial({
       "minus",
       "other",
     ]),
-    doHZCommute: s.chooseOne(["yes", "no"]),
 
     aliceVbob1: s.string(),
     aliceVbob2: s.string(),
@@ -113,6 +112,7 @@ export default s.tutorial({
     wrapup5: s.string(),
 
     doHZCommute: s.chooseOne(["yes", "no"]),
+    doHZCommuteExplain: s.string(),
     doesZSelfCommute: s.chooseOne(["yes", "no"]),
     circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
 

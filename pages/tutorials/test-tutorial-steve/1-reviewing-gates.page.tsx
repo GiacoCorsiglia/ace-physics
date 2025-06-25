@@ -1,4 +1,12 @@
-import { ChooseOne, M, Prose, QuantumCircuit, Toggle } from "@/components";
+import {
+  Answer,
+  ChooseOne,
+  M,
+  Prose,
+  QuantumCircuit,
+  TextBox,
+  Toggle,
+} from "@/components";
 
 import { page } from "@/tutorial";
 import setup from "./setup";
@@ -6,7 +14,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "reviewingGates",
   label: "Reviewing Gates",
-  answers: "none",
+  answers: "provided",
   cheatSheet: {
     body: (
       <>
@@ -51,7 +59,27 @@ export default page(setup, ({ section }) => ({
               ["minus", <M t=" \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})" />],
               ["other", "Something else"],
             ]}
+            answer="0"
           />
+          <Answer>
+            <p>
+              In the circuit diagram, H acts first. <br />
+              Note that
+              <M t="H \ket{0} = \frac{1}{\sqrt{2}} (\ket{0} + \ket{1}) \ " />
+              and
+              <M t="H \ket{1} = \frac{1}{\sqrt{2}} (\ket{0} - \ket{1}) " />.
+              <br /> Adding these two, the <M t="\ket{1}" /> terms cancel out,
+              giving
+              <br />{" "}
+              <M t="H \frac{1}{\sqrt{2}} (\ket{0} + \ket{1}) = \ket{0} " />
+              <br /> (Please verify for yourself all the factors of 2 work out
+              like this)
+              <br />
+              <br /> Since
+              <M t="Z \ket{0} =  \ket{0} " />, nothing further happens, and we
+              end up with state <M t="\ket{0}" />.
+            </p>
+          </Answer>
         </>
       ),
     }),
@@ -78,7 +106,19 @@ export default page(setup, ({ section }) => ({
               ["minus", <M t=" \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})" />],
               ["other", "Something else"],
             ]}
+            answer="1"
           />
+          <Answer>
+            <p>
+              This time Z acts first. <br /> <M t="Z \ket{1} = -\ket{1}" />{" "}
+              introduces a relative minus sign on the second term. <br />
+              Verify for yourself that in this case,
+              <br />
+              <M t="H \frac{1}{\sqrt{2}} (\ket{0} - \ket{1}) = \ket{1} " />
+              <br /> So here, we end up with state <M t="\ket{1}" />, a
+              different answer than the previous question.
+            </p>
+          </Answer>
         </>
       ),
     }),
@@ -89,17 +129,37 @@ export default page(setup, ({ section }) => ({
         <>
           <Toggle
             model={m.doHZCommute}
-            label={
-              <Prose>
-                Given the answers on this page, can you say whether <M t="H" />{" "}
-                commutes with <M t="Z" /> ?
-              </Prose>
-            }
             choices={[
               ["yes", "Yes"],
               ["no", "No"],
             ]}
+            label={
+              <Prose>
+                Given the answers on this page, does <M t="H" /> commute with{" "}
+                <M t="Z" />?
+                <br /> (Hint: Try to answer without bothering to multiply any
+                matrices in different orders. Just look at the previous two
+                questions.)
+              </Prose>
+            }
           />
+
+          <TextBox
+            model={m.doHZCommuteExplain}
+            label={<Prose>Briefly explain,</Prose>}
+          />
+          <Answer>
+            <p>
+              The above two questions showed that HZ and ZH acting on the same
+              input state give different results. <br /> This is sufficient to
+              show that H and Z do not commute, which means that "order
+              matters".
+              <br /> You can also verify this by writing out the H and Z
+              matrices, and multiply them in the two different orders. You will
+              not get the same answer, another valid way to show that two
+              operators do not commute!
+            </p>
+          </Answer>
         </>
       ),
     }),
