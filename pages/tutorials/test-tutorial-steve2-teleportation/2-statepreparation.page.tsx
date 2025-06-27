@@ -28,8 +28,8 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           Remember that Alice has two qubits in her possession, a mystery state
           <M t="\ket{\phi} = a \ket{0} +  b \ket{1} " /> and also the first
-          qubit of the entangled pair she shares with Bob. Bob has just one
-          qubit, the second qubit of that shared, entangled Bell pair.
+          qubit of the entangled pair she shares with Bob. <br /> Bob has just
+          one qubit, the second qubit of that shared, entangled Bell pair.
         </Prose>
       ),
       continue: {
@@ -87,7 +87,7 @@ export default page(setup, ({ section, hint }) => ({
                 When you write this out in Dirac notation, use the distributive
                 property of the tensor product. This gives a sum of terms (how
                 many?) each of which looks like
-                <M t="\ket{xyz}" />, where
+                <M t="{\rm some\  number} \ket{xyz}" />, where
                 <M t="x,y, {\rm and\ z}\ " /> are each 0 or 1.
               </p>
             </Prose>
@@ -145,8 +145,10 @@ export default page(setup, ({ section, hint }) => ({
                     <M t="a \ket{0} \otimes \ket{00}" />, and the second term
                     (with the missing "x"), comes from{" "}
                     <M t="a \ket{0} \otimes \ket{11}" />, which becomes{" "}
-                    <M t="a \ket{011}" />. (Thus, <M t="x=1" />
-                    .) <br />
+                    <M t="a \ket{011}." /> (So, what is x in{" "}
+                    <M t="a\ket{01x}" />
+                    ?) )
+                    <br />
                     You are welcome to change your answer above.
                   </p>
                 ) : (
@@ -551,9 +553,9 @@ export default page(setup, ({ section, hint }) => ({
             ]}
             label={
               <Prose>
-                If Alice had measured her two qubits, and considering{" "}
+                If Alice has measured her two qubits, and considering{" "}
                 <M t="{\it only\  }" /> the initial setup described so far,
-                would Bob possess the mystery state (the one we called{" "}
+                would Bob then possess the mystery state (the one we called{" "}
                 <M t="\ket{\phi} = a\ket{0} + b\ket{1}" /> above)?
               </Prose>
             }

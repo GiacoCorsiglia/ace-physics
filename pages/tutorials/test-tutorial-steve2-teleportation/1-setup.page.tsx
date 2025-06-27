@@ -210,14 +210,17 @@ export default page(setup, ({ section }) => ({
                     <M t="\ket{0}. " /> <br />
                     You are welcome to click a different answer above. <br />
                     (If this still seems very confusing to you, you might want
-                    to take a moment to look at a precursor Tutorial, the one
-                    titled "CNOT and Entanglement"))
+                    to take a moment to look at our precursor{" "}
+                    {/* Is there a way to make a link that doesn't kill this window?  */}
+                    <a href="https://acephysics.net/tutorials/cnot-entanglement">
+                      tutorial on CNOT gates{" "}
+                    </a>
                   </p>
                 ) : (
                   <p>
                     Right. The state <M t="\ket{\beta_{00}}" />
                     is entangled. If Alice measures <M t="0, " /> Bob is sure to
-                    possess state <M t="\ket{0}," />
+                    possess state <M t="\ket{0}" />.
                   </p>
                 )}
               </Guidance.Dynamic>
