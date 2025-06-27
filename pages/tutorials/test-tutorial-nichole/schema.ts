@@ -64,11 +64,42 @@ export default s.tutorial({
     circuitDiagramOrder: s.section({ messages: ["answer"] }),
 ///////////////////////////////////////////////////////////////////////////////
     superpositionvmixedIntro: s.section(),
-    aliceBobQuestion1: s.section(),
+    aliceBobQuestion1: s.section({
+      messages: ["dynamicAnswer"],
+    }),
     aliceBobIntro2: s.section(),
+    aliceBobQuestion2A: s.section({
+      messages: ["correct", "two", "one", "incorrect"],
+    }),
+    aliceBobQuestion2B: s.section({
+      messages: ["correct", "two", "one", "incorrect"],
+    }),
+    aliceBobQuestion2C: s.section({
+      messages: ["dynamicAnswer"],
+    }),
     aliceBobIntro3: s.section(),
-    aliceBobQuestion4: s.section(),
+    aliceBobQuestion3A: s.section({
+      messages: ["correct", "two", "one", "incorrect"],
+    }),
+    aliceBobQuestion3B: s.section({
+      messages: ["correct", "two", "one", "incorrect"],
+    }),
+    aliceBobQuestion3C: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    aliceBobQuestion4: s.section({
+      messages: ["dynamicAnswer"],
+    }),
     aliceBobQuestion5: s.section(),
+    aliceBobQuestion5A: s.section({
+      messages: ["correct", "two", "one", "incorrect"],
+    }),
+    aliceBobQuestion5B: s.section({
+      messages: ["correct", "two", "one", "incorrect"],
+    }),
+    aliceBobQuestion5C: s.section({
+      messages: ["dynamicAnswer"],
+    }),
     superpositionvmixedConclusion: s.section(),
 ///////////////////////////////////////////////////////////////////////////////
     wrapupIntro: s.section(),
@@ -127,16 +158,20 @@ export default s.tutorial({
       "more",
     ]),
     aliceBob1Explain: s.string(),
-    aliceBobQuestion2A: s.string(),
-    aliceBobQuestion2B: s.string(),
-    aliceBobQuestion2C: s.string(),
-    aliceBobQuestion3A: s.string(),
-    aliceBobQuestion3B: s.string(),
-    aliceBobQuestion3C: s.string(),
-    aliceBobQuestion4: s.string(),
-    aliceBobQuestion5A: s.string(),
-    aliceBobQuestion5B: s.string(),
-    aliceBobQuestion5C: s.string(),
+    aliceBobQuestion2A: s.number(),
+    aliceBobQuestion2B: s.number(),
+    aliceBobQuestion2C: s.chooseOne(["yes","no"]),
+    aliceBobQuestion2Cexplain: s.string(),
+    aliceBobQuestion3A: s.number(),
+    aliceBobQuestion3B: s.number(),
+    aliceBobQuestion3C: s.chooseOne(["yes","no"]),
+    aliceBobQuestion3Cexplain: s.string(),
+    aliceBobQuestion4: s.chooseOne(["yes","no"]),
+    aliceBobQuestion4explain: s.string(),
+    aliceBobQuestion5A: s.number(),
+    aliceBobQuestion5B: s.number(),
+    aliceBobQuestion5C: s.chooseOne(["yes","no"]),
+    aliceBobQuestion5Cexplain: s.string(),
 ///////////////////////////////////////////////////////////////////////////////
     wrapup1: s.string(),
     wrapup2: s.string(),
