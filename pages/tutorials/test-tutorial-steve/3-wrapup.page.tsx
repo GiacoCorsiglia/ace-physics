@@ -146,20 +146,33 @@ export default page(setup, ({ section, hint }) => ({
       ),
     }),
 
-    section({
-      name: "doHZCommute",
-      body: (m) => (
-        <TextBox
-          model={m.doHZCommute}
-          label={
-            <Prose>
-              Given the answers on this page, can you say whether <M t="H" />{" "}
-              commutes with <M t="Z" /> without bothering to multiply matrices
-              in different orders?
-            </Prose>
-          }
-        />
-      ),
-    }),
+    // section({
+    //   name: "doHZCommute",
+    //   body: (m) => (
+    //     <>
+    //       <Toggle
+    //         model={m.doHZCommute}
+    //         choices={[
+    //           ["yes", "Yes"],
+    //           ["no", "No"],
+    //         ]}
+    //         label={
+    //           <Prose>
+    //             Given the answers on this page, does <M t="H" /> commute with{" "}
+    //             <M t="Z" />?
+    //             <br /> (Hint: Try to answer without bothering to multiply any
+    //             matrices in different orders. Just look at the previous two
+    //             questions.)
+    //           </Prose>
+    //         }
+    //       />
+
+    //       <TextBox
+    //         model={m.doHZCommuteExplain}
+    //         label={<Prose>Briefly explain,</Prose>}
+    //       />
+    //     </>
+    //   ),
+    // }),
   ],
 }));
