@@ -1,8 +1,11 @@
 import {
   ChooseOne,
+  Decimal,
+  Guidance,
   M,
   Prose,
-  TextBox
+  TextBox,
+  Toggle
 } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
@@ -20,6 +23,7 @@ export default page(setup, ({ section }) => ({
     ),
   },
   sections: [
+    //question 1
     section({
       name: "aliceBobQuestion1",
       body: (m) => (
@@ -57,9 +61,37 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      //feedback on question 1
+      guidance: {
+              nextMessage: () => "dynamicAnswer",
+              messages: {
+                dynamicAnswer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.aliceBobQuestion1?.selected === "one" ? "agree" : "disagree"
+                      }
+                    >
+                      {responses?.aliceBobQuestion1?.selected !== "one" ? (
+                        <p>
+                         Incorrect.
+                          <br />
+                          You are welcome to change your answer above.
+                        </p>
+                      ) : (
+                        <p>
+                         Correct.
+                        </p>
+                      )}
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
     }),
 
-
+//question 2 introduction
 
     section({
       name: "aliceBobIntro2",
@@ -76,7 +108,14 @@ export default page(setup, ({ section }) => ({
              and measure each qubit to be a 0 or 1. They can only make
              measurements of 0 or 1. After measuring many qubits:
             </Prose>
-             <TextBox
+            </>
+      )}),
+      //question 2A
+      section({
+        name: "aliceBobQuestion2A",
+        body: (m) => (
+          <>
+             <Decimal
           model={m.aliceBobQuestion2A}
           label={
             <Prose> On average, what percent of Alice's qubits will be measured
@@ -84,7 +123,72 @@ export default page(setup, ({ section }) => ({
              </Prose>
           }
         />
-        <TextBox
+        </>
+        ),
+        // question 2A feedback
+        guidance: {
+          nextMessage(r) {
+            const measureresponse = r.aliceBobQuestion2A;
+
+            if (measureresponse === undefined) {
+              return null;
+            }
+
+            if (measureresponse === 50) {
+              return "correct";
+            } else if (measureresponse === .5) {
+              return "two";
+            } else if (measureresponse === 1/2) {
+              return "one";
+            } else {
+              return "incorrect";
+            }
+          },
+          messages: {
+            correct: {
+              body: (
+                <Guidance.Agree>
+                  We agree with your answer! There are four possible measurement
+                  outcomes: 00, 01, 10, or 11{" "}
+                </Guidance.Agree>
+              ),
+              onContinue: "nextSection",
+            },
+            two: {
+              body: (
+                <Guidance.Agree>
+                  correct.
+                </Guidance.Agree>
+              ),
+              onContinue: "nextMessage",
+            },
+            one: {
+              body: (
+                <Guidance.Agree>
+                 Correct.
+                </Guidance.Agree>
+              ),
+              onContinue: "nextMessage",
+            },
+            incorrect: {
+              body: (
+                <Guidance.Disagree>
+                  Try again.
+                </Guidance.Disagree>
+              ),
+              onContinue: "nextMessage",
+            },
+          },
+        },
+      }),
+
+        //question 2B
+        section({
+          name: "aliceBobQuestion2B",
+          body: (m) => (
+            <>
+
+        <Decimal
         model={m.aliceBobQuestion2B}
         label={
           <Prose>
@@ -92,19 +196,122 @@ export default page(setup, ({ section }) => ({
           </Prose>
           }
         />
-        <TextBox
+        </>
+          ),
+          //question 2B feedback
+          guidance: {
+            nextMessage(r) {
+              const measureresponse = r.aliceBobQuestion2B;
+
+              if (measureresponse === undefined) {
+                return null;
+              }
+
+              if (measureresponse === 50) {
+                return "correct";
+              } else if (measureresponse === .5) {
+                return "two";
+              } else if (measureresponse === 1/2) {
+                return "one";
+              } else {
+                return "incorrect";
+              }
+            },
+            messages: {
+              correct: {
+                body: (
+                  <Guidance.Agree>
+                   Correct.
+                  </Guidance.Agree>
+                ),
+                onContinue: "nextSection",
+              },
+              two: {
+                body: (
+                  <Guidance.Agree>
+                   Correct.
+                  </Guidance.Agree>
+                ),
+                onContinue: "nextMessage",
+              },
+              one: {
+                body: (
+                  <Guidance.Agree>
+                   Correct.
+                  </Guidance.Agree>
+                ),
+                onContinue: "nextMessage",
+              },
+              incorrect: {
+                body: (
+                  <Guidance.Disagree>
+                    Try again.
+                  </Guidance.Disagree>
+                ),
+                onContinue: "nextMessage",
+              },
+            },
+          },
+        }),
+        //question 2C
+          section({
+            name: "aliceBobQuestion2C",
+            body: (m) => (
+              <>
+        <Toggle
         model={m.aliceBobQuestion2C}
         label={
           <Prose>
-            On the basis of just this set of experiments so far, can Alice and
+            On the basis of <em>just this set of experiments so far</em>, can Alice and
             Bob settle their debate?
           </Prose>
+        }
+        choices={[
+          ["yes", "Yes"],
+          ["no", "No"],
+           ]}
+        />
+        <TextBox
+        model={m.aliceBobQuestion2Cexplain}
+        label={
+        <Prose>
+        Briefly, explain:
+        </Prose>
         }
         />
         </>
       ),
+      //question 2C feedback
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceBobQuestion2C?.selected === "yes" ? "agree" : "disagree"
+                }
+              >
+                {responses?.aliceBobQuestion2C?.selected !== "yes" ? (
+                  <p>
+                   Incorrect.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                   Correct.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
-//start of header for question 3
+
+// header for question 3
     section({
       name: "aliceBobIntro3",
       body: (m) => (
@@ -117,7 +324,14 @@ export default page(setup, ({ section }) => ({
           Alice suggests they each apply a Z gate to their qubits before they
           measure. After many such measurements:
         </Prose>
-          <TextBox
+        </>
+      )}),
+      section({
+        //question 3A
+        name: "aliceBobQuestion3A",
+        body: (m) => (
+          <>
+          <Decimal
             model={m.aliceBobQuestion3A}
             label={
               <Prose>
@@ -126,7 +340,70 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
           />
-          <TextBox
+          </>
+          ),
+          guidance: {
+            nextMessage(r) {
+              const measureresponse = r.aliceBobQuestion3A;
+
+              if (measureresponse === undefined) {
+                return null;
+              }
+
+              if (measureresponse === 50) {
+                return "correct";
+              } else if (measureresponse === .5) {
+                return "two";
+              } else if (measureresponse === 1/2) {
+                return "one";
+              } else {
+                return "incorrect";
+              }
+            },
+            messages: {
+              correct: {
+                body: (
+                  <Guidance.Agree>
+                    Correct.
+                  </Guidance.Agree>
+                ),
+                onContinue: "nextSection",
+              },
+              two: {
+                body: (
+                  <Guidance.Agree>
+                    Correct.
+                  </Guidance.Agree>
+                ),
+                onContinue: "nextMessage",
+              },
+              one: {
+                body: (
+                  <Guidance.Agree>
+                   Correct.
+                  </Guidance.Agree>
+                ),
+                onContinue: "nextMessage",
+              },
+              incorrect: {
+                body: (
+                  <Guidance.Disagree>
+                    Try again.
+                  </Guidance.Disagree>
+                ),
+                onContinue: "nextMessage",
+              },
+            },
+          },
+          //feedback of question 3A
+        }),
+
+      section({
+        //question 3B
+      name: "aliceBobQuestion3B",
+      body: (m) => (
+        <>
+          <Decimal
           model={m.aliceBobQuestion3B}
           label={
           <Prose>
@@ -134,17 +411,117 @@ export default page(setup, ({ section }) => ({
           </Prose>
           }
           />
-          <TextBox
+          </>
+      ),
+      //question 3B feedback
+      guidance: {
+        nextMessage(r) {
+          const measureresponse = r.aliceBobQuestion3B;
+
+          if (measureresponse === undefined) {
+            return null;
+          }
+
+          if (measureresponse === 4) {
+            return "correct";
+          } else if (measureresponse === 2) {
+            return "two";
+          } else if (measureresponse === 1) {
+            return "one";
+          } else {
+            return "incorrect";
+          }
+        },
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>
+               Correct.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          two: {
+            body: (
+              <Guidance.Agree>
+                Correct.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextMessage",
+          },
+          one: {
+            body: (
+              <Guidance.Agree>
+                Correct.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextMessage",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                Try again.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
+    }),
+      section({
+        //question 3C
+        name: "aliceBobQuestion3C",
+        body: (m) => (
+          <>
+          <Toggle
           model={m.aliceBobQuestion3C}
+          label={<Prose>
+            On the basis of all experiments so far, can Alice and Bob settle
+            their debate?
+          </Prose>}
+           choices={[
+            ["yes", "Yes"],
+            ["no", "No"],
+             ]}
+          />
+          <TextBox
+          model={m.aliceBobQuestion3Cexplain}
           label={
             <Prose>
-              On the basis of all experiments so far, can Alice and Bob settle
-              their debate?
+              Briefly, explain.
             </Prose>
           }
           />
           </>
       ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceBobQuestion3C?.selected === "yes" ? "agree" : "disagree"
+                }
+              >
+                {responses?.aliceBobQuestion3C?.selected !== "yes" ? (
+                  <p>
+                   Incorrect.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                   Correct.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+      //question 3C feedback
     }),
 
     section({
@@ -158,7 +535,7 @@ export default page(setup, ({ section }) => ({
            <br />
           </Prose>
 
-           <TextBox
+           <Toggle
             model={m.aliceBobQuestion4}
             label={
               <Prose>
@@ -168,12 +545,50 @@ export default page(setup, ({ section }) => ({
                 their debate. (Briefly, discuss.)
               </Prose>
             }
+            choices={[
+              ["yes", "Yes"],
+              ["no", "No"],
+               ]}
+          />
+          <TextBox
+          model={m.aliceBobQuestion4explain}
+          label={
+            <Prose> Briefly, explain. </Prose>
+          }
           />
         </>
       ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceBobQuestion4?.selected === "yes" ? "agree" : "disagree"
+                }
+              >
+                {responses?.aliceBobQuestion4?.selected !== "yes" ? (
+                  <p>
+                   Incorrect.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                   Correct.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
+      //header of question 5
       name: "aliceBobQuestion5",
       body: (m) => (
         <>
@@ -186,7 +601,14 @@ export default page(setup, ({ section }) => ({
           This time, they apply an H gate to their qubits before they measure.
           <br />
         </Prose>
-        <TextBox
+        </>
+      )}),
+      section({
+        //question 5A
+        name: "aliceBobQuestion5A",
+        body: (m) => (
+          <>
+        <Decimal
         model={m.aliceBobQuestion5A}
         label={
           <Prose>
@@ -194,7 +616,69 @@ export default page(setup, ({ section }) => ({
           </Prose>
         }
         />
-        <TextBox
+        </>
+        ),
+      //feedback for question 5A
+      guidance: {
+        nextMessage(r) {
+          const measureresponse = r.aliceBobQuestion5A;
+
+          if (measureresponse === undefined) {
+            return null;
+          }
+
+          if (measureresponse === 4) {
+            return "correct";
+          } else if (measureresponse === 2) {
+            return "two";
+          } else if (measureresponse === 1) {
+            return "one";
+          } else {
+            return "incorrect";
+          }
+        },
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>
+                Correct.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          two: {
+            body: (
+              <Guidance.Agree>
+                Correct.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextMessage",
+          },
+          one: {
+            body: (
+              <Guidance.Agree>
+                Correct.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextMessage",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+               Try again.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
+      }),
+        section({
+          //question 5B
+          name: "aliceBobQuestion5B",
+          body: (m) => (
+            <>
+        <Decimal
         model={m.aliceBobQuestion5B}
         label={
           <Prose>
@@ -202,7 +686,69 @@ export default page(setup, ({ section }) => ({
           </Prose>
         }
         />
-        <TextBox
+        </>
+          ),
+        //question 5B feedback
+        guidance: {
+          nextMessage(r) {
+            const measureresponse = r.aliceBobQuestion5B;
+
+            if (measureresponse === undefined) {
+              return null;
+            }
+
+            if (measureresponse === 4) {
+              return "correct";
+            } else if (measureresponse === 2) {
+              return "two";
+            } else if (measureresponse === 1) {
+              return "one";
+            } else {
+              return "incorrect";
+            }
+          },
+          messages: {
+            correct: {
+              body: (
+                <Guidance.Agree>
+                  Correct.
+                </Guidance.Agree>
+              ),
+              onContinue: "nextSection",
+            },
+            two: {
+              body: (
+                <Guidance.Agree>
+                  Correct.
+                </Guidance.Agree>
+              ),
+              onContinue: "nextMessage",
+            },
+            one: {
+              body: (
+                <Guidance.Agree>
+                 Try again.
+                </Guidance.Agree>
+              ),
+              onContinue: "nextMessage",
+            },
+            incorrect: {
+              body: (
+                <Guidance.Disagree>
+                 Try again.
+                </Guidance.Disagree>
+              ),
+              onContinue: "nextMessage",
+            },
+          },
+        },
+        }),
+          section({
+            //question 5C
+            name: "aliceBobQuestion5C",
+            body: (m) => (
+              <>
+        <Toggle
         model={m.aliceBobQuestion5C}
         label={
           <Prose>
@@ -217,9 +763,49 @@ export default page(setup, ({ section }) => ({
             Does the outcome of this final experiment at last settle their debate?
           </Prose>
         }
+        choices={[
+          ["yes", "Yes"],
+          ["no", "No"],
+           ]}
+        />
+        <TextBox
+        model={m.aliceBobQuestion5Cexplain}
+        label={
+          <Prose>
+           Briefly, explain.
+          </Prose>
+        }
         />
         </>
-      )
+      ),
+      //feedback for question 5C
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceBobQuestion5C?.selected === "yes" ? "agree" : "disagree"
+                }
+              >
+                {responses?.aliceBobQuestion5C?.selected !== "yes" ? (
+                  <p>
+                   Incorrect.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                   Correct.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
     section({
       name: "superpositionvmixedConclusion",
