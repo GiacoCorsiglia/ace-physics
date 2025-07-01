@@ -145,8 +145,8 @@ export default page(setup, ({ section }) => ({
             model={m.doHZCommute}
             label={
               <Prose>
-                Using your answers above, can you say whether <M t="H" />{" "}
-                commutes with <M t="Z" /> ?
+                Using your answers above, does <M t="H" />{" "}
+                commute with <M t="Z" /> ?
               </Prose>
             }
             choices={[
