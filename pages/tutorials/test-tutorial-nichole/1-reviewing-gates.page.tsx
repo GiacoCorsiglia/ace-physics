@@ -3,7 +3,7 @@ import { ChooseOne, Guidance, M, Prose, QuantumCircuit, TextBox, Toggle } from "
 import { page } from "@/tutorial";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "reviewingGates",
   label: "Reviewing Gates",
   answers: "none",
@@ -164,6 +164,20 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "gatesHintQuestionC",
+          label: "Commute?",
+          body: (
+            <Prose>
+              Gates (and operators) commute when the order in which they are
+              applied does not matter. That is, Z and H would commute if
+              HZ = ZH.
+            </Prose>
+          ),
+        }),
+      ],
+
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {

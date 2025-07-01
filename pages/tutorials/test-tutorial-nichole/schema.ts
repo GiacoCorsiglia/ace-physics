@@ -29,7 +29,7 @@ export default s.tutorial({
       "yes",
       "no",
     ]),
-    designCircuit3hint: s.hint(),
+
     designCircuit3explain: s.string()
   },
   ////////////////////////////////////////////////////////////////////
@@ -60,6 +60,7 @@ export default s.tutorial({
     doHZCommute: s.section({
       messages: ["dynamicAnswer"],
     }),
+
     doesZSelfCommute: s.section(),
     circuitDiagramOrder: s.section({ messages: ["answer"] }),
 ///////////////////////////////////////////////////////////////////////////////
@@ -193,7 +194,7 @@ export default s.tutorial({
   },
   ///////////////////////////////////////////////////////////////////
   hints: {
-    designCircuit3hint: s.hint(),
+    gatesHintQuestionC: s.hint(),
     finalfeedback: s.hint(),
     inverse: s.hint(),
   },
