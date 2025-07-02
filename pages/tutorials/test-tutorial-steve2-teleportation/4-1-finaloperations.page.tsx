@@ -20,22 +20,23 @@ export default page(setup, ({ section, hint }) => ({
           for Alice to the left of the tensor product):  */}
           <br />
           <M
-            t="\ket{\psi_2} = \frac{1}{2}(\ \ \ \ket{00} \otimes (a\ket{0} + b\ket{1})
-          \ + \ket{01} \otimes (a\ket{1} + b\ket{0})"
+            display
+            t="\ket{\psi_2} = \frac{1}{2}\bigl(\   \ket{00} \otimes (a\ket{0} + b\ket{1})
+          \ + \ \ket{01} \otimes (a\ket{1} + b\ket{0})"
           />
-          <br />
           <M
-            t="\qquad \qquad + \ket{10} \otimes (a\ket{0} - b\ket{1})
-          + \ket{11} \otimes (a\ket{1} - b\ket{0}) "
+            display
+            t="\qquad \qquad \ \  + \ket{10} \otimes (a\ket{0} - b\ket{1})
+            \ + \ \ket{11} \otimes (a\ket{1} - b\ket{0})\ \bigr) "
           />
-          <br />
           Alice now measures both her qubits, collapsing the state. <br />
           Bob’s resulting single-qubit state depends on what Alice has measured.
-          <br /> <M t="{\bf Next\  major\ step}" /> : Our teleportation protocol
-          has Alice send (by classical means, e.g. text or email) the outcome of
-          her pair of measurements: <br />
-          (M1 and M2 can each be 0 or 1.) So Alice sends either 00, 01, 10, or
-          11. <br />
+          <br /> <br /> <M t="{\bf Next\  major\ step}" /> : Our teleportation
+          protocol has Alice send (by classical means, e.g. text or email) the
+          outcome of her pair of measurements: <br />
+          (<M t="M_1\ " /> and <M t="M_2 " /> are the measurement values. They
+          can each be 0 or 1.) <br /> So Alice sends either 00, 01, 10, or 11.{" "}
+          <br />
           In each case, Bob will then apply a set of gates to his qubit, to
           result in the mystery starting state <M t="\ket{\phi}" />. <br />
           Our final task is to work out what these gates are. The complete
@@ -58,13 +59,14 @@ export default page(setup, ({ section, hint }) => ({
           that if Alice measured
           <M t="|00\rangle" />, then Bob’s qubit collapsed to the state
           <M t="a|0\rangle + b|1\rangle" />. <br /> <br />
-          Alice sent "00", meaning her two measuresments were M1 = 0 and M2 = 0.
+          Alice sent "00", meaning her two measuresments were <M t="M_1=0\ " />
+          and <M t="M_2=0. " />
           <br /> Look carefully at the diagram (bottom right portion), this may
           be a novel representation for you. Try to make sense of what it shows:
           the two gates Bob acts on his qubit are determined by Alice's
           measurements!
           <br /> Bob acts
-          <M t="X^{M2} = X^0 = I" /> and then <M t="Z^{M1} = Z^0 = I" />, a
+          <M t="X^{M_2} = X^0 = I" /> and then <M t="Z^{M_1} = Z^0 = I" />, a
           sequence of two identity gates. <br /> By acting two identities
           (effectively doing nothing), Bob's qubit remains in the state
           <M t="a|0\rangle + b|1\rangle" />; but this is the original mystery
@@ -87,13 +89,14 @@ export default page(setup, ({ section, hint }) => ({
             <br /> Recall from the top of the page:
             <br />
             <M
-              t="\ket{\psi_2} = \frac{1}{2}(\ \ \ \ket{00} \otimes (a\ket{0} + b\ket{1})
-          \ + \ket{01} \otimes (a\ket{1} + b\ket{0})"
+              display
+              t="\ket{\psi_2} = \frac{1}{2}\bigl(\ \ \ \ket{00} \otimes (a\ket{0} + b\ket{1})
+          \ + \ \ket{01} \otimes (a\ket{1} + b\ket{0})"
             />
-            <br />
             <M
-              t="\qquad \qquad + \ket{10} \otimes (a\ket{0} - b\ket{1})
-          + \ket{11} \otimes (a\ket{1} - b\ket{0}) "
+              display
+              t="\qquad \qquad \ + \ket{10} \otimes (a\ket{0} - b\ket{1})
+         \  + \ \ket{11} \otimes (a\ket{1} - b\ket{0}) \bigr) "
             />
             <br />
           </Prose>
@@ -148,7 +151,8 @@ export default page(setup, ({ section, hint }) => ({
             label={
               <Prose>
                 <p>
-                  The figure tells us that Bob will act <M t="Z^{M1} X^{M2}" />
+                  The figure tells us that Bob will act{" "}
+                  <M t="Z^{M_1} X^{M_2}" />
                   on his qubit. Verify that this matches exactly what you
                   answered in the previous question.
                   <br />
@@ -223,11 +227,12 @@ export default page(setup, ({ section, hint }) => ({
                     You selected that you feel confused about that diagram.{" "}
                     <br />
                     Remember, we are assuming we're in a situation where Alice
-                    has measured 01 (i.e. that means M1=0, and M2=1). <br />
+                    has measured 01 (i.e. that means <M t="M_1=0," /> and
+                    <M t="M_2=1." /> ) <br />
                     Bob's gate sequence from the diagram is thus: <br /> first
                     hit his qubit with
-                    <M t="X^{M2} = X^1 = X\ " /> followed by
-                    <M t="Z^{M1} = Z^0 = I\ " />. <br />
+                    <M t="X^{M_2} = X^1 = X\ " /> followed by
+                    <M t="Z^{M_1} = Z^0 = I\ " />. <br />
                     That's an X followed by identity gate, i.e. just act an X
                     gate.
                     <br /> Look at your answers to the first two questions and
@@ -242,7 +247,7 @@ export default page(setup, ({ section, hint }) => ({
                     {/* Getting here means that you did NOT select confused!
                     You got the state wrong! */}
                     We disagree with your answer for Bob's qubit state.
-                    <br /> Remember that we are in the Case where we assume
+                    <br /> Remember that we are in the case where we assume
                     Alice has measured 01. Look at the expression for{" "}
                     <M t="\ket{\psi_2}" />
                     and find the term with 01 to the left of the tensor product.

@@ -115,9 +115,12 @@ export default page(setup, ({ section, hint }) => ({
                 {" "}
                 We asked for the full initial (input) 3 qubit state in Dirac
                 notation. Our answer looks like this: <br />
-                <M t="\ket{\phi} \otimes \ket{\beta_{00}} = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{100} + b\ket{y})" />
-                <br /> Hopefully what you wrote matches it... To check, what is
-                the missing <M t="x" /> in the line above?
+                <M
+                  display
+                  t="\ket{\phi} \otimes \ket{\beta_{00}} = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{100} + b\ket{y})"
+                />
+                Hopefully what you wrote matches it... To check, what is the
+                missing <M t="x" /> in the line above?
                 <br />
               </p>
             </Prose>
@@ -262,9 +265,12 @@ export default page(setup, ({ section, hint }) => ({
               <Prose>
                 Summary so far: The starting 3-qubit initial state can be
                 written as: <br />
-                <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
-                <br /> Did you get all the details correct? (If you disagree,
-                please take the time now to work it out.) <br />
+                <M
+                  display
+                  t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
+                />
+                Did you get all the details correct? (If you disagree, please
+                take the time now to work it out.) <br />
                 <br />
                 Suppose Alice now measures both of her qubits. How many
                 different possible outcomes can she get?
@@ -410,8 +416,10 @@ export default page(setup, ({ section, hint }) => ({
               <p>
                 Reminder: The starting 3-qubit initial state can be written as:{" "}
                 <br />
-                <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
-                <br />
+                <M
+                  display
+                  t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
+                />
                 If Alice were to measure her 2 qubits and get 00, what state
                 would Bob have?
                 <br />
@@ -473,8 +481,10 @@ export default page(setup, ({ section, hint }) => ({
             <Prose>
               <p>
                 Each of the four terms in our 3-qubit initial state <br />
-                <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
-                <br />
+                <M
+                  display
+                  t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
+                />
                 begins with a unique outcome for the first two bits, which are
                 all that Alice has access to:
                 <M t="\ket{00}, \ket{01}, \ket{10}, {\rm or} \ket{11}" />.{" "}

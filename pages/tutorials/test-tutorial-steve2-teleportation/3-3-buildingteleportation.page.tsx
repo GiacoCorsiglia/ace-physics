@@ -16,10 +16,14 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           So far we have determined the state <M t="\ket{\psi_2}" />:
           <br />
-          <M t="\ket{\psi_2} = \frac{1}{2}(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle" />
-          <br />
-          <M t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle)" />
-          <br />
+          <M
+            display
+            t="\ket{\psi_2} = \frac{1}{2}(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle"
+          />
+          <M
+            display
+            t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle)"
+          />
           <Image src={fig4} alt="circuit diagram C-4" />
           At this stage, Alice can now measure BOTH of her qubits, as indicated
           in the figure above.
@@ -124,9 +128,9 @@ export default page(setup, ({ section, hint }) => ({
         <ChooseOne
           model={m.Alicemeasures00}
           choices={[
-            ["125", "12.5% (=1/8)"],
+            ["125", "12.5% (= 1/8)"],
             ["25", "25% (= 1/4)"],
-            ["50", "50% (=.5) "],
+            ["50", "50% (= .5) "],
             ["asquared", <M t="|a|^2" />],
             ["asquaredover4", <M t="|a|^2/4" />],
             ["none", "None of the above is correct"],
@@ -160,7 +164,7 @@ export default page(setup, ({ section, hint }) => ({
                     <br />
                     To get the probability of either of those, we must sum the
                     squares of the coefficients of these two terms. So, the
-                    probability is <M t="\frac{1}{4}(|a|^2 + |b|^2 )" />
+                    probability is <M t="\frac{1}{4}(|a|^2 + |b|^2 )." />
                     <br /> I'm wondering if you simplified that correctly? Did
                     you remember that
                     <M t="|a|^2 + |b|^2 =1" />?
@@ -169,12 +173,12 @@ export default page(setup, ({ section, hint }) => ({
                   </p>
                 ) : responses?.Alicemeasures00?.selected === "25" ? (
                   <p>
-                    Right! Just to summarize: the expression for //{" "}
+                    Right! Just to summarize: the expression for{" "}
                     <M t="\ket{\psi_1}" /> above has two terms that begin with
                     00, the 1st and 4th terms on the first line. <br />
                     To get the probability of either of those, we summed the
                     squares of the coefficients of these two terms. So, the
-                    probability is <M t="\frac{1}{4}(|a|^2 + |b|^2 )" />
+                    probability is <M t="\frac{1}{4}(|a|^2 + |b|^2 )." />
                     <br /> Using <M t="|a|^2 + |b|^2 =1" />, the result is
                     indeed 25%.
                   </p>
@@ -186,7 +190,7 @@ export default page(setup, ({ section, hint }) => ({
                     <br />
                     To get the probability of either of those, we must sum the
                     squares of the coefficients of these two terms. So, the
-                    probability is <M t="\frac{1}{4}(|a|^2 + |b|^2 )" />
+                    probability is <M t="\frac{1}{4}(|a|^2 + |b|^2 )." />
                     <br /> I'm wondering if you simplified that correctly? Did
                     you remember that <M t="|a|^2 + |b|^2 =1" />?
                     <br />
@@ -200,12 +204,11 @@ export default page(setup, ({ section, hint }) => ({
                     <br />
                     To get the probability of either of those, you must sum the
                     squares of the coefficients of these two terms. So, the
-                    probability is <M t="\frac{1}{4}(|a|^2 + |b|^2 )" />
+                    probability is <M t="\frac{1}{4}(|a|^2 + |b|^2 )." />
                     <br /> You might have thought this was not one of the given
                     answers ("None of the above"), but can you simplify that
-                    expression?
-                    <br /> Remember that
-                    <M t="|a|^2 + |b|^2 =1" />)
+                    expression? Remember
+                    <M t="|a|^2 + |b|^2 =1." />)
                     <br />
                     Feel free to change your answer.
                   </p>
@@ -213,7 +216,7 @@ export default page(setup, ({ section, hint }) => ({
                   <p>
                     Not quite! Remember, you need to sum the squares of the
                     coefficients for ALL the terms that start with 00, not just{" "}
-                    <M t="|a|^2" />. Feel free to try again.
+                    the first one. Feel free to try again.
                   </p>
                 )}
               </Guidance.Dynamic>
@@ -264,10 +267,14 @@ export default page(setup, ({ section, hint }) => ({
                   <br /> As a reminder, the state before Alice's measurements
                   was:
                   <br />
-                  <M t="\ket{\psi_2} = \frac{1}{2}(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle" />
-                  <br />
-                  <M t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle)" />
-                  <br />
+                  <M
+                    display
+                    t="\ket{\psi_2} = \frac{1}{2}(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle"
+                  />
+                  <M
+                    display
+                    t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle)"
+                  />
                   Bob has not done any gates or measurements yet.
                   <br />
                   Let's consider the specific situation where Alice happens to
@@ -298,7 +305,7 @@ export default page(setup, ({ section, hint }) => ({
                     Close! After a "partial measurement" of a 3-qubit state, you
                     must properly renormalize the remaining one-qubit term.{" "}
                     <br /> Did you remember that
-                    <M t="|a|^2 + |b|^2 =1" />?
+                    <M t="|a|^2 + |b|^2 =1?" />
                     <br />
                     You are welcome to change your answer above.
                   </p>
@@ -320,13 +327,13 @@ export default page(setup, ({ section, hint }) => ({
                     a multi-qubit state is subtle. There are exactly two terms
                     in <M t="\ket{\psi_2}\ " />
                     which start with 00, namely:{" "}
-                    <M t="\frac{1}{2} (a \ket{000} + b\ket{001})\ " />. Thus,
-                    after Alice’s measurement of 00, the 3-qubit state must
-                    collapse to JUST the third qubit combination appearing in
-                    only those two terms. (All other terms collapse away).{" "}
-                    <br />
+                    <M t="\frac{1}{2} (a \ket{000} + b\ket{001})\ " />. <br />
+                    After Alice’s measurement of 00, the 3-qubit state must
+                    collapse to (just) the third qubit combination appearing in
+                    only those two terms. All other terms collapse away. <br />
                     In addition, after measurement you must renormalize your
-                    (single qubit) state. <br /> Feel free to try again.
+                    (single qubit) state, remembering that{" "}
+                    <M t="|a|^2+|b|^2=1." /> <br /> Feel free to try again.
                   </p>
                 )}
                 {/* Do we want other/different feedback for some of the distractors?

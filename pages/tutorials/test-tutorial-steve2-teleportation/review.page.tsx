@@ -54,9 +54,10 @@ export default posttest(setup, ({ section }) => ({
         <>
           <Prose>
             Consider the following 3-qubit state:
-            <br />
-            <M t="\ket{\psi} = {1\over\sqrt{2}} (a\ket{000} -b \ket{001} + a\ket{011} -b \ket{010})" />
-            , <br />
+            <M
+              display
+              t="\ket{\psi} = {1\over\sqrt{2}} (a\ket{000} -b \ket{001} + a\ket{011} -b \ket{010}),"
+            />
             where <M t="|a|^2+|b|^2=1" /> <br />
             If you measure the first (left) two qubits and happen to find both
             are 0, what is the normalized state of the third qubit?
@@ -86,8 +87,8 @@ export default posttest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            A qubit is in state <M t="a\ket{0} -b \ket{1}" />. What gate(s)
-            would transform this into the state
+            A qubit is in state <M t="a\ket{0} -b \ket{1}" />. <br /> What
+            gate(s) would transform this into the state
             <M t="\  b\ket{0} + a\ket{1}" />?
           </Prose>
           <ChooseOne // Another option is 'Toggle'

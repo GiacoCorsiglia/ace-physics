@@ -32,13 +32,15 @@ export default page(setup, ({ section, hint }) => ({
           On the previous page, we found the 3-qubit state just before the
           Hadamard is
           <br />
-          <M t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)" />
-          <br />
+          <M
+            display
+            t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)"
+          />
           Also for reference, recall the actions of the Hadamard gate:
           <br />
-          <M t="H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)\ " />
+          <M t="H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)\ \ " />
           and
-          <M t="H|1\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)" />.
+          <M t="\ H|1\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)" />.
           <br />
         </Prose>
       ),
@@ -153,8 +155,10 @@ export default page(setup, ({ section, hint }) => ({
               {" "}
               The state just before the Hadamard is:
               <br />
-              <M t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)" />
-              <br />
+              <M
+                display
+                t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)"
+              />
               Try to work out the full three-qubit state right after the
               Hadamard (labeled <M t="\ket{\psi_2}" /> in the figure above).
               (Hint: The state should have eight terms, so it's a little messy.
@@ -175,10 +179,10 @@ export default page(setup, ({ section, hint }) => ({
             <Prose>
               <p>
                 The incoming state <M t="\ket{\psi_1}" />
-                is shown in the text just below the figure above. You need to
-                act the Hadamard on the first qubit (only), leaving the other
-                two qubits unaltered. (We reminded you of what a Hadamard does
-                to a single qubit at the top of the page.)
+                is shown above. You need to act the Hadamard on the first qubit
+                (only), leaving the other two qubits unaltered. (We reminded you
+                of what a Hadamard does to a single qubit at the top of the
+                page.)
                 {/* This hint may not be enough! Let's think about more explicit help  */}
               </p>
             </Prose>
@@ -206,15 +210,19 @@ export default page(setup, ({ section, hint }) => ({
                 <p>
                   {" "}
                   Our answer looks like this (there are 8 terms!): <br />
-                  <M t="\ket{\psi_2}  = \frac{1}{2} (\ a\ket{000} \ + \  a\ket{011}\  + \ b\ket{010} \ + \ b\ket{001})" />
-                  <br />
-                  <M t="\qquad\qquad  + a\ket{x00} + a\ket{111} \ \pm b\ket{110} \ - b\ket{y})" />
-                  <br />
+                  <M
+                    display
+                    t="\ket{\psi_2}  = \frac{1}{2} \bigl(\ a\ket{000} \ + \  a\ket{011}\  + \ b\ket{010} \ + \ b\ket{001}"
+                  />
+                  <M
+                    display
+                    t="\qquad\qquad  + a\ket{x00} + a\ket{111} \ \pm b\ket{110} \ - b\ket{y} \bigr)"
+                  />
                   Hopefully what you wrote matches it... If your answer is very
-                  different, try again. (You may have ordered the terms
-                  differently than we did, so look carefully) <br /> Assuming
-                  you are largely matching this form, let's check in. What is
-                  the missing <M t="x" /> in the line above?
+                  different, try again. (You may have ordered terms differently
+                  than we did, so look carefully) <br /> Assuming you are
+                  largely matching this form, let's check in. <br /> What is the
+                  missing <M t="x" /> in the line above?
                   <br />
                 </p>
               </Prose>
@@ -353,14 +361,18 @@ export default page(setup, ({ section, hint }) => ({
                 {responses?.whatisypostH?.selected !== "101" ? (
                   <p>
                     We started from <br />
-                    <M t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)" />
-                    <br /> and we are acting H on the first qubit in each term.
+                    <M
+                      display
+                      t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)"
+                    />
+                    and we are acting H on the first qubit in each term.
                     <br />
                     The <M t="\ket{y}\ " />
                     term we're asking about here arises from acting H on the the
                     leading <M t="\ket{1}\ " />
                     in the term <M t="b\ket{101}" />, which yields
-                    <M t="b ( \ket{001} - \ket{101}) " />. (Do you agree?){" "}
+                    <M t="b ( \ket{001} - \ket{101}) " />. <br /> (Do you agree?
+                    Remember that the H acts ONLY on the very first qubit){" "}
                     <br />
                     It is that very last term that we were looking for.
                     <br />
@@ -369,8 +381,11 @@ export default page(setup, ({ section, hint }) => ({
                 ) : (
                   <p>
                     Right. We started from <br />
-                    <M t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)" />
-                    <br /> and we are acting H on the first qubit in each term.
+                    <M
+                      display
+                      t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)"
+                    />
+                    and we are acting H on the first qubit in each term.
                     <br />
                     The <M t="\ket{y}\ " />
                     term we're asking about here arises from acting H on the the
@@ -402,9 +417,14 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           Putting it all together at this stage, we have found
           <br />
-          <M t="\ket{\psi_2} = \frac{1}{2}(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle" />
-          <br />
-          <M t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle)" />
+          <M
+            display
+            t="\ket{\psi_2} = \frac{1}{2}\bigl(\ \  a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle"
+          />
+          <M
+            display
+            t="\qquad \qquad +\  a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle \bigr)"
+          />
           <br />
           Take one more look that you agree with all 8 terms. If you worked it
           out first on your own, it is likely that we have visually organized
