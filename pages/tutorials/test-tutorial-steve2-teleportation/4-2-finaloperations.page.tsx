@@ -16,15 +16,15 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           <Image src={fig5} alt="circuit diagram D-5" />
           Once again, we remind you of the state before measurement:
-          <br />
           <M
-            t="\ket{\psi_2} = \frac{1}{2}(\ \ \ \ket{00} \otimes (a\ket{0} + b\ket{1})
+            display
+            t="\ket{\psi_2} = \frac{1}{2}\bigl(\ \ \ \ket{00} \otimes (a\ket{0} + b\ket{1})
           \ + \ket{01} \otimes (a\ket{1} + b\ket{0})"
           />
-          <br />
           <M
+            display
             t="\qquad \qquad + \ket{10} \otimes (a\ket{0} - b\ket{1})
-          + \ket{11} \otimes (a\ket{1} - b\ket{0}) "
+          + \ket{11} \otimes (a\ket{1} - b\ket{0})\bigr) "
           />
           <br />
         </Prose>
@@ -77,7 +77,7 @@ export default page(setup, ({ section, hint }) => ({
               <Prose>
                 <p>
                   The figure tells us that Bob will act{" "}
-                  <M t="Z^{M1} X^{M2}\ " />
+                  <M t="Z^{M_1} X^{M_2}\ " />
                   on his qubit. Which of the following options does this
                   correspond to?
                 </p>
@@ -161,7 +161,8 @@ export default page(setup, ({ section, hint }) => ({
                     As for what gates to act, this is a single qubit, and the Z
                     gate is the one that flips the phase of <M t="\ket{1}\ " />{" "}
                     states. <br /> That does the trick, turning Bob's state into
-                    the original mystery state <M t="a\ket{0} + b\ket{1}" /> .
+                    the original mystery state <br />{" "}
+                    <M t="\ket{\phi} = a\ket{0} + b\ket{1}" /> .
                   </p>
                 ) : responses?.Case3Bobverify?.selected === "confused" ? (
                   <p>
@@ -170,11 +171,12 @@ export default page(setup, ({ section, hint }) => ({
                     You selected that you feel confused about that diagram.{" "}
                     <br />
                     Remember, we are assuming we're in a situation where Alice
-                    has measured 10 (i.e. that means M1=1, and M2=0). <br />
+                    has measured 10 (i.e. that means <M t="M_1=1," /> and{" "}
+                    <M t="M_2=0." /> ). <br />
                     Bob's gate sequence from the diagram is thus: <br /> first
                     hit his qubit with
-                    <M t="X^{M2} = X^0 = I\ " /> followed by
-                    <M t="Z^{M1} = Z^1 = Z\ " />. <br />
+                    <M t="X^{M_2} = X^0 = I\ " /> followed by
+                    <M t="Z^{M_1} = Z^1 = Z\ " />. <br />
                     That's an identity gate followed by Z, i.e. just act a Z
                     gate.
                     <br /> Look at your answers to the first two questions and
@@ -226,7 +228,7 @@ export default page(setup, ({ section, hint }) => ({
       body: (m) => (
         <>
           <Prose>
-            <strong> Case 4: </strong> The last possibility. <br />
+            <strong> Case 4: </strong> This is the final possibility. <br />
             Suppose Alice measures and sends the message 11.
             <br />
           </Prose>
@@ -264,7 +266,7 @@ export default page(setup, ({ section, hint }) => ({
               <Prose>
                 <p>
                   The figure tells us that Bob will act{" "}
-                  <M t="Z^{M1} X^{M2}\ " />
+                  <M t="Z^{M_1} X^{M_2}\ " />
                   on his qubit. Which of the following options does this
                   correspond to?
                 </p>
@@ -363,11 +365,12 @@ export default page(setup, ({ section, hint }) => ({
                          no matter WHAT else you selected! */}
                     Feeling confused?
                     <br />
-                    Remember, Alice has measured 11, i.e. M1=1, and M2=1. <br />
-                    Bob's gate sequence from the diagram is thus: <br /> First
-                    hit his qubit with
-                    <M t="X^{M2} = X^1 = X\ " /> followed by
-                    <M t="Z^{M1} = Z^1 = Z\ " />. <br />
+                    Remember, Alice has measured 11, i.e. <M t="M_1=1," /> and{" "}
+                    <M t="M_2=1." /> <br />
+                    Bob's gate sequence from the diagram is thus as follows:{" "}
+                    <br /> first hit his qubit with
+                    <M t="X^{M_2} = X^1 = X\ " /> followed by
+                    <M t="Z^{M_1} = Z^1 = Z\ " />. <br />
                     That's an X gate followed by Z in the diagram, which is
                     written in Dirac notation as ZX (In Dirac notation, the
                     state you act on is always on the right, so X will act
@@ -434,7 +437,7 @@ export default page(setup, ({ section, hint }) => ({
           exact same quantum state as our original mystery state{" "}
           <M t="\ket{\phi}" />. <br />
           Remarkably, even though Alice still has no knowledge of{" "}
-          <M t="a {\rm or} b\ " />
+          <M t="a {\rm \ or\ } b\ " />
           at this point, and nothing besides two classical bits of information
           were sent, the quantum state has been “teleported” to Bob.
         </Prose>

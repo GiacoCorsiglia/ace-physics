@@ -21,9 +21,12 @@ export default page(setup, ({ section, hint }) => ({
           <br />
           We have already found that our starting (input) 3-qubit state is:
           <br />
-          <M t="|\psi_0\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|100\rangle + b|111\rangle)" />
-          <br /> Remember, Alice only has access to the first two qubits, her
-          gates (and subsequent measurements) can be applied only to the top two
+          <M
+            display
+            t="|\psi_0\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|100\rangle + b|111\rangle)"
+          />
+          Remember, Alice only has access to the first two qubits, her gates
+          (and subsequent measurements) can be applied only to the top two
           qubits. <br />
           Alice starts with a CNOT gate, as shown above. The CNOT gate is
           capable of entangling qubits, and that’s what it does here. Alice is
@@ -96,10 +99,13 @@ export default page(setup, ({ section, hint }) => ({
               <p>
                 {" "}
                 Our answer looks like this: <br />
-                <M t="\ket{\psi_1}  = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{110} + b\ket{y})" />
-                <br /> Hopefully what you wrote matches it... If your answer is
-                very different, try again. But, assuming you are largely
-                matching this form, let's check in. What is the missing{" "}
+                <M
+                  display
+                  t="\ket{\psi_1}  = \frac{1}{\sqrt{2}} (a\ket{000} + a\ket{01x} + b\ket{110} + b\ket{y})"
+                />
+                Hopefully what you wrote matches it... If your answer is very
+                different, try again. But, assuming you are largely matching
+                this form, let's check in. <br /> What is the missing{" "}
                 <M t="x" /> in the line above?
                 <br />
               </p>
@@ -115,10 +121,25 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.whatisx2?.selected === "1" ? "agree" : "disagree"
+                  responses?.whatisx2?.selected === "1"
+                    ? "agree"
+                    : responses?.whatisx2?.selected === "0"
+                      ? "disagree"
+                      : "headsUp"
                 }
               >
-                {responses?.whatisx2?.selected !== "1" ? (
+                {responses?.whatisx2?.selected === "else" ? (
+                  <p>
+                    Start by simply writing down <M t="\ket{\psi_0}" /> (as
+                    given above) on scrap paper. <br /> Focus your attention on
+                    just the first 2 qubits (these are the ones getting acted on
+                    by the CNOT.) <br /> Term by term, figure out what the first
+                    (control) bit does to the 2nd bit, and write out the output
+                    state... <br /> It should match our "template" answer, and
+                    you can read off x and y. <br /> You are welcome to change
+                    your answer above.
+                  </p>
+                ) : responses?.whatisx2?.selected !== "1" ? (
                   <p>
                     Recall
                     <M t="|\psi_0\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|100\rangle + b|111\rangle)" />
@@ -221,7 +242,10 @@ export default page(setup, ({ section, hint }) => ({
           <br />
           We found the 3-qubit output state so far is:
           <br />
-          <M t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)" />
+          <M
+            display
+            t="|\psi_1\rangle = \frac{1}{\sqrt{2}}(a|000\rangle + a|011\rangle + b|110\rangle + b|101\rangle)"
+          />
         </Prose>
       ),
       continue: {

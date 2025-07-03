@@ -15,8 +15,9 @@ export default page(setup, ({ section }) => ({
         <Prose>
           Teleportation is a quantum protocol that transports a quantum state
           from one location to another, perhaps far away. It requires an
-          initially prepared entangled state, which must be shared beforehand,
-          and two bits of classical communication.
+          initially prepared entangled state (which must be shared beforehand),
+          two bits of classical communication, and a final single-gate
+          manipulation (which depends on the classical communication).
         </Prose>
       ),
       continue: {

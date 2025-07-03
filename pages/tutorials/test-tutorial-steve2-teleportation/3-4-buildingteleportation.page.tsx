@@ -41,10 +41,14 @@ export default page(setup, ({ section, hint }) => ({
           <br />
           And, here's the state just before Alice's measurements that we want to
           reorganize: <br />
-          <M t="\ket{\psi_2} = \frac{1}{2}(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle" />
-          <br />
-          <M t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle)" />
-          <br />
+          <M
+            display
+            t="\ket{\psi_2} = \frac{1}{2}\bigl(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle"
+          />
+          <M
+            display
+            t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle \bigr)"
+          />
         </Prose>
       ),
       continue: {
@@ -111,17 +115,25 @@ export default page(setup, ({ section, hint }) => ({
         <>
           <Prose>
             Recall: We know that <br />
-            <M t="\ket{\psi_2} = \frac{1}{2}(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle" />
-            <br />
-            <M t="\qquad \qquad + a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle)" />
-            <br />
+            <M
+              display
+              t="\ket{\psi_2} = \frac{1}{2}\bigl(\ a|000\rangle \ + a|011\rangle \ + b|010\rangle \ + b|001\rangle"
+            />
+            <M
+              display
+              t="\qquad \qquad \ + \ a|100\rangle + a|111\rangle - b|110\rangle - b|101\rangle\bigr)"
+            />
             Your task was to reorganize those 8 terms. Let's check your result
             by matching your answer to the form shown below: find x, y and z
             (and decide if the ± should be plus or minus.) <br />
-            <M t="\ket{\psi_2} = \frac{1}{2}(\ \ \ \ket{00} \otimes (a\ket{0} + b\ket{1}) \ + \ket{01} \otimes (a\ket{1} \pm b\ket{0})" />
-            <br />
-            <M t="\qquad \qquad + \ket{10} \otimes (a\ket{x} - b\ket{y}) + \ket{11} \otimes \ket{z} " />
-            <br />
+            <M
+              display
+              t="\ket{\psi_2} = \frac{1}{2}(\ \ket{00} \otimes (a\ket{0} + b\ket{1}) \ \ + \ \ket{01} \otimes (a\ket{1} \pm b\ket{0})"
+            />
+            <M
+              display
+              t=" + \ket{10} \otimes (a\ket{x} - b\ket{y})\  + \ \ket{11} \otimes \ket{z}\bigr) "
+            />
           </Prose>
           <Toggle
             model={m.afterfactorsign}
@@ -200,16 +212,16 @@ export default page(setup, ({ section, hint }) => ({
           body: (
             <Prose>
               <p>
-                For the <M t="\pm" /> question: you find the ONE term that begin
-                with <M t="\ket{01}" />, and has b out front. There is only one
-                such term, it’s the third term in the first line. The
+                For the <M t="\pm" /> question: you must find the one term that
+                begins with <M t="\ket{01}" />, and has b out front. There is
+                only one such term, it’s the third term in the first line. The
                 coefficient is +1.
                 <br />
-                For the questions about x and y: you find all terms that start
-                with <M t="\ket{10}" />. I see two such terms, both in the
-                second line, the 1st and last terms. The 1st term has a
-                coefficient of a, with <M t="\ket{0}\ " /> as the final bit, so
-                x is 0.
+                For the questions about x and y: you must find all terms that
+                start with <M t="\ket{10}" />. <br /> I see two such terms, both
+                are in the second line, the 1st and last terms. <br /> The 1st
+                term has a coefficient of a, with <M t="\ket{0}\ " /> as the
+                final bit, so x is 0.
                 <br /> The last term has a coefficient of <M t="-b" />, with
                 <M t="\ket{1}\ " /> as the final bit, so y is 1.
                 <br />
@@ -222,7 +234,9 @@ export default page(setup, ({ section, hint }) => ({
           ),
         }),
       ],
-      // COMMENT:  If what they wrote doesn't match at all, can/should we have some sort of HINT button before they try to answer the question above about x?
+      // COMMENT:  If what they wrote doesn't match at all, can/should we have
+      // some sort of HINT button before they try to answer the question above about x?
+      // I did add a "Just give me the answers" button, that work?
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -262,27 +276,35 @@ export default page(setup, ({ section, hint }) => ({
                     in the second line. What is left behind for the final qubit
                     is thus <M t="z = a\ket{1}-b\ket{0}" />.
                   </p>
+                ) : responses?.afterfactorsign?.selected !== "plus" ? (
+                  <p>
+                    {" "}
+                    We have not checked all your answers yet, but just consider
+                    the first question about the sign of that term: you need to
+                    locate a term that begins with <M t="\ket{01}" />, and has{" "}
+                    <M t="b\ " /> out front. <br /> There is only one such term,
+                    it’s the third term in the first line. What's the sign of
+                    its coefficient? <br /> Feel free to change your answer(s)
+                    and try again.
+                    <br />
+                  </p>
                 ) : (
+                  // To get here, they are NOT correct, but they DO have a plus sign!
                   <p>
                     One or more of your responses is not correct. Here are some
-                    hints, please try again!
-                    <br />
-                    For the <M t="\pm" /> question: we need to locate a term
-                    that begins with <M t="\ket{01}" />, and has b out front.
-                    There is only one such term, it’s the third term in the
-                    first line. What's the sign of its coefficient?
+                    general hints, please try again!
                     <br />
                     For the questions about x and y: you must locate all terms
                     that start with <M t="\ket{10}" />. I see two such terms,
-                    both in the second line, the 1st and last terms. The 1st
-                    term has a coefficient of a, what is the final bit? (That's
-                    x!) The last term has a coefficient of <M t="-b" />, what is
-                    the final bit on that one? (That's y!)
+                    both in the second line, the 1st and last terms. <br /> The
+                    1st term has a coefficient of a, what is the final bit?
+                    (That's x!) <br /> The last term has a coefficient of{" "}
+                    <M t="-b" />, what is the final bit? (That's y!)
                     <br />
                     For the question about z : you need to locate all terms that
-                    begin with <M t="\ket{11}" />. I see two of them, the middle
-                    two terms in the second line. What is left behind for the
-                    final qubit is z.
+                    begin with <M t="\ket{11}" />. <br /> I see two of them, the
+                    middle two terms in the second line. Whatever is left behind
+                    for the final qubit is z.
                   </p>
                 )}
               </Guidance.Dynamic>
