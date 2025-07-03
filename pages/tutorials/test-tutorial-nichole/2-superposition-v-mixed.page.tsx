@@ -101,85 +101,20 @@ export default page(setup, ({ section }) => ({
             </Prose>
             </>
       )}),
-      //question 2A
+      //question 2A and 2B
       section({
-        name: "aliceBobQuestion2A",
+        name: "aliceBobQuestion2",
         body: (m) => (
           <>
              <Decimal
           model={m.aliceBobQuestion2A}
           label={
             <Prose> On average, what percent of Alice's qubits will be measured
-              to be 0?
+              to be 0? <br />
              </Prose>
           }
-        />
-        </>
-        ),
-        // question 2A feedback
-        guidance: {
-          nextMessage(r) {
-            const measureresponse = r.aliceBobQuestion2A;
-
-            if (measureresponse === undefined) {
-              return null;
-            }
-
-            if (measureresponse === 50) {
-              return "correct";
-            } else if (measureresponse === .5) {
-              return "two";
-            } else if (measureresponse === 1/2) {
-              return "one";
-            } else {
-              return "incorrect";
-            }
-          },
-          messages: {
-            correct: {
-              body: (
-                <Guidance.Agree>
-                  We agree with your answer! There are four possible measurement
-                  outcomes: 00, 01, 10, or 11{" "}
-                </Guidance.Agree>
-              ),
-              onContinue: "nextSection",
-            },
-            two: {
-              body: (
-                <Guidance.Agree>
-                  correct.
-                </Guidance.Agree>
-              ),
-              onContinue: "nextMessage",
-            },
-            one: {
-              body: (
-                <Guidance.Agree>
-                 Correct.
-                </Guidance.Agree>
-              ),
-              onContinue: "nextMessage",
-            },
-            incorrect: {
-              body: (
-                <Guidance.Disagree>
-                  Try again.
-                </Guidance.Disagree>
-              ),
-              onContinue: "nextMessage",
-            },
-          },
-        },
-      }),
-
-        //question 2B
-        section({
-          name: "aliceBobQuestion2B",
-          body: (m) => (
-            <>
-
-        <Decimal
+          />
+         <Decimal
         model={m.aliceBobQuestion2B}
         label={
           <Prose>
@@ -187,63 +122,41 @@ export default page(setup, ({ section }) => ({
           </Prose>
           }
         />
+        <Prose faded> Your answer should be a whole number. </Prose>
         </>
-          ),
-          //question 2B feedback
-          guidance: {
-            nextMessage(r) {
-              const measureresponse = r.aliceBobQuestion2B;
+        ),
+        // question 2A and 2B feedback (combined)
+        guidance: {
+          nextMessage(r) {
+            const a = r.aliceBobQuestion2A;
+            const b = r.aliceBobQuestion2B;
+            if (a === 50 && b === 50) {
+              return "correct";
+            }
 
-              if (measureresponse === undefined) {
-                return null;
-              }
-
-              if (measureresponse === 50) {
-                return "correct";
-              } else if (measureresponse === .5) {
-                return "two";
-              } else if (measureresponse === 1/2) {
-                return "one";
-              } else {
-                return "incorrect";
-              }
-            },
-            messages: {
-              correct: {
-                body: (
-                  <Guidance.Agree>
-                   Correct.
-                  </Guidance.Agree>
-                ),
-                onContinue: "nextSection",
-              },
-              two: {
-                body: (
-                  <Guidance.Agree>
-                   Correct.
-                  </Guidance.Agree>
-                ),
-                onContinue: "nextMessage",
-              },
-              one: {
-                body: (
-                  <Guidance.Agree>
-                   Correct.
-                  </Guidance.Agree>
-                ),
-                onContinue: "nextMessage",
-              },
-              incorrect: {
-                body: (
-                  <Guidance.Disagree>
-                    Try again.
-                  </Guidance.Disagree>
-                ),
-                onContinue: "nextMessage",
-              },
-            },
+            return "incorrect";
           },
-        }),
+          messages: {
+            correct: {
+              body: (
+                <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
+              ),
+              onContinue: "nextSection",
+            },
+            incorrect: {
+              body: (
+                <Guidance.Disagree>
+                 At least one of your answers is incorrect. Please try again.
+                </Guidance.Disagree>
+              ),
+              onContinue: "nextMessage",
+            },
+
+
+          },
+        },
+      }),
+
         //question 2C
           section({
             name: "aliceBobQuestion2C",

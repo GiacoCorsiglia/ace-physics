@@ -69,12 +69,17 @@ export default s.tutorial({
       messages: ["answer"],
     }),
     aliceBobIntro2: s.section(),
+    aliceBobQuestion2: s.section({
+      messages: ["correct", "incorrect"],
+    }),
     aliceBobQuestion2A: s.section({
-      messages: ["correct", "two", "one", "incorrect"],
-    }),
+      messages: ["correct", "incorrect"],
+    }
+),
     aliceBobQuestion2B: s.section({
-      messages: ["correct", "two", "one", "incorrect"],
-    }),
+      messages: ["correct", "incorrect"],
+    }
+),
     aliceBobQuestion2C: s.section({
       messages: ["dynamicAnswer"],
     }),
