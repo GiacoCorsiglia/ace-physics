@@ -395,7 +395,7 @@ export default page(setup, ({ section }) => ({
         </>
       )}),
       section({
-        //question 5A
+        //question 5A and 5B
         name: "aliceBobQuestion5A",
         body: (m) => (
           <>
@@ -407,69 +407,7 @@ export default page(setup, ({ section }) => ({
           </Prose>
         }
         />
-        </>
-        ),
-      //feedback for question 5A
-      guidance: {
-        nextMessage(r) {
-          const measureresponse = r.aliceBobQuestion5A;
-
-          if (measureresponse === undefined) {
-            return null;
-          }
-
-          if (measureresponse === 4) {
-            return "correct";
-          } else if (measureresponse === 2) {
-            return "two";
-          } else if (measureresponse === 1) {
-            return "one";
-          } else {
-            return "incorrect";
-          }
-        },
-        messages: {
-          correct: {
-            body: (
-              <Guidance.Agree>
-                Correct.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextSection",
-          },
-          two: {
-            body: (
-              <Guidance.Agree>
-                Correct.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextMessage",
-          },
-          one: {
-            body: (
-              <Guidance.Agree>
-                Correct.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextMessage",
-          },
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-               Try again.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-        },
-      },
-      }),
-        section({
-          //question 5B
-          name: "aliceBobQuestion5B",
-          body: (m) => (
-            <>
-        <Decimal
+         <Decimal
         model={m.aliceBobQuestion5B}
         label={
           <Prose>
@@ -478,62 +416,39 @@ export default page(setup, ({ section }) => ({
         }
         />
         </>
-          ),
-        //question 5B feedback
-        guidance: {
-          nextMessage(r) {
-            const measureresponse = r.aliceBobQuestion5B;
+        ),
+      //feedback for question 5A and 5B
+      guidance: {
+        nextMessage(r) {
+          const a = r.aliceBobQuestion5A;
+          const b = r.aliceBobQuestion5B;
+          if (a === 50 && b === 50) {
+            return "correct";
+          }
 
-            if (measureresponse === undefined) {
-              return null;
-            }
-
-            if (measureresponse === 4) {
-              return "correct";
-            } else if (measureresponse === 2) {
-              return "two";
-            } else if (measureresponse === 1) {
-              return "one";
-            } else {
-              return "incorrect";
-            }
-          },
-          messages: {
-            correct: {
-              body: (
-                <Guidance.Agree>
-                  Correct.
-                </Guidance.Agree>
-              ),
-              onContinue: "nextSection",
-            },
-            two: {
-              body: (
-                <Guidance.Agree>
-                  Correct.
-                </Guidance.Agree>
-              ),
-              onContinue: "nextMessage",
-            },
-            one: {
-              body: (
-                <Guidance.Agree>
-                 Try again.
-                </Guidance.Agree>
-              ),
-              onContinue: "nextMessage",
-            },
-            incorrect: {
-              body: (
-                <Guidance.Disagree>
-                 Try again.
-                </Guidance.Disagree>
-              ),
-              onContinue: "nextMessage",
-            },
-          },
+          return "incorrect";
         },
-        }),
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+               At least one of your answers is incorrect. Please try again.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+
+
+        },
+      },
+      }),
+
           section({
             //question 5C
             name: "aliceBobQuestion5C",
@@ -571,32 +486,23 @@ export default page(setup, ({ section }) => ({
       ),
       //feedback for question 5C
       guidance: {
-        nextMessage: () => "dynamicAnswer",
+        nextMessage() {
+          return "answer";
+        },
         messages: {
-          dynamicAnswer: {
-            body: ({ responses }) => (
-              <Guidance.Dynamic
-                status={
-                  responses?.aliceBobQuestion5C?.selected === "yes" ? "agree" : "disagree"
-                }
-              >
-                {responses?.aliceBobQuestion5C?.selected !== "yes" ? (
-                  <p>
-                   Incorrect.
-                    <br />
-                    You are welcome to change your answer above.
-                  </p>
-                ) : (
-                  <p>
-                   Correct.
-                  </p>
-                )}
-              </Guidance.Dynamic>
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                <p>
+                 We havent checked your answer yet, because we are going to
+                 explore this question further and come back to it later.
+                </p>
+              </Guidance.HeadsUp>
             ),
             onContinue: "nextSection",
           },
         },
-      },
+      }
     }),
     section({
       name: "superpositionvmixedConclusion",

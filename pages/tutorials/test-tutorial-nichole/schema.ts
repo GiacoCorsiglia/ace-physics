@@ -98,13 +98,13 @@ export default s.tutorial({
     }),
     aliceBobQuestion5: s.section(),
     aliceBobQuestion5A: s.section({
-      messages: ["correct", "two", "one", "incorrect"],
+      messages: ["correct", "incorrect"],
     }),
     aliceBobQuestion5B: s.section({
-      messages: ["correct", "two", "one", "incorrect"],
+      messages: ["correct", "incorrect"],
     }),
     aliceBobQuestion5C: s.section({
-      messages: ["dynamicAnswer"],
+      messages: ["answer"],
     }),
     superpositionvmixedConclusion: s.section(),
 ///////////////////////////////////////////////////////////////////////////////
