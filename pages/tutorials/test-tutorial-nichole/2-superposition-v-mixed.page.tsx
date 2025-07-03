@@ -156,7 +156,6 @@ export default page(setup, ({ section }) => ({
           },
         },
       }),
-
         //question 2C
           section({
             name: "aliceBobQuestion2C",
@@ -187,27 +186,18 @@ export default page(setup, ({ section }) => ({
       ),
       //question 2C feedback
       guidance: {
-        nextMessage: () => "dynamicAnswer",
+        nextMessage() {
+          return "answer";
+        },
         messages: {
-          dynamicAnswer: {
-            body: ({ responses }) => (
-              <Guidance.Dynamic
-                status={
-                  responses?.aliceBobQuestion2C?.selected === "yes" ? "agree" : "disagree"
-                }
-              >
-                {responses?.aliceBobQuestion2C?.selected !== "yes" ? (
-                  <p>
-                   Incorrect.
-                    <br />
-                    You are welcome to change your answer above.
-                  </p>
-                ) : (
-                  <p>
-                   Correct.
-                  </p>
-                )}
-              </Guidance.Dynamic>
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                <p>
+                 We havent checked your answer yet, because we are going to
+                 explore this question further and come back to it later.
+                </p>
+              </Guidance.HeadsUp>
             ),
             onContinue: "nextSection",
           },
@@ -231,7 +221,7 @@ export default page(setup, ({ section }) => ({
         </>
       )}),
       section({
-        //question 3A
+        //question 3A and 3B
         name: "aliceBobQuestion3A",
         body: (m) => (
           <>
@@ -244,70 +234,7 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
           />
-          </>
-          ),
-          guidance: {
-            nextMessage(r) {
-              const measureresponse = r.aliceBobQuestion3A;
-
-              if (measureresponse === undefined) {
-                return null;
-              }
-
-              if (measureresponse === 50) {
-                return "correct";
-              } else if (measureresponse === .5) {
-                return "two";
-              } else if (measureresponse === 1/2) {
-                return "one";
-              } else {
-                return "incorrect";
-              }
-            },
-            messages: {
-              correct: {
-                body: (
-                  <Guidance.Agree>
-                    Correct.
-                  </Guidance.Agree>
-                ),
-                onContinue: "nextSection",
-              },
-              two: {
-                body: (
-                  <Guidance.Agree>
-                    Correct.
-                  </Guidance.Agree>
-                ),
-                onContinue: "nextMessage",
-              },
-              one: {
-                body: (
-                  <Guidance.Agree>
-                   Correct.
-                  </Guidance.Agree>
-                ),
-                onContinue: "nextMessage",
-              },
-              incorrect: {
-                body: (
-                  <Guidance.Disagree>
-                    Try again.
-                  </Guidance.Disagree>
-                ),
-                onContinue: "nextMessage",
-              },
-            },
-          },
-          //feedback of question 3A
-        }),
-
-      section({
-        //question 3B
-      name: "aliceBobQuestion3B",
-      body: (m) => (
-        <>
-          <Decimal
+           <Decimal
           model={m.aliceBobQuestion3B}
           label={
           <Prose>
@@ -316,62 +243,40 @@ export default page(setup, ({ section }) => ({
           }
           />
           </>
-      ),
-      //question 3B feedback
-      guidance: {
-        nextMessage(r) {
-          const measureresponse = r.aliceBobQuestion3B;
+          ),
+          //feedback of question 3A and 3B
+            guidance: {
+              nextMessage(r) {
+                const a = r.aliceBobQuestion3A;
+                const b = r.aliceBobQuestion3B;
+                if (a === 50 && b === 50) {
+                  return "correct";
+                }
 
-          if (measureresponse === undefined) {
-            return null;
-          }
+                return "incorrect";
+              },
+              messages: {
+                correct: {
+                  body: (
+                    <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
+                  ),
+                  onContinue: "nextSection",
+                },
+                incorrect: {
+                  body: (
+                    <Guidance.Disagree>
+                     At least one of your answers is incorrect. Please try again.
+                    </Guidance.Disagree>
+                  ),
+                  onContinue: "nextMessage",
+                },
 
-          if (measureresponse === 4) {
-            return "correct";
-          } else if (measureresponse === 2) {
-            return "two";
-          } else if (measureresponse === 1) {
-            return "one";
-          } else {
-            return "incorrect";
-          }
-        },
-        messages: {
-          correct: {
-            body: (
-              <Guidance.Agree>
-               Correct.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextSection",
-          },
-          two: {
-            body: (
-              <Guidance.Agree>
-                Correct.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextMessage",
-          },
-          one: {
-            body: (
-              <Guidance.Agree>
-                Correct.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextMessage",
-          },
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                Try again.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-        },
-      },
-    }),
+
+              },
+            },
+        }),
+
+
       section({
         //question 3C
         name: "aliceBobQuestion3C",
@@ -398,34 +303,25 @@ export default page(setup, ({ section }) => ({
           />
           </>
       ),
+      //question 3C feedback
       guidance: {
-        nextMessage: () => "dynamicAnswer",
+        nextMessage() {
+          return "answer";
+        },
         messages: {
-          dynamicAnswer: {
-            body: ({ responses }) => (
-              <Guidance.Dynamic
-                status={
-                  responses?.aliceBobQuestion3C?.selected === "yes" ? "agree" : "disagree"
-                }
-              >
-                {responses?.aliceBobQuestion3C?.selected !== "yes" ? (
-                  <p>
-                   Incorrect.
-                    <br />
-                    You are welcome to change your answer above.
-                  </p>
-                ) : (
-                  <p>
-                   Correct.
-                  </p>
-                )}
-              </Guidance.Dynamic>
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                <p>
+                 We havent checked your answer yet, because we are going to
+                 explore this question further and come back to it later.
+                </p>
+              </Guidance.HeadsUp>
             ),
             onContinue: "nextSection",
           },
         },
-      },
-      //question 3C feedback
+      }
     }),
 
     section({
@@ -463,32 +359,23 @@ export default page(setup, ({ section }) => ({
         </>
       ),
       guidance: {
-        nextMessage: () => "dynamicAnswer",
+        nextMessage() {
+          return "answer";
+        },
         messages: {
-          dynamicAnswer: {
-            body: ({ responses }) => (
-              <Guidance.Dynamic
-                status={
-                  responses?.aliceBobQuestion4?.selected === "yes" ? "agree" : "disagree"
-                }
-              >
-                {responses?.aliceBobQuestion4?.selected !== "yes" ? (
-                  <p>
-                   Incorrect.
-                    <br />
-                    You are welcome to change your answer above.
-                  </p>
-                ) : (
-                  <p>
-                   Correct.
-                  </p>
-                )}
-              </Guidance.Dynamic>
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                <p>
+                 We havent checked your answer yet, because we are going to
+                 explore this question further and come back to it later.
+                </p>
+              </Guidance.HeadsUp>
             ),
             onContinue: "nextSection",
           },
         },
-      },
+      }
     }),
 
     section({
