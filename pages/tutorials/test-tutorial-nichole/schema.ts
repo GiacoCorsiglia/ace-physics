@@ -66,7 +66,7 @@ export default s.tutorial({
 ///////////////////////////////////////////////////////////////////////////////
     superpositionvmixedIntro: s.section(),
     aliceBobQuestion1: s.section({
-      messages: ["dynamicAnswer"],
+      messages: ["answer"],
     }),
     aliceBobIntro2: s.section(),
     aliceBobQuestion2A: s.section({

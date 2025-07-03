@@ -62,33 +62,24 @@ export default page(setup, ({ section }) => ({
         </>
       ),
       //feedback on question 1
-      guidance: {
-              nextMessage: () => "dynamicAnswer",
-              messages: {
-                dynamicAnswer: {
-                  body: ({ responses }) => (
-                    <Guidance.Dynamic
-                      status={
-                        responses?.aliceBobQuestion1?.selected === "one" ? "agree" : "disagree"
-                      }
-                    >
-                      {responses?.aliceBobQuestion1?.selected !== "one" ? (
-                        <p>
-                         Incorrect.
-                          <br />
-                          You are welcome to change your answer above.
-                        </p>
-                      ) : (
-                        <p>
-                         Correct.
-                        </p>
-                      )}
-                    </Guidance.Dynamic>
-                  ),
-                  onContinue: "nextSection",
-                },
-              },
-            },
+     guidance: {
+             nextMessage() {
+               return "answer";
+             },
+             messages: {
+               answer: {
+                 body: (
+                   <Guidance.HeadsUp>
+                     <p>
+                      We havent checked your answer yet, because we are going to
+                      explore this question further and come back to it later.
+                     </p>
+                   </Guidance.HeadsUp>
+                 ),
+                 onContinue: "nextSection",
+               },
+             },
+           },
     }),
 
 //question 2 introduction
