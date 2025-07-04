@@ -1,7 +1,9 @@
 import {
+  Guidance,
   M,
   Prose,
-  TextBox
+  TextBox,
+  Toggle
 } from "@/components";
 import { page } from "@/tutorial";
 import setup from "./setup";
@@ -24,97 +26,137 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "morePracticeIntro",
       body: (
-        <Prose> Further exploration </Prose>
+        <Prose> More practice with gates and qubits. </Prose>
       ),
     }),
-
+//question 1
     section({
       name: "wrapup1",
       body: (m) => (
         <>
-        <Prose>
-          Alice and Bob's friend Charlie has also created a black box that outputs
-          a qubit in the superposition state {" "}
-          <M t="{1\over\sqrt{2}} (\ket{0} - \ket{1})" />,
-          one qubit at a time. <br />
-        </Prose>
-          <TextBox
-          model={m.wrapup1}
-          label={
-            <Prose>
+        <Toggle
+            model={m.wrapup1}
+            label={
+              <Prose>
+              Alice and Bob's friend Charlie has also created a black box that outputs
+              a qubit in the superposition state {" "}
+              <M t="{1\over\sqrt{2}} (\ket{0} - \ket{1})" />,
+              one qubit at a time. <br />
               Can you come up with a way to experimentally distinguish Alice, who
               produces {" "}<M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />,
-              and Charlie's qubits from each other? (Assume you can
-              run experiments a large number of times, as in our previous examples.)
+              and Charlie's qubits from each other? <em>(Assume you can
+              run experiments a large number of times, as in our previous
+              examples.)</em>
+            </Prose>
+            }
+            choices={[
+              ["yes", "Yes"],
+              ["no", "No"],
+            ]}
+          />
+          <TextBox
+          model={m.wrapup1Explain}
+          label={
+            <Prose>
               If you can, what is the minimum number of gates needed by Alice
               and/or Charlie? If you cannot, is there a reason why not?
             </Prose>
           }
           />
         </>
-      )
+      ),
+      //question 1 feedback
+       guidance: {
+              nextMessage: () => "dynamicAnswer",
+              messages: {
+                dynamicAnswer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.wrapup1?.selected === "yes" ? "agree" : "disagree"
+                      }
+                    >
+                      {responses?.wrapup1?.selected !== "yes" ? (
+                        <p>
+                        Not the answer we are looking for, check your reasoning again.
+                          <br />
+                          You are welcome to change your answer above.
+                        </p>
+                      ) : (
+                        <p>
+                        We agree with your answer.
+                        </p>
+                      )}
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
     }),
+//question 2
+    section({
+      name: "wrapup2",
+      body: (m) => (
+        <>
+          <Toggle
+          model={m.wrapup2}
+          label={
+            <Prose>
+              Can you perform any gates or measurements to <em>convert</em> Charlie's qubit
+              into Alice's? <br />
 
-     /* guidance: {
-        nextMessage: () => "inverse",
+            </Prose>
+          }
+          choices={[
+            ["yes", "Yes"],
+            ["no", "No"],
+          ]}
+          />
+          <TextBox
+          model={m.wrapup2Explain}
+          label={
+            <Prose>
+              If so, how? If not, why not?  <br />
+            </Prose>
+          }
+          />
+        </>
+      ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          inverse: {
-            body: (s) => (
+          dynamicAnswer: {
+            body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  s.responses?.inverseOfX?.selected === "X"
-                    ? "agree"
-                    : "disagree"
+                  responses?.wrapup2?.selected === "yes" ? "agree" : "disagree"
                 }
               >
-                The operator <M t="?" /> is the <em>inverse</em> of <M t="X" />.
-                If an operator is unitary, it is its own inverse. <M t="X" />,{" "}
-                <M t="Z" />, and <M t="H" /> are unitary, just like many other
-                gates we use in quantum computing.
+                {responses?.wrapup2?.selected !== "yes" ? (
+                  <p>
+                  Not the answer we are looking for, check your reasoning again.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                  We agree with your answer.
+                  </p>
+                )}
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
           },
         },
       },
-      hints: [
-        hint({
-          name: "inverse",
-          label: "Hint?",
-          body: (
-            <>
-              This circuit is supposed to leave the final state equal to the
-              initial state. Think about what <M t="X" /> does to a state. What
-              operator could reverse the action of <M t="X" />?
-            </>
-          ),
-        }),
-      ],
-    }),*/
-
-    section({
-      name: "wrapup2",
-      body: (m) => (
-        <>
-          <TextBox
-          model={m.wrapup2}
-          label={
-            <Prose>
-              Can you perform any gates or measurements to convert Charlie's qubit
-              into Alice's? <br />
-               If so how? If not, why not?
-            </Prose>
-          }
-          />
-        </>
-      )
     }),
 
     section({
       name: "wrapup3",
       body: (m) => (
         <>
-          <TextBox
+          <Toggle
           model={m.wrapup3}
           label={
             <Prose>
@@ -123,38 +165,114 @@ export default page(setup, ({ section, hint }) => ({
              each have a 50/50 coin-toss chance of being {" "}
              <M t="\ket{0}" /> or {" "} <M t="\ket{1}" />)? <br />
              <br />
-               If so how? If not, why not?
+            </Prose>
+          }
+          choices={[
+            ["yes", "Yes"],
+            ["no", "No"],
+          ]}
+          />
+          <TextBox
+          model={m.wrapup3Explain}
+          label={
+            <Prose>
+              If so, how? If not, why not?  <br />
             </Prose>
           }
           />
         </>
-      )
+      ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.wrapup3?.selected === "yes" ? "agree" : "disagree"
+                }
+              >
+                {responses?.wrapup3?.selected !== "yes" ? (
+                  <p>
+                  Not the answer we are looking for, check your reasoning again.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                  We agree with your answer.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
       name: "wrapup4",
       body: (m) => (
         <>
-          <TextBox
+          <Toggle
           model={m.wrapup4}
           label={
             <Prose>
               <em>Thought experiment:</em> Can you perform any gates or measurements to
               convert Bob's qubit into Charlie's?
                <br />
-               If so how? If not, why not?
+            </Prose>
+          }
+          choices={[
+            ["yes", "Yes"],
+            ["no", "No"],
+          ]}
+          />
+          <TextBox
+          model={m.wrapup4Explain}
+          label={
+            <Prose>
+              If so, how? If not, why not?  <br />
             </Prose>
           }
           />
         </>
-      )
+      ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.wrapup4?.selected === "yes" ? "agree" : "disagree"
+                }
+              >
+                {responses?.wrapup4?.selected !== "yes" ? (
+                  <p>
+                  Not the answer we are looking for, check your reasoning again.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                  We agree with your answer.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
       name: "wrapup5",
       body: (m) => (
         <>
-        <TextBox
+        <Toggle
         model={m.wrapup5}
         label={
           <Prose>
@@ -163,14 +281,53 @@ export default page(setup, ({ section, hint }) => ({
             Recall that Charlie's box produces particles
             in the state  {" "}
             <M t="{1\over\sqrt{2}} (\ket{0} - \ket{1})" />.  <br />
+            <br />
             Can you come up with a way to experimentally distinguish Charlie's
             and Dani's qubits?  <br />
-            If so how? If not, why not?
           </Prose>
         }
+        choices={[
+          ["yes", "Yes"],
+          ["no", "No"],
+        ]}
         />
+         <TextBox
+          model={m.wrapup5Explain}
+          label={
+            <Prose>
+              If so, how? If not, why not?  <br />
+            </Prose>
+          }
+          />
         </>
-      )
+      ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.wrapup5?.selected === "yes" ? "agree" : "disagree"
+                }
+              >
+                {responses?.wrapup5?.selected !== "yes" ? (
+                  <p>
+                  Not the answer we are looking for, check your reasoning again.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                  We agree with your answer.
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
   ],
 }));
