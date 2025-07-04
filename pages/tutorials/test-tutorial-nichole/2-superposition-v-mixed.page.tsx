@@ -82,30 +82,23 @@ export default page(setup, ({ section }) => ({
            },
     }),
 
-//question 2 introduction
-
-    section({
-      name: "aliceBobIntro2",
-      body: (m) => (
-        <>
-            <Prose>
-              Alice and Bob are debating how to think about their black boxes. <br />
-              Alice thinks there is something measureably different about their
-              outputs.<br />
-              Bob disagrees, he argues that his black box is experimentally
-              indistinguishable from Alice's, since (after all) both are
-              effectively "50/50, 0 or 1" boxes. <br />
-              Try to decide, Alice and Bob each produce a large number of qubits
-             and measure each qubit to be a 0 or 1. They can only make
-             measurements of 0 or 1. After measuring many qubits:
-            </Prose>
-            </>
-      )}),
       //question 2A and 2B
       section({
         name: "aliceBobQuestion2",
         body: (m) => (
           <>
+          <Prose>  Alice and Bob are debating how to think about their black boxes. <br />
+          <br />
+              Alice thinks there is something measureably different about their
+              outputs.<br />
+              <br />
+              Bob disagrees, he argues that his black box is experimentally
+              indistinguishable from Alice's, since (after all) both are
+              effectively "50/50, 0 or 1" boxes. <br />
+              <br />
+              Try to decide, Alice and Bob each produce a large number of qubits
+             and measure each qubit to be a 0 or 1. They can only make
+             measurements of 0 or 1. After measuring many qubits: </Prose>
              <Decimal
           model={m.aliceBobQuestion2A}
           label={
@@ -122,7 +115,7 @@ export default page(setup, ({ section }) => ({
           </Prose>
           }
         />
-        <Prose faded> Your answer should be a whole number. </Prose>
+        <Prose faded> <em>Your answer should be a whole number.</em> </Prose>
         </>
         ),
         // question 2A and 2B feedback (combined)
@@ -205,12 +198,12 @@ export default page(setup, ({ section }) => ({
       },
     }),
 
-// header for question 3
-    section({
-      name: "aliceBobIntro3",
-      body: (m) => (
-        <>
-        <Prose>
+      section({
+        //question 3A and 3B
+        name: "aliceBobQuestion3A",
+        body: (m) => (
+          <>
+           <Prose>
           The statistical outcome of the previous experiment was the same for both
           (50-50). Bob claims that this shows their black boxes are experimentally
           indistinguishable. Alice wants to do another experiment. <br />
@@ -218,13 +211,6 @@ export default page(setup, ({ section }) => ({
           Alice suggests they each apply a Z gate to their qubits before they
           measure. After many such measurements:
         </Prose>
-        </>
-      )}),
-      section({
-        //question 3A and 3B
-        name: "aliceBobQuestion3A",
-        body: (m) => (
-          <>
           <Decimal
             model={m.aliceBobQuestion3A}
             label={
@@ -242,6 +228,7 @@ export default page(setup, ({ section }) => ({
           </Prose>
           }
           />
+           <Prose faded> <em>Your answer should be a whole number.</em> </Prose>
           </>
           ),
           //feedback of question 3A and 3B
@@ -332,7 +319,7 @@ export default page(setup, ({ section }) => ({
            The statistical outcome is once again the same for both observers.
            Bob believes this confirms their black boxes are experimentally
            indistinguishable. Alice wants to do another experiment.  <br />
-           <br />
+
           </Prose>
 
            <Toggle
@@ -378,12 +365,12 @@ export default page(setup, ({ section }) => ({
       }
     }),
 
-    section({
-      //header of question 5
-      name: "aliceBobQuestion5",
-      body: (m) => (
-        <>
-        <Prose>
+      section({
+        //question 5A and 5B
+        name: "aliceBobQuestion5A",
+        body: (m) => (
+          <>
+           <Prose>
           After all these experiments (the first, where they simply measured,
           then where they applied a Z gate before measuring, and finally where
           they applied an X gate), they found that it was impossible to distinguish
@@ -392,13 +379,6 @@ export default page(setup, ({ section }) => ({
           This time, they apply an H gate to their qubits before they measure.
           <br />
         </Prose>
-        </>
-      )}),
-      section({
-        //question 5A and 5B
-        name: "aliceBobQuestion5A",
-        body: (m) => (
-          <>
         <Decimal
         model={m.aliceBobQuestion5A}
         label={
@@ -415,6 +395,7 @@ export default page(setup, ({ section }) => ({
           </Prose>
         }
         />
+         <Prose faded> <em>Your answer should be a whole number.</em> </Prose>
         </>
         ),
       //feedback for question 5A and 5B
@@ -486,23 +467,32 @@ export default page(setup, ({ section }) => ({
       ),
       //feedback for question 5C
       guidance: {
-        nextMessage() {
-          return "answer";
-        },
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
-            body: (
-              <Guidance.HeadsUp>
-                <p>
-                 We havent checked your answer yet, because we are going to
-                 explore this question further and come back to it later.
-                </p>
-              </Guidance.HeadsUp>
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceBobQuestion5C?.selected === "yes" ? "agree" : "disagree"
+                }
+              >
+                {responses?.aliceBobQuestion5C?.selected !== "yes" ? (
+                  <p>
+                  Not the answer we are looking for, check your reasoning again.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                  We agree with your answer.
+                  </p>
+                )}
+              </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
           },
         },
-      }
+      },
     }),
     section({
       name: "superpositionvmixedConclusion",
