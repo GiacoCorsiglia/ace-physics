@@ -72,9 +72,10 @@ export default posttest(setup, ({ section }) => ({
         <>
          <Prose>
               <strong>Question 3:</strong> I send you a string of qubits, one at
-              a time. Each qubit is either in state 33 or in state 33. I use an
-              ideal random coin toss to decide what to send for each qubit, with
-              exactly 50/50 probabilty every time. <br />
+              a time. Each qubit is either in state {" "}<M t="\ket{0}" /> or in
+              state {" "}<M t="\ket{1}" />. I use an ideal random coin toss to
+              decide what to send for each qubit, with exactly 50/50 probabilty
+              every time. <br />
 
             </Prose>
         <Toggle
@@ -84,7 +85,7 @@ export default posttest(setup, ({ section }) => ({
               Is the statement below <strong>true</strong> or <strong>false</strong>?
               (choose one) <br />
               <br />
-              The qubits you recieve are each described by the quantum state
+              The qubits you recieve are each described by the quantum state <br />
               {" "}<M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />.
             </Prose>
           }
