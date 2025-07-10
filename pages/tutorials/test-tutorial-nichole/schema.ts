@@ -7,7 +7,7 @@ export default s.tutorial({
     wrapup: s.page(),
   },
   pretest: {
-    designCircuit1chooseone: s.chooseOne([
+    warmupQuestion1: s.chooseOne([
       "one",
       "two",
       "more",
@@ -15,22 +15,22 @@ export default s.tutorial({
       "unsure",
     ]),
 
-    designCircuit1explain: s.string(),
-    designCircuit2chooseone: s.chooseOne([
+    warmupQuestion1Explain: s.string(),
+    warmupQuestion2: s.chooseOne([
       "one",
       "two",
       "more",
       "impossible",
       "unsure",
     ]),
-    designCircuit2explain: s.string(),
-    outputOfCircuit: s.string(),
-    designCircuit3boolean: s.chooseOne([
+    warmupQuestion2Explain: s.string(),
+    //outputOfCircuit: s.string(),
+    warmupQuestion3: s.chooseOne([
       "yes",
       "no",
     ]),
 
-    designCircuit3explain: s.string()
+    warmupQuestion3Explain: s.string()
   },
   ////////////////////////////////////////////////////////////////////
   posttest: {
@@ -215,6 +215,7 @@ export default s.tutorial({
   ///////////////////////////////////////////////////////////////////
   hints: {
     gatesHintQuestionC: s.hint(),
+    distinguishableHint: s.hint(),
     finalfeedback: s.hint(),
     inverse: s.hint(),
   },

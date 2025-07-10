@@ -28,7 +28,7 @@ export default pretest(setup, ({ section }) => ({
             How many gates do you need? Select one answer:{" "}
           </Prose>
           <ChooseOne // Another option is 'Toggle'
-            model={m.designCircuit1chooseone}
+            model={m.warmupQuestion1}
             choices={[
               ["one", "I only need 1 gate"],
               ["two", "I need 2 gates"],
@@ -38,7 +38,7 @@ export default pretest(setup, ({ section }) => ({
             ]}
           />
           <TextBox
-            model={m.designCircuit1explain}
+            model={m.warmupQuestion1Explain}
             label={
               <Prose>
                 In the space below, explain your answer above. (If you came up
@@ -64,7 +64,7 @@ export default pretest(setup, ({ section }) => ({
             How many gates do you need? Select one answer:{" "}
           </Prose>
           <ChooseOne // Another option is 'Toggle'
-            model={m.designCircuit2chooseone}
+            model={m.warmupQuestion2}
             choices={[
               ["one", "I only need 1 gate"],
               ["two", "I need 2 gates"],
@@ -74,7 +74,7 @@ export default pretest(setup, ({ section }) => ({
             ]}
           />
           <TextBox
-            model={m.designCircuit2explain}
+            model={m.warmupQuestion2Explain}
             label={
               <Prose>
                 In the space below, explain your answer above. (If you came up
@@ -90,7 +90,7 @@ export default pretest(setup, ({ section }) => ({
     body: (m) => (
       <>
         <Toggle
-          model={m.designCircuit3boolean}
+          model={m.warmupQuestion3}
           label={
             <Prose>
              <strong> Question 3: </strong>I send you a string of qubits, one at a time. Each qubit is either in
@@ -110,7 +110,7 @@ export default pretest(setup, ({ section }) => ({
         />
 
     <TextBox
-    model= {m.designCircuit3explain}
+    model= {m.warmupQuestion3Explain}
     label={
       <Prose>
         Very briefly, explain.
