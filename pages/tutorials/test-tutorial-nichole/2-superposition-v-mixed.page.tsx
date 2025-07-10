@@ -23,6 +23,7 @@ export default page(setup, ({ section }) => ({
     ),
   },
   sections: [
+
     //question 1
     section({
       name: "aliceBobQuestion1",
@@ -44,7 +45,7 @@ export default page(setup, ({ section }) => ({
             <ChooseOne
             model={m.aliceBobQuestion1}
             choices={[
-              ["one", "Identical (and therefore, experimentally indistinguishable"],
+              ["one", "Identical (and therefore, experimentally indistinguishable)"],
               ["two", "Different, but experimentally indistinguishable"],
               ["more", "Different, and can be experimentally distinguished"],
             ]}
@@ -61,7 +62,7 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
-      //feedback on question 1
+      // informative feedback on question 1
      guidance: {
              nextMessage() {
                return "answer";
