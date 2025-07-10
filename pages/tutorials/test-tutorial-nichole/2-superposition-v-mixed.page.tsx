@@ -10,7 +10,7 @@ import {
 import { page } from "@/tutorial";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "superpositionvmixed",
   label: "Superposition versus mixed states",
   answers: "provided",
@@ -62,6 +62,19 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "distinguishableHint",
+          label: "Distinguishable vs. indistinguishable",
+          body: (
+            <Prose>
+              Two qubits are experimentally distinguishable if they can be
+              differentiated by a measurement. If they are indistinguishable,
+              they cannot be differentiated by a measurement. <br/>
+            </Prose>
+          ),
+        }),
+      ],
       // informative feedback on question 1
      guidance: {
              nextMessage() {
