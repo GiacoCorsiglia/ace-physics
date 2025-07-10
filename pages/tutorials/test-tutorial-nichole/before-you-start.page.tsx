@@ -18,7 +18,7 @@ export default pretest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            You have a supply of X, Z, and H gates. <br />
+           <strong> Question 1: </strong> You have a supply of X, Z, and H gates. <br />
             On a piece of paper, try to design a simple circuit with one or two
             gates that has an input of a single qubit in state{" "}
             <M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />, <br />
@@ -55,11 +55,11 @@ export default pretest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            You have a supply of X, Z, and H gates. <br />
+           <strong> Question 2: </strong>You have a supply of X, Z, and H gates. <br />
             On a piece of paper, try to design a simple circuit with one or two
             gates that has an input of a single qubit in state{" "}
             <M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />, <br />
-            that will yield a final measurement of 1 with 100% certainty <br />
+            that will yield a final measurement of 1 with 100% certainty. <br />
             <br />
             How many gates do you need? Select one answer:{" "}
           </Prose>
@@ -93,7 +93,7 @@ export default pretest(setup, ({ section }) => ({
           model={m.designCircuit3boolean}
           label={
             <Prose>
-             I send you a string of qubits, one at a time. Each qubit is either in
+             <strong> Question 3: </strong>I send you a string of qubits, one at a time. Each qubit is either in
               state {" "} <M t="\ket{0}" /> or in state {" "} <M t="\ket{1}" />.
               I use an ideal random coin toss to decide what
              to send for each qubit, with exactly 50/50 probabilty every time. <br />

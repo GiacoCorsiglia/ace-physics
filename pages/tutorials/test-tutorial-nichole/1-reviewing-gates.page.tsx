@@ -37,7 +37,7 @@ export default page(setup, ({ section, hint }) => ({
             model={m.outputcircuit1}
             label={
               <Prose>
-                What is the output of the following circuit? (Try to do this
+               What is the output of the following circuit? (Try to do this
                 without multiplying matrices.)
                 <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{H} & \gate{Z} & \qw" />
               </Prose>
@@ -91,7 +91,7 @@ export default page(setup, ({ section, hint }) => ({
             model={m.outputcircuit2}
             label={
               <Prose>
-                What is the output of the following circuit? (Try to do this
+               What is the output of the following circuit? (Try to do this
                 without multiplying matrices.)
                 <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{Z} & \gate{H} & \qw" />
               </Prose>
@@ -145,7 +145,7 @@ export default page(setup, ({ section, hint }) => ({
             model={m.doHZCommute}
             label={
               <Prose>
-                Using your answers above, does <M t="H" />{" "}
+               Using your answers above, does <M t="H" />{" "}
                 commute with <M t="Z" /> ?
               </Prose>
             }
