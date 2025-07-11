@@ -30,7 +30,7 @@ export default posttest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <TextBox
-            model={m.postActivity1}
+            model={m.postActivityQuestion1}
             label={
               <Prose>
                <strong>Question 1:</strong> You have a supply of X, Z, and H gates. Design a
@@ -50,7 +50,7 @@ export default posttest(setup, ({ section }) => ({
       body: (m) => (
         <>
           <TextBox
-            model={m.postActivity2}
+            model={m.postActivityQuestion2}
             label={
               <Prose>
                <strong>Question 2:</strong> You have a supply of X, Z, and H gates. Design a
@@ -79,7 +79,7 @@ export default posttest(setup, ({ section }) => ({
 
             </Prose>
         <Toggle
-          model={m.postActivity3Boolean}
+          model={m.postActivityQuestion3}
           label={
             <Prose>
               Is the statement below <strong>true</strong> or <strong>false</strong>?
@@ -96,7 +96,7 @@ export default posttest(setup, ({ section }) => ({
           ]}
         />
         <TextBox
-        model={m.postActivity4}
+        model={m.postActivityQuestion3Explain}
         label= {<Prose>
         Very briefly, explain.
         </Prose>

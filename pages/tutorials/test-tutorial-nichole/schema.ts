@@ -35,14 +35,13 @@ export default s.tutorial({
   ////////////////////////////////////////////////////////////////////
   posttest: {
 
-    postActivity1: s.string(),
-    postActivity2: s.string(),
-    postActivity3Boolean: s.chooseOne([
+    postActivityQuestion1: s.string(),
+    postActivityQuestion2: s.string(),
+    postActivityQuestion3: s.chooseOne([
       "yes",
       "no",
     ]),
-
-    postActivity4: s.string(),
+    postActivityQuestion3Explain: s.string(),
   },
   /////////////////////////////////////////////////////////////////////////////
   sections: {
@@ -107,6 +106,7 @@ export default s.tutorial({
       messages: ["dynamicAnswer"],
     }),
     superpositionvmixedConclusion: s.section(),
+
 ///////////////////////////////////////////////////////////////////////////////
    // wrapupIntro: s.section(),
     furtherQuestion1:  s.section({
@@ -226,16 +226,16 @@ furtherQuestion5: s.chooseOne(["yes","no"]),
 furtherQuestion5Explain: s.string(),
 //////////////////////////////////////////////////////////////////////////////
 
-    doesZSelfCommute: s.chooseOne(["yes", "no"]),
-    circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
+   // doesZSelfCommute: s.chooseOne(["yes", "no"]),
+   // circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
 
-    outputXZ1: s.string(),
-    outputZX1: s.string(),
-    matrixOrEquationApproach: s.string(),
-    inverseOfX: s.chooseOne(["X", "Z", "H", "I"]),
+   // outputXZ1: s.string(),
+   // outputZX1: s.string(),
+    //matrixOrEquationApproach: s.string(),
+    //inverseOfX: s.chooseOne(["X", "Z", "H", "I"]),
 
-    outputZHPlus: s.string(),
-    outputHZPlus: s.string(),
+    //outputZHPlus: s.string(),
+   // outputHZPlus: s.string(),
   },
   ///////////////////////////////////////////////////////////////////
   hints: {
