@@ -30,11 +30,11 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "outputcircuit1",
+      name: "gatesQuestion1",
       body: (m) => (
         <>
           <ChooseOne
-            model={m.outputcircuit1}
+            model={m.gatesQuestion1}
             label={
               <Prose>
                What is the output of the following circuit? (Try to do this
@@ -61,10 +61,10 @@ export default page(setup, ({ section, hint }) => ({
                   body: ({ responses }) => (
                     <Guidance.Dynamic
                       status={
-                        responses?.outputcircuit1?.selected === "0" ? "agree" : "disagree"
+                        responses?.gatesQuestion1?.selected === "0" ? "agree" : "disagree"
                       }
                     >
-                      {responses?.outputcircuit1?.selected !== "0" ? (
+                      {responses?.gatesQuestion1?.selected !== "0" ? (
                         <p>
                           Incorrect.
                           <br />
@@ -72,7 +72,7 @@ export default page(setup, ({ section, hint }) => ({
                         </p>
                       ) : (
                         <p>
-                          Correct.
+                          We agree with your answer.
                         </p>
                       )}
                     </Guidance.Dynamic>
@@ -84,11 +84,11 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "outputcircuit2",
+      name: "gatesQuestion2",
       body: (m) => (
         <>
           <ChooseOne
-            model={m.outputcircuit2}
+            model={m.gatesQuestion2}
             label={
               <Prose>
                What is the output of the following circuit? (Try to do this
@@ -115,10 +115,10 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.outputcircuit2?.selected === "1" ? "agree" : "disagree"
+                  responses?.gatesQuestion2?.selected === "1" ? "agree" : "disagree"
                 }
               >
-                {responses?.outputcircuit2?.selected !== "1" ? (
+                {responses?.gatesQuestion2?.selected !== "1" ? (
                   <p>
                     Incorrect.
                     <br />
@@ -126,7 +126,7 @@ export default page(setup, ({ section, hint }) => ({
                   </p>
                 ) : (
                   <p>
-                    Correct.
+                    We agree with your answer.
                   </p>
                 )}
               </Guidance.Dynamic>
@@ -138,11 +138,11 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "doHZCommute",
+      name: "gatesQuestion3",
       body: (m) => (
         <>
           <Toggle
-            model={m.doHZCommute}
+            model={m.gatesQuestion3}
             label={
               <Prose>
                Using your answers above, does <M t="H" />{" "}
@@ -155,7 +155,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
           <TextBox
-          model={m.doHZCommuteExplain}
+          model={m.gatesQuestion3Explain}
           label={
             <Prose>
               Briefly, explain:
@@ -166,7 +166,7 @@ export default page(setup, ({ section, hint }) => ({
       ),
       hints: [
         hint({
-          name: "gatesHintQuestionC",
+          name: "gatesHintQuestion3",
           label: "Commute?",
           body: (
             <Prose>
@@ -185,10 +185,10 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.doHZCommute?.selected === "no" ? "agree" : "disagree"
+                  responses?.gatesQuestion3?.selected === "no" ? "agree" : "disagree"
                 }
               >
-                {responses?.doHZCommute?.selected !== "no" ? (
+                {responses?.gatesQuestion3?.selected !== "no" ? (
                   <p>
                    Incorrect.
                     <br />
@@ -196,7 +196,7 @@ export default page(setup, ({ section, hint }) => ({
                   </p>
                 ) : (
                   <p>
-                   Correct.
+                  We agree with your answer.
                   </p>
                 )}
               </Guidance.Dynamic>

@@ -47,22 +47,22 @@ export default s.tutorial({
   /////////////////////////////////////////////////////////////////////////////
   sections: {
     reviewingGatesIntro: s.section(),
-    output1: s.section(),
-    output2: s.section(),
-     outputcircuit1: s.section({
+   // output1: s.section(),
+    //output2: s.section(),
+     gatesQuestion1: s.section({
           messages: ["dynamicAnswer"],
         }),
 
-    outputcircuit2: s.section({
+    gatesQuestion2: s.section({
       messages: ["dynamicAnswer"],
     }),
 
-    doHZCommute: s.section({
+    gatesQuestion3: s.section({
       messages: ["dynamicAnswer"],
     }),
 
-    doesZSelfCommute: s.section(),
-    circuitDiagramOrder: s.section({ messages: ["answer"] }),
+    //doesZSelfCommute: s.section(),
+   // circuitDiagramOrder: s.section({ messages: ["answer"] }),
 ///////////////////////////////////////////////////////////////////////////////
     superpositionvmixedIntro: s.section(),
     aliceBobQuestion1: s.section({
@@ -144,9 +144,9 @@ export default s.tutorial({
   },
   //////////////////////////////////////////////////////////////////////////
   responses: {
-    output1: s.string(),
-    output2: s.string(),
-    outputcircuit1: s.chooseOne([
+    //output1: s.string(),
+   // output2: s.string(),
+    gatesQuestion1: s.chooseOne([
       "0",
       "minus0",
       "1",
@@ -155,7 +155,7 @@ export default s.tutorial({
       "minus",
       "other",
     ]),
-    outputcircuit2: s.chooseOne([
+    gatesQuestion2: s.chooseOne([
       "0",
       "minus0",
       "1",
@@ -164,10 +164,11 @@ export default s.tutorial({
       "minus",
       "other",
     ]),
-    doHZCommute: s.chooseOne(["yes", "no"]),
+    gatesQuestion3: s.chooseOne(["yes", "no"]),
 
-    doHZCommuteExplain: s.string(),
+    gatesQuestion3Explain: s.string(),
 
+//////////////////////////////////////////////////////////////////
     aliceBobQuestion1: s.chooseOne([
       "one",
       "two",
@@ -214,7 +215,7 @@ export default s.tutorial({
   },
   ///////////////////////////////////////////////////////////////////
   hints: {
-    gatesHintQuestionC: s.hint(),
+    gatesHintQuestion3: s.hint(),
     distinguishableHint: s.hint(),
     finalfeedback: s.hint(),
     inverse: s.hint(),
