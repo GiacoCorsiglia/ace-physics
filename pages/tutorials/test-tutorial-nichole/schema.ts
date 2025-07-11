@@ -64,11 +64,11 @@ export default s.tutorial({
     //doesZSelfCommute: s.section(),
    // circuitDiagramOrder: s.section({ messages: ["answer"] }),
 ///////////////////////////////////////////////////////////////////////////////
-    superpositionvmixedIntro: s.section(),
+    superpositionvmixed: s.section(),
     aliceBobQuestion1: s.section({
       messages: ["answer"],
     }),
-    aliceBobIntro2: s.section(),
+    //aliceBobIntro2: s.section(),
     aliceBobQuestion2: s.section({
       messages: ["correct", "incorrect"],
     }),
@@ -83,7 +83,7 @@ export default s.tutorial({
     aliceBobQuestion2C: s.section({
       messages: ["answer"],
     }),
-    aliceBobIntro3: s.section(),
+   // aliceBobIntro3: s.section(),
     aliceBobQuestion3A: s.section({
       messages: ["correct", "incorrect"],
     }),
@@ -96,7 +96,7 @@ export default s.tutorial({
     aliceBobQuestion4: s.section({
       messages: ["answer"],
     }),
-    aliceBobQuestion5: s.section(),
+   // aliceBobQuestion5: s.section(),
     aliceBobQuestion5A: s.section({
       messages: ["correct", "incorrect"],
     }),
@@ -108,20 +108,20 @@ export default s.tutorial({
     }),
     superpositionvmixedConclusion: s.section(),
 ///////////////////////////////////////////////////////////////////////////////
-    wrapupIntro: s.section(),
-    wrapup1:  s.section({
+   // wrapupIntro: s.section(),
+    furtherQuestion1:  s.section({
       messages: ["dynamicAnswer"],
     }),
-    wrapup2:  s.section({
+    furtherQuestion2:  s.section({
       messages: ["dynamicAnswer"],
     }),
-    wrapup3:  s.section({
+    furtherQuestion3:  s.section({
       messages: ["dynamicAnswer"],
     }),
-    wrapup4:  s.section({
+    furtherQuestion4:  s.section({
       messages: ["dynamicAnswer"],
     }),
-    wrapup5:  s.section({
+    furtherQuestion5:  s.section({
       messages: ["dynamicAnswer"],
     }),
 ///////////////////////////////////////////////////////////////////////////////
@@ -170,36 +170,60 @@ export default s.tutorial({
 
 //////////////////////////////////////////////////////////////////
     aliceBobQuestion1: s.chooseOne([
-      "one",
+     "one",
       "two",
-      "more",
-    ]),
+      "more",]),
+
     aliceBob1Explain: s.string(),
+
     aliceBobQuestion2A: s.number(),
+
     aliceBobQuestion2B: s.number(),
+
     aliceBobQuestion2C: s.chooseOne(["yes","no"]),
+
     aliceBobQuestion2Cexplain: s.string(),
+
     aliceBobQuestion3A: s.number(),
+
     aliceBobQuestion3B: s.number(),
+
     aliceBobQuestion3C: s.chooseOne(["yes","no"]),
+
     aliceBobQuestion3Cexplain: s.string(),
+
     aliceBobQuestion4: s.chooseOne(["yes","no"]),
+
     aliceBobQuestion4explain: s.string(),
+
     aliceBobQuestion5A: s.number(),
+
     aliceBobQuestion5B: s.number(),
+
     aliceBobQuestion5C: s.chooseOne(["yes","no"]),
+
     aliceBobQuestion5Cexplain: s.string(),
+
 ///////////////////////////////////////////////////////////////////////////////
-    wrapup1: s.chooseOne(["yes","no"]),
-    wrapup1Explain: s.string(),
-    wrapup2: s.chooseOne(["yes","no"]),
-    wrapup2Explain: s.string(),
-    wrapup3: s.chooseOne(["yes","no"]),
-    wrapup3Explain: s.string(),
-    wrapup4: s.chooseOne(["yes","no"]),
-    wrapup4Explain: s.string(),
-    wrapup5: s.chooseOne(["yes","no"]),
-    wrapup5Explain: s.string(),
+furtherQuestion1: s.chooseOne(["yes","no"]),
+
+furtherQuestion1Explain: s.string(),
+
+furtherQuestion2: s.chooseOne(["yes","no"]),
+
+furtherQuestion2Explain: s.string(),
+
+furtherQuestion3: s.chooseOne(["yes","no"]),
+
+furtherQuestion3Explain: s.string(),
+
+furtherQuestion4: s.chooseOne(["yes","no"]),
+
+furtherQuestion4Explain: s.string(),
+
+furtherQuestion5: s.chooseOne(["yes","no"]),
+
+furtherQuestion5Explain: s.string(),
 //////////////////////////////////////////////////////////////////////////////
 
     doesZSelfCommute: s.chooseOne(["yes", "no"]),

@@ -31,11 +31,11 @@ export default page(setup, ({ section, hint }) => ({
     }),
 //question 1
     section({
-      name: "wrapup1",
+      name: "furtherQuestion1",
       body: (m) => (
         <>
         <Toggle
-            model={m.wrapup1}
+            model={m.furtherQuestion1}
             label={
               <Prose>
               Alice and Bob's friend Charlie has also created a black box that outputs
@@ -55,7 +55,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
           <TextBox
-          model={m.wrapup1Explain}
+          model={m.furtherQuestion1Explain}
           label={
             <Prose>
               If you can, what is the minimum number of gates needed by Alice
@@ -73,10 +73,10 @@ export default page(setup, ({ section, hint }) => ({
                   body: ({ responses }) => (
                     <Guidance.Dynamic
                       status={
-                        responses?.wrapup1?.selected === "yes" ? "agree" : "disagree"
+                        responses?.furtherQuestion1?.selected === "yes" ? "agree" : "disagree"
                       }
                     >
-                      {responses?.wrapup1?.selected !== "yes" ? (
+                      {responses?.furtherQuestion1?.selected !== "yes" ? (
                         <p>
                         Not the answer we are looking for, check your reasoning again.
                           <br />
@@ -96,11 +96,11 @@ export default page(setup, ({ section, hint }) => ({
     }),
 //question 2
     section({
-      name: "wrapup2",
+      name: "furtherQuestion2",
       body: (m) => (
         <>
           <Toggle
-          model={m.wrapup2}
+          model={m.furtherQuestion2}
           label={
             <Prose>
               Can you perform any gates or measurements to <em>convert</em> Charlie's qubit
@@ -114,7 +114,7 @@ export default page(setup, ({ section, hint }) => ({
           ]}
           />
           <TextBox
-          model={m.wrapup2Explain}
+          model={m.furtherQuestion2Explain}
           label={
             <Prose>
               If so, how? If not, why not?  <br />
@@ -130,10 +130,10 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.wrapup2?.selected === "yes" ? "agree" : "disagree"
+                  responses?.furtherQuestion2?.selected === "yes" ? "agree" : "disagree"
                 }
               >
-                {responses?.wrapup2?.selected !== "yes" ? (
+                {responses?.furtherQuestion2?.selected !== "yes" ? (
                   <p>
                   Not the answer we are looking for, check your reasoning again.
                     <br />
@@ -153,11 +153,11 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "wrapup3",
+      name: "furtherQuestion3",
       body: (m) => (
         <>
           <Toggle
-          model={m.wrapup3}
+          model={m.furtherQuestion3}
           label={
             <Prose>
              <em>Thought experiment:</em> Is it possible to perform any gates and/or
@@ -173,7 +173,7 @@ export default page(setup, ({ section, hint }) => ({
           ]}
           />
           <TextBox
-          model={m.wrapup3Explain}
+          model={m.furtherQuestion3Explain}
           label={
             <Prose>
               If so, how? If not, why not?  <br />
@@ -189,10 +189,10 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.wrapup3?.selected === "yes" ? "agree" : "disagree"
+                  responses?.furtherQuestion3?.selected === "yes" ? "agree" : "disagree"
                 }
               >
-                {responses?.wrapup3?.selected !== "yes" ? (
+                {responses?.furtherQuestion3?.selected !== "yes" ? (
                   <p>
                   Not the answer we are looking for, check your reasoning again.
                     <br />
@@ -212,11 +212,11 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "wrapup4",
+      name: "furtherQuestion4",
       body: (m) => (
         <>
           <Toggle
-          model={m.wrapup4}
+          model={m.furtherQuestion4}
           label={
             <Prose>
               <em>Thought experiment:</em> Can you perform any gates or measurements to
@@ -230,7 +230,7 @@ export default page(setup, ({ section, hint }) => ({
           ]}
           />
           <TextBox
-          model={m.wrapup4Explain}
+          model={m.furtherQuestion4Explain}
           label={
             <Prose>
               If so, how? If not, why not?  <br />
@@ -246,10 +246,10 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.wrapup4?.selected === "yes" ? "agree" : "disagree"
+                  responses?.furtherQuestion4?.selected === "yes" ? "agree" : "disagree"
                 }
               >
-                {responses?.wrapup4?.selected !== "yes" ? (
+                {responses?.furtherQuestion4?.selected !== "yes" ? (
                   <p>
                   Not the answer we are looking for, check your reasoning again.
                     <br />
@@ -269,11 +269,11 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
     section({
-      name: "wrapup5",
+      name: "furtherQuestion5",
       body: (m) => (
         <>
         <Toggle
-        model={m.wrapup5}
+        model={m.furtherQuestion5}
         label={
           <Prose>
             Dani has yet another black box that outputs qubits in the
@@ -292,7 +292,7 @@ export default page(setup, ({ section, hint }) => ({
         ]}
         />
          <TextBox
-          model={m.wrapup5Explain}
+          model={m.furtherQuestion5Explain}
           label={
             <Prose>
               If so, how? If not, why not?  <br />
@@ -308,10 +308,10 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.wrapup5?.selected === "yes" ? "agree" : "disagree"
+                  responses?.furtherQuestion5?.selected === "yes" ? "agree" : "disagree"
                 }
               >
-                {responses?.wrapup5?.selected !== "yes" ? (
+                {responses?.furtherQuestion5?.selected !== "yes" ? (
                   <p>
                   Not the answer we are looking for, check your reasoning again.
                     <br />
