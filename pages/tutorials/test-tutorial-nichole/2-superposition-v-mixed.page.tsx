@@ -62,6 +62,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      // defintion of distinguishable vs. indistinguishable
       hints: [
         hint({
           name: "distinguishableHint",
@@ -132,7 +133,7 @@ export default page(setup, ({ section, hint }) => ({
         <Prose faded> <em>Your answer should be a whole number.</em> </Prose>
         </>
         ),
-        // question 2A and 2B feedback (combined)
+        // question 2A and 2B dual feedback
         guidance: {
           nextMessage(r) {
             const a = r.aliceBobQuestion2A;
@@ -163,7 +164,7 @@ export default page(setup, ({ section, hint }) => ({
           },
         },
       }),
-        //question 2C
+        //question 2C toggle and text box
           section({
             name: "aliceBobQuestion2C",
             body: (m) => (
@@ -191,7 +192,7 @@ export default page(setup, ({ section, hint }) => ({
         />
         </>
       ),
-      //question 2C feedback
+      //question 2C feedback on toggle question
       guidance: {
         nextMessage() {
           return "answer";
@@ -213,7 +214,7 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
       section({
-        //question 3A and 3B
+        //question 3A and 3B numerical value input
         name: "aliceBobQuestion3A",
         body: (m) => (
           <>
@@ -245,7 +246,7 @@ export default page(setup, ({ section, hint }) => ({
            <Prose faded> <em>Your answer should be a whole number.</em> </Prose>
           </>
           ),
-          //feedback of question 3A and 3B
+          // dual feedback of question 3A and 3B
             guidance: {
               nextMessage(r) {
                 const a = r.aliceBobQuestion3A;
@@ -279,7 +280,7 @@ export default page(setup, ({ section, hint }) => ({
 
 
       section({
-        //question 3C
+        //question 3C toggle and text box
         name: "aliceBobQuestion3C",
         body: (m) => (
           <>
@@ -304,7 +305,7 @@ export default page(setup, ({ section, hint }) => ({
           />
           </>
       ),
-      //question 3C feedback
+      //question 3C feedback on toggle question
       guidance: {
         nextMessage() {
           return "answer";
@@ -324,7 +325,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       }
     }),
-
+    // question 4 toggle and text box
     section({
       name: "aliceBobQuestion4",
       body: (m) => (
@@ -359,6 +360,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      // informative feedback for question 4 toggle
       guidance: {
         nextMessage() {
           return "answer";
@@ -380,7 +382,7 @@ export default page(setup, ({ section, hint }) => ({
     }),
 
       section({
-        //question 5A and 5B
+        //question 5A and 5B numerical value input
         name: "aliceBobQuestion5A",
         body: (m) => (
           <>
@@ -412,7 +414,7 @@ export default page(setup, ({ section, hint }) => ({
          <Prose faded> <em>Your answer should be a whole number.</em> </Prose>
         </>
         ),
-      //feedback for question 5A and 5B
+      //dual feedback for question 5A and 5B
       guidance: {
         nextMessage(r) {
           const a = r.aliceBobQuestion5A;
@@ -445,7 +447,7 @@ export default page(setup, ({ section, hint }) => ({
       }),
 
           section({
-            //question 5C
+            //question 5C toggle and text box
             name: "aliceBobQuestion5C",
             body: (m) => (
               <>
@@ -479,7 +481,7 @@ export default page(setup, ({ section, hint }) => ({
         />
         </>
       ),
-      //feedback for question 5C
+      //feedback for question 5C toggle question
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -508,6 +510,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
+    //concluding statement
     section({
       name: "superpositionvmixedConclusion",
       body: (m) => (

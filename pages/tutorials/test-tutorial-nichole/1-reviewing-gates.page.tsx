@@ -28,7 +28,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
-
+// question 1
     section({
       name: "gatesQuestion1",
       body: (m) => (
@@ -54,6 +54,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      // feedback for question 1
        guidance: {
               nextMessage: () => "dynamicAnswer",
               messages: {
@@ -82,7 +83,7 @@ export default page(setup, ({ section, hint }) => ({
               },
             },
     }),
-
+// question 2
     section({
       name: "gatesQuestion2",
       body: (m) => (
@@ -108,6 +109,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      //feedback for question 2
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -136,7 +138,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-
+//question 3 toggle and text box
     section({
       name: "gatesQuestion3",
       body: (m) => (
@@ -164,6 +166,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      //definition of commuting for question 3
       hints: [
         hint({
           name: "gatesHintQuestion3",
@@ -177,7 +180,7 @@ export default page(setup, ({ section, hint }) => ({
           ),
         }),
       ],
-
+//feedback for toggle question 3
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {

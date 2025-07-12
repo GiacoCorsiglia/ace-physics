@@ -6,6 +6,7 @@ export default s.tutorial({
     superpositionvmixed: s.page(),
     wrapup: s.page(),
   },
+  ////////////////////////before you start page////////////////////////////
   pretest: {
     warmupQuestion1: s.chooseOne([
       "one",
@@ -32,19 +33,23 @@ export default s.tutorial({
 
     warmupQuestion3Explain: s.string()
   },
-  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////review page///////////////////////////////////////
   posttest: {
 
     postActivityQuestion1: s.string(),
+
     postActivityQuestion2: s.string(),
+
     postActivityQuestion3: s.chooseOne([
       "yes",
       "no",
     ]),
     postActivityQuestion3Explain: s.string(),
   },
-  /////////////////////////////////////////////////////////////////////////////
+
+  /////////////////////////list of sections///////////////////////////////
   sections: {
+    //////////////////////reviewing gates page///////////////////////////
     reviewingGatesIntro: s.section(),
    // output1: s.section(),
     //output2: s.section(),
@@ -62,23 +67,26 @@ export default s.tutorial({
 
     //doesZSelfCommute: s.section(),
    // circuitDiagramOrder: s.section({ messages: ["answer"] }),
-///////////////////////////////////////////////////////////////////////////////
+//////////////////////superpositions vs mixed page /////////////////////////////
+
     superpositionvmixed: s.section(),
+
     aliceBobQuestion1: s.section({
       messages: ["answer"],
     }),
     //aliceBobIntro2: s.section(),
+
     aliceBobQuestion2: s.section({
       messages: ["correct", "incorrect"],
     }),
     aliceBobQuestion2A: s.section({
       messages: ["correct", "incorrect"],
     }
-),
+    ),
     aliceBobQuestion2B: s.section({
       messages: ["correct", "incorrect"],
     }
-),
+    ),
     aliceBobQuestion2C: s.section({
       messages: ["answer"],
     }),
@@ -107,7 +115,7 @@ export default s.tutorial({
     }),
     superpositionvmixedConclusion: s.section(),
 
-///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////wrapup page//////////////////////////////////////
    // wrapupIntro: s.section(),
     furtherQuestion1:  s.section({
       messages: ["dynamicAnswer"],
@@ -141,11 +149,10 @@ export default s.tutorial({
     doXAndZCommute: s.section({
       messages: ["answer"],
     }),
-  },
-  //////////////////////////////////////////////////////////////////////////
-  responses: {
-    //output1: s.string(),
-   // output2: s.string(),
+  },/////////////////responses and hints of all pages///////////////////////
+
+    responses: {
+    ///////////////////reviewing gates responses/////////////////////////
     gatesQuestion1: s.chooseOne([
       "0",
       "minus0",
@@ -168,7 +175,7 @@ export default s.tutorial({
 
     gatesQuestion3Explain: s.string(),
 
-//////////////////////////////////////////////////////////////////
+////////////////////superposition vs mixed responses////////////////////////////
     aliceBobQuestion1: s.chooseOne([
      "one",
       "two",
@@ -204,7 +211,7 @@ export default s.tutorial({
 
     aliceBobQuestion5Cexplain: s.string(),
 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////wrap up responses//////////////////////////////////
 furtherQuestion1: s.chooseOne(["yes","no"]),
 
 furtherQuestion1Explain: s.string(),

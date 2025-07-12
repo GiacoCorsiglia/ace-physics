@@ -14,6 +14,7 @@ export default pretest(setup, ({ section }) => ({
     ),
   },
   sections: [
+    //question 1
     section({
       body: (m) => (
         <>
@@ -50,7 +51,7 @@ export default pretest(setup, ({ section }) => ({
         </>
       ),
     }),
-
+//question 2 choose one and text box
     section({
       body: (m) => (
         <>
@@ -63,7 +64,7 @@ export default pretest(setup, ({ section }) => ({
             <br />
             How many gates do you need? Select one answer:{" "}
           </Prose>
-          <ChooseOne // Another option is 'Toggle'
+          <ChooseOne
             model={m.warmupQuestion2}
             choices={[
               ["one", "I only need 1 gate"],
@@ -86,6 +87,7 @@ export default pretest(setup, ({ section }) => ({
         </>
       ),
     }),
+    //question 3 toggle and text box
     section({
     body: (m) => (
       <>
