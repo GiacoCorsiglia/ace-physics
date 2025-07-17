@@ -241,6 +241,19 @@ tutorialList.push({
   tags: [],
 });
 // use push to add testtutorial in !'production' environment
+tutorialList.push({
+  id: "TestTutorialTeleportation",
+  link: "test-tutorial-steve2-teleportation",
+  label: "Beta version of a Teleportation Tutorial",
+  blurb: (
+    <>
+      Learn the basics of quantum teleportation.{" "}
+      {process.env.NEXT_PUBLIC_ACE_ENV}
+    </>
+  ),
+  tags: [],
+});
+// use push to add testtutorial in !'production' environment
 
 export interface TutorialListing {
   /**

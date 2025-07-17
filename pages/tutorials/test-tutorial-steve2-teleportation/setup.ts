@@ -13,7 +13,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  id: "TestTutorialSteveTeleportation",
+  id: "TestTutorialTeleportation",
   link: "test-tutorial-steve2-teleportation",
   label: "Quantum Teleportation",
   excludeFromList: true,
