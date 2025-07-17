@@ -67,7 +67,7 @@ export default page(setup, ({ section, hint }) => ({
                 The incoming state <M t="\ket{\psi_0}" />
                 is shown in the text just below the figure above. You are then
                 acting a CNOT on the top two qubits (only), leaving the third
-                one unaltered. If you've forgotten how the CNOT works, you make
+                one unaltered. If you've forgotten how the CNOT works, you might
                 take a break and (re)visit the{" "}
                 {/* Is there a way to make a link that doesn't kill this window?  */}
                 <a href="https://acephysics.net/tutorials/cnot-entanglement">

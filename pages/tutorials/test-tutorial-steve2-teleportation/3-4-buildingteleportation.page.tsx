@@ -34,8 +34,8 @@ export default page(setup, ({ section, hint }) => ({
           <M t="a \ket{0} + b \ket{1}" />. <br />
           To see what happens for the other three possibilities, it really helps
           to re-write <M t="\ket{\psi_2}" /> by combining the terms containing
-          each of Alice’s 4 possible 2-qubit outcomes, so that it is much easier
-          to read off Bob’s resulting single-qubit state.
+          each of Alice’s four possible 2-qubit outcomes, so it's much easier to
+          read off Bob’s resulting single-qubit state.
           <p>As a reminder, here's the circuit so far:</p>
           <Image src={fig4} alt="circuit diagram C-4" />
           <br />

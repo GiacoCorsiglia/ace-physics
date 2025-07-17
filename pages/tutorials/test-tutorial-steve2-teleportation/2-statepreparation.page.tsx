@@ -244,7 +244,7 @@ export default page(setup, ({ section, hint }) => ({
     //       <Prose>
     //         Summary so far: The starting 3-qubit initial state can be written
     //         as: <br />
-    //         <M t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
+    //         <M t="\ket{\phi} \otimes \ket{\beta_{00}} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})" />
     //         <br /> Did you get all the details correct? (If you disagree, please
     //         take the time now to work it out.)
     //       </Prose>
@@ -267,7 +267,7 @@ export default page(setup, ({ section, hint }) => ({
                 written as: <br />
                 <M
                   display
-                  t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
+                  t="\ket{\phi} \otimes \ket{\beta_{00}} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
                 />
                 Did you get all the details correct? (If you disagree, please
                 take the time now to work it out.) <br />
@@ -418,7 +418,7 @@ export default page(setup, ({ section, hint }) => ({
                 <br />
                 <M
                   display
-                  t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
+                  t="\ket{\phi} \otimes \ket{\beta_{00}} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
                 />
                 If Alice were to measure her 2 qubits and get 00, what state
                 would Bob have?
@@ -483,7 +483,7 @@ export default page(setup, ({ section, hint }) => ({
                 Each of the four terms in our 3-qubit initial state <br />
                 <M
                   display
-                  t="\phi \otimes \beta_{00} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
+                  t="\ket{\phi} \otimes \ket{\beta_{00}} = \frac{1}{\sqrt{2}} (a \ket{000} + a \ket{011} + b \ket{100} + b \ket{111})"
                 />
                 begins with a unique outcome for the first two bits, which are
                 all that Alice has access to:

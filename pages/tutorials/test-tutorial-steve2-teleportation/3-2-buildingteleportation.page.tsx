@@ -393,13 +393,13 @@ export default page(setup, ({ section, hint }) => ({
                     in the term <M t="b\ket{101}" />, which yields
                     <M t="b ( \ket{001} - \ket{101}) " />. (Do you agree?){" "}
                     <br /> It is that very last term that we were looking for,{" "}
-                    <M t="\ket{1010}" />.
+                    <M t="\ket{101}" />.
                     {/* The <M t="\ket{y}\ " />
                     term arises from acting H on the the leading{" "}
                     <M t="\ket{1}\ " />
                     in the term <M t="b\ket{101}" />, which yields
                     <M t="b ( \ket{001} - \ket{101}) " />. (It is that last term
-                    that we were looking for, <M t="\ket{1010}" />
+                    that we were looking for, <M t="\ket{101}" />
                     ). */}
                   </p>
                 )}
@@ -427,9 +427,9 @@ export default page(setup, ({ section, hint }) => ({
           />
           <br />
           Take one more look that you agree with all 8 terms. If you worked it
-          out first on your own, it is likely that we have visually organized
-          the terms differently than you did, so please check carefully that you
-          agree on everything, including signs.
+          out first on your own, it is very possible that we organized the terms
+          differently than you did, so check carefully that you agree on
+          everything, including signs.
         </Prose>
       ),
       continue: {

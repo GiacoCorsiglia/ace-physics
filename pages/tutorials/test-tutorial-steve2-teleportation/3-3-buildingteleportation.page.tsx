@@ -302,9 +302,9 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.A00Bobwhatchoose?.selected === "halfa0b1" ? (
                   <p>
-                    Close! After a "partial measurement" of a 3-qubit state, you
-                    must properly renormalize the remaining one-qubit term.{" "}
-                    <br /> Did you remember that
+                    Really close! After a "partial measurement" of a 3-qubit
+                    state, you must properly renormalize the remaining one-qubit
+                    term. <br /> Did you remember that
                     <M t="|a|^2 + |b|^2 =1?" />
                     <br />
                     You are welcome to change your answer above.
