@@ -230,6 +230,11 @@ export default page(setup, ({ section }) => ({
             Bob at all? <br /> (After all, her measurement collapsed Bob’s
             state. Why wasn’t that enough, without sending two classical bits?)
           </Prose>
+          <Answer>
+            We hope you keep thinking about these questions - they get to the
+            essence of quantum teleportation. Look back over the steps of the
+            protocol, and see if you can answer them on your own.
+          </Answer>
         </>
       ),
     }),
