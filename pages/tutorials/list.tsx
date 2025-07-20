@@ -118,6 +118,13 @@ export const tutorialList: TutorialListing[] = [
     tags: ["QIS"],
   },
   {
+    id: "QuantumTeleportation",
+    link: "quantum-teleportation",
+    label: "Quantum Teleportation",
+    blurb: <>Learn the basics of quantum teleportation.</>,
+    tags: ["QIS"],
+  },
+  {
     id: "TensorProducts",
     link: "tensor-products",
     label: "Tensor Products",
