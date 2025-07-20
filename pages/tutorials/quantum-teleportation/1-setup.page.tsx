@@ -12,22 +12,30 @@ export default page(setup, ({ section }) => ({
       name: "setupIntro",
       body: (
         <Prose>
-          Here is the problem: Alice has a single qubit in a mystery quantum
-          state that she wants to send to Bob. We can write this state
-          generically as <br />
-          <M t="\ket{\phi} = a \ket{0} + b \ket{1}" />
-          <br />
-          Alice doesn’t know a or b. This is a physical qubit that exists in her
-          lab.
-          <br />
-          Bob is across the hall (or the country, or the other side of a large
-          quantum computer).
-          <br /> <br /> Here's the question: How can Alice get her mystery state
-          to Bob? <br />
-          One option would be for her to put her qubit in a box and ship it to
-          Bob. But qubits are fragile (we need to keep them isolated from their
-          environment). This might be expensive or impractical.
-          <br />
+          <p>
+            <strong>Here’s the problem:</strong> Alice has a single qubit in a
+            mystery quantum state that she wants to send to Bob. We can write
+            this state generically as
+            <M display t="\ket{\phi} = a \ket{0} + b \ket{1}" />
+            Alice doesn’t know <M t="a" /> or <M t="b" />. This is a physical
+            qubit that exists in her lab.
+          </p>
+
+          <p>
+            Bob is across the hall (or the country, or the other side of a large
+            quantum computer).
+          </p>
+
+          <p>
+            <strong>Here's the question:</strong> How can Alice get her mystery
+            state to Bob?
+          </p>
+
+          <p>
+            One option would be for her to put her qubit in a box and ship it to
+            Bob. But qubits are fragile (we need to keep them isolated from
+            their environment). This might be expensive or impractical.
+          </p>
         </Prose>
       ),
       continue: {
