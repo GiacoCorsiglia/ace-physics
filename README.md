@@ -8,6 +8,8 @@ This README document describes some of the technology underlying ACE Physics and
 
 ## Quick Reminders
 
+For managing branches and publishing changes, read the [Contribution Workflow](#contribution-workflow) section.
+
 Once you’ve read this document and completed the [One-Time Setup](#one-time-setup), you can run this command in the VS Code terminal to start ACE Physics on your computer:
 
 ```sh
@@ -31,6 +33,7 @@ npm install
   - [Install Git](#install-git)
   - [Set up Git/GitHub](#set-up-gitgithub)
   - [Download the ace-physics repository](#download-the-ace-physics-repository)
+- [Contribution Workflow](#contribution-workflow)
 - [Everyday Steps and Setup](#everyday-steps-and-setup)
   - [Two commands to run sometimes](#two-commands-to-run-sometimes)
   - [One command to run every time](#one-command-to-run-every-time)
@@ -198,7 +201,57 @@ Finally, run
 git checkout beta
 ```
 
-Now the changes you make will only affect beta.acephysics.net, and not the live/production version. But—nothing you do on your own computer will affect anything outside of your own computer unless you explicitly sync up with GitHub! The syncing is **NOT** automatic, which is for the best, because now you can proceed without worrying about breaking anything. There are also protections in place on GitHub to prevent you from inadvertently affecting the live/production version (i.e., the real acephysics.net).
+Now the changes you make will only affect [beta.acephysics.net](https://beta.acephysics.net), and not the live/production version. But—nothing you do on your own computer will affect anything outside of your own computer unless you explicitly sync up with GitHub! The syncing is **NOT** automatic, which is for the best, because now you can proceed without worrying about breaking anything. There are also protections in place on GitHub to prevent you from inadvertently affecting the live/production version (i.e., the real [acephysics.net](https://acephysics.net)).
+
+## Contribution Workflow
+
+ACE Physics has two special branches.
+
+1. `main`: All commits to `main` will be immediately published (“deployed”) to the live [acephysics.net](https://acephysics.net) (“production”).
+2. `beta`: All commits to `beta` will be immediately published (“deployed”) to [beta.acephysics.net](https://beta.acephysics.net) (beta”).
+
+These branches are protected: GitHub will not allow you commit to them directly. To contribute changes, you must do your work in a different branch. Use these steps on your local copy of ACE Physics.
+
+### Make changes in a new branch
+
+First, make sure your beta branch is up to date.
+
+```sh
+git checkout beta
+git pull -r
+```
+
+Next, create a new branch. You can call it whatever you want, but the name must be unique. If you like, prefix it with your name, such as `steve/update-quantum-mouse`.
+
+```sh
+git checkout -b your-branch-name-here
+```
+
+Make one or more commits to your branch. Use VS Code's buttons to commit and sync changes often so your work is backed up on GitHub. Your branch is completely isolated from the rest of ACE Physics; it's impossible to break things by changing your branch, even when you sync changes or click the “publish” button.
+
+Other people can also make changes to your branch. Make sure you both commit and sync often to avoid change conflicts.
+
+### When you're ready, publish to `beta`
+
+When you're happy with your changes, you can publish them to [beta.acephysics.net](https://beta.acephysics.net).
+
+1. Make sure all your changes are committed and synced.
+2. In GitHub, [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
+   - The pull request “base” should be set to `beta` by default
+   - The source branch should be your branch name. When creating the pull request, it will look something like this (if your branch was called “tensor-products”): ![[base: beta] <- [compare: tensor-products]](docs/readme_pull_request.png)
+3. Wait for the pull request's status checks to pass. If they don't pass, click into the specific check and try to fix the error by making additional commits to your branch and syncing them to GitHub (the pull request will automatically update).
+4. Press the big green "merge" button in the pull request UI. GitHub won't let you do this until the checks pass.
+5. Wait a couple minutes, then you'll see your changes live at [beta.acephysics.net](https://beta.acephysics.net)
+
+**Important:** Once you've merged your pull request, you should make future changes in a _new_ branch. Don't reuse your branch. (It’s not the end of the world if you do, but it is a bit annoying.)
+
+### Finally, publish to `main`
+
+Once your changes are in beta and you have tested them at [beta.acephysics.net](https://beta.acephysics.net), you can publish to [acephysics.net](https://acephysics.net) (“production”).
+
+1. Go to [Deploy Beta to Production](https://github.com/GiacoCorsiglia/ace-physics/actions/workflows/merge-beta-to-main.yml)
+2. Click "Run workflow" twice (first the grey button, then the green one): ![Run workflow popover](docs/readme_deploy_workflow.png)
+3. After a few minutes, [acephysics.net](https://acephysics.net) should reflect any changes from [beta.acephysics.net](https://beta.acephysics.net).
 
 ## Everyday Steps and Setup
 

@@ -8,8 +8,8 @@ sed -e "1s/${START_YEAR}–[0-9]{4}/${START_YEAR}–${CURRENT_YEAR}/" "$LICENSE_
 mv -- "$LICENSE_FILE.new" "$LICENSE_FILE"
 
 if [[ ! -z "$CI" ]]; then
-  git config user.name "Giaco Corsiglia"
-  git config user.email "giaco@corsiglia.me"
+  git config user.name "github-actions[bot]"
+  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 fi
 
 git add "$LICENSE_FILE"

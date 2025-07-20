@@ -6,9 +6,7 @@ on:
 jobs:
   merge-beta-to-main:
     name: Merge beta to main
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Set up ACE Physics Bot GitHub App token
         uses: actions/create-github-app-token@v1
@@ -20,7 +18,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: beta
+          fetch-depth: 0 # Fetch all history to make the merge possible.
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Set up Git user
