@@ -1,0 +1,27 @@
+# Update the year in LICENSE file if necessary.  We can't use a scheduled job
+# because it will stop running after 60 days on inactivity; instead we run on
+# commits to main.
+
+name: Update License Year
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-license-year:
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ensure License Year is Up To Date
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: scripts/update-license-year.sh
