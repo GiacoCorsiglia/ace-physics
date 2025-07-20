@@ -4,7 +4,8 @@ LICENSE_FILE="LICENSE"
 START_YEAR=2020
 CURRENT_YEAR=$(date +'%Y')
 
-sed -E -i'' "1s/${START_YEAR}–[0-9]{4}/${START_YEAR}–${CURRENT_YEAR}/" "$LICENSE_FILE"
+sed -e "1s/${START_YEAR}–[0-9]{4}/${START_YEAR}–${CURRENT_YEAR}/" "$LICENSE_FILE" > "$LICENSE_FILE.new"
+mv -- "$LICENSE_FILE.new" "$LICENSE_FILE"
 
 if [[ ! -z "$CI" ]]; then
   git config user.name "Giaco Corsiglia"
