@@ -100,7 +100,6 @@ These terms refer to various pieces of software:
 - **AWS**: AWS, or Amazon Web Services, is a suite of services/technologies for creating/running websites offered by Amazon. We use some of these services for ACE Physics.
 - **DynamoDB**: DynamoDB is database software that’s part of AWS. We use DynamoDB for the ACE Physics database. Different database softwares have different tradeoffs, but DynamoDB’s tradeoffs work pretty well for our needs. More importantly, the demands of ACE Physics are small and they fit within the free tier of DynamoDB services offered by Amazon.
 - **SES**: AWS SES (Simple Email Service) is a service for sending emails reliably. SES is not free but it is quite cheap (less than $10 per year for our needs).
-- **SendGrid**: [SendGrid](https://sendgrid.com) is an alternative to SES, another service for sending emails. SendGrid’s pricing structure allows 100 emails a day for free, but then it becomes expensive. I have switched ACE Physics to use SendGrid’s free tier, because it seems to deliver emails to university emails more reliably than did SES.
 
 ## One-Time Setup
 
