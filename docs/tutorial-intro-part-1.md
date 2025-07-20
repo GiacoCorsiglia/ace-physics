@@ -1,4 +1,5 @@
 # Creating a Tutorial, Part 1: Structure
+
 This doc will teach you the basics required to add a tutorial to AcePhysics, as well as some of the basic structural features of AcePhysics.
 
 ## Where to find tutorials
@@ -10,6 +11,7 @@ AcePhysics doesn't detect your tutorials on its own. To give your tutorial detai
 ## Basic Requirements to Have a Tutorial
 
 The required files to have a visible, working tutorial are:
+
 ```
 before-you-start.page.tsx
 feedback.page.tsx
@@ -17,7 +19,9 @@ index.page.tsx
 schema.ts
 setup.ts
 ```
+
 And listings in
+
 ```
 tutorials/list.tx
 tutorials/schemas.ts
@@ -49,16 +53,18 @@ export default tutorialSetup({
   label: "Documentation Tutorial",
   pretest: true,
   posttest: false,
-  pages: [
-
-  ],
+  pages: [],
 });
 ```
+
 Some explanations follow:
+
 - `schema`: comes from the following import:
+
 ```ts
 import schema from "./schema";
 ```
+
 - `id`: used in `tutorials/schemas.ts` to link your tutorial to its schema for building purposes.
 - `link`: when AcePhysics builds your tutorial, buttons that take you from one page to another will take you to `link/page`. If `link` is different from the name of your tutorial folder, links in your tutorial will break.
 
@@ -72,30 +78,19 @@ This file defines most dynamic elements of your tutorial--most relevantly right 
 import * as s from "@/schema/tutorial";
 
 export default s.tutorial({
-  pages: {
-
-  },
-  pretest: {
-
-  },
-  posttest: {
-
-  },
-  responses: {
-
-  },
-  sections: {
-
-  },
-  hints: {
-
-  },
+  pages: {},
+  pretest: {},
+  posttest: {},
+  responses: {},
+  sections: {},
+  hints: {},
 });
 ```
 
 (Notice the comma after `hints`.) We'll see later that each set of curly brackets here will contain a list, which **definitely** needs to have a comma at the end; I learned that the hard way. For now, this is enough to get TypeScript to accept your code.
 
 ### index.page.tsx
+
 This is the starting page of your tutorial. Here's how I wrote mine:
 
 ```ts
@@ -108,19 +103,21 @@ export default intro(setup, () => ({
 }));
 ```
 
-If you actually look at the starting page,you'll notice that 'Your first step...' is close to the top, but it's not *all* that's on the page. Why is that? Let's look at the actual function we're using, intro(), which is in the file `lib/tutorial/page-factories.tsx`.
+If you actually look at the starting page,you'll notice that 'Your first step...' is close to the top, but it's not _all_ that's on the page. Why is that? Let's look at the actual function we're using, intro(), which is in the file `lib/tutorial/page-factories.tsx`.
 
 The second input to our function is a factory which outputs an object of the type `IntroConfig`. In my implementation, the only field in `IntroConfig` that I've specified is `IntroConfig.body`. In the definition of intro(), we define `config = factory()` (i.e. config takes on the properties you submit to `intro()`). The return value is an `<IntroPage>` element.
 
 Head to the definition of `IntroPage`: `lib/tutorial/components/intro-page.tsx`. Look at the return value. You'll notice that AcePhysics creates an IntroPage by automatically writing a bunch of stuff in. Midway down, you'll notice
 
 ```ts
-{config.body}
+{
+  config.body;
+}
 ```
 
 That's where the contents of 'body' go. What this means is that the design of the intro page is locked, as long as you use the `intro()` function.
 
-(There's ways to create your own entire page instead of calling a pre-built function, if you ever wanted to go that far. Future documentation may discuss this, but for now, if you understand it, this jargon suffices: intro() returns a React.js *component* function. It does so through AcePhysics' `routeComponent()` function, which nests everything into a `TutorialRoot` component which has all the basic structure of the AcePhysics website. You can always just create a `routeComponent` with your element nested inside.)
+(There's ways to create your own entire page instead of calling a pre-built function, if you ever wanted to go that far. Future documentation may discuss this, but for now, if you understand it, this jargon suffices: intro() returns a React.js _component_ function. It does so through AcePhysics' `routeComponent()` function, which nests everything into a `TutorialRoot` component which has all the basic structure of the AcePhysics website. You can always just create a `routeComponent` with your element nested inside.)
 
 ### feedback.page.tsx
 
@@ -128,16 +125,14 @@ This one's phenomenally simple. Copy the contents of /test-tutorial/feedback.pag
 
 ### before-you-start.page.tsx
 
-This page will be our first introduction to the dynamic, modifiable elements of AcePhysics tutorials, which are called `models`. Before we  discuss those models, we'll just start with a basic page that works well enough for you to have a visible tutorial.
+This page will be our first introduction to the dynamic, modifiable elements of AcePhysics tutorials, which are called `models`. Before we discuss those models, we'll just start with a basic page that works well enough for you to have a visible tutorial.
 
 ```ts
 import { pretest } from "@/tutorial";
 import setup from "./setup";
 
-export default pretest(setup, ({section}) => ({
-  sections: [
-
-  ],
+export default pretest(setup, ({ section }) => ({
+  sections: [],
 }));
 ```
 
@@ -152,7 +147,9 @@ Now to make your tutorial visible to AcePhysics internally and externally.
 ```ts
 ["TestTutorial", TestTutorial],
 ```
+
 and added the import
+
 ```ts
 import TestTutorial from "./test-tutorial/schema";
 ```
@@ -161,7 +158,7 @@ The string `"TestTutorial"` refers to the `id` of your tutorial as defined in `s
 
 ### list.tsx
 
-`tutorialList` in `pages/tutorials/list.tsx` must be given an entry so that someone can navigate to your tutorial.  Here's what I added:
+`tutorialList` in `pages/tutorials/list.tsx` must be given an entry so that someone can navigate to your tutorial. Here's what I added:
 
 ```ts
 {

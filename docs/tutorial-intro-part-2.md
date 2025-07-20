@@ -1,8 +1,8 @@
 # Creating a Tutorial, Part 2: Pretest and Models
 
-Student responses to questions in your tutorial are stored in the tutorial *state* and can be referred to to inform guidance and the behavior of your tutorial. To tell the state where (in what variables) to store information, we define those variables in *models*, which are enumerated in the tutorial schema. The schema also contains information about guidance and sections, but for now, we'll focus on student responses and some examples of what you can do with them.
+Student responses to questions in your tutorial are stored in the tutorial _state_ and can be referred to to inform guidance and the behavior of your tutorial. To tell the state where (in what variables) to store information, we define those variables in _models_, which are enumerated in the tutorial schema. The schema also contains information about guidance and sections, but for now, we'll focus on student responses and some examples of what you can do with them.
 
-We're going to start with the pretest, which is simple compared to the main tutorial and cannot do things as complex as the main tutorial.  More complex uses will appear in the next part.
+We're going to start with the pretest, which is simple compared to the main tutorial and cannot do things as complex as the main tutorial. More complex uses will appear in the next part.
 
 ## Creating a Pretest Section
 
@@ -12,14 +12,12 @@ Let's look back at the basic format of `before-you-start.page.tsx`:
 import { pretest } from "@/tutorial";
 import setup from "./setup";
 
-export default pretest(setup, ({section}) => ({
-  sections: [
-
-  ],
+export default pretest(setup, ({ section }) => ({
+  sections: [],
 }));
 ```
 
-The `pretest()` function has two parameters, `setup` and an *arrow function*. This is a basic motif in functional programming, where functions get passed around as objects. The specific format of this functional paremeter is specified in `lib/tutorial/page-factories.tsx`, where `pretest()` is defined: it's supposed to be a function that returns an object of the form `c.PretestConfig<S>` where `S` is your tutorial schema type. You can find that object in `lib/tutorial/config.tsx`. The only required property of a `PretestConfig` is `sections`. If you look at what we've written above, the arrow function evidently returns an object with the property `sections`.
+The `pretest()` function has two parameters, `setup` and an _arrow function_. This is a basic motif in functional programming, where functions get passed around as objects. The specific format of this functional paremeter is specified in `lib/tutorial/page-factories.tsx`, where `pretest()` is defined: it's supposed to be a function that returns an object of the form `c.PretestConfig<S>` where `S` is your tutorial schema type. You can find that object in `lib/tutorial/config.tsx`. The only required property of a `PretestConfig` is `sections`. If you look at what we've written above, the arrow function evidently returns an object with the property `sections`.
 
 (If you look at that `PretestConfig` type again, you'll notice that there are a couple other interesting properties, like `optional` and `continue`. We'll get to those.)
 
@@ -73,7 +71,7 @@ pretest: {
 },
 ```
 
-The function `string()` (found in `lib/schema/fields/primitives.ts`) generates a StringField. Adding a field to your `schema` establishes it as a *model*, which tells the tutorial "Hey, you should make sure there's a state variable with the name `pretestTextInput`!" Then, we can use the model to create HTML input fields, which AcePhysics will eventually connect to the corresponding state variable. So, now that we have this, let's add this response field to our pretest.
+The function `string()` (found in `lib/schema/fields/primitives.ts`) generates a StringField. Adding a field to your `schema` establishes it as a _model_, which tells the tutorial "Hey, you should make sure there's a state variable with the name `pretestTextInput`!" Then, we can use the model to create HTML input fields, which AcePhysics will eventually connect to the corresponding state variable. So, now that we have this, let's add this response field to our pretest.
 
 ```ts
 import { Prose, TextBox } from "@/components";
@@ -96,7 +94,7 @@ export default pretest(setup, ({section}) => ({
 
 [insert image of the results here]
 
-If you were to input a value into your text box, use the tutorial navigation to go to the previous page, and then go back to the pretest page, the value would still be there. Inputs to a model are saved in the *tutorial state*. We can access that information by accessing the tutorial state, and the state can be accessed the same way that models can.
+If you were to input a value into your text box, use the tutorial navigation to go to the previous page, and then go back to the pretest page, the value would still be there. Inputs to a model are saved in the _tutorial state_. We can access that information by accessing the tutorial state, and the state can be accessed the same way that models can.
 
 ```ts
 export default pretest(setup, ({section}) => ({
@@ -162,7 +160,7 @@ export default pretest(setup, ({section}) => ({
 }));
 ```
 
-Built-in objects like a ChooseOne cannot be accessed as directly as primitives like a string. Here, you'll also notice I'm using the ? operator instead of if-else. You *can* insert multiple lines in curly braces `{}`. Curly braces are a signal to React.js that you're trying to input the result of code into the HTML element.
+Built-in objects like a ChooseOne cannot be accessed as directly as primitives like a string. Here, you'll also notice I'm using the ? operator instead of if-else. You _can_ insert multiple lines in curly braces `{}`. Curly braces are a signal to React.js that you're trying to input the result of code into the HTML element.
 
 As one more example, let's look at how you would add an 'other' field to a choice field.
 
