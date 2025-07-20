@@ -14,7 +14,12 @@ const client = new SESv2Client({
 
 export const sesProvider: EmailProvider = {
   async send(options) {
+    if (process.env.NEXT_PUBLIC_ACE_ENV === "development") {
+      console.info("Sending email via SES to:", ...options.toAddresses);
+    }
+
     const command = new SendEmailCommand({
+      ConfigurationSetName: "AcePhysicsEmails",
       Destination: {
         ToAddresses: options.toAddresses,
       },

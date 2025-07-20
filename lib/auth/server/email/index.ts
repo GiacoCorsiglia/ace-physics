@@ -35,7 +35,7 @@ export const sendVerificationRequest = async ({
     fromName: "ACE Physics",
     subject: `Sign in to ${host}`,
     htmlBody: html({ url, host, email }),
-    textBody: text({ url, host }),
+    textBody: text({ url, host, email }),
   };
 
   await defaultProvider.send(options);
@@ -96,6 +96,13 @@ function html({ url, host, email }: Record<"url" | "host" | "email", string>) {
 }
 
 // Email Text body (fallback for email clients that don't render HTML, e.g. feature phones)
-function text({ url, host }: Record<"url" | "host", string>) {
-  return `Sign in to ${host}:\n${url}\n\n`;
+function text({ url, host, email }: Record<"url" | "host" | "email", string>) {
+  return [
+    host,
+    "",
+    `Sign in as ${email}:`,
+    url,
+    "",
+    "If you did not request this email you can safely ignore it.\n\n",
+  ].join("\n");
 }
