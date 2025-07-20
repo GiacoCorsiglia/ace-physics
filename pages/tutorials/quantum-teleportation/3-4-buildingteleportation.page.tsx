@@ -86,7 +86,7 @@ export default page(setup, ({ section, hint }) => ({
       ),
       hints: [
         hint({
-          name: "trypsi2hint",
+          name: "tryreorghint",
           label: "Can I get a little help?",
           body: (
             <Prose>

@@ -303,6 +303,7 @@ export default s.tutorial({
     trypsi1hint: s.hint(),
     finalfeedback: s.hint(),
     trypsi2hint: s.hint(),
+    tryreorghint: s.hint(),
     factorizedstatehint: s.hint(),
     Case2hint: s.hint(),
     Case3hint: s.hint(),
