@@ -18,6 +18,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
+          ref: beta
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Set up Git user
@@ -27,6 +28,7 @@ jobs:
 
       - name: Merge beta into main
         run: |
+          git fetch origin main
           git checkout main
           git merge --no-ff beta -m "Deploy: Merge branch 'beta'"
           git push origin main
