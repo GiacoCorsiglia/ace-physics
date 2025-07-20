@@ -208,7 +208,7 @@ Now the changes you make will only affect [beta.acephysics.net](https://beta.ace
 ACE Physics has two special branches.
 
 1. `main`: All commits to `main` will be immediately published (“deployed”) to the live [acephysics.net](https://acephysics.net) (“production”).
-2. `beta`: All commits to `beta` will be immediately published (“deployed”) to [beta.acephysics.net](https://beta.acephysics.net) (beta”).
+2. `beta`: All commits to `beta` will be immediately published to [beta.acephysics.net](https://beta.acephysics.net) (“beta”).
 
 These branches are protected: GitHub will not allow you commit to them directly. To contribute changes, you must do your work in a different branch. Use these steps on your local copy of ACE Physics.
 
