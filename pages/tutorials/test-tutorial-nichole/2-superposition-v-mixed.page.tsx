@@ -194,18 +194,27 @@ export default page(setup, ({ section, hint }) => ({
       ),
       //question 2C feedback on toggle question
       guidance: {
-        nextMessage() {
-          return "answer";
-        },
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
-            body: (
-              <Guidance.HeadsUp>
-                <p>
-                 We havent checked your answer yet, because we are going to
-                 explore this question further and come back to it later.
-                </p>
-              </Guidance.HeadsUp>
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceBobQuestion2C?.selected === "no" ? "agree" : "disagree"
+                }
+              >
+                {responses?.aliceBobQuestion2C?.selected !== "no" ? (
+                  <p>
+                  Not the answer we are looking for, check your reasoning again.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                  We agree with your answer.
+                  </p>
+                )}
+              </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
           },
@@ -307,23 +316,32 @@ export default page(setup, ({ section, hint }) => ({
       ),
       //question 3C feedback on toggle question
       guidance: {
-        nextMessage() {
-          return "answer";
-        },
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
-            body: (
-              <Guidance.HeadsUp>
-                <p>
-                 We havent checked your answer yet, because we are going to
-                 explore this question further and come back to it later.
-                </p>
-              </Guidance.HeadsUp>
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceBobQuestion3C?.selected === "no" ? "agree" : "disagree"
+                }
+              >
+                {responses?.aliceBobQuestion3C?.selected !== "no" ? (
+                  <p>
+                  Not the answer we are looking for, check your reasoning again.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                  We agree with your answer.
+                  </p>
+                )}
+              </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
           },
         },
-      }
+      },
     }),
     // question 4 toggle and text box
     section({
@@ -362,23 +380,32 @@ export default page(setup, ({ section, hint }) => ({
       ),
       // informative feedback for question 4 toggle
       guidance: {
-        nextMessage() {
-          return "answer";
-        },
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
-            body: (
-              <Guidance.HeadsUp>
-                <p>
-                 We havent checked your answer yet, because we are going to
-                 explore this question further and come back to it later.
-                </p>
-              </Guidance.HeadsUp>
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.aliceBobQuestion4?.selected === "no" ? "agree" : "disagree"
+                }
+              >
+                {responses?.aliceBobQuestion4?.selected !== "no" ? (
+                  <p>
+                  Not the answer we are looking for, check your reasoning again.
+                    <br />
+                    You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                  We agree with your answer.
+                  </p>
+                )}
+              </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
           },
         },
-      }
+      },
     }),
 
       section({
@@ -419,7 +446,7 @@ export default page(setup, ({ section, hint }) => ({
         nextMessage(r) {
           const a = r.aliceBobQuestion5A;
           const b = r.aliceBobQuestion5B;
-          if (a === 50 && b === 50) {
+          if (a === 100 && b === 50) {
             return "correct";
           }
 
