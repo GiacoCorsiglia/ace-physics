@@ -65,8 +65,8 @@ export default s.tutorial({
       messages: ["dynamicAnswer"],
     }),
 
-    //doesZSelfCommute: s.section(),
-   // circuitDiagramOrder: s.section({ messages: ["answer"] }),
+    doesZSelfCommute: s.section(),
+   circuitDiagramOrder: s.section({ messages: ["answer"] }),
 //////////////////////superpositions vs mixed page /////////////////////////////
 
     superpositionvmixed: s.section(),
@@ -88,7 +88,7 @@ export default s.tutorial({
     }
     ),
     aliceBobQuestion2C: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
    // aliceBobIntro3: s.section(),
     aliceBobQuestion3A: s.section({
@@ -98,10 +98,10 @@ export default s.tutorial({
       messages: ["correct", "incorrect"],
     }),
     aliceBobQuestion3C: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
     aliceBobQuestion4: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
    // aliceBobQuestion5: s.section(),
     aliceBobQuestion5A: s.section({
@@ -233,8 +233,8 @@ furtherQuestion5: s.chooseOne(["yes","no"]),
 furtherQuestion5Explain: s.string(),
 //////////////////////////////////////////////////////////////////////////////
 
-   // doesZSelfCommute: s.chooseOne(["yes", "no"]),
-   // circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
+   doesZSelfCommute: s.chooseOne(["yes", "no"]),
+   circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
 
    // outputXZ1: s.string(),
    // outputZX1: s.string(),

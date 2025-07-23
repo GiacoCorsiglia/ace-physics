@@ -312,10 +312,10 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.furtherQuestion5?.selected === "yes" ? "agree" : "disagree"
+                  responses?.furtherQuestion5?.selected === "no" ? "agree" : "disagree"
                 }
               >
-                {responses?.furtherQuestion5?.selected !== "yes" ? (
+                {responses?.furtherQuestion5?.selected !== "no" ? (
                   <p>
                   Not the answer we are looking for, check your reasoning again.
                     <br />
