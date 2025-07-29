@@ -6,7 +6,8 @@ export default s.tutorial({
     superpositionvmixed: s.page(),
     wrapup: s.page(),
   },
-  ////////////////////////before you start page////////////////////////////
+  //                        I. Before-You-Start page
+
   pretest: {
     warmupQuestion1: s.chooseOne([
       "one",
@@ -15,7 +16,6 @@ export default s.tutorial({
       "impossible",
       "unsure",
     ]),
-
     warmupQuestion1Explain: s.string(),
     warmupQuestion2: s.chooseOne([
       "one",
@@ -25,21 +25,19 @@ export default s.tutorial({
       "unsure",
     ]),
     warmupQuestion2Explain: s.string(),
-    //outputOfCircuit: s.string(),
     warmupQuestion3: s.chooseOne([
       "yes",
       "no",
     ]),
-
     warmupQuestion3Explain: s.string()
   },
-  ////////////////////////////review page///////////////////////////////////////
+
+  //                           II. Review page
+
   posttest: {
 
     postActivityQuestion1: s.string(),
-
     postActivityQuestion2: s.string(),
-
     postActivityQuestion3: s.chooseOne([
       "yes",
       "no",
@@ -47,35 +45,29 @@ export default s.tutorial({
     postActivityQuestion3Explain: s.string(),
   },
 
-  /////////////////////////list of sections///////////////////////////////
+  //                          III. List of Sections
+
   sections: {
-    //////////////////////reviewing gates page///////////////////////////
+
+    //                      1. Reviewing Gates page
+
     reviewingGatesIntro: s.section(),
-   // output1: s.section(),
-    //output2: s.section(),
      gatesQuestion1: s.section({
           messages: ["dynamicAnswer"],
         }),
-
     gatesQuestion2: s.section({
       messages: ["dynamicAnswer"],
     }),
-
     gatesQuestion3: s.section({
       messages: ["dynamicAnswer"],
     }),
 
-    doesZSelfCommute: s.section(),
-   circuitDiagramOrder: s.section({ messages: ["answer"] }),
-//////////////////////superpositions vs mixed page /////////////////////////////
+  //                     2. Superposition Vs. Mixed page
 
     superpositionvmixed: s.section(),
-
     aliceBobQuestion1: s.section({
       messages: ["answer"],
     }),
-    //aliceBobIntro2: s.section(),
-
     aliceBobQuestion2: s.section({
       messages: ["correct", "incorrect"],
     }),
@@ -90,7 +82,6 @@ export default s.tutorial({
     aliceBobQuestion2C: s.section({
       messages: ["dynamicAnswer"],
     }),
-   // aliceBobIntro3: s.section(),
     aliceBobQuestion3A: s.section({
       messages: ["correct", "incorrect"],
     }),
@@ -103,7 +94,6 @@ export default s.tutorial({
     aliceBobQuestion4: s.section({
       messages: ["dynamicAnswer"],
     }),
-   // aliceBobQuestion5: s.section(),
     aliceBobQuestion5A: s.section({
       messages: ["correct", "incorrect"],
     }),
@@ -115,8 +105,9 @@ export default s.tutorial({
     }),
     superpositionvmixedConclusion: s.section(),
 
-//////////////////////////////wrapup page//////////////////////////////////////
-   // wrapupIntro: s.section(),
+//                            3. Wrapup page
+
+   morePracticeIntro: s.section(),
     furtherQuestion1:  s.section({
       messages: ["dynamicAnswer"],
     }),
@@ -132,27 +123,14 @@ export default s.tutorial({
     furtherQuestion5:  s.section({
       messages: ["dynamicAnswer"],
     }),
-///////////////////////////////////////////////////////////////////////////////
+    },
 
+  //                         IV. Responses and Hints:
 
-    evaluatingCircuitsIntro: s.section(),
-    outputXZ1: s.section(),
-    outputZX1: s.section(),
-    matrixOrEquationApproach: s.section(),
-    inverseOfX: s.section({ messages: ["inverse"] }),
-
-    morePracticeIntro: s.section(),
-    outputZHPlus: s.section(),
-    outputHZPlus: s.section(),
-
-    circuitDiagramsIntro: s.section(),
-    doXAndZCommute: s.section({
-      messages: ["answer"],
-    }),
-  },/////////////////responses and hints of all pages///////////////////////
+  //                      1. Reviewing Gates Responses
 
     responses: {
-    ///////////////////reviewing gates responses/////////////////////////
+
     gatesQuestion1: s.chooseOne([
       "0",
       "minus0",
@@ -172,10 +150,10 @@ export default s.tutorial({
       "other",
     ]),
     gatesQuestion3: s.chooseOne(["yes", "no"]),
-
     gatesQuestion3Explain: s.string(),
 
-////////////////////superposition vs mixed responses////////////////////////////
+//                    2. Superposition Vs. Mixed Responses
+
     aliceBobQuestion1: s.chooseOne([
      "one",
       "two",
@@ -211,7 +189,8 @@ export default s.tutorial({
 
     aliceBobQuestion5Cexplain: s.string(),
 
-/////////////////////////////wrap up responses//////////////////////////////////
+//                        3. Wrap-up Responses
+
 furtherQuestion1: s.chooseOne(["yes","no"]),
 
 furtherQuestion1Explain: s.string(),
@@ -231,24 +210,12 @@ furtherQuestion4Explain: s.string(),
 furtherQuestion5: s.chooseOne(["yes","no"]),
 
 furtherQuestion5Explain: s.string(),
-//////////////////////////////////////////////////////////////////////////////
+},
 
-   doesZSelfCommute: s.chooseOne(["yes", "no"]),
-   circuitDiagramOrder: s.chooseOne(["xz", "zx", "either order"]),
+  //                          V. Hints
 
-   // outputXZ1: s.string(),
-   // outputZX1: s.string(),
-    //matrixOrEquationApproach: s.string(),
-    //inverseOfX: s.chooseOne(["X", "Z", "H", "I"]),
-
-    //outputZHPlus: s.string(),
-   // outputHZPlus: s.string(),
-  },
-  ///////////////////////////////////////////////////////////////////
   hints: {
     gatesHintQuestion3: s.hint(),
     distinguishableHint: s.hint(),
-    finalfeedback: s.hint(),
-    inverse: s.hint(),
   },
 });
