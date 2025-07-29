@@ -6,7 +6,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "reviewingGates",
   label: "Reviewing Gates",
-  answers: "none",
+  answers: "checked-all",
   cheatSheet: {
     body: (
       <>

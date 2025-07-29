@@ -11,7 +11,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "wrapup",
   label: "Further exploration",
-  answers: "provided",
+  answers: "checked-all",
   cheatSheet: {
     body: (
       <>
