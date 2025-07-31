@@ -17,8 +17,8 @@ export default page(setup, ({ section }) => ({
             mystery quantum state that she wants to send to Bob. We can write
             this state generically as
             <M display t="\ket{\phi} = a \ket{0} + b \ket{1}" />
-            Alice doesn’t know <M t="a" /> or <M t="b" />. This is a physical
-            qubit that exists in her lab.
+            This is a physical qubit that exists in her lab. Alice doesn’t know{" "}
+            <M t="a" /> or <M t="b" />.
           </p>
 
           <p>
@@ -155,10 +155,11 @@ export default page(setup, ({ section }) => ({
               Teleportation.{" "}
             </strong>{" "}
             <br />
-            It requires that Alice and Bob first share an entangled pair of
-            qubits. That is, Alice and Bob each need one particle of a
-            two-particle entangled state. In our case, Alice and Bob will share
-            the Bell state: <br />
+            In addition to Alice possessing the mystery state, quantum
+            teleportation requires that Alice and Bob first share an entangled
+            pair of qubits. <br /> That is, Alice and Bob each need one particle
+            of a two-particle entangled state. In our case, Alice and Bob will
+            share the Bell state: <br />
             <M t="\ket{\beta_{00}} = {1\over \sqrt{2}} (\ket{00} + \ket{11}) " />
             <br />
             Alice will get the first qubit (denoted by the left element in each

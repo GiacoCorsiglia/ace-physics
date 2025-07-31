@@ -7,9 +7,7 @@ export default s.tutorial({
     buildingteleportation1: s.page(),
     buildingteleportation2: s.page(),
     buildingteleportation3: s.page(),
-    buildingteleportation4: s.page(),
-    finaloperations1: s.page(),
-    finaloperations2: s.page(),
+    finaloperations: s.page(),
     partingquestions: s.page(),
   },
   pretest: {

@@ -34,18 +34,18 @@ export default tutorialSetup({
       link: "3-3-buildingteleportation",
       label: "Building a teleportation circuit (Part 3)",
     },
+    // {
+    //   link: "3-4-buildingteleportation",
+    //   label: "Building a teleportation circuit (Part 4)",
+    // },
     {
-      link: "3-4-buildingteleportation",
-      label: "Building a teleportation circuit (Part 4)",
+      link: "4-finaloperations",
+      label: "Final operations",
     },
-    {
-      link: "4-1-finaloperations",
-      label: "Final operations (Part 1)",
-    },
-    {
-      link: "4-2-finaloperations",
-      label: "Final operations (Part 2)",
-    },
+    // {
+    //   link: "4-2-finaloperations",
+    //   label: "Final operations (Part 2)",
+    // },
     {
       link: "5-partingquestions",
       label: "Parting Questions",
