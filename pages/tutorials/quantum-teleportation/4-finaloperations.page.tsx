@@ -6,7 +6,7 @@ import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
   name: "finaloperations",
-  label: "Final Operations on Bob's state (Part 1)",
+  label: "Final Operations on Bob's state",
   answers: "checked-all",
 
   sections: [
