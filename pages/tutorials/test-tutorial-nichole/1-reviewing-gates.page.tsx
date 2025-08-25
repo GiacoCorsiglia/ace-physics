@@ -7,6 +7,7 @@ export default page(setup, ({ section, hint }) => ({
   name: "reviewingGates",
   label: "Reviewing Gates",
   answers: "checked-all",
+  //                          cheat sheet
   cheatSheet: {
     body: (
       <>
@@ -16,6 +17,7 @@ export default page(setup, ({ section, hint }) => ({
       </>
     ),
   },
+  //                  Introduction to Reviewing Gates
   sections: [
     section({
       name: "reviewingGatesIntro",
@@ -28,7 +30,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
-// question 1
+//                         Question 1: multiple choice
     section({
       name: "gatesQuestion1",
       body: (m) => (
@@ -54,7 +56,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-      // feedback for question 1
+      //                      Question 1 Feedback
        guidance: {
               nextMessage: () => "dynamicAnswer",
               messages: {
@@ -83,7 +85,7 @@ export default page(setup, ({ section, hint }) => ({
               },
             },
     }),
-// question 2
+//                        Question 2: multiple choice
     section({
       name: "gatesQuestion2",
       body: (m) => (
@@ -109,7 +111,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-      //feedback for question 2
+      //                      Question 2 Feedback
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -138,7 +140,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-//question 3 toggle and text box
+//                      Question 3: Y/N & text box
     section({
       name: "gatesQuestion3",
       body: (m) => (
@@ -166,7 +168,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-      //definition of commuting for question 3
+      //                     Question 3: commute hint
       hints: [
         hint({
           name: "gatesHintQuestion3",
@@ -180,7 +182,7 @@ export default page(setup, ({ section, hint }) => ({
           ),
         }),
       ],
-//feedback for toggle question 3
+//                           Question 3 Feedback: Y/N
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
