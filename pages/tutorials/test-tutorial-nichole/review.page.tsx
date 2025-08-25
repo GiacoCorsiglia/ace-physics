@@ -14,7 +14,7 @@ export default posttest(setup, ({ section }) => ({
     ),
   },
   sections: [
-    // Introductory statement
+    //                      Introductory statement
     section({
       body: (m) => (
         <>
@@ -27,7 +27,7 @@ export default posttest(setup, ({ section }) => ({
         </>
       ),
     }),
-    // question 1 textbox
+    //                          Question 1: textbox
     section({
       body: (m) => (
         <>
@@ -48,7 +48,7 @@ export default posttest(setup, ({ section }) => ({
         </>
       ),
     }),
-    // question 2 textbox
+    //                          Question 2: textbox
     section({
       body: (m) => (
         <>
@@ -69,7 +69,7 @@ export default posttest(setup, ({ section }) => ({
         </>
       ),
     }),
-    // question 3 toggle and textbox
+    //                      Question 3: Y/N & textbox
     section({
       body: (m) => (
         <>
