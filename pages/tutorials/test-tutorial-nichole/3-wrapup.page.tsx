@@ -29,7 +29,7 @@ export default page(setup, ({ section, hint }) => ({
         <Prose> More practice with gates and qubits. </Prose>
       ),
     }),
-    //question 1 toggle and text box
+    //                    Question 1: Y/N & text box
     section({
       name: "furtherQuestion1",
       body: (m) => (
@@ -65,7 +65,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-      //question 1 feedback on toggle question
+      //                   Question 1 Feedback on Y/N
        guidance: {
               nextMessage: () => "dynamicAnswer",
               messages: {
@@ -94,7 +94,7 @@ export default page(setup, ({ section, hint }) => ({
               },
             },
     }),
-    //question 2 toggle and text box
+    //                     Question 2: Y/N & text box
     section({
       name: "furtherQuestion2",
       body: (m) => (
@@ -123,7 +123,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-      //question 2 feedback on toggle question
+      //                     Question 2 Feedback on Y/N
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -152,7 +152,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-    //question 3 toggle and text box
+    //                      Question 3: Y/N & text box
     section({
       name: "furtherQuestion3",
       body: (m) => (
@@ -183,7 +183,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-      //question 3 feedback on toggle question
+      //                   Question 3 Feedback on Y/N
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -212,7 +212,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-    // question 4 toggle and text box
+    //                      Question 4: Y/N & text box
     section({
       name: "furtherQuestion4",
       body: (m) => (
@@ -241,7 +241,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-      //question 4 feedback on toggle question
+      //                     Question 4 Feedback on Y/N
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
@@ -270,7 +270,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-    //question 5 toggle and text box
+    //                        Question 5: Y/N & text box
     section({
       name: "furtherQuestion5",
       body: (m) => (
@@ -304,7 +304,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-      //question 5 feedback on toggle question
+      //                      Question 5 Feedback on Y/N
       guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
