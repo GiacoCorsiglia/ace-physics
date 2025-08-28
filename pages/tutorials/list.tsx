@@ -227,6 +227,18 @@ if (process.env.NEXT_PUBLIC_ACE_ENV !== "production")
     ),
     tags: [],
   });
+tutorialList.push({
+  id: "interpreting-superpositions",
+  link: "interpreting-superpositions",
+  label: "Interpreting superposition states",
+  blurb: (
+    <>
+      Explore differences and similarities between various superposition (and
+      mixed) quantum states Environment: {process.env.NEXT_PUBLIC_ACE_ENV}
+    </>
+  ),
+  tags: [],
+});
 // use push to add testtutorial in !'production' environment
 tutorialList.push({
   id: "TestTutorialSteve",
