@@ -74,13 +74,21 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.furtherQuestion1?.selected !== "yes" ? (
                   <p>
-                    Not the answer we are looking for, check your reasoning
-                    again.
+                    You selected "No", but there is a way. <br /> Look back at
+                    what you did near the end of the previous page. Consider
+                    first acting a Hadamard (H) gate on these states, and THEN
+                    measuring. What would the outcomes be for Alice and for
+                    Charlie?
                     <br />
                     You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.</p>
+                  <p>
+                    We agree with your selected answer (but our system is not
+                    able to evaluate your typed response) <br /> Acting a
+                    Hadamard gate before measurement will distinguish these two
+                    states with 100% certainty. (Do you see why?)
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -132,13 +140,19 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.furtherQuestion2?.selected !== "yes" ? (
                   <p>
-                    Not the answer we are looking for, check your reasoning
-                    again.
+                    You selected "No", but there is a way. <br />
+                    Can you think of single quantum gate that changes the phase
+                    of the |1⟩ state, but not the |0⟩ state?
                     <br />
                     You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.</p>
+                  <p>
+                    We agree with your selected answer (but our system is not
+                    able to evaluate your typed response) <br /> Did you think
+                    of applying a Z gate (which changes the phase of a |1⟩
+                    state, but not a |0⟩ state)?
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -194,13 +208,24 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.furtherQuestion3?.selected !== "yes" ? (
                   <p>
-                    Not the answer we are looking for, check your reasoning
-                    again.
+                    ZZZ maybe fix this! This is a little subtle. What if you
+                    simply measure Charlie's qubit? This will give you a 50/50
+                    chance of getting |0⟩ or |1⟩, just like Bob's qubit.
                     <br />
-                    You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.</p>
+                  <p>
+                    ZZZ maybe fix this! We agree, although it's a little
+                    ambiguous. Our best answer is to simply measure Charlie's
+                    qubit. After measurement, it will be in the state you
+                    measured (either |0⟩ or |1⟩), with 50/50 chance of either.
+                    Still, the resulting qubit is not really in Bob's mixed
+                    state, it's definitely one or the other (we just did not
+                    know in advance) You cannot convert Charlie's original
+                    superposition state into Bob's mixed state through gates and
+                    measurements alone.
+                    <br />.
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -259,7 +284,10 @@ export default page(setup, ({ section, hint }) => ({
                     You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.</p>
+                  <p>
+                    We agree with your selected answer (but our system is not
+                    able to evaluate your typed response) <br />.
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
