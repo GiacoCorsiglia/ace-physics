@@ -1,5 +1,4 @@
-import { Callout, Decimal, Guidance, M, Prose } from "@/components";
-import { approxEquals } from "@/helpers/server";
+import { Callout, Dropdown, Guidance, M, Prose } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
@@ -70,7 +69,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "qubitProb0",
       body: (m) => (
         <>
-          <Decimal
+          <Dropdown
             model={m.qubitProb0}
             label={
               <Prose>
@@ -79,6 +78,15 @@ export default page(setup, ({ section, hint }) => ({
                 what is the probability of measuring it to be <M t="\ket{0}" />?
               </Prose>
             }
+            choices={[
+              ["+z", <M t="3i/5" />],
+              ["-z", <M t="9/25" />],
+              ["+x", <M t="-9/25" />],
+              ["-x", <M t="4/5" />],
+              ["+y", <M t="16/25" />],
+              ["-y", <M t="-16/25" />],
+            ]}
+
           />
 
           <Prose>
@@ -95,6 +103,31 @@ export default page(setup, ({ section, hint }) => ({
           </Prose>
         </>
       ),
+
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.qubitProb0?.selected === "-z" ? "agree" : "disagree"
+                }
+              >
+                {responses?.qubitProb0?.selected !== "-z" ? (
+                  <p>
+                    Not the answer we are looking for. You are welcome to change your answer above.
+                  </p>
+                ) : (
+                  <p>
+                    We agree with your answer. </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
       hints: [
         hint({
           name: "probability",
@@ -108,75 +141,12 @@ export default page(setup, ({ section, hint }) => ({
           ),
         }),
       ],
-      guidance: {
-        nextMessage(r) {
-          const correct = (3 / 5) ** 2;
-          const prob = r.qubitProb0;
-
-          if (prob === undefined) {
-            return null;
-          }
-
-          if (approxEquals(prob, correct, 0.01)) {
-            return "correct";
-          } else if (approxEquals(prob, -correct, 0.01)) {
-            return "negativeCorrect";
-          } else if (prob === 3 / 5 || prob === -3 / 5) {
-            return "unsquared";
-          } else if (prob < 0 || prob > 1) {
-            return "outOfRange";
-          } else {
-            return "incorrect";
-          }
-        },
-        messages: {
-          correct: {
-            body: <Guidance.Agree>We agree with your answer!</Guidance.Agree>,
-            onContinue: "nextSection",
-          },
-          negativeCorrect: {
-            body: (
-              <Guidance.Disagree>
-                Heads up: <M t="|i|^2 = +1" />, so your answer should be
-                positive.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-          unsquared: {
-            body: (
-              <Guidance.Disagree>
-                Close, but you need to square the coefficient when calculating
-                probability.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-          outOfRange: {
-            body: (
-              <Guidance.Disagree>
-                Your answer should be between 0 and 1.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                We disagree with your answer. Check your calculation then click
-                “Check in Again”.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-        },
-      },
     }),
 
     section({
       name: "qubitProb1",
       body: (m) => (
-        <Decimal
+        <Dropdown
           model={m.qubitProb1}
           label={
             <Prose>
@@ -184,47 +154,46 @@ export default page(setup, ({ section, hint }) => ({
               same state as the last question)?
             </Prose>
           }
+          choices={[
+            ["+z", <M t="3i/5" />],
+            ["-z", <M t="9/25" />],
+            ["+x", <M t="-9/25" />],
+            ["-x", <M t="4/5" />],
+            ["+y", <M t="16/25" />],
+            ["-y", <M t="-16/25" />],
+          ]}
         />
       ),
       guidance: {
-        nextMessage(r) {
-          const correct = (4 / 5) ** 2;
-          const prob = r.qubitProb1;
-
-          if (approxEquals(prob, correct, 0.01)) {
-            return "correct";
-          } else {
-            return "incorrect";
-          }
-        },
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          correct: {
-            body: (
-              <Guidance.Agree>
-                <p>We agree with your answer.</p>
-
-                <p>
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.qubitProb1?.selected === "+y" ? "agree" : "disagree"
+                }
+              >
+                {responses?.qubitProb1?.selected !== "+y" ? (
+                  <p>
+                    Heads up—double check your calculation.
+                  </p>
+                ) : (
+                  <p>We agree with your answer.
+                    <br />
                   You can confirm that the probabilities for <M t="\ket{0}" />{" "}
                   (which you found above) and <M t="\ket{1}" /> add up to 1.
                   This is always the case: you must have 100% probability of
                   measuring <em>something</em>.
-                </p>
-
-                <p>
+                  <br />
                   The <M t="1/5" /> coefficient in front of the column vector
                   ensures that this is true.
                 </p>
-              </Guidance.Agree>
+
+                )}
+              </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
-          },
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                <p>Heads up—double check your calculation.</p>
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
           },
         },
       },

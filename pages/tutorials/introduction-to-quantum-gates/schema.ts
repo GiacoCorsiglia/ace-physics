@@ -26,16 +26,13 @@ export default s.tutorial({
     quantumBitsIntro: s.section(),
     qubitsAsColumns: s.section(),
     qubitProb0: s.section({
-      messages: [
-        "correct",
-        "negativeCorrect",
-        "unsquared",
-        "outOfRange",
-        "incorrect",
-      ],
+      messages: ["dynamicAnswer"],
     }),
+
+    //qubitProb0Feedback: s.section(),
+
     qubitProb1: s.section({
-      messages: ["correct", "incorrect"],
+      messages: ["dynamicAnswer"],
     }),
 
     xGateIntro: s.section(),
@@ -78,8 +75,9 @@ export default s.tutorial({
     }),
   },
   responses: {
-    qubitProb0: s.number(),
-    qubitProb1: s.number(),
+
+    qubitProb0: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    qubitProb1: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
 
     xTimesArbitraryKet: s.string(),
     xTimesKet: s.tuple(s.string(), s.string()),
