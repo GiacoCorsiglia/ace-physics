@@ -14,7 +14,7 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           <p>
             In a classical computer, bits are 0 and 1. In a quantum computer, we
-            write <strong>qu</strong>bits as <M t="\ket{0}" /> and
+            write qubits as <M t="\ket{0}" /> and
             <M t="\ket{1}" />. A unique feature of a quantum computer is that a
             qubit can exist in a superposition state:
             <M display t="\ket{\psi} = a\ket{0}+b\ket{1}" />
@@ -186,8 +186,7 @@ export default page(setup, ({ section, hint }) => ({
                   This is always the case: you must have 100% probability of
                   measuring <em>something</em>.
                   <br />
-                  The <M t="1/5" /> coefficient in front of the column vector
-                  ensures that this is true.
+                 This is called <strong>normalization.</strong>
                 </p>
 
                 )}
