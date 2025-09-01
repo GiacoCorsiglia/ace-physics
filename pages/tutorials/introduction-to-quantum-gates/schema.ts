@@ -108,6 +108,7 @@ export default s.tutorial({
     probability: s.hint(),
     withoutMatrices: s.hint(),
     actX: s.hint(),
+    changedState: s.hint(),
     phase: s.hint(),
   },
 });

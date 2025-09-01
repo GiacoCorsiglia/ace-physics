@@ -32,8 +32,10 @@ export default page(setup, ({ section, hint }) => ({
           <strong>phase</strong> of <M t="-1" /> to the <M t="\ket{1}" /> state.
           It is written in matrix form as{" "}
           <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
-          Take a moment to verify (using matrix multiplication) that
-          <M t="Z\ket{0} = \ket{0}" /> and <M t="Z\ket{1} = -\ket{1}" />.
+          Take a moment to verify (using matrix multiplication) that <br />
+          <br />
+          <M t="{\color{green} \mathbf{Z\ket{0} = \ket{0}}}" />
+           and <M t="{\color{green} \mathbf{Z\ket{1} = -\ket{1}}}" />.
         </Prose>
       ),
       hints: [
@@ -116,8 +118,8 @@ export default page(setup, ({ section, hint }) => ({
             model={m.zTimesArbitraryKet}
             label={
               <Prose>
-                What is <M t="Z (a\ket{0} + b\ket{1})" />? Can you answer this
-                without using matrices?
+                What is <M t="Z (a\ket{0} + b\ket{1})" />? Try to answer this
+                without using matrices!
               </Prose>
             }
           />
@@ -152,6 +154,25 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "changedState",
+          label: (
+            <>
+              Changed state?
+            </>
+          ),
+          body: (
+            <Prose>
+              <p>
+              A state is considered changed if it has different coefficients.
+              The only exception is if both coefficients differ by the same
+               phase, which we refer to as a global phase.
+              </p>
+            </Prose>
+          ),
+        }),
+      ],
       guidance: {
         nextMessage: () => "answer",
         messages: {
