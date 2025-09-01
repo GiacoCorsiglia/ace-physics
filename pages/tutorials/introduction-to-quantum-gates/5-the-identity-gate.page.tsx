@@ -27,7 +27,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
-
+//question A
     section({
       name: "identityTimesKet",
       body: (m) => (
@@ -56,19 +56,28 @@ export default page(setup, ({ section }) => ({
         </>
       ),
       guidance: {
-        nextMessage: () => "answer",
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
+          dynamicAnswer: {
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.identityTimesKet?.selected === "no"
-                    ? "agree"
-                    : "disagree"
+                  responses?.identityTimesKet?.selected === "no" ? "agree" : "disagree"
                 }
               >
-                The identity gate acting on any state always produces the same
-                state.
+                {responses?.identityTimesKet?.selected !== "no" ? (
+                  <p>
+                    We disagree with your answer.
+                    <br />
+                     the identity gate acting on any state always produces the same state.
+                  </p>
+                ) : (
+                  <p>We agree with your answer.
+                    <br />
+                   The identity gate acting on any state always produces the same state.
+                </p>
+
+                )}
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
@@ -76,7 +85,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
+//question B
     section({
       name: "xAndZSquaredEqualsI",
       body: (m) => (
@@ -100,18 +109,28 @@ export default page(setup, ({ section }) => ({
         </>
       ),
       guidance: {
-        nextMessage: () => "answer",
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
+          dynamicAnswer: {
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.xAndZSquaredEqualsI?.selected === "true"
-                    ? "agree"
-                    : "disagree"
+                  responses?.xAndZSquaredEqualsI?.selected === "true" ? "agree" : "disagree"
                 }
               >
-                Turns out <M t="X^2 = Z^2 = H^2 = I" />!
+                {responses?.xAndZSquaredEqualsI?.selected !== "true" ? (
+                  <p>
+                    We disagree with your answer.
+                    <br />
+                    Turns out <M t="X^2 = Z^2 = H^2 = I" />!
+                  </p>
+                ) : (
+                  <p>We agree with your answer.
+                    <br />
+                    Turns out <M t="X^2 = Z^2 = H^2 = I" />!
+                </p>
+
+                )}
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",

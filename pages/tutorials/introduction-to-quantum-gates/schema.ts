@@ -68,10 +68,10 @@ export default s.tutorial({
 
     identityGateIntro: s.section(),
     identityTimesKet: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
     xAndZSquaredEqualsI: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
   },
   responses: {
