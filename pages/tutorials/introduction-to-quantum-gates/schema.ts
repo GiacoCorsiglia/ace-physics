@@ -42,7 +42,7 @@ export default s.tutorial({
     }),
     xTimesKet: s.section(),
     xTimesPlus: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
 
     zGateIntro: s.section(),
