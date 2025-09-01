@@ -25,7 +25,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
-
+//question A
     section({
       name: "hTimes0And1",
       body: (m) => (
@@ -91,7 +91,7 @@ export default page(setup, ({ section }) => ({
         label: "I’ll remember that!",
       },
     }),
-
+//question B
     section({
       name: "hTimesKet",
       body: (m) => (
@@ -140,7 +140,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
+//question C
     section({
       name: "hTimesHTimesKet",
       body: (m) => (
@@ -149,8 +149,11 @@ export default page(setup, ({ section }) => ({
             model={m.hTimesHTimesKet}
             label={
               <Prose>
-                What is <M t="H" /> acting on the state <M t="H\ket{0}" />?
+                What is <M t="H" /> acting on the state <M t="H\ket{0}" />? <br />
+                <br /> <em>Note: this can also be written as <M t="H(H\ket{0})" /> or{" "}
+                <M t="H^2\ket{0}" />.</em>
               </Prose>
+
             }
             choices={[
               ["|0>", <M t="\ket{0}" />],
@@ -163,11 +166,6 @@ export default page(setup, ({ section }) => ({
               ["-|->", <M t="-\ket{-}" />],
             ]}
           />
-
-          <Prose>
-            Note: this can also be written as <M t="H(H\ket{0})" /> or{" "}
-            <M t="H^2\ket{0}" />.
-          </Prose>
         </>
       ),
       guidance: {
