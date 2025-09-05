@@ -318,18 +318,21 @@ export default page(setup, ({ section, hint }) => ({
           answer: {
             body: (
               <Callout color="blue">
-                This one is again a little subtle.
-                 Can you convert a 50/50 mixed state into a
-                particular superposition state?  None of our
-                quantum gates can do this for us. <br /> <br /> One reasonable
-                approach is to measure Bob's qubit. But now you have to respond "conditionally".
-                If you measure |1>, act a Hadamard on it , which turns it into Charlie's state.<br />
-                If you measure |0>, first act an X (which turns it into |1>), then a Hadamard, which again turns it into Charlie's state.
-                <br /> This works, but it requires you to know the outcome of the measurement, and then act differently based on that outcome.
-
+                This one is again a little subtle. Can you convert a 50/50 mixed
+                state into a particular superposition state? None of our quantum
+                gates can do this for us. <br /> <br /> One reasonable approach
+                is to measure Bob's qubit. But now you have to respond
+                "conditionally". If you measure |1⟩, act a Hadamard on it ,
+                which turns it into Charlie's state.
+                <br />
+                If you measure |0⟩, first act an X (which turns it into |1⟩),
+                then a Hadamard, which again turns it into Charlie's state.
+                <br /> This works, but it requires you to know the outcome of
+                the measurement, and then act differently based on that outcome.
                 <br /> <br />
-                Note that if you simply measure Bob's qubit and ignore the outcome, you will end up with either |0⟩ or |1⟩, each with 50% probability.
-                This is not Charlie's superposition state.
+                Note that if you simply measure Bob's qubit and ignore the
+                outcome, you will end up with either |0⟩ or |1⟩, each with 50%
+                probability. This is not Charlie's superposition state.
               </Callout>
             ),
             onContinue: "nextSection",
@@ -442,15 +445,18 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.furtherQuestion5?.selected !== "no" ? (
                   <p>
-                    Note that these two qubits differ only by an overall common phase of -1.
+                    Note that these two qubits differ only by an overall common
+                    phase of -1.
                     <br />
-                    Any such overall phase has no measurable effect on the qubit.
+                    Any such overall phase has no measurable effect on the
+                    qubit.
                     <br />
                     You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.  Overall phase of a qubit is not measurable, there
-                    is no way to distinguish these two states.
+                  <p>
+                    We agree with your answer. Overall phase of a qubit is not
+                    measurable, there is no way to distinguish these two states.
                   </p>
                 )}
               </Guidance.Dynamic>
