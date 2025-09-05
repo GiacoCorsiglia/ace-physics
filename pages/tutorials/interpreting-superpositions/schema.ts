@@ -104,12 +104,14 @@ export default s.tutorial({
     furtherQuestion2: s.section({
       messages: ["dynamicAnswer"],
     }),
-    furtherQuestion3: s.section({
-      messages: ["dynamicAnswer"],
-    }),
-    furtherQuestion4: s.section({
-      messages: ["dynamicAnswer"],
-    }),
+    furtherQuestion3: s.section({ messages: ["answer"] }),
+    // furtherQuestion3: s.section({
+    //   messages: ["dynamicAnswer"],
+    // }),
+    furtherQuestion4: s.section({ messages: ["answer"] }),
+    // furtherQuestion4: s.section({
+    //   messages: ["dynamicAnswer"],
+    // }),
     furtherQuestion5: s.section({
       messages: ["dynamicAnswer"],
     }),
