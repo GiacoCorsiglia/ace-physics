@@ -13,7 +13,8 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "superpositionvmixed",
   label: "Superposition versus mixed states",
-  answers: "provided",
+  //  answers: "provided",
+  answers: "checked-some",
   //                          cheat sheet
   cheatSheet: {
     body: (
@@ -142,7 +143,9 @@ export default page(setup, ({ section, hint }) => ({
           />
           <Prose faded>
             {" "}
-            <em>Your answer should be a whole number.</em>{" "}
+            <em>
+              Your answer should be a whole number, not a fraction or decimal.
+            </em>{" "}
           </Prose>
         </>
       ),
@@ -214,13 +217,22 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.aliceBobQuestion2C?.selected !== "no" ? (
                   <p>
-                    Not the answer we are looking for, check your reasoning
-                    again.
+                    Since the measurement outcomes are identical (50/50), how
+                    can Alice and Bob distinguish their states simply by
+                    measuring? <br /> (If you have already started to think
+                    about some other experiment they could do - great! But our
+                    question was just about the experiments they have done so
+                    far, a direct measurement of their qubits. )
                     <br />
                     You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.</p>
+                  <p>
+                    We agree with your answer. The outcomes for Alice and Bob
+                    are identical, 50/50. They cannot distinguish their boxes
+                    based on these measurements alone, even if they make a large
+                    number of trials.
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -282,14 +294,20 @@ export default page(setup, ({ section, hint }) => ({
         messages: {
           correct: {
             body: (
-              <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
+              <Guidance.Agree>
+                Nice, we agree with your answer. After acting a Z gate, we have
+                merely changed the phase of |1⟩ states, which does not affect
+                any measurement outcomes.
+              </Guidance.Agree>
             ),
             onContinue: "nextSection",
           },
           incorrect: {
             body: (
               <Guidance.Disagree>
-                At least one of your answers is incorrect. Please try again.
+                After acting with a Z gate, we have merely changed the phase of
+                |1⟩ states. Does this affect any measurement probabilities?
+                (Please try again.)
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
@@ -337,13 +355,19 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.aliceBobQuestion3C?.selected !== "no" ? (
                   <p>
-                    Not the answer we are looking for, check your reasoning
-                    again.
+                    Since the measurement outcomes are still identical (50/50),
+                    how can Alice and Bob distinguish their states simply by
+                    measuring? <br />
                     <br />
                     You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.</p>
+                  <p>
+                    We agree with your answer. Acting with a single Z gate did
+                    not change any of our measurement probabilities, so Alice
+                    and Bob still cannot distinguish their boxes based on these
+                    measurements alone.
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -399,13 +423,19 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.aliceBobQuestion4?.selected !== "no" ? (
                   <p>
-                    Not the answer we are looking for, check your reasoning
-                    again.
+                    Acting with an X gate flips |0⟩ with |1⟩ and vice versa.
+                    Does this change either Alice or Bob's probabilities for
+                    measurment?
                     <br />
                     You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.</p>
+                  <p>
+                    We agree with your answer. Acting with an X gate flips |0⟩
+                    with |1⟩ and vice versa. This doesn't change either Alice or
+                    Bob's probabilities for measurement, so they still cannot
+                    distinguish their boxes based on these measurements alone.
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -468,14 +498,29 @@ export default page(setup, ({ section, hint }) => ({
         messages: {
           correct: {
             body: (
-              <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
+              <Guidance.Agree>
+                Nice, we agree with your answer. <br /> Acting an H gate on
+                Alice's superposition{" "}
+                <M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" /> gives |0⟩ with
+                100% probability. But acting an H gate on Bob's qubit means you
+                act it on either |0⟩ or |1⟩. Either of these gives 0 or 1 with
+                50% probability. So Bob's outcome remains 50/50, while Alice's
+                is now 100% |0⟩. <br /> If you only hade one measurement you
+                might not be sure, but after many measurements, Alice and Bob
+                can now distinguish their boxes!
+              </Guidance.Agree>
             ),
             onContinue: "nextSection",
           },
           incorrect: {
             body: (
               <Guidance.Disagree>
-                At least one of your answers is incorrect. Please try again.
+                At least one of your answers is incorrect. If you act an H gate
+                on Alice's superposition{" "}
+                <M t="{1\over\sqrt{2}} (\ket{0} + \ket{1})" />, what does that
+                yield? <br /> Meanwhile, if you act an H gate on Bob's qubit,
+                you act it on either |0⟩ or |1⟩. <br /> In either case, what are
+                your measurement probabilities? <br /> Please try again.
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
@@ -532,13 +577,19 @@ export default page(setup, ({ section, hint }) => ({
               >
                 {responses?.aliceBobQuestion5C?.selected !== "yes" ? (
                   <p>
-                    Not the answer we are looking for, check your reasoning
-                    again.
+                    In our last scenario above (acting an H gate before
+                    measurement), Alice and Bob had very different
+                    probabilities. After many measurements, Alice will always
+                    get 0, while Bob will get 0 or 1 with equal probability.
                     <br />
                     You are welcome to change your answer above.
                   </p>
                 ) : (
-                  <p>We agree with your answer.</p>
+                  <p>
+                    We agree with your answer. If they each first act an H gate,
+                    the probabilities for Alice and Bob are now different, so
+                    they can distinguish their boxes.
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -553,7 +604,11 @@ export default page(setup, ({ section, hint }) => ({
       body: (m) => (
         <>
           <Prose>
-            <strong>Please check your answer with an instructor.</strong> <br />
+            <strong>
+              If you have any questions at this stage, please check with an
+              instructor.
+            </strong>{" "}
+            <br />
             <br />
             This final experiment yields different statistical outcomes for
             Alice and Bob, showing that their black boxes do indeed produce
