@@ -113,6 +113,7 @@ export default page(setup, ({ section, hint }) => ({
               <Prose>
                 What is the output of the following circuit?
                 <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{H} & \gate{Z} & \qw" />
+                <em>Work it out on paper and then put your final answer in the box.</em>
               </Prose>
             }
           />
