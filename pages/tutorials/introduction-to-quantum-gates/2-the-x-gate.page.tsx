@@ -58,7 +58,7 @@ export default page(setup, ({ section, hint }) => ({
             <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
             Take a moment to verify (using matrix multiplication) that  <br />
             <br />
-           <M t="{\color{green} \mathbf{X\ket{0} = \ket{1} \and X\ket{1} = \ket{0}}}" />
+           <M display t="{{X\ket{0} = \ket{1} \and X\ket{1} = \ket{0}}}" />
 
           </p>
         </Prose>

@@ -34,8 +34,8 @@ export default page(setup, ({ section, hint }) => ({
           <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
           Take a moment to verify (using matrix multiplication) that <br />
           <br />
-          <M t="{\color{green} \mathbf{Z\ket{0} = \ket{0}}}" />
-           and <M t="{\color{green} \mathbf{Z\ket{1} = -\ket{1}}}" />.
+          <M display t="{{Z\ket{0} = \ket{0}}}" />
+           <M display t="{{Z\ket{1} = -\ket{1}}}" />.
         </Prose>
       ),
       hints: [
