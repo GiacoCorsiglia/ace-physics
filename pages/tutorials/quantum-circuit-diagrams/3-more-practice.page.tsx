@@ -117,7 +117,16 @@ export default page(setup, ({ section, hint }) => ({
               </Prose>
             }
           />
-          {/* TODO: Multiple choice.  Phase dropdown, state dropdown */}
+           <Answer>
+           <p>
+            The result of this should equal <M t="\ket{0}" /> <br />
+            Here is how we worked it out: <br />
+            <M display t="H\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \frac{1}{\sqrt{2}}(H\ket{0}+H\ket{1})" />
+            <M display t=" = \frac{1}{\sqrt{2}}\left(\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) + \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})\right)"/>
+            <M display t="= \frac{1}{2}(2\ket{0}) = \ket{0}" />
+            <M display t="Z\ket{0} = \ket{0}" />
+            </p>
+        </Answer>
         </>
       ),
     }),
@@ -150,6 +159,7 @@ export default page(setup, ({ section, hint }) => ({
     section({
       name: "doHZCommute",
       body: (m) => (
+        <>
         <TextBox
           model={m.doHZCommute}
           label={
@@ -160,6 +170,13 @@ export default page(setup, ({ section, hint }) => ({
             </Prose>
           }
         />
+        <Answer>
+           <p>
+            Because there are different answers for questions B and C,
+             it means that order matters for Z and H, which means that they do not commute.
+            </p>
+        </Answer>
+        </>
       ),
     }),
   ],
