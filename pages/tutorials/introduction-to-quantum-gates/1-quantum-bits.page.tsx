@@ -86,7 +86,6 @@ export default page(setup, ({ section, hint }) => ({
               ["+y", <M t="16/25" />],
               ["-y", <M t="-16/25" />],
             ]}
-
           />
 
           <Prose>
@@ -103,31 +102,66 @@ export default page(setup, ({ section, hint }) => ({
           </Prose>
         </>
       ),
-
-      guidance: {
-        nextMessage: () => "dynamicAnswer",
+        guidance: {
+        nextMessage: (responses) =>
+         {
+          if (responses?.qubitProb0?.selected === "-z") {
+            return "correct";
+          } else if (responses?.qubitProb0?.selected === "+x") {
+            return "negativeCorrect";
+          } else if (responses?.qubitProb0?.selected === "+z") {
+            return "unsquared";
+          } else if (responses?.qubitProb0?.selected === "+y") {
+            return "outOfRange";
+          } else {
+            return "incorrect";
+          }
+        },
         messages: {
-          dynamicAnswer: {
-            body: ({ responses }) => (
-              <Guidance.Dynamic
-                status={
-                  responses?.qubitProb0?.selected === "-z" ? "agree" : "disagree"
-                }
-              >
-                {responses?.qubitProb0?.selected !== "-z" ? (
-                  <p>
-                    Not the answer we are looking for. You are welcome to change your answer above.
-                  </p>
-                ) : (
-                  <p>
-                    We agree with your answer. </p>
-                )}
-              </Guidance.Dynamic>
-            ),
+          correct: {
+            body: <Guidance.Agree>We agree with your answer!</Guidance.Agree>,
             onContinue: "nextSection",
+          },
+          negativeCorrect: {
+            body: (
+              <Guidance.Disagree>
+                Heads up: <M t="|i|^2 = +1" />, so your answer should be
+                positive.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          unsquared: {
+            body: (
+              <Guidance.Disagree>
+                Close, but you need to square the coefficient when calculating
+                probability.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          outOfRange: {
+            body: (
+              <Guidance.Disagree>
+                We disagree with your answer. Check your calculation then click
+                “Check in Again”.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                We disagree with your answer. Check your calculation then click
+                “Check in Again”.
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
           },
         },
       },
+
+
       hints: [
         hint({
           name: "probability",

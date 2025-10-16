@@ -26,7 +26,13 @@ export default s.tutorial({
     quantumBitsIntro: s.section(),
     qubitsAsColumns: s.section(),
     qubitProb0: s.section({
-      messages: ["dynamicAnswer"],
+      messages: [
+        "correct",
+        "negativeCorrect",
+        "unsquared",
+        "outOfRange",
+        "incorrect",
+      ],
     }),
 
     //qubitProb0Feedback: s.section(),
