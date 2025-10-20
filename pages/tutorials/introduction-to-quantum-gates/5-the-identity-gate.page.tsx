@@ -6,7 +6,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "identityGate",
   label: "The Identity Gate",
-  answers: "none",
+  answers: "checked-all",
   cheatSheet: {
     body: (
       <>
@@ -27,7 +27,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
-//question A
+    //question A
     section({
       name: "identityTimesKet",
       body: (m) => (
@@ -62,21 +62,25 @@ export default page(setup, ({ section }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.identityTimesKet?.selected === "no" ? "agree" : "disagree"
+                  responses?.identityTimesKet?.selected === "no"
+                    ? "agree"
+                    : "disagree"
                 }
               >
                 {responses?.identityTimesKet?.selected !== "no" ? (
                   <p>
                     We disagree with your answer.
                     <br />
-                     the identity gate acting on any state always produces the same state.
+                    The identity gate acting on any state always produces the
+                    same state.
                   </p>
                 ) : (
-                  <p>We agree with your answer.
+                  <p>
+                    We agree with your answer.
                     <br />
-                   The identity gate acting on any state always produces the same state.
-                </p>
-
+                    The identity gate acting on any state always produces the
+                    same state.
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -85,7 +89,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-//question B
+    //question B
     section({
       name: "xAndZSquaredEqualsI",
       body: (m) => (
@@ -115,7 +119,9 @@ export default page(setup, ({ section }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.xAndZSquaredEqualsI?.selected === "true" ? "agree" : "disagree"
+                  responses?.xAndZSquaredEqualsI?.selected === "true"
+                    ? "agree"
+                    : "disagree"
                 }
               >
                 {responses?.xAndZSquaredEqualsI?.selected !== "true" ? (
@@ -125,11 +131,11 @@ export default page(setup, ({ section }) => ({
                     Turns out <M t="X^2 = Z^2 = H^2 = I" />!
                   </p>
                 ) : (
-                  <p>We agree with your answer.
+                  <p>
+                    We agree with your answer.
                     <br />
                     Turns out <M t="X^2 = Z^2 = H^2 = I" />!
-                </p>
-
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),

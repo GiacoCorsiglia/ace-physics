@@ -1,4 +1,5 @@
 import {
+  Callout,
   ChooseOne,
   Guidance,
   LabelsLeft,
@@ -8,6 +9,7 @@ import {
   TextLine,
 } from "@/components";
 import { page } from "@/tutorial";
+import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
 export default page(setup, ({ section }) => ({
@@ -25,7 +27,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
-//question A
+    //question A
     section({
       name: "hTimes0And1",
       body: (m) => (
@@ -38,6 +40,9 @@ export default page(setup, ({ section }) => ({
             <TextLine model={m.hTimes0} label={<M t="H\ket{0} =" />} />
             <TextLine model={m.hTimes1} label={<M t="H\ket{1} =" />} />
           </LabelsLeft>
+          <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
+            Scrap paper is your friend!
+          </Callout>
         </>
       ),
     }),
@@ -62,8 +67,8 @@ export default page(setup, ({ section }) => ({
 
           <p>
             The Hadamard gate is important because, as you have just seen, it
-            takes a <M t="\ket{0}" /> or a <M t="\ket{1}" /> input state and
-            turns them into superposition states.
+            turns a <M t="\ket{0}" /> or a <M t="\ket{1}" /> into a
+            superposition state.
           </p>
 
           {/* TODO: Define |+> and |-> */}
@@ -79,11 +84,11 @@ export default page(setup, ({ section }) => ({
           These states are so common we often refer to them simply as:
           <M
             display
-            t="\ket{+} \equiv \frac{1}{\sqrt{2}} ( \ket{0} + \ket{1} ) \equiv \frac{1}{\sqrt{2}}\pmatrix{1 \\ 1}"
+            t="\ket{+} \equiv \frac{1}{\sqrt{2}} ( \ket{0} + \ket{1} ) = \frac{1}{\sqrt{2}}\pmatrix{1 \\ 1}"
           />
           <M
             display
-            t="\ket{-} \equiv \frac{1}{\sqrt{2}} ( \ket{0} - \ket{1} )\equiv \frac{1}{\sqrt{2}}\pmatrix{1 \\ -1}"
+            t="\ket{-} \equiv \frac{1}{\sqrt{2}} ( \ket{0} - \ket{1} )= \frac{1}{\sqrt{2}}\pmatrix{1 \\ -1}"
           />
         </Prose>
       ),
@@ -91,7 +96,7 @@ export default page(setup, ({ section }) => ({
         label: "I’ll remember that!",
       },
     }),
-//question B
+    //question B
     section({
       name: "hTimesKet",
       body: (m) => (
@@ -140,7 +145,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-//question C
+    //question C
     section({
       name: "hTimesHTimesKet",
       body: (m) => (
@@ -149,11 +154,14 @@ export default page(setup, ({ section }) => ({
             model={m.hTimesHTimesKet}
             label={
               <Prose>
-                What is <M t="H" /> acting on the state <M t="H\ket{0}" />? <br />
-                <br /> <em>Note: this can also be written as <M t="H(H\ket{0})" /> or{" "}
-                <M t="H^2\ket{0}" />.</em>
+                What is <M t="H" /> acting on the state <M t="H\ket{0}" />?{" "}
+                <br />
+                <br />{" "}
+                <em>
+                  Note: this can also be written as <M t="H(H\ket{0})" /> or{" "}
+                  <M t="H^2\ket{0}" />.
+                </em>
               </Prose>
-
             }
             choices={[
               ["|0>", <M t="\ket{0}" />],
@@ -222,20 +230,22 @@ export default page(setup, ({ section }) => ({
         <>
           <Prose>
             <p>
-              You've discovered that{" "}
-              <M t="H \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \ket{0}" />. It
-              turns out that{" "}
+              You've just discovered that{" "}
+              <M t="H \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \ket{0}" />.{" "}
+              <br />
+              It turns out that{" "}
               <M t="H \frac{1}{\sqrt{2}}(\ket{0} - \ket{1}) = \ket{1}" />.
             </p>
             {/* This is
             how we can tell that <M t="\ket{+}" /> and <M t="\ket{-}" /> are different states. */}
             <p>
-              You may have noticed earlier that measurements of both{" "}
-              <M t="\ket{+}" /> and <M t="\ket{-}" /> have a 50/50 chance of
-              returning either <M t="\ket{0}" /> or <M t="\ket{1}" />. However,
-              we can now distinguish <M t="\ket{+}" /> and <M t="\ket{-}" />{" "}
-              from each other by first applying H to get <M t="\ket{0}" /> or{" "}
-              <M t="\ket{1}" /> respectively, then measuring.
+              You may have noticed that when you measure either{" "}
+              <M t="\ket{+}" /> or <M t="\ket{-}" />, you have a 50/50 chance of
+              returning either <M t="\ket{0}" /> or <M t="\ket{1}" />. <br />
+              However, we can now distinguish <M t="\ket{+}" /> and{" "}
+              <M t="\ket{-}" /> from each other by first applying H to get{" "}
+              <M t="\ket{0}" /> or <M t="\ket{1}" /> respectively, then
+              measuring.
             </p>
           </Prose>
         </>

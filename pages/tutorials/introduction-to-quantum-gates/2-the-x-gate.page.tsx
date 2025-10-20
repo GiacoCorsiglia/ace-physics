@@ -21,11 +21,13 @@ export default page(setup, ({ section, hint }) => ({
       name: "xGateIntro",
       body: (
         <Prose>
-          To perform any tasks on our quantum computer, we need to apply <strong>gates</strong>.
-          (like in a classical computer, where we have the NOT gate and the OR
-          gate). <mark>When a gate acts on a state, the result is another state.</mark>These
-          gates take the form of quantum mechanical operators. We will go over
-          some of the more common gates for quantum computers.
+          To perform any tasks on our quantum computer, we need to apply{" "}
+          <strong>gates</strong>. (like in a classical computer, where we have
+          the NOT gate and the OR gate). <br />{" "}
+          <mark>When a gate acts on a state, the result is another state.</mark>{" "}
+          <br />
+          These gates take the form of quantum mechanical operators. We will go
+          over some of the more common gates for quantum computers.
         </Prose>
       ),
       continue: {
@@ -56,10 +58,8 @@ export default page(setup, ({ section, hint }) => ({
             Mathematically, the <M t="X" /> gate is written in matrix notation
             as
             <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
-            Take a moment to verify (using matrix multiplication) that  <br />
-            <br />
-           <M display t="{{X\ket{0} = \ket{1} \and X\ket{1} = \ket{0}}}" />
-
+            Take a moment to verify (using matrix multiplication) that <br />
+            <M display t="{{X\ket{0} = \ket{1} \and X\ket{1} = \ket{0}}}" />
           </p>
         </Prose>
       ),
@@ -67,7 +67,7 @@ export default page(setup, ({ section, hint }) => ({
         label: "I verified these equalities",
       },
     }),
-//question A
+    //question A
     section({
       name: "xTimesArbitraryKet",
       body: (m) => (
@@ -78,11 +78,13 @@ export default page(setup, ({ section, hint }) => ({
               <Prose>
                 What is <M t="X (a\ket{0} + b\ket{1})" />?
                 <br />
-                <em>You can type a ket using the <code>|</code> and <code>{">"}</code>{" "}
-                keys, such as |0{">"}.</em>
+                <em>
+                  You can type a ket using the <code>|</code> and{" "}
+                  <code>{">"}</code> keys, such as |0{">"}.
+                </em>
               </Prose>
             }
-            />
+          />
           <Prose>Can you answer this without using matrices?</Prose>
         </>
       ),
@@ -125,7 +127,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-//question B
+    //question B
     section({
       name: "xTimesKet",
       body: (m) => (
@@ -146,7 +148,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
-//question C
+    //question C
     section({
       name: "xTimesPlus",
       body: (m) => (
@@ -201,25 +203,27 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.xTimesPlus?.selected === "no" ? "agree" : "disagree"
+                  responses?.xTimesPlus?.selected === "no"
+                    ? "agree"
+                    : "disagree"
                 }
               >
                 {responses?.xTimesPlus?.selected !== "no" ? (
                   <p>
                     It’s the same state, because the coefficients for{" "}
-                <M t="\ket{0}" /> and <M t="\ket{1}" /> are both{" "}
-                <M t="1/\sqrt{2}" />, so swapping the coefficients has no
-                effect.
+                    <M t="\ket{0}" /> and <M t="\ket{1}" /> are both{" "}
+                    <M t="1/\sqrt{2}" />, so swapping the coefficients has no
+                    effect.
                   </p>
                 ) : (
-                  <p>We agree with your answer.
+                  <p>
+                    We agree with your answer.
                     <br />
                     It’s the same state, because the coefficients for{" "}
-                <M t="\ket{0}" /> and <M t="\ket{1}" /> are both{" "}
-                <M t="1/\sqrt{2}" />, so swapping the coefficients has no
-                effect.
-                </p>
-
+                    <M t="\ket{0}" /> and <M t="\ket{1}" /> are both{" "}
+                    <M t="1/\sqrt{2}" />, so swapping the coefficients has no
+                    effect.
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),

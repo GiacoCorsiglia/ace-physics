@@ -30,12 +30,12 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           The <M t="Z" /> gate (or “Phase gate”, or <M t="U_Z" />) adds a{" "}
           <strong>phase</strong> of <M t="-1" /> to the <M t="\ket{1}" /> state.
+          <br />
           It is written in matrix form as{" "}
           <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
           Take a moment to verify (using matrix multiplication) that <br />
-          <br />
           <M display t="{{Z\ket{0} = \ket{0}}}" />
-           <M display t="{{Z\ket{1} = -\ket{1}}}" />.
+          <M display t="{{Z\ket{1} = -\ket{1}}}" />
         </Prose>
       ),
       hints: [
@@ -44,9 +44,10 @@ export default page(setup, ({ section, hint }) => ({
           label: "Phase?",
           body: (
             <>
-              A “phase” is any complex coefficient of magnitude 1—i.e., of the
-              form <M t="e^{i\theta}" />. This includes <M t="1, -1, i" /> and{" "}
-              <M t="-i" />.
+              A “phase” is any complex coefficient of magnitude 1, of the form{" "}
+              <M t="e^{i\theta}" />. <br />
+              (This includes <M t="1, -1, i" /> and <M t="-i" />
+              .)
             </>
           ),
         }),
@@ -157,17 +158,13 @@ export default page(setup, ({ section, hint }) => ({
       hints: [
         hint({
           name: "changedState",
-          label: (
-            <>
-              Changed state?
-            </>
-          ),
+          label: <>Changed state?</>,
           body: (
             <Prose>
               <p>
-              A state is considered changed if it has different coefficients.
-              The only exception is if both coefficients differ by the same
-               phase, which we refer to as a global phase.
+                A state is considered changed if it has different coefficients.
+                The only exception is if both coefficients differ by the same
+                phase, which we refer to as a global phase.
               </p>
             </Prose>
           ),
