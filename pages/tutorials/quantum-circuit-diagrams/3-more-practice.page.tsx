@@ -78,10 +78,10 @@ export default page(setup, ({ section, hint }) => ({
                     : "disagree"
                 }
               >
-                The operator <M t="?" /> is the <em>inverse</em> of <M t="X" />.
-                If an operator is unitary, it is its own inverse. <M t="X" />,{" "}
-                <M t="Z" />, and <M t="H" /> are unitary, just like many other
-                gates we use in quantum computing.
+                Some of the common quantum computing gates, such as <M t="X" />,{" "}
+                <M t="Z" />, and <M t="H" />
+                are their own inverses! (Note that this is not true of all
+                gates.)
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
@@ -113,20 +113,31 @@ export default page(setup, ({ section, hint }) => ({
               <Prose>
                 What is the output of the following circuit?
                 <QuantumCircuit t="\lstick{\frac{1}{\sqrt{2}}(\ket{0} + \ket{1})} & \gate{H} & \gate{Z} & \qw" />
-                <em>Work it out on paper and then put your final answer in the box.</em>
+                <em>
+                  Work it out on paper and then put your final answer in the
+                  box.
+                </em>
               </Prose>
             }
           />
-           <Answer>
-           <p>
-            The result of this should equal <M t="\ket{0}" /> <br />
-            Here is how we worked it out: <br />
-            <M display t="H\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \frac{1}{\sqrt{2}}(H\ket{0}+H\ket{1})" />
-            <M display t=" = \frac{1}{\sqrt{2}}\left(\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) + \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})\right)"/>
-            <M display t="= \frac{1}{2}(2\ket{0}) = \ket{0}" />
-            <M display t="Z\ket{0} = \ket{0}" />
+          <Answer>
+            <p>
+              The result of this should equal <M t="\ket{0}" /> <br />
+              Here is how we worked it out: <br />
+              <M
+                display
+                t="H\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \frac{1}{\sqrt{2}}(H\ket{0}+H\ket{1})"
+              />
+              <M
+                display
+                t=" = \frac{1}{\sqrt{2}}\left(\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) + \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})\right)"
+              />
+              <M display t="= \frac{1}{2}(2\ket{0}) = \ket{0}" />
+              <M display t="Z\ket{0} = \ket{0}" /> <br />
+              This is not the only way to work it out. For example, you could
+              use matrices.
             </p>
-        </Answer>
+          </Answer>
         </>
       ),
     }),
@@ -149,7 +160,9 @@ export default page(setup, ({ section, hint }) => ({
               display
               t="Z\frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \frac{1}{\sqrt{2}}(Z\ket{0}+Z\ket{1}) = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1}) = \ket{-}"
             />
-            <M display t="H\ket{-} = \ket{1}" />
+            <M display t="H\ket{-} = \ket{1}" /> <br />
+            If that last line isn't obvious to you, work it out like we did in
+            part B.
           </Answer>
           {/* TODO: Multiple choice */}
         </>
@@ -160,22 +173,23 @@ export default page(setup, ({ section, hint }) => ({
       name: "doHZCommute",
       body: (m) => (
         <>
-        <TextBox
-          model={m.doHZCommute}
-          label={
-            <Prose>
-              Given the answers on this page, can you say whether <M t="H" />{" "}
-              commutes with <M t="Z" /> without bothering to multiply matrices
-              in different orders?
-            </Prose>
-          }
-        />
-        <Answer>
-           <p>
-            Because there are different answers for questions B and C,
-             it means that order matters for Z and H, which means that they do not commute.
+          <TextBox
+            model={m.doHZCommute}
+            label={
+              <Prose>
+                Given the answers on this page, can you say whether <M t="H" />{" "}
+                commutes with <M t="Z" /> without bothering to multiply matrices
+                in different orders?
+              </Prose>
+            }
+          />
+          <Answer>
+            <p>
+              Because there are different answers for questions B and C, it
+              means that order matters for Z and H, which means that they do not
+              commute.
             </p>
-        </Answer>
+          </Answer>
         </>
       ),
     }),

@@ -14,7 +14,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "circuitDiagrams",
   label: "Circuit Diagrams",
-  answers: "provided",
+  answers: "checked-some",
   cheatSheet: {
     body: (
       <>
@@ -61,7 +61,9 @@ export default page(setup, ({ section, hint }) => ({
       body: (m) => (
         <>
           <Prose>
-            Compute <M t="XZ" /> and <M t="ZX" /> using matrices.
+            Compute <M t="XZ" /> and <M t="ZX" /> using matrices. <br /> (If you
+            need a refresher on these matrices, click the "i" button in the
+            lower left of your screen.)
           </Prose>
 
           <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
@@ -90,21 +92,26 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.doXAndZCommute?.selected === "yes" ? "agree" : "disagree"
+                  responses?.doXAndZCommute?.selected === "yes"
+                    ? "agree"
+                    : "disagree"
                 }
               >
                 {responses?.doXAndZCommute?.selected !== "yes" ? (
                   <p>
-                    In general, the order of matrix multiplication matters. However, if it happens that
-                  AB=BA, then the operators A and B are said to commute. <br />
-                  <br />
-                  Please check your matrix multiplication.
+                    In general, the order of matrix multiplication matters.
+                    However, if it happens that AB=BA, then the operators A and
+                    B are said to commute. <br />
+                    <br />
+                    Please check your matrix multiplication.
                   </p>
                 ) : (
                   <p>
-                    Great! In general, the order of matrix multiplication matters. However,
-                    if it happens that AB=BA, then the operators A and B are said to commute. In this case,
-                     we have found that X and Z do not commute. </p>
+                    Great! In general, the order of matrix multiplication
+                    matters. However, if it happens that AB=BA, then the
+                    operators A and B are said to commute. In this case, we have
+                    found that X and Z do not commute.{" "}
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
@@ -112,7 +119,6 @@ export default page(setup, ({ section, hint }) => ({
           },
         },
       },
-
     }),
 
     section({
@@ -126,7 +132,6 @@ export default page(setup, ({ section, hint }) => ({
                 Does <M t="Z" /> commute with itself?
               </Prose>
             }
-
             choices={[
               ["yes", "Yes"],
               ["no", "No"],
@@ -209,16 +214,15 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.circuitDiagramOrder?.selected === "xz" ? "agree" : "disagree"
+                  responses?.circuitDiagramOrder?.selected === "xz"
+                    ? "agree"
+                    : "disagree"
                 }
               >
                 {responses?.circuitDiagramOrder?.selected !== "xz" ? (
-                  <p>
-                   please check the order and try again.
-                  </p>
+                  <p>Please check the order and try again.</p>
                 ) : (
-                  <p>
-                   We agree with your answer. </p>
+                  <p>We agree with your answer. </p>
                 )}
               </Guidance.Dynamic>
             ),
