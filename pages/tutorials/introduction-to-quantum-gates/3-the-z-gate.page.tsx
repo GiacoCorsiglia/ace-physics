@@ -171,9 +171,9 @@ export default page(setup, ({ section, hint }) => ({
         }),
       ],
       guidance: {
-        nextMessage: () => "answer",
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
+          dynamicAnswer: {
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
@@ -182,18 +182,33 @@ export default page(setup, ({ section, hint }) => ({
                     : "disagree"
                 }
               >
-                The resulting state is{" "}
+                {responses?.zTimesPlus?.selected !== "no" ? (
+                  <p>
+                  We agree with your answer.. The resulting state is{" "}
                 <M t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1})" />. Although the
                 probabilities of measuring <M t="\ket{0}" /> or{" "}
                 <M t="\ket{1}" /> are 50/50 whether there is a minus sign on the
                 second term or not, there is a measurable difference between
                 these states. We will see how to spot that difference soon!
+                  </p>
+                ) : (
+                  <p>We disagree with your answer.
+                    <br />
+                    The resulting state is{" "}
+                <M t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1})" />. Although the
+                probabilities of measuring <M t="\ket{0}" /> or{" "}
+                <M t="\ket{1}" /> are 50/50 whether there is a minus sign on the
+                second term or not, there is a measurable difference between
+                these states. We will see how to spot that difference soon!
+                  </p>
+                )}
               </Guidance.Dynamic>
             ),
-            onContinue: "nextSection",
+            onContinue: "nextSection",},
+
           },
         },
       },
-    }),
+    ),
   ],
 }));
