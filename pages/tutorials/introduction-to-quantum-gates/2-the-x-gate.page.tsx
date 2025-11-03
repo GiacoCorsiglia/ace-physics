@@ -23,7 +23,7 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           To perform any tasks on our quantum computer, we need to apply <strong>gates</strong>.
           (like in a classical computer, where we have the NOT gate and the OR
-          gate). <mark>When a gate acts on a state, the result is another state.</mark>These
+          gate). When a gate acts on a state, the result is another state. These
           gates take the form of quantum mechanical operators. We will go over
           some of the more common gates for quantum computers.
         </Prose>

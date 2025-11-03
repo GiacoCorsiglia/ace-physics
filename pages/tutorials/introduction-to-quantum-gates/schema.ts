@@ -46,7 +46,9 @@ export default s.tutorial({
     xTimesArbitraryKet: s.section({
       messages: ["answer"],
     }),
-    xTimesKet: s.section(),
+    xTimesKet: s.section({
+      messages: ["answer"],
+    }),
     xTimesPlus: s.section({
       messages: ["dynamicAnswer"],
     }),
@@ -57,7 +59,7 @@ export default s.tutorial({
     }),
     zTimesArbitraryKet: s.section(),
     zTimesPlus: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
 
     hadamardGateIntro: s.section(),
