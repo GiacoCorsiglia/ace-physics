@@ -175,7 +175,9 @@ export default page(setup, ({ section }) => ({
                 !responses?.arbitraryOutputZxI?.selected?.includes(
                   "(Z ⊗ I)(|ψ1⟩ ⊗ |ψ2⟩)",
                 ) ? (
-                  <p>There are two correct answers!</p>
+                  <p>
+                    There are two correct answers! (Feel free to try again.)
+                  </p>
                 ) : (
                   <></>
                 )}

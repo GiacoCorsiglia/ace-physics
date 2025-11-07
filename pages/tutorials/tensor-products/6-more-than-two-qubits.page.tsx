@@ -71,6 +71,7 @@ export default page(setup, ({ section, hint }) => ({
                   display
                   t="\ket{000},\ket{001},\ket{010},\ket{011},\ket{100},\ket{101},\ket{110},\ket{111}"
                 />
+                so the dimension is 8.
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",

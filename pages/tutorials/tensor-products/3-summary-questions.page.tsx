@@ -398,7 +398,8 @@ export default page(setup, ({ section }) => ({
             label={
               <Prose>
                 If <M t="\ket{\psi}=\ket{1}" /> and <M t="\ket{\phi}=\ket{1}" />
-                , what is the output state of the above circuit?
+                , what is the output state of the above circuit? (Scratch paper
+                is your friend!)
               </Prose>
             }
           />
@@ -412,6 +413,10 @@ export default page(setup, ({ section }) => ({
             <M
               display
               t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1}) \otimes \ket{1}"
+            />
+            <M
+              display
+              t="\text{  or, perhaps even  } \; \frac{-1}{\sqrt{2}} (\ket{1} - \ket{0}) \otimes \ket{1}"
             />
           </Answer>
         </>

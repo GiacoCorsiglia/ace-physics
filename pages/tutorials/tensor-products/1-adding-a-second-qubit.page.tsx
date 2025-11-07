@@ -274,9 +274,8 @@ export default page(setup, ({ section, hint }) => ({
       body: (m, { responses }) => (
         <>
           <Prose>
-            What is the probability that a measurement of the{" "}
-            <i>first qubit only</i> results in a <M t="\ket{0}" />? Same
-            question for the second qubit?
+            What is the probability that a measurement of the <i>first qubit</i>{" "}
+            results in a <M t="\ket{0}" />? Same question for the second qubit?
           </Prose>
 
           <Horizontal align="center" justify="start">

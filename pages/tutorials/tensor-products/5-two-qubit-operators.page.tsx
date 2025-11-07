@@ -19,7 +19,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "twoQubitOperators",
   label: "Two Qubit Operators",
-  // answers: "provided",
+  answers: "provided",
   sections: [
     section({
       name: "twoQubitOperatorsIntro",
@@ -31,7 +31,7 @@ export default page(setup, ({ section }) => ({
 
           <p>
             We said that one way to represent the output of this circuit is:{" "}
-            <M display t="(Z\otimes X) (\ket{\psi} \otimes \ket{\phi} )" />.
+            <M display t="(Z\otimes X) (\ket{\psi} \otimes \ket{\phi} )" />
           </p>
         </Prose>
       ),
@@ -97,7 +97,7 @@ export default page(setup, ({ section }) => ({
           />
           <M
             display
-            t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bf \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & df \;}"
+            t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bh \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & dh \;}"
           />
         </Prose>
       ),
