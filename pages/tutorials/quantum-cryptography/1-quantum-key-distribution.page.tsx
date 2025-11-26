@@ -1,19 +1,13 @@
 import {
-  Callout,
-  ChooseOne,
-  Decimal,
   Dropdown,
   Guidance,
   Image,
   LabelsLeft,
   M,
-  Prose,
-  TextBox,
-  Toggle,
+  Prose
 } from "@/components";
 import { page, repeatedModel } from "@/tutorial";
 import Hadamard1Half from "./media/BB84 Alice and Bob Half.png";
-import Hadamard1Full from "./media/BB84 Alice and Bob.png";
 import setup from "./setup";
 import { tableWithoutEve } from "./shared";
 
@@ -84,203 +78,8 @@ export default page(setup, ({ section, oneOf }) => ({
         </Prose>
       ),
     }),
-
-    section({
-      name: "tableWithoutEveStateAlice1",
-      body: (m, s) => (
-        <>
-          <Prose>
-            Below is a sample of what might happen at the start of a run. The
-            first row tells you Alice’s bit, which corresponds to her sending a{" "}
-            <M t="{\ket{0}}" /> or a <M t="{\ket{1}}" /> state. The second tells
-            you whether she applied the Hadamard gate. Both the first and the
-            second row are filled completely randomly. Given this information,
-            fill out the third row with the state that actually gets sent to
-            Bob.
-          </Prose>
-          <tableWithoutEve.Component
-            model={m.tableWithoutEve}
-            rows={[
-              "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-            ]}
-            columns={[0, 1, 2, 3]}
-            editing="stateAlice"
-          />
-        </>
-      ),
-      guidance: {
-        nextMessage(r, s) {
-          if (tableWithoutEve.isCorrect(r, "stateAlice", [0, 1, 2, 3])) {
-            return "correctStates";
-          }
-          return "wrongStates";
-        },
-        messages: {
-          correctStates: {
-            body: (
-              <>
-                <Callout color="blue">
-                  Your table looks good! Let's get some more practice with the
-                  next four qubits Alice sends to Bob.
-                </Callout>
-              </>
-            ),
-            onContinue: "nextSection",
-            continueLabel: "More qubits!",
-          },
-          wrongStates: {
-            body: (
-              <>
-                <Callout color="red">
-                  Looks like we disagree with some of your answers for Alice's
-                  states. Recall the effect of the Hadamard gate on a qubit:
-                  <M t="{H\ket{0} = \ket{+}}" display={true} />
-                  <M t="{H\ket{1} = \ket{-}}" display={true} />
-                  Also, if Alice does not apply the H-gate, does the qubit
-                  change?
-                </Callout>
-              </>
-            ),
-            onContinue: "nextMessage",
-            continueLabel: "Try again",
-          },
-        },
-      },
-      continue: {
-        label: "Check in!",
-        allowed: (s, _, m) =>
-          tableWithoutEve.isComplete(s, m, "stateAlice", [0, 1, 2, 3]),
-      },
-    }),
-
-    section({
-      name: "tableWithoutEveStateAlice1Answers",
-      enumerate: false,
-      when: (r) => !tableWithoutEve.isCorrect(r, "stateAlice", [0, 1, 2, 3]),
-      body: (m) => (
-        <>
-          <Prose>Here's our answers for the states Alice sends to Bob.</Prose>
-          <tableWithoutEve.Component
-            model={repeatedModel(m.tableWithoutEve)}
-            rows={[
-              "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-            ]}
-            columns={[0, 1, 2, 3]}
-          />
-          <Prose>
-            Before we move on, let's try the next qubits Alice sends.
-          </Prose>
-        </>
-      ),
-      continue: {
-        label: "More qubits!",
-        allowed: () => true,
-      },
-    }),
-
-    section({
-      name: "tableWithoutEveStateAlice2",
-      body: (m, s) => (
-        <>
-          <Prose>
-            Alice sends a total of 12 qubits to Bob. We've seen the first set of
-            four; now let's try the second! Fill out the third row in this table
-            with the state that actually gets sent to Bob.
-          </Prose>
-          <tableWithoutEve.Component
-            model={repeatedModel(m.tableWithoutEve)}
-            rows={[
-              "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-            ]}
-            columns={[4, 5, 6, 7]}
-            editing="stateAlice"
-          />
-        </>
-      ),
-      guidance: {
-        nextMessage(r, s) {
-          if (tableWithoutEve.isCorrect(r, "stateAlice", [4, 5, 6, 7])) {
-            return "correctStates";
-          }
-          return "wrongStates";
-        },
-        messages: {
-          correctStates: {
-            body: (
-              <>
-                <Callout color="blue">
-                  Your table looks good! Let's see the final table, with all 12
-                  qubits.
-                </Callout>
-              </>
-            ),
-            onContinue: "nextSection",
-            continueLabel: "More qubits!",
-          },
-          wrongStates: {
-            body: (
-              <>
-                <Callout color="red">
-                  Looks like we disagree with some of your answers for Alice's
-                  states. Recall the effect of the Hadamard gate on a qubit:
-                  <M t="{H\ket{0} = \ket{+}}" display={true} />
-                  <M t="{H\ket{1} = \ket{-}}" display={true} />
-                  Also, if Alice does not apply the H-gate, does the qubit
-                  change?
-                </Callout>
-              </>
-            ),
-            onContinue: "nextMessage",
-            continueLabel: "Try again",
-          },
-        },
-      },
-      continue: {
-        label: "Check in!",
-        allowed: (s, _, m) =>
-          tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
-      },
-    }),
-
-    section({
-      name: "tableWithoutEveStateAlice2Answers",
-      enumerate: false,
-      when: (r) => !tableWithoutEve.isCorrect(r, "stateAlice", [4, 5, 6, 7]),
-      body: (m) => (
-        <>
-          <Prose>Here's our answers for the states Alice sends to Bob.</Prose>
-          <tableWithoutEve.Component
-            model={repeatedModel(m.tableWithoutEve)}
-            rows={[
-              "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-            ]}
-            columns={[4, 5, 6, 7]}
-          />
-          <Prose>
-            Alice sends a total of 12 qubits to Bob. We've filled in the final
-            four—let's see the final table!
-          </Prose>
-        </>
-      ),
-      continue: {
-        label: "More qubits!",
-        allowed: () => true,
-      },
-    }),
-
-    section({
+    //                          intro table
+     section({
       name: "tableWithoutEveStateAliceComplete",
       enumerate: false,
       body: (m) => (
@@ -297,296 +96,314 @@ export default page(setup, ({ section, oneOf }) => ({
         </>
       ),
       continue: {
-        allowed: () => true,
+       allowed: () => true,
       },
     }),
 
+    //                        question A
     section({
-      name: "bobRandomChoiceOnEachQubit",
-      body: (m) => (
-        <>
-          <Prose>
-            When the qubit makes it to Bob, he randomly decides whether to apply
-            his own Hadamard gate or not. <br /> <br />
-            After doing so, he measures the qubit in the{" "}
-            <M t="{\{\ket{0}, \ket{1}\}}" /> basis.
-            <br />
-            <Image
-              src={Hadamard1Full}
-              alt="The experimental setup described above"
-            />
-            We have added a new row to the table with the (random) choice Bob
-            makes on each qubit: to apply an H or not? Please fill in the last
-            row with the outcome of his subsequent measurement. "R" means his
-            measurement is "random", with a 50% chance of getting either 0 or 1.
-          </Prose>
-          <tableWithoutEve.Component
-            model={repeatedModel(m.tableWithoutEve)}
-            rows={[
-              "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-              "didBobApplyH",
-              "bitBob",
-            ]}
-            editing="bitBob"
-            columns={[0, 1, 2, 3]}
-          />
-        </>
-      ),
-      guidance: {
-        nextMessage(r, s) {
-          if (tableWithoutEve.isCorrect(r, "bitBob", [0, 1, 2, 3])) {
-            return "correctBits";
+      name: "qubit1AliceToBob",
+       body: (m) => (
+        <Dropdown
+          model={m.qubit1AliceToBob}
+          label={
+            <Prose>
+             For qubit 1, what state does Alice send to Bob?
+            </Prose>
           }
-          if (
-            s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes(
-              "wrongBits",
-            )
-          )
-            return "wrongBits2";
-          return "wrongBits";
-        },
-        messages: {
-          correctBits: {
-            body: (
-              <>
-                <Callout color="blue">
-                  Your table looks good! Let's get some more practice with the
-                  next four qubits.
-                </Callout>
-              </>
-            ),
-            onContinue: "nextSection",
-            continueLabel: "More qubits!",
-          },
-          wrongBits: {
-            body: (
-              <>
-                <Callout color="red">
-                  Looks like we disagree with some of your answers for Bob's
-                  measurements. It might help to write down the state Bob has
-                  after he does or does not apply the H-gate.
-                </Callout>
-              </>
-            ),
-            onContinue: "nextMessage",
-            continueLabel: "Try again",
-          },
-          wrongBits2: {
-            body: (
-              <>
-                <Callout color="red">
-                  Looks like we still disagree. Recall the effects of the H
-                  gate:
-                  <br />
-                  <center>
-                    <M t="{H\ket{0} = \ket{+}}" /> <br />
-                    <M t="{H\ket{1} = \ket{-}}" />
-                    <br />
-                    <M t="{H\ket{+} = \ket{0}}" /> <br />
-                    <M t="{H\ket{-} = \ket{1}}" />
-                  </center>
-                  <br />
-                  Also recall: <br />
-                  <center>
-                    <M
-                      display={true}
-                      t="{\ket{+} = \frac{1}{\sqrt{2}}(\ket{0}+\ket{1})}"
-                    />
-                    <br />
-                    <M
-                      display={true}
-                      t="{\ket{-} = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})}"
-                    />
-                  </center>
-                </Callout>
-              </>
-            ),
-            onContinue: "nextMessage",
-            continueLabel: "Check again",
-            skipAllowed: () => true,
-          },
-        },
-      },
-      continue: {
-        label: "Check in!",
-        allowed: (s, _, m) =>
-          tableWithoutEve.isComplete(s, m, "bitBob", [0, 1, 2, 3]),
-      },
-    }),
-    section({
-      name: "bobRandomChoiceOnEachQubitAnswers",
-      enumerate: false,
-      when: (r) => !tableWithoutEve.isCorrect(r, "bitBob", [0, 1, 2, 3]),
-      body: (m) => (
-        <>
-          <Prose>Here's our answers for Bob's measurements.</Prose>
-          <tableWithoutEve.Component
-            model={repeatedModel(m.tableWithoutEve)}
-            rows={[
-              "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-              "didBobApplyH",
-              "bitBobBeforeNature",
-            ]}
-            columns={[0, 1, 2, 3]}
-          />
-          <Prose>
-            Before we move on, let's try the next qubits Alice sends.
-          </Prose>
-        </>
+          choices={[
+            ["+z", <M t="{H\ket{0}}" />],
+            ["-z", <M t="{H\ket{1}}" />],
+            ["+x", <M t="{H\ket{+}}" />],
+            ["-x", <M t="{H\ket{-}}" />],
+            ["+y", <M t="other" />],
+          ]}
+        />
       ),
-      continue: {
-        label: "More qubits!",
-        allowed: () => true,
-      },
+       guidance: {
+              nextMessage: () => "dynamicAnswer",
+              messages: {
+                dynamicAnswer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.qubit1AliceToBob?.selected === "+z" ? "agree" : "disagree"
+                      }
+                    >
+                      {responses?.qubit1AliceToBob?.selected !== "+z" ? (
+                        <p>
+                          Notice that for qubit 1, Alice wants to send 0 and
+                          does not apply a Hadamard, so the qubit is unchanged.
+                          Feel free to change your answer.
+                        </p>
+                      ) : (
+                        <p>Yes! Alice wants to send 0 and does not apply a
+                          Hadamard, so the qubit is unchanged.
+                      </p>
+
+                      )}
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
     }),
+    //                          question B
     section({
-      name: "bobRandomChoiceOnEachQubit2",
-      enumerate: true,
-      body: (m) => (
+      name: "qubit2And5AliceToBob",
+      body: (m, s) => (
         <>
-          <Prose>
-            Given the next four qubits Alice sends Bob, and whether he chooses
-            to apply a Hadamard or not, fill in the dropdowns with the outcome
-            of Bob's measurement: 0, 1, or "R" for random, with a 50% chance of
-            getting either 0 or 1.
-          </Prose>
-          <tableWithoutEve.Component
-            model={repeatedModel(m.tableWithoutEve)}
-            rows={[
-              "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-              "didBobApplyH",
-              "bitBob",
-            ]}
-            editing="bitBob"
-            columns={[4, 5, 6, 7]}
-          />
-        </>
-      ),
-      guidance: {
-        nextMessage(r, s) {
-          if (tableWithoutEve.isCorrect(r, "bitBob", [4, 5, 6, 7])) {
-            return "correctBits";
+         <LabelsLeft>
+         <Dropdown
+          model={m.qubit2AliceToBob}
+          label={
+            <Prose>
+             For qubit 2, what state does Alice send to Bob?
+            </Prose>
           }
-          if (
-            s.sections?.bobRandomChoiceOnEachQubit?.revealedMessages?.includes(
-              "wrongBits",
-            )
-          )
-            return "wrongBits2";
-          return "wrongBits";
-        },
-        messages: {
-          correctBits: {
-            body: (
-              <>
-                <Callout color="blue">
-                  Your table looks good! Hit the “measure” button to let
-                  “nature” determine the outcomes of all the cells labeled “R”
-                  for random in the last row. We'll also include the last four
-                  bits that Alice sent.
-                </Callout>
-              </>
-            ),
-            onContinue: "nextSection",
-            continueLabel: "Measure!",
-          },
-          wrongBits: {
-            body: (
-              <>
-                <Callout color="red">
-                  Looks like we disagree with some of your answers for Bob's
-                  measurements. It might help to write down the state Bob has
-                  after he does or does not apply the H-gate.
-                </Callout>
-              </>
-            ),
-            onContinue: "nextMessage",
-            continueLabel: "Try again",
-          },
-          wrongBits2: {
-            body: (
-              <>
-                <Callout color="red">
-                  Looks like we still disagree. Recall the effects of the H
-                  gate:
-                  <br />
-                  <center>
-                    <M t="{H\ket{0} = \ket{+}}" /> <br />
-                    <M t="{H\ket{1} = \ket{-}}" />
-                    <br />
-                    <M t="{H\ket{+} = \ket{0}}" /> <br />
-                    <M t="{H\ket{-} = \ket{1}}" />
-                  </center>
-                  <br />
-                  Also recall: <br />
-                  <center>
-                    <M
-                      display={true}
-                      t="{\ket{+} = \frac{1}{\sqrt{2}}(\ket{0}+\ket{1})}"
-                    />
-                    <br />
-                    <M
-                      display={true}
-                      t="{\ket{-} = \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})}"
-                    />
-                  </center>
-                </Callout>
-              </>
-            ),
-            onContinue: "nextMessage",
-            continueLabel: "Check again",
-            skipAllowed: () => true,
-          },
-        },
-      },
-      continue: {
-        label: "Check in!",
-        allowed: (s, _, m) =>
-          tableWithoutEve.isComplete(s, m, "bitBob", [4, 5, 6, 7]),
-      },
-    }),
-    section({
-      name: "bobRandomChoiceOnEachQubitAnswers2",
-      enumerate: false,
-      when: (r) => !tableWithoutEve.isCorrect(r, "bitBob", [4, 5, 6, 7]),
-      body: (m) => (
-        <>
-          <Prose>Here's our answers for Bob's measurements.</Prose>
-          <tableWithoutEve.Component
-            model={repeatedModel(m.tableWithoutEve)}
-            rows={[
-              "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
-              "didBobApplyH",
-              "bitBobBeforeNature",
-            ]}
-            columns={[4, 5, 6, 7]}
-          />
-          <Prose>
-            Hit "Measure!" to let "nature" determine the outcomes of all the
-            cells labeled "R" for random in the last row. We'll also add the
-            last four qubits from before.
-          </Prose>
+          choices={[
+            ["+z", <M t="{H\ket{0}}" />],
+            ["-z", <M t="{H\ket{1}}" />],
+            ["+x", <M t="{H\ket{+}}" />],
+            ["-x", <M t="{H\ket{-}}" />],
+            ["+y", <M t="other" />],
+          ]}
+        />
+           <Dropdown
+          model={m.qubit5AliceToBob}
+          label={
+            <Prose>
+             For qubit 5, what state does Alice send to Bob?
+            </Prose>
+          }
+          choices={[
+            ["+z", <M t="{H\ket{0}}" />],
+            ["-z", <M t="{H\ket{1}}" />],
+            ["+x", <M t="{H\ket{+}}" />],
+            ["-x", <M t="{H\ket{-}}" />],
+            ["+y", <M t="other" />],
+          ]}
+        />
+        </LabelsLeft>
         </>
       ),
-      continue: {
-        label: "Measure!",
-        allowed: () => true,
-      },
+     guidance: {
+            nextMessage: ((r: any) => {
+               const a = r.qubit2AliceToBob?.selected;
+               const b = r.qubit5AliceToBob?.selected;
+
+               if (a === "+x" && b === "-x") {
+                 return "correct";
+               }
+
+               // Only return "incorrect" if either dropdown has a value selected
+               if (a !== "+x" || b !== "-x") {
+                 return "incorrect";
+               }
+               // Otherwise, return null so no message is shown
+               return null;
+             }) as any,
+             messages: {
+               correct: {
+                 body: (
+                   <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
+                 ),
+                 onContinue: "nextSection",
+               },
+               incorrect: {
+                 body: (
+                   <Guidance.Disagree>
+                     Looks like we disagree with at least one of your answers
+                     for Alice's states. Recall the effect of the Hadamard gate
+                     on a qubit:
+                     <p>
+                      <center>
+                      <M
+                     t="H\ket{0} = \ket{+}"
+                    /> <br />
+                    <M
+                     t="H\ket{1} = \ket{-}"
+                    /> <br />
+                    </center>
+                    </p>
+                    Feel free to try again.
+                   </Guidance.Disagree>
+                 ),
+                 onContinue: "nextMessage",
+               },
+             },
+           },
+      //continue: {
+       // label: "Check in!",
+        //allowed: (s, _, m) =>
+         // tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
+     // },
     }),
 
     section({
+      name: "qubit8And9ApplyH",
+      body: (m, s) => (
+        <>
+        <Prose> Use the information in the table to determine whether
+          or not Alice applied a Hadamard to the following qubits.
+        </Prose>
+         <LabelsLeft>
+         <Dropdown
+          model={m.qubit8ApplyH}
+          label={
+            <Prose>
+            Qubit 8:
+            </Prose>
+          }
+          choices={[
+            ["yes", <M t="Yes" />],
+            ["no", <M t="No" />],
+            ["unknown", <M t="Unknown" />],
+
+          ]}
+        />
+           <Dropdown
+          model={m.qubit9ApplyH}
+          label={
+            <Prose>
+             Qubit 9:
+            </Prose>
+          }
+          choices={[
+            ["yes", <M t="Yes" />],
+            ["no", <M t="No" />],
+            ["unknown", <M t="Unknown" />],
+          ]}
+        />
+        </LabelsLeft>
+        </>
+      ),
+     guidance: {
+            nextMessage: ((r: any) => {
+               const a = r.qubit8ApplyH?.selected;
+               const b = r.qubit9ApplyH?.selected;
+
+               if (a === "yes" && b === "no") {
+                 return "correct";
+               }
+
+               return "incorrect";
+             }) as any,
+             messages: {
+               correct: {
+                 body: (
+                   <Guidance.Agree> We agree! On qubit 8, Alice's Hadamard
+                    converted the <M t="\ket{0}"/> to a <M t="\ket{-}"/>. For
+                    qubit 9, Alice did not operate on the qubit.
+                   </Guidance.Agree>
+                 ),
+                 onContinue: "nextSection",
+               },
+               incorrect: {
+                 body: (
+                   <Guidance.Disagree>
+                     We disagree with at least one of your answers. Since
+                     Alice's bit is a 1, she starts with the <M t="\ket{1}"/>
+                     state and either applies a Hadamard or not. Feel free to
+                     change your answer(s).
+                   </Guidance.Disagree>
+                 ),
+                 onContinue: "nextMessage",
+               },
+             },
+           },
+      //continue: {
+       // label: "Check in!",
+        //allowed: (s, _, m) =>
+         // tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
+     // },
+    }),
+
+      //                         question C
+    section({
+      name: "qubit10And11AlicesBit",
+      body: (m, s) => (
+        <>
+        <Prose> For qubits 10 and 11, use the information in the table to
+          determine which is the value of Alice's bit.
+        </Prose>
+         <LabelsLeft>
+         <Dropdown
+          model={m.qubit10AlicesBit}
+          label={
+            <Prose>
+            Qubit 10:
+            </Prose>
+          }
+          choices={[
+            ["0", <M t="0" />],
+            ["1", <M t="1" />],
+            ["impossible", <M t="Impossible" />],
+
+          ]}
+        />
+           <Dropdown
+          model={m.qubit11AlicesBit}
+          label={
+            <Prose>
+             Qubit 11:
+            </Prose>
+          }
+          choices={[
+             ["0", <M t="0" />],
+            ["1", <M t="1" />],
+            ["impossible", <M t="Impossible" />],
+          ]}
+        />
+        </LabelsLeft>
+        </>
+      ),
+       guidance: {
+            nextMessage: ((r: any) => {
+               const a = r.qubit10AlicesBit?.selected;
+               const b = r.qubit11AlicesBit?.selected;
+
+               // If neither dropdown has a selection yet, show no message
+               if (a === undefined && b === undefined) {
+                 return null;
+               }
+
+               if (a === "1" && b === "0") {
+                 return "correct";
+               }
+
+               return "incorrect";
+             }) as any,
+             messages: {
+               correct: {
+                 body: (
+                   <Guidance.Agree> We agree!
+                   </Guidance.Agree>
+                 ),
+                 onContinue: "nextSection",
+               },
+               incorrect: {
+                 body: (
+                   <Guidance.Disagree>
+                     We disagree with at least one of your answers. Take another
+                     look and feel free to change your answers.
+                   </Guidance.Disagree>
+                 ),
+                 onContinue: "nextMessage",
+               },
+             },
+           },
+      //continue: {
+       // label: "Check in!",
+       // allowed: (s, _, m) =>
+       //   tableWithoutEve.isComplete(s, m, "bitBob", [0, 1, 2, 3]),
+     // },
+    }),
+    /////////////////////////////////////////////////////////////////////////
+    //                            table 2
+    section({
+      //table is line 436 of 'shared' page
       name: "natureEffectBobBitAfterMeasurement",
       enumerate: false,
       body: (m) => (
@@ -614,399 +431,56 @@ export default page(setup, ({ section, oneOf }) => ({
         allowed: () => true,
       },
     }),
-
+    //                          question 5
     section({
-      name: "circumstancesWhenBobAndAlice100Agree",
-      body: (m) => (
-        <>
-          <TextBox
-            model={m.circumstancesWhenBobAndAlice100Agree}
-            label={
-              <Prose>
-                <p>
-                  Consider the bits where Alice and Bob got the same result with
-                  100% probability (i.e., Bob didn't get a <em>random</em> bit).
-                </p>
-                <p>
-                  In your own words, why does this happen (or, under what
-                  circumstances)?
-                </p>
-              </Prose>
-            }
-          ></TextBox>
-        </>
-      ),
-    }),
-
-    section({
-      name: "amountOfBitStringsAgree",
-      body: (m) => (
-        <>
-          <Prose>
-            At this stage, if Alice and Bob now compare their bit strings, how
-            many bits agree?
-          </Prose>
-          <LabelsLeft>
-            <Decimal
-              model={m.amountOfBitStringsAgree}
-              label={<Prose>Agreed bits: </Prose>}
-            />
-          </LabelsLeft>
-        </>
-      ),
-      guidance: {
-        nextMessage(r) {
-          if (r.amountOfBitStringsAgree !== 9) return "incorrect";
-          return null;
-        },
-        messages: {
-          incorrect: {
-            body: (
-              <>
-                <Callout color="red">
-                  To answer this question, we looked at the top and bottom of
-                  each column, to see what bit Alice started with (which is
-                  'her' bit) and what bit Bob measured (which is 'his' bit). 9
-                  times out of 12, their bits matched.
-                </Callout>
-              </>
-            ),
-            onContinue: "nextSection",
-          },
-        },
-      },
-    }),
-    section({
-      name: "fractionOfBitStringsAgree",
-      body: (m) => (
-        <>
-          <Prose>
-            If we repeat the above procedure many times, what fraction of the
-            bits will agree (on average)?
-          </Prose>
-          <ChooseOne
-            model={m.fractionOfBitStringsAgree}
-            choices={[
-              ["0%", "0%"],
-              ["25%", "25%"],
-              ["50%", "50%"],
-              ["75%", "75%"],
-              ["100%", "100%"],
-              ["other", "something else"],
-            ]}
-          />
-        </>
-      ),
-      guidance: {
-        nextMessage(r) {
-          const res = r.fractionOfBitStringsAgree?.selected;
-
-          if (res === "75%") {
-            return "correct";
-          }
-          return "detour";
-        },
-        messages: {
-          correct: {
-            body: (
-              <Guidance.Agree>
-                Correct! While some statistical fluctuations are prone to
-                happen, on average the bits will agree 75% of the time.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextSection",
-          },
-          detour: {
-            body: (
-              <Guidance.Disagree>
-                Not quite—let's take a small detour to break down the bigger
-                picture...
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextSection",
-          },
-        },
-      },
-      //
-    }),
-    section({
-      name: "fractionOfBitStringsAgreeIncorrect",
-      when: (r) => r.fractionOfBitStringsAgree?.selected !== "75%",
-      body: (m) => (
-        <>
-          <LabelsLeft>
-            <Dropdown
-              model={m.howOftenBobResultBeRandom}
-              label={<Prose>How often will Bob's result be random?</Prose>}
-              choices={[
-                ["0%", "0%"],
-                ["25%", "25%"],
-                ["50%", "50%"],
-                ["75%", "75%"],
-                ["100%", "100%"],
-              ]}
-            />
-          </LabelsLeft>
-        </>
-      ),
-      guidance: {
-        nextMessage(r) {
-          const res = r.howOftenBobResultBeRandom?.selected;
-
-          if (res === "50%") {
-            return "correct";
-          }
-          return "incorrect";
-        },
-        messages: {
-          correct: {
-            body: (
-              <Guidance.Agree>
-                You're right! Whenever Bob makes a different Hadamard choice
-                from Alice, the state he ends up measuring will be either
-                <M t="{\ket{+}}" /> or <M t="{\ket{-}}" />. When he measures one
-                of those states, he gets a random result. This happens 50% of
-                the time.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextSection",
-          },
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                Think about what happens when Bob makes a different Hadamard
-                choice from Alice. The state he ends up measuring will be either{" "}
-                <M t="{\ket{+}}" /> or <M t="{\ket{-}}" />. When he measures one
-                of those states, he gets a random result. This happens 50% of
-                the time.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-        },
-      },
-    }),
-    section({
-      name: "isBobResultNotRandomAgreement",
-      when: (r) => r.howOftenBobResultBeRandom !== undefined,
-      body: (m, s) => (
-        <>
-          <Toggle
-            model={m.isBobResultNotRandomAgreement}
-            label={
-              <Prose>
-                With that in mind, if Bob's result is <b>NOT</b> random, do they
-                agree 100% of the time?
-              </Prose>
-            }
-            choices={[
-              ["yes", "Yes, they do."],
-              ["no", "No, they do not."],
-            ]}
-            disabled={s.sections?.isBobResultNotRandomAgreement?.revealedMessages?.includes(
-              "incorrect",
-            )}
-          />
-        </>
-      ),
-      guidance: {
-        nextMessage(r) {
-          const res = r.isBobResultNotRandomAgreement?.selected;
-
-          if (res === "no") {
-            return "incorrect";
-          }
-          return null;
-        },
-        messages: {
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                As it turns out, they agree 100% of the time. When Bob's result
-                is not random, it's because he is measuring a{" "}
-                <M t="{\ket{0}}" /> or <M t="{\ket{1}}" /> state.
-                <hr />
-                If neither Alice nor Bob apply a Hadamard gate, then Bob will
-                get the same state Alice sent him. <hr />
-                If they both apply a Hadamard gate, then Alice's H-gate will be{" "}
-                <em>reversed</em> by Bob's H-gate, leaving Bob with the same
-                state that Alice started with. Either way, his bit will be the
-                same as Alice's.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextSection",
-          },
-        },
-      },
-    }),
-    section({
-      name: "howOftenNeverthelessMatch",
-      enumerate: false,
-      when: (r) => r.isBobResultNotRandomAgreement !== undefined,
-      body: (m) => (
-        <>
-          <ChooseOne
-            model={m.howOftenWillTheyNeverthelessMatch}
-            label={
-              <Prose>
-                <p>Finally let us consider this...</p>
-                <p>
-                  Of just those times that Bob's answer was Random, how often
-                  will they nevertheless match?
-                </p>
-              </Prose>
-            }
-            choices={[
-              ["0%", "0%"],
-              ["25%", "25%"],
-              ["50%", "50%"],
-              ["75%", "75%"],
-              ["100%", "100%"],
-              ["other", "something else"],
-            ]}
-          />
-        </>
-      ),
-      guidance: {
-        nextMessage(r) {
-          const answer = r.howOftenWillTheyNeverthelessMatch?.selected;
-
-          if (answer === "50%") {
-            return "correct";
-          }
-          return "incorrect";
-        },
-        messages: {
-          correct: {
-            body: (
-              <Guidance.Agree>Nice, we agree with your answer.</Guidance.Agree>
-            ),
-            onContinue: "nextSection",
-          },
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                Please double-check your answer. Remember that when Bob's result
-                is random, he is just as likely to measure a 0 as he is to
-                measure a 1.
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-        },
-      },
-    }),
-    section({
-      name: "fractionOfBitStringsAgreeRetry",
-      when: (r) => r.howOftenWillTheyNeverthelessMatch !== undefined,
-      enumerate: false,
-      body: (m) => (
-        <>
-          <Callout color="blue">
-            Given what we've learned, let's try this question one more time.
-            Remember to take your time and think it through!
-          </Callout>
-          <Prose>
-            If Bob and Alice continue this protocol with many qubits and then
-            compare their strings, what fraction of the bits will agree (on
-            average)?
-          </Prose>
-          <ChooseOne
-            model={m.fractionOfBitStringsAgreeRetry}
-            choices={[
-              ["0%", "0%"],
-              ["25%", "25%"],
-              ["50%", "50%"],
-              ["75%", "75%"],
-              ["100%", "100%"],
-              ["other", "something else"],
-            ]}
-          />
-        </>
-      ),
-      guidance: {
-        nextMessage(r) {
-          const answer = r.fractionOfBitStringsAgreeRetry?.selected;
-
-          if (answer === "75%") {
-            return "correct";
-          }
-          return "incorrect";
-        },
-        messages: {
-          correct: {
-            body: (
-              <Guidance.Agree>
-                Correct! While some statistical fluctuations are prone to
-                happen, on average the bits will agree 75% of the time.
-              </Guidance.Agree>
-            ),
-            onContinue: "nextSection",
-          },
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                Please double-check your answer. How often is Bob's result
-                random (so that they agree 50% of the time), and how often is
-                Bob's result
-                <em>not</em> random (so that they agree 100% of the time)?
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
-          },
-        },
-      },
-    }),
-    section({
-      name: "doesAliceBobShareKeyAtCurrentStage",
-      body: (m, s) => (
-        <Toggle
-          model={m.doesAliceBobShareKeyCheckOne}
+      name: "qubit2BobsBit",
+       body: (m) => (
+        <Dropdown
+          model={m.qubit2BobsBit}
           label={
             <Prose>
-              At this stage, would you say Alice and Bob share a key?
+             For qubit 2, what is the value of Bob's bit?
             </Prose>
           }
           choices={[
-            ["yes", "Yes, they share a key."],
-            ["no", "No, they do not share a key."],
+            ["0", <M t="0" />],
+            ["1", <M t="1" />],
+            ["random", <M t="Random" />],
+
           ]}
-          disabled={s.sections?.doesAliceBobShareKeyAtCurrentStage?.revealedMessages?.includes(
-            "incorrect",
-          )}
         />
       ),
-      guidance: {
-        nextMessage(r) {
-          const answer = r.doesAliceBobShareKeyCheckOne?.selected;
+       guidance: {
+              nextMessage: () => "dynamicAnswer",
+              messages: {
+                dynamicAnswer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.qubit2BobsBit?.selected === "0" ? "agree" : "disagree"
+                      }
+                    >
+                      {responses?.qubit2BobsBit?.selected !== "0" ? (
+                        <p>
+                          We disagree. Qubit 2 comes to Bob as a <M t="\ket{+}"/>.
+                          Since Bob applies a Hadamard, he ends up measuring
+                          <M t="{H\ket{+}=\ket{0}}" />, which has a 100% chance
+                          of being measured to be 0.
+                        </p>
+                      ) : (
+                        <p> We agree. Qubit 2 comes to Bob as a <M t="\ket{+}"/>.
+                          Since Bob applies a Hadamard, he ends up measuring
+                          <M t="{H\ket{+}=\ket{0}}" />, which has a 100% chance
+                          of being measured to be 0.
+                      </p>
 
-          if (answer === "yes") {
-            return "incorrect";
-          }
-          return "correct";
-        },
-        messages: {
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                They do not share a key, considering that they have a 25% error
-                rate. This does not make a good shared key because there are too
-                many mismatches! Let us look at this further on the next page...
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextSection",
-          },
-          correct: {
-            body: (
-              <Guidance.Agree>
-                Correct! They do not share a key, there are too many mismatches.
-                Let us look at this further on the next page...
-              </Guidance.Agree>
-            ),
-            onContinue: "nextSection",
-          },
-        },
-      },
+                      )}
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
     }),
   ],
 }));
