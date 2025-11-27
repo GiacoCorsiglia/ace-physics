@@ -4,7 +4,8 @@ import {
   Image,
   LabelsLeft,
   M,
-  Prose
+  Prose,
+  Toggle,
 } from "@/components";
 import { page, repeatedModel } from "@/tutorial";
 import Hadamard1Half from "./media/BB84 Alice and Bob Half.png";
@@ -88,9 +89,9 @@ export default page(setup, ({ section, oneOf }) => ({
             model={repeatedModel(m.tableWithoutEve)}
             rows={[
               "qubitNumber",
-              "initialState",
-              "didAliceApplyH",
-              "stateAlice",
+              "initialStateTwo",
+              "didAliceApplyHTwo",
+              "stateAliceTwo",
             ]}
           />
         </>
@@ -116,7 +117,7 @@ export default page(setup, ({ section, oneOf }) => ({
             ["-z", <M t="{H\ket{1}}" />],
             ["+x", <M t="{H\ket{+}}" />],
             ["-x", <M t="{H\ket{-}}" />],
-            ["+y", <M t="other" />],
+            ["+y", "Other"],
           ]}
         />
       ),
@@ -167,7 +168,7 @@ export default page(setup, ({ section, oneOf }) => ({
             ["-z", <M t="{H\ket{1}}" />],
             ["+x", <M t="{H\ket{+}}" />],
             ["-x", <M t="{H\ket{-}}" />],
-            ["+y", <M t="other" />],
+            ["+y", "Other"],
           ]}
         />
            <Dropdown
@@ -259,7 +260,7 @@ export default page(setup, ({ section, oneOf }) => ({
           choices={[
             ["yes", <M t="Yes" />],
             ["no", <M t="No" />],
-            ["unknown", <M t="Unknown" />],
+            ["unknown", "Unknown"],
 
           ]}
         />
@@ -273,7 +274,7 @@ export default page(setup, ({ section, oneOf }) => ({
           choices={[
             ["yes", <M t="Yes" />],
             ["no", <M t="No" />],
-            ["unknown", <M t="Unknown" />],
+            ["unknown", "Unknown"],
           ]}
         />
         </LabelsLeft>
@@ -339,7 +340,7 @@ export default page(setup, ({ section, oneOf }) => ({
           choices={[
             ["0", <M t="0" />],
             ["1", <M t="1" />],
-            ["impossible", <M t="Impossible" />],
+            ["impossible", "Impossible"],
 
           ]}
         />
@@ -353,7 +354,7 @@ export default page(setup, ({ section, oneOf }) => ({
           choices={[
              ["0", <M t="0" />],
             ["1", <M t="1" />],
-            ["impossible", <M t="Impossible" />],
+            ["impossible", "Impossible"],
           ]}
         />
         </LabelsLeft>
@@ -445,7 +446,7 @@ export default page(setup, ({ section, oneOf }) => ({
           choices={[
             ["0", <M t="0" />],
             ["1", <M t="1" />],
-            ["random", <M t="Random" />],
+            ["random", "Random"],
 
           ]}
         />
@@ -500,7 +501,7 @@ export default page(setup, ({ section, oneOf }) => ({
           choices={[
             ["0", <M t="0" />],
             ["1", <M t="1" />],
-            ["random", <M t="Random" />],
+            ["random", "Random"],
 
           ]}
         />
@@ -514,7 +515,7 @@ export default page(setup, ({ section, oneOf }) => ({
           choices={[
              ["0", <M t="0" />],
             ["1", <M t="1" />],
-            ["random", <M t="random" />],
+            ["random", "Random"],
           ]}
         />
         </LabelsLeft>
@@ -602,6 +603,142 @@ export default page(setup, ({ section, oneOf }) => ({
                           <M t="\ket{+}"/> state that he was sent. When measuring
                           a <M t="\ket{+}"/> qubit, the outcome is random (with
                           50/50 odds of getting 0 or 1).
+                      </p>
+
+                      )}
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
+    }),
+    // question 8
+     section({
+      name: "qubit7And10ApplyH",
+      body: (m, s) => (
+        <>
+        <Prose> For qubits 7 and 10, did Bob apply a Hadamard before he measured?
+        </Prose>
+         <LabelsLeft>
+         <Dropdown
+          model={m.qubit7ApplyH}
+          label={
+            <Prose>
+            Qubit 7:
+            </Prose>
+          }
+          choices={[
+            ["yes", "Yes"],
+            ["no", "No"],
+            ["unknown", "Unknown"],
+
+          ]}
+        />
+           <Dropdown
+          model={m.qubit10ApplyH}
+          label={
+            <Prose>
+             Qubit 10:
+            </Prose>
+          }
+          choices={[
+             ["yes", "Yes"],
+            ["no", "No"],
+            ["unknown", "Unknown"],
+          ]}
+        />
+        </LabelsLeft>
+        </>
+      ),
+       guidance: {
+            nextMessage: ((r: any) => {
+               const a = r.qubit7ApplyH?.selected;
+               const b = r.qubit10ApplyH?.selected;
+
+               // If neither dropdown has a selection yet, show no message
+               if (a === undefined && b === undefined) {
+                 return null;
+               }
+
+               if (a === "no" && b === "yes") {
+                 return "correct";
+               }
+
+               return "incorrect";
+             }) as any,
+             messages: {
+               correct: {
+                 body: (
+                   <Guidance.Agree> We agree! For qubit 7, since we know that
+                    Bob's measurement will be 0 with certainty, he must have
+                    measured the state <M t="\ket{0}"/>, which is what Alice sent,
+                    so he did not apply a Hadamard. But for qubit 10, the fact that
+                    his measurement was random tells us he performed a measurement
+                    on either the <M t="\ket{+}"/> or <M t="\ket{-}"/> state.
+                    (In this case, given what Alice sent, it must have been a
+                    <M t="\ket{+}"/>)
+                   </Guidance.Agree>
+                 ),
+                 onContinue: "nextSection",
+               },
+               incorrect: {
+                 body: (
+                   <Guidance.Disagree>
+                     If Bob's measurement is certain, he must have made a measurement
+                     on a <M t="\ket{0}"/> or <M t="\ket{1}"/>.If it is random,
+                     he must have made a measurement on a <M t="\ket{+}"/> or
+                     <M t="\ket{-}"/>. Look again at the information in the table
+                     and feel free to try again.
+                   </Guidance.Disagree>
+                 ),
+                 onContinue: "nextMessage",
+               },
+             },
+           },
+    }),
+    // question 9
+     section({
+      name: "certainOrRandom",
+       body: (m) => (
+        <>
+        <Prose> Note that on this page, you can see the entire table with
+          information that includes or not Bob's measurement results were random
+          or certain. Without talking to Alice, does Bob know whether the result
+          he got was "certain" or "random"?
+        </Prose>
+        <Toggle
+                    model={m.certainOrRandom}
+                    label="Can he tell?"
+                    choices={[
+                      ["yes", "Yes, he can tell"],
+                      ["no", "No, he cannot tell"],
+                    ]}
+                  />
+         </>
+      ),
+       guidance: {
+              nextMessage: () => "dynamicAnswer",
+              messages: {
+                dynamicAnswer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.qubit6ApplyH?.selected === "no" ? "agree" : "disagree"
+                      }
+                    >
+                      {responses?.qubit6ApplyH?.selected !== "no" ? (
+                        <p>
+                         We disagree with your answer. In practice, Bob has no way
+                         of knowing whether his measurement outcome was certain to
+                         occur or the result of chance. He doesn't know what qubit
+                         state Alice sent him. Feel free to change your answer.
+                        </p>
+                      ) : (
+                        <p> We agree with your answer. In practice, Bob has no way
+                         of knowing whether his measurement outcome was certain to
+                         occur or the result of chance. He doesn't know what qubit
+                         state Alice sent him.
                       </p>
 
                       )}
