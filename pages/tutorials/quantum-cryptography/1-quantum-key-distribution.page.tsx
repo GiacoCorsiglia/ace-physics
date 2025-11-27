@@ -482,5 +482,135 @@ export default page(setup, ({ section, oneOf }) => ({
               },
             },
     }),
+    // question 6
+     section({
+      name: "qubit3And4Bits",
+      body: (m, s) => (
+        <>
+        <Prose> For qubits 3 and 4, what are the values of Bob's bits?
+        </Prose>
+         <LabelsLeft>
+         <Dropdown
+          model={m.qubit3BobsBit}
+          label={
+            <Prose>
+            Qubit 3:
+            </Prose>
+          }
+          choices={[
+            ["0", <M t="0" />],
+            ["1", <M t="1" />],
+            ["random", <M t="Random" />],
+
+          ]}
+        />
+           <Dropdown
+          model={m.qubit4BobsBit}
+          label={
+            <Prose>
+             Qubit 4:
+            </Prose>
+          }
+          choices={[
+             ["0", <M t="0" />],
+            ["1", <M t="1" />],
+            ["random", <M t="random" />],
+          ]}
+        />
+        </LabelsLeft>
+        </>
+      ),
+       guidance: {
+            nextMessage: ((r: any) => {
+               const a = r.qubit3BobsBit?.selected;
+               const b = r.qubit4BobsBit?.selected;
+
+               // If neither dropdown has a selection yet, show no message
+               if (a === undefined && b === undefined) {
+                 return null;
+               }
+
+               if (a === "random" && b === "1") {
+                 return "correct";
+               }
+
+               return "incorrect";
+             }) as any,
+             messages: {
+               correct: {
+                 body: (
+                   <Guidance.Agree> Correct! Great job! In the case of qubit 3,
+                    the result is random, and Bob might have a 0 or a 1. We'll
+                    see how to deal with this soon!
+                   </Guidance.Agree>
+                 ),
+                 onContinue: "nextSection",
+               },
+               incorrect: {
+                 body: (
+                   <Guidance.Disagree>
+                     We disagree with at least one of your answers. Remember that
+                     if Bob makes a measurement on a state that is <M t="\ket{+}"/>
+                      or <M t="\ket{-}"/>, his result
+                     will be random. Feel free to change your answers.
+                   </Guidance.Disagree>
+                 ),
+                 onContinue: "nextMessage",
+               },
+             },
+           },
+    }),
+    // question 7
+     section({
+      name: "qubit6ApplyH",
+       body: (m) => (
+        <Dropdown
+          model={m.qubit6ApplyH}
+          label={
+            <Prose>
+             For qubit 6, given all the information in the table, did Bob apply
+             a Hadamard before he measured?
+            </Prose>
+          }
+          choices={[
+            ["yes", "Yes"],
+            ["no", "No"],
+            ["unknown", "Unknown"],
+
+          ]}
+        />
+      ),
+       guidance: {
+              nextMessage: () => "dynamicAnswer",
+              messages: {
+                dynamicAnswer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.qubit6ApplyH?.selected === "no" ? "agree" : "disagree"
+                      }
+                    >
+                      {responses?.qubit6ApplyH?.selected !== "no" ? (
+                        <p>
+                          Notice that Bob has not applied a Hadamard to the
+                          <M t="\ket{+}"/> state he was sent, so he is measuring
+                          a <M t="\ket{+}"/> qubit. Is the outcome (0 or 1)
+                          random or determined? Feel free to change your answer.
+                        </p>
+                      ) : (
+                        <p> Yes we agree. Bob did not apply a Hadamard to the
+                          <M t="\ket{+}"/> state that he was sent. When measuring
+                          a <M t="\ket{+}"/> qubit, the outcome is random (with
+                          50/50 odds of getting 0 or 1).
+                      </p>
+
+                      )}
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
+    }),
   ],
 }));
