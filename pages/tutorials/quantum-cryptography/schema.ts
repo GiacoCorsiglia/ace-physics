@@ -248,7 +248,8 @@ export default s.tutorial({
     qubit11AlicesBit: s.chooseOne(["0", "1", "impossible"]),
 
     tableWithoutEve: s.object({
-      stateAlice: tableRow(chooseState),
+     stateAlice: tableRow(chooseState),
+      stateAliceTwo: tableRow(chooseState),
       bitBob: tableRow(chooseBit),
       keepOrDiscard: tableRow(s.chooseOne(["keep", "discard"])),
     }),

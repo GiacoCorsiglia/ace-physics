@@ -373,11 +373,22 @@ export const tableWithoutEve = makeTable(
       label: "Alice's bit",
       values: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
     }),
-
+//////////
+givenRow("initialStateTwo", {
+      label: "Alice's bit",
+      values: [0, 0, 0, 1, 1, 0, 0, 1, 1, "?", "?", 0],
+    }),
+///////
     givenRow("didAliceApplyH", {
       label: <>Did Alice apply&nbsp;H?</>,
       values: ["N", "Y", "N", "N", "Y", "Y", "N", "Y", "N", "N", "Y", "Y"],
     }),
+    ////
+givenRow("didAliceApplyHTwo", {
+      label: <>Did Alice apply&nbsp;H?</>,
+      values: ["N", "Y", "N", "N", "Y", "Y", "N", "?", "?", "N", "Y", "Y"],
+    }),
+    ////
 
     fieldRow("stateAlice", {
       label: "Alice sends…",
@@ -403,7 +414,32 @@ export const tableWithoutEve = makeTable(
         "|+>",
       ],
     }),
-
+////////////////////
+fieldRow("stateAliceTwo", {
+      label: "Alice sends…",
+      choices: [
+        ["|0>", <M t="\ket{0}" />],
+        ["|1>", <M t="\ket{1}" />],
+        ["|+>", <M t="\ket{+}" />],
+        ["|->", <M t="\ket{-}" />],
+        ["other", "?"],
+      ],
+      answers: [
+        "other",
+        "other",
+        "|0>",
+        "|1>",
+        "other",
+        "|+>",
+        "|0>",
+        "|->",
+        "|1>",
+        "|1>",
+        "|+>",
+        "|+>",
+      ],
+    }),
+//////////////////
     givenRow("didBobApplyH", {
       label: <>Did Bob apply&nbsp;H?</>,
       values: ["Y", "Y", "Y", "N", "Y", "N", "N", "Y", "N", "Y", "N", "Y"],
