@@ -250,7 +250,8 @@ export default s.tutorial({
     tableWithoutEve: s.object({
      stateAlice: tableRow(chooseState),
       stateAliceTwo: tableRow(chooseState),
-      bitBob: tableRow(chooseBit),
+      bitBob:tableRow(chooseBit),
+      bitBobTwo: tableRow(chooseBit),
       keepOrDiscard: tableRow(s.chooseOne(["keep", "discard"])),
     }),
 
