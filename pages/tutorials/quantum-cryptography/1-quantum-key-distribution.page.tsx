@@ -416,7 +416,7 @@ export default page(setup, ({ section, oneOf }) => ({
               "initialState",
               "didAliceApplyH",
               "stateAlice",
-              "didBobApplyH",
+              "didBobApplyHTwo",
               "bitBob",
             ]}
           />

@@ -376,7 +376,8 @@ export const tableWithoutEve = makeTable(
 //////////
 givenRow("initialStateTwo", {
       label: "Alice's bit",
-      values: [0, 0, 0, 1, 1, 0, 0, 1, 1, "?", "?", 0],
+      values: [0, 0, 0, 1, 1, 0, 0, 1, 1, <strong>?</strong>, <strong>?</strong>,
+         0],
     }),
 ///////
     givenRow("didAliceApplyH", {
@@ -386,7 +387,8 @@ givenRow("initialStateTwo", {
     ////
 givenRow("didAliceApplyHTwo", {
       label: <>Did Alice apply&nbsp;H?</>,
-      values: ["N", "Y", "N", "N", "Y", "Y", "N", "?", "?", "N", "Y", "Y"],
+      values: ["N", "Y", "N", "N", "Y", "Y", "N", <strong>?</strong>,
+      <strong>?</strong>, "N", "Y", "Y"],
     }),
     ////
 
@@ -422,7 +424,7 @@ fieldRow("stateAliceTwo", {
         ["|1>", <M t="\ket{1}" />],
         ["|+>", <M t="\ket{+}" />],
         ["|->", <M t="\ket{-}" />],
-        ["other", "?"],
+        ["other", <strong>?</strong>],
       ],
       answers: [
         "other",
@@ -444,7 +446,13 @@ fieldRow("stateAliceTwo", {
       label: <>Did Bob apply&nbsp;H?</>,
       values: ["Y", "Y", "Y", "N", "Y", "N", "N", "Y", "N", "Y", "N", "Y"],
     }),
-
+/////////
+givenRow("didBobApplyHTwo", {
+      label: <>Did Bob apply&nbsp;H?</>,
+      values: ["Y", "Y", "Y", "N", "Y",  <strong>?</strong>,  <strong>?</strong>,
+         "Y", "N",  <strong>?</strong>, "N", "Y"],
+    }),
+///////////
     fieldRow("bitBob", {
       label: "Bob’s bit",
       choices: [
@@ -470,20 +478,23 @@ fieldRow("stateAliceTwo", {
       // These are the values we show when showing the complete table.  Note
       // that we have selected a specific bit for each of the "random" cases.
       values: [
-        hide(1),
+       "R",
+        <strong>?</strong>,
+        <strong>?</strong>,
+         <strong>?</strong>,
+        1,
+        "R",
         0,
-        hide(1),
         1,
         1,
-        hide(1),
-        0,
-        1,
-        1,
-        hide(1),
-        hide(0),
+        "R",
+        "R",
         0,
       ],
     }),
+    //////
+
+    /////////
 
     givenRow("bitBobBeforeNature", {
       label: "Bob's bit",
@@ -655,6 +666,7 @@ export const tableWithEve = makeTable(
         ["0", "0"],
         ["1", "1"],
         ["random", "R"],
+
       ],
       // These are the answers (used for answer checking).
       answers: [
