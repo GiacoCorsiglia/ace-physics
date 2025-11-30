@@ -241,7 +241,7 @@ export default page(setup, ({ section, oneOf }) => ({
          // tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
      // },
     }),
-
+    // question C
     section({
       name: "qubit8And9ApplyH",
       body: (m, s) => (
@@ -321,7 +321,7 @@ export default page(setup, ({ section, oneOf }) => ({
      // },
     }),
 
-      //                         question C
+      //                         question D
     section({
       name: "qubit10And11AlicesBit",
       body: (m, s) => (
@@ -417,14 +417,12 @@ export default page(setup, ({ section, oneOf }) => ({
               "didAliceApplyH",
               "stateAlice",
               "didBobApplyHTwo",
-              "bitBob",
+              "bitBobTwo",
             ]}
           />
           <Prose>
-            Note that in all cases where the outcome was “random”, nature has
-            picked a 0 or 1. We highlighted those above in grey and italics to
-            remind you that those could have come out different. But this is
-            what Bob got!
+            Note that in all cases where the outcome was “random”, a
+            letter "R" is listed. This is what Bob got!
           </Prose>
         </>
       ),
@@ -432,7 +430,7 @@ export default page(setup, ({ section, oneOf }) => ({
         allowed: () => true,
       },
     }),
-    //                          question 5
+    //                          question E
     section({
       name: "qubit2BobsBit",
        body: (m) => (
@@ -483,7 +481,7 @@ export default page(setup, ({ section, oneOf }) => ({
               },
             },
     }),
-    // question 6
+    // question F
      section({
       name: "qubit3And4Bits",
       body: (m, s) => (
@@ -561,7 +559,7 @@ export default page(setup, ({ section, oneOf }) => ({
              },
            },
     }),
-    // question 7
+    // question G
      section({
       name: "qubit6ApplyH",
        body: (m) => (
@@ -613,7 +611,7 @@ export default page(setup, ({ section, oneOf }) => ({
               },
             },
     }),
-    // question 8
+    // question H
      section({
       name: "qubit7And10ApplyH",
       body: (m, s) => (
@@ -697,7 +695,7 @@ export default page(setup, ({ section, oneOf }) => ({
              },
            },
     }),
-    // question 9
+    // question I
      section({
       name: "certainOrRandom",
        body: (m) => (
