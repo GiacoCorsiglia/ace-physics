@@ -24,6 +24,10 @@ export default tutorialSetup({
       label: "Quantum Key Distribution",
     },
     {
+      link: "dealing-with-randomness",
+      label: "Dealing with Randomness",
+    },
+    {
       link: "2-sharing-a-key",
       label: "Sharing a Private Key",
     },
