@@ -258,8 +258,8 @@ export default page(setup, ({ section, oneOf }) => ({
             </Prose>
           }
           choices={[
-            ["yes", <M t="Yes" />],
-            ["no", <M t="No" />],
+            ["yes", "Yes"],
+            ["no", "No"],
             ["unknown", "Unknown"],
 
           ]}
@@ -272,8 +272,8 @@ export default page(setup, ({ section, oneOf }) => ({
             </Prose>
           }
           choices={[
-            ["yes", <M t="Yes" />],
-            ["no", <M t="No" />],
+            ["yes", "Yes"],
+            ["no", "No"],
             ["unknown", "Unknown"],
           ]}
         />
