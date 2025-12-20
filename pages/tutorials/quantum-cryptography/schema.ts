@@ -220,9 +220,10 @@ export default s.tutorial({
     ///?????
       evesBitQubit9:  s.section({
       messages: ["dynamicAnswer"]}),
-    howOftenEveMeasuresR:s.section({
+   /* howOftenEveMeasuresR:s.section({
       messages: ["correct", "incorrect"],
     }),
+    */
       eveSendsBobQubit2:  s.section({
       messages: ["dynamicAnswer"],
     }),
@@ -291,7 +292,11 @@ export default s.tutorial({
     }),
     eveRandomChoiceOnEachQubitAnswers2: s.section(),
     natureEffectAfterEveSends: s.section(),
+    natureEffectAfterEveSends2: s.section(),
     circumstancesEveMeasuresR: s.section({ messages: ["ourAnswer"] }),
+    howOftenEveMeasuresR: s.section({
+      messages: ["dynamicAnswer"],
+    }),
     qubitStateEveSendsToBob1: s.section({
       messages: ["correctStates", "wrongStates", "wrongStates2"],
     }),
@@ -309,6 +314,7 @@ export default s.tutorial({
     bobsBitAfterEve2: s.section({
       messages: ["correctBits", "wrongBits", "wrongBits2"],
     }),
+    bobsBitAfterEve3: s.section(),
     bobsBitAfterEve2Answers: s.section(),
 
     bobsMeasurementAfterEveSends: s.section(),
@@ -317,8 +323,8 @@ export default s.tutorial({
     fractionOfMismatchedComparedSampleBits: s.section({
       messages: ["incorrect"],
     }),
-    fractionOfMismatchedComparedBits: s.section({
-      messages: ["incorrect", "correct", "didYouWriteMismatch"],
+    fractionOfMismatchedComparedBits:s.section({
+      messages: ["correct", "incorrect"],
     }),
     explanationOfMismatchedComparedBits: s.section(),
     chanceOfEveBeingUndetected: s.section({ messages: ["incorrect"] }),
@@ -351,7 +357,7 @@ export default s.tutorial({
       stateEve: tableRow(chooseState),
       stateEveTwo: tableRow(chooseState),
       bitBob: tableRow(chooseBit),
-       bitBobTwo: tableRow(chooseBit),
+      bitBobTwo: tableRow(chooseBit),
     }),
     qubit2BobsBit: s.chooseOne(["0", "1", "random"]),
     qubit3BobsBit: s.chooseOne(["0", "1", "random"]),
@@ -425,9 +431,9 @@ export default s.tutorial({
     chanceOfEveBeingUndetected: s.number(),
     oddsOfBobAliceFailToNotice: s.string(),
      // page 4
-  evesBitQubit2: s.chooseOne(["yes","no","unknown"]),
-  evesBitQubit4: s.chooseOne(["yes","no","unknown"]),
-  evesBitQubit9: s.chooseOne(["yes","no","unknown"]),
+  evesBitQubit2: s.chooseOne(["0","1","random"]),
+  evesBitQubit4: s.chooseOne(["0","1","random"]),
+  evesBitQubit9: s.chooseOne(["0","1","random"]),
    howOftenEveMeasuresR: s.number(),
    eveSendsBobQubit2: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
    eveSendsBobQubit4: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
