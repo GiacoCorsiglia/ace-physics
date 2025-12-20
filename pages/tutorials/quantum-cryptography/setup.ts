@@ -24,15 +24,15 @@ export default tutorialSetup({
       label: "Quantum Key Distribution",
     },
     {
-      link: "dealing-with-randomness",
-      label: "Dealing with Randomness",
+      link: "2-dealing-with-randomness",
+      label: "Dealing With Randomness",
     },
     {
-      link: "2-sharing-a-key",
+      link: "3-sharing-a-key",
       label: "Sharing a Private Key",
     },
     {
-      link: "3-the-effects-of-an-eavesdropper",
+      link: "4-the-effects-of-an-eavesdropper",
       label: "The Effects of an Eavesdropper",
     },
   ],
