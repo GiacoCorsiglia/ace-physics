@@ -130,6 +130,7 @@ export default page(setup, ({ section }) => ({
     //table 1
     section({
           name: "natureEffectAfterEveSendsQuestion",
+          enumerate: false,
           body: (m) => (
             <>
             <Prose>
@@ -436,7 +437,7 @@ export default page(setup, ({ section }) => ({
                 allowed: () => true,
               },
             }),
-            //question F
+            //question E
              section({
       name: "eveSendsBobQubit2",
        body: (m) => (
@@ -602,7 +603,7 @@ export default page(setup, ({ section }) => ({
              },
            },
           }),
-    //  COMPLETE TABLE check slicing
+    //  table 4
         section({
               name: "tableWithEveAndNotBobComplete",
               enumerate: false,
@@ -681,9 +682,10 @@ export default page(setup, ({ section }) => ({
             },
           },
         }),
-        //  TABLE////////////////////////////////////////////////////
+        //  table 5
        section({
              name: "bobsBitAfterEve1",
+             enumerate: false,
              body: (m) => (
                <>
                  <Prose>
@@ -714,7 +716,7 @@ export default page(setup, ({ section }) => ({
                 allowed: () => true,
               },
             }),
-        // question I
+        // question H
 section({
       name: "bobsMeasurementQubit4",
        body: (m) => (
@@ -761,7 +763,7 @@ section({
               },
             },
     }),
-    // Question J
+    // Question I
      section({
           name: "qubit5And8BobsMeasurement",
           body: (m, s) => (
@@ -842,9 +844,10 @@ section({
            label: "Measure!",
             },
         }),
-        // REPLACE WITH OLD TABLE K///////////////////////////
+        //table 6
            section({
              name: "bobsBitAfterEve3",
+             enumerate: false,
              body: (m) => (
                <>
                  <Prose>
@@ -873,7 +876,7 @@ section({
                 allowed: () => true,
               },
             }),
-            // question K
+            // question J
              section({
                   name: "circumstancesBobCorrectBecomesR",
                   body: (m) => (
