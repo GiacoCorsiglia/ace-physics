@@ -1,6 +1,7 @@
 import {
   Callout,
   ChooseOne,
+  Decimal,
   Dropdown,
   Guidance,
   Image,
@@ -317,4 +318,88 @@ export default page(setup, ({ section }) => ({
           },
 
         }),
+        // Table 2 (answers)
+         section({
+          name: "natureEffectAfterEveSends",
+          body: (m) => (
+            <>
+             <Prose>
+                Note that in all cases where the outcome was “random”, nature has
+                picked a 0 or 1. Those results are written in italics to remind you
+                that they could have come out different. But this is what Eve got!
+              </Prose>
+              <tableWithEve.Component
+                model={repeatedModel(m.tableWithEve)}
+                rows={[
+                  "qubitNumber",
+                  "initialState",
+                  "didAliceApplyH",
+                  "stateAlice",
+                  "didEveApplyH",
+                  "bitEve",
+                ]}
+                columns={tableWithEve.nonGreyedCols}
+              />
+            </>
+          ),
+         continue: {
+           allowed: () => true,
+          },
+        }),
+         //question D
+            section({
+                  name: "circumstancesEveMeasuresR",
+                  body: (m) => (
+                    <>
+                      <TextBox
+                        model={m.circumstancesEveMeasuresR}
+                        label={
+                          <Prose>
+                            <p>Consider the bits for which Eve got a random result.</p>
+                            <p>
+                              In your own words, why did this happen (or, under what
+                              circumstances)?
+                            </p>
+                          </Prose>
+                        }
+                      ></TextBox>
+                      <Decimal
+                        model={m.howOftenEveMeasuresR}
+                        label={
+                          <Prose>
+                            If this procedure was repeated many times, what percentage of
+                            the time would Eve get a random result?
+                          </Prose>
+                        }
+                        placeholder={"Percent"}
+                      />
+                    </>
+                  ),
+                  //question D feedback
+                  guidance: {
+                    nextMessage: () => "ourAnswer",
+                  messages: {
+                     ourAnswer: {
+                      body: (s) => {
+                      if (s.responses?.howOftenEveMeasuresR === 50 || s.responses?.howOftenEveMeasuresR === .50) {
+                             return <Guidance.Agree>Correct!</Guidance.Agree>;
+                               }
+                               return (
+                                 <>
+                                   <Guidance.Disagree>
+                                     If Eve makes a Hadamard choice opposite to Alice's choice,
+                                    then Eve will always measure a superposition state (
+                                   <M t="\ket{+}" /> or <M t="\ket{-}" />) in the{" "}
+                                  <M t="\{0, 1\}" /> basis and get a random result.
+                                  How often does this happen?
+                                   </Guidance.Disagree>
+                                 </>
+                               );
+                             },
+                             onContinue: "nextSection",
+                           },
+                         },
+                       },
+                }),
+
       ]}));
