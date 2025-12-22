@@ -900,7 +900,7 @@ section({
                     </>
                   ),
                 }),
-                // question L
+                // question K
                 section({
                   name: "fractionOfMismatchedComparedSampleBits",
                   body: (m) => (
@@ -946,8 +946,7 @@ section({
                     },
                   },
                 }),
-                // question M
-                // !!!!!!!!!!!!!!!!!!! FEEDBACK NEEDS TO BE FIXED
+                // question L
                  section({
                       name: "fractionOfMismatchedComparedBits",
                       body: (m) => (
@@ -970,8 +969,7 @@ section({
                       // CHANGE TO POSITIVE NEGATIVE FEEDBACK .25 correct , 75 incorrect
                        guidance: {
                              nextMessage(r) {
-                               // support models that return either a wrapped { selected: ... } or a raw value (number/string)
-                               // Only access `.selected` if the model is an object to avoid TS errors when it's a number/string.
+
                                const raw =
                                  typeof r.fractionOfMismatchedComparedBits === "object" && r.fractionOfMismatchedComparedBits !== null
                                    ? (r.fractionOfMismatchedComparedBits as any).selected ?? r.fractionOfMismatchedComparedBits
@@ -1046,7 +1044,7 @@ section({
         </Prose>
       ),
     }),
-    // question N
+    // question M
        section({
                   name: "percentOfBobsTest",
                   body: (m) => (
@@ -1107,7 +1105,7 @@ section({
             },
           },
          }),
-         // question O
+         // question N
           section({
                name: "oddsOfBobAliceFailToNotice",
                body: (m) => (
