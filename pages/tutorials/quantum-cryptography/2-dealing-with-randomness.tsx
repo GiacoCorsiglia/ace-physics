@@ -16,7 +16,7 @@ import { tableWithoutEve } from "./shared";
 
 export default page(setup, ({ section, oneOf }) => ({
   name: "dealingWithRandomness",
-  label: "Dealing with Randomness",
+  label: "Dealing With Randomness",
   answers: "checked-all",
   sections: [
     section({
@@ -82,7 +82,7 @@ export default page(setup, ({ section, oneOf }) => ({
             </>
           ),
         }),
-        // question B
+        // question B CHANGE FEEDBACK TO PAGE 2 QUESTION M
         section({
           name: "amountOfBitStringsAgree",
           body: (m) => (
@@ -121,7 +121,7 @@ export default page(setup, ({ section, oneOf }) => ({
             },
           },
         }),
-        //question C
+        //                           question C
         section({
           name: "fractionOfBitStringsAgree",
           body: (m) => (
@@ -232,6 +232,7 @@ export default page(setup, ({ section, oneOf }) => ({
             },
           },
         }),
+        //question D (i think)
         section({
           name: "isBobResultNotRandomAgreement",
           when: (r) => r.howOftenBobResultBeRandom !== undefined,
@@ -403,6 +404,7 @@ export default page(setup, ({ section, oneOf }) => ({
             },
           },
         }),
+        //                         question D
         section({
           name: "doesAliceBobShareKeyAtCurrentStage",
           body: (m, s) => (
