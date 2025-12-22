@@ -174,7 +174,7 @@ export default page(setup, ({ section, oneOf }) => ({
             },
           },
         }),
-        // detour question
+        // detour question 1
         section({
           name: "fractionOfBitStringsAgreeIncorrect",
           when: (r) => r.fractionOfBitStringsAgree?.selected !== "75%",
@@ -232,7 +232,7 @@ export default page(setup, ({ section, oneOf }) => ({
             },
           },
         }),
-        //question D (i think)
+        //detour question 2
         section({
           name: "isBobResultNotRandomAgreement",
           when: (r) => r.howOftenBobResultBeRandom !== undefined,
@@ -286,6 +286,7 @@ export default page(setup, ({ section, oneOf }) => ({
             },
           },
         }),
+        //detour question 3
         section({
           name: "howOftenNeverthelessMatch",
           enumerate: false,
@@ -343,6 +344,7 @@ export default page(setup, ({ section, oneOf }) => ({
             },
           },
         }),
+        //detour question 4
         section({
           name: "fractionOfBitStringsAgreeRetry",
           when: (r) => r.howOftenWillTheyNeverthelessMatch !== undefined,
