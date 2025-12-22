@@ -19,6 +19,7 @@ export default page(setup, ({ section, oneOf }) => ({
   sections: [
     section({
       name: "introToSharedKey",
+       enumerate: false,
       body: (m) => (
         <Prose>
           On the previous page, we explained a quantum cryptographic protocol
@@ -54,7 +55,7 @@ export default page(setup, ({ section, oneOf }) => ({
       },
     }),
 
-// New question A
+//                              question A
 section({
       name: "qubit6KeepOrDiscard",
        body: (m) => (
@@ -105,7 +106,7 @@ section({
               },
             },
     }),
-    // New question B
+    //                         question B
 section({
       name: "aliceAndBobKeepOrDiscard",
       body: (m, s) => (
@@ -192,13 +193,8 @@ section({
                },
              },
            },
-      //continue: {
-       // label: "Check in!",
-        //allowed: (s, _, m) =>
-         // tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
-     // },
     }),
-      // question C
+      //                        question C
     section({
       name: "doesAliceBobShareKeyCheckTwo",
       body: (m, s) => (
@@ -265,7 +261,7 @@ section({
         },
       ],
     }),
-    //question D
+    //                            question D
     section({
       name: "whatIsTheSharedKey",
       body: (m) => (
@@ -326,7 +322,7 @@ section({
             },
           },
     }),
-    ///// question E
+    //                            question E
     section({
       name: "doesPublicInfoGiveInfoAboutBitString",
       body: (m, s) => (
@@ -380,5 +376,31 @@ section({
                   },
                 },
     }),
+     section({
+          name: "aliceAndBobPrivateKeyTable",
+          body: (m) => (
+            <Prose>
+              Alice and Bob now share a private key. Here is the table so far, where
+              we've removed all columns where Alice and Bob discarded their bits.
+              <tableWithoutEve.Component
+                model={repeatedModel(m.tableWithoutEve)}
+                rows={[
+                  "qubitNumber",
+                  "initialState",
+                  "didAliceApplyH",
+                  "stateAlice",
+                  "didBobApplyH",
+                  "bitBob",
+                  "keepOrDiscard",
+                  "finalPrivateKey",
+                ]}
+                columns={tableWithoutEve.nonGreyedCols}
+              />
+            </Prose>
+          ),
+          continue: {
+            allowed: () => true,
+          },
+        }),
   ],
 }));
