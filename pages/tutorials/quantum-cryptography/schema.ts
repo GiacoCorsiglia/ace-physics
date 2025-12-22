@@ -96,10 +96,6 @@ export default s.tutorial({
     qubit4BobsBit: s.section({
       messages: ["dynamicAnswer"],
     }),
-
-    //didBobApplyHBefore:  s.section({
-     // messages: ["dynamicAnswer"],
-    //}),
     // question G
     qubit6ApplyH: s.section({
       messages: ["dynamicAnswer"],
@@ -132,32 +128,6 @@ export default s.tutorial({
     fractionOfBitStringsAgreeIncorrect: s.section({
       messages: ["correct", "incorrect"],
     }),
-    // tableWithoutEveStateAlice2: s.section({
-    //  messages: ["correctStates", "wrongStates"],
-   // }),
-   // tableWithoutEveStateAlice2Answers: s.section(),
-
-    //question 3
-    //question 4
-
-    // Section 1
-
-
-    //bobRandomChoiceOnEachQubit: s.section({
-    //  messages: ["correctBits", "wrongBits", "wrongBits2"],
-    //}),
-    //bobRandomChoiceOnEachQubitAnswers: s.section(),
-    //bobRandomChoiceOnEachQubit2: s.section({
-      //messages: ["correctBits", "wrongBits", "wrongBits2"],
-    //}),
-    //bobRandomChoiceOnEachQubitAnswers2: s.section(),
-
-    //circumstancesWhenBobAndAlice100Agree: s.section(),
-    //amountOfBitStringsAgree: s.section({
-     // messages: ["incorrect"],
-   // }),
-
-    // feedback for fractionOfBitStringsAgree
    // detour section
     isBobResultNotRandomAgreement: s.section({
       messages: ["incorrect"],
@@ -207,7 +177,7 @@ export default s.tutorial({
     aliceAndBobPrivateKeyTable: s.section(),
 
     //                Page 4: The Effects of An Eavesdropper
-    //doesAliceBobShareKeyCheckOne: s.section(),
+
     //intro
     theEffectsOfAnEavesdropperIntro: s.section(),
     theEffectsOfAnEavesdropperIntroCircuit: s.section(),
@@ -293,68 +263,6 @@ export default s.tutorial({
     oddsOfBobAliceFailToNotice: s.section({ messages: ["explanation"] }),
     //conclusion
     conclusion: s.section(),
-    ////
-    /*
-    fractionOfBitStringsAgreeExplanationPartOne: s.section(),
-    fractionOfBitStringsAgreeExplanationPartTwo: s.section(),
-    keepOrDiscardTableRow1: s.section({
-      messages: ["incorrect"],
-    }),
-    keepOrDiscardTableRow1Answers: s.section(),
-    keepOrDiscardTableRow2: s.section({
-      messages: ["incorrect"],
-    }),
-    keepOrDiscardTableRow2Answers: s.section(),
-    keepOrDiscardTableRowComplete: s.section(),
-
-    frequencyTheyDiscardBit: s.section({
-      messages: ["correct", "incorrect"],
-    }),
-    doesAliceBobShareKeyAtCurrentStageIncorrect: s.section(),
-    aliceAndBobPrivateKeyTable: s.section(),
-
-    // Section 3: "The Effects of an Eavesdropper"
-
-    evesBitAfterMeasurement: s.section({
-      messages: ["correctBits", "wrongBits", "wrongBits2"],
-    }),
-    eveRandomChoiceOnEachQubitAnswers: s.section(),
-    evesBitAfterMeasurement2: s.section({
-      messages: ["correctBits", "wrongBits", "wrongBits2"],
-    }),
-    eveRandomChoiceOnEachQubitAnswers2: s.section(),
-
-
-
-    howOftenEveMeasuresR: s.section({
-      messages: ["dynamicAnswer"],
-    }),
-    qubitStateEveSendsToBob1: s.section({
-      messages: ["correctStates", "wrongStates", "wrongStates2"],
-    }),
-    qubitStateEveSendsToBob1Answers: s.section(),
-    qubitStateEveSendsToBob2: s.section({
-      messages: ["correctStates", "wrongStates", "wrongStates2"],
-    }),
-    qubitStateEveSendsToBob2Answers: s.section(),
-
-
-
-    bobsBitAfterEve1Answers: s.section(),
-    bobsBitAfterEve2: s.section({
-      messages: ["correctBits", "wrongBits", "wrongBits2"],
-    }),
-
-    bobsBitAfterEve2Answers: s.section(),
-
-    bobsMeasurementAfterEveSends: s.section(),
-    natureEffectToBobMeasurements: s.section(),
-
-
-
-    explanationOfMismatchedComparedBits: s.section(),
-    chanceOfEveBeingUndetected: s.section({ messages: ["incorrect"] }),
-    */
 
   },
   /////////////////////////////////////////////////////////////////////////////
@@ -453,15 +361,6 @@ export default s.tutorial({
      whatIsTheSharedKey: s.number(),
      //question E
      doesPublicInfoGiveInfoAboutBitString: s.chooseOne(["yes", "no"]),
-    // feedback
-
-
-
-
-
-
-    frequencyTheyDiscardBit: s.chooseOne(["25%", "50%", "75%"]),
-    //chanceOfEveBeingUndetected: s.number(),
 
      //         RESPONSES: Page 4: The Effects of an Eavesdropper
      //question A
@@ -503,7 +402,7 @@ export default s.tutorial({
     //question N
     oddsOfBobAliceFailToNotice: s.string(),
   },
-
+//                              hints
   hints: {
     whatIsAKey: s.hint(),
     decisionTreeForMismatch: s.hint(),
