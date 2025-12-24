@@ -147,6 +147,8 @@ export default s.tutorial({
 
     //               Page 3: Sharing A Private Key
     introToSharedKey: s.section(),
+    mismatchExplanationPartOne: s.section(),
+    mismatchExplanationPartTwo: s.section(),
     //question A
     qubit6KeepOrDiscard: s.section({
       messages: ["dynamicAnswer"],
@@ -200,6 +202,8 @@ export default s.tutorial({
 
       evesBitQubit9:  s.section({
       messages: ["dynamicAnswer"]}),
+      //measure button
+      hitMeasureForRandom: s.section(),
         // table 2
         natureEffectAfterEveSends: s.section(),
         //question D
@@ -253,6 +257,8 @@ export default s.tutorial({
      fractionOfMismatchedComparedBits:s.section({
       messages: ["correct", "incorrect"],
     }),
+    //explanation
+    explanationOfMismatchedComparedBits: s.section(),
     //paragraph
     aliceAndBobNeedToCheck: s.section(),
     //question M
