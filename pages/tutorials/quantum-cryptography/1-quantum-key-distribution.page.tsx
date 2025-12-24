@@ -9,6 +9,7 @@ import {
 } from "@/components";
 import { page, repeatedModel } from "@/tutorial";
 import Hadamard1Half from "./media/BB84 Alice and Bob Half.png";
+import Hadamard1Full from "./media/BB84 Alice and Bob.png";
 import setup from "./setup";
 import { tableWithoutEve } from "./shared";
 
@@ -79,7 +80,7 @@ export default page(setup, ({ section, oneOf }) => ({
         </Prose>
       ),
     }),
-    //                          intro table
+    //                          Table 1
      section({
       name: "tableWithoutEveStateAliceComplete",
       enumerate: false,
@@ -113,10 +114,10 @@ export default page(setup, ({ section, oneOf }) => ({
             </Prose>
           }
           choices={[
-            ["+z", <M t="{H\ket{0}}" />],
-            ["-z", <M t="{H\ket{1}}" />],
-            ["+x", <M t="{H\ket{+}}" />],
-            ["-x", <M t="{H\ket{-}}" />],
+            ["+z", <M t="{\ket{0}}" />],
+            ["-z", <M t="{\ket{1}}" />],
+            ["+x", <M t="{\ket{+}}" />],
+            ["-x", <M t="{\ket{-}}" />],
             ["+y", "Other"],
           ]}
         />
@@ -164,10 +165,10 @@ export default page(setup, ({ section, oneOf }) => ({
             </Prose>
           }
           choices={[
-            ["+z", <M t="{H\ket{0}}" />],
-            ["-z", <M t="{H\ket{1}}" />],
-            ["+x", <M t="{H\ket{+}}" />],
-            ["-x", <M t="{H\ket{-}}" />],
+            ["+z", <M t="{\ket{0}}" />],
+            ["-z", <M t="{\ket{1}}" />],
+            ["+x", <M t="{\ket{+}}" />],
+            ["-x", <M t="{\ket{-}}" />],
             ["+y", "Other"],
           ]}
         />
@@ -179,10 +180,10 @@ export default page(setup, ({ section, oneOf }) => ({
             </Prose>
           }
           choices={[
-            ["+z", <M t="{H\ket{0}}" />],
-            ["-z", <M t="{H\ket{1}}" />],
-            ["+x", <M t="{H\ket{+}}" />],
-            ["-x", <M t="{H\ket{-}}" />],
+            ["+z", <M t="{\ket{0}}" />],
+            ["-z", <M t="{\ket{1}}" />],
+            ["+x", <M t="{\ket{+}}" />],
+            ["-x", <M t="{\ket{-}}" />],
             ["+y", <M t="other" />],
           ]}
         />
@@ -235,13 +236,8 @@ export default page(setup, ({ section, oneOf }) => ({
                },
              },
            },
-      //continue: {
-       // label: "Check in!",
-        //allowed: (s, _, m) =>
-         // tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
-     // },
     }),
-    // question C
+    //                          question C
     section({
       name: "qubit8And9ApplyH",
       body: (m, s) => (
@@ -314,11 +310,6 @@ export default page(setup, ({ section, oneOf }) => ({
                },
              },
            },
-      //continue: {
-       // label: "Check in!",
-        //allowed: (s, _, m) =>
-         // tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
-     // },
     }),
 
       //                         question D
@@ -395,20 +386,29 @@ export default page(setup, ({ section, oneOf }) => ({
                },
              },
            },
-      //continue: {
-       // label: "Check in!",
-       // allowed: (s, _, m) =>
-       //   tableWithoutEve.isComplete(s, m, "bitBob", [0, 1, 2, 3]),
-     // },
     }),
-    /////////////////////////////////////////////////////////////////////////
+
     //                            table 2
     section({
-      //table is line 436 of 'shared' page
       name: "natureEffectBobBitAfterMeasurement",
       enumerate: false,
       body: (m) => (
         <>
+        <Prose>
+         When the qubit makes it to Bob, he randomly decides whether to apply
+         his own Hadamard gate or not. <br /> <br />
+         After doing so, he measures the qubit in the{" "}
+          <M t="{\{\ket{0}, \ket{1}\}}" /> basis.
+           <br />
+          <Image
+           src={Hadamard1Full}
+           alt="The experimental setup described above"
+           />
+           We have added a new row to the table with the (random) choice Bob
+           makes on each qubit: to apply an H or not? Please fill in the last
+           row with the outcome of his subsequent measurement. "R" means his
+           measurement is "random", with a 50% chance of getting either 0 or 1.
+          </Prose>
           <tableWithoutEve.Component
             model={repeatedModel(m.tableWithoutEve)}
             rows={[
@@ -481,7 +481,7 @@ export default page(setup, ({ section, oneOf }) => ({
               },
             },
     }),
-    // question F
+    //                           question F
      section({
       name: "qubit3And4Bits",
       body: (m, s) => (
@@ -523,8 +523,6 @@ export default page(setup, ({ section, oneOf }) => ({
             nextMessage: ((r: any) => {
                const a = r.qubit3BobsBit?.selected;
                const b = r.qubit4BobsBit?.selected;
-
-               // If neither dropdown has a selection yet, show no message
                if (a === undefined && b === undefined) {
                  return null;
                }
@@ -559,7 +557,7 @@ export default page(setup, ({ section, oneOf }) => ({
              },
            },
     }),
-    // question G
+    //                            question G
      section({
       name: "qubit6ApplyH",
        body: (m) => (
@@ -611,7 +609,7 @@ export default page(setup, ({ section, oneOf }) => ({
               },
             },
     }),
-    // question H
+    //                            question H
      section({
       name: "qubit7And10ApplyH",
       body: (m, s) => (
@@ -695,7 +693,7 @@ export default page(setup, ({ section, oneOf }) => ({
              },
            },
     }),
-    // question I
+    //                            question I
      section({
       name: "certainOrRandom",
        body: (m) => (
