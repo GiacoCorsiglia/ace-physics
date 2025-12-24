@@ -18,24 +18,18 @@ export default page(setup, ({ section, oneOf }) => ({
   name: "dealingWithRandomness",
   label: "Dealing With Randomness",
   answers: "checked-all",
+
   sections: [
-    section({
+     section({
       name: "dealingWithRandomnessIntro",
       enumerate: false,
-       body: (
-        <Prose>
+      body: (m) => (
+        <>
+         <Prose>
           <p>
            Here is a summary of everything you found on the previous page:
           </p>
         </Prose>
-      ),
-      }),
-
-     section({
-      name: "natureEffectBobBitAfterMeasurement",
-      enumerate: false,
-      body: (m) => (
-        <>
           <tableWithoutEve.Component
             model={repeatedModel(m.tableWithoutEve)}
             rows={[
@@ -43,8 +37,8 @@ export default page(setup, ({ section, oneOf }) => ({
               "initialState",
               "didAliceApplyH",
               "stateAlice",
-              "didBobApplyHTwo",
-              "bitBobTwo",
+              "didBobApplyH",
+              "bitBob",
             ]}
           />
           <Prose>
