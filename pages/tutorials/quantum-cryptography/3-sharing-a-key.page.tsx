@@ -54,7 +54,32 @@ export default page(setup, ({ section, oneOf }) => ({
         allowed: () => true,
       },
     }),
-
+ section({
+      name: "mismatchExplanationPartOne",
+      enumerate: false,
+      body: (
+        <Prose>
+          Alice and Bob must remove every bit where they could have a mismatch.
+          To do this, <b>after all measurements have been made</b>, they both
+          publicly share their full record of whether or not they applied an H
+          gate. They do NOT publicly share their bit values.
+        </Prose>
+      ),
+      continue: { label: "Okay..." },
+    }),
+    section({
+      name: "mismatchExplanationPartTwo",
+      enumerate: false,
+      body: (
+        <Prose>
+          In every case where they did not both make the same decision to apply
+          the H gate or not, they both simply discard that bit. Thus, all bits
+          that remain arise only when they either <b>both</b> applied an H gate,
+          or <b>neither</b> applied an H gate.
+        </Prose>
+      ),
+      continue: { label: "Interesting!" },
+    }),
 //                              question A
 section({
       name: "qubit6KeepOrDiscard",
@@ -218,12 +243,12 @@ section({
           body: ({ responses }) => (
            <Guidance.Dynamic
            status={
-           responses?.doesAliceBobShareKeyCheckTwo?.selected === "no" ? "agree" : "disagree"
+           responses?.doesAliceBobShareKeyCheckTwo?.selected === "yes" ? "agree" : "disagree"
             }
               >
-            {responses?.doesAliceBobShareKeyCheckTwo?.selected !== "no" ? (
+            {responses?.doesAliceBobShareKeyCheckTwo?.selected !== "yes" ? (
               <p>
-                As it turns out, Alice and Bob finally share a key. Whenever
+                 As it turns out, Alice and Bob finally share a key. Whenever
                 Alice and Bob's H-gate choices agree, the state Bob measures is
                 the same state that Alice started with—a <M t="{\ket{0}}" />{" "}
                 goes to a <M t="{\ket{0}}" />, for example. If Alice and Bob
@@ -231,7 +256,8 @@ section({
                 always have the same bits, and therefore they share a key!
                </p>
                ) : (
-              <p> We agree with your answer. As it turns out, Alice and Bob
+              <p>
+                We agree with your answer. As it turns out, Alice and Bob
                 finally share a key. Whenever
                 Alice and Bob's H-gate choices agree, the state Bob measures is
                 the same state that Alice started with—a <M t="{\ket{0}}" />{" "}
