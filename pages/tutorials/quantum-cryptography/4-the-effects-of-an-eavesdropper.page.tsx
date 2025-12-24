@@ -205,6 +205,7 @@ export default page(setup, ({ section }) => ({
                    }
 
                    return "incorrect";
+
                  }) as any,
                  messages: {
                    correct: {
@@ -228,11 +229,6 @@ export default page(setup, ({ section }) => ({
                    },
                  },
                },
-          //continue: {
-           // label: "Check in!",
-            //allowed: (s, _, m) =>
-             // tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
-         // },
         }),
         // question C
          section({
@@ -271,9 +267,7 @@ export default page(setup, ({ section }) => ({
               ]}
             />
             </LabelsLeft>
-             <Prose> Hit "Measure!" to let "nature" determine the outcomes of
-              all the cells labeled "R" for random in the last row.
-            </Prose>
+
             </>
           ),
          guidance: {
@@ -319,6 +313,22 @@ export default page(setup, ({ section }) => ({
           },
 
         }),
+         section({
+      name: "hitMeasureForRandom",
+      enumerate: false,
+      body: (
+        <Prose>
+          <p>
+            Hit "Measure!" to let "nature" determine the outcomes of
+              all the cells labeled "R" for random in the last row.
+          </p>
+
+        </Prose>
+      ),
+      continue: {
+           label: "Measure!",
+            },
+    }),
         // Table 2 (answers)
          section({
           name: "natureEffectAfterEveSends",
@@ -465,10 +475,10 @@ export default page(setup, ({ section }) => ({
                   body: ({ responses }) => (
                     <Guidance.Dynamic
                       status={
-                        responses?.qubit1AliceToBob?.selected === "-z" ? "agree" : "disagree"
+                        responses?.eveSendsBobQubit2?.selected === "-z" ? "agree" : "disagree"
                       }
                     >
-                      {responses?.qubit1AliceToBob?.selected !== "-z" ? (
+                      {responses?.eveSendsBobQubit2?.selected !== "-z" ? (
                         <p>
                           Looks like we disagree. Remember that when Eve measures
                            a state and gets a bit (0 or 1) she collapses the state
@@ -510,10 +520,10 @@ export default page(setup, ({ section }) => ({
             </Prose>
           }
           choices={[
-            ["+z", <M t="{H\ket{0}}" />],
-            ["-z", <M t="{H\ket{1}}" />],
-            ["+x", <M t="{H\ket{+}}" />],
-            ["-x", <M t="{H\ket{-}}" />],
+            ["+z", <M t="{\ket{0}}" />],
+            ["-z", <M t="{\ket{1}}" />],
+            ["+x", <M t="{\ket{+}}" />],
+            ["-x", <M t="{\ket{-}}" />],
             ["+y", "Other"],
           ]}
         />
@@ -525,10 +535,10 @@ export default page(setup, ({ section }) => ({
             </Prose>
           }
           choices={[
-            ["+z", <M t="{H\ket{0}}" />],
-            ["-z", <M t="{H\ket{1}}" />],
-            ["+x", <M t="{H\ket{+}}" />],
-            ["-x", <M t="{H\ket{-}}" />],
+            ["+z", <M t="{\ket{0}}" />],
+            ["-z", <M t="{\ket{1}}" />],
+            ["+x", <M t="{\ket{+}}" />],
+            ["-x", <M t="{\ket{-}}" />],
             ["+y", <M t="other" />],
           ]}
         />
@@ -540,10 +550,10 @@ export default page(setup, ({ section }) => ({
             </Prose>
           }
           choices={[
-            ["+z", <M t="{H\ket{0}}" />],
-            ["-z", <M t="{H\ket{1}}" />],
-            ["+x", <M t="{H\ket{+}}" />],
-            ["-x", <M t="{H\ket{-}}" />],
+            ["+z", <M t="{\ket{0}}" />],
+            ["-z", <M t="{\ket{1}}" />],
+            ["+x", <M t="{\ket{+}}" />],
+            ["-x", <M t="{\ket{-}}" />],
             ["+y", <M t="other" />],
           ]}
         />
@@ -1026,6 +1036,25 @@ section({
                         },
                       ],
                     }),
+            section({
+            name: "explanationOfMismatchedComparedBits",
+            enumerate: false,
+            body: (
+            <Prose>
+            <p>
+            50% of the time, Bob's and Alice's bits match because Eve made the
+            same H-gate choice as Alice. The other 50% of the time, Bob measures
+            a random result, which means he might or might not get the same
+            result as Alice.
+            </p>
+            <p>
+            In total, Alice and Bob's bits match 75% of the time. They mismatch
+            25% of the time: when Bob gets a random result and measures the
+            opposite of Alice.
+            </p>
+           </Prose>
+            ),
+           }),
                     // INTRO
                      section({
               name: "aliceAndBobNeedToCheck",
@@ -1085,7 +1114,7 @@ section({
               correct: {
                 body: <Guidance.Agree>We agree with your answer. We know that Bob
                   and Alice's bits match 75% of the time. The chance that two bits
-                  match is therefore (0.75)<sup>2</sup> or 56%. If this happens, Alice
+                  match is therefore <M t="{(0.75)^2}" /> or 56%. If this happens, Alice
                   and Bob fail to notice the eavesdropper.
 
                     </Guidance.Agree>,
@@ -1095,7 +1124,7 @@ section({
                 body: (
                   <Guidance.Disagree>
                     We know that Bob and Alice's bits match 75% of the time.
-                    The chance that two bits match is therefore (0.75)<sup>2</sup> or 56%.
+                    The chance that two bits match is therefore <M t="{(0.75)^2}" /> or 56%.
                     If this happens, Alice and Bob fail to notice the eavesdropper.
 
                   </Guidance.Disagree>
@@ -1112,7 +1141,7 @@ section({
                  <>
                    <Prose>
                      If we check 100 bits (with Eve present), what are the odds that Bob
-                     and Alice FAIL to notice the eavesdropper? (That is, what are the
+                     and Alice <strong>fail</strong> to notice the eavesdropper? (That is, what are the
                      chance that all 100 bits Bob and Alice check match?)
                    </Prose>
                    <TextBox model={m.oddsOfBobAliceFailToNotice} />
