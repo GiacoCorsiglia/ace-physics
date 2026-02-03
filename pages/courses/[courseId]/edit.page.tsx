@@ -28,6 +28,7 @@ import { CheckCircleIcon, UploadIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSWRConfig } from "swr";
+import { StudentCount } from "./components/StudentCount";
 
 export default function EditCourse() {
   const auth = useAuth({ required: true });
@@ -435,6 +436,8 @@ const CourseUsersForm = ({ course }: { course: Course }) => {
           Physics using the email address you add for them here.
         </p>
       </Prose>
+
+      <StudentCount courseId={course.id} />
 
       <form
         onSubmit={(e) => {
