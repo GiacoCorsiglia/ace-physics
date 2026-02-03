@@ -9,6 +9,7 @@ import {
   Header,
   Horizontal,
   LabelsLeft,
+  LinkButton,
   LinkCard,
   LoadingAnimation,
   MainContentBox,
@@ -28,6 +29,7 @@ import {
 } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSWRConfig } from "swr";
 import { AccountLookupForm } from "../components";
 
 export default function UserView() {
@@ -391,38 +393,50 @@ function UserTutorials({ user }: { user: User }) {
                 : course?.displayName || courseKey}
             </h3>
 
-            <ul>
+            <Vertical space={50}>
               {tutorials.map((tutorial) => {
                 const tutorialInfo = tutorialMap.get(tutorial.tutorialId);
                 const label = tutorialInfo?.label || tutorial.tutorialId;
 
                 return (
-                  <li key={`${tutorial.courseId}-${tutorial.tutorialId}`}>
-                    <LinkCard label={label} link="#" proseSize="ui-small">
-                      Started:{" "}
-                      <strong>
-                        {new Date(tutorial.createdAt).toLocaleDateString()}
-                      </strong>
-                      <br />
-                      Last updated:{" "}
-                      <strong>
-                        {new Date(tutorial.updatedAt).toLocaleDateString()}
-                      </strong>
-                      <br />
-                      Number of updates: <code>{tutorial.version}</code>
-                      <br />
-                      <Button
-                        color="blue"
-                        size="small"
-                        onClick={() => setMovingTutorial(tutorial)}
-                      >
-                        Move
-                      </Button>
-                    </LinkCard>
-                  </li>
+                  <Callout
+                    key={`${tutorial.courseId}-${tutorial.tutorialId}`}
+                    color="blue"
+                  >
+                    <Vertical space={25}>
+                      <h2 className="text-ui-small">
+                        <b>{label}</b>
+                      </h2>
+
+                      <Prose size="ui-small">
+                        Started:{" "}
+                        <strong>
+                          {new Date(tutorial.createdAt).toLocaleDateString()}
+                        </strong>
+                        <br />
+                        Last updated:{" "}
+                        <strong>
+                          {new Date(tutorial.updatedAt).toLocaleDateString()}
+                        </strong>
+                        <br />
+                        Number of updates: <code>{tutorial.version}</code>
+                      </Prose>
+
+                      <Horizontal>
+                        <LinkButton
+                          // color="blue"
+                          // size="small"
+                          className="text-blue"
+                          onClick={() => setMovingTutorial(tutorial)}
+                        >
+                          Switch course
+                        </LinkButton>
+                      </Horizontal>
+                    </Vertical>
+                  </Callout>
                 );
               })}
-            </ul>
+            </Vertical>
           </Vertical>
         );
       })}
@@ -449,6 +463,7 @@ function MoveTutorialModal({
   );
 
   const mutation = useMoveTutorial();
+  const { mutate: invalidateCache } = useSWRConfig();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -459,7 +474,7 @@ function MoveTutorialModal({
       return;
     }
 
-    await mutation.mutate(
+    const result = await mutation.mutate(
       {
         hash: userEmail,
       },
@@ -469,26 +484,30 @@ function MoveTutorialModal({
         destinationCourseId,
       },
     );
+
+    if (!result.failed) {
+      // Invalidate the user cache to refetch the updated tutorial list
+      await invalidateCache(`/api/users/${userEmail}`);
+      onClose();
+    }
   };
 
   const isDirty = destinationCourseId !== tutorial.courseId;
   const isDisabled = !isDirty || mutation.status === "loading";
 
-  // If successfully moved, close the modal and let the page refresh
-  if (mutation.status === "success") {
-    // Trigger a page refresh to show updated data
-    window.location.reload();
-    return null;
-  }
-
   return (
     <Modal
-      title={<>Move Tutorial</>}
+      title={
+        <>
+          Move <em>{tutorialLabel}</em> to a different course
+        </>
+      }
       actions={
         <Horizontal>
           <Button color="neutral" onClick={onClose}>
             Cancel
           </Button>
+
           <Button
             color="green"
             onClick={handleSubmit}
@@ -502,28 +521,20 @@ function MoveTutorialModal({
     >
       <form onSubmit={handleSubmit}>
         <Vertical>
-          <Prose>
-            <p>
-              Move <strong>{tutorialLabel}</strong> to a different course:
-            </p>
-          </Prose>
-
-          <LabelsLeft>
-            <DropdownControl
-              label="Destination:"
-              choices={[
-                [
-                  TUTORIAL_STATE_NO_COURSE,
-                  "Exploration mode (no course)",
-                ] as const,
-                ...courses.map(
-                  (course) => [course.id, course.displayName] as const,
-                ),
-              ]}
-              value={destinationCourseId}
-              onChange={(val) => setDestinationCourseId(val || "")}
-            />
-          </LabelsLeft>
+          <DropdownControl
+            label="Destination:"
+            choices={[
+              [
+                TUTORIAL_STATE_NO_COURSE,
+                "Exploration mode (no course)",
+              ] as const,
+              ...courses.map(
+                (course) => [course.id, course.displayName] as const,
+              ),
+            ]}
+            value={destinationCourseId}
+            onChange={(val) => setDestinationCourseId(val || "")}
+          />
 
           {mutation.status === "error" && (
             <Callout color="red">

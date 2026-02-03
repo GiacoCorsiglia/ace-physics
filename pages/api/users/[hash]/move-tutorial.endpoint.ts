@@ -41,13 +41,10 @@ export default endpoint(
       const tutorialState = decoded.value;
 
       // Create at destination location first.
-      const newItem = await db.codec.TutorialState.encode(
-        {
-          ...tutorialState,
-          courseId: destinationCourseId,
-        },
-        false,
-      );
+      const newItem = await db.codec.TutorialState.encode({
+        ...tutorialState,
+        courseId: destinationCourseId,
+      });
 
       const putResult = await db.client().put({
         TableName: db.tableName(),
