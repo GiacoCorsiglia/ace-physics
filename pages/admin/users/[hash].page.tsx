@@ -16,7 +16,9 @@ import {
   Prose,
   Vertical,
 } from "@/components";
-import { User } from "@/schema/api";
+import { TutorialState, User } from "@/schema/api";
+import { TUTORIAL_STATE_NO_COURSE } from "@/schema/db";
+import { tutorialList } from "@pages/tutorials/list";
 import {
   CheckCircleIcon,
   InfoIcon,
@@ -100,7 +102,7 @@ const useIsSelf = (user: PossibleUser) => {
   return auth.status === "authenticated" && auth.user.email === user.email;
 };
 
-const LoadedUser = ({ user }: { user: PossibleUser }) => {
+function LoadedUser({ user }: { user: PossibleUser }) {
   const isSelf = useIsSelf(user);
   const email = useUnhashedEmail(user.email);
 
@@ -172,11 +174,25 @@ const LoadedUser = ({ user }: { user: PossibleUser }) => {
           )}
         </Vertical>
       </Callout>
+
+      <Callout as="section" color="neutral">
+        <Vertical>
+          <Vertical.Space after={50}>
+            <h2 className="text-bold">Tutorial Submissions</h2>
+          </Vertical.Space>
+
+          {user.isPersisted ? (
+            <UserTutorials user={user} />
+          ) : (
+            <Prose>No tutorial submissions.</Prose>
+          )}
+        </Vertical>
+      </Callout>
     </Vertical>
   );
-};
+}
 
-const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
+function UserPrivilegesForm({ user }: { user: PossibleUser }) {
   const isSelf = useIsSelf(user);
 
   const mutation = useUpdateUser();
@@ -287,11 +303,11 @@ const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
       </Vertical>
     </form>
   );
-};
+}
 
-const UserCourses = ({ user }: { user: User }) => {
+function UserCourses({ user }: { user: User }) {
   if (!user.courses.length) {
-    return <Prose>This user doesn’t have any courses.</Prose>;
+    return <Prose>This user is not associated with any courses.</Prose>;
   }
 
   return (
@@ -320,4 +336,74 @@ const UserCourses = ({ user }: { user: User }) => {
       ))}
     </ul>
   );
-};
+}
+
+function UserTutorials({ user }: { user: User }) {
+  if (!user.tutorials.length) {
+    return <Prose>This user hasn't started any tutorials.</Prose>;
+  }
+
+  // Group tutorials by courseId for better organization
+  const standaloneKey = TUTORIAL_STATE_NO_COURSE;
+  const tutorialsByCourse = new Map<string, TutorialState[]>();
+
+  for (const tutorial of user.tutorials) {
+    const key =
+      tutorial.courseId === standaloneKey ? standaloneKey : tutorial.courseId;
+    let tutorials = tutorialsByCourse.get(key);
+    if (!tutorials) {
+      tutorials = [];
+      tutorialsByCourse.set(key, tutorials);
+    }
+    tutorials.push(tutorial);
+  }
+
+  const courseMap = new Map(user.courses.map((c) => [c.id, c]));
+  const tutorialMap = new Map(tutorialList.map((t) => [t.id, t]));
+
+  return (
+    <>
+      {tutorialsByCourse.size === 0 && <Prose>No tutorial submissions.</Prose>}
+
+      {Array.from(tutorialsByCourse.entries()).map(([courseKey, tutorials]) => {
+        const isStandalone = courseKey === standaloneKey;
+        const course = isStandalone ? null : courseMap.get(courseKey);
+
+        return (
+          <Vertical key={courseKey} space={50}>
+            <h3 className="text-ui-small">
+              {isStandalone
+                ? "Exploration mode (no course)"
+                : course?.displayName || courseKey}
+            </h3>
+
+            <ul>
+              {tutorials.map((tutorial) => {
+                const tutorialInfo = tutorialMap.get(tutorial.tutorialId);
+                const label = tutorialInfo?.label || tutorial.tutorialId;
+
+                return (
+                  <li key={`${tutorial.courseId}-${tutorial.tutorialId}`}>
+                    <LinkCard label={label} link="#" proseSize="ui-small">
+                      Started:{" "}
+                      <strong>
+                        {new Date(tutorial.createdAt).toLocaleDateString()}
+                      </strong>
+                      <br />
+                      Last updated:{" "}
+                      <strong>
+                        {new Date(tutorial.updatedAt).toLocaleDateString()}
+                      </strong>
+                      <br />
+                      Number of updates: <code>{tutorial.version}</code>
+                    </LinkCard>
+                  </li>
+                );
+              })}
+            </ul>
+          </Vertical>
+        );
+      })}
+    </>
+  );
+}
