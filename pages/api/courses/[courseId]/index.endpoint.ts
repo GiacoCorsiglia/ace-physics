@@ -87,6 +87,11 @@ export default endpoint(
         userRole = courseUser.value.role;
       }
 
+      // Prevent students from accessing archived courses
+      if (course.value.archivedAt && userRole === "student") {
+        return response.notFound();
+      }
+
       return response.success({
         ...course.value,
         userRole,

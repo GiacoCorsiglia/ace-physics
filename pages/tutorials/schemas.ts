@@ -9,6 +9,7 @@ import QuantumCircuitDiagrams from "./quantum-circuit-diagrams/schema";
 import QuantumCryptography from "./quantum-cryptography/schema";
 import QuantumMouse2 from "./quantum-mouse-2/schema";
 import QuantumMouse from "./quantum-mouse/schema";
+import QuantumTeleportation from "./quantum-teleportation/schema";
 import ReflectionTransmission from "./reflection-transmission/schema";
 import SpinLab1 from "./spin-lab-1/schema";
 import SpinLab2 from "./spin-lab-2/schema";
@@ -29,6 +30,7 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["QuantumCryptography", QuantumCryptography],
   ["QuantumMouse", QuantumMouse],
   ["QuantumMouse2", QuantumMouse2],
+  ["QuantumTeleportation", QuantumTeleportation],
   ["ReflectionTransmission", ReflectionTransmission],
   ["SpinLab1", SpinLab1],
   ["SpinLab2", SpinLab2],

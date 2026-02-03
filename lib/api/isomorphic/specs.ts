@@ -68,6 +68,20 @@ export const Course = spec({
   DELETE: null,
 });
 
+export const CourseArchive = spec({
+  url: join(Course.url, "archive"),
+  Query: Course.Query,
+  GET: null,
+  POST: {
+    Request: t.exact({
+      archived: t.boolean(),
+    }),
+    Response: schema.Course,
+  },
+  PUT: null,
+  DELETE: null,
+});
+
 export const CourseUsers = spec({
   url: join(Course.url, "users"),
   Query: Course.Query,
@@ -126,5 +140,23 @@ export const User = spec({
     }),
     Response: schema.User,
   },
+  DELETE: null,
+});
+
+export const MoveTutorial = spec({
+  url: join(User.url, "move-tutorial"),
+  Query: User.Query,
+  GET: null,
+  POST: {
+    Request: t.exact({
+      tutorialId: t.string(),
+      sourceCourseId: t.string(),
+      destinationCourseId: t.string(),
+    }),
+    Response: t.exact({
+      ok: t.literal(true),
+    }),
+  },
+  PUT: null,
   DELETE: null,
 });

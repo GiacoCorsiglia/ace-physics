@@ -1,4 +1,4 @@
-import { useUpdateUser, useUser } from "@/api/client";
+import { useMoveTutorial, useUpdateUser, useUser } from "@/api/client";
 import { UserMenu, useAuth, useUnhashedEmail } from "@/auth/client";
 import {
   AuthGuard,
@@ -9,14 +9,18 @@ import {
   Header,
   Horizontal,
   LabelsLeft,
+  LinkButton,
   LinkCard,
   LoadingAnimation,
   MainContentBox,
+  Modal,
   Page,
   Prose,
   Vertical,
 } from "@/components";
-import { User } from "@/schema/api";
+import { TutorialState, User } from "@/schema/api";
+import { TUTORIAL_STATE_NO_COURSE } from "@/schema/db";
+import { tutorialList } from "@pages/tutorials/list";
 import {
   CheckCircleIcon,
   InfoIcon,
@@ -25,6 +29,7 @@ import {
 } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSWRConfig } from "swr";
 import { AccountLookupForm } from "../components";
 
 export default function UserView() {
@@ -100,7 +105,7 @@ const useIsSelf = (user: PossibleUser) => {
   return auth.status === "authenticated" && auth.user.email === user.email;
 };
 
-const LoadedUser = ({ user }: { user: PossibleUser }) => {
+function LoadedUser({ user }: { user: PossibleUser }) {
   const isSelf = useIsSelf(user);
   const email = useUnhashedEmail(user.email);
 
@@ -172,11 +177,25 @@ const LoadedUser = ({ user }: { user: PossibleUser }) => {
           )}
         </Vertical>
       </Callout>
+
+      <Callout as="section" color="neutral">
+        <Vertical>
+          <Vertical.Space after={50}>
+            <h2 className="text-bold">Tutorial Submissions</h2>
+          </Vertical.Space>
+
+          {user.isPersisted ? (
+            <UserTutorials user={user} />
+          ) : (
+            <Prose>No tutorial submissions.</Prose>
+          )}
+        </Vertical>
+      </Callout>
     </Vertical>
   );
-};
+}
 
-const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
+function UserPrivilegesForm({ user }: { user: PossibleUser }) {
   const isSelf = useIsSelf(user);
 
   const mutation = useUpdateUser();
@@ -287,11 +306,11 @@ const UserPrivilegesForm = ({ user }: { user: PossibleUser }) => {
       </Vertical>
     </form>
   );
-};
+}
 
-const UserCourses = ({ user }: { user: User }) => {
+function UserCourses({ user }: { user: User }) {
   if (!user.courses.length) {
-    return <Prose>This user doesn’t have any courses.</Prose>;
+    return <Prose>This user is not associated with any courses.</Prose>;
   }
 
   return (
@@ -320,4 +339,210 @@ const UserCourses = ({ user }: { user: User }) => {
       ))}
     </ul>
   );
-};
+}
+
+function UserTutorials({ user }: { user: User }) {
+  const [movingTutorial, setMovingTutorial] = useState<TutorialState | null>(
+    null,
+  );
+
+  if (!user.tutorials.length) {
+    return <Prose>This user hasn't started any tutorials.</Prose>;
+  }
+
+  // Group tutorials by courseId for better organization
+  const standaloneKey = TUTORIAL_STATE_NO_COURSE;
+  const tutorialsByCourse = new Map<string, TutorialState[]>();
+
+  for (const tutorial of user.tutorials) {
+    const key =
+      tutorial.courseId === standaloneKey ? standaloneKey : tutorial.courseId;
+    let tutorials = tutorialsByCourse.get(key);
+    if (!tutorials) {
+      tutorials = [];
+      tutorialsByCourse.set(key, tutorials);
+    }
+    tutorials.push(tutorial);
+  }
+
+  const courseMap = new Map(user.courses.map((c) => [c.id, c]));
+  const tutorialMap = new Map(tutorialList.map((t) => [t.id, t]));
+
+  return (
+    <>
+      {movingTutorial && (
+        <MoveTutorialModal
+          tutorial={movingTutorial}
+          userEmail={user.email!}
+          courses={user.courses}
+          onClose={() => setMovingTutorial(null)}
+        />
+      )}
+
+      {tutorialsByCourse.size === 0 && <Prose>No tutorial submissions.</Prose>}
+
+      {Array.from(tutorialsByCourse.entries()).map(([courseKey, tutorials]) => {
+        const isStandalone = courseKey === standaloneKey;
+        const course = isStandalone ? null : courseMap.get(courseKey);
+
+        return (
+          <Vertical key={courseKey} space={50}>
+            <h3 className="text-ui-small">
+              {isStandalone
+                ? "Exploration mode (no course)"
+                : course?.displayName || courseKey}
+            </h3>
+
+            <Vertical space={50}>
+              {tutorials.map((tutorial) => {
+                const tutorialInfo = tutorialMap.get(tutorial.tutorialId);
+                const label = tutorialInfo?.label || tutorial.tutorialId;
+
+                return (
+                  <Callout
+                    key={`${tutorial.courseId}-${tutorial.tutorialId}`}
+                    color="blue"
+                  >
+                    <Vertical space={50}>
+                      <h2 className="text-ui-small">
+                        <b>{label}</b>
+                      </h2>
+
+                      <Prose size="ui-small">
+                        Started:{" "}
+                        <strong>
+                          {new Date(tutorial.createdAt).toLocaleDateString()}
+                        </strong>
+                        <br />
+                        Last updated:{" "}
+                        <strong>
+                          {new Date(tutorial.updatedAt).toLocaleDateString()}
+                        </strong>
+                        <br />
+                        Number of updates: <code>{tutorial.version}</code>
+                      </Prose>
+
+                      <Horizontal>
+                        <LinkButton
+                          // color="blue"
+                          // size="small"
+                          className="text-blue"
+                          onClick={() => setMovingTutorial(tutorial)}
+                        >
+                          Switch course
+                        </LinkButton>
+                      </Horizontal>
+                    </Vertical>
+                  </Callout>
+                );
+              })}
+            </Vertical>
+          </Vertical>
+        );
+      })}
+    </>
+  );
+}
+
+function MoveTutorialModal({
+  tutorial,
+  userEmail,
+  courses,
+  onClose,
+}: {
+  tutorial: TutorialState;
+  userEmail: string;
+  courses: User["courses"];
+  onClose: () => void;
+}) {
+  const tutorialInfo = tutorialList.find((t) => t.id === tutorial.tutorialId);
+  const tutorialLabel = tutorialInfo?.label || tutorial.tutorialId;
+
+  const [destinationCourseId, setDestinationCourseId] = useState<string>(
+    tutorial.courseId,
+  );
+
+  const mutation = useMoveTutorial();
+  const { mutate: invalidateCache } = useSWRConfig();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (destinationCourseId === tutorial.courseId) {
+      // No change needed
+      onClose();
+      return;
+    }
+
+    const result = await mutation.mutate(
+      {
+        hash: userEmail,
+      },
+      {
+        tutorialId: tutorial.tutorialId,
+        sourceCourseId: tutorial.courseId,
+        destinationCourseId,
+      },
+    );
+
+    if (!result.failed) {
+      // Invalidate the user cache to refetch the updated tutorial list
+      await invalidateCache(`/api/users/${userEmail}`);
+      onClose();
+    }
+  };
+
+  const isDirty = destinationCourseId !== tutorial.courseId;
+  const isDisabled = !isDirty || mutation.status === "loading";
+
+  return (
+    <Modal
+      title={
+        <>
+          Move <em>{tutorialLabel}</em> to a different course
+        </>
+      }
+      actions={
+        <Horizontal>
+          <Button color="neutral" onClick={onClose}>
+            Cancel
+          </Button>
+
+          <Button
+            color="green"
+            onClick={handleSubmit}
+            disabled={isDisabled}
+            loading={mutation.status === "loading"}
+          >
+            Move
+          </Button>
+        </Horizontal>
+      }
+    >
+      <form onSubmit={handleSubmit}>
+        <Vertical>
+          <DropdownControl
+            label="Destination:"
+            choices={[
+              [
+                TUTORIAL_STATE_NO_COURSE,
+                "Exploration mode (no course)",
+              ] as const,
+              ...courses.map(
+                (course) => [course.id, course.displayName] as const,
+              ),
+            ]}
+            value={destinationCourseId}
+            onChange={(val) => setDestinationCourseId(val || "")}
+          />
+
+          {mutation.status === "error" && (
+            <Callout color="red">
+              Failed to move tutorial. Please try again.
+            </Callout>
+          )}
+        </Vertical>
+      </form>
+    </Modal>
+  );
+}

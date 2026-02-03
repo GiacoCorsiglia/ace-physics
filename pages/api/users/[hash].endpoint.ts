@@ -1,7 +1,7 @@
 import { endpoint, response, spec } from "@/api/server";
 import { HashedDynamoDBAdapter } from "@/auth/server/hashed-dynamodb-adapter";
 import * as db from "@/db";
-import { getCoursesForUser } from "@/query";
+import { getCoursesForUser, getTutorialsForUser } from "@/query";
 import { Result, success } from "@/result";
 import { User as ApiUser } from "@/schema/api";
 import { AdapterUser } from "next-auth/adapters";
@@ -124,9 +124,18 @@ const toApiUser = async (
     return coursesResult;
   }
 
+  const courses = coursesResult.value;
+
+  const tutorialsResult = await getTutorialsForUser(user, courses);
+
+  if (tutorialsResult.failed) {
+    return tutorialsResult;
+  }
+
   return success({
     ...user,
-    courses: coursesResult.value,
+    courses,
+    tutorials: tutorialsResult.value,
     isEmailVerified: Boolean(user.emailVerified),
   });
 };

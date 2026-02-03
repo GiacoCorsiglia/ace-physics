@@ -1,5 +1,5 @@
 import { useCourse, usePostReports } from "@/api/client";
-import { useAuth, UserMenu } from "@/auth/client";
+import { UserMenu, useAuth } from "@/auth/client";
 import {
   AuthGuard,
   Breadcrumb,
@@ -22,6 +22,7 @@ import { tutorialList } from "@pages/tutorials/list";
 import { DownloadIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { StudentCount } from "./components/StudentCount";
 
 export default function CourseReports() {
   const auth = useAuth({ required: true });
@@ -68,6 +69,8 @@ export default function CourseReports() {
               </p>
             )}
           </Prose>
+
+          {courseId && <StudentCount courseId={courseId} />}
 
           {course && <StudentResponsesForm course={course} />}
 

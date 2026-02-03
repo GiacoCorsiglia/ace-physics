@@ -8,12 +8,14 @@ export const useCreateCourse = createUseMutation(spec.Courses, "POST");
 
 export const useCourse = createUseGet(spec.Course);
 export const useUpdateCourse = createUseMutation(spec.Course, "PUT");
+export const useArchiveCourse = createUseMutation(spec.CourseArchive, "POST");
 
 export const useCourseUsers = createUseGet(spec.CourseUsers);
 export const useUpdateCourseUsers = createUseMutation(spec.CourseUsers, "PUT");
 
 export const useUser = createUseGet(spec.User);
 export const useUpdateUser = createUseMutation(spec.User, "PUT");
+export const useMoveTutorial = createUseMutation(spec.MoveTutorial, "POST");
 
 export const getTutorial = (
   query: Infer<(typeof spec.TutorialState)["Query"]>,

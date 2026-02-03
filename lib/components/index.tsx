@@ -10,6 +10,7 @@ export * from "./layout";
 export * from "./link-card";
 export * from "./loading";
 export * from "./math";
+export * from "./modal";
 export * from "./page";
 export * from "./tables";
 export * from "./typography";

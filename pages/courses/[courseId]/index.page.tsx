@@ -16,6 +16,7 @@ import { TutorialList } from "@/tutorial/components/tutorial-list";
 import { tutorialList } from "@pages/tutorials/list";
 import { GearIcon, StackIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
+import { StudentCount } from "./components/StudentCount";
 
 export default function Course() {
   const auth = useAuth({ required: true });
@@ -69,9 +70,21 @@ export default function Course() {
                 </p>
               </Prose>
 
-              {course.userRole === "instructor" && (
+              {course.archivedAt && course.userRole === "instructor" && (
                 <Vertical.Space after={200}>
-                  <Callout color="neutral" title="You’re an instructor">
+                  <Callout color="yellow">
+                    <Prose size="small">
+                      <strong>This course is archived.</strong> Students cannot
+                      access this course. You can unarchive it from the course
+                      settings.
+                    </Prose>
+                  </Callout>
+                </Vertical.Space>
+              )}
+
+              {course.userRole === "instructor" && courseId && (
+                <Vertical.Space after={200}>
+                  <Callout color="neutral" title="You're an instructor">
                     <Vertical>
                       <Prose size="small" faded>
                         The rest of the page shows what your students see, but
@@ -101,6 +114,8 @@ export default function Course() {
                           Access student work
                         </Button>
                       </Horizontal>
+
+                      <StudentCount courseId={courseId} />
                     </Vertical>
                   </Callout>
                 </Vertical.Space>

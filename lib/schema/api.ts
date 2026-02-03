@@ -37,6 +37,10 @@ export const User = t.exact({
    */
   courses: t.array(Course),
   /**
+   * A list of tutorials this user has started.
+   */
+  tutorials: t.array(TutorialState),
+  /**
    * Indicates whether the user has ever logged in themselves.  Users can be
    * created before login because admins can assign a role to any email address.
    */

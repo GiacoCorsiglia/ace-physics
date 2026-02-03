@@ -147,8 +147,48 @@ fs.readdirSync(tutorialsDir)
       }
 
       it("page names start with consecutive numbers", () => {
-        let i = 1;
-        t.pages.forEach((p) => expect(p).toMatch(new RegExp(`^${i++}\\-`)));
+        let topIndex = 0;
+        let subIndex = 0;
+        t.pages.forEach((p) => {
+          const nextTopIndex = topIndex + 1;
+          const nextSubIndex = subIndex + 1;
+
+          const testedPatterns: string[] = [];
+
+          // Only look for the next sub-index if we are already nested.
+          if (subIndex > 0) {
+            const nextSubPattern = new RegExp(
+              `^${topIndex}\\-${nextSubIndex}\\-`,
+            );
+            testedPatterns.push(`${topIndex}-${nextSubIndex}-`);
+            if (nextSubPattern.test(p)) {
+              subIndex = nextSubIndex;
+              return;
+            }
+          }
+
+          const nextTopWithSubPattern = new RegExp(`^${nextTopIndex}\\-1\\-`);
+          testedPatterns.push(`${nextTopIndex}-1-`);
+          if (nextTopWithSubPattern.test(p)) {
+            topIndex = nextTopIndex;
+            subIndex = 1;
+            return;
+          }
+
+          const nextTopSoloPattern = new RegExp(`^${nextTopIndex}\\-`);
+          testedPatterns.push(`${nextTopIndex}-`);
+          if (nextTopSoloPattern.test(p)) {
+            topIndex = nextTopIndex;
+            subIndex = 0;
+            return;
+          }
+
+          throw new Error(
+            `Page "${p}" is out of order in the list of pages:\n` +
+              `${[...t.pages].map((s) => `  ${s}`).join("\n")}\n` +
+              `Expected the page to start with ${testedPatterns.join(" or ")}`,
+          );
+        });
       });
 
       it("setup pages match page files and are numerically sorted", () => {
