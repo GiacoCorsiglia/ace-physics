@@ -403,7 +403,7 @@ function UserTutorials({ user }: { user: User }) {
                     key={`${tutorial.courseId}-${tutorial.tutorialId}`}
                     color="blue"
                   >
-                    <Vertical space={25}>
+                    <Vertical space={50}>
                       <h2 className="text-ui-small">
                         <b>{label}</b>
                       </h2>
