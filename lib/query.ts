@@ -108,7 +108,7 @@ export const getTutorialsForUser = async (
   // BatchGet supports up to 100 items. If a user has many courses, we need to
   // split into multiple batches.
   const BATCH_SIZE = 100;
-  const batches: typeof keys[] = [];
+  const batches: (typeof keys)[] = [];
   for (let i = 0; i < keys.length; i += BATCH_SIZE) {
     batches.push(keys.slice(i, i + BATCH_SIZE));
   }
