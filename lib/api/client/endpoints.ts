@@ -14,6 +14,7 @@ export const useUpdateCourseUsers = createUseMutation(spec.CourseUsers, "PUT");
 
 export const useUser = createUseGet(spec.User);
 export const useUpdateUser = createUseMutation(spec.User, "PUT");
+export const useMoveTutorial = createUseMutation(spec.MoveTutorial, "POST");
 
 export const getTutorial = (
   query: Infer<(typeof spec.TutorialState)["Query"]>,

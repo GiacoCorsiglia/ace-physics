@@ -128,3 +128,21 @@ export const User = spec({
   },
   DELETE: null,
 });
+
+export const MoveTutorial = spec({
+  url: join(User.url, "move-tutorial"),
+  Query: User.Query,
+  GET: null,
+  POST: {
+    Request: t.exact({
+      tutorialId: t.string(),
+      sourceCourseId: t.string(),
+      destinationCourseId: t.string(),
+    }),
+    Response: t.exact({
+      ok: t.literal(true),
+    }),
+  },
+  PUT: null,
+  DELETE: null,
+});

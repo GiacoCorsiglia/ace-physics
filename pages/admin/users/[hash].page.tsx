@@ -1,4 +1,4 @@
-import { useUpdateUser, useUser } from "@/api/client";
+import { useMoveTutorial, useUpdateUser, useUser } from "@/api/client";
 import { UserMenu, useAuth, useUnhashedEmail } from "@/auth/client";
 import {
   AuthGuard,
@@ -12,6 +12,7 @@ import {
   LinkCard,
   LoadingAnimation,
   MainContentBox,
+  Modal,
   Page,
   Prose,
   Vertical,
@@ -339,6 +340,10 @@ function UserCourses({ user }: { user: User }) {
 }
 
 function UserTutorials({ user }: { user: User }) {
+  const [movingTutorial, setMovingTutorial] = useState<TutorialState | null>(
+    null,
+  );
+
   if (!user.tutorials.length) {
     return <Prose>This user hasn't started any tutorials.</Prose>;
   }
@@ -363,6 +368,15 @@ function UserTutorials({ user }: { user: User }) {
 
   return (
     <>
+      {movingTutorial && (
+        <MoveTutorialModal
+          tutorial={movingTutorial}
+          userEmail={user.email!}
+          courses={user.courses}
+          onClose={() => setMovingTutorial(null)}
+        />
+      )}
+
       {tutorialsByCourse.size === 0 && <Prose>No tutorial submissions.</Prose>}
 
       {Array.from(tutorialsByCourse.entries()).map(([courseKey, tutorials]) => {
@@ -396,6 +410,14 @@ function UserTutorials({ user }: { user: User }) {
                       </strong>
                       <br />
                       Number of updates: <code>{tutorial.version}</code>
+                      <br />
+                      <Button
+                        color="blue"
+                        size="small"
+                        onClick={() => setMovingTutorial(tutorial)}
+                      >
+                        Move
+                      </Button>
                     </LinkCard>
                   </li>
                 );
@@ -405,5 +427,111 @@ function UserTutorials({ user }: { user: User }) {
         );
       })}
     </>
+  );
+}
+
+function MoveTutorialModal({
+  tutorial,
+  userEmail,
+  courses,
+  onClose,
+}: {
+  tutorial: TutorialState;
+  userEmail: string;
+  courses: User["courses"];
+  onClose: () => void;
+}) {
+  const tutorialInfo = tutorialList.find((t) => t.id === tutorial.tutorialId);
+  const tutorialLabel = tutorialInfo?.label || tutorial.tutorialId;
+
+  const [destinationCourseId, setDestinationCourseId] = useState<string>(
+    tutorial.courseId,
+  );
+
+  const mutation = useMoveTutorial();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (destinationCourseId === tutorial.courseId) {
+      // No change needed
+      onClose();
+      return;
+    }
+
+    await mutation.mutate(
+      {
+        hash: userEmail,
+      },
+      {
+        tutorialId: tutorial.tutorialId,
+        sourceCourseId: tutorial.courseId,
+        destinationCourseId,
+      },
+    );
+  };
+
+  const isDirty = destinationCourseId !== tutorial.courseId;
+  const isDisabled = !isDirty || mutation.status === "loading";
+
+  // If successfully moved, close the modal and let the page refresh
+  if (mutation.status === "success") {
+    // Trigger a page refresh to show updated data
+    window.location.reload();
+    return null;
+  }
+
+  return (
+    <Modal
+      title={<>Move Tutorial</>}
+      actions={
+        <Horizontal>
+          <Button color="neutral" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            color="green"
+            onClick={handleSubmit}
+            disabled={isDisabled}
+            loading={mutation.status === "loading"}
+          >
+            Move
+          </Button>
+        </Horizontal>
+      }
+    >
+      <form onSubmit={handleSubmit}>
+        <Vertical>
+          <Prose>
+            <p>
+              Move <strong>{tutorialLabel}</strong> to a different course:
+            </p>
+          </Prose>
+
+          <LabelsLeft>
+            <DropdownControl
+              label="Destination:"
+              choices={[
+                [
+                  TUTORIAL_STATE_NO_COURSE,
+                  "Exploration mode (no course)",
+                ] as const,
+                ...courses.map(
+                  (course) => [course.id, course.displayName] as const,
+                ),
+              ]}
+              value={destinationCourseId}
+              onChange={(val) => setDestinationCourseId(val || "")}
+            />
+          </LabelsLeft>
+
+          {mutation.status === "error" && (
+            <Callout color="red">
+              Failed to move tutorial. Please try again.
+            </Callout>
+          )}
+        </Vertical>
+      </form>
+    </Modal>
   );
 }
