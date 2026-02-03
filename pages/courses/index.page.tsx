@@ -1,5 +1,5 @@
 import { ResponseError, useCourses, useCreateCourse } from "@/api/client";
-import { useAuth, UserMenu } from "@/auth/client";
+import { UserMenu, useAuth } from "@/auth/client";
 import {
   AuthGuard,
   Breadcrumb,
@@ -45,11 +45,7 @@ export default function Courses() {
             <>
               {!!courses.length && (
                 <>
-                  <ul>
-                    {courses.map((course) => (
-                      <CourseCard key={course.id} course={course} />
-                    ))}
-                  </ul>
+                  <CoursesList courses={courses} />
 
                   <p>
                     <LinkButton link="/tutorials">
@@ -98,6 +94,37 @@ export default function Courses() {
     </Page>
   );
 }
+
+const CoursesList = ({ courses }: { courses: readonly Course[] }) => {
+  const activeCourses = courses.filter((course) => !course.archivedAt);
+  const archivedCourses = courses.filter((course) => course.archivedAt);
+
+  return (
+    <>
+      <ul>
+        {activeCourses.map((course) => (
+          <CourseCard key={course.id} course={course} />
+        ))}
+      </ul>
+
+      {archivedCourses.length > 0 && (
+        <>
+          <details>
+            <summary className="text-ui-small text-faded">
+              Archived Courses ({archivedCourses.length})
+            </summary>
+
+            <ul>
+              {archivedCourses.map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))}
+            </ul>
+          </details>
+        </>
+      )}
+    </>
+  );
+};
 
 const CourseCard = ({ course }: { course: Course }) => (
   <li>

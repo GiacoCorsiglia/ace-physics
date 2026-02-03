@@ -8,6 +8,7 @@ export const useCreateCourse = createUseMutation(spec.Courses, "POST");
 
 export const useCourse = createUseGet(spec.Course);
 export const useUpdateCourse = createUseMutation(spec.Course, "PUT");
+export const useArchiveCourse = createUseMutation(spec.CourseArchive, "POST");
 
 export const useCourseUsers = createUseGet(spec.CourseUsers);
 export const useUpdateCourseUsers = createUseMutation(spec.CourseUsers, "PUT");

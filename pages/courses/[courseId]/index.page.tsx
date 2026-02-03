@@ -69,6 +69,18 @@ export default function Course() {
                 </p>
               </Prose>
 
+              {course.archivedAt && course.userRole === "instructor" && (
+                <Vertical.Space after={200}>
+                  <Callout color="yellow">
+                    <Prose size="small">
+                      <strong>This course is archived.</strong> Students cannot
+                      access this course. You can unarchive it from the course
+                      settings.
+                    </Prose>
+                  </Callout>
+                </Vertical.Space>
+              )}
+
               {course.userRole === "instructor" && (
                 <Vertical.Space after={200}>
                   <Callout color="neutral" title="You’re an instructor">

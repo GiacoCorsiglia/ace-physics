@@ -1,4 +1,9 @@
-import { useCourse, useUpdateCourse, useUpdateCourseUsers } from "@/api/client";
+import {
+  useArchiveCourse,
+  useCourse,
+  useUpdateCourse,
+  useUpdateCourseUsers,
+} from "@/api/client";
 import { UserMenu, useAuth } from "@/auth/client";
 import {
   AuthGuard,
@@ -22,6 +27,7 @@ import { tutorialList } from "@pages/tutorials/list";
 import { CheckCircleIcon, UploadIcon } from "@primer/octicons-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useSWRConfig } from "swr";
 
 export default function EditCourse() {
   const auth = useAuth({ required: true });
@@ -78,6 +84,10 @@ export default function EditCourse() {
               <hr />
 
               <CourseUsersForm course={course} />
+
+              <hr />
+
+              <CourseArchival course={course} />
             </>
           )}
         </AuthGuard>
@@ -232,6 +242,77 @@ const CourseForm = ({ course }: { course: Course }) => {
           </Horizontal>
         </Vertical>
       </form>
+    </>
+  );
+};
+
+const CourseArchival = ({ course }: { course: Course }) => {
+  const mutation = useArchiveCourse();
+  const { mutate: swrMutate } = useSWRConfig();
+  const isArchived = !!course.archivedAt;
+
+  const toggleArchive = async () => {
+    const result = await mutation.mutate(
+      { courseId: course.id },
+      {
+        archived: !isArchived,
+      },
+    );
+
+    if (result.failed) {
+      return;
+    }
+
+    // Invalidate both the courses list and this specific course
+    swrMutate("/api/courses");
+    swrMutate(`/api/courses/${course.id}`);
+  };
+
+  return (
+    <>
+      <Prose>
+        <h2>Archive Course</h2>
+
+        <p>
+          Archived courses are hidden from students but remain visible to
+          instructors. Students will not be able to access an archived course,
+          even if they have the direct link.
+        </p>
+
+        <p>
+          You can unarchive a course at any time to make it visible to students
+          again.
+        </p>
+      </Prose>
+
+      <Vertical>
+        {mutation.status === "success" && (
+          <Callout color="green" animateIn iconRight={<CheckCircleIcon />}>
+            This course has been{" "}
+            {mutation.data?.archivedAt ? "archived" : "unarchived"}.
+          </Callout>
+        )}
+
+        {mutation.status === "error" && (
+          <Callout color="red" animateIn>
+            Your changes could not be saved.
+          </Callout>
+        )}
+
+        <Horizontal justify="end">
+          {mutation.status === "loading" && (
+            <LoadingAnimation size="small" message={null} />
+          )}
+
+          <Button
+            color={isArchived ? "green" : "yellow"}
+            onClick={toggleArchive}
+            disabled={mutation.status === "loading"}
+          >
+            {isArchived ? "Unarchive this course" : "Archive this course"}
+          </Button>
+        </Horizontal>
+      </Vertical>
     </>
   );
 };

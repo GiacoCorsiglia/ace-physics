@@ -37,6 +37,7 @@ export default endpoint(
         updatedAt: now,
         displayName,
         visibleTutorials: undefined,
+        archivedAt: undefined,
       };
 
       const newCourseUser = {

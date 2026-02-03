@@ -68,6 +68,20 @@ export const Course = spec({
   DELETE: null,
 });
 
+export const CourseArchive = spec({
+  url: join(Course.url, "archive"),
+  Query: Course.Query,
+  GET: null,
+  POST: {
+    Request: t.exact({
+      archived: t.boolean(),
+    }),
+    Response: schema.Course,
+  },
+  PUT: null,
+  DELETE: null,
+});
+
 export const CourseUsers = spec({
   url: join(Course.url, "users"),
   Query: Course.Query,

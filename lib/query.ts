@@ -7,6 +7,7 @@ import * as schema from "./schema/db";
 
 export const getCoursesForUser = async (user: {
   email: string;
+  role?: string;
 }): Promise<Result<db.DbError, Course[]>> => {
   const userCoursesResult = await db.fetchAllPages((ExclusiveStartKey) =>
     db.client().query({
@@ -57,15 +58,21 @@ export const getCoursesForUser = async (user: {
     userCourses.map((userCourse) => [userCourse.courseId, userCourse.role]),
   );
 
-  return success(
-    sortBy(
-      courses.map((course) => ({
-        ...course,
-        userRole: rolesByCourse.get(course.id)!, // Necessarily defined.
-      })),
-      "createdAt",
-    ),
-  );
+  const allCourses = courses.map((course) => ({
+    ...course,
+    userRole: rolesByCourse.get(course.id)!, // Necessarily defined.
+  }));
+
+  // Admins see all courses. For others, filter out archived courses where
+  // they are a student (but show archived courses where they are an instructor).
+  const filteredCourses =
+    user.role === "admin"
+      ? allCourses
+      : allCourses.filter(
+          (course) => !course.archivedAt || course.userRole === "instructor",
+        );
+
+  return success(sortBy(filteredCourses, "createdAt"));
 };
 
 export const getTutorialsForUser = async (
