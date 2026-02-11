@@ -38,8 +38,11 @@ export default page(setup, ({ section, hint }) => ({
               \lstick{\ket{0}} & \qw & \qw & \qw \\
               "
             />
-            In this system, qubit #1 is in state <M t="\ket{1}" /> , and qubit
-            #2 is in state <M t="\ket{0}" />.
+            In our notation, the top qubit is referred to as qubit #1 and is in
+            state <M t="\ket{1}" />. The bottom qubit is referred to as qubit #2
+            and is in state <M t="\ket{0}" />. (Note that qubit ordering
+            conventions differ and your textbook or instructor might reverse
+            this ordering.)
           </p>
 
           <p>
