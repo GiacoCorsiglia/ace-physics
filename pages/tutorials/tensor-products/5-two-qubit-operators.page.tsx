@@ -20,6 +20,15 @@ export default page(setup, ({ section }) => ({
   name: "twoQubitOperators",
   label: "Two Qubit Operators",
   answers: "provided",
+   cheatSheet: {
+    body: (
+      <>
+         <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
+         <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
+         <M display t="H = \frac{1}{\sqrt{2}} \pmatrix{1 & 1 \\ 1 & -1}" />
+      </>
+    ),
+  },
   sections: [
     section({
       name: "twoQubitOperatorsIntro",
