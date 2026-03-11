@@ -73,7 +73,7 @@ export default s.tutorial({
     probMeasureTwoQubitState: s.section(),
     twoVectorTensorProductRule: s.section(),
     fourDColumnVector: s.section({ messages: ["ourAnswer"] }),
-    circuitOutputAsColumnVector: s.section(),
+    circuitOutputAsColumnVector: s.section({ messages: ["ourAnswer"] }),
     circuitOutputAsDiracNotation: s.section(),
     probTwoQubitSystem: s.section(),
     bothExpressionsWork: s.section(),
@@ -159,8 +159,12 @@ export default s.tutorial({
     nQubitProbFirst0: s.string(),
   },
   hints: {
+    state: s.hint(),
     probability: s.hint(),
+    basis: s.hint(),
     diracNotation: s.hint(),
     ZxXZxI000: s.hint(),
+    qubitSystem: s.hint(),
+    topHint: s.hint(),
   },
 });
