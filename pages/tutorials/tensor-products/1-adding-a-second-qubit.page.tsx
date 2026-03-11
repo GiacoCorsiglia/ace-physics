@@ -228,7 +228,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-
+      //question C
     section({
       name: "plusTimes0Probabilities",
       body: (m, { responses }) => (
@@ -270,8 +270,21 @@ export default page(setup, ({ section, hint }) => ({
           </Horizontal>
         </>
       ),
+      //hint
+      hints: [
+        hint({
+          name: "state",
+          label: "Can I have a hint?",
+          body: (
+            <Prose>
+              This question is best answered by looking at the state written as <br/>
+               <center><M t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{10})" /></center>
+            </Prose>
+          ),
+        }),
+      ],
     }),
-
+    //question D
     section({
       name: "plusTimes0SingleProbabilities",
       body: (m, { responses }) => (
@@ -323,11 +336,15 @@ export default page(setup, ({ section, hint }) => ({
       hints: [
         hint({
           name: "probability",
-          label: "Probability?",
+          label: "Hint",
           body: (
             <Prose>
-              Can you see how to get this both from the circuit diagram picture
-              and also from the 2-state equations you selected?
+              This question is best answered by looking at the state written as
+               <M t="\frac{1}{\sqrt{2}} (\ket{0} + \ket{1}) \otimes \ket{0}" />.
+               Remember that in our notation, the first qubit is left of the tensor
+               product symbol, and the second qubit is to the right. <br/>
+               <br/> Alternatively, look back at the circuit diagram. In our notation,
+               the first qubit is the top qubit in the diagram.
             </Prose>
           ),
         }),
