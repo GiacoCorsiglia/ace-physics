@@ -49,6 +49,7 @@ export default page(setup, ({ section, hint }) => ({
         </Prose>
       ),
     }),
+    //question A
     section({
       name: "probMeasureTwoQubitState",
       body: (m, { responses }) => (
@@ -88,7 +89,6 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
-
     section({
       name: "basisPlacementVectorVisual",
       enumerate: false,
@@ -138,7 +138,7 @@ export default page(setup, ({ section, hint }) => ({
         </Prose>
       ),
     }),
-
+    //question B
     section({
       name: "fourDColumnVector",
       body: (m) => (
@@ -207,7 +207,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-
+    //question C
     section({
       name: "circuitOutputAsColumnVector",
       body: (m) => (
@@ -239,8 +239,22 @@ export default page(setup, ({ section, hint }) => ({
           </Answer>
         </>
       ),
+      guidance: {
+        nextMessage: () => "ourAnswer",
+        messages: {
+          ourAnswer: {
+            body: (
+              <Callout color="blue">
+                We haven't checked your answers, but you'll have a chance to check
+                them at the end of this page.
+              </Callout>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
-
+    //question D
     section({
       name: "circuitOutputAsDiracNotation",
       body: (m) => (
