@@ -282,11 +282,11 @@ export default page(setup, ({ section }) => ({
                 <M
                   display
                   t="(Z \otimes X)(\ket{01}) =\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0
-                 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}\pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
+                 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}\pmatrix{\enspace 0 \enspace \\ 1 \\ 0 \\ 0} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
                 />
 
               </Callout>
-            ), ////////////////////////////////////////////////////
+            ),
             onContinue: "nextSection",
           },
           nowCorrect: {
