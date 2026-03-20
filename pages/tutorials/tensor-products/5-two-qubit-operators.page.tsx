@@ -45,7 +45,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
-
+    //question A
     section({
       name: "representZxX",
       body: (m) => (
@@ -111,7 +111,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
-
+    //question B
     section({
       name: "representZxXAs4x4Matrix",
       body: (m, { responses }) => (
@@ -197,7 +197,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
+    // question C
     section({
       name: "columnZ0xX1",
       body: (m, { responses }) => (
@@ -272,13 +272,21 @@ export default page(setup, ({ section }) => ({
           hereYouGo: {
             body: (
               <Callout color="red">
-                We still disagree with your answer, but here's ours:{" "}
+                We still disagree with your answer, but here's ours:{" "} <br/>
+                Method 1:
                 <M
                   display
                   t="(Z\ket{0})\otimes(X\ket{1}) = \ket{0}\otimes\ket{0} = \ket{00} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
                 />
+                Method 2:
+                <M
+                  display
+                  t="(Z \otimes X)(\ket{01}) =\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0
+                 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}\pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
+                />
+
               </Callout>
-            ),
+            ), ////////////////////////////////////////////////////
             onContinue: "nextSection",
           },
           nowCorrect: {
