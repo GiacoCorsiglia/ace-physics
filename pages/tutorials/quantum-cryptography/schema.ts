@@ -46,7 +46,7 @@ export default s.tutorial({
     ]),
     probOfStateSame: s.number(),
   },
-  //                  page 1: quantum key distribution
+  //                         page 1: Sending Qubits
 
   sections: {
     //intro
