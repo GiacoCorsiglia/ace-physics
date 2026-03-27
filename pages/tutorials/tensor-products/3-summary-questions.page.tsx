@@ -40,7 +40,7 @@ export default page(setup, ({ section }) => ({
         label: "Let’s do it",
       },
     }),
-
+    //question A
     section({
       name: "sketchHxIZxXPsi1xPsi2",
       body: () => (
@@ -65,7 +65,7 @@ export default page(setup, ({ section }) => ({
         label: "I drew the circuit",
       },
     }),
-
+    //question B
     section({
       name: "selectHxIZxXPsi1xPsi2",
       body: (m) => (
@@ -253,7 +253,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
+    //question C
     section({
       name: "XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2",
       body: (m) => (
@@ -310,7 +310,7 @@ export default page(setup, ({ section }) => ({
         </>
       ),
     }),
-
+    //question D
     section({
       name: "XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2",
       body: (m) => (
@@ -355,7 +355,7 @@ export default page(setup, ({ section }) => ({
         />
       ),
     }),
-
+    //question E
     section({
       name: "equationXHPsixZPhi",
       body: (m) => (
@@ -397,7 +397,7 @@ export default page(setup, ({ section }) => ({
         </>
       ),
     }),
-    //cheat sheet
+    //question F
     section({
       name: "outputXH1xZ1",
       body: (m) => (
