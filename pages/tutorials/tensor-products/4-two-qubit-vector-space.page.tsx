@@ -11,6 +11,7 @@ import {
   TextLine,
 } from "@/components";
 import { page } from "@/tutorial";
+import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
 export default page(setup, ({ section, hint }) => ({
@@ -230,7 +231,9 @@ export default page(setup, ({ section, hint }) => ({
               )}
             />
           </Prose>
-
+              <Callout color="blue" iconLeft={<PencilIcon />}>
+                          Scratch paper is your friend!
+                        </Callout>
           <Answer>
             <M
               display
