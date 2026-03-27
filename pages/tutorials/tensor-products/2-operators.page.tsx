@@ -12,7 +12,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "operators",
   label: "Operators",
-  // answers: "provided",
+  answers: "provided",
   sections: [
     section({
       name: "operatorsIntro",
@@ -51,7 +51,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
-
+    // question A
     section({
       name: "arbitraryOutputZxI",
       body: (m, { responses }) => (
@@ -175,7 +175,9 @@ export default page(setup, ({ section }) => ({
                 !responses?.arbitraryOutputZxI?.selected?.includes(
                   "(Z ⊗ I)(|ψ1⟩ ⊗ |ψ2⟩)",
                 ) ? (
-                  <p>There are two correct answers!</p>
+                  <p>
+                    There are two correct answers! (Feel free to try again.)
+                  </p>
                 ) : (
                   <></>
                 )}
@@ -278,7 +280,7 @@ export default page(setup, ({ section }) => ({
         label: "Interesting",
       },
     }),
-
+    //question B
     section({
       name: "findIInCircuit",
       body: (m) => (
