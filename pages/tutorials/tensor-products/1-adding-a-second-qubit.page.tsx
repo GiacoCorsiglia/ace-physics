@@ -62,7 +62,7 @@ export default page(setup, ({ section, hint }) => ({
         </Prose>
       ),
     }),
-
+    //question A
     section({
       name: "arbitrary2QubitState",
       body: (m) => (
@@ -105,7 +105,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
-
+    // question B
     section({
       name: "plusTimes0",
       body: (m) => (
