@@ -90,6 +90,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
+
     section({
       name: "basisPlacementVectorVisual",
       enumerate: false,
@@ -208,6 +209,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
+
     //question C
     section({
       name: "circuitOutputAsColumnVector",
@@ -279,7 +281,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
-
+    //question E
     section({
       name: "probTwoQubitSystem",
       body: (m, { responses }) => (
@@ -305,6 +307,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
+
     section({
       name: "bothExpressionsWork",
       enumerate: false,
