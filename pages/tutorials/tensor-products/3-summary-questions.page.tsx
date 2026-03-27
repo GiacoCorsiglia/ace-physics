@@ -407,12 +407,13 @@ export default page(setup, ({ section }) => ({
             label={
               <Prose>
                 If <M t="\ket{\psi}=\ket{1}" /> and <M t="\ket{\phi}=\ket{1}" />
-                , what is the output state of the above circuit? (Scratch paper
-                is your friend!)
+                , what is the output state of the above circuit?
               </Prose>
             }
           />
-
+          <Callout color="blue" iconLeft={<PencilIcon />}>
+                                    Scratch paper is your friend!
+                                  </Callout>
           <Answer>
             We found that either of the following equations below are correct.
             <M
