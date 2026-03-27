@@ -93,6 +93,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
+
     //question B
     section({
       name: "dimensionNQubitSpace",
@@ -118,6 +119,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
+
     //question C
     section({
       name: "outputZxXZxI000",
@@ -214,7 +216,7 @@ export default page(setup, ({ section, hint }) => ({
         </Prose>
       ),
     }),
-
+    //question E
     section({
       name: "nQubitProbAll0",
       body: (m) => (
@@ -253,7 +255,7 @@ export default page(setup, ({ section, hint }) => ({
         }),
       ],
     }),
-
+    //question F
     section({
       name: "nQubitProbFirst0",
       body: (m) => (
