@@ -9,8 +9,7 @@ import {
   Matrix,
   Prose,
   QuantumCircuit,
-  TextBox,
-  TextLine,
+  TextLine
 } from "@/components";
 import { arraysEqual, deepEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
@@ -90,6 +89,25 @@ export default page(setup, ({ section }) => ({
           // answer="4x4"
         />
       ),
+       guidance: {
+              nextMessage: () => "answer",
+              messages: {
+                answer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.representZxX?.selected === "4x4"
+                          ? "agree"
+                          : "disagree"
+                      }
+                    >
+                       <M t="(Z\otimes X)" /> can be represented as a <M t="4 \times 4" /> matrix.
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
     }),
 
     section({
@@ -362,25 +380,6 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-    section({
-      name: "summaryTextBox",
-      body: (m) => (
-        <>
-          <TextBox
-            model={m.page5summaryTextBox}
-            label={
-              <Prose>
-                Now that you’ve seen our answers, briefly comment on where they
-                agree or disagree with yours, and why. Summarize what you feel
-                like you’ve learned, and/or what you’re feeling confused about.
-              </Prose>
-            }
-          ></TextBox>
-        </>
-      ),
-      continue: {
-        allowed: () => true,
-      },
-    }),
+
   ],
 }));
