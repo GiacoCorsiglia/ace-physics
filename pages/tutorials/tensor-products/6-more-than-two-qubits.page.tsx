@@ -118,7 +118,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
-
+    //question C
     section({
       name: "outputZxXZxI000",
       body: (m) => (
@@ -179,6 +179,8 @@ export default page(setup, ({ section, hint }) => ({
               \lstick{\ket{0}} & \gate{I} & \qw \\
               "
               />
+            Remember that our convention is that the left-most qubit is represented
+            by the top qubit in the circuit diagram.
             </>
           ),
           label: "Show me the circuit diagram",
@@ -240,9 +242,9 @@ export default page(setup, ({ section, hint }) => ({
           body: (
             <Prose>
              Suppose we had a 2-qubit system. <br/>
-             <M t="(H \otimes H \ket{00} \breakIfNarrow{=} "/>
+              <center><M t="H \otimes H \ket{00} \breakIfNarrow{=} "/>
               <M t= "\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\breakIfNarrow{=}" />
-              <M t= "\frac{1}{2} ({\ket{00}+\ket{01}+\ket{10}+\ket{11}})"/>
+              <M t= "\frac{1}{2} ({\ket{00}+\ket{01}+\ket{10}+\ket{11}})"/></center>
              <br/> (Convince yourself of that!) So the
              probability of getting all zeros is 1/4. How would this look for 3
              qubits? n qubits?
