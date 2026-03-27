@@ -314,6 +314,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
+    //question D
     section({
       name: "circuitAsOperator",
       body: (m) => (
