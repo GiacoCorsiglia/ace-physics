@@ -9,7 +9,7 @@ import {
   Matrix,
   Prose,
   QuantumCircuit,
-  TextLine
+  TextLine,
 } from "@/components";
 import { arraysEqual, deepEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
@@ -19,12 +19,12 @@ export default page(setup, ({ section }) => ({
   name: "twoQubitOperators",
   label: "Two Qubit Operators",
   answers: "provided",
-   cheatSheet: {
+  cheatSheet: {
     body: (
       <>
-         <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
-         <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
-         <M display t="H = \frac{1}{\sqrt{2}} \pmatrix{1 & 1 \\ 1 & -1}" />
+        <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
+        <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
+        <M display t="H = \frac{1}{\sqrt{2}} \pmatrix{1 & 1 \\ 1 & -1}" />
       </>
     ),
   },
@@ -89,25 +89,26 @@ export default page(setup, ({ section }) => ({
           // answer="4x4"
         />
       ),
-       guidance: {
-              nextMessage: () => "answer",
-              messages: {
-                answer: {
-                  body: ({ responses }) => (
-                    <Guidance.Dynamic
-                      status={
-                        responses?.representZxX?.selected === "4x4"
-                          ? "agree"
-                          : "disagree"
-                      }
-                    >
-                       <M t="(Z\otimes X)" /> can be represented as a <M t="4 \times 4" /> matrix.
-                    </Guidance.Dynamic>
-                  ),
-                  onContinue: "nextSection",
-                },
-              },
-            },
+      guidance: {
+        nextMessage: () => "answer",
+        messages: {
+          answer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.representZxX?.selected === "4x4"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                <M t="(Z\otimes X)" /> can be represented as a{" "}
+                <M t="4 \times 4" /> matrix.
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -290,7 +291,7 @@ export default page(setup, ({ section }) => ({
           hereYouGo: {
             body: (
               <Callout color="red">
-                We still disagree with your answer, but here's ours:{" "} <br/>
+                We still disagree with your answer, but here's ours: <br />
                 Method 1:
                 <M
                   display
@@ -302,7 +303,6 @@ export default page(setup, ({ section }) => ({
                   t="(Z \otimes X)(\ket{01}) =\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0
                  & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}\pmatrix{\enspace 0 \enspace \\ 1 \\ 0 \\ 0} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
                 />
-
               </Callout>
             ),
             onContinue: "nextSection",
@@ -381,6 +381,5 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
   ],
 }));

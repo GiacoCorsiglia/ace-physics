@@ -233,9 +233,9 @@ export default page(setup, ({ section, hint }) => ({
               )}
             />
           </Prose>
-              <Callout color="blue" iconLeft={<PencilIcon />}>
-                          Scratch paper is your friend!
-                        </Callout>
+          <Callout color="blue" iconLeft={<PencilIcon />}>
+            Scratch paper is your friend!
+          </Callout>
           <Answer>
             <M
               display
@@ -250,8 +250,8 @@ export default page(setup, ({ section, hint }) => ({
           ourAnswer: {
             body: (
               <Callout color="blue">
-                We haven't checked your answers, but you'll have a chance to check
-                them at the end of this page.
+                We haven't checked your answers, but you'll have a chance to
+                check them at the end of this page.
               </Callout>
             ),
             onContinue: "nextSection",

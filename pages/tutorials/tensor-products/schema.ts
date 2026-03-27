@@ -81,7 +81,7 @@ export default s.tutorial({
 
     //                     Page 5: Two-Qubit Operators
     twoQubitOperatorsIntro: s.section(),
-    representZxX: s.section({ messages: ["answer"]}),
+    representZxX: s.section({ messages: ["answer"] }),
     twoOperatorsRule: s.section(),
     representZxXAs4x4Matrix: s.section({ messages: ["answer"] }),
     columnZ0xX1: s.section({

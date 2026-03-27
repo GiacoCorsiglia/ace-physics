@@ -22,9 +22,9 @@ export default page(setup, ({ section }) => ({
   cheatSheet: {
     body: (
       <>
-         <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
-         <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
-         <M display t="H = \frac{1}{\sqrt{2}} \pmatrix{1 & 1 \\ 1 & -1}" />
+        <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
+        <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
+        <M display t="H = \frac{1}{\sqrt{2}} \pmatrix{1 & 1 \\ 1 & -1}" />
       </>
     ),
   },
@@ -412,8 +412,8 @@ export default page(setup, ({ section }) => ({
             }
           />
           <Callout color="blue" iconLeft={<PencilIcon />}>
-                                    Scratch paper is your friend!
-                                  </Callout>
+            Scratch paper is your friend!
+          </Callout>
           <Answer>
             We found that either of the following equations below are correct.
             <M
