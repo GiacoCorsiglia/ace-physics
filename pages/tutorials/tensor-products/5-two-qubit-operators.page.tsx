@@ -137,13 +137,13 @@ export default page(setup, ({ section }) => ({
           <Prose>
             <p>
               What is <M t="(Z\otimes X)" /> expressed as a <M t="4 \times 4" />{" "}
-              matrix?
+              matrix? Change the values of the matrix below as you wish.
             </p>
           </Prose>
 
           <Matrix
             matrix={Matrix.modelToMatrix(m.representZxXAs4x4Matrix, (c) => (
-              <TextLine model={c} placeholder={"Number"} />
+              <TextLine model={c} initialValue={"0"} />
             ))}
           />
 
