@@ -51,7 +51,7 @@ export default page(setup, ({ section }) => ({
         </Prose>
       ),
     }),
-
+    // question A
     section({
       name: "arbitraryOutputZxI",
       body: (m, { responses }) => (
@@ -280,7 +280,7 @@ export default page(setup, ({ section }) => ({
         label: "Interesting",
       },
     }),
-
+    //question B
     section({
       name: "findIInCircuit",
       body: (m) => (
