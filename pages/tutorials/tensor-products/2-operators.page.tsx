@@ -12,7 +12,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "operators",
   label: "Operators",
-  // answers: "provided",
+   answers: "provided",
   sections: [
     section({
       name: "operatorsIntro",
