@@ -9,8 +9,7 @@ import {
   Matrix,
   Prose,
   QuantumCircuit,
-  TextBox,
-  TextLine,
+  TextLine
 } from "@/components";
 import { arraysEqual, deepEqual } from "@/helpers/client";
 import { page } from "@/tutorial";
@@ -19,7 +18,16 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "twoQubitOperators",
   label: "Two Qubit Operators",
-  // answers: "provided",
+  answers: "provided",
+   cheatSheet: {
+    body: (
+      <>
+         <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
+         <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
+         <M display t="H = \frac{1}{\sqrt{2}} \pmatrix{1 & 1 \\ 1 & -1}" />
+      </>
+    ),
+  },
   sections: [
     section({
       name: "twoQubitOperatorsIntro",
@@ -31,12 +39,12 @@ export default page(setup, ({ section }) => ({
 
           <p>
             We said that one way to represent the output of this circuit is:{" "}
-            <M display t="(Z\otimes X) (\ket{\psi} \otimes \ket{\phi} )" />.
+            <M display t="(Z\otimes X) (\ket{\psi} \otimes \ket{\phi} )" />
           </p>
         </Prose>
       ),
     }),
-
+    //question A
     section({
       name: "representZxX",
       body: (m) => (
@@ -81,6 +89,25 @@ export default page(setup, ({ section }) => ({
           // answer="4x4"
         />
       ),
+       guidance: {
+              nextMessage: () => "answer",
+              messages: {
+                answer: {
+                  body: ({ responses }) => (
+                    <Guidance.Dynamic
+                      status={
+                        responses?.representZxX?.selected === "4x4"
+                          ? "agree"
+                          : "disagree"
+                      }
+                    >
+                       <M t="(Z\otimes X)" /> can be represented as a <M t="4 \times 4" /> matrix.
+                    </Guidance.Dynamic>
+                  ),
+                  onContinue: "nextSection",
+                },
+              },
+            },
     }),
 
     section({
@@ -97,12 +124,12 @@ export default page(setup, ({ section }) => ({
           />
           <M
             display
-            t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bf \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & df \;}"
+            t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bh \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & dh \;}"
           />
         </Prose>
       ),
     }),
-
+    //question B
     section({
       name: "representZxXAs4x4Matrix",
       body: (m, { responses }) => (
@@ -110,13 +137,13 @@ export default page(setup, ({ section }) => ({
           <Prose>
             <p>
               What is <M t="(Z\otimes X)" /> expressed as a <M t="4 \times 4" />{" "}
-              matrix?
+              matrix? Change the values of the matrix below as you wish.
             </p>
           </Prose>
 
           <Matrix
             matrix={Matrix.modelToMatrix(m.representZxXAs4x4Matrix, (c) => (
-              <TextLine model={c} placeholder={"Number"} />
+              <TextLine model={c} initialValue={"0"} />
             ))}
           />
 
@@ -188,7 +215,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
+    // question C
     section({
       name: "columnZ0xX1",
       body: (m, { responses }) => (
@@ -263,11 +290,19 @@ export default page(setup, ({ section }) => ({
           hereYouGo: {
             body: (
               <Callout color="red">
-                We still disagree with your answer, but here's ours:{" "}
+                We still disagree with your answer, but here's ours:{" "} <br/>
+                Method 1:
                 <M
                   display
                   t="(Z\ket{0})\otimes(X\ket{1}) = \ket{0}\otimes\ket{0} = \ket{00} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
                 />
+                Method 2:
+                <M
+                  display
+                  t="(Z \otimes X)(\ket{01}) =\pmatrix{\enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 1 & 0 & 0
+                 & 0 \enspace \\ \enspace 0 & 0 & 0 & -1 \enspace \\ \enspace 0 & 0 & -1 & 0 \enspace}\pmatrix{\enspace 0 \enspace \\ 1 \\ 0 \\ 0} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0}"
+                />
+
               </Callout>
             ),
             onContinue: "nextSection",
@@ -279,6 +314,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
+    //question D
     section({
       name: "circuitAsOperator",
       body: (m) => (
@@ -345,25 +381,6 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-    section({
-      name: "summaryTextBox",
-      body: (m) => (
-        <>
-          <TextBox
-            model={m.page5summaryTextBox}
-            label={
-              <Prose>
-                Now that you’ve seen our answers, briefly comment on where they
-                agree or disagree with yours, and why. Summarize what you feel
-                like you’ve learned, and/or what you’re feeling confused about.
-              </Prose>
-            }
-          ></TextBox>
-        </>
-      ),
-      continue: {
-        allowed: () => true,
-      },
-    }),
+
   ],
 }));

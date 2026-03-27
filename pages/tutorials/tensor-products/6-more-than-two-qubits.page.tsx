@@ -35,7 +35,7 @@ export default page(setup, ({ section, hint }) => ({
         label: "Let’s explore",
       },
     }),
-
+    //question A
     section({
       name: "dimension3QubitSpace",
       body: (m, { responses }) => (
@@ -56,6 +56,20 @@ export default page(setup, ({ section, hint }) => ({
           </Answer>
         </>
       ),
+       hints: [
+        hint({
+          name: "basis",
+          label: "Hint",
+          body: (
+            <Prose>
+              Reminder, for a 2-qubit space, the basis states are <M t="\ket{00}" />,
+              <M t="\ket{01}" />, <M t="\ket{10}" />, and <M t="\ket{11}" />. That
+              makes it a 4-dimensional space. What if you add another qubit? Can you list
+              out the basis states (then count them).
+            </Prose>
+          ),
+        }),
+      ],
       guidance: {
         nextMessage: () => "basisStates",
         messages: {
@@ -71,6 +85,7 @@ export default page(setup, ({ section, hint }) => ({
                   display
                   t="\ket{000},\ket{001},\ket{010},\ket{011},\ket{100},\ket{101},\ket{110},\ket{111}"
                 />
+                There are 8 basis states, making this an 8-dimensional space.
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
@@ -79,12 +94,14 @@ export default page(setup, ({ section, hint }) => ({
       },
     }),
 
+    //question B
     section({
       name: "dimensionNQubitSpace",
       body: (m) => (
         <>
           <Prose>
-            What is the dimension of a system of <M t="N" /> qubits?
+            Can you generalize your answers above to find the dimension of a system
+            of <M t="N" /> qubits?
           </Prose>
 
           <LabelsLeft>
@@ -103,6 +120,7 @@ export default page(setup, ({ section, hint }) => ({
       ),
     }),
 
+    //question C
     section({
       name: "outputZxXZxI000",
       body: (m) => (
@@ -146,8 +164,9 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
       continue: {
-        label: "I drew the circuit diagram",
+        label: "Move On",
       },
+
       hints: [
         hint({
           name: "ZxXZxI000",
@@ -162,9 +181,11 @@ export default page(setup, ({ section, hint }) => ({
               \lstick{\ket{0}} & \gate{I} & \qw \\
               "
               />
+            Remember that our convention is that the left-most qubit is represented
+            by the top qubit in the circuit diagram.
             </>
           ),
-          label: "Show me your circuit",
+          label: "Show me the circuit diagram",
         }),
       ],
     }),
@@ -195,7 +216,7 @@ export default page(setup, ({ section, hint }) => ({
         </Prose>
       ),
     }),
-
+    //question E
     section({
       name: "nQubitProbAll0",
       body: (m) => (
@@ -215,9 +236,26 @@ export default page(setup, ({ section, hint }) => ({
             <M display t="\left(\frac{1}{2}\right)^n" />
           </Answer>
         </>
-      ),
+      ), ///////////////////////////////////////////////
+       hints: [
+        hint({
+          name: "qubitSystem",
+          label: "Hint",
+          body: (
+            <Prose>
+             Suppose we had a 2-qubit system. <br/>
+              <center><M t="H \otimes H \ket{00} \breakIfNarrow{=} "/>
+              <M t= "\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\otimes\frac{1}{\sqrt{2}}(\ket{0}+\ket{1})\breakIfNarrow{=}" />
+              <M t= "\frac{1}{2} ({\ket{00}+\ket{01}+\ket{10}+\ket{11}})"/></center>
+             <br/> (Convince yourself of that!) So the
+             probability of getting all zeros is 1/4. How would this look for 3
+             qubits? n qubits?
+            </Prose>
+          ),
+        }),
+      ],
     }),
-
+    //question F
     section({
       name: "nQubitProbFirst0",
       body: (m) => (
@@ -235,6 +273,19 @@ export default page(setup, ({ section, hint }) => ({
           <Answer>50%</Answer>
         </>
       ),
+       hints: [
+        hint({
+          name: "topHint",
+          label: "Hint",
+          body: (
+            <Prose>
+             We are only looking at the top qubit here. Since the first qubit isn't
+             entangled, it is in the state <M t=" H\ket{0}" />. What is the
+             probability of measuring a 0 on this first qubit?
+            </Prose>
+          ),
+        }),
+      ],
     }),
   ],
 }));

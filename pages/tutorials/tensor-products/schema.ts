@@ -44,19 +44,20 @@ export default s.tutorial({
     outputHxXZ00: s.string(),
   },
   sections: {
+    //                      Page 1: Adding a Second Qubit
     addingASecondQubitIntro: s.section(),
     arbitrary2QubitState: s.section(),
     plusTimes0: s.section({ messages: ["answer"] }),
     plusTimes0Probabilities: s.section(),
     plusTimes0SingleProbabilities: s.section(),
 
-    // Section 1.2
+    //                       Page 2: Operators
     operatorsIntro: s.section(),
     arbitraryOutputZxI: s.section({ messages: ["answer"] }),
     redrawnZxI: s.section(),
     findIInCircuit: s.section({ messages: ["answer"] }),
 
-    // Section 1.3
+    //                   Page 3: Summary Questions
     summaryIntro: s.section(),
     sketchHxIZxXPsi1xPsi2: s.section(),
     selectHxIZxXPsi1xPsi2: s.section({
@@ -67,20 +68,20 @@ export default s.tutorial({
     equationXHPsixZPhi: s.section(),
     outputXH1xZ1: s.section(),
 
-    // Section 2.1
+    //                   Page 4: Two-Qubit Vector Space
     twoQubitVectorSpaceIntro: s.section(),
     basisPlacementVectorVisual: s.section(),
     probMeasureTwoQubitState: s.section(),
     twoVectorTensorProductRule: s.section(),
     fourDColumnVector: s.section({ messages: ["ourAnswer"] }),
-    circuitOutputAsColumnVector: s.section(),
+    circuitOutputAsColumnVector: s.section({ messages: ["ourAnswer"] }),
     circuitOutputAsDiracNotation: s.section(),
     probTwoQubitSystem: s.section(),
     bothExpressionsWork: s.section(),
 
-    // Section 2.2
+    //                     Page 5: Two-Qubit Operators
     twoQubitOperatorsIntro: s.section(),
-    representZxX: s.section(),
+    representZxX: s.section({ messages: ["answer"]}),
     twoOperatorsRule: s.section(),
     representZxXAs4x4Matrix: s.section({ messages: ["answer"] }),
     columnZ0xX1: s.section({
@@ -88,7 +89,7 @@ export default s.tutorial({
     }),
     circuitAsOperator: s.section({ messages: ["answer"] }),
     summaryTextBox: s.section(),
-
+    //                    Page 6: More Than Two Qubits
     moreThanTwoQubitsIntro: s.section(),
     dimension3QubitSpace: s.section({ messages: ["basisStates"] }),
     dimensionNQubitSpace: s.section(),
@@ -97,6 +98,7 @@ export default s.tutorial({
     nQubitProbAll0: s.section(),
     nQubitProbFirst0: s.section(),
   },
+  //                        Responses and Hints
   responses: {
     arbitrary2QubitState: s.string(),
     plusTimes0: s.chooseAll([
@@ -159,8 +161,12 @@ export default s.tutorial({
     nQubitProbFirst0: s.string(),
   },
   hints: {
+    state: s.hint(),
     probability: s.hint(),
+    basis: s.hint(),
     diracNotation: s.hint(),
     ZxXZxI000: s.hint(),
+    qubitSystem: s.hint(),
+    topHint: s.hint(),
   },
 });
