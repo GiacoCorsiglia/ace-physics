@@ -106,6 +106,15 @@ export const tutorialList: TutorialListing[] = [
     tags: ["QIS"],
   },
   {
+    id: "InterpretingSuperpositions",
+    link: "interpreting-superpositions",
+    label: "Interpreting Superposition States",
+    blurb: (
+      <>Practice interpreting superposition states and measurements.</>
+    ),
+    tags: ["QIS"],
+  },
+  {
     id: "QuantumCryptography",
     link: "quantum-cryptography",
     label: "Quantum Cryptography",

@@ -13,7 +13,7 @@ export type ResponseModels = Model<
 
 export default tutorialSetup({
   schema,
-  id: "interpreting-superpositions",
+  id: "InterpretingSuperpositions",
   link: "interpreting-superpositions",
   label: "Interpreting superposition states",
   excludeFromList: true,
