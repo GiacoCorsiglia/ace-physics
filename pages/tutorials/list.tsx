@@ -109,9 +109,7 @@ export const tutorialList: TutorialListing[] = [
     id: "InterpretingSuperpositions",
     link: "interpreting-superpositions",
     label: "Interpreting Superposition States",
-    blurb: (
-      <>Practice interpreting superposition states and measurements.</>
-    ),
+    blurb: <>Practice interpreting superposition states and measurements.</>,
     tags: ["QIS"],
   },
   {
