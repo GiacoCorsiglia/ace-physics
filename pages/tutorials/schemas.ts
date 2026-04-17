@@ -18,6 +18,7 @@ import TensorProducts from "./tensor-products/schema";
 import TestTutorial from "./test-tutorial/schema";
 import TimeDependence from "./time-dependence/schema";
 import VectorsToFunctions from "./vectors-to-functions/schema";
+import InterpretingSuperpositions from "./interpreting-superpositions/schema";
 
 export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["CnotEntanglement", CnotEntanglement],
@@ -39,4 +40,5 @@ export const tutorialSchemas = new Map<string, TutorialSchema>([
   ["TensorProducts", TensorProducts],
   ["VectorsToFunctions", VectorsToFunctions],
   ["TestTutorial", TestTutorial],
+  ["InterpretingSuperpositions", InterpretingSuperpositions],
 ]);
