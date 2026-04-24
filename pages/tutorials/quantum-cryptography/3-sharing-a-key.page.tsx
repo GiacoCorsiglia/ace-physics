@@ -6,6 +6,7 @@ import {
   LabelsLeft,
   M,
   Prose,
+  TextLine,
   Toggle
 } from "@/components";
 import { page, repeatedModel } from "@/tutorial";
@@ -296,10 +297,10 @@ section({
             For the example table we worked on above, what is the shared key?
           </Prose>
           <LabelsLeft>
-            <Decimal
+            <TextLine
               model={m.whatIsTheSharedKey}
               label={<Prose>Key in bits: </Prose>}
-            ></Decimal>
+            ></TextLine>
           </LabelsLeft>
         </>
       ),
@@ -312,11 +313,12 @@ section({
               ? (r.whatIsTheSharedKey as any).selected ?? r.whatIsTheSharedKey
               : r.whatIsTheSharedKey;
 
-          const answer = raw != null ? String(raw) : undefined;
+          const answer = raw != null ? String(raw).trim() : undefined;
+          const correctKey = "0110110";
 
-          if (answer === "0110110") {
+          if (answer === correctKey) {
             return "correct";
-          } else if (answer !== "0110110") {
+          } else if (answer !== undefined && answer !== correctKey) {
             return "incorrect";
           }
           return null;
