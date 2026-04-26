@@ -7,7 +7,7 @@ const chooseBit = s.chooseOne(["0", "1", "random","unknown"]);
 //                                pages
 export default s.tutorial({
   pages: {
-    quantumKeyDistribution: s.page(),
+    sendingQubits: s.page(),
     dealingWithRandomness: s.page(),
     sharingKey: s.page(),
     theEffectsOfAnEavesdropper: s.page(),
@@ -192,11 +192,11 @@ export default s.tutorial({
     //question B
     qubit2And4EvesBit: s.section(),
     evesBitQubit2:  s.section({
-      messages: ["dynamicAnswer"],
-    }),
+          messages: ["tryAgain", "hereYouGo", "nowCorrect"],
+        }),
     evesBitQubit4:  s.section({
-      messages: ["dynamicAnswer"],
-    }),
+          messages: ["tryAgain", "hereYouGo", "nowCorrect"],
+        }),
     //question C
     qubit4And9EvesBit: s.section(),
 
