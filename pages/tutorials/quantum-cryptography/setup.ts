@@ -20,8 +20,8 @@ export default tutorialSetup({
   posttest: true,
   pages: [
     {
-      link: "1-quantum-key-distribution",
-      label: "Quantum Key Distribution",
+      link: "1-sending-qubits",
+      label: "Sending Qubits",
     },
     {
       link: "2-dealing-with-randomness",
