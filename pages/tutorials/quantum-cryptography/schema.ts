@@ -192,14 +192,15 @@ export default s.tutorial({
     //question B
     qubit2And4EvesBit: s.section(),
     evesBitQubit2:  s.section({
-          messages: ["tryAgain", "hereYouGo", "nowCorrect"],
+          messages: ["tryAgain", "nowCorrect"],
         }),
     evesBitQubit4:  s.section({
-          messages: ["tryAgain", "hereYouGo", "nowCorrect"],
+          messages: ["tryAgain", "nowCorrect"],
         }),
     //question C
-    qubit4And9EvesBit: s.section(),
-
+    qubit5And9EvesBit: s.section(),
+      evesBitQubit5:  s.section({
+      messages: ["dynamicAnswer"]}),
       evesBitQubit9:  s.section({
       messages: ["dynamicAnswer"]}),
       //measure button
@@ -364,7 +365,7 @@ export default s.tutorial({
    //question C
     doesAliceBobShareKeyCheckTwo: s.chooseOne(["yes", "no"]),
     //question D
-     whatIsTheSharedKey: s.number(),
+     whatIsTheSharedKey: s.string(),
      //question E
      doesPublicInfoGiveInfoAboutBitString: s.chooseOne(["yes", "no"]),
 
@@ -380,6 +381,7 @@ export default s.tutorial({
   evesBitQubit2: s.chooseOne(["0","1","random"]),
   evesBitQubit4: s.chooseOne(["0","1","random"]),
   //question C
+  evesBitQubit5: s.chooseOne(["0","1","random"]),
   evesBitQubit9: s.chooseOne(["0","1","random"]),
   //question D
   circumstancesEveMeasuresR: s.string(),
