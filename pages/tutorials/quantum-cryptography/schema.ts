@@ -198,7 +198,11 @@ export default s.tutorial({
           messages: ["tryAgain", "nowCorrect"],
         }),
     //question C
+<<<<<<< HEAD
     qubit5And9EvesBit: s.section(),
+=======
+    qubit5And9EvesBit: s.section({ messages: ["correct", "incorrect"] }),
+>>>>>>> 95b9fe6993287be038f06ac679dd3ff8aa657323
       evesBitQubit5:  s.section({
       messages: ["dynamicAnswer"]}),
       evesBitQubit9:  s.section({

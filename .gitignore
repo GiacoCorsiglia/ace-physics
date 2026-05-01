@@ -47,3 +47,7 @@ yarn-error.log*
 
 # Sentry
 .sentryclirc
+next-env.d.ts
+next-env.d.ts
+next-env.d.ts
+pages/tutorials/quantum-cryptography/4-the-effects-of-an-eavesdropper.page.tsx

@@ -1,13 +1,12 @@
 import {
-  ChooseOne,
-  Decimal,
-  Dropdown,
-  Guidance,
-  LabelsLeft,
-  M,
-  Prose,
-  TextLine,
-  Toggle
+    ChooseOne,
+    Dropdown,
+    Guidance,
+    LabelsLeft,
+    M,
+    Prose,
+    TextLine,
+    Toggle
 } from "@/components";
 import { page, repeatedModel } from "@/tutorial";
 import setup from "./setup";
@@ -298,7 +297,7 @@ section({
           </Prose>
           <LabelsLeft>
             <TextLine
-              model={m.whatIsTheSharedKey}
+             model ={m.whatIsTheSharedKey}
               label={<Prose>Key in bits: </Prose>}
             ></TextLine>
           </LabelsLeft>
