@@ -232,18 +232,18 @@ export default page(setup, ({ section }) => ({
         }),
         // question C
          section({
-          name: "qubit4And9EvesBit",
+          name: "qubit5And9EvesBit",
           body: (m, s) => (
             <>
             <Prose> Use the information in the table to determine the value of
-              Eve's bit (after she measures) for qubits 4 and 9.
+              Eve's bit (after she measures) for qubits 5 and 9.
             </Prose>
              <LabelsLeft>
              <Dropdown
-              model={m.evesBitQubit4}
+              model={m.evesBitQubit5}
               label={
                 <Prose>
-                Qubit 4:
+                Qubit 5:
                 </Prose>
               }
               choices={[
@@ -272,10 +272,10 @@ export default page(setup, ({ section }) => ({
           ),
          guidance: {
                 nextMessage: ((r: any) => {
-                   const a = r.evesBitQubit4?.selected;
+                   const a = r.evesBitQubit5?.selected;
                    const b = r.evesBitQubit9?.selected;
 
-                   if (a === "random" && b === "1") {
+                   if (a === "1" && b === "1") {
                      return "correct";
                    }
 
@@ -299,7 +299,7 @@ export default page(setup, ({ section }) => ({
 
                        </Guidance.Disagree>
                      ),
-                     //onContinue: "nextMessage",
+                     onContinue: "nextMessage",
                    },
                  },
                },

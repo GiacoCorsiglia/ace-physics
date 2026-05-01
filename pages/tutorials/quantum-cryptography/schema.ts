@@ -198,8 +198,9 @@ export default s.tutorial({
           messages: ["tryAgain", "hereYouGo", "nowCorrect"],
         }),
     //question C
-    qubit4And9EvesBit: s.section(),
-
+    qubit5And9EvesBit: s.section({ messages: ["correct", "incorrect"] }),
+      evesBitQubit5:  s.section({
+      messages: ["dynamicAnswer"]}),
       evesBitQubit9:  s.section({
       messages: ["dynamicAnswer"]}),
       //measure button
@@ -380,6 +381,7 @@ export default s.tutorial({
   evesBitQubit2: s.chooseOne(["0","1","random"]),
   evesBitQubit4: s.chooseOne(["0","1","random"]),
   //question C
+  evesBitQubit5: s.chooseOne(["0","1","random"]),
   evesBitQubit9: s.chooseOne(["0","1","random"]),
   //question D
   circumstancesEveMeasuresR: s.string(),
