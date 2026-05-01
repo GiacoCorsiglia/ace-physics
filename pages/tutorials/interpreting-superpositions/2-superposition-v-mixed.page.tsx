@@ -118,8 +118,8 @@ export default page(setup, ({ section, hint }) => ({
             indistinguishable from Alice's, since (after all) both are
             effectively "50/50, 0 or 1" boxes. <br />
             <br />
-            Try to decide, Alice and Bob each produce a large number of qubits
-            and measure each qubit to be a 0 or 1. They can only make
+            Trying to decide, Alice and Bob each produce a large number of
+            qubits and measure each qubit to be a 0 or 1. They can only make
             measurements of 0 or 1. After measuring many qubits:{" "}
           </Prose>
           <Decimal
