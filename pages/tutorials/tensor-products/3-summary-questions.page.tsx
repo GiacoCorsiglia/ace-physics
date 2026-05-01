@@ -19,6 +19,15 @@ export default page(setup, ({ section }) => ({
   name: "summaryQuestions",
   label: "Summary Questions",
   answers: "provided",
+  cheatSheet: {
+    body: (
+      <>
+        <M display t="X = \pmatrix{0 & 1 \\ 1 & 0}" />
+        <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
+        <M display t="H = \frac{1}{\sqrt{2}} \pmatrix{1 & 1 \\ 1 & -1}" />
+      </>
+    ),
+  },
   sections: [
     section({
       name: "summaryIntro",
@@ -31,7 +40,7 @@ export default page(setup, ({ section }) => ({
         label: "Let’s do it",
       },
     }),
-
+    //question A
     section({
       name: "sketchHxIZxXPsi1xPsi2",
       body: () => (
@@ -56,7 +65,7 @@ export default page(setup, ({ section }) => ({
         label: "I drew the circuit",
       },
     }),
-
+    //question B
     section({
       name: "selectHxIZxXPsi1xPsi2",
       body: (m) => (
@@ -244,7 +253,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
+    //question C
     section({
       name: "XxIZxXPsi1xPsi2EqualsXZxIXPs1xPsi2",
       body: (m) => (
@@ -301,7 +310,7 @@ export default page(setup, ({ section }) => ({
         </>
       ),
     }),
-
+    //question D
     section({
       name: "XxZXxZPsi1xPsi2EqualsXZPsi1xXZPsi2",
       body: (m) => (
@@ -346,7 +355,7 @@ export default page(setup, ({ section }) => ({
         />
       ),
     }),
-
+    //question E
     section({
       name: "equationXHPsixZPhi",
       body: (m) => (
@@ -388,7 +397,7 @@ export default page(setup, ({ section }) => ({
         </>
       ),
     }),
-
+    //question F
     section({
       name: "outputXH1xZ1",
       body: (m) => (
@@ -402,7 +411,9 @@ export default page(setup, ({ section }) => ({
               </Prose>
             }
           />
-
+          <Callout color="blue" iconLeft={<PencilIcon />}>
+            Scratch paper is your friend!
+          </Callout>
           <Answer>
             We found that either of the following equations below are correct.
             <M
@@ -412,6 +423,10 @@ export default page(setup, ({ section }) => ({
             <M
               display
               t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1}) \otimes \ket{1}"
+            />
+            <M
+              display
+              t="\text{  or, perhaps even  } \; \frac{-1}{\sqrt{2}} (\ket{1} - \ket{0}) \otimes \ket{1}"
             />
           </Answer>
         </>

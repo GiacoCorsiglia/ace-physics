@@ -38,8 +38,11 @@ export default page(setup, ({ section, hint }) => ({
               \lstick{\ket{0}} & \qw & \qw & \qw \\
               "
             />
-            In this system, qubit #1 is in state <M t="\ket{1}" /> , and qubit
-            #2 is in state <M t="\ket{0}" />.
+            In our notation, the top qubit is referred to as qubit #1 and is in
+            state <M t="\ket{1}" />. The bottom qubit is referred to as qubit #2
+            and is in state <M t="\ket{0}" />. (Note that qubit ordering
+            conventions differ and your textbook or instructor might reverse
+            this ordering.)
           </p>
 
           <p>
@@ -59,7 +62,7 @@ export default page(setup, ({ section, hint }) => ({
         </Prose>
       ),
     }),
-
+    //question A
     section({
       name: "arbitrary2QubitState",
       body: (m) => (
@@ -102,7 +105,7 @@ export default page(setup, ({ section, hint }) => ({
         </>
       ),
     }),
-
+    // question B
     section({
       name: "plusTimes0",
       body: (m) => (
@@ -225,7 +228,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-
+    //question C
     section({
       name: "plusTimes0Probabilities",
       body: (m, { responses }) => (
@@ -267,16 +270,31 @@ export default page(setup, ({ section, hint }) => ({
           </Horizontal>
         </>
       ),
+      //hint
+      hints: [
+        hint({
+          name: "state",
+          label: "Can I have a hint?",
+          body: (
+            <Prose>
+              This question is best answered by looking at the state written as{" "}
+              <br />
+              <center>
+                <M t="\frac{1}{\sqrt{2}} (\ket{00} + \ket{10})" />
+              </center>
+            </Prose>
+          ),
+        }),
+      ],
     }),
-
+    //question D
     section({
       name: "plusTimes0SingleProbabilities",
       body: (m, { responses }) => (
         <>
           <Prose>
-            What is the probability that a measurement of the{" "}
-            <i>first qubit only</i> results in a <M t="\ket{0}" />? Same
-            question for the second qubit?
+            What is the probability that a measurement of the <i>first qubit</i>{" "}
+            results in a <M t="\ket{0}" />? Same question for the second qubit?
           </Prose>
 
           <Horizontal align="center" justify="start">
@@ -321,11 +339,16 @@ export default page(setup, ({ section, hint }) => ({
       hints: [
         hint({
           name: "probability",
-          label: "Probability?",
+          label: "Hint",
           body: (
             <Prose>
-              Can you see how to get this both from the circuit diagram picture
-              and also from the 2-state equations you selected?
+              This question is best answered by looking at the state written as
+              <M t="\frac{1}{\sqrt{2}} (\ket{0} + \ket{1}) \otimes \ket{0}" />.
+              Remember that in our notation, the first qubit is left of the
+              tensor product symbol, and the second qubit is to the right.{" "}
+              <br />
+              <br /> Alternatively, look back at the circuit diagram. In our
+              notation, the first qubit is the top qubit in the diagram.
             </Prose>
           ),
         }),
