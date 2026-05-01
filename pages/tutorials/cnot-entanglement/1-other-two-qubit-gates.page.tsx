@@ -78,7 +78,7 @@ export default page(setup, ({ section, hint }) => ({
           <Matrix
             matrix={[
               ["1", "0", "0", "0"],
-              ["1", "1", "0", "0"],
+              ["0", "1", "0", "0"],
               [
                 "0",
                 "0",
