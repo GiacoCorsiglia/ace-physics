@@ -34,7 +34,9 @@ export default s.tutorial({
     doXAndZCommute: s.section({
           messages: ["dynamicAnswer"],
         }),
-    doesZSelfCommute: s.section(),
+    doesZSelfCommute: s.section({
+          messages: ["dynamicAnswer"],
+        }),
     circuitDiagramOrder: s.section({
           messages: ["dynamicAnswer"],
         }),
