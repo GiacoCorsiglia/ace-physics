@@ -13,7 +13,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "evaluatingCircuits",
   label: "Evaluating Circuits",
-  answers: "checked-all",
+  answers: "none",
   cheatSheet: {
     body: (
       <>
