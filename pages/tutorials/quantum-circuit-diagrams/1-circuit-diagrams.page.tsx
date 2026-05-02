@@ -120,7 +120,7 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
     }),
-
+    // question B
     section({
       name: "doesZSelfCommute",
       body: (m) => (
@@ -139,6 +139,33 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+       guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.doesZSelfCommute?.selected === "yes"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.doesZSelfCommute?.selected !== "yes" ? (
+                  <p>
+                    We disagree with your answer, check the hint and try again.
+                  </p>
+                ) : (
+                  <p>
+                    We agree, <M t="ZZ = ZZ" />!
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
       hints: [
         hint({
           name: "commute",
