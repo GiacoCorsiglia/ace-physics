@@ -83,7 +83,6 @@ export default s.tutorial({
     }),
   },
   responses: {
-
     qubitProb0: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
     qubitProb1: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
 
