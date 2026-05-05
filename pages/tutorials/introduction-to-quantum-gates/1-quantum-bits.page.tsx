@@ -102,9 +102,8 @@ export default page(setup, ({ section, hint }) => ({
           </Prose>
         </>
       ),
-        guidance: {
-        nextMessage: (responses) =>
-         {
+      guidance: {
+        nextMessage: (responses) => {
           if (responses?.qubitProb0?.selected === "-z") {
             return "correct";
           } else if (responses?.qubitProb0?.selected === "+x") {
@@ -161,7 +160,6 @@ export default page(setup, ({ section, hint }) => ({
         },
       },
 
-
       hints: [
         hint({
           name: "probability",
@@ -205,24 +203,24 @@ export default page(setup, ({ section, hint }) => ({
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
-                  responses?.qubitProb1?.selected === "+y" ? "agree" : "disagree"
+                  responses?.qubitProb1?.selected === "+y"
+                    ? "agree"
+                    : "disagree"
                 }
               >
                 {responses?.qubitProb1?.selected !== "+y" ? (
-                  <p>
-                    Heads up—double check your calculation.
-                  </p>
+                  <p>Heads up—double check your calculation.</p>
                 ) : (
-                  <p>We agree with your answer.
+                  <p>
+                    We agree with your answer.
                     <br />
-                  You can confirm that the probabilities for <M t="\ket{0}" />{" "}
-                  (which you found above) and <M t="\ket{1}" /> add up to 1.
-                  This is always the case: you must have 100% probability of
-                  measuring <em>something</em>.
-                  <br />
-                 This is called <strong>normalization.</strong>
-                </p>
-
+                    You can confirm that the probabilities for <M t="\ket{0}" />{" "}
+                    (which you found above) and <M t="\ket{1}" /> add up to 1.
+                    This is always the case: you must have 100% probability of
+                    measuring <em>something</em>.
+                    <br />
+                    This is called <strong>normalization.</strong>
+                  </p>
                 )}
               </Guidance.Dynamic>
             ),
