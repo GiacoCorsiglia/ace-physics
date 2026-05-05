@@ -1,5 +1,4 @@
-import { Callout, Decimal, Guidance, M, Prose } from "@/components";
-import { approxEquals } from "@/helpers/server";
+import { Callout, Dropdown, Guidance, M, Prose } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
@@ -15,7 +14,7 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           <p>
             In a classical computer, bits are 0 and 1. In a quantum computer, we
-            write <strong>qu</strong>bits as <M t="\ket{0}" /> and
+            write qubits as <M t="\ket{0}" /> and
             <M t="\ket{1}" />. A unique feature of a quantum computer is that a
             qubit can exist in a superposition state:
             <M display t="\ket{\psi} = a\ket{0}+b\ket{1}" />
@@ -70,7 +69,7 @@ export default page(setup, ({ section, hint }) => ({
       name: "qubitProb0",
       body: (m) => (
         <>
-          <Decimal
+          <Dropdown
             model={m.qubitProb0}
             label={
               <Prose>
@@ -79,6 +78,14 @@ export default page(setup, ({ section, hint }) => ({
                 what is the probability of measuring it to be <M t="\ket{0}" />?
               </Prose>
             }
+            choices={[
+              ["+z", <M t="3i/5" />],
+              ["-z", <M t="9/25" />],
+              ["+x", <M t="-9/25" />],
+              ["-x", <M t="4/5" />],
+              ["+y", <M t="16/25" />],
+              ["-y", <M t="-16/25" />],
+            ]}
           />
 
           <Prose>
@@ -95,35 +102,16 @@ export default page(setup, ({ section, hint }) => ({
           </Prose>
         </>
       ),
-      hints: [
-        hint({
-          name: "probability",
-          label: "Probability?",
-          body: (
-            <>
-              If the state is <M t="\ket{\psi} = a\ket{0}+b\ket{1}" />, the
-              probability of measuring <M t="\ket{1}" /> is <M t="|b|^2" />.
-              Note that <M t="|i|^2 = +1" />.
-            </>
-          ),
-        }),
-      ],
-      guidance: {
-        nextMessage(r) {
-          const correct = (3 / 5) ** 2;
-          const prob = r.qubitProb0;
-
-          if (prob === undefined) {
-            return null;
-          }
-
-          if (approxEquals(prob, correct, 0.01)) {
+        guidance: {
+        nextMessage: (responses) =>
+         {
+          if (responses?.qubitProb0?.selected === "-z") {
             return "correct";
-          } else if (approxEquals(prob, -correct, 0.01)) {
+          } else if (responses?.qubitProb0?.selected === "+x") {
             return "negativeCorrect";
-          } else if (prob === 3 / 5 || prob === -3 / 5) {
+          } else if (responses?.qubitProb0?.selected === "+z") {
             return "unsquared";
-          } else if (prob < 0 || prob > 1) {
+          } else if (responses?.qubitProb0?.selected === "+y") {
             return "outOfRange";
           } else {
             return "incorrect";
@@ -155,7 +143,8 @@ export default page(setup, ({ section, hint }) => ({
           outOfRange: {
             body: (
               <Guidance.Disagree>
-                Your answer should be between 0 and 1.
+                We disagree with your answer. Check your calculation then click
+                “Check in Again”.
               </Guidance.Disagree>
             ),
             onContinue: "nextMessage",
@@ -171,12 +160,27 @@ export default page(setup, ({ section, hint }) => ({
           },
         },
       },
+
+
+      hints: [
+        hint({
+          name: "probability",
+          label: "Probability?",
+          body: (
+            <>
+              If the state is <M t="\ket{\psi} = a\ket{0}+b\ket{1}" />, the
+              probability of measuring <M t="\ket{1}" /> is <M t="|b|^2" />.
+              Note that <M t="|i|^2 = +1" />.
+            </>
+          ),
+        }),
+      ],
     }),
 
     section({
       name: "qubitProb1",
       body: (m) => (
-        <Decimal
+        <Dropdown
           model={m.qubitProb1}
           label={
             <Prose>
@@ -184,47 +188,45 @@ export default page(setup, ({ section, hint }) => ({
               same state as the last question)?
             </Prose>
           }
+          choices={[
+            ["+z", <M t="3i/5" />],
+            ["-z", <M t="9/25" />],
+            ["+x", <M t="-9/25" />],
+            ["-x", <M t="4/5" />],
+            ["+y", <M t="16/25" />],
+            ["-y", <M t="-16/25" />],
+          ]}
         />
       ),
       guidance: {
-        nextMessage(r) {
-          const correct = (4 / 5) ** 2;
-          const prob = r.qubitProb1;
-
-          if (approxEquals(prob, correct, 0.01)) {
-            return "correct";
-          } else {
-            return "incorrect";
-          }
-        },
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          correct: {
-            body: (
-              <Guidance.Agree>
-                <p>We agree with your answer.</p>
-
-                <p>
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.qubitProb1?.selected === "+y" ? "agree" : "disagree"
+                }
+              >
+                {responses?.qubitProb1?.selected !== "+y" ? (
+                  <p>
+                    Heads up—double check your calculation.
+                  </p>
+                ) : (
+                  <p>We agree with your answer.
+                    <br />
                   You can confirm that the probabilities for <M t="\ket{0}" />{" "}
                   (which you found above) and <M t="\ket{1}" /> add up to 1.
                   This is always the case: you must have 100% probability of
                   measuring <em>something</em>.
+                  <br />
+                 This is called <strong>normalization.</strong>
                 </p>
 
-                <p>
-                  The <M t="1/5" /> coefficient in front of the column vector
-                  ensures that this is true.
-                </p>
-              </Guidance.Agree>
+                )}
+              </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
-          },
-          incorrect: {
-            body: (
-              <Guidance.Disagree>
-                <p>Heads up—double check your calculation.</p>
-              </Guidance.Disagree>
-            ),
-            onContinue: "nextMessage",
           },
         },
       },

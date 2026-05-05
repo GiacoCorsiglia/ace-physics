@@ -25,7 +25,12 @@ export default pretest(setup, ({ section }) => ({
             choices={confidenceChoices}
           />
 
-          <Prose>Input your answer here:</Prose>
+          <Prose>Input your answer here:<br />
+          </Prose>
+          <Prose faded>
+            You can type a ket using the <code>|</code> and <code>{">"}</code>{" "}
+            keys, such as |0{">"}.
+          </Prose>
 
           <TextBox
             model={m.xHXTimesPlus}

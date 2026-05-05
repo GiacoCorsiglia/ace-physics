@@ -34,8 +34,11 @@ export default s.tutorial({
         "incorrect",
       ],
     }),
+
+    //qubitProb0Feedback: s.section(),
+
     qubitProb1: s.section({
-      messages: ["correct", "incorrect"],
+      messages: ["dynamicAnswer"],
     }),
 
     xGateIntro: s.section(),
@@ -43,9 +46,11 @@ export default s.tutorial({
     xTimesArbitraryKet: s.section({
       messages: ["answer"],
     }),
-    xTimesKet: s.section(),
-    xTimesPlus: s.section({
+    xTimesKet: s.section({
       messages: ["answer"],
+    }),
+    xTimesPlus: s.section({
+      messages: ["dynamicAnswer"],
     }),
 
     zGateIntro: s.section(),
@@ -54,7 +59,7 @@ export default s.tutorial({
     }),
     zTimesArbitraryKet: s.section(),
     zTimesPlus: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
 
     hadamardGateIntro: s.section(),
@@ -71,15 +76,16 @@ export default s.tutorial({
 
     identityGateIntro: s.section(),
     identityTimesKet: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
     xAndZSquaredEqualsI: s.section({
-      messages: ["answer"],
+      messages: ["dynamicAnswer"],
     }),
   },
   responses: {
-    qubitProb0: s.number(),
-    qubitProb1: s.number(),
+
+    qubitProb0: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    qubitProb1: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
 
     xTimesArbitraryKet: s.string(),
     xTimesKet: s.tuple(s.string(), s.string()),
@@ -110,6 +116,7 @@ export default s.tutorial({
     probability: s.hint(),
     withoutMatrices: s.hint(),
     actX: s.hint(),
+    changedState: s.hint(),
     phase: s.hint(),
   },
 });
