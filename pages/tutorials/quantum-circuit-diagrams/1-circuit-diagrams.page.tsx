@@ -139,7 +139,7 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
-       guidance: {
+      guidance: {
         nextMessage: () => "dynamicAnswer",
         messages: {
           dynamicAnswer: {
