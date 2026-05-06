@@ -4,7 +4,7 @@ import {
   M,
   Prose,
   QuantumCircuit,
-  TextBox
+  TextBox,
 } from "@/components";
 import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
@@ -103,19 +103,19 @@ export default page(setup, ({ section }) => ({
             body: (
               <Guidance.HeadsUp>
                 <p>
-                   Note: you should get a different output from the previous question,
-                   in this case merely a different phase. Order of operations often
-                    matters!
+                  Note: you should get a different output from the previous
+                  question, in this case merely a different phase. Order of
+                  operations often matters!
                 </p>
 
                 <p>
                   <M display t="Z\ket{1} = -\ket{1}" />
                   <M display t="X(-\ket{1}) = -X\ket{1} = -\ket{0}" />
                 </p>
-                 <p>
-                   Note that we get a negative sign because <M t="Z" /> acted on{" "}
-                 <M t="\ket{1}" />, not <M t="\ket{0}" />.
-                 </p>
+                <p>
+                  Note that we get a negative sign because <M t="Z" /> acted on{" "}
+                  <M t="\ket{1}" />, not <M t="\ket{0}" />.
+                </p>
               </Guidance.HeadsUp>
             ),
             onContinue: "nextSection",
@@ -154,9 +154,10 @@ export default page(setup, ({ section }) => ({
             body: (
               <Guidance.HeadsUp>
                 <p>
-                  You should get the same answers regardless of which method you use.
-                   We like using the ket equations because we find them faster to use.
-                   It's also more conceptually valuable to understand what is happening.
+                  You should get the same answers regardless of which method you
+                  use. We like using the ket equations because we find them
+                  faster to use. It's also more conceptually valuable to
+                  understand what is happening.
                 </p>
               </Guidance.HeadsUp>
             ),
