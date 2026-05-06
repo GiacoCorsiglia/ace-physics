@@ -32,15 +32,27 @@ export default s.tutorial({
   sections: {
     circuitDiagramsIntro: s.section(),
     doXAndZCommute: s.section({
-      messages: ["answer"],
-    }),
-    doesZSelfCommute: s.section(),
-    circuitDiagramOrder: s.section({ messages: ["answer"] }),
+          messages: ["dynamicAnswer"],
+        }),
+    doesZSelfCommute: s.section({
+          messages: ["dynamicAnswer"],
+        }),
+    circuitDiagramOrder: s.section({
+          messages: ["dynamicAnswer"],
+        }),
 
     evaluatingCircuitsIntro: s.section(),
-    outputXZ1: s.section(),
-    outputZX1: s.section(),
-    matrixOrEquationApproach: s.section(),
+    outputXZ1: s.section({
+      messages: ["answer"],
+    }),
+
+    outputZX1: s.section({
+      messages: ["answer"],
+    }
+),
+    matrixOrEquationApproach: s.section({
+      messages: ["answer"],
+    }),
     inverseOfX: s.section({ messages: ["inverse"] }),
 
     morePracticeIntro: s.section(),
@@ -64,5 +76,6 @@ export default s.tutorial({
   },
   hints: {
     inverse: s.hint(),
+    commute: s.hint()
   },
 });

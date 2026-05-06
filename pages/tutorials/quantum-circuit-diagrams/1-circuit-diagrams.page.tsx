@@ -11,10 +11,10 @@ import { page } from "@/tutorial";
 import { PencilIcon } from "@primer/octicons-react";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "circuitDiagrams",
   label: "Circuit Diagrams",
-  answers: "none",
+  answers: "checked-all",
   cheatSheet: {
     body: (
       <>
@@ -61,7 +61,9 @@ export default page(setup, ({ section }) => ({
       body: (m) => (
         <>
           <Prose>
-            Compute <M t="XZ" /> and <M t="ZX" /> using matrices.
+            Compute <M t="XZ" /> and <M t="ZX" /> using matrices. <br /> (If you
+            need a refresher on these matrices, click the "i" button in the
+            lower left of your screen.)
           </Prose>
 
           <Callout color="blue" iconLeft={<PencilIcon size="medium" />}>
@@ -84,9 +86,9 @@ export default page(setup, ({ section }) => ({
         </>
       ),
       guidance: {
-        nextMessage: () => "answer",
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
+          dynamicAnswer: {
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
@@ -95,11 +97,22 @@ export default page(setup, ({ section }) => ({
                     : "disagree"
                 }
               >
-                In general, order of matrix multiplication matters. However, if
-                it happens that <M t="AB = BA" />, then the operators
-                <M t="A" /> and <M t="B" /> are said to <em>commute</em>. (So
-                above, we saw that <M t="X" /> and <M t="Z" /> do <em>not</em>{" "}
-                commute.)
+                {responses?.doXAndZCommute?.selected !== "yes" ? (
+                  <p>
+                    In general, the order of matrix multiplication matters.
+                    However, if it happens that AB=BA, then the operators A and
+                    B are said to commute. <br />
+                    <br />
+                    Please check your matrix multiplication.
+                  </p>
+                ) : (
+                  <p>
+                    Great! In general, the order of matrix multiplication
+                    matters. However, if it happens that AB=BA, then the
+                    operators A and B are said to commute. In this case, we have
+                    found that X and Z do not commute.{" "}
+                  </p>
+                )}
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
@@ -107,7 +120,7 @@ export default page(setup, ({ section }) => ({
         },
       },
     }),
-
+    // question B
     section({
       name: "doesZSelfCommute",
       body: (m) => (
@@ -126,6 +139,44 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+       guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.doesZSelfCommute?.selected === "yes"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.doesZSelfCommute?.selected !== "yes" ? (
+                  <p>
+                    We disagree with your answer, check the hint and try again.
+                  </p>
+                ) : (
+                  <p>
+                    We agree, <M t="ZZ = ZZ" />!
+                  </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+      hints: [
+        hint({
+          name: "commute",
+          label: "Commute?",
+          body: (
+            <>
+              Z is said to commute with itself if <M t="ZZ = ZZ" />.
+            </>
+          ),
+        }),
+      ],
     }),
 
     section({
@@ -184,25 +235,25 @@ export default page(setup, ({ section }) => ({
       //   },
       // },
       guidance: {
-        nextMessage(r, s) {
-          if (r.circuitDiagramOrder?.selected === "xz") {
-            return null;
-          }
-          return "answer";
-        },
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
-            body: (
-              <>
-                <Callout color="red">
-                  We disagree with your answer. Reread the first sentence
-                  carefully and compare it to the picture; make sure you
-                  understand what’s going on here.
-                </Callout>
-              </>
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.circuitDiagramOrder?.selected === "xz"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.circuitDiagramOrder?.selected !== "xz" ? (
+                  <p>Please check the order and try again.</p>
+                ) : (
+                  <p>We agree with your answer. </p>
+                )}
+              </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
-            continueLabel: "Move on",
           },
         },
       },
