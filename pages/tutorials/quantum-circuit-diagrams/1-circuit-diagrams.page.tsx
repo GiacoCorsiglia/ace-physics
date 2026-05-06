@@ -14,7 +14,7 @@ import setup from "./setup";
 export default page(setup, ({ section, hint }) => ({
   name: "circuitDiagrams",
   label: "Circuit Diagrams",
-  answers: "checked-some",
+  answers: "checked-all",
   cheatSheet: {
     body: (
       <>
