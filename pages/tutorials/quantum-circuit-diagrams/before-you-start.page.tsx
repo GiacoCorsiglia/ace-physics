@@ -23,6 +23,11 @@ export default pretest(setup, ({ section }) => ({
               <Prose>
                 What is the output of the following circuit?
                 <QuantumCircuit t="\lstick{\ket{1} } & \gate{H} & \gate{Z} & \gate{Z} & \gate{X} \qw \\" />
+                <br />
+                <em>
+                  {" "}
+                  Use "{"|"}" and "{">"}" to type your kets.{" "}
+                </em>
               </Prose>
             }
           />
