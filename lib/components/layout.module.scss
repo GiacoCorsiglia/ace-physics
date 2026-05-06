@@ -140,8 +140,7 @@ $breakpoint: fonts.rem-to-px($callout-bleed + $text-width + $callout-bleed);
   margin-left: auto;
   margin-right: auto;
   max-width: calc(
-    #{$border-width} + #{$max-padding + $text-width + $max-padding} +
-      #{$border-width}
+    #{$border-width} + #{$max-padding + $text-width + $max-padding} + #{$border-width}
   );
 }
 

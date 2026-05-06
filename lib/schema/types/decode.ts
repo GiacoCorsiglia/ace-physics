@@ -69,10 +69,11 @@ export interface DecodeError {
   readonly path: string;
 }
 
-interface Context extends ReadonlyArray<{
-  readonly index: string | number | null;
-  readonly type: Type;
-}> {}
+interface Context
+  extends ReadonlyArray<{
+    readonly index: string | number | null;
+    readonly type: Type;
+  }> {}
 
 export const decodeFailure = <T>(
   errors: DecodeError | readonly DecodeError[],
