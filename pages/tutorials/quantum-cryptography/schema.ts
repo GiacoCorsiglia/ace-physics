@@ -256,7 +256,7 @@ export default s.tutorial({
     circumstancesBobCorrectBecomesR: s.section(),
     //question K
      fractionOfMismatchedComparedSampleBits: s.section({
-      messages: ["incorrect"],
+      messages: ["correct", "incorrect"],
     }),
     //question L
      fractionOfMismatchedComparedBits:s.section({
