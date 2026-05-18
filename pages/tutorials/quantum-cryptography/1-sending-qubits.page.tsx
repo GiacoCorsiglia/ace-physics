@@ -291,7 +291,7 @@ export default page(setup, ({ section, oneOf }) => ({
                correct: {
                  body: (
                    <Guidance.Agree> We agree! On qubit 8, Alice's Hadamard
-                    converted the <M t="\ket{0}"/> to a <M t="\ket{-}"/>. For
+                    converted the <M t="\ket{1}"/> to a <M t="\ket{-}"/>. For
                     qubit 9, Alice did not operate on the qubit.
                    </Guidance.Agree>
                  ),
@@ -302,7 +302,7 @@ export default page(setup, ({ section, oneOf }) => ({
                    <Guidance.Disagree>
                      We disagree with at least one of your answers. Since
                      Alice's bit is a 1, she starts with the <M t="\ket{1}"/>
-                     state and either applies a Hadamard or not. Feel free to
+                      state and either applies a Hadamard or not. Feel free to
                      change your answer(s).
                    </Guidance.Disagree>
                  ),
@@ -713,6 +713,39 @@ export default page(setup, ({ section, oneOf }) => ({
                   />
          </>
       ),
+      guidance: {
+        nextMessage: () => "dynamicAnswer",
+        messages: {
+          dynamicAnswer: {
+            body: ({ responses }) => (
+              <Guidance.Dynamic
+                status={
+                  responses?.certainOrRandom?.selected === "no"
+                    ? "agree"
+                    : "disagree"
+                }
+              >
+                {responses?.certainOrRandom?.selected !== "no" ? (
+                     <p>
+                         We disagree with your answer. In practice, Bob has no way
+                         of knowing whether his measurement outcome was certain to
+                         occur or the result of chance. He doesn't know what qubit
+                         state Alice sent him. Feel free to change your answer.
+                        </p>
+                ) : (
+                  <p> We agree with your answer. In practice, Bob has no way
+                         of knowing whether his measurement outcome was certain to
+                         occur or the result of chance. He doesn't know what qubit
+                         state Alice sent him.
+                      </p>
+                )}
+              </Guidance.Dynamic>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
+      /*
        guidance: {
               nextMessage: () => "dynamicAnswer",
               messages: {
@@ -744,6 +777,7 @@ export default page(setup, ({ section, oneOf }) => ({
                 },
               },
             },
+            */
     }),
   ],
 }));
