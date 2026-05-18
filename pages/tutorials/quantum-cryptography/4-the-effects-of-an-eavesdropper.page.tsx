@@ -275,7 +275,7 @@ export default page(setup, ({ section }) => ({
                    const a = r.evesBitQubit5?.selected;
                    const b = r.evesBitQubit9?.selected;
 
-                   if (a === "random" && b === "1") {
+                   if (a === "1" && b === "1") {
                      return "correct";
                    }
 
@@ -673,13 +673,15 @@ export default page(setup, ({ section }) => ({
                       To be specific: If Alice did NOT apply a Hadamard, and
                       neither does Eve, the qubit is simply sent along unaffected by
                       Eve’s measurement. (If Eve measures a 0, she sends a <M t="{H\ket{0}}"/>,
-                       which is what Alice sent. The same goes for 1.)
-                      But if, for example, Alice sends a <M t="{H\ket{0}}"/>, and Eve chooses
+                       which is what Alice sent. The same goes for 1.) <br />
+                       <br />
+                      But if, for example, Alice sends a <M t="{\ket{0}}"/>, and Eve chooses
                        differently than Alice (and thus applies a Hadamard),
-                       she will turn the state into <M t="{H\ket{1}}"/>. Her measurement result
+                       she will turn the state into <M t="{\ket{+}}"/>. Her measurement result
                        will then be random, and she will apply another Hadamard,
-                       sending along either <M t="{H\ket{+}}"/> or <M t="{H\ket{-}}"/>
-                       to Bob. She sends a different state than Alice originally sent.
+                       sending along either <M t="{\ket{+}}"/> or <M t="{\ket{-}}"/>
+                       to Bob. She sends a <em>different</em> state than Alice originally sent.<br />
+                       <br />
                       Convince yourself that in all scenarios, if Eve chooses
                       differently than Alice, she will never send the state Alice
                       sent. (But, if she chooses the same, she will always send
@@ -839,8 +841,8 @@ section({
                         It might help to write down the state Bob has after he does (or does not apply) the H-gate.
                       And, recall the effects of the H gate:
                       <center>
-                       <M t="H\ket{0} = \ket{+}"/>, <M t="H\ket{1} = \ket{-}"/>,
-                       <M t="H\ket{+} = \ket{0}"/>, <M t="H\ket{-} = \ket{1}"/>
+                       <M t="H\ket{0} = \ket{+}"/>  <br /> <M t="H\ket{1} = \ket{-}"/>  <br />
+                       <M t="H\ket{+} = \ket{0}"/> <br /> <M t="H\ket{-} = \ket{1}"/>  <br />
                        with <M t="\ket{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})"/> and
                        <M t="\ket{-} = \frac{1}{\sqrt{2}}(\ket{0} - \ket{1})"/>
                       </center>
@@ -927,6 +929,8 @@ section({
                       </LabelsLeft>
                     </>
                   ),
+                  // NEED TO FIX FEEDBACK--------------------------------------
+                  /*
                   guidance: {
                     nextMessage(r) {
                       if (r.fractionOfMismatchedComparedSampleBits !== undefined) {
@@ -939,7 +943,7 @@ section({
                           return "incorrect";
                       }
                       return null;
-                    },
+                    }),
                     messages: {
                       incorrect: {
                         body: (
@@ -953,9 +957,22 @@ section({
                         ),
                         onContinue: "nextSection",
                       },
+                       correct: {
+                        body: (
+                          <>
+                            <Guidance.Agree>
+                              To answer this question, we compared Bob's bits to Alice's
+                              bits (the bottom row to the top row). Bits 7 and 8 disagree,
+                              so our answer is 2/7, or 29%.{" "}
+                            </Guidance.Agree>
+                          </>
+                        ),
+                        onContinue: "nextSection",
+                      },
                     },
                   },
-                }),
+              */
+              }),
                 // question L
                  section({
                       name: "fractionOfMismatchedComparedBits",
@@ -977,6 +994,7 @@ section({
                         </>
                       ),
                       // CHANGE TO POSITIVE NEGATIVE FEEDBACK .25 correct , 75 incorrect
+                      /*
                        guidance: {
                              nextMessage(r) {
 
@@ -994,6 +1012,25 @@ section({
                                }
                                return null;
                              },
+                             */
+                             guidance: {
+                       nextMessage(r) {
+          // support models that return either a wrapped { selected: ... } or a raw value (number/string)
+          // Only access `.selected` if the model is an object to avoid TS errors when it's a number/string.
+                          const raw =
+                         typeof r.fractionOfMismatchedComparedBits === "object" && r.fractionOfMismatchedComparedBits !== null
+                           ? (r.fractionOfMismatchedComparedBits as any).selected ?? r.fractionOfMismatchedComparedBits
+                           : r.fractionOfMismatchedComparedBits;
+
+                      const answer = raw != null ? String(raw) : undefined;
+
+                       if (answer === "25") {
+                        return "correct";
+                        } else if (answer !== "25") {
+                           return "incorrect";
+                         }
+                       return null;
+                         },
                              messages: {
                                    correct: {
                                      body: <Guidance.Agree> Thats correct!
@@ -1064,7 +1101,8 @@ section({
              <p>
              Alice and Bob still need to check for an Eavesdropper. To do this,
              they disclose a portion of their remaining key. (They can no longer
-             use these elements of the key to encrypt/decrypt anything.)
+             use these elements of the key to encrypt/decrypt anything.) <br/>
+             <br/>
             If their bits are all the same, they can be confident no one intercepted.
             If the bits are not the same, they might have made mistakes, or there
             may have been an eavesdropper. But either way, they should abandon
