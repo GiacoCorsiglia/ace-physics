@@ -228,7 +228,12 @@ export default page(setup, ({ section }) => ({
                      onContinue: "nextMessage",
                    },
                  },
-               },
+                },
+               continue: {
+             label: "Check in!",
+            //allowed: (s, _, m) =>
+             // tableWithoutEve.isComplete(s, m, "stateAlice", [4, 5, 6, 7]),
+          },
         }),
         // question C
          section({
@@ -929,8 +934,43 @@ section({
                       </LabelsLeft>
                     </>
                   ),
-                  // NEED TO FIX FEEDBACK--------------------------------------
-                  /*
+                   guidance: {
+                       nextMessage(r) {
+                          const raw =
+                         typeof r.fractionOfMismatchedComparedSampleBits === "object" && r.fractionOfMismatchedComparedSampleBits !== null
+                           ? (r.fractionOfMismatchedComparedSampleBits as any).selected ?? r.fractionOfMismatchedComparedSampleBits
+                           : r.fractionOfMismatchedComparedSampleBits;
+
+                      const answer = raw != null ? String(raw) : undefined;
+
+                       if (answer === "29") {
+                        return "correct";
+                        } else if (answer !== "29") {
+                           return "incorrect";
+                         }
+                       return null;
+                         },
+                             messages: {
+                                   correct: {
+                                     body: <Guidance.Agree>   To answer this question, we compared Bob's bits to Alice's
+                              bits (the bottom row to the top row). Bits 7 and 8 disagree,
+                              so our answer is 2/7, or 29%.{" "}
+                                         </Guidance.Agree>,
+                                     onContinue: "nextSection",
+                                   },
+                                   incorrect: {
+                                     body: (
+                                       <Guidance.Disagree>
+                                        To answer this question, we compared Bob's bits to Alice's
+                                      bits (the bottom row to the top row). Bits 7 and 8 disagree,
+                                       so our answer is 2/7, or 29%.{" "}
+                                       </Guidance.Disagree>
+                                     ),
+                                     onContinue: "nextMessage",
+                                   },
+                                 },
+                               },
+                 /*
                   guidance: {
                     nextMessage(r) {
                       if (r.fractionOfMismatchedComparedSampleBits !== undefined) {
@@ -970,9 +1010,10 @@ section({
                         onContinue: "nextSection",
                       },
                     },
-                  },
-              */
+                    */
               }),
+
+
                 // question L
                  section({
                       name: "fractionOfMismatchedComparedBits",
@@ -993,30 +1034,8 @@ section({
                           </LabelsLeft>
                         </>
                       ),
-                      // CHANGE TO POSITIVE NEGATIVE FEEDBACK .25 correct , 75 incorrect
-                      /*
                        guidance: {
-                             nextMessage(r) {
-
-                               const raw =
-                                 typeof r.fractionOfMismatchedComparedBits === "object" && r.fractionOfMismatchedComparedBits !== null
-                                   ? (r.fractionOfMismatchedComparedBits as any).selected ?? r.fractionOfMismatchedComparedBits
-                                   : r.fractionOfMismatchedComparedBits;
-
-                               const answer = raw != null ? String(raw) : undefined;
-
-                               if (answer === "25") {
-                                 return "correct";
-                               } else if (answer !== "25") {
-                                 return "incorrect";
-                               }
-                               return null;
-                             },
-                             */
-                             guidance: {
                        nextMessage(r) {
-          // support models that return either a wrapped { selected: ... } or a raw value (number/string)
-          // Only access `.selected` if the model is an object to avoid TS errors when it's a number/string.
                           const raw =
                          typeof r.fractionOfMismatchedComparedBits === "object" && r.fractionOfMismatchedComparedBits !== null
                            ? (r.fractionOfMismatchedComparedBits as any).selected ?? r.fractionOfMismatchedComparedBits
