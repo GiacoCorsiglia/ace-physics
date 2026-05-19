@@ -78,7 +78,7 @@ export default page(setup, ({ section, hint }) => ({
           <Matrix
             matrix={[
               ["1", "0", "0", "0"],
-              ["1", "1", "0", "0"],
+              ["0", "1", "0", "0"],
               [
                 "0",
                 "0",
@@ -94,7 +94,7 @@ export default page(setup, ({ section, hint }) => ({
             ]}
           />
 
-          <Answer
+         <Answer
             correct={
               responses?.CNOTMatrix33 === 0.0 &&
               responses?.CNOTMatrix34 === 1 &&
@@ -107,8 +107,58 @@ export default page(setup, ({ section, hint }) => ({
               t="\pmatrix{\enspace 1 & 0 & 0 & 0 \enspace \\ \enspace 0 & 1 & 0 & 0 \enspace \\ \enspace 0 & 0 & 0 & 1 \enspace \\ \enspace 0 & 0 & 1 & 0 \enspace}"
             />
           </Answer>
+
         </>
       ),
+      ////////////////testing//////////////
+       guidance: {
+            nextMessage: ((responses: any) => {
+
+               if (responses?.CNOTMatrix33 === 0.0 &&
+              responses?.CNOTMatrix34 === 1 &&
+              responses?.CNOTMatrix43 === 1 &&
+              responses?.CNOTMatrix44 === 0.0) {
+                 return "correct";
+               }
+
+               // Only return "incorrect" if either dropdown has a value selected
+               if (responses?.CNOTMatrix33 !== 0.0 ||
+              responses?.CNOTMatrix34 !== 1 ||
+              responses?.CNOTMatrix43 !== 1 ||
+              responses?.CNOTMatrix44 !== 0.0) {
+                 return "incorrect";
+               }
+               // Otherwise, return null so no message is shown
+               return null;
+             }) as any,
+             messages: {
+               correct: {
+                 body: (
+                   <Guidance.Agree>Great job! We agree with your answers.
+                  </Guidance.Agree>
+                 ),
+                 onContinue: "nextSection",
+               },
+               incorrect: {
+                 body: (
+                   <Guidance.Disagree>
+                    We disagree with one of your answers. Recall that
+                    <M
+                    display
+                     t="
+                    \ket{00} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0} \;\;
+                    \ket{01} = \pmatrix{\enspace 0 \enspace \\ 1 \\ 0 \\ 0} \;\;
+                    \ket{11} = \pmatrix{\enspace 0 \enspace \\ 0 \\ 0 \\ 1} \;\;
+                    \ket{10} = \pmatrix{\enspace 0 \enspace \\ 0 \\ 1 \\ 0} \;\;
+                    "
+          />
+                   </Guidance.Disagree>
+                 ),
+                 onContinue: "nextMessage",
+               },
+             },
+           },
+
     }),
 
     section({
