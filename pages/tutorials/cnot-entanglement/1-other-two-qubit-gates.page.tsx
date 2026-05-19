@@ -64,7 +64,7 @@ export default page(setup, ({ section, hint }) => ({
         </Prose>
       ),
     }),
-
+    //question A
     section({
       name: "writeCNOTAsMatrix",
       body: (m, { responses }) => (
@@ -110,7 +110,7 @@ export default page(setup, ({ section, hint }) => ({
 
         </>
       ),
-      ////////////////testing//////////////
+
        guidance: {
             nextMessage: ((responses: any) => {
 
@@ -160,7 +160,7 @@ export default page(setup, ({ section, hint }) => ({
            },
 
     }),
-
+    // question B
     section({
       name: "canFactorCNOT",
       body: (m, { responses }) => (
@@ -187,9 +187,8 @@ export default page(setup, ({ section, hint }) => ({
                   display
                   t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bf \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & df \;}"
                 />
-                Given this rule, could the tensor product of any two matrices{" "}
-                <em>ever</em> result in the matrix form of <M t="U_{CNOT}" /> as
-                shown in question A?
+                Given this "rule", the <M t="U_{CNOT}" /> cannot be a tensor product of matrices.
+                (To convince yourself of this, look closely at the zero elements.)
               </Answer>
             </>
           }
@@ -205,6 +204,30 @@ export default page(setup, ({ section, hint }) => ({
           // answer="no"
         />
       ),
+      hints: [
+        [
+          hint({
+            name: "CNOTasTensorProduct",
+            body: (
+              <Prose>
+                 Remember the "rule" for tensor products of matrices:
+                <M
+                  display
+                  t="\pmatrix{\enspace a & b \enspace \\ \enspace c & d \enspace} \otimes \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} =
+            \pmatrix{\; a \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} & b \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} \; \\ \; c \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} & d \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} \;}"
+                />
+                <M
+                  display
+                  t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bf \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & df \;}"
+                />
+                Given this rule, could the tensor product of any two matrices{" "}
+                <em>ever</em> result in the matrix form of <M t="U_{CNOT}" /> as
+                shown in question A?
+              </Prose>
+            ),
+          }),
+        ],
+      ],
     }),
     section({
       name: "dirac01HICNOT",
