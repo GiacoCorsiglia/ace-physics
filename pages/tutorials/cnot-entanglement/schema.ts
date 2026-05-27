@@ -139,5 +139,8 @@ export default s.tutorial({
   },
   hints: {
     gateIsLinear: s.hint(),
+    CNOTasTensorProduct: s.hint(),
+    qubitOneSeperation: s.hint(),
+    definiteState: s.hint(),
   },
 });

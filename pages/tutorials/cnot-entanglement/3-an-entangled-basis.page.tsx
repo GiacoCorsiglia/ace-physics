@@ -11,7 +11,7 @@ import {
 import { page } from "@/tutorial";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "anEntangledBasis",
   label: "An Entangled Basis",
   answers: "provided",
@@ -139,7 +139,7 @@ export default page(setup, ({ section }) => ({
             answer="yes"
             explanation={
               <>
-                The state is
+                This is a single-qubit superposition state, which is a definite state. The state is
                 <M t="H\ket{0} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})" />
               </>
             }
@@ -163,6 +163,21 @@ export default page(setup, ({ section }) => ({
           )}
         </>
       ),
+       hints: [
+                    [
+                      hint({
+                        name: "definiteState",
+                        label: "definite state?",
+                        body: (
+                          <Prose>
+                           A definite state means that you can write the single qubit as  <M t="a\ket{0} + b\ket{1} " />
+                            for any (normalized) values of a and b. (A qubit will not have a definite state if it is
+                           part of an entangled pair.)
+                          </Prose>
+                        ),
+                      }),
+                    ],
+                  ],
     }),
 
     section({
