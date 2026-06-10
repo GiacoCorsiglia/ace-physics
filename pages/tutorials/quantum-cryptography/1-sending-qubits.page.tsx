@@ -87,7 +87,7 @@ export default page(setup, ({ section, oneOf }) => ({
       body: (m) => (
         <>
           <tableWithoutEve.Component
-            model={repeatedModel(m.tableWithoutEve)}
+            model={m.tableWithoutEve}
             rows={[
               "qubitNumber",
               "initialStateTwo",

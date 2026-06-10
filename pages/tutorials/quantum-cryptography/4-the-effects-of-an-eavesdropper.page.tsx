@@ -138,7 +138,7 @@ export default page(setup, ({ section }) => ({
             marks below.)
           </Prose>
           <tableWithEve.Component
-            model={repeatedModel(m.tableWithEve)}
+            model={m.tableWithEve}
             rows={[
               "qubitNumber",
               "initialState",
