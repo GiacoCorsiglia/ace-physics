@@ -376,22 +376,46 @@ export const tableWithoutEve = makeTable(
       label: "Alice's bit",
       values: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
     }),
-//////////
-givenRow("initialStateTwo", {
+    //////////
+    givenRow("initialStateTwo", {
       label: "Alice's bit",
-      values: [0, 0, 0, 1, 1, 0, 0, 1, 1, <strong>?</strong>, <strong>?</strong>,
-         0],
+      values: [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        <strong>?</strong>,
+        <strong>?</strong>,
+        0,
+      ],
     }),
-///////
+    ///////
     givenRow("didAliceApplyH", {
       label: <>Did Alice apply&nbsp;H?</>,
       values: ["N", "Y", "N", "N", "Y", "Y", "N", "Y", "N", "N", "Y", "Y"],
     }),
     ////
-givenRow("didAliceApplyHTwo", {
+    givenRow("didAliceApplyHTwo", {
       label: <>Did Alice apply&nbsp;H?</>,
-      values: ["N", "Y", "N", "N", "Y", "Y", "N", <strong>?</strong>,
-      <strong>?</strong>, "N", "Y", "Y"],
+      values: [
+        "N",
+        "Y",
+        "N",
+        "N",
+        "Y",
+        "Y",
+        "N",
+        <strong>?</strong>,
+        <strong>?</strong>,
+        "N",
+        "Y",
+        "Y",
+      ],
     }),
     ////
 
@@ -419,8 +443,8 @@ givenRow("didAliceApplyHTwo", {
         "|+>",
       ],
     }),
-////////////////////
-fieldRow("stateAliceTwo", {
+    ////////////////////
+    fieldRow("stateAliceTwo", {
       label: "Alice sends…",
       choices: [
         ["|0>", <M t="\ket{0}" />],
@@ -444,18 +468,30 @@ fieldRow("stateAliceTwo", {
         "|+>",
       ],
     }),
-//////////////////
+    //////////////////
     givenRow("didBobApplyH", {
       label: <>Did Bob apply&nbsp;H?</>,
       values: ["Y", "Y", "Y", "N", "Y", "N", "N", "Y", "N", "Y", "N", "Y"],
     }),
-/////////
-givenRow("didBobApplyHTwo", {
+    /////////
+    givenRow("didBobApplyHTwo", {
       label: <>Did Bob apply&nbsp;H?</>,
-      values: ["Y", "Y", "Y", "N", "Y",  <strong>?</strong>,  <strong>?</strong>,
-         "Y", "N",  <strong>?</strong>, "N", "Y"],
+      values: [
+        "Y",
+        "Y",
+        "Y",
+        "N",
+        "Y",
+        <strong>?</strong>,
+        <strong>?</strong>,
+        "Y",
+        "N",
+        <strong>?</strong>,
+        "N",
+        "Y",
+      ],
     }),
-///////////
+    ///////////
     fieldRow("bitBob", {
       label: "Bob’s bit",
       choices: [
@@ -481,22 +517,22 @@ givenRow("didBobApplyHTwo", {
       // These are the values we show when showing the complete table.  Note
       // that we have selected a specific bit for each of the "random" cases.
       values: [
-       hide(1),
-       0,
         hide(1),
-         1,
+        0,
+        hide(1),
+        1,
         1,
         hide(1),
         0,
         1,
         1,
         hide(1),
-       hide(0),
+        hide(0),
         0,
       ],
     }),
     //////
- fieldRow("bitBobTwo", {
+    fieldRow("bitBobTwo", {
       label: "Bob’s bit",
       choices: [
         ["0", "0"],
@@ -521,10 +557,10 @@ givenRow("didBobApplyHTwo", {
       // These are the values we show when showing the complete table.  Note
       // that we have selected a specific bit for each of the "random" cases.
       values: [
-       "R",
+        "R",
         <strong>?</strong>,
         <strong>?</strong>,
-         <strong>?</strong>,
+        <strong>?</strong>,
         1,
         "R",
         0,
@@ -563,13 +599,13 @@ givenRow("didBobApplyHTwo", {
         "keep",
       ],
     }),
-//////////////////
- fieldRow("keepOrDiscardTwo", {
+    //////////////////
+    fieldRow("keepOrDiscardTwo", {
       label: "Keep or discard",
       choices: [
         ["keep", "K"],
         ["discard", "D"],
-        ["unknown","?"]
+        ["unknown", "?"],
       ],
       answers: [
         "discard",
@@ -586,7 +622,7 @@ givenRow("didBobApplyHTwo", {
         "keep",
       ],
     }),
-////////////////////
+    ////////////////////
     givenRow("finalPrivateKey", {
       label: "Key",
       values: ["-", 0, "-", 1, 1, "-", 0, 1, 1, "-", "-", 0],
@@ -688,14 +724,14 @@ export const tableWithEve = makeTable(
         0,
       ],
     }),
-////
-fieldRow("bitEveTwo", {
+    ////
+    fieldRow("bitEveTwo", {
       label: "Eve's bit",
       choices: [
         ["0", "0"],
         ["1", "1"],
         ["random", "R"],
-        ["unknown",<strong>?</strong>],
+        ["unknown", <strong>?</strong>],
       ],
       answers: [
         "random",
@@ -712,7 +748,7 @@ fieldRow("bitEveTwo", {
         "0",
       ],
     }),
-//////
+    //////
     givenRow("bitEveBeforeNature", {
       label: "Eve's bit",
       values: ["R", "R", "0", "R", "1", "0", "R", "R", "1", "R", "R", "0"],
@@ -765,7 +801,7 @@ fieldRow("bitEveTwo", {
         "unknown",
         "|->",
         "|1>",
-       "unknown",
+        "unknown",
       ],
     }),
     /////
@@ -781,7 +817,6 @@ fieldRow("bitEveTwo", {
         ["0", "0"],
         ["1", "1"],
         ["random", "R"],
-
       ],
       // These are the answers (used for answer checking).
       answers: [
@@ -816,14 +851,13 @@ fieldRow("bitEveTwo", {
       ],
     }),
     /////
-     fieldRow("bitBobTwo", {
+    fieldRow("bitBobTwo", {
       label: "Bob’s bit",
       choices: [
         ["0", "0"],
         ["1", "1"],
         ["random", "R"],
-        ["unknown",<strong>?</strong>]
-
+        ["unknown", <strong>?</strong>],
       ],
       // These are the answers (used for answer checking).
       answers: [
@@ -843,14 +877,14 @@ fieldRow("bitEveTwo", {
       // These are the values we show when showing the complete table.  Note
       // that we have selected a specific bit for each of the "random" cases.
       values: [
-       "R",
+        "R",
         "R",
         "R",
         <strong>?</strong>,
-       <strong>?</strong>,
+        <strong>?</strong>,
         "R",
         "R",
-       <strong>?</strong>,
+        <strong>?</strong>,
         1,
         1,
         1,

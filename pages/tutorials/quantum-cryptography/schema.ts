@@ -2,8 +2,15 @@ import * as s from "@/schema/tutorial";
 
 const tableRow = <T extends s.Field>(cell: T) => s.array(cell);
 
-const chooseState = s.chooseOne(["|0>", "|1>", "|+>", "|->", "other", "unknown"]);
-const chooseBit = s.chooseOne(["0", "1", "random","unknown"]);
+const chooseState = s.chooseOne([
+  "|0>",
+  "|1>",
+  "|+>",
+  "|->",
+  "other",
+  "unknown",
+]);
+const chooseBit = s.chooseOne(["0", "1", "random", "unknown"]);
 //                                pages
 export default s.tutorial({
   pages: {
@@ -51,9 +58,9 @@ export default s.tutorial({
   sections: {
     //intro
     quantumKeyDistributionIntro: s.section(),
-     aliceSendsSeriesOfQubits: s.section(),
-     //table 1
-     tableWithoutEveStateAliceComplete: s.section(),
+    aliceSendsSeriesOfQubits: s.section(),
+    //table 1
+    tableWithoutEveStateAliceComplete: s.section(),
     //question A
     qubit1AliceToBob: s.section({
       messages: ["dynamicAnswer"],
@@ -66,7 +73,7 @@ export default s.tutorial({
     qubit5AliceToBob: s.section({
       messages: ["dynamicAnswer"],
     }),
-      //question C
+    //question C
     qubit8And9ApplyH: s.section(),
     qubit8ApplyH: s.section({
       messages: ["dynamicAnswer"],
@@ -90,7 +97,7 @@ export default s.tutorial({
     }),
     // question F
     qubit3And4Bits: s.section(),
-    qubit3BobsBit:s.section({
+    qubit3BobsBit: s.section({
       messages: ["dynamicAnswer"],
     }),
     qubit4BobsBit: s.section({
@@ -102,33 +109,33 @@ export default s.tutorial({
     }),
     //question H
     qubit7And10ApplyH: s.section(),
-    qubit7ApplyH:  s.section({
+    qubit7ApplyH: s.section({
       messages: ["dynamicAnswer"],
     }),
-    qubit10ApplyH:  s.section({
+    qubit10ApplyH: s.section({
       messages: ["dynamicAnswer"],
     }),
     // question I
-    certainOrRandom:  s.section({
+    certainOrRandom: s.section({
       messages: ["dynamicAnswer"],
     }),
-   //                   page 2: dealing with randomness
+    //                   page 2: dealing with randomness
     dealingWithRandomnessIntro: s.section(),
     // question A
-   circumstancesWhenBobAndAlice100Agree: s.section(),
-   // question B
+    circumstancesWhenBobAndAlice100Agree: s.section(),
+    // question B
     amountOfBitStringsAgree: s.section({
       messages: ["incorrect"],
     }),
     // question C
-     fractionOfBitStringsAgree: s.section({
-     messages: ["correct", "detour"],
+    fractionOfBitStringsAgree: s.section({
+      messages: ["correct", "detour"],
     }),
     fractionOfBitStringsAgreeCorrect: s.section(),
     fractionOfBitStringsAgreeIncorrect: s.section({
       messages: ["correct", "incorrect"],
     }),
-   // detour section
+    // detour section
     isBobResultNotRandomAgreement: s.section({
       messages: ["incorrect"],
     }),
@@ -155,17 +162,17 @@ export default s.tutorial({
     }),
     //question B
     aliceAndBobKeepOrDiscard: s.section(),
-    qubit7KeepOrDiscard:s.section({
+    qubit7KeepOrDiscard: s.section({
       messages: ["dynamicAnswer"],
     }),
-    qubit8KeepOrDiscard:s.section({
+    qubit8KeepOrDiscard: s.section({
       messages: ["dynamicAnswer"],
     }),
     qubit10KeepOrDiscard: s.section({
       messages: ["dynamicAnswer"],
     }),
     //question C
-    doesAliceBobShareKeyCheckTwo:  s.section({
+    doesAliceBobShareKeyCheckTwo: s.section({
       messages: ["dynamicAnswer"],
     }),
     //question D
@@ -183,7 +190,7 @@ export default s.tutorial({
     //intro
     theEffectsOfAnEavesdropperIntro: s.section(),
     theEffectsOfAnEavesdropperIntroCircuit: s.section(),
-   //question A
+    //question A
     isPossibleEveMakeMeasurement: s.section({
       messages: ["discussion"],
     }),
@@ -191,43 +198,45 @@ export default s.tutorial({
     natureEffectAfterEveSendsQuestion: s.section(),
     //question B
     qubit2And4EvesBit: s.section(),
-    evesBitQubit2:  s.section({
-          messages: ["tryAgain", "nowCorrect"],
-        }),
-    evesBitQubit4:  s.section({
-          messages: ["tryAgain", "nowCorrect"],
-        }),
+    evesBitQubit2: s.section({
+      messages: ["tryAgain", "nowCorrect"],
+    }),
+    evesBitQubit4: s.section({
+      messages: ["tryAgain", "nowCorrect"],
+    }),
     //question C
     //<<<<<<< HEAD
     qubit5And9EvesBit: s.section(),
     //=======
     //qubit5And9EvesBit: s.section({ messages: ["correct", "incorrect"] }),
-  // >>>>>>> 95b9fe6993287be038f06ac679dd3ff8aa657323
-      evesBitQubit5:  s.section({
-      messages: ["dynamicAnswer"]}),
-      evesBitQubit9:  s.section({
-      messages: ["dynamicAnswer"]}),
-      //measure button
-      hitMeasureForRandom: s.section(),
-        // table 2
-        natureEffectAfterEveSends: s.section(),
-        //question D
-      circumstancesEveMeasuresR: s.section({ messages: ["ourAnswer"] }),
-      //table 3
-      natureEffectAfterEveSends2: s.section(),
-      //question E
-      eveSendsBobQubit2:  s.section({
+    // >>>>>>> 95b9fe6993287be038f06ac679dd3ff8aa657323
+    evesBitQubit5: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    evesBitQubit9: s.section({
+      messages: ["dynamicAnswer"],
+    }),
+    //measure button
+    hitMeasureForRandom: s.section(),
+    // table 2
+    natureEffectAfterEveSends: s.section(),
+    //question D
+    circumstancesEveMeasuresR: s.section({ messages: ["ourAnswer"] }),
+    //table 3
+    natureEffectAfterEveSends2: s.section(),
+    //question E
+    eveSendsBobQubit2: s.section({
       messages: ["dynamicAnswer"],
     }),
     //question F
     eveSendsBob3Qubits: s.section(),
-     eveSendsBobQubit4:  s.section({
+    eveSendsBobQubit4: s.section({
       messages: ["dynamicAnswer"],
     }),
-     eveSendsBobQubit9:  s.section({
+    eveSendsBobQubit9: s.section({
       messages: ["dynamicAnswer"],
     }),
-     eveSendsBobQubit12:  s.section({
+    eveSendsBobQubit12: s.section({
       messages: ["dynamicAnswer"],
     }),
     //table 4
@@ -235,7 +244,7 @@ export default s.tutorial({
     //question G
     circumstancesEveSendsSameState: s.section({ messages: ["ourAnswer"] }),
     //table 5
-     bobsBitAfterEve1: s.section({
+    bobsBitAfterEve1: s.section({
       messages: ["correctBits", "wrongBits", "wrongBits2"],
     }),
     //question H
@@ -243,23 +252,23 @@ export default s.tutorial({
       messages: ["dynamicAnswer"],
     }),
     //question I
-    qubit5And8BobsMeasurement:s.section(),
-    qubit5BobsMeasurement:  s.section({
+    qubit5And8BobsMeasurement: s.section(),
+    qubit5BobsMeasurement: s.section({
       messages: ["dynamicAnswer"],
     }),
-    qubit8BobsMeasurement:  s.section({
+    qubit8BobsMeasurement: s.section({
       messages: ["dynamicAnswer"],
     }),
     //table 6
-     bobsBitAfterEve3: s.section(),
-     //question J
+    bobsBitAfterEve3: s.section(),
+    //question J
     circumstancesBobCorrectBecomesR: s.section(),
     //question K
-     fractionOfMismatchedComparedSampleBits: s.section({
+    fractionOfMismatchedComparedSampleBits: s.section({
       messages: ["correct", "incorrect"],
     }),
     //question L
-     fractionOfMismatchedComparedBits:s.section({
+    fractionOfMismatchedComparedBits: s.section({
       messages: ["correct", "incorrect"],
     }),
     //explanation
@@ -274,7 +283,6 @@ export default s.tutorial({
     oddsOfBobAliceFailToNotice: s.section({ messages: ["explanation"] }),
     //conclusion
     conclusion: s.section(),
-
   },
   /////////////////////////////////////////////////////////////////////////////
   //                             responses
@@ -286,19 +294,19 @@ export default s.tutorial({
     qubit2AliceToBob: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
     qubit5AliceToBob: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
     //question C
-    qubit8ApplyH: s.chooseOne(["yes", "no","unknown"]),
-    qubit9ApplyH: s.chooseOne(["yes", "no","unknown"]),
+    qubit8ApplyH: s.chooseOne(["yes", "no", "unknown"]),
+    qubit9ApplyH: s.chooseOne(["yes", "no", "unknown"]),
     //question D
     qubit10AlicesBit: s.chooseOne(["0", "1", "impossible"]),
     qubit11AlicesBit: s.chooseOne(["0", "1", "impossible"]),
     //table info
     tableWithoutEve: s.object({
-     stateAlice: tableRow(chooseState),
+      stateAlice: tableRow(chooseState),
       stateAliceTwo: tableRow(chooseState),
-      bitBob:tableRow(chooseBit),
+      bitBob: tableRow(chooseBit),
       bitBobTwo: tableRow(chooseBit),
-      keepOrDiscard: tableRow(s.chooseOne(["keep", "discard","unknown"])),
-    keepOrDiscardTwo: tableRow(s.chooseOne(["keep", "discard","unknown"])),
+      keepOrDiscard: tableRow(s.chooseOne(["keep", "discard", "unknown"])),
+      keepOrDiscardTwo: tableRow(s.chooseOne(["keep", "discard", "unknown"])),
     }),
     // table info
     tableWithEve: s.object({
@@ -315,10 +323,10 @@ export default s.tutorial({
     qubit3BobsBit: s.chooseOne(["0", "1", "random"]),
     qubit4BobsBit: s.chooseOne(["0", "1", "random"]),
     //question G
-    qubit6ApplyH: s.chooseOne(["yes", "no","unknown"]),
+    qubit6ApplyH: s.chooseOne(["yes", "no", "unknown"]),
     //question H
-    qubit7ApplyH: s.chooseOne(["yes", "no","unknown"]),
-    qubit10ApplyH: s.chooseOne(["yes", "no","unknown"]),
+    qubit7ApplyH: s.chooseOne(["yes", "no", "unknown"]),
+    qubit10ApplyH: s.chooseOne(["yes", "no", "unknown"]),
     //question I
     certainOrRandom: s.chooseOne(["yes", "no"]),
 
@@ -353,54 +361,54 @@ export default s.tutorial({
       "100%",
       "other",
     ]),
-     howOftenBobResultBeRandom: s.chooseOne(["0%", "25%", "50%", "75%", "100%"]),
+    howOftenBobResultBeRandom: s.chooseOne(["0%", "25%", "50%", "75%", "100%"]),
     isBobResultNotRandomAgreement: s.chooseOne(["yes", "no"]),
     //question D
     doesAliceBobShareKeyCheckOne: s.chooseOne(["yes", "no"]),
 
-//                RESPONSES: Page 3: Sharing a Private Key
+    //                RESPONSES: Page 3: Sharing a Private Key
     //question A
     qubit6KeepOrDiscard: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
     //question B
     qubit7KeepOrDiscard: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
     qubit8KeepOrDiscard: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
     qubit10KeepOrDiscard: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
-   // doesAliceBobShareKeyCheckOne: s.chooseOne(["yes", "no"]),
-   //question C
+    // doesAliceBobShareKeyCheckOne: s.chooseOne(["yes", "no"]),
+    //question C
     doesAliceBobShareKeyCheckTwo: s.chooseOne(["yes", "no"]),
     //question D
-     whatIsTheSharedKey: s.string(),
-     //question E
-     doesPublicInfoGiveInfoAboutBitString: s.chooseOne(["yes", "no"]),
+    whatIsTheSharedKey: s.string(),
+    //question E
+    doesPublicInfoGiveInfoAboutBitString: s.chooseOne(["yes", "no"]),
 
-     //         RESPONSES: Page 4: The Effects of an Eavesdropper
-     //question A
-     isPossibleEveMakeMeasurement: s.chooseOne([
+    //         RESPONSES: Page 4: The Effects of an Eavesdropper
+    //question A
+    isPossibleEveMakeMeasurement: s.chooseOne([
       "yesAlways",
       "yesSometimes",
       "no",
     ]),
     ipEMMExplanation: s.string(),
-     //question B
-  evesBitQubit2: s.chooseOne(["0","1","random"]),
-  evesBitQubit4: s.chooseOne(["0","1","random"]),
-  //question C
-  evesBitQubit5: s.chooseOne(["0","1","random"]),
-  evesBitQubit9: s.chooseOne(["0","1","random"]),
-  //question D
-  circumstancesEveMeasuresR: s.string(),
-  howOftenEveMeasuresR: s.number(),
-   //question E
-   eveSendsBobQubit2: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
-   //question F
-   eveSendsBobQubit4: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
-   eveSendsBobQubit9: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
-   eveSendsBobQubit12: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
-   //question G
+    //question B
+    evesBitQubit2: s.chooseOne(["0", "1", "random"]),
+    evesBitQubit4: s.chooseOne(["0", "1", "random"]),
+    //question C
+    evesBitQubit5: s.chooseOne(["0", "1", "random"]),
+    evesBitQubit9: s.chooseOne(["0", "1", "random"]),
+    //question D
+    circumstancesEveMeasuresR: s.string(),
+    howOftenEveMeasuresR: s.number(),
+    //question E
+    eveSendsBobQubit2: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    //question F
+    eveSendsBobQubit4: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    eveSendsBobQubit9: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    eveSendsBobQubit12: s.chooseOne(["+z", "-z", "+x", "-x", "+y", "-y"]),
+    //question G
     circumstancesEveSendsSameState: s.string(),
-   //question H
-   bobsMeasurementQubit4: s.chooseOne(["0", "1", "random"]),
-   //question I
+    //question H
+    bobsMeasurementQubit4: s.chooseOne(["0", "1", "random"]),
+    //question I
     qubit5BobsMeasurement: s.chooseOne(["0", "1", "random"]),
     qubit8BobsMeasurement: s.chooseOne(["0", "1", "random"]),
     //question J
@@ -414,7 +422,7 @@ export default s.tutorial({
     //question N
     oddsOfBobAliceFailToNotice: s.string(),
   },
-//                              hints
+  //                              hints
   hints: {
     whatIsAKey: s.hint(),
     decisionTreeForMismatch: s.hint(),
