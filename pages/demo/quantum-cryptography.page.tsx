@@ -1,5 +1,5 @@
 import { M } from "@/components";
-import QuantumCryptography from "@pages/tutorials/quantum-cryptography/1-quantum-key-distribution.page";
+import QuantumCryptography from "@pages/tutorials/quantum-cryptography/1-sending-qubits.page";
 import { TutorialDemoPage } from "./tutorial-demo";
 
 export default function QuantumCryptographyDemo() {
