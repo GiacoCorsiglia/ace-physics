@@ -134,8 +134,8 @@ export default page(setup, ({ section }) => ({
           body: (m) => (
             <>
             <Prose>
-                Note that a letter "R" indicates a case where the outcome
-                was “random”, this is what Eve got!
+                Here is a table of what Eve gets. Note that a letter "R" indicates a case where the outcome
+                was “random”. (You will fill in the question marks below.)
               </Prose>
               <tableWithEve.Component
                 model={repeatedModel(m.tableWithEve)}

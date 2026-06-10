@@ -278,9 +278,9 @@ section({
           body: (
             <>
               Alice and Bob wish to share a secret “key”, a long string of
-              randomly generated 0’s and 1’s that they each possess, but nobody
+              randomly generated 0s and 1s that they each possess, but nobody
               else does. Using only the 'keep' bits, do they each possess the
-              same string of 0's and 1's?
+              same string of 0s and 1s?
             </>
           ),
           label: "What is a key?",
