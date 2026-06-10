@@ -909,7 +909,8 @@ export default page(setup, ({ section }) => ({
                 r.fractionOfMismatchedComparedSampleBits
               : r.fractionOfMismatchedComparedSampleBits;
 
-          const answer = raw != null ? String(raw) : undefined;
+          const answer =
+            raw !== null && raw !== undefined ? String(raw).trim() : undefined;
 
           if (answer === "29") {
             return "correct";
@@ -1014,7 +1015,8 @@ export default page(setup, ({ section }) => ({
                 r.fractionOfMismatchedComparedBits
               : r.fractionOfMismatchedComparedBits;
 
-          const answer = raw != null ? String(raw) : undefined;
+          const answer =
+            raw !== null && raw !== undefined ? String(raw).trim() : undefined;
 
           if (answer === "25") {
             return "correct";
@@ -1130,7 +1132,8 @@ export default page(setup, ({ section }) => ({
               ? (r.percentOfBobsTest as any).selected ?? r.percentOfBobsTest
               : r.percentOfBobsTest;
 
-          const answer = raw != null ? String(raw) : undefined;
+          const answer =
+            raw !== null && raw !== undefined ? String(raw).trim() : undefined;
 
           if (answer === "56") {
             return "correct";

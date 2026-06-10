@@ -298,7 +298,8 @@ export default page(setup, ({ section, oneOf }) => ({
               ? (r.whatIsTheSharedKey as any).selected ?? r.whatIsTheSharedKey
               : r.whatIsTheSharedKey;
 
-          const answer = raw != null ? String(raw).trim() : undefined;
+          const answer =
+            raw !== null && raw !== undefined ? String(raw).trim() : undefined;
           const correctKey = "0110110";
 
           if (answer === correctKey) {
