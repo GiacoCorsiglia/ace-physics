@@ -20,15 +20,19 @@ export default tutorialSetup({
   posttest: true,
   pages: [
     {
-      link: "1-quantum-key-distribution",
-      label: "Quantum Key Distribution",
+      link: "1-sending-qubits",
+      label: "Sending Qubits",
     },
     {
-      link: "2-sharing-a-key",
+      link: "2-dealing-with-randomness",
+      label: "Dealing With Randomness",
+    },
+    {
+      link: "3-sharing-a-key",
       label: "Sharing a Private Key",
     },
     {
-      link: "3-the-effects-of-an-eavesdropper",
+      link: "4-the-effects-of-an-eavesdropper",
       label: "The Effects of an Eavesdropper",
     },
   ],
