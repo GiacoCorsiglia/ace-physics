@@ -242,7 +242,7 @@ export default page(setup, ({ section, hint }) => ({
                   label: "I'm confused...",
                   body: (
                     <Prose>
-                     Can this qubit be seperated into  <M t="\ket{0}" /> and <M t="\ket{1}" />?
+                     Can this qubit be separated into  <M t="\ket{0}" /> and <M t="\ket{1}" />?
                     </Prose>
                   ),
                 }),

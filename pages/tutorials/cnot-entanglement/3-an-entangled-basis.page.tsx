@@ -170,8 +170,9 @@ export default page(setup, ({ section, hint }) => ({
                         label: "definite state?",
                         body: (
                           <Prose>
-                           A definite state means that you can write the single qubit as  <M t="a\ket{0} + b\ket{1} " />
-                            for any (normalized) values of a and b. (A qubit will not have a definite state if it is
+                           A definite state means that you can write the single qubit as  <M t="a\ket{0} + b\ket{1}\ " />
+                            for any (normalized) values of a and b. 
+                            (A qubit will not have a definite state if it is
                            part of an entangled pair.)
                           </Prose>
                         ),

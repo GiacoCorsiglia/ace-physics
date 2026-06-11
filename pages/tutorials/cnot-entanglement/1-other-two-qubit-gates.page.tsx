@@ -185,7 +185,7 @@ export default page(setup, ({ section, hint }) => ({
                 />
                 <M
                   display
-                  t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bf \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & df \;}"
+                  t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bh \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & dh \;}"
                 />
                 Given this "rule", the <M t="U_{CNOT}" /> cannot be a tensor product of matrices.
                 (To convince yourself of this, look closely at the zero elements.)
@@ -218,7 +218,7 @@ export default page(setup, ({ section, hint }) => ({
                 />
                 <M
                   display
-                  t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bf \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & df \;}"
+                  t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bh \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & dh \;}"
                 />
                 Given this rule, could the tensor product of any two matrices{" "}
                 <em>ever</em> result in the matrix form of <M t="U_{CNOT}" /> as
