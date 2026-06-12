@@ -11,7 +11,7 @@ import {
 import { page } from "@/tutorial";
 import setup from "./setup";
 
-export default page(setup, ({ section }) => ({
+export default page(setup, ({ section, hint }) => ({
   name: "entanglement",
   label: "Entanglement",
   answers: "provided",
@@ -148,7 +148,7 @@ export default page(setup, ({ section }) => ({
                 <M display t="\frac{1}{\sqrt{2}}(\ket{01} - \ket{10})" /> is it
                 correct to say that the probability of measuring either a{" "}
                 <M t="\ket{0}" /> or <M t="\ket{1}" />
-                for qubit 1 is 50-50?
+                for qubit 1 (the leftmost qubit) is 50-50?
               </Prose>
             }
             choices={[
@@ -167,8 +167,8 @@ export default page(setup, ({ section }) => ({
                 label={
                   <>
                     <Prose>
-                      Why is it incorrect to say that the state of the qubit is
-                      the following?
+                      Why is it incorrect to say that the state of qubit 1 (the
+                      leftmost qubit) is the following?
                       <M display t="\frac{1}{\sqrt{2}}(\ket{0}-\ket{1})" />
                     </Prose>
                   </>
@@ -185,7 +185,6 @@ export default page(setup, ({ section }) => ({
               </Answer>
             </>
           )}
-
           {/* {responses?.isProbQubit1Beta11FiftyFifty && (
             <>
               <hr />
@@ -236,6 +235,20 @@ export default page(setup, ({ section }) => ({
           )} */}
         </>
       ),
+      hints: [
+        [
+          hint({
+            name: "qubitOneSeperation",
+            label: "I'm confused...",
+            body: (
+              <Prose>
+                Can this qubit be separated into <M t="\ket{0}" /> and{" "}
+                <M t="\ket{1}" />?
+              </Prose>
+            ),
+          }),
+        ],
+      ],
     }),
 
     section({
@@ -249,8 +262,8 @@ export default page(setup, ({ section }) => ({
             </p>
 
             <p>
-              What is the probability that a measurement of qubit 1 yields{" "}
-              <M t="\ket{0}" />?
+              What is the probability that a measurement of qubit 1 (leftmost
+              qubit) yields <M t="\ket{0}" />?
             </p>
           </Prose>
 
@@ -273,8 +286,8 @@ export default page(setup, ({ section }) => ({
           <hr />
 
           <Prose>
-            What is the probability that a measurement of qubit 2 yields{" "}
-            <M t="\ket{0}" />?
+            What is the probability that a measurement of qubit 2 (rightmost
+            qubit) yields <M t="\ket{0}" />?
           </Prose>
 
           <Horizontal align="center" justify="start">
