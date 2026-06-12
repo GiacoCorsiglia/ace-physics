@@ -10,16 +10,16 @@ export default page(setup, ({ section, hint }) => ({
   label: "Building a Teleportation Circuit",
   answers: "checked-all",
 
-   cheatSheet: {
+  cheatSheet: {
     body: (
       <>
-      <p>
-          <M t=" CNOT\ket{00} = \ket{00}" /> <br/>
-          <M t=" CNOT\ket{01} = \ket{01}" /> <br/>
-          <M t=" CNOT\ket{10} = \ket{11}" /> <br/>
+        <p>
+          <M t=" CNOT\ket{00} = \ket{00}" /> <br />
+          <M t=" CNOT\ket{01} = \ket{01}" /> <br />
+          <M t=" CNOT\ket{10} = \ket{11}" /> <br />
           <M t=" CNOT\ket{11} = \ket{10}" />
-          </p>
-          </>
+        </p>
+      </>
     ),
   },
 
@@ -60,8 +60,9 @@ export default page(setup, ({ section, hint }) => ({
           <Prose>
             <p>
               Try to work out the full three-qubit state right after the CNOT
-              (labeled |ψ1⟩ in the figure above). Write the state for yourself.
-              (Hint: The state should have four terms, do you agree?)
+              (labeled <M t="\ket{\psi_1}" /> in the figure above). Write the
+              state for yourself. (Hint: The state should have four terms, do
+              you agree?)
             </p>
           </Prose>
 

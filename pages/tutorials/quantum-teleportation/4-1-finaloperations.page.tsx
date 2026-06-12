@@ -59,7 +59,7 @@ export default page(setup, ({ section, hint }) => ({
           that if Alice measured
           <M t="|00\rangle" />, then Bob’s qubit collapsed to the state
           <M t="a|0\rangle + b|1\rangle" />. <br /> <br />
-          Alice sent "00", meaning her two measuresments were <M t="M_1=0\ " />
+          Alice sent "00", meaning her two measurements were <M t="M_1=0\ " />
           and <M t="M_2=0. " />
           <br /> Look carefully at the diagram (bottom right portion), this may
           be a novel representation for you. Try to make sense of what it shows:
@@ -251,7 +251,7 @@ export default page(setup, ({ section, hint }) => ({
                     Alice has measured 01. Look at the expression for{" "}
                     <M t="\ket{\psi_2}" />
                     and find the term with 01 to the left of the tensor product.
-                    What remains after the tensor product is Bob's state!
+                    What remains after the tensor product is Bob's state.
                     <br /> You are welcome to change your answer above.
                   </p>
                 ) : (
