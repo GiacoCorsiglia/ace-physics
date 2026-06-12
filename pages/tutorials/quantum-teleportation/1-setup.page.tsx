@@ -223,6 +223,7 @@ export default page(setup, ({ section }) => ({
                     <a href="https://acephysics.net/tutorials/cnot-entanglement">
                       tutorial on CNOT gates{" "}
                     </a>
+                    )
                   </p>
                 ) : (
                   <p>

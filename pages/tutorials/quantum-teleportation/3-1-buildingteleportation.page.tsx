@@ -10,6 +10,19 @@ export default page(setup, ({ section, hint }) => ({
   label: "Building a Teleportation Circuit",
   answers: "checked-all",
 
+  cheatSheet: {
+    body: (
+      <>
+        <p>
+          <M t=" CNOT\ket{00} = \ket{00}" /> <br />
+          <M t=" CNOT\ket{01} = \ket{01}" /> <br />
+          <M t=" CNOT\ket{10} = \ket{11}" /> <br />
+          <M t=" CNOT\ket{11} = \ket{10}" />
+        </p>
+      </>
+    ),
+  },
+
   sections: [
     section({
       name: "building1Intro",
@@ -27,7 +40,7 @@ export default page(setup, ({ section, hint }) => ({
           />
           Remember, Alice only has access to the first two qubits, her gates
           (and subsequent measurements) can be applied only to the top two
-          qubits. <br />
+          qubits in the diagram. <br />
           Alice starts with a CNOT gate, as shown above. The CNOT gate is
           capable of entangling qubits, and that’s what it does here. Alice is
           entangling the mystery qubit to her half of the entangled
@@ -47,8 +60,9 @@ export default page(setup, ({ section, hint }) => ({
           <Prose>
             <p>
               Try to work out the full three-qubit state right after the CNOT
-              (labeled |ψ1⟩ in the figure above). Write the state for yourself.
-              (Hint: The state should have four terms, do you agree?)
+              (labeled <M t="\ket{\psi_1}" /> in the figure above). Write the
+              state for yourself. (Hint: The state should have four terms, do
+              you agree?)
             </p>
           </Prose>
 
