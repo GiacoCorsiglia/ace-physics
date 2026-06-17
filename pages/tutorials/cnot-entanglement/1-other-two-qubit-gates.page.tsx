@@ -64,7 +64,7 @@ export default page(setup, ({ section, hint }) => ({
         </Prose>
       ),
     }),
-
+    //question A
     section({
       name: "writeCNOTAsMatrix",
       body: (m, { responses }) => (
@@ -109,8 +109,60 @@ export default page(setup, ({ section, hint }) => ({
           </Answer>
         </>
       ),
-    }),
 
+      guidance: {
+        nextMessage: ((responses: any) => {
+          if (
+            responses?.CNOTMatrix33 === 0.0 &&
+            responses?.CNOTMatrix34 === 1 &&
+            responses?.CNOTMatrix43 === 1 &&
+            responses?.CNOTMatrix44 === 0.0
+          ) {
+            return "correct";
+          }
+
+          // Only return "incorrect" if either dropdown has a value selected
+          if (
+            responses?.CNOTMatrix33 !== 0.0 ||
+            responses?.CNOTMatrix34 !== 1 ||
+            responses?.CNOTMatrix43 !== 1 ||
+            responses?.CNOTMatrix44 !== 0.0
+          ) {
+            return "incorrect";
+          }
+          // Otherwise, return null so no message is shown
+          return null;
+        }) as any,
+        messages: {
+          correct: {
+            body: (
+              <Guidance.Agree>
+                Great job! We agree with your answers.
+              </Guidance.Agree>
+            ),
+            onContinue: "nextSection",
+          },
+          incorrect: {
+            body: (
+              <Guidance.Disagree>
+                We disagree with one of your answers. Recall that
+                <M
+                  display
+                  t="
+                    \ket{00} = \pmatrix{\enspace 1 \enspace \\ 0 \\ 0 \\ 0} \;\;
+                    \ket{01} = \pmatrix{\enspace 0 \enspace \\ 1 \\ 0 \\ 0} \;\;
+                    \ket{11} = \pmatrix{\enspace 0 \enspace \\ 0 \\ 0 \\ 1} \;\;
+                    \ket{10} = \pmatrix{\enspace 0 \enspace \\ 0 \\ 1 \\ 0} \;\;
+                    "
+                />
+              </Guidance.Disagree>
+            ),
+            onContinue: "nextMessage",
+          },
+        },
+      },
+    }),
+    // question B
     section({
       name: "canFactorCNOT",
       body: (m, { responses }) => (
@@ -135,11 +187,11 @@ export default page(setup, ({ section, hint }) => ({
                 />
                 <M
                   display
-                  t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bf \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & df \;}"
+                  t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bh \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & dh \;}"
                 />
-                Given this rule, could the tensor product of any two matrices{" "}
-                <em>ever</em> result in the matrix form of <M t="U_{CNOT}" /> as
-                shown in question A?
+                Given this "rule", the <M t="U_{CNOT}" /> cannot be a tensor
+                product of matrices. (To convince yourself of this, look closely
+                at the zero elements.)
               </Answer>
             </>
           }
@@ -155,6 +207,30 @@ export default page(setup, ({ section, hint }) => ({
           // answer="no"
         />
       ),
+      hints: [
+        [
+          hint({
+            name: "CNOTasTensorProduct",
+            body: (
+              <Prose>
+                Remember the "rule" for tensor products of matrices:
+                <M
+                  display
+                  t="\pmatrix{\enspace a & b \enspace \\ \enspace c & d \enspace} \otimes \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} =
+            \pmatrix{\; a \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} & b \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} \; \\ \; c \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} & d \, \pmatrix{\enspace e & f \enspace \\ \enspace g & h \enspace} \;}"
+                />
+                <M
+                  display
+                  t="= \pmatrix{\; ae & af & be & bf \; \\ \; ag & ah & bg & bh \; \\ \; ce & cf & de & df \; \\ \; cg & ch & dg & dh \;}"
+                />
+                Given this rule, could the tensor product of any two matrices{" "}
+                <em>ever</em> result in the matrix form of <M t="U_{CNOT}" /> as
+                shown in question A?
+              </Prose>
+            ),
+          }),
+        ],
+      ],
     }),
     section({
       name: "dirac01HICNOT",

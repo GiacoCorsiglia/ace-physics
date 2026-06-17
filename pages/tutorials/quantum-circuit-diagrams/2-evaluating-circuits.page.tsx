@@ -1,6 +1,6 @@
 import {
-  Answer,
   Callout,
+  Guidance,
   M,
   Prose,
   QuantumCircuit,
@@ -13,7 +13,7 @@ import setup from "./setup";
 export default page(setup, ({ section }) => ({
   name: "evaluatingCircuits",
   label: "Evaluating Circuits",
-  answers: "provided",
+  answers: "none",
   cheatSheet: {
     body: (
       <>
@@ -52,6 +52,30 @@ export default page(setup, ({ section }) => ({
         // TODO: Add follow-up question: what is the matrix representation of your answer
         // Two component column, options ±1, 0, ±1/sqrt{2}
       ),
+      guidance: {
+        nextMessage() {
+          return "answer";
+        },
+        messages: {
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                <p>
+                  Our answer is: <M t="\ket{0}" />.
+                </p>
+
+                <p>
+                  Here’s how we did it, using the rules given above for{" "}
+                  <M t="X" />:
+                  <M display t="X\ket{1} =\ket{0}" />
+                  <M display t="Z\ket{0} =\ket{0}" />
+                </p>
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -68,22 +92,36 @@ export default page(setup, ({ section }) => ({
             }
           />
           {/* TODO: Multiple choice, ±|0>, ±|1> */}
-
-          <Prose>
-            Note: you should get a different output from the previous question,
-            in this case merely a different phase. Order of operations often
-            matters!
-          </Prose>
-          <Answer>
-            <M display t="Z\ket{1} = -\ket{1}" />
-            <M display t="X(-\ket{1}) = -X\ket{1} = -\ket{0}" />
-            <p>
-              Note that we get a negative sign because <M t="Z" /> acted on{" "}
-              <M t="\ket{1}" />, not <M t="\ket{0}" />.
-            </p>
-          </Answer>
         </>
       ),
+      guidance: {
+        nextMessage() {
+          return "answer";
+        },
+        messages: {
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                <p>
+                  Note: you should get a different output from the previous
+                  question, in this case merely a different phase. Order of
+                  operations often matters!
+                </p>
+
+                <p>
+                  <M display t="Z\ket{1} = -\ket{1}" />
+                  <M display t="X(-\ket{1}) = -X\ket{1} = -\ket{0}" />
+                </p>
+                <p>
+                  Note that we get a negative sign because <M t="Z" /> acted on{" "}
+                  <M t="\ket{1}" />, not <M t="\ket{0}" />.
+                </p>
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
 
     section({
@@ -107,6 +145,26 @@ export default page(setup, ({ section }) => ({
           />
         </>
       ),
+      guidance: {
+        nextMessage() {
+          return "answer";
+        },
+        messages: {
+          answer: {
+            body: (
+              <Guidance.HeadsUp>
+                <p>
+                  You should get the same answers regardless of which method you
+                  use. We like using the ket equations because we find them
+                  faster to use. It's also more conceptually valuable to
+                  understand what is happening.
+                </p>
+              </Guidance.HeadsUp>
+            ),
+            onContinue: "nextSection",
+          },
+        },
+      },
     }),
   ],
 }));

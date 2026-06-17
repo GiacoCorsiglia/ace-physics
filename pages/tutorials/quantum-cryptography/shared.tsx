@@ -91,6 +91,9 @@ const tableWithEveAnswers: Responses["tableWithEve"] = {
       "0",
     ] as const
   ).map(makeChoice),
+  ///
+
+  ///
 };
 
 const hide = (element: any) => <em style={{ opacity: 0.5 }}>{element}</em>;
@@ -373,11 +376,48 @@ export const tableWithoutEve = makeTable(
       label: "Alice's bit",
       values: [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0],
     }),
-
+    //////////
+    givenRow("initialStateTwo", {
+      label: "Alice's bit",
+      values: [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        1,
+        <strong>?</strong>,
+        <strong>?</strong>,
+        0,
+      ],
+    }),
+    ///////
     givenRow("didAliceApplyH", {
       label: <>Did Alice apply&nbsp;H?</>,
       values: ["N", "Y", "N", "N", "Y", "Y", "N", "Y", "N", "N", "Y", "Y"],
     }),
+    ////
+    givenRow("didAliceApplyHTwo", {
+      label: <>Did Alice apply&nbsp;H?</>,
+      values: [
+        "N",
+        "Y",
+        "N",
+        "N",
+        "Y",
+        "Y",
+        "N",
+        <strong>?</strong>,
+        <strong>?</strong>,
+        "N",
+        "Y",
+        "Y",
+      ],
+    }),
+    ////
 
     fieldRow("stateAlice", {
       label: "Alice sends…",
@@ -403,12 +443,55 @@ export const tableWithoutEve = makeTable(
         "|+>",
       ],
     }),
-
+    ////////////////////
+    fieldRow("stateAliceTwo", {
+      label: "Alice sends…",
+      choices: [
+        ["|0>", <M t="\ket{0}" />],
+        ["|1>", <M t="\ket{1}" />],
+        ["|+>", <M t="\ket{+}" />],
+        ["|->", <M t="\ket{-}" />],
+        ["other", <strong>?</strong>],
+      ],
+      answers: [
+        "other",
+        "other",
+        "|0>",
+        "|1>",
+        "other",
+        "|+>",
+        "|0>",
+        "|->",
+        "|1>",
+        "|1>",
+        "|+>",
+        "|+>",
+      ],
+    }),
+    //////////////////
     givenRow("didBobApplyH", {
       label: <>Did Bob apply&nbsp;H?</>,
       values: ["Y", "Y", "Y", "N", "Y", "N", "N", "Y", "N", "Y", "N", "Y"],
     }),
-
+    /////////
+    givenRow("didBobApplyHTwo", {
+      label: <>Did Bob apply&nbsp;H?</>,
+      values: [
+        "Y",
+        "Y",
+        "Y",
+        "N",
+        "Y",
+        <strong>?</strong>,
+        <strong>?</strong>,
+        "Y",
+        "N",
+        <strong>?</strong>,
+        "N",
+        "Y",
+      ],
+    }),
+    ///////////
     fieldRow("bitBob", {
       label: "Bob’s bit",
       choices: [
@@ -448,6 +531,47 @@ export const tableWithoutEve = makeTable(
         0,
       ],
     }),
+    //////
+    fieldRow("bitBobTwo", {
+      label: "Bob’s bit",
+      choices: [
+        ["0", "0"],
+        ["1", "1"],
+        ["random", "R"],
+      ],
+      // These are the answers (used for answer checking).
+      answers: [
+        "random",
+        "0",
+        "random",
+        "1",
+        "1",
+        "random",
+        "0",
+        "1",
+        "1",
+        "random",
+        "random",
+        "0",
+      ],
+      // These are the values we show when showing the complete table.  Note
+      // that we have selected a specific bit for each of the "random" cases.
+      values: [
+        "R",
+        <strong>?</strong>,
+        <strong>?</strong>,
+        <strong>?</strong>,
+        1,
+        "R",
+        0,
+        1,
+        1,
+        "R",
+        "R",
+        0,
+      ],
+    }),
+    /////////
 
     givenRow("bitBobBeforeNature", {
       label: "Bob's bit",
@@ -475,7 +599,30 @@ export const tableWithoutEve = makeTable(
         "keep",
       ],
     }),
-
+    //////////////////
+    fieldRow("keepOrDiscardTwo", {
+      label: "Keep or discard",
+      choices: [
+        ["keep", "K"],
+        ["discard", "D"],
+        ["unknown", "?"],
+      ],
+      answers: [
+        "discard",
+        "keep",
+        "discard",
+        "keep",
+        "keep",
+        "unknown",
+        "unknown",
+        "unknown",
+        "keep",
+        "unknown",
+        "discard",
+        "keep",
+      ],
+    }),
+    ////////////////////
     givenRow("finalPrivateKey", {
       label: "Key",
       values: ["-", 0, "-", 1, 1, "-", 0, 1, 1, "-", "-", 0],
@@ -577,7 +724,31 @@ export const tableWithEve = makeTable(
         0,
       ],
     }),
-
+    ////
+    fieldRow("bitEveTwo", {
+      label: "Eve's bit",
+      choices: [
+        ["0", "0"],
+        ["1", "1"],
+        ["random", "R"],
+        ["unknown", <strong>?</strong>],
+      ],
+      answers: [
+        "random",
+        "unknown",
+        "0",
+        "unknown",
+        "unknown",
+        "0",
+        "random",
+        "random",
+        "unknown",
+        "random",
+        "random",
+        "0",
+      ],
+    }),
+    //////
     givenRow("bitEveBeforeNature", {
       label: "Eve's bit",
       values: ["R", "R", "0", "R", "1", "0", "R", "R", "1", "R", "R", "0"],
@@ -607,6 +778,33 @@ export const tableWithEve = makeTable(
         "|+>",
       ],
     }),
+    /////
+    fieldRow("stateEveTwo", {
+      label: "Eve sends…",
+      choices: [
+        ["|0>", <M t="\ket{0}" />],
+        ["|1>", <M t="\ket{1}" />],
+        ["|+>", <M t="\ket{+}" />],
+        ["|->", <M t="\ket{-}" />],
+        ["other", "other"],
+        ["unknown", <strong>?</strong>],
+      ],
+      answers: [
+        "|->",
+        "unknown",
+        "|0>",
+        "unknown",
+        "|->",
+        "|+>",
+        "|->",
+        "|0>",
+        "unknown",
+        "|->",
+        "|1>",
+        "unknown",
+      ],
+    }),
+    /////
 
     givenRow("didBobApplyH", {
       label: <>Did Bob apply&nbsp;H?</>,
@@ -652,6 +850,48 @@ export const tableWithEve = makeTable(
         0,
       ],
     }),
+    /////
+    fieldRow("bitBobTwo", {
+      label: "Bob’s bit",
+      choices: [
+        ["0", "0"],
+        ["1", "1"],
+        ["random", "R"],
+        ["unknown", <strong>?</strong>],
+      ],
+      // These are the answers (used for answer checking).
+      answers: [
+        "random",
+        "random",
+        "random",
+        "unknown",
+        "unknown",
+        "random",
+        "random",
+        "unknown",
+        "1",
+        "1",
+        "1",
+        "0",
+      ],
+      // These are the values we show when showing the complete table.  Note
+      // that we have selected a specific bit for each of the "random" cases.
+      values: [
+        "R",
+        "R",
+        "R",
+        <strong>?</strong>,
+        <strong>?</strong>,
+        "R",
+        "R",
+        <strong>?</strong>,
+        1,
+        1,
+        1,
+        0,
+      ],
+    }),
+    /////
     givenRow("bitBobBeforeNature", {
       label: "Bob's bit",
       values: ["R", "R", "R", "R", "1", "R", "R", "R", "1", "1", "1", "0"],

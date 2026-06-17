@@ -30,10 +30,12 @@ export default page(setup, ({ section, hint }) => ({
         <Prose>
           The <M t="Z" /> gate (or “Phase gate”, or <M t="U_Z" />) adds a{" "}
           <strong>phase</strong> of <M t="-1" /> to the <M t="\ket{1}" /> state.
+          <br />
           It is written in matrix form as{" "}
           <M display t="Z = \pmatrix{1 & 0 \\ 0 & -1}" />
-          Take a moment to verify (using matrix multiplication) that
-          <M t="Z\ket{0} = \ket{0}" /> and <M t="Z\ket{1} = -\ket{1}" />.
+          Take a moment to verify (using matrix multiplication) that <br />
+          <M display t="{{Z\ket{0} = \ket{0}}}" />
+          <M display t="{{Z\ket{1} = -\ket{1}}}" />
         </Prose>
       ),
       hints: [
@@ -42,9 +44,10 @@ export default page(setup, ({ section, hint }) => ({
           label: "Phase?",
           body: (
             <>
-              A “phase” is any complex coefficient of magnitude 1—i.e., of the
-              form <M t="e^{i\theta}" />. This includes <M t="1, -1, i" /> and{" "}
-              <M t="-i" />.
+              A “phase” is any complex coefficient of magnitude 1, of the form{" "}
+              <M t="e^{i\theta}" />. <br />
+              (This includes <M t="1, -1, i" /> and <M t="-i" />
+              .)
             </>
           ),
         }),
@@ -116,8 +119,8 @@ export default page(setup, ({ section, hint }) => ({
             model={m.zTimesArbitraryKet}
             label={
               <Prose>
-                What is <M t="Z (a\ket{0} + b\ket{1})" />? Can you answer this
-                without using matrices?
+                What is <M t="Z (a\ket{0} + b\ket{1})" />? Try to answer this
+                without using matrices!
               </Prose>
             }
           />
@@ -152,10 +155,25 @@ export default page(setup, ({ section, hint }) => ({
           />
         </>
       ),
+      hints: [
+        hint({
+          name: "changedState",
+          label: <>Changed state?</>,
+          body: (
+            <Prose>
+              <p>
+                A state is considered changed if it has different coefficients.
+                The only exception is if both coefficients differ by the same
+                phase, which we refer to as a global phase.
+              </p>
+            </Prose>
+          ),
+        }),
+      ],
       guidance: {
-        nextMessage: () => "answer",
+        nextMessage: () => "dynamicAnswer",
         messages: {
-          answer: {
+          dynamicAnswer: {
             body: ({ responses }) => (
               <Guidance.Dynamic
                 status={
@@ -164,12 +182,29 @@ export default page(setup, ({ section, hint }) => ({
                     : "disagree"
                 }
               >
-                The resulting state is{" "}
-                <M t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1})" />. Although the
-                probabilities of measuring <M t="\ket{0}" /> or{" "}
-                <M t="\ket{1}" /> are 50/50 whether there is a minus sign on the
-                second term or not, there is a measurable difference between
-                these states. We will see how to spot that difference soon!
+                {responses?.zTimesPlus?.selected !== "no" ? (
+                  <p>
+                    We agree with your answer.. The resulting state is{" "}
+                    <M t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1})" />. Although
+                    the probabilities of measuring <M t="\ket{0}" /> or{" "}
+                    <M t="\ket{1}" /> are 50/50 whether there is a minus sign on
+                    the second term or not, there is a measurable difference
+                    between these states. We will see how to spot that
+                    difference soon!
+                  </p>
+                ) : (
+                  <p>
+                    We disagree with your answer.
+                    <br />
+                    The resulting state is{" "}
+                    <M t="\frac{1}{\sqrt{2}} (\ket{0} - \ket{1})" />. Although
+                    the probabilities of measuring <M t="\ket{0}" /> or{" "}
+                    <M t="\ket{1}" /> are 50/50 whether there is a minus sign on
+                    the second term or not, there is a measurable difference
+                    between these states. We will see how to spot that
+                    difference soon!
+                  </p>
+                )}
               </Guidance.Dynamic>
             ),
             onContinue: "nextSection",
